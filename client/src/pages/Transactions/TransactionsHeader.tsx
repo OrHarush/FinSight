@@ -1,5 +1,6 @@
 import Row from '@/components/Layout/Row';
 import { Button, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 interface TransactionHeaderProps {
   openCreateTransaction?: () => void;
@@ -13,7 +14,7 @@ const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) =
       </Typography>
       <Row spacing={1}>
         <Button variant={'outlined'}>Import CVS</Button>
-        <Button variant={'contained'} onClick={openCreateTransaction}>
+        <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
           Add Transaction
         </Button>
       </Row>

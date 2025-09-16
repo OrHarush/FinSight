@@ -5,45 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1425e792-d6e4-4f2a-8bf1-3c892f9a533d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/CreateTransactionDialog.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/Transactions/TransactionsHeader.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.prettierrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/app.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/config/db.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/controllers/accountController.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/controllers/transactionController.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/models/Account.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/models/Transaction.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/accountRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/routes/transactionRoutes.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/server.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/services/accountService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Column.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Navbar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/PageLayout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Row.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/Sidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TextInput.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/BalanceTrend.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/Dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/DashboardHeader.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/Overview.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Dashboard/RecentTransactions.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/providers/AppProviders.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/theme/darkTheme.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/theme/lightTheme.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/api/axios.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/CreateCategoryDialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/FormDialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/inputs/ControlledSelect.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/inputs/TextInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/hooks/useOpen.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/Categories/CategoryList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/Categories/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/Dashboard/AccountsView.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/types/Category.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/controllers/categoryController.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/models/Category.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/routes/categoryRoutes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/assets/finsightIcon.png" beforeDir="false" afterPath="$PROJECT_DIR$/client/assets/finsightIcon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/CreateTransactionDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CreateTransactionDialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Layout/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Layout/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/constants/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Accounts/accounts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Accounts/accounts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Dashboard/DashboardHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Dashboard/DashboardHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Dashboard/RecentTransactions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Dashboard/RecentTransactions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Dashboard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Transactions/TransactionsHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Transactions/TransactionsHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Transactions/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Transactions/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/AppRoutes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/AppRoutes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/theme/darkTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/theme/darkTheme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.env" beforeDir="false" afterPath="$PROJECT_DIR$/server/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/config/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/config/db.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/models/Transaction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/Transaction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/server.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +73,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Desktop\OrMongo\FinSight\client\src" />
       <recent name="C:\Users\User\Desktop\OrMongo\FinSight\server\src" />
     </key>
   </component>
@@ -98,7 +91,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1758009300375</updated>
-      <workItem from="1758009301710" duration="3791000" />
+      <workItem from="1758009301710" duration="14682000" />
     </task>
     <servers />
   </component>

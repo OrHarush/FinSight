@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Column from '@/components/Layout/Column';
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
-import { useState } from 'react';
 import CreateTransactionDialog from '@/components/CreateTransactionDialog';
+import { useOpen } from '@/hooks/useOpen';
 
 function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
   return { name, calories, fat, carbs, protein };
@@ -22,20 +22,12 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function BasicTable() {
-  const [open, setOpen] = useState(false);
-
-  const openCreateTransaction = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+export const Transactions = () => {
+  const [isDialogOpen, openDialog, closeDialog] = useOpen();
 
   return (
     <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
-      <TransactionsHeader openCreateTransaction={openCreateTransaction} />
+      <TransactionsHeader openCreateTransaction={openDialog} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -62,7 +54,9 @@ export default function BasicTable() {
           </TableBody>
         </Table>
       </TableContainer>
-      <CreateTransactionDialog open={open} onClose={handleClose} />
+      <CreateTransactionDialog open={isDialogOpen} onClose={closeDialog} />
     </Column>
   );
-}
+};
+
+export default Transactions;
