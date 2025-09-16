@@ -1,5 +1,5 @@
 import Column from '@/components/Layout/Column';
-import Overview from '@/pages/Dashboard/Overview';
+import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
 import BalanceTrend from '@/pages/Dashboard/BalanceTrend';
 import RecentTransactions from '@/pages/Dashboard/RecentTransactions';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
@@ -10,7 +10,7 @@ const Dashboard = () => (
   <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
     <DashboardHeader />
     <Column height={'100%'} width={'100%'} spacing={4}>
-      <Overview />
+      <FinancialHighlights />
       <Row width={'100%'} spacing={4}>
         <Column width={'100%'} spacing={4}>
           <BalanceTrend />

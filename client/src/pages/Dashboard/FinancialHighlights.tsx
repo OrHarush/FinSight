@@ -3,8 +3,11 @@ import OverviewCard from '@/pages/Dashboard/GeneralOverview/OverviewCard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { FunctionComponent } from 'react';
 
-const Overview = () => {
+const FinanceCard = [{}];
+
+const FinancialHighlights = () => {
   return (
     <Row direction={{ sm: 'column', md: 'row' }} width={'100%'} justifyContent={'space-between'}>
       <OverviewCard
@@ -19,4 +22,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default FinancialHighlights;
