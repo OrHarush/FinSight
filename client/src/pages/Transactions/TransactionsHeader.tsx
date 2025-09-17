@@ -1,6 +1,7 @@
 import Row from '@/components/Layout/Row';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import PageHeader from '@/components/Layout/PageHeader';
 
 interface TransactionHeaderProps {
   openCreateTransaction?: () => void;
@@ -8,17 +9,14 @@ interface TransactionHeaderProps {
 
 const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) => {
   return (
-    <Row alignItems={'center'} justifyContent={'space-between'}>
-      <Typography variant={'h4'} fontWeight={700}>
-        Transactions
-      </Typography>
+    <PageHeader pageTitle={'Transactions'}>
       <Row spacing={1}>
         <Button variant={'outlined'}>Import CVS</Button>
         <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
           Add Transaction
         </Button>
       </Row>
-    </Row>
+    </PageHeader>
   );
 };
 

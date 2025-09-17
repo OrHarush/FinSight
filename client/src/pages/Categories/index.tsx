@@ -1,15 +1,15 @@
-import Column from '@/components/Layout/Column';
 import Row from '@/components/Layout/Row';
 import { Button, Typography } from '@mui/material';
 import { useOpen } from '@/hooks/useOpen';
 import CreateCategoryDialog from '@/components/Dialogs/CreateCategoryDialog';
 import CategoryList from '@/pages/Categories/CategoryList';
+import PageLayout from '@/components/Layout/PageLayout';
 
 const Categories = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
 
   return (
-    <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
+    <PageLayout>
       <Row alignItems={'center'} justifyContent={'space-between'}>
         <Typography variant={'h4'} fontWeight={700}>
           Categories
@@ -22,7 +22,7 @@ const Categories = () => {
       </Row>
       <CategoryList />
       <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
-    </Column>
+    </PageLayout>
   );
 };
 

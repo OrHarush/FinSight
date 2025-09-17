@@ -15,7 +15,7 @@ const FinanceOverviewCard = ({
   icon: Icon,
   isLoading,
 }: FinanceOverviewCardProps) => (
-  <Card sx={{ width: '280px', height: '104px', borderRadius: '8px' }}>
+  <Card sx={{ maxWidth: '280px', height: '104px', borderRadius: '8px' }}>
     <CardContent
       sx={{
         display: 'flex',

@@ -1,25 +1,35 @@
-import Column from '@/components/Layout/Column';
 import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
 import RecentTransactions from '@/pages/Dashboard/RecentTransactions';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
-import Row from '@/components/Layout/Row';
 import AccountsView from '@/pages/Dashboard/AccountsView';
 import MonthlyExpensesChart from '@/pages/Dashboard/MonthlyExpensesChart';
+import { Grid } from '@mui/material';
+import PageLayout from '@/components/Layout/PageLayout';
 
 const Dashboard = () => (
-  <Column height="100%" width={'1200px'} spacing={2} alignSelf={'center'}>
+  <PageLayout>
     <DashboardHeader />
-    <Column height={'100%'} width={'100%'} spacing={4}>
-      <FinancialHighlights />
-      <Row width={'100%'} spacing={4}>
-        <Column width={'100%'} spacing={4}>
-          <MonthlyExpensesChart />
-          <AccountsView />
-        </Column>
-        <RecentTransactions />
-      </Row>
-    </Column>
-  </Column>
+    <Grid container spacing={3}>
+      <Grid size={{ xs: 12 }}>
+        <FinancialHighlights />
+      </Grid>
+      <Grid container size={{ xs: 12 }} spacing={3}>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12 }}>
+              <MonthlyExpensesChart />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <AccountsView />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <RecentTransactions />
+        </Grid>
+      </Grid>
+    </Grid>
+  </PageLayout>
 );
 
 export default Dashboard;

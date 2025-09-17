@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { APP_ROUTES } from '@/constants/APP_ROUTES';
 import Planner from '@/pages/Planner';
 import Reports from '@/pages/Reports';
-import Accounts from '@/pages/Accounts/accounts';
+import Accounts from '@/pages/Accounts/Accounts';
 import AppLayout from '@/components/Layout/AppLayout';
 import Categories from '@/pages/Categories';
 import { Transactions } from '@/pages/Transactions';

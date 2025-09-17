@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CategoryDto } from '@/types/CategoryDto';
-import Column from '@/components/Layout/Column';
-import { Typography } from '@mui/material';
-import Row from '@/components/Layout/Row';
+import EditIcon from '@mui/icons-material/Edit';
+import CategoryCard from '@/pages/Categories/CategoryCard';
+import { Grid } from '@mui/material';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
@@ -22,28 +22,11 @@ const CategoryList = () => {
   }, []);
 
   return (
-    <Column>
-      <Row spacing={2} flexWrap="wrap">
-        {categories.map(cat => (
-          <Column
-            key={cat._id}
-            padding={'4px 24px'}
-            sx={{
-              alignItems: 'center',
-              borderRadius: '30px',
-              bgcolor: cat.color,
-            }}
-          >
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {cat.name}
-            </Typography>
-            <Typography variant="caption" sx={{ ml: 1, opacity: 0.9 }}>
-              {cat.type}
-            </Typography>
-          </Column>
-        ))}
-      </Row>
-    </Column>
+    <Grid container spacing={2}>
+      {categories.map(category => (
+        <CategoryCard key={category._id} category={category} icon={EditIcon} />
+      ))}
+    </Grid>
   );
 };
 

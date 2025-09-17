@@ -1,9 +1,9 @@
-import Row from '@/components/Layout/Row';
 import FinanceOverviewCard from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useTransactions } from '@/providers/TransactionsProvider';
 import { useAccounts } from '@/providers/AccountsProvider';
 import { SvgIconComponent } from '@mui/icons-material';
+import { Grid } from '@mui/material';
 
 interface FinanceHighlightCardProps {
   id: string;
@@ -78,17 +78,18 @@ const FinancialHighlights = () => {
   ];
 
   return (
-    <Row direction={{ sm: 'column', md: 'row' }} width={'100%'} justifyContent={'space-between'}>
+    <Grid container spacing={2} width="100%">
       {FinanceCards.map(card => (
-        <FinanceOverviewCard
-          key={card.id}
-          headerTitle={card.headerTitle}
-          balance={card.balance}
-          icon={card.icon}
-          isLoading={card.isLoading}
-        />
+        <Grid key={card.id} size={{ xs: 6, md: 3 }}>
+          <FinanceOverviewCard
+            headerTitle={card.headerTitle}
+            balance={card.balance}
+            icon={card.icon}
+            isLoading={card.isLoading}
+          />
+        </Grid>
       ))}
-    </Row>
+    </Grid>
   );
 };
 

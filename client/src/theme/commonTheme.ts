@@ -1,4 +1,3 @@
-// src/theme/commonTheme.ts
 import { ThemeOptions } from '@mui/material';
 
 export const commonTheme: ThemeOptions = {

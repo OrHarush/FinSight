@@ -22,7 +22,7 @@ const RecentTransactions = () => {
   const isIncome = (transaction: TransactionDto) => transaction.category.type === 'Income';
 
   return (
-    <Card sx={{ width: '600px' }}>
+    <Card>
       <CardContent sx={{ padding: 4 }}>
         <Column spacing={4} width={'100%'}>
           <Row width={'100%'} alignItems={'center'} justifyContent={'space-between'}>
