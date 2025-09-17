@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import Category from '../models/Category';
+import * as categoryService from '../services/categoryService';
 
 export const createCategory = async (req: Request, res: Response) => {
   try {
-    const category = new Category(req.body);
-    const saved = await category.save();
-    res.status(201).json(saved);
+    const category = await categoryService.createCategory(req.body);
+    res.status(201).json(category);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
@@ -13,7 +12,7 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const getCategories = async (_req: Request, res: Response) => {
   try {
-    const categories = await Category.find().sort({ createdAt: -1 });
+    const categories = await categoryService.getCategories();
     res.json(categories);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -22,11 +21,8 @@ export const getCategories = async (_req: Request, res: Response) => {
 
 export const getCategoryById = async (req: Request, res: Response) => {
   try {
-    const category = await Category.findById(req.params.id);
-
-    if (!category) {
-      return res.status(404).json({ error: 'Category not found' });
-    }
+    const category = await categoryService.getCategoryById(req.params.id);
+    if (!category) return res.status(404).json({ error: 'Category not found' });
     res.json(category);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
@@ -35,14 +31,8 @@ export const getCategoryById = async (req: Request, res: Response) => {
 
 export const updateCategory = async (req: Request, res: Response) => {
   try {
-    const updated = await Category.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updated) {
-      return res.status(404).json({ error: 'Category not found' });
-    }
+    const updated = await categoryService.updateCategory(req.params.id, req.body);
+    if (!updated) return res.status(404).json({ error: 'Category not found' });
     res.json(updated);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
@@ -51,11 +41,8 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
-    const deleted = await Category.findByIdAndDelete(req.params.id);
-
-    if (!deleted) {
-      return res.status(404).json({ error: 'Category not found' });
-    }
+    const deleted = await categoryService.deleteCategory(req.params.id);
+    if (!deleted) return res.status(404).json({ error: 'Category not found' });
     res.json({ message: 'Category deleted successfully' });
   } catch (err: any) {
     res.status(500).json({ error: err.message });

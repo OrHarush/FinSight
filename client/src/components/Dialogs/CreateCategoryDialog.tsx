@@ -1,17 +1,12 @@
-import { FormEvent, useState } from 'react';
-import FormDialog from '@/components/FormDialog';
+import FormDialog, { DialogProps } from '@/components/Dialogs/FormDialog';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import ControlledSelect from '@/components/inputs/ControlledSelect';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/Layout/Row';
 import Column from '@/components/Layout/Column';
-
-export interface CreateCategoryDialogProps {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-}
+import api from '@/api/axios';
+import { API_ROUTES } from '@/constants/APP_ROUTES';
 
 export type CategoryFormData = {
   name: string;
@@ -19,7 +14,7 @@ export type CategoryFormData = {
   color: string;
 };
 
-const CreateCategoryDialog = ({ open, onClose, onSubmit }: CreateCategoryDialogProps) => {
+const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const methods = useForm<CategoryFormData>({
     defaultValues: {
       name: '',
@@ -29,9 +24,24 @@ const CreateCategoryDialog = ({ open, onClose, onSubmit }: CreateCategoryDialogP
   });
   const { control } = methods;
 
+  const onSubmit = async (data: CategoryFormData) => {
+    try {
+      await api.post(API_ROUTES.CATEGORIES, data);
+
+      closeDialog();
+    } catch (err) {
+      console.error('❌ Failed to save category:', err);
+    }
+  };
+
   return (
     <FormProvider {...methods}>
-      <FormDialog isOpen={open} close={onClose} title={'Create Category'} onSubmit={onSubmit}>
+      <FormDialog
+        isOpen={isOpen}
+        closeDialog={closeDialog}
+        title={'Create Category'}
+        onSubmit={onSubmit}
+      >
         <Column spacing={2}>
           <TextInput name={'name'} label={'Name'} />
           <Row spacing={2}>

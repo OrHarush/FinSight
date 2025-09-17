@@ -11,22 +11,30 @@ import Column from '@/components/Layout/Column';
 import { ReactNode } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-interface FinSightDialogProps {
+export interface DialogProps {
   isOpen: boolean;
-  close: () => void;
+  closeDialog: () => void;
+}
+
+interface FinSightDialogProps extends DialogProps {
   title: string;
   onSubmit: (data: any) => void;
   children: ReactNode;
 }
 
-const FormDialog = ({ isOpen, close, title, onSubmit, children }: FinSightDialogProps) => {
-  const { handleSubmit } = useFormContext();
+const FormDialog = ({ isOpen, closeDialog, title, onSubmit, children }: FinSightDialogProps) => {
+  const { reset, handleSubmit } = useFormContext();
+
+  const closeForm = () => {
+    reset();
+    closeDialog();
+  };
 
   return (
-    <Dialog onClose={close} open={isOpen} maxWidth="xs" fullWidth>
+    <Dialog onClose={closeForm} open={isOpen} maxWidth="xs" fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <IconButton
-        onClick={close}
+        onClick={closeDialog}
         sx={theme => ({
           position: 'absolute',
           right: 8,
@@ -36,12 +44,12 @@ const FormDialog = ({ isOpen, close, title, onSubmit, children }: FinSightDialog
       >
         <CloseIcon />
       </IconButton>
-      <form onSubmit={handleSubmit(onSubmit)} id="transaction-form">
+      <form onSubmit={handleSubmit(onSubmit)} id="transaction-form" noValidate>
         <DialogContent dividers>
           <Column spacing={2}>{children}</Column>
         </DialogContent>
         <DialogActions>
-          <Button onClick={close} variant="outlined">
+          <Button onClick={closeDialog} variant="outlined">
             Cancel
           </Button>
           <Button type="submit" variant="contained">

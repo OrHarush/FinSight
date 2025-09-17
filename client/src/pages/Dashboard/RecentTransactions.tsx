@@ -2,30 +2,59 @@ import { Button, Card, CardContent, Typography } from '@mui/material';
 import Row from '@/components/Layout/Row';
 import Column from '@/components/Layout/Column';
 import CallMadeIcon from '@mui/icons-material/CallMade';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
+import { APP_ROUTES } from '@/constants/APP_ROUTES';
+import { useTransactions } from '@/providers/TransactionsProvider';
 
 const RecentTransactions = () => {
+  const navigate = useNavigate();
+  const { transactions, isLoading } = useTransactions();
+
+  const recentTransactions = [...transactions]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
+
   return (
     <Card>
       <CardContent sx={{ padding: 4 }}>
         <Column spacing={4} width={'100%'}>
           <Row width={'100%'} alignItems={'center'} justifyContent={'space-between'}>
-            <Typography>Recent Transactions</Typography>
-            <Button variant={'outlined'} startIcon={<VisibilityIcon />}>
+            <Typography variant="h6">Recent Transactions</Typography>
+            <Button
+              variant="outlined"
+              startIcon={<VisibilityIcon />}
+              onClick={() => navigate(APP_ROUTES.TRANSACTIONS_URL)}
+            >
               View All
             </Button>
           </Row>
-
-          <Row justifyContent={'space-between'}>
-            <Row spacing={2} alignItems={'center'}>
-              <CallMadeIcon />
-              <Column>
-                <Typography variant="h6">Salary</Typography>
-                <Typography variant="body2">Salary</Typography>
-              </Column>
-            </Row>
-            <Typography>+8500$</Typography>
-          </Row>
+          {isLoading && <Typography>Loading...</Typography>}
+          {!isLoading &&
+            recentTransactions.map(tx => (
+              <Row key={tx._id} justifyContent="space-between" alignItems="center">
+                <Row spacing={2} alignItems="center">
+                  {tx.amount > 0 ? (
+                    <CallReceivedIcon color="success" />
+                  ) : (
+                    <CallMadeIcon color="error" />
+                  )}
+                  <Column>
+                    <Typography variant="body1">{tx.name}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {new Date(tx.date).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </Typography>
+                  </Column>
+                </Row>
+                <Typography color={tx.amount > 0 ? 'success.main' : 'error.main'} fontWeight={600}>
+                  {tx.amount > 0 ? `+${tx.amount}₪` : `${tx.amount}₪`}
+                </Typography>
+              </Row>
+            ))}
         </Column>
       </CardContent>
     </Card>

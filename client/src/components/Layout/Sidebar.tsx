@@ -16,7 +16,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Row from '@/components/Layout/Row';
-import { ROUTES } from '@/constants/routes';
+import { APP_ROUTES } from '@/constants/APP_ROUTES';
 import CategoryIcon from '@mui/icons-material/Category';
 
 interface SidebarButtonProps {
@@ -29,32 +29,32 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
   {
     title: 'Dashboard',
     icon: DashboardIcon,
-    route: ROUTES.DASHBOARD_URL,
+    route: APP_ROUTES.DASHBOARD_URL,
   },
   {
     title: 'Transactions',
     icon: RequestQuoteIcon,
-    route: ROUTES.TRANSACTIONS_URL,
-  },
-  {
-    title: 'Categories',
-    icon: CategoryIcon,
-    route: ROUTES.CATEGORIES_URL,
-  },
-  {
-    title: 'Planner',
-    icon: EventIcon,
-    route: ROUTES.PLANNER_URL,
-  },
-  {
-    title: 'Reports',
-    icon: BarChartIcon,
-    route: ROUTES.REPORTS_URL,
+    route: APP_ROUTES.TRANSACTIONS_URL,
   },
   {
     title: 'Accounts',
     icon: AccountBalanceWalletIcon,
-    route: ROUTES.ACCOUNTS_URL,
+    route: APP_ROUTES.ACCOUNTS_URL,
+  },
+  {
+    title: 'Categories',
+    icon: CategoryIcon,
+    route: APP_ROUTES.CATEGORIES_URL,
+  },
+  {
+    title: 'Planner',
+    icon: EventIcon,
+    route: APP_ROUTES.PLANNER_URL,
+  },
+  {
+    title: 'Reports',
+    icon: BarChartIcon,
+    route: APP_ROUTES.REPORTS_URL,
   },
 ];
 

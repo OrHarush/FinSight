@@ -1,4 +1,4 @@
-export const ROUTES = {
+export const APP_ROUTES = {
   DASHBOARD_URL: '/dashboard',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',
@@ -6,3 +6,9 @@ export const ROUTES = {
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
 } as const;
+
+export const API_ROUTES = {
+  TRANSACTIONS: '/api/transactions',
+  CATEGORIES: '/api/categories',
+  ACCOUNTS: '/api/accounts',
+};

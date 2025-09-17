@@ -1,13 +1,11 @@
-import { CategoryFormData } from '@/components/CreateCategoryDialog';
-import api from '@/api/axios';
 import { useEffect, useState } from 'react';
-import { Category } from '@/types/Category';
+import { CategoryDto } from '@/types/CategoryDto';
 import Column from '@/components/Layout/Column';
-import { Box, Chip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Row from '@/components/Layout/Row';
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryDto[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {

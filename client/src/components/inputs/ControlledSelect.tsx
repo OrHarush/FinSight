@@ -1,32 +1,50 @@
-import { TextField, MenuItem, TextFieldProps } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
+import { ReactNode } from 'react';
+import TextInput from '@/components/inputs/TextInput';
 
 export interface ControlledSelectOption {
   label: string;
   value: string | number;
+  design?: ReactNode;
 }
 
-interface ControlledSelectProps extends Omit<TextFieldProps, 'name'> {
+interface ControlledSelectProps {
   name: string;
   label: string;
   options: ControlledSelectOption[];
+  required?: boolean | string;
 }
 
-const ControlledSelect = ({ name, label, options, ...rest }: ControlledSelectProps) => {
+const ControlledSelect = ({ name, label, options, required }: ControlledSelectProps) => {
   const { control } = useFormContext();
 
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
-        <TextField {...field} select label={label} fullWidth {...rest}>
+      rules={
+        required
+          ? { required: typeof required === 'string' ? required : `${label} is required` }
+          : {}
+      }
+      render={({ field, fieldState }) => (
+        <TextInput
+          {...field}
+          select
+          label={label}
+          name={name}
+          required={required}
+          error={!!fieldState.error}
+          helperText={fieldState.error?.message}
+          fullWidth
+        >
           {options.map(option => (
             <MenuItem key={option.value} value={option.value}>
-              {option.label}
+              {option.design ?? option.label}
             </MenuItem>
           ))}
-        </TextField>
+        </TextInput>
       )}
     />
   );

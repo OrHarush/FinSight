@@ -2,22 +2,11 @@ import Column from '@/components/Layout/Column';
 import Row from '@/components/Layout/Row';
 import { Button, Typography } from '@mui/material';
 import { useOpen } from '@/hooks/useOpen';
-import CreateCategoryDialog, { CategoryFormData } from '@/components/CreateCategoryDialog';
-import api from '@/api/axios';
+import CreateCategoryDialog from '@/components/Dialogs/CreateCategoryDialog';
 import CategoryList from '@/pages/Categories/CategoryList';
 
 const Categories = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
-
-  const onSubmit = async (data: CategoryFormData) => {
-    try {
-      await api.post('/categories', data);
-
-      closeDialog();
-    } catch (err) {
-      console.error('❌ Failed to save category:', err);
-    }
-  };
 
   return (
     <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
@@ -32,7 +21,7 @@ const Categories = () => {
         </Row>
       </Row>
       <CategoryList />
-      <CreateCategoryDialog open={isDialogOpen} onClose={closeDialog} onSubmit={onSubmit} />
+      <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
     </Column>
   );
 };

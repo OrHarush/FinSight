@@ -6,6 +6,7 @@ export const getAccounts = async (): Promise<IAccount[]> => {
 
 export const createAccount = async (data: Partial<IAccount>): Promise<IAccount> => {
   const account = new Account(data);
+
   return account.save();
 };
 

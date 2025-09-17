@@ -29,6 +29,8 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-arrow-callback": "error"
   }
 }
