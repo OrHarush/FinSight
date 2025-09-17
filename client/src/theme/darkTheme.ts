@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material';
+import { commonTheme } from '@/theme/commonTheme';
 
 export const darkTheme = createTheme({
+  ...commonTheme,
   palette: {
     mode: 'dark',
     primary: {
@@ -21,28 +23,5 @@ export const darkTheme = createTheme({
       secondary: '#a4b0be',
     },
     divider: 'rgba(255,255,255,0.08)',
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          height: '40px',
-          borderRadius: '12px',
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundImage: 'none',
-          borderRadius: '16px',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-        },
-      },
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", sans-serif',
   },
 });

@@ -11,7 +11,7 @@ const Categories = () => {
   return (
     <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
       <Row alignItems={'center'} justifyContent={'space-between'}>
-        <Typography variant={'h3'} fontWeight={700}>
+        <Typography variant={'h4'} fontWeight={700}>
           Categories
         </Typography>
         <Row spacing={1}>

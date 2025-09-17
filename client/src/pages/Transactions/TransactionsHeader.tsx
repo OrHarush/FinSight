@@ -9,7 +9,7 @@ interface TransactionHeaderProps {
 const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) => {
   return (
     <Row alignItems={'center'} justifyContent={'space-between'}>
-      <Typography variant={'h3'} fontWeight={700}>
+      <Typography variant={'h4'} fontWeight={700}>
         Transactions
       </Typography>
       <Row spacing={1}>

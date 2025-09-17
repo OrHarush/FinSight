@@ -7,16 +7,16 @@ import AccountsView from '@/pages/Dashboard/AccountsView';
 import MonthlyExpensesChart from '@/pages/Dashboard/MonthlyExpensesChart';
 
 const Dashboard = () => (
-  <Column height="100%" width={'1200px'} spacing={4} alignSelf={'center'}>
+  <Column height="100%" width={'1200px'} spacing={2} alignSelf={'center'}>
     <DashboardHeader />
     <Column height={'100%'} width={'100%'} spacing={4}>
       <FinancialHighlights />
       <Row width={'100%'} spacing={4}>
         <Column width={'100%'} spacing={4}>
           <MonthlyExpensesChart />
-          <RecentTransactions />
+          <AccountsView />
         </Column>
-        <AccountsView />
+        <RecentTransactions />
       </Row>
     </Column>
   </Column>

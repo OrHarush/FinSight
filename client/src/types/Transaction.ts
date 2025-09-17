@@ -1,5 +1,10 @@
 import { CategoryDto } from '@/types/CategoryDto';
 
+export enum TransactionType {
+  Expense = 'Expense',
+  Income = 'Income',
+}
+
 export interface TransactionFormValues {
   name: string;
   date: string;

@@ -7,6 +7,9 @@ import {
   ListItemText,
   ListItemIcon,
   Typography,
+  IconButton,
+  Switch,
+  useTheme,
 } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -18,6 +21,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Row from '@/components/Layout/Row';
 import { APP_ROUTES } from '@/constants/APP_ROUTES';
 import CategoryIcon from '@mui/icons-material/Category';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useAppTheme } from '@/providers/AppThemeProvider';
 
 interface SidebarButtonProps {
   title: string;
@@ -61,6 +67,8 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { toggleColorMode } = useAppTheme();
+  const theme = useTheme();
 
   return (
     <Drawer
@@ -76,8 +84,10 @@ const Sidebar = () => {
       anchor="left"
     >
       <Row alignItems={'center'} spacing={2} padding={2}>
-        <img src="../../../assets/finsightIcon.png" alt="App Logo" width={40} height={40} />
-        <Typography>FinSight</Typography>
+        <img src="../../../assets/finsightIcon.png" alt="App Logo" width={50} height={50} />
+        <Typography variant={'h5'} fontWeight={700}>
+          FinSight
+        </Typography>
       </Row>
       <Divider />
       <List>
@@ -106,6 +116,18 @@ const Sidebar = () => {
           );
         })}
       </List>
+      <Divider />
+
+      <Row padding={2}>
+        <IconButton color="inherit" onClick={toggleColorMode}>
+          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+        <Switch
+          checked={theme.palette.mode === 'dark'}
+          onChange={toggleColorMode}
+          color="primary"
+        />
+      </Row>
     </Drawer>
   );
 };
