@@ -20,8 +20,6 @@ export const AccountsProvider = ({ children }: { children: ReactNode }) => {
   const [accounts, setAccounts] = useState<AccountDto[]>([]);
 
   useEffect(() => {
-    console.log('here ');
-    console.log(data);
     if (data) {
       setAccounts(data);
     }
