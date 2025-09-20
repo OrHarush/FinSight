@@ -31,3 +31,15 @@ export function expandTransactions(
 ): ExtendedTransaction[] {
   return transactions.flatMap(tx => expandRecurring(tx, until));
 }
+
+export function sortTransactionsByDate(
+  transactions: ExtendedTransaction[],
+  order: 'asc' | 'desc' = 'desc'
+): ExtendedTransaction[] {
+  return [...transactions].sort((a, b) => {
+    const aDate = new Date(a.date).getTime();
+    const bDate = new Date(b.date).getTime();
+
+    return order === 'asc' ? aDate - bDate : bDate - aDate;
+  });
+}

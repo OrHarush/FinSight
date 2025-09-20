@@ -4,7 +4,7 @@ import { ExtendedTransaction, TransactionDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { AxiosError } from 'axios';
 import { queryKeys } from '@/constants/queryKeys';
-import { expandTransactions } from '@/utils/transactionUtils';
+import { expandTransactions, sortTransactionsByDate } from '@/utils/transactionUtils';
 
 interface TransactionsContextValue {
   transactions: ExtendedTransaction[];
@@ -25,7 +25,7 @@ export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (data) {
       const endOfYear = new Date(new Date().getFullYear(), 11, 31);
-      setTransactions(expandTransactions(data, endOfYear));
+      setTransactions(sortTransactionsByDate(expandTransactions(data, endOfYear)));
     }
   }, [data]);
 
