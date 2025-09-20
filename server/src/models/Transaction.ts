@@ -2,17 +2,19 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface ITransaction extends Document {
   name: string;
-  date: Date;
   amount: number;
+  date: Date;
+  endDate?: Date;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   category: Types.ObjectId;
-  accountRelated: string; // later can become ObjectId ref to Account
+  account: Types.ObjectId;
 }
 
 const TransactionSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     date: { type: Date, required: true },
+    endDate: { type: Date, required: false },
     amount: { type: Number, required: true },
     recurrence: {
       type: String,
@@ -20,7 +22,7 @@ const TransactionSchema: Schema = new Schema(
       default: 'None',
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
-    accountRelated: { type: String, required: true }, // e.g. "Bank Balance", "Investing"
+    account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
   },
   { timestamps: true }
 );

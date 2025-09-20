@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as accountService from '../services/accountService';
+import { updateAccount } from '../services/accountService';
 
 export const getAccounts = async (req: Request, res: Response) => {
   try {
@@ -34,7 +35,7 @@ export const getAccountById = async (req: Request, res: Response) => {
 export const updateAccountBalance = async (req: Request, res: Response) => {
   try {
     const { balance } = req.body;
-    const account = await accountService.updateAccountBalance(req.params.id, balance);
+    const account = await accountService.updateAccount(req.params.id, balance);
     if (!account) {
       return res.status(404).json({ message: 'Account not found' });
     }

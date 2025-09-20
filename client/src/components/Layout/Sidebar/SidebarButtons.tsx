@@ -1,12 +1,13 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { APP_ROUTES } from '@/constants/APP_ROUTES';
+import { ROUTES } from '@/constants/Routes';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import EventIcon from '@mui/icons-material/Event';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CategoryIcon from '@mui/icons-material/Category';
+import PieChartIcon from '@mui/icons-material/PieChart';
 import { SvgIconComponent } from '@mui/icons-material';
 
 interface SidebarButtonProps {
@@ -19,32 +20,37 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
   {
     title: 'Dashboard',
     icon: DashboardIcon,
-    route: APP_ROUTES.DASHBOARD_URL,
+    route: ROUTES.DASHBOARD_URL,
   },
   {
     title: 'Transactions',
     icon: RequestQuoteIcon,
-    route: APP_ROUTES.TRANSACTIONS_URL,
+    route: ROUTES.TRANSACTIONS_URL,
   },
   {
     title: 'Accounts',
     icon: AccountBalanceWalletIcon,
-    route: APP_ROUTES.ACCOUNTS_URL,
+    route: ROUTES.ACCOUNTS_URL,
   },
   {
     title: 'Categories',
     icon: CategoryIcon,
-    route: APP_ROUTES.CATEGORIES_URL,
+    route: ROUTES.CATEGORIES_URL,
+  },
+  {
+    title: 'Budget',
+    icon: PieChartIcon,
+    route: ROUTES.BUDGET_URL,
   },
   {
     title: 'Planner',
     icon: EventIcon,
-    route: APP_ROUTES.PLANNER_URL,
+    route: ROUTES.PLANNER_URL,
   },
   {
     title: 'Reports',
     icon: BarChartIcon,
-    route: APP_ROUTES.REPORTS_URL,
+    route: ROUTES.REPORTS_URL,
   },
 ];
 

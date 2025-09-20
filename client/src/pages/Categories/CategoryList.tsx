@@ -1,14 +1,21 @@
-import EditIcon from '@mui/icons-material/Edit';
 import CategoryCard from '@/pages/Categories/CategoryCard';
 import { Grid, Typography } from '@mui/material';
-import { useCategories } from '@/providers/CategoriesProovider';
+import { useCategories } from '@/providers/CategoriesProvider';
+import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
+import { CategoryDto } from '@/types/CategoryDto';
 
-const CategoryList = () => {
-  const {categories} = useCategories();
+interface CategoryListProps {
+  selectCategory: (category: CategoryDto) => void;
+}
+
+const CategoryList = ({ selectCategory }: CategoryListProps) => {
+  const { categories, isLoading } = useCategories();
   const expenseCategories = categories.filter(c => c.type.toLowerCase() === 'expense');
   const incomeCategories = categories.filter(c => c.type.toLowerCase() === 'income');
 
-  return (
+  return isLoading ? (
+    <CategoryListSkeleton />
+  ) : (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
         <Typography variant="h6" gutterBottom>
@@ -17,7 +24,7 @@ const CategoryList = () => {
         <Grid container spacing={2}>
           {incomeCategories.map(category => (
             <Grid key={category._id} size={{ xs: 12, sm: 6 }}>
-              <CategoryCard category={category} icon={EditIcon} />
+              <CategoryCard category={category} selectCategory={selectCategory} />
             </Grid>
           ))}
         </Grid>
@@ -29,7 +36,7 @@ const CategoryList = () => {
         <Grid container spacing={2}>
           {expenseCategories.map(category => (
             <Grid key={category._id} size={{ xs: 12, sm: 6 }}>
-              <CategoryCard category={category} icon={EditIcon} />
+              <CategoryCard category={category} selectCategory={selectCategory} />
             </Grid>
           ))}
         </Grid>

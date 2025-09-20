@@ -1,13 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useFetch } from '@/hooks/useFetch';
-import { API_ROUTES } from '@/constants/APP_ROUTES';
+import { API_ROUTES } from '@/constants/Routes';
 import { AxiosError } from 'axios';
 import { CategoryDto } from '@/types/CategoryDto';
+import { queryKeys } from '@/constants/queryKeys';
 
 interface CategoriesContextValue {
   categories: CategoryDto[];
   isLoading: boolean;
-  error: AxiosError<unknown, any> | null;
+  error: AxiosError<unknown, unknown> | null;
   refetch: () => void;
 }
 
@@ -16,6 +17,7 @@ const CategoriesContext = createContext<CategoriesContextValue | undefined>(unde
 export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading, error, refetch } = useFetch<CategoryDto[]>({
     url: API_ROUTES.CATEGORIES,
+    queryKey: queryKeys.categories(),
   });
   const [categories, setCategories] = useState<CategoryDto[]>([]);
 
@@ -26,7 +28,7 @@ export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
   }, [data]);
 
   return (
-    <CategoriesContext.Provider value={{  categories, isLoading, error, refetch }}>
+    <CategoriesContext.Provider value={{ categories, isLoading, error, refetch }}>
       {children}
     </CategoriesContext.Provider>
   );

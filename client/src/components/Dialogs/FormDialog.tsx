@@ -9,23 +9,35 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import Column from '@/components/Layout/Column';
 import { ReactNode } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 
 export interface DialogProps {
   isOpen: boolean;
   closeDialog: () => void;
 }
 
-interface FinSightDialogProps extends DialogProps {
+interface FinSightDialogProps<T extends FieldValues> extends DialogProps {
   title: string;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: T) => void;
   children: ReactNode;
 }
 
-const FormDialog = ({ isOpen, closeDialog, title, onSubmit, children }: FinSightDialogProps) => {
-  const { reset, handleSubmit } = useFormContext();
+const FormDialog = <T extends FieldValues>({
+  isOpen,
+  closeDialog,
+  title,
+  onSubmit,
+  children,
+}: FinSightDialogProps<T>) => {
+  const { reset, handleSubmit } = useFormContext<T>();
 
   const closeForm = () => {
+    reset();
+    closeDialog();
+  };
+
+  const handleFormSubmit: SubmitHandler<T> = data => {
+    onSubmit(data);
     reset();
     closeDialog();
   };
@@ -44,7 +56,7 @@ const FormDialog = ({ isOpen, closeDialog, title, onSubmit, children }: FinSight
       >
         <CloseIcon />
       </IconButton>
-      <form onSubmit={handleSubmit(onSubmit)} id="transaction-form" noValidate>
+      <form onSubmit={handleSubmit(handleFormSubmit)} id="transaction-form" noValidate>
         <DialogContent dividers>
           <Column spacing={2}>{children}</Column>
         </DialogContent>

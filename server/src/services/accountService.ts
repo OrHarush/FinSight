@@ -1,26 +1,34 @@
-import Account, { IAccount } from '../models/Account';
+import * as accountRepository from '../repositories/accountRepository';
+import { IAccount } from '../models/Account';
 
-export const getAccounts = async (): Promise<IAccount[]> => {
-  return Account.find();
+export const getAccounts = async () => {
+  return accountRepository.findAll();
 };
 
-export const createAccount = async (data: Partial<IAccount>): Promise<IAccount> => {
-  const account = new Account(data);
-
-  return account.save();
+export const getAccountById = async (id: string) => {
+  return accountRepository.findById(id);
 };
 
-export const getAccountById = async (id: string): Promise<IAccount | null> => {
-  return Account.findById(id);
+export const createAccount = async (data: Partial<IAccount>) => {
+  if (!data.name) {
+    throw new Error('Account name is required');
+  }
+
+  if (data.balance !== undefined && data.balance < 0) {
+    throw new Error('Balance cannot be negative');
+  }
+
+  return accountRepository.create(data);
 };
 
-export const updateAccountBalance = async (
-  id: string,
-  newBalance: number
-): Promise<IAccount | null> => {
-  return Account.findByIdAndUpdate(id, { balance: newBalance }, { new: true });
+export const updateAccount = async (id: string, data: Partial<IAccount>) => {
+  if (data.balance !== undefined && data.balance < 0) {
+    throw new Error('Balance cannot be negative');
+  }
+
+  return accountRepository.update(id, data);
 };
 
-export const deleteAccount = async (id: string): Promise<IAccount | null> => {
-  return Account.findByIdAndDelete(id);
+export const deleteAccount = async (id: string) => {
+  return accountRepository.remove(id);
 };

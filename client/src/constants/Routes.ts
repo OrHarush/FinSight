@@ -1,7 +1,8 @@
-export const APP_ROUTES = {
+export const ROUTES = {
   DASHBOARD_URL: '/dashboard',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',
+  BUDGET_URL: '/budget',
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',

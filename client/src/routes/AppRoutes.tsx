@@ -1,27 +1,27 @@
 import Dashboard from '@/pages/Dashboard';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { APP_ROUTES } from '@/constants/APP_ROUTES';
+import { ROUTES } from '@/constants/Routes';
 import Planner from '@/pages/Planner';
 import Reports from '@/pages/Reports';
 import Accounts from '@/pages/Accounts/Accounts';
 import AppLayout from '@/components/Layout/AppLayout';
 import Categories from '@/pages/Categories';
 import { Transactions } from '@/pages/Transactions';
+import Budget from '@/pages/Budget';
 
-const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route path={APP_ROUTES.DASHBOARD_URL} element={<Dashboard />} />
-        <Route path={APP_ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
-        <Route path={APP_ROUTES.CATEGORIES_URL} element={<Categories />} />
-        <Route path={APP_ROUTES.PLANNER_URL} element={<Planner />} />
-        <Route path={APP_ROUTES.REPORTS_URL} element={<Reports />} />
-        <Route path={APP_ROUTES.ACCOUNTS_URL} element={<Accounts />} />
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-      </Route>
-    </Routes>
-  );
-};
+const AppRoutes = () => (
+  <Routes>
+    <Route element={<AppLayout />}>
+      <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
+      <Route path={ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
+      <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />
+      <Route path={ROUTES.BUDGET_URL} element={<Budget />} />
+      <Route path={ROUTES.PLANNER_URL} element={<Planner />} />
+      <Route path={ROUTES.REPORTS_URL} element={<Reports />} />
+      <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
+      <Route path="/" element={<Navigate to="/dashboard" />} />
+    </Route>
+  </Routes>
+);
 
 export default AppRoutes;

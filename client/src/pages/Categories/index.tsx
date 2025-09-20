@@ -1,16 +1,30 @@
 import Row from '@/components/Layout/Row';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useOpen } from '@/hooks/useOpen';
-import CreateCategoryDialog from '@/components/Dialogs/CreateCategoryDialog';
+import CreateCategoryDialog from '@/components/Dialogs/CategoryDialogs/CreateCategoryDialog';
 import CategoryList from '@/pages/Categories/CategoryList';
 import PageLayout from '@/components/Layout/PageLayout';
+import EditCategoryDialog from '@/components/Dialogs/CategoryDialogs/EditCategoryDialog';
+import { useState } from 'react';
+import { CategoryDto } from '@/types/CategoryDto';
 
 const Categories = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryDto>();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const selectCategory = (category: CategoryDto) => {
+    setSelectedCategory(category);
+  };
+
+  const closeEditDialogAndReset = () => {
+    setSelectedCategory(undefined);
+  };
 
   return (
     <PageLayout>
-      <Row alignItems={'center'} justifyContent={'space-between'}>
+      <Row alignItems={'center'} justifyContent={isMobile ? 'center' : 'space-between'}>
         <Typography variant={'h4'} fontWeight={700}>
           Categories
         </Typography>
@@ -20,8 +34,15 @@ const Categories = () => {
           </Button>
         </Row>
       </Row>
-      <CategoryList />
+      <CategoryList selectCategory={selectCategory} />
       <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
+      {!!selectedCategory && (
+        <EditCategoryDialog
+          isOpen={!!selectedCategory}
+          closeDialog={closeEditDialogAndReset}
+          category={selectedCategory}
+        />
+      )}
     </PageLayout>
   );
 };

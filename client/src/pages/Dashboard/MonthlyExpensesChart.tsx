@@ -1,35 +1,55 @@
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { useTransactions } from '@/providers/TransactionsProvider';
+import { monthLabels } from '@/constants/monthLabels';
+import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
 
 const MonthlyExpensesChart = () => {
   const { transactions } = useTransactions();
+  const { selectedYear } = useDashboardDate();
+
   if (!transactions || !transactions.length) {
     return null;
   }
 
-  // Step 1: Reduce transactions into { '2025-01': sum, '2025-02': sum, ... }
-  const monthlyTotals = transactions.reduce<Record<string, number>>((acc, tx) => {
-    const date = new Date(tx.date); // make sure tx.date is ISO or Date string
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  const monthlyIncome = Array(12).fill(0);
+  const monthlyExpenses = Array(12).fill(0);
 
-    acc[monthKey] = (acc[monthKey] || 0) + tx.amount;
-    return acc;
-  }, {});
+  transactions.forEach(tx => {
+    const date = new Date(tx.date);
+    if (date.getFullYear() !== selectedYear) return;
 
-  // Step 2: Convert to arrays for chart
-  const months = Object.keys(monthlyTotals).sort();
-  const expenses = months.map(m => monthlyTotals[m]);
+    const monthIndex = date.getMonth();
+    if (tx.category?.type.toLowerCase() === 'income') {
+      monthlyIncome[monthIndex] += tx.amount;
+    } else if (tx.category?.type.toLowerCase() === 'expense') {
+      monthlyExpenses[monthIndex] += tx.amount;
+    }
+  });
 
   return (
-    <Card sx={{ width: '100%' }}>
-      <CardContent sx={{ padding: 4 }}>Monthly Expenses</CardContent>
-      <BarChart
-        xAxis={[{ data: months, scaleType: 'band' }]}
-        series={[{ data: expenses, label: '₪ Expenses' }]}
-        height={300}
-      />
-    </Card>
+    <Grid size={{ xs: 12 }}>
+      <Card sx={{ width: '100%' }}>
+        <CardContent
+          sx={{
+            padding: 4,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h6">Income & Expenses ({selectedYear})</Typography>
+        </CardContent>
+        <BarChart
+          xAxis={[{ data: monthLabels, scaleType: 'band' }]}
+          series={[
+            { data: monthlyIncome, label: '₪ Income', color: '#67ec6b' },
+            { data: monthlyExpenses, label: '₪ Expenses', color: '#c31b12' },
+          ]}
+          height={300}
+        />
+      </Card>
+    </Grid>
   );
 };
 

@@ -1,17 +1,20 @@
 import { useOpen } from '@/hooks/useOpen';
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
-import CreateTransactionDialog from '@/components/Dialogs/CreateTransactionDialog';
 import PageLayout from '@/components/Layout/PageLayout';
-import TransactionsTable from '@/pages/Transactions/TransactionsTable';
+import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
+import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
+import TransactionDialog from '@/pages/Transactions/TransactionDialog';
 
 export const Transactions = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
 
   return (
     <PageLayout>
-      <TransactionsHeader openCreateTransaction={openDialog} />
-      <TransactionsTable />
-      <CreateTransactionDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
+      <SelectedTransactionProvider>
+        <TransactionsHeader openCreateTransaction={openDialog} />
+        <TransactionsPreview />
+        <TransactionDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
+      </SelectedTransactionProvider>
     </PageLayout>
   );
 };

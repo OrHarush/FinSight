@@ -5,6 +5,7 @@ export interface ICategory extends Document {
   type: 'Income' | 'Expense';
   color: string;
   icon: string;
+  monthlyLimit: number;
 }
 
 const CategorySchema: Schema = new Schema(
@@ -13,6 +14,7 @@ const CategorySchema: Schema = new Schema(
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },
     icon: { type: String, required: false },
+    monthlyLimit: { type: Number, required: false },
   },
   { timestamps: true }
 );

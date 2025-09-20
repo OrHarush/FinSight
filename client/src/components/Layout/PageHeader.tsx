@@ -13,16 +13,21 @@ const PageHeader = ({ pageTitle, children }: PageHeaderProps) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Column spacing={isMobile ? 2 : 0} width="100%">
+    <Column width="100%">
       <Row
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent={isMobile ? 'center' : 'space-between'}
         flexWrap={isMobile ? 'wrap' : 'nowrap'}
+        textAlign={isMobile ? 'center' : 'left'}
       >
-        <Typography variant="h4" fontWeight={700}>
+        <Typography variant="h4" fontWeight={700} sx={{ width: isMobile ? '100%' : 'auto' }}>
           {pageTitle}
         </Typography>
-        {children}
+        {children && (
+          <Row justifyContent={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'}>
+            {children}
+          </Row>
+        )}
       </Row>
     </Column>
   );

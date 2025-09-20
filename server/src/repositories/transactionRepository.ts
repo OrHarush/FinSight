@@ -1,7 +1,7 @@
 import Transaction, { ITransaction } from '../models/Transaction';
 
 export const findAll = async () => {
-  return Transaction.find().sort({ date: -1 }).populate('category');
+  return Transaction.find().sort({ date: -1 }).populate('category').populate('account');
 };
 
 export const findById = async (id: string) => {
@@ -14,10 +14,9 @@ export const create = async (data: ITransaction) => {
 };
 
 export const update = async (id: string, data: Partial<ITransaction>) => {
-  return Transaction.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true,
-  }).populate('category'); // <-- populate after update
+  return Transaction.findByIdAndUpdate(id, data, { new: true, runValidators: true })
+    .populate('category')
+    .populate('account');
 };
 
 export const remove = async (id: string) => {

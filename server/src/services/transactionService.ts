@@ -10,9 +10,6 @@ export const getTransactionById = async (id: string) => {
 };
 
 export const createTransaction = async (data: ITransaction) => {
-  if (!data.name || !data.amount) {
-    throw new Error('Name and amount are required');
-  }
   return transactionRepository.create(data);
 };
 

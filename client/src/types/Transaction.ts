@@ -1,4 +1,5 @@
 import { CategoryDto } from '@/types/CategoryDto';
+import { AccountDto } from '@/types/Account';
 
 export enum TransactionType {
   Expense = 'Expense',
@@ -7,21 +8,27 @@ export enum TransactionType {
 
 export interface TransactionFormValues {
   name: string;
+  amount: number;
   date: string;
-  amount: string;
+  endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   category: string;
-  accountRelated: string;
+  account: string;
 }
 
 export interface TransactionDto {
   _id: string;
   name: string;
-  date: string;
   amount: number;
+  date: string;
+  endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   category: CategoryDto;
-  accountRelated: { _id: string; name: string };
+  account: AccountDto;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ExtendedTransaction extends TransactionDto {
+  originalId: string;
 }

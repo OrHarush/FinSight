@@ -1,13 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useFetch } from '@/hooks/useFetch';
 import { AccountDto } from '@/types/Account';
-import { API_ROUTES } from '@/constants/APP_ROUTES';
+import { API_ROUTES } from '@/constants/Routes';
 import { AxiosError } from 'axios';
+import { queryKeys } from '@/constants/queryKeys';
 
 interface AccountsContextValue {
   accounts: AccountDto[];
   isLoading: boolean;
-  error: AxiosError<unknown, any> | null;
+  error: AxiosError<unknown, unknown> | null;
   refetch: () => void;
 }
 
@@ -16,6 +17,7 @@ const AccountsContext = createContext<AccountsContextValue | undefined>(undefine
 export const AccountsProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading, error, refetch } = useFetch<AccountDto[]>({
     url: API_ROUTES.ACCOUNTS,
+    queryKey: queryKeys.accounts(),
   });
   const [accounts, setAccounts] = useState<AccountDto[]>([]);
 

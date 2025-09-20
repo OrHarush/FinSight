@@ -7,17 +7,15 @@ interface TransactionHeaderProps {
   openCreateTransaction?: () => void;
 }
 
-const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) => {
-  return (
-    <PageHeader pageTitle={'Transactions'}>
-      <Row spacing={1}>
-        <Button variant={'outlined'}>Import CVS</Button>
-        <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
-          Add Transaction
-        </Button>
-      </Row>
-    </PageHeader>
-  );
-};
+const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) => (
+  <PageHeader pageTitle={'Transactions'}>
+    <Row spacing={1}>
+      <Button variant={'outlined'}>Import CVS</Button>
+      <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
+        Add Transaction
+      </Button>
+    </Row>
+  </PageHeader>
+);
 
 export default TransactionsHeader;
