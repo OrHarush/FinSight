@@ -5,6 +5,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { AxiosError } from 'axios';
 import { queryKeys } from '@/constants/queryKeys';
 import { expandTransactions, sortTransactionsByDate } from '@/utils/transactionUtils';
+import { useAuth } from '@/providers/AuthProvider';
 
 interface TransactionsContextValue {
   transactions: ExtendedTransaction[];
@@ -16,9 +17,12 @@ interface TransactionsContextValue {
 const TransactionsContext = createContext<TransactionsContextValue | undefined>(undefined);
 
 export const TransactionsProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuth();
+
   const { data, isLoading, error, refetch } = useFetch<TransactionDto[]>({
     url: API_ROUTES.TRANSACTIONS,
     queryKey: queryKeys.transactions(),
+    enabled: !!user,
   });
   const [transactions, setTransactions] = useState<ExtendedTransaction[]>([]);
 

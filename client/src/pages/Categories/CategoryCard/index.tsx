@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { CategoryDto } from '@/types/CategoryDto';
@@ -10,8 +10,8 @@ import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
 import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
-import Column from '@/components/Layout/Column';
-import { useTransactions } from '@/providers/TransactionsProvider';
+import Column from '@/components/Layout/Containers/Column';
+import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
 
 interface CategoryCardProps {

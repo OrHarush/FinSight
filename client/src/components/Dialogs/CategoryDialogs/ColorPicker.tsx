@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, IconButton, InputAdornment, InputLabel, Popover, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 
 interface ColorPickerFieldProps {
   name?: string;

@@ -7,7 +7,7 @@ import {
   IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 
@@ -20,6 +20,7 @@ interface FinSightDialogProps<T extends FieldValues> extends DialogProps {
   title: string;
   onSubmit: (data: T) => void;
   children: ReactNode;
+  isUpdate?: boolean;
 }
 
 const FormDialog = <T extends FieldValues>({
@@ -28,6 +29,7 @@ const FormDialog = <T extends FieldValues>({
   title,
   onSubmit,
   children,
+  isUpdate = false,
 }: FinSightDialogProps<T>) => {
   const { reset, handleSubmit } = useFormContext<T>();
 
@@ -65,7 +67,7 @@ const FormDialog = <T extends FieldValues>({
             Cancel
           </Button>
           <Button type="submit" variant="contained">
-            Create
+            {isUpdate ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
       </form>

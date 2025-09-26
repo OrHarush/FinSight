@@ -1,9 +1,9 @@
 import { Button, Grid, Typography } from '@mui/material';
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 import { useOpen } from '@/hooks/useOpen';
 import CreateAccountDialog from '@/components/Dialogs/CreateAccountDialog';
 import AccountCard from '@/pages/Accounts/AccountCard';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 import PageLayout from '@/components/Layout/PageLayout';
 
 const Budget = () => {

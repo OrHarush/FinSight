@@ -1,7 +1,7 @@
 import FinanceOverviewCard from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { useTransactions } from '@/providers/TransactionsProvider';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
+import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 import { SvgIconComponent } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';

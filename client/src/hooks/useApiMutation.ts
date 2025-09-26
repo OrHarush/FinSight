@@ -39,15 +39,13 @@ export const useApiMutation = <TData = unknown, TVariables = unknown, TError = A
 
       return (res && res.data !== undefined ? res.data : null) as TData;
     },
+    ...options,
     onSuccess: (data, variables, onMutateResult, ctx) => {
-      console.log('success invalidating queries', queryKeysToInvalidate);
       queryKeysToInvalidate.forEach(async key => {
         await queryClient.invalidateQueries({ queryKey: key });
       });
 
-      console.log('✅ Mutation successful:', { data, variables });
       options?.onSuccess?.(data, variables, onMutateResult, ctx);
     },
-    ...options,
   });
 };

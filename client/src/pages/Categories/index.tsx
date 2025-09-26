@@ -1,4 +1,4 @@
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 import { Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useOpen } from '@/hooks/useOpen';
 import CreateCategoryDialog from '@/components/Dialogs/CategoryDialogs/CreateCategoryDialog';

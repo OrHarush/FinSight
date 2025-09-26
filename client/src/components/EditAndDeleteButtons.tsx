@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 

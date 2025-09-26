@@ -2,33 +2,36 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
-import { TransactionsProvider } from '@/providers/TransactionsProvider';
-import { AccountsProvider } from '@/providers/AccountsProvider';
 import { AppThemeProvider } from '@/providers/AppThemeProvider';
-import { CategoriesProvider } from '@/providers/CategoriesProvider';
 import { SnackbarProvider } from './SnackbarProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthProvider } from '@/providers/AuthProvider';
+import EntitiesProviders from '@/providers/EntitiesProviders';
 
 interface AppProvidersProps {
   children?: ReactNode;
 }
 
+// @ts-ignore
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
+
 const queryClient = new QueryClient();
 
 const AppProviders = ({ children }: AppProvidersProps) => (
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <AppThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <SnackbarProvider>
-          <TransactionsProvider>
-            <CategoriesProvider>
-              <AccountsProvider>{children}</AccountsProvider>
-            </CategoriesProvider>
-          </TransactionsProvider>
-        </SnackbarProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </AppThemeProvider>
-  </LocalizationProvider>
+  <QueryClientProvider client={queryClient}>
+    <GoogleOAuthProvider clientId={clientId}>
+      <AuthProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <AppThemeProvider>
+            <SnackbarProvider>
+              <EntitiesProviders>{children}</EntitiesProviders>
+            </SnackbarProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </AppThemeProvider>
+        </LocalizationProvider>
+      </AuthProvider>
+    </GoogleOAuthProvider>
+  </QueryClientProvider>
 );
 export default AppProviders;

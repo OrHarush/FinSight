@@ -1,5 +1,5 @@
-import Row from '@/components/Layout/Row';
-import Column from '@/components/Layout/Column';
+import Row from '@/components/Layout/Containers/Row';
+import Column from '@/components/Layout/Containers/Column';
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
 

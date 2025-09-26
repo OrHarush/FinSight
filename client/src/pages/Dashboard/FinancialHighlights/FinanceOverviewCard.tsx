@@ -1,8 +1,8 @@
 import { Card, CardContent, Skeleton, Typography, Box } from '@mui/material';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import { SvgIconComponent } from '@mui/icons-material';
 import CurrencyText from '@/components/CurrencyText';
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 
 interface FinanceOverviewCardProps {
   headerTitle: string;

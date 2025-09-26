@@ -1,15 +1,14 @@
-import { Card, CardContent, IconButton, Typography, Box } from '@mui/material';
-import Row from '@/components/Layout/Row';
-import Column from '@/components/Layout/Column';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Card, CardContent, Typography } from '@mui/material';
+import Row from '@/components/Layout/Containers/Row';
+import Column from '@/components/Layout/Containers/Column';
 import { AccountDto } from '@/types/Account';
 import AccountDetails from '@/pages/Accounts/AccountDetails';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
+import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
+import AccountIcon from '@/components/AccountIcon';
 
 interface AccountCardProps {
   account: AccountDto;
@@ -24,7 +23,6 @@ const AccountCard = ({ account }: AccountCardProps) => {
     queryKeysToInvalidate: [queryKeys.accounts()],
     options: {
       onSuccess: () => {
-        console.log('✅ AccountCard onSuccess fired');
         alertSuccess('Account deleted');
       },
       onError: err => {
@@ -46,30 +44,10 @@ const AccountCard = ({ account }: AccountCardProps) => {
         <Column spacing={2}>
           <Row justifyContent="space-between" alignItems="center">
             <Row alignItems="center" spacing={2}>
-              <Box
-                sx={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 2,
-                  backgroundColor: 'primary.main',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                }}
-              >
-                <AccountBalanceIcon fontSize="medium" />
-              </Box>
+              <AccountIcon />
               <Typography fontWeight={700}>{account.name}</Typography>
             </Row>
-            <Row>
-              <IconButton size="small">
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton onClick={() => deleteAccount.mutate()} size="small" color="error">
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </Row>
+            <EditAndDeleteButtons onDelete={() => deleteAccount.mutate()} onEdit={() => {}} />
           </Row>
           <AccountDetails account={account} />
         </Column>

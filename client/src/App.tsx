@@ -1,4 +1,4 @@
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import { CssBaseline } from '@mui/material';
 import AppProviders from '@/providers/AppProviders';
 import AppRoutes from '@/routes/AppRoutes';

@@ -1,6 +1,6 @@
 import ControlledSelect from '@/components/inputs/ControlledSelect';
 import TextInput from '@/components/inputs/TextInput';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import IconPickerButton from '@/components/Dialogs/CategoryDialogs/IconPickerButton';
 import ColorPickerField from '@/components/Dialogs/CategoryDialogs/ColorPicker';
 import { Grid } from '@mui/material';

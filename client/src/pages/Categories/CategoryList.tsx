@@ -1,8 +1,9 @@
 import CategoryCard from '@/pages/Categories/CategoryCard';
 import { Grid, Typography } from '@mui/material';
-import { useCategories } from '@/providers/CategoriesProvider';
+import { useCategories } from '@/providers/EntitiesProviders/CategoriesProvider';
 import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
 import { CategoryDto } from '@/types/CategoryDto';
+import NoCategories from '@/components/Placeholders/NoCategories';
 
 interface CategoryListProps {
   selectCategory: (category: CategoryDto) => void;
@@ -15,7 +16,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
 
   return isLoading ? (
     <CategoryListSkeleton />
-  ) : (
+  ) : categories.length ? (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
         <Typography variant="h6" gutterBottom>
@@ -42,6 +43,8 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         </Grid>
       </Grid>
     </Grid>
+  ) : (
+    <NoCategories />
   );
 };
 

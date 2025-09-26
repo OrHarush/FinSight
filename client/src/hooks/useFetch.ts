@@ -8,6 +8,7 @@ interface UseFetchProps<TData, TError = AxiosError> {
   queryKey: unknown[];
   onSuccess?: (data: TData) => void;
   onError?: (error: TError) => void;
+  enabled?: boolean;
 }
 
 export const useFetch = <TData, TError = AxiosError>({
@@ -15,6 +16,7 @@ export const useFetch = <TData, TError = AxiosError>({
   queryKey,
   onSuccess,
   onError,
+  enabled = true,
 }: UseFetchProps<TData, TError>) => {
   const query = useQuery<TData, TError>({
     queryKey: queryKey,
@@ -23,6 +25,7 @@ export const useFetch = <TData, TError = AxiosError>({
 
       return res.data;
     },
+    enabled,
   });
 
   useEffect(() => {

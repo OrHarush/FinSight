@@ -1,5 +1,5 @@
-import Row from '@/components/Layout/Row';
-import Column from '@/components/Layout/Column';
+import Row from '@/components/Layout/Containers/Row';
+import Column from '@/components/Layout/Containers/Column';
 import { FormProvider, useForm } from 'react-hook-form';
 import TextInput from '@/components/inputs/TextInput';
 import FormDialog, { DialogProps } from './FormDialog';

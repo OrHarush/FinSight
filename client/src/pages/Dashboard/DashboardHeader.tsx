@@ -1,4 +1,4 @@
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,7 +23,6 @@ const DashboardHeader = () => {
       <Row spacing={2} alignItems="center">
         <DatePicker
           views={['year', 'month']}
-          label="Year and Month"
           value={selectedDate}
           onChange={changeDate}
           slotProps={{

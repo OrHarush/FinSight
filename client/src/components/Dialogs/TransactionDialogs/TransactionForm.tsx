@@ -1,9 +1,9 @@
 import ControlledSelect from '@/components/inputs/ControlledSelect';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
-import Row from '@/components/Layout/Row';
-import { useAccounts } from '@/providers/AccountsProvider';
-import { useCategories } from '@/providers/CategoriesProvider';
+import Row from '@/components/Layout/Containers/Row';
+import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
+import { useCategories } from '@/providers/EntitiesProviders/CategoriesProvider';
 import { Typography } from '@mui/material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 

@@ -1,6 +1,6 @@
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useTransactions } from '@/providers/TransactionsProvider';
-import TransactionCardsView from '@/pages/Transactions/TransactionsPreview/TransactionCardsView';
+import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
+import TransactionCardsView from '@/pages/Transactions/TransactionsPreview/TransactionCardView';
 import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/TransactionsTableView';
 
 const TransactionsPreview = () => {

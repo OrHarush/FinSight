@@ -8,10 +8,25 @@ import AppLayout from '@/components/Layout/AppLayout';
 import Categories from '@/pages/Categories';
 import { Transactions } from '@/pages/Transactions';
 import Budget from '@/pages/Budget';
+import LoginPage from '@/pages/Login';
+import { useAuth } from '@/providers/AuthProvider';
+import { ReactElement } from 'react';
+
+const RequireAuth = ({ children }: { children: ReactElement }) => {
+  const { user } = useAuth();
+
+  return user ? children : <Navigate to="/login" replace />;
+};
 
 const AppRoutes = () => (
   <Routes>
-    <Route element={<AppLayout />}>
+    <Route
+      element={
+        <RequireAuth>
+          <AppLayout />
+        </RequireAuth>
+      }
+    >
       <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
       <Route path={ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
       <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />
@@ -19,8 +34,9 @@ const AppRoutes = () => (
       <Route path={ROUTES.PLANNER_URL} element={<Planner />} />
       <Route path={ROUTES.REPORTS_URL} element={<Reports />} />
       <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
-      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to={ROUTES.DASHBOARD_URL} />} />
     </Route>
+    <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
   </Routes>
 );
 

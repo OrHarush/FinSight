@@ -12,16 +12,18 @@ const CurrencyText = ({
   locale = 'he-IL',
   ...typographyProps
 }: CurrencyTextProps) => {
-  const formatted = value.toLocaleString(locale, {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'symbol',
-    minimumFractionDigits: 0,
-  });
+  const formattedCurrency = value
+    .toLocaleString(locale, {
+      style: 'currency',
+      currency,
+      currencyDisplay: 'symbol',
+      minimumFractionDigits: 0,
+    })
+    .replace(/\s+/g, '');
 
   return (
     <Typography component="span" {...typographyProps}>
-      {formatted}
+      {formattedCurrency}
     </Typography>
   );
 };

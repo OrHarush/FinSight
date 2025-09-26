@@ -13,7 +13,7 @@ import * as Icons from '@mui/icons-material';
 import { DialogProps } from '@/components/Dialogs/FormDialog';
 import { SvgIconComponent } from '@mui/icons-material';
 import { curatedIcons } from '@/constants/curatedIcons';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 
 const iconsPerPage = 30;
 

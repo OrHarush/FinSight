@@ -1,6 +1,6 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import CurrencyText from '@/components/CurrencyText';
-import Row from '@/components/Layout/Row';
+import Row from '@/components/Layout/Containers/Row';
 
 interface BudgetProgressProps {
   spent: number;

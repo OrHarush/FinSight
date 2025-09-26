@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IAccount extends Document {
   name: string;
@@ -6,6 +6,7 @@ export interface IAccount extends Document {
   institution: string;
   accountNumber: string;
   lastSynced?: Date;
+  userId: Types.ObjectId;
 }
 
 const AccountSchema: Schema = new Schema(
@@ -15,6 +16,7 @@ const AccountSchema: Schema = new Schema(
     institution: { type: String },
     accountNumber: { type: String, required: true },
     lastSynced: { type: Date },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

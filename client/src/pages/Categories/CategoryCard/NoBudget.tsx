@@ -1,4 +1,4 @@
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 import { Box, Typography } from '@mui/material';
 
 const NoBudget = () => (

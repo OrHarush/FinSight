@@ -42,7 +42,13 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
 
   return (
     <FormProvider {...methods}>
-      <FormDialog isOpen={isOpen} closeDialog={closeDialog} title="Edit Category" onSubmit={update}>
+      <FormDialog
+        isOpen={isOpen}
+        closeDialog={closeDialog}
+        title="Edit Category"
+        onSubmit={update}
+        isUpdate
+      >
         <CategoryForm />
       </FormDialog>
     </FormProvider>

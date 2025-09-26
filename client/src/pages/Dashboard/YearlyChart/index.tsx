@@ -1,16 +1,14 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
-import { useTransactions } from '@/providers/TransactionsProvider';
+import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import { monthLabels } from '@/constants/monthLabels';
 import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
+import Column from '@/components/Layout/Containers/Column';
+import EmptyChart from '@/pages/Dashboard/YearlyChart/EmptyChart';
 
-const MonthlyExpensesChart = () => {
+const YearlyChart = () => {
   const { transactions } = useTransactions();
   const { selectedYear } = useDashboardDate();
-
-  if (!transactions || !transactions.length) {
-    return null;
-  }
 
   const monthlyIncome = Array(12).fill(0);
   const monthlyExpenses = Array(12).fill(0);
@@ -38,19 +36,25 @@ const MonthlyExpensesChart = () => {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h6">Income & Expenses ({selectedYear})</Typography>
+          <Column width={'100%'}>
+            <Typography variant="h6">Income & Expenses ({selectedYear})</Typography>
+            {!transactions || !transactions.length ? (
+              <EmptyChart />
+            ) : (
+              <BarChart
+                xAxis={[{ data: monthLabels, scaleType: 'band' }]}
+                series={[
+                  { data: monthlyIncome, label: '₪ Income', color: '#67ec6b' },
+                  { data: monthlyExpenses, label: '₪ Expenses', color: '#c31b12' },
+                ]}
+                height={300}
+              />
+            )}
+          </Column>
         </CardContent>
-        <BarChart
-          xAxis={[{ data: monthLabels, scaleType: 'band' }]}
-          series={[
-            { data: monthlyIncome, label: '₪ Income', color: '#67ec6b' },
-            { data: monthlyExpenses, label: '₪ Expenses', color: '#c31b12' },
-          ]}
-          height={300}
-        />
       </Card>
     </Grid>
   );
 };
 
-export default MonthlyExpensesChart;
+export default YearlyChart;

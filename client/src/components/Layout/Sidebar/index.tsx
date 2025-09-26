@@ -1,6 +1,7 @@
 import { Divider, Drawer, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 import SidebarButtons from '@/components/Layout/Sidebar/SidebarButtons';
 import Settings from '@/components/Layout/Sidebar/Settings';
@@ -25,10 +26,10 @@ const Sidebar = () => {
     return (
       <>
         <IconButton
-          onClick={() => setOpen(true)}
-          sx={{ position: 'absolute', top: 16, left: 16, zIndex: theme.zIndex.drawer + 1 }}
+          onClick={() => setOpen(prev => !prev)}
+          sx={{ position: 'absolute', top: 20, left: 4, zIndex: theme.zIndex.drawer + 1 }}
         >
-          <MenuIcon />
+          {open ? <CloseIcon /> : <MenuIcon />}
         </IconButton>
         <Drawer open={open} onClose={() => setOpen(false)} variant="temporary">
           {drawerContent}

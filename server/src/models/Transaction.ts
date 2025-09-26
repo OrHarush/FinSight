@@ -8,6 +8,7 @@ export interface ITransaction extends Document {
   recurrence: 'None' | 'Monthly' | 'Yearly';
   category: Types.ObjectId;
   account: Types.ObjectId;
+  userId: Types.ObjectId;
 }
 
 const TransactionSchema: Schema = new Schema(
@@ -23,6 +24,7 @@ const TransactionSchema: Schema = new Schema(
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

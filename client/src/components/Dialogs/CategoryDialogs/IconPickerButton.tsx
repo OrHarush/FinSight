@@ -4,7 +4,7 @@ import { Box, InputAdornment, InputLabel, TextField } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import IconPickerDialog from '@/components/Dialogs/IconPickerDialog';
-import Column from '@/components/Layout/Column';
+import Column from '@/components/Layout/Containers/Column';
 
 interface IconPickerFieldProps {
   name?: string;

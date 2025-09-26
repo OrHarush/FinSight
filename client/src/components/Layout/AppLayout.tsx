@@ -1,5 +1,5 @@
-import Column from '@/components/Layout/Column';
-import Row from '@/components/Layout/Row';
+import Column from '@/components/Layout/Containers/Column';
+import Row from '@/components/Layout/Containers/Row';
 import Sidebar from '@/components/Layout/Sidebar';
 import { Outlet } from 'react-router-dom';
 
