@@ -1,22 +1,47 @@
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
-import TransactionCardsView from '@/pages/Transactions/TransactionsPreview/TransactionCardView';
+import TransactionsCardsView from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView';
 import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/TransactionsTableView';
+import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
+import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
+import EntityError from '@/components/Entities/EntityError';
+import { Dayjs } from 'dayjs';
 
-const TransactionsPreview = () => {
-  const { isLoading, error } = useTransactions();
+interface TransactionsPreviewProps {
+  selectedMonth: Dayjs | null;
+  selectedCategory: string | null;
+}
+
+const TransactionsPreview = ({ selectedMonth, selectedCategory }: TransactionsPreviewProps) => {
+  const { transactions, refetch, isLoading, error } = useTransactions();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  console.log(transactions);
+
+  // const filteredTransactions = useMemo(
+  //   () =>
+  //     filterTransactions(
+  //       transactions,
+  //       selectedMonth?.month(),
+  //       selectedMonth?.year(),
+  //       selectedCategory || undefined
+  //     ),
+  //   [transactions, selectedMonth, selectedCategory]
+  // );
 
   if (isLoading) {
-    return <Typography>Loading…</Typography>;
+    return isMobile ? <TransactionsCardsSkeleton /> : <TransactionsTableSkeleton />;
   }
 
   if (error) {
-    return <Typography>Error loading data</Typography>;
+    return <EntityError entityName={'transactions'} refetch={refetch} />;
   }
 
-  return isMobile ? <TransactionCardsView /> : <TransactionsTableView />;
+  return isMobile ? (
+    <TransactionsCardsView filteredTransactions={transactions} />
+  ) : (
+    <TransactionsTableView filteredTransactions={transactions} />
+  );
 };
 
 export default TransactionsPreview;

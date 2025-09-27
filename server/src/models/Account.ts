@@ -5,6 +5,7 @@ export interface IAccount extends Document {
   balance: number;
   institution: string;
   accountNumber: string;
+  icon: string;
   lastSynced?: Date;
   userId: Types.ObjectId;
 }
@@ -14,7 +15,8 @@ const AccountSchema: Schema = new Schema(
     name: { type: String, required: true, trim: true },
     balance: { type: Number, required: true, default: 0 },
     institution: { type: String },
-    accountNumber: { type: String, required: true },
+    accountNumber: { type: String },
+    icon: { type: String },
     lastSynced: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },

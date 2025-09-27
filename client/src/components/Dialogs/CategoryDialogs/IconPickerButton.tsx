@@ -27,7 +27,7 @@ const IconPickerField = ({ name = 'icon', label = 'Icon' }: IconPickerFieldProps
             <Column spacing={0.5}>
               <InputLabel>{label}</InputLabel>
               <TextField
-                value={field.value || ''}
+                value={field.value || 'CategoryIcon'}
                 onClick={() => setDialogOpen(true)}
                 slotProps={{
                   input: {
@@ -47,7 +47,6 @@ const IconPickerField = ({ name = 'icon', label = 'Icon' }: IconPickerFieldProps
           );
         }}
       />
-
       <IconPickerDialog
         selectIcon={(icon: string) => {
           setValue(name, icon);

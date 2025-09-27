@@ -48,7 +48,7 @@ const FormDialog = <T extends FieldValues>({
     <Dialog onClose={closeForm} open={isOpen} maxWidth="xs" fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <IconButton
-        onClick={closeDialog}
+        onClick={closeForm}
         sx={theme => ({
           position: 'absolute',
           right: 8,

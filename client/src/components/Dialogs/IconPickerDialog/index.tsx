@@ -1,19 +1,9 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Grid,
-  IconButton,
-  Pagination,
-  TextField,
-  Tooltip,
-} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Grid, Pagination, TextField } from '@mui/material';
 import { useState, ChangeEvent } from 'react';
-import * as Icons from '@mui/icons-material';
 import { DialogProps } from '@/components/Dialogs/FormDialog';
-import { SvgIconComponent } from '@mui/icons-material';
 import { curatedIcons } from '@/constants/curatedIcons';
 import Column from '@/components/Layout/Containers/Column';
+import IconOption from '@/components/Dialogs/IconPickerDialog/IconOption';
 
 const iconsPerPage = 30;
 
@@ -53,28 +43,16 @@ const IconPickerDialog = ({ isOpen, closeDialog, selectIcon }: IconPickerDialogP
             />
 
             <Grid container spacing={2}>
-              {currentIcons.map(name => {
-                const IconComponent = (Icons as Record<string, SvgIconComponent>)[name];
-                if (!IconComponent) return null; // safeguard
-
-                return (
-                  <Grid key={name} size={{ xs: 2 }}>
-                    <Tooltip title={name}>
-                      <IconButton
-                        onClick={() => {
-                          selectIcon(name);
-                          closeDialog();
-                        }}
-                      >
-                        <IconComponent fontSize="large" />
-                      </IconButton>
-                    </Tooltip>
-                  </Grid>
-                );
-              })}
+              {currentIcons.map(name => (
+                <IconOption
+                  key={name}
+                  name={name}
+                  selectIcon={selectIcon}
+                  closeDialog={closeDialog}
+                />
+              ))}
             </Grid>
           </Column>
-
           {totalPages > 1 && (
             <Grid container justifyContent="center" sx={{ mt: 2 }}>
               <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} />

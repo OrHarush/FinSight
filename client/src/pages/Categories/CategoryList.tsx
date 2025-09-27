@@ -3,7 +3,8 @@ import { Grid, Typography } from '@mui/material';
 import { useCategories } from '@/providers/EntitiesProviders/CategoriesProvider';
 import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
 import { CategoryDto } from '@/types/CategoryDto';
-import NoCategories from '@/components/Placeholders/NoCategories';
+import EntityEmpty from '@/components/Entities/EntityEmpty';
+import CategoryIcon from '@mui/icons-material/Category';
 
 interface CategoryListProps {
   selectCategory: (category: CategoryDto) => void;
@@ -44,7 +45,11 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
       </Grid>
     </Grid>
   ) : (
-    <NoCategories />
+    <EntityEmpty
+      entityName={'categories'}
+      subtitle={'Add your first category to organize transactions'}
+      icon={CategoryIcon}
+    />
   );
 };
 

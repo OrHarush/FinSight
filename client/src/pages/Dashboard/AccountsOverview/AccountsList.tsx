@@ -1,17 +1,17 @@
 import Row from '@/components/Layout/Containers/Row';
 import Paper from '@mui/material/Paper';
-import AccountIcon from '@/components/AccountIcon';
+import AccountIcon from '@/components/Accounts/AccountIcon';
 import Column from '@/components/Layout/Containers/Column';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/CurrencyText';
-import NoAccounts from '@/components/Placeholders/NoAccounts';
+import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
 import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 
-const AccountsDisplay = () => {
+const AccountsList = () => {
   const { accounts } = useAccounts();
 
   return (
-    <Row spacing={4} justifyContent="center" overflow={'auto'}>
+    <Row spacing={4} overflow={'auto'}>
       {accounts.length ? (
         accounts?.map(account => (
           <Paper
@@ -25,18 +25,20 @@ const AccountsDisplay = () => {
           >
             <Row spacing={2} alignItems={'center'}>
               <AccountIcon />
-              <Column justifyContent={'center'} alignItems={'flex-start'}>
-                <Typography>{account.name}</Typography>
-                <CurrencyText variant={'h5'} fontWeight={600} value={account.balance} />
+              <Column justifyContent="center" alignItems="flex-start" spacing={0.5}>
+                <Typography variant="body2" color="text.secondary">
+                  {account.name}
+                </Typography>
+                <CurrencyText variant="h6" fontWeight={700} value={account.balance} />
               </Column>
             </Row>
           </Paper>
         ))
       ) : (
-        <NoAccounts />
+        <AccountsEmpty />
       )}
     </Row>
   );
 };
 
-export default AccountsDisplay;
+export default AccountsList;

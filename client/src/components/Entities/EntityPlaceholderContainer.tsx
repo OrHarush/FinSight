@@ -5,7 +5,7 @@ interface PlaceholderContainerProps {
   children: ReactNode;
 }
 
-const PlaceholderContainer = ({ children }: PlaceholderContainerProps) => (
+const EntityPlaceholderContainer = ({ children }: PlaceholderContainerProps) => (
   <Column
     alignItems="center"
     justifyContent="center"
@@ -18,4 +18,4 @@ const PlaceholderContainer = ({ children }: PlaceholderContainerProps) => (
   </Column>
 );
 
-export default PlaceholderContainer;
+export default EntityPlaceholderContainer;

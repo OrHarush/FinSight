@@ -1,21 +1,42 @@
 import { TableBody, TableCell, TableRow } from '@mui/material';
-import TransactionTableRow from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableRow';
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
-import NoTransactions from '@/components/Placeholders/NoTransactions';
+import TransactionTableRow from './TransactionTableRow';
+import EntityEmpty from '@/components/Entities/EntityEmpty';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { ExtendedTransaction } from '@/types/Transaction';
 
-const TransactionTableBody = () => {
-  const { transactions } = useTransactions();
+interface TransactionTableBodyProps {
+  filteredTransactions: ExtendedTransaction[];
+  page: number;
+  rowsPerPage: number;
+}
+
+const TransactionTableBody = ({
+  filteredTransactions,
+  page,
+  rowsPerPage,
+}: TransactionTableBodyProps) => {
+  const today = new Date();
+
+  const recentTransactions = [...filteredTransactions]
+    .filter(tx => new Date(tx.date) <= today)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  const paginated = recentTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <TableBody>
-      {transactions.length === 0 ? (
+      {recentTransactions.length === 0 ? (
         <TableRow>
           <TableCell colSpan={7} align="center">
-            <NoTransactions />
+            <EntityEmpty
+              entityName="transactions"
+              subtitle="Start by adding your first one"
+              icon={ReceiptLongIcon}
+            />
           </TableCell>
         </TableRow>
       ) : (
-        transactions.map(tx => <TransactionTableRow key={tx._id} transaction={tx} />)
+        paginated.map(tx => <TransactionTableRow key={tx._id} transaction={tx} />)
       )}
     </TableBody>
   );

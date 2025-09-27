@@ -61,7 +61,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
     <Grid key={category._id} size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
       <Card
         sx={{
-          width: '260px',
+          width: '280px',
           height: '120px',
           borderRadius: '12px',
           paddingX: 2,

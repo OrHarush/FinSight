@@ -34,29 +34,28 @@ const BudgetProgress = ({ spent, limit }: BudgetProgressProps) => {
 
       <Row display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body2" color="text.secondary">
-          <CurrencyText value={spent} /> of
-          <CurrencyText value={limit} />
+          <CurrencyText value={spent} /> of <CurrencyText value={limit} />
         </Typography>
         <Typography
           variant="body2"
           sx={{ color: left < 0 ? 'error.main' : 'success.primary', fontWeight: 600 }}
         >
           {left < 0 ? (
-            <>
-              Over by{' '}
+            <Typography>
+              Over by
               <CurrencyText
                 value={Math.abs(left)}
                 sx={{ color: left < 0 ? 'error.main' : 'success.primary', fontWeight: 600 }}
               />
-            </>
+            </Typography>
           ) : (
-            <>
+            <Typography>
               <CurrencyText
                 value={left}
                 sx={{ color: left < 0 ? 'error.main' : 'success.primary', fontWeight: 600 }}
               />{' '}
               left
-            </>
+            </Typography>
           )}
         </Typography>
       </Row>

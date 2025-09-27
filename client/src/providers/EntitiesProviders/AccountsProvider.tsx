@@ -16,6 +16,7 @@ interface AccountsContextValue {
 const AccountsContext = createContext<AccountsContextValue | undefined>(undefined);
 
 export const AccountsProvider = ({ children }: { children: ReactNode }) => {
+  const [accounts, setAccounts] = useState<AccountDto[]>([]);
   const { user } = useAuth();
 
   const { data, isLoading, error, refetch } = useFetch<AccountDto[]>({
@@ -23,10 +24,10 @@ export const AccountsProvider = ({ children }: { children: ReactNode }) => {
     queryKey: queryKeys.accounts(),
     enabled: !!user,
   });
-  const [accounts, setAccounts] = useState<AccountDto[]>([]);
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setAccounts(data);
     }
   }, [data]);

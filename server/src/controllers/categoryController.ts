@@ -7,6 +7,7 @@ export const createCategory = async (req: AuthRequest, res: Response) => {
     const category = await categoryService.createCategory(req.body, req.userId!);
     res.status(201).json(category);
   } catch (err: any) {
+    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };

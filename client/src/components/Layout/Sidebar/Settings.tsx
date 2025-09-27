@@ -5,8 +5,10 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useAppTheme } from '@/providers/AppThemeProvider';
 import UserAvatar from '@/components/Layout/Sidebar/UserAvatar';
 import Column from '@/components/Layout/Containers/Column';
+import { useAuth } from '@/providers/AuthProvider';
 
 const Settings = () => {
+  const { logout } = useAuth();
   const { toggleColorMode } = useAppTheme();
   const theme = useTheme();
 
@@ -23,7 +25,9 @@ const Settings = () => {
         />
       </Row>
       <UserAvatar />
-      <Button variant={'outlined'}>Sign Out</Button>
+      <Button variant={'outlined'} onClick={logout}>
+        Sign Out
+      </Button>
     </Column>
   );
 };

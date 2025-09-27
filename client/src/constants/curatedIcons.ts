@@ -1,4 +1,3 @@
-// src/constants/curatedIcons.ts
 export const curatedIcons = [
   // 💰 Money & Banking
   'AccountBalance',
@@ -37,6 +36,7 @@ export const curatedIcons = [
   'Storefront',
   'DinnerDining',
   'Icecream',
+  'CardGiftcard',
 
   // 🏠 Housing & Utilities
   'Home',

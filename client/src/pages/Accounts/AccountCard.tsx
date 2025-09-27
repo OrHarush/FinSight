@@ -8,7 +8,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
-import AccountIcon from '@/components/AccountIcon';
+import AccountIcon from '@/components/Accounts/AccountIcon';
 
 interface AccountCardProps {
   account: AccountDto;

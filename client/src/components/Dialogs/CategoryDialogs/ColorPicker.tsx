@@ -11,17 +11,23 @@ interface ColorPickerFieldProps {
 
 const defaultPresetColors = [
   '#f44336',
+  '#ff5722',
   '#ff9800',
+  '#ffc107',
+  '#ffeb3b',
+  '#8bc34a',
   '#4caf50',
+  '#009688',
+  '#00bcd4',
   '#2196f3',
+  '#3f51b5',
+  '#673ab7',
   '#9c27b0',
   '#e91e63',
-  '#00bcd4',
-  '#8bc34a',
-  '#ffc107',
-  '#3f51b5',
-  '#795548',
+  '#df69ff',
+  '#9e9e9e',
   '#607d8b',
+  '#795548',
 ];
 
 const ColorPickerField = ({

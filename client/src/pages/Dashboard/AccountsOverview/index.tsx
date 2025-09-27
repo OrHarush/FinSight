@@ -3,16 +3,14 @@ import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
 import Column from '@/components/Layout/Containers/Column';
 import { useNavigate } from 'react-router-dom';
-import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
-import AccountsDisplay from '@/pages/Dashboard/AccountsOverview/AccountsDisplay';
+import AccountsContent from '@/pages/Dashboard/AccountsOverview/AccountsContent';
 
 const AccountsOverview = () => {
   const navigate = useNavigate();
-  const { isLoading, error } = useAccounts();
 
   return (
     <Grid size={{ xs: 12 }}>
-      <Card sx={{ maxHeight: '220px' }}>
+      <Card sx={{ height: '220px' }}>
         <CardContent sx={{ padding: 4, height: '100%' }}>
           <Column justifyContent="space-between" height="100%" spacing={2}>
             <Row justifyContent={'space-between'} alignItems={'center'}>
@@ -25,8 +23,7 @@ const AccountsOverview = () => {
                 Manage Accounts
               </Button>
             </Row>
-            {error && <Typography color="error">Failed to load accounts</Typography>}
-            {isLoading ? <Typography>Loading accounts…</Typography> : <AccountsDisplay />}
+            <AccountsContent />
           </Column>
         </CardContent>
       </Card>

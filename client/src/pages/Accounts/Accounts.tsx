@@ -5,7 +5,7 @@ import CreateAccountDialog from '@/components/Dialogs/CreateAccountDialog';
 import AccountCard from '@/pages/Accounts/AccountCard';
 import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 import PageLayout from '@/components/Layout/PageLayout';
-import NoAccounts from '@/components/Placeholders/NoAccounts';
+import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
 
 const Accounts = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
@@ -31,7 +31,7 @@ const Accounts = () => {
             ))}
           </Grid>
         ) : (
-          <NoAccounts />
+          <AccountsEmpty />
         )
       ) : (
         <Grid size={{ xs: 12 }}>

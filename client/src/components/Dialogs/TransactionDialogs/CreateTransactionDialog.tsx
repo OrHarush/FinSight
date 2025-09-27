@@ -26,7 +26,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
 
   const submitNewTransaction = async (data: TransactionFormValues) => {
     try {
-      createTransaction.mutate({
+      await createTransaction.mutateAsync({
         ...data,
         amount: Number(data.amount),
         date: new Date(data.date).toString(),

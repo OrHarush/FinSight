@@ -33,16 +33,16 @@ const EditTransactionDialog = ({
   const updateCategory = useApiMutation<CategoryDto, CategoryFormValues>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
-    queryKeysToInvalidate: [queryKeys.categories()],
+    queryKeysToInvalidate: [queryKeys.transactions()],
   });
 
   const update = async (data: CategoryFormValues) => {
     try {
       await updateCategory.mutateAsync(data);
-      alertSuccess('Category updated!');
+      alertSuccess('Transaction updated!');
       closeDialog();
     } catch (err) {
-      alertError('Failed to update category.');
+      alertError('Failed to update transaction');
       console.error(err);
     }
   };

@@ -15,7 +15,7 @@ const TransactionSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     date: { type: Date, required: true },
-    endDate: { type: Date, required: false },
+    endDate: { type: Date },
     amount: { type: Number, required: true },
     recurrence: {
       type: String,

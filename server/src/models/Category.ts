@@ -11,7 +11,7 @@ export interface ICategory extends Document {
 
 const CategorySchema: Schema = new Schema(
   {
-    name: { type: String, required: true, unique: true, trim: true },
+    name: { type: String, required: true, trim: true },
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },
     icon: { type: String, required: false },
@@ -20,5 +20,7 @@ const CategorySchema: Schema = new Schema(
   },
   { timestamps: true }
 );
+
+CategorySchema.index({ name: 1, userId: 1 }, { unique: true });
 
 export default mongoose.model<ICategory>('Category', CategorySchema, 'categories');

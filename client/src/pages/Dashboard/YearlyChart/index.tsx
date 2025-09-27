@@ -4,7 +4,8 @@ import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvi
 import { monthLabels } from '@/constants/monthLabels';
 import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
 import Column from '@/components/Layout/Containers/Column';
-import EmptyChart from '@/pages/Dashboard/YearlyChart/EmptyChart';
+import EntityEmpty from '@/components/Entities/EntityEmpty';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const YearlyChart = () => {
   const { transactions } = useTransactions();
@@ -25,6 +26,8 @@ const YearlyChart = () => {
     }
   });
 
+  // const timeline = calculateBalanceTimeline(transactions, 0);
+
   return (
     <Grid size={{ xs: 12 }}>
       <Card sx={{ width: '100%' }}>
@@ -36,11 +39,31 @@ const YearlyChart = () => {
             alignItems: 'center',
           }}
         >
-          <Column width={'100%'}>
+          <Column width={'100%'} height={'360px'}>
             <Typography variant="h6">Income & Expenses ({selectedYear})</Typography>
             {!transactions || !transactions.length ? (
-              <EmptyChart />
+              <EntityEmpty
+                entityName={'transactions'}
+                subtitle={'Add some to see your income & expenses graph'}
+                icon={BarChartIcon}
+              />
             ) : (
+              // <LineChart
+              //   xAxis={[
+              //     {
+              //       data: timeline.map(p => p.date),
+              //       scaleType: 'time',
+              //     },
+              //   ]}
+              //   series={[
+              //     {
+              //       data: timeline.map(p => p.balance),
+              //       label: 'Balance',
+              //     },
+              //   ]}
+              //   width={600}
+              //   height={400}
+              // />
               <BarChart
                 xAxis={[{ data: monthLabels, scaleType: 'band' }]}
                 series={[

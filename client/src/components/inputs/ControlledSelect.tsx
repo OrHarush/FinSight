@@ -1,4 +1,4 @@
-import { MenuItem } from '@mui/material';
+import { MenuItem, TextFieldProps } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ReactNode } from 'react';
 import TextInput from '@/components/inputs/TextInput';
@@ -9,14 +9,14 @@ export interface ControlledSelectOption {
   design?: ReactNode;
 }
 
-interface ControlledSelectProps {
+interface ControlledSelectProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;
   label: string;
   options: ControlledSelectOption[];
   required?: boolean | string;
 }
 
-const ControlledSelect = ({ name, label, options, required }: ControlledSelectProps) => {
+const ControlledSelect = ({ name, label, options, required, ...props }: ControlledSelectProps) => {
   const { control } = useFormContext();
 
   return (
@@ -38,6 +38,7 @@ const ControlledSelect = ({ name, label, options, required }: ControlledSelectPr
           error={!!fieldState.error}
           helperText={fieldState.error?.message}
           fullWidth
+          {...props}
         >
           {options.map(option => (
             <MenuItem key={option.value} value={option.value}>
