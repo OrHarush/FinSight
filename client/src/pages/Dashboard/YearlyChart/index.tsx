@@ -20,7 +20,6 @@ const YearlyChart = () => {
   const monthlyIncome = yearlySummary?.map(month => month.monthlyIncome) ?? [];
   const monthlyExpenses = yearlySummary?.map(month => month.monthlyExpenses) ?? [];
 
-  console.log(yearlySummary);
   const hasData =
     yearlySummary &&
     yearlySummary.some(m => (m.monthlyIncome ?? 0) !== 0 || (m.monthlyExpenses ?? 0) !== 0);

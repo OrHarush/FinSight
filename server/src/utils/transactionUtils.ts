@@ -27,7 +27,6 @@ export const expandRecurring = (tx: ITransaction, until: Date): any[] => {
 
     if (tx.recurrence === 'Monthly') {
       let next = currentDate.add(1, 'month').startOf('month');
-      console.log(currentDate.utc().format());
 
       if (dayOfMonth <= next.daysInMonth()) {
         next = next.date(dayOfMonth);

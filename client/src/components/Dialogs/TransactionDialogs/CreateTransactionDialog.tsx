@@ -29,7 +29,6 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
 
   const submitNewTransaction = async (data: TransactionFormValues) => {
     try {
-      console.log(mapTransactionFormValuesToPayload(data));
       await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
       alertSuccess('Transaction created!');
     } catch (err) {

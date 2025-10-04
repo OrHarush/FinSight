@@ -26,8 +26,6 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
 
-  console.log(transactions);
-
   const spent = transactions.reduce((sum, tx) => {
     const txDate = new Date(tx.date);
     if (

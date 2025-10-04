@@ -1,7 +1,8 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useAuth } from '@/providers/AuthProvider';
-import vault2Image from '../../../assets/vault2.png';
+import vaultImage from '@assets/vault2.png';
+import finSightIcon from '@assets/finSightIcon.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -31,7 +32,7 @@ const LoginPage = () => {
       alignItems="center"
       minHeight="100vh"
       sx={{
-        backgroundImage: `url(${vault2Image})`,
+        backgroundImage: `url(${vaultImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -48,7 +49,7 @@ const LoginPage = () => {
         }}
       >
         <CardContent>
-          <img src="../../../assets/finsightIcon.png" alt="App Logo" width={100} height={100} />
+          <img src={finSightIcon} alt="App Logo" width={100} height={100} />
           <Typography variant="h4" fontWeight={700} mb={2} color="white">
             Welcome to FinSight
           </Typography>

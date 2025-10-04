@@ -12,7 +12,6 @@ interface AppProvidersProps {
   children?: ReactNode;
 }
 
-// @ts-ignore
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 
 const queryClient = new QueryClient();

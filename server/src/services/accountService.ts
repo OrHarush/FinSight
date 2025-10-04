@@ -36,7 +36,6 @@ export const updateAccount = async (
     throw new Error('Balance cannot be negative');
   }
 
-  console.log(updatedAccountDetails);
   if (updatedAccountDetails.isPrimary) {
     await accountRepository.unsetPrimary(userId, id);
   } else {

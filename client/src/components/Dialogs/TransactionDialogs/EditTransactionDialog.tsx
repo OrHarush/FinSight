@@ -33,9 +33,6 @@ const EditTransactionDialog = ({
     },
   });
 
-  console.log(transaction);
-  console.log(transaction.date.split('T')[0]);
-
   const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionCommand>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
