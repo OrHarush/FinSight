@@ -42,7 +42,7 @@ export const updateAccount = async (req: AuthRequest, res: Response) => {
     }
     res.json({ success: true, data: account });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message || 'Invalid data' });
+    res.status(400).json({ success: false, error: 'Invalid data' });
   }
 };
 

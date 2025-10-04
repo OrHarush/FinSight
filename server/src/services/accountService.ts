@@ -1,6 +1,6 @@
 import * as accountRepository from '../repositories/accountRepository';
-import { IAccount } from '../models/Account';
 import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
+import { Types } from 'mongoose';
 
 export const getAccounts = async (userId: string) => accountRepository.findAll(userId);
 
@@ -63,7 +63,8 @@ export const deleteAccount = async (id: string, userId: string) => {
     const newPrimaryAccount = await accountRepository.findAnother(userId);
 
     if (newPrimaryAccount) {
-      await accountRepository.update(newPrimaryAccount._id.toString(), { isPrimary: true }, userId);
+      const id = (newPrimaryAccount._id as Types.ObjectId).toString();
+      await accountRepository.update(id, { isPrimary: true }, userId);
     }
   }
 
