@@ -1,61 +1,60 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import * as accountService from '../services/accountService';
-import { updateAccount } from '../services/accountService';
 import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getAccounts = async (req: AuthRequest, res: Response) => {
   try {
-    console.log(req.userId);
     const accounts = await accountService.getAccounts(req.userId!);
-    console.log(accounts);
-    res.json(accounts);
+    res.json({ success: true, data: accounts });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-export const createAccount = async (req: AuthRequest, res: Response) => {
-  try {
-    const account = await accountService.createAccount(req.body, req.userId!);
-    res.status(201).json(account);
-  } catch (err) {
-    res.status(400).json({ message: 'Invalid data', error: err });
+    res.status(500).json({ success: false, error: 'Server error' });
   }
 };
 
 export const getAccountById = async (req: AuthRequest, res: Response) => {
   try {
     const account = await accountService.getAccountById(req.params.id, req.userId!);
+
     if (!account) {
-      return res.status(404).json({ message: 'Account not found' });
+      return res.status(404).json({ success: false, error: 'Account not found' });
     }
-    res.json(account);
+    res.json({ success: true, data: account });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, error: 'Server error' });
   }
 };
 
-export const updateAccountBalance = async (req: AuthRequest, res: Response) => {
+export const createAccount = async (req: AuthRequest, res: Response) => {
   try {
-    const { balance } = req.body;
-    const account = await accountService.updateAccount(req.params.id, balance, req.userId!);
-    if (!account) {
-      return res.status(404).json({ message: 'Account not found' });
-    }
-    res.json(account);
+    const account = await accountService.createAccount(req.body, req.userId!);
+    res.status(201).json({ success: true, data: account });
   } catch (err) {
-    res.status(400).json({ message: 'Invalid data', error: err });
+    res.status(400).json({ success: false, error: 'Invalid data' });
+  }
+};
+
+export const updateAccount = async (req: AuthRequest, res: Response) => {
+  try {
+    const account = await accountService.updateAccount(req.params.id, req.body, req.userId!);
+
+    if (!account) {
+      return res.status(404).json({ success: false, error: 'Account not found' });
+    }
+    res.json({ success: true, data: account });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message || 'Invalid data' });
   }
 };
 
 export const deleteAccount = async (req: AuthRequest, res: Response) => {
   try {
     const account = await accountService.deleteAccount(req.params.id, req.userId!);
+
     if (!account) {
-      return res.status(404).json({ message: 'Account not found' });
+      return res.status(404).json({ success: false, error: 'Account not found' });
     }
-    res.json({ message: 'Account deleted' });
+    res.json({ success: true, message: 'Account deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, error: 'Server error' });
   }
 };

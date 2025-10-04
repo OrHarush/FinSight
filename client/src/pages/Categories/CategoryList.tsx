@@ -1,10 +1,10 @@
 import CategoryCard from '@/pages/Categories/CategoryCard';
 import { Grid, Typography } from '@mui/material';
-import { useCategories } from '@/providers/EntitiesProviders/CategoriesProvider';
 import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
-import { CategoryDto } from '@/types/CategoryDto';
 import EntityEmpty from '@/components/Entities/EntityEmpty';
 import CategoryIcon from '@mui/icons-material/Category';
+import { CategoryDto } from '@/types/Category';
+import { useCategories } from '@/hooks/useCategories';
 
 interface CategoryListProps {
   selectCategory: (category: CategoryDto) => void;
@@ -25,9 +25,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         </Typography>
         <Grid container spacing={2}>
           {incomeCategories.map(category => (
-            <Grid key={category._id} size={{ xs: 12, sm: 6 }}>
-              <CategoryCard category={category} selectCategory={selectCategory} />
-            </Grid>
+            <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
           ))}
         </Grid>
       </Grid>
@@ -37,9 +35,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         </Typography>
         <Grid container spacing={2}>
           {expenseCategories.map(category => (
-            <Grid key={category._id} size={{ xs: 12, sm: 6 }}>
-              <CategoryCard category={category} selectCategory={selectCategory} />
-            </Grid>
+            <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
           ))}
         </Grid>
       </Grid>

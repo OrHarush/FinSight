@@ -9,7 +9,7 @@ interface CategoryValueProps {
   icon?: string;
 }
 
-const CategoryValue = ({ name, color, icon }: CategoryValueProps) => {
+const CategoryChip = ({ name, color, icon }: CategoryValueProps) => {
   const IconComponent = (icon && (Icons as Record<string, ElementType>)[icon]) || CategoryIcon;
 
   return (
@@ -18,6 +18,10 @@ const CategoryValue = ({ name, color, icon }: CategoryValueProps) => {
       label={name}
       variant="outlined"
       sx={{
+        width: '150px',
+        justifyContent: 'flex-start',
+
+        textAlign: 'left',
         padding: '0 12px',
         borderColor: 'default',
         color: 'inherit',
@@ -26,4 +30,4 @@ const CategoryValue = ({ name, color, icon }: CategoryValueProps) => {
   );
 };
 
-export default CategoryValue;
+export default CategoryChip;

@@ -1,17 +1,18 @@
-import { TransactionType } from '@/types/Transaction';
+import { CategoryType } from '../../../shared/types/CategoryCommands';
 
 export interface CategoryFormValues {
   name: string;
-  type: TransactionType;
+  type: CategoryType;
   color: string;
-  icon?: string;
+  icon: string;
+  monthlyLimit?: number;
 }
 
 export interface CategoryDto {
   _id: string;
   name: string;
-  type: string;
-  color: string;
+  type: CategoryType;
+  color?: string;
   icon?: string;
   monthlyLimit?: number;
 }

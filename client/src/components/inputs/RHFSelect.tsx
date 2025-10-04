@@ -16,7 +16,7 @@ interface ControlledSelectProps extends Omit<TextFieldProps, 'name' | 'required'
   required?: boolean | string;
 }
 
-const ControlledSelect = ({ name, label, options, required, ...props }: ControlledSelectProps) => {
+const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelectProps) => {
   const { control } = useFormContext();
 
   return (
@@ -51,4 +51,4 @@ const ControlledSelect = ({ name, label, options, required, ...props }: Controll
   );
 };
 
-export default ControlledSelect;
+export default RHFSelect;

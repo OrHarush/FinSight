@@ -17,6 +17,16 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const { setSelectedTransaction } = useSelectedTransaction();
 
+  const isTransfer = transaction.type === 'Transfer';
+
+  const amountColor = isTransfer
+    ? transaction.account?._id === transaction.fromAccount?._id
+      ? 'error.main' // outgoing
+      : 'success.main' // incoming
+    : transaction?.category?.type === 'Expense'
+      ? 'error.main'
+      : 'success.main';
+
   const deleteTransaction = useApiMutation<void, void>({
     method: 'delete',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction._id}`,
@@ -46,18 +56,14 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="subtitle1" fontWeight={700}>
-          {transaction.name}
+          {isTransfer ? 'Transfer' : transaction.name}
         </Typography>
         <EditAndDeleteButtons
           onDelete={() => deleteTransaction.mutate()}
           onEdit={() => setSelectedTransaction(transaction)}
         />
       </Box>
-      <CurrencyText
-        variant="h6"
-        color={transaction?.category?.type == 'Expense' ? 'error.main' : 'success.main'}
-        value={transaction.amount}
-      />
+      <CurrencyText variant="h6" color={amountColor} value={transaction.amount} />
       <Typography variant="body2" color="text.secondary">
         Category: {transaction?.category?.name}
       </Typography>

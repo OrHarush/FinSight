@@ -1,5 +1,5 @@
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import TransactionOverview from '@/pages/Dashboard/RecentTransactions/TransactionOverview';
+import { useTransactions } from '@/hooks/useTransactions';
 
 const RecentTransactionList = () => {
   const { transactions } = useTransactions();

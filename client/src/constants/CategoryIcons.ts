@@ -1,4 +1,4 @@
-export const curatedIcons = [
+export const categoryIcons = [
   // 💰 Money & Banking
   'AccountBalance',
   'AccountBalanceWallet',

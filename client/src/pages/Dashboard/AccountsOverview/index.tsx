@@ -3,7 +3,7 @@ import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
 import Column from '@/components/Layout/Containers/Column';
 import { useNavigate } from 'react-router-dom';
-import AccountsContent from '@/pages/Dashboard/AccountsOverview/AccountsContent';
+import AccountsOverviewContent from '@/pages/Dashboard/AccountsOverview/AccountsOverviewContent';
 
 const AccountsOverview = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const AccountsOverview = () => {
                 Manage Accounts
               </Button>
             </Row>
-            <AccountsContent />
+            <AccountsOverviewContent />
           </Column>
         </CardContent>
       </Card>

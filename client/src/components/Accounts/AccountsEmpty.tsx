@@ -3,7 +3,7 @@ import EntityEmpty from '@/components/Entities/EntityEmpty';
 
 const AccountsEmpty = () => (
   <EntityEmpty
-    title={'No accounts yet'}
+    entityName={'accounts'}
     subtitle={'Add your first account to start tracking balances'}
     icon={AccountBalanceWalletIcon}
   />

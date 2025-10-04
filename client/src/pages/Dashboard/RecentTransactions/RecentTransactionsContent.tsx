@@ -1,10 +1,12 @@
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import RecentTransactionList from '@/pages/Dashboard/RecentTransactions/RecentTransactionList';
 import EntityError from '@/components/Entities/EntityError';
 import RecentTransactionSkeleton from '@/pages/Dashboard/RecentTransactions/RecentTransactionSkeleton';
+import { useTransactions } from '@/hooks/useTransactions';
+import EntityEmpty from '@/components/Entities/EntityEmpty';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 const RecentTransactionsContent = () => {
-  const { isLoading, error, refetch } = useTransactions();
+  const { transactions, isLoading, error, refetch } = useTransactions();
 
   if (error) {
     return <EntityError entityName={'transactions'} refetch={refetch} />;
@@ -21,6 +23,16 @@ const RecentTransactionsContent = () => {
         <RecentTransactionSkeleton />
         <RecentTransactionSkeleton />
       </>
+    );
+  }
+
+  if (transactions.length === 0) {
+    return (
+      <EntityEmpty
+        entityName="transactions"
+        subtitle="Start by adding your first one"
+        icon={ReceiptLongIcon}
+      />
     );
   }
 

@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserDto } from '@/types/User';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
+import { UserDto } from '@/types/User';
 
 interface AuthContextValue {
   user: UserDto | null;
+  isLoadingUser: boolean;
   token: string | null;
   loginWithGoogle: (googleToken: string) => Promise<void>;
   logout: () => void;
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserDto | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -24,6 +26,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
     }
+
+    setIsLoadingUser(false);
   }, []);
 
   const loginMutation = useApiMutation<{ token: string; user: UserDto }, { token: string }>({
@@ -51,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, isLoadingUser, token, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

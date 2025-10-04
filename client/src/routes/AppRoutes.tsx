@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
 import Planner from '@/pages/Planner';
 import Reports from '@/pages/Reports';
-import Accounts from '@/pages/Accounts/Accounts';
+import Accounts from '@/pages/Accounts';
 import AppLayout from '@/components/Layout/AppLayout';
 import Categories from '@/pages/Categories';
 import { Transactions } from '@/pages/Transactions';
@@ -11,9 +11,14 @@ import Budget from '@/pages/Budget';
 import LoginPage from '@/pages/Login';
 import { useAuth } from '@/providers/AuthProvider';
 import { ReactElement } from 'react';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
-  const { user } = useAuth();
+  const { user, isLoadingUser } = useAuth();
+
+  if (isLoadingUser) {
+    return <LoadingScreen />;
+  }
 
   return user ? children : <Navigate to="/login" replace />;
 };

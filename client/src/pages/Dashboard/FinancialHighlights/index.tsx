@@ -1,13 +1,16 @@
 import FinanceOverviewCard from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
-import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 import { SvgIconComponent } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
-import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
+import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
+import { useFetch } from '@/hooks/useFetch';
+import { TransactionSummaryDto } from '@/types/Transaction';
+import { API_ROUTES } from '@/constants/Routes';
+import { useAccounts } from '@/hooks/useAccounts';
+import { queryKeys } from '@/constants/queryKeys';
 
 interface FinanceHighlightCardProps {
   id: string;
@@ -19,37 +22,24 @@ interface FinanceHighlightCardProps {
 }
 
 const FinancialHighlights = () => {
-  const { transactions, isLoading: isLoadingTransactions } = useTransactions();
-  const { accounts, isLoading: isLoadingAccounts } = useAccounts();
-  const { selectedYear, selectedMonth } = useDashboardDate();
+  const { year, month, account } = useDashboardFilters();
+  const { isLoading: isLoadingAccounts } = useAccounts();
 
-  const bankAccount = accounts.find(account => account.name.toLowerCase().includes('balance'));
+  const { data: monthlyTransactions, isLoading: isLoadingTransactions } =
+    useFetch<TransactionSummaryDto>({
+      url: `${API_ROUTES.TRANSACTIONS}/summary?year=${year}&month=${month}`,
+      queryKey: queryKeys.transactionSummary(year, month),
+      enabled: !!year && month >= 0,
+    });
 
-  const monthlyTransactions = transactions.filter(tx => {
-    const txDate = new Date(tx.date);
-    return txDate.getFullYear() === selectedYear && txDate.getMonth() === selectedMonth;
-  });
-
-  const { monthlyExpenses, monthlyIncome } = monthlyTransactions.reduce(
-    (acc, tx) => {
-      const type = tx?.category?.type.toLowerCase();
-
-      if (type === 'expense') {
-        acc.monthlyExpenses += tx.amount;
-      } else if (type === 'income') {
-        acc.monthlyIncome += tx.amount;
-      }
-
-      return acc;
-    },
-    { monthlyExpenses: 0, monthlyIncome: 0 }
-  );
+  const monthlyIncome = monthlyTransactions?.monthlyIncome ?? 0;
+  const monthlyExpenses = monthlyTransactions?.monthlyExpenses ?? 0;
 
   const FinanceCards: FinanceHighlightCardProps[] = [
     {
-      id: bankAccount?._id || 'Error',
+      id: account?._id || 'Error',
       headerTitle: 'Balance',
-      balance: bankAccount?.balance || 0,
+      balance: account?.balance || 0,
       icon: AccountBalanceWalletIcon,
       isLoading: isLoadingAccounts,
       color: '#6366f1',
@@ -73,7 +63,7 @@ const FinancialHighlights = () => {
     {
       id: 'end-of-month-balance',
       headerTitle: 'End of Month Balance',
-      balance: (bankAccount?.balance || 0) + monthlyIncome - monthlyExpenses,
+      balance: (account?.balance || 0) + monthlyIncome - monthlyExpenses,
       icon: CalculateIcon,
       isLoading: isLoadingAccounts,
       color: '#f59e0b',

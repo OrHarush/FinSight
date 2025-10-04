@@ -12,10 +12,10 @@ const LoginPage = () => {
   if (user) {
     return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
   }
+
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
       try {
-        console.log('here success google token = ' + credentialResponse.credential);
         await loginWithGoogle(credentialResponse.credential);
         navigate(ROUTES.DASHBOARD_URL);
       } catch (err) {
@@ -35,7 +35,6 @@ const LoginPage = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        // background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
       }}
     >
       <Card
@@ -56,12 +55,7 @@ const LoginPage = () => {
           <Typography variant="body1" mb={4} color="gray.300">
             Your personal finance dashboard
           </Typography>
-
-          {user ? (
-            <></>
-          ) : (
-            <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('Login Failed')} />
-          )}
+          <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('Login Failed')} />
         </CardContent>
       </Card>
     </Box>

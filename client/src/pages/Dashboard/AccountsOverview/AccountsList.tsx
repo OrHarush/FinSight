@@ -5,7 +5,7 @@ import Column from '@/components/Layout/Containers/Column';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/CurrencyText';
 import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
-import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
+import { useAccounts } from '@/hooks/useAccounts';
 
 const AccountsList = () => {
   const { accounts } = useAccounts();
@@ -23,8 +23,8 @@ const AccountsList = () => {
               width: '200px',
             }}
           >
-            <Row spacing={2} alignItems={'center'}>
-              <AccountIcon />
+            <Row spacing={2} alignItems={'center'} height={'100%'}>
+              <AccountIcon icon={account.icon} />
               <Column justifyContent="center" alignItems="flex-start" spacing={0.5}>
                 <Typography variant="body2" color="text.secondary">
                   {account.name}

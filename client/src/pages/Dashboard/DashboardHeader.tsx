@@ -1,20 +1,21 @@
 import Row from '@/components/Layout/Containers/Row';
-import { DatePicker } from '@mui/x-date-pickers';
-import { Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants/Routes';
 import PageHeader from '@/components/Layout/PageHeader';
-import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
-import { PickerValue } from '@mui/x-date-pickers/internals';
+import { useAccounts } from '@/hooks/useAccounts';
+import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { MenuItem, TextField } from '@mui/material';
+import AccountMenuItem from '@/components/Accounts/AccountMenuItem';
+import { ChangeEvent } from 'react';
 
 const DashboardHeader = () => {
-  const navigate = useNavigate();
-  const { selectedDate, setSelectedDate } = useDashboardDate();
+  const { accounts } = useAccounts();
+  const { date, setDate, account, setAccount } = useDashboardFilters();
 
-  const changeDate = (newDate: PickerValue) => {
-    if (newDate) {
-      setSelectedDate(newDate);
+  const changeAccount = (e: ChangeEvent<HTMLInputElement>) => {
+    const selected = accounts.find(a => a._id === e.target.value);
+
+    if (selected) {
+      setAccount(selected);
     }
   };
 
@@ -23,23 +24,26 @@ const DashboardHeader = () => {
       <Row spacing={2} alignItems="center">
         <DatePicker
           views={['year', 'month']}
-          value={selectedDate}
-          onChange={changeDate}
-          slotProps={{
-            textField: {
-              size: 'small',
-              sx: { width: 200 },
-            },
+          value={date}
+          onChange={newDate => {
+            if (newDate) {
+              setDate(newDate);
+            }
           }}
         />
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => navigate(ROUTES.TRANSACTIONS_URL)}
-          sx={{ borderRadius: '12px', fontWeight: 600, minWidth: '180px' }}
+        <TextField
+          select
+          value={account?._id || ''}
+          onChange={changeAccount}
+          sx={{ width: '240px' }}
+          disabled={accounts?.length === 0}
         >
-          Add Transaction
-        </Button>
+          {accounts.map(account => (
+            <MenuItem key={account._id} value={account._id}>
+              <AccountMenuItem account={account} />
+            </MenuItem>
+          ))}
+        </TextField>
       </Row>
     </PageHeader>
   );

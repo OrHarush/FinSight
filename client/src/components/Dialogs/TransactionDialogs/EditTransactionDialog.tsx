@@ -2,11 +2,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import FormDialog, { DialogProps } from '@/components/Dialogs/FormDialog';
 import TransactionForm from '@/components/Dialogs/TransactionDialogs/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { CategoryDto, CategoryFormValues } from '@/types/CategoryDto';
-import { ExtendedTransaction, TransactionFormValues } from '@/types/Transaction';
+import { ExtendedTransaction, TransactionDto, TransactionFormValues } from '@/types/Transaction';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
+import { UpdateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 
 interface EditTransactionDialogProps extends DialogProps {
   transaction: ExtendedTransaction;
@@ -22,23 +22,29 @@ const EditTransactionDialog = ({
     defaultValues: {
       name: transaction.name,
       amount: transaction.amount,
-      date: transaction.date.split('T')[0],
+      date:
+        transaction.recurrence === 'Monthly'
+          ? transaction.date.slice(0, 7)
+          : transaction.date.split('T')[0],
       endDate: transaction.endDate ? transaction.endDate.split('T')[0] : undefined,
       recurrence: transaction.recurrence,
-      category: transaction.category._id,
-      account: transaction.account._id,
+      category: transaction?.category?._id,
+      account: transaction?.account?._id,
     },
   });
 
-  const updateCategory = useApiMutation<CategoryDto, CategoryFormValues>({
+  console.log(transaction);
+  console.log(transaction.date.split('T')[0]);
+
+  const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionCommand>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
     queryKeysToInvalidate: [queryKeys.transactions()],
   });
 
-  const update = async (data: CategoryFormValues) => {
+  const update = async (data: TransactionFormValues) => {
     try {
-      await updateCategory.mutateAsync(data);
+      await updateTransaction.mutateAsync({ ...data });
       alertSuccess('Transaction updated!');
       closeDialog();
     } catch (err) {

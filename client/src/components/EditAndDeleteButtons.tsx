@@ -4,21 +4,26 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 interface EditAndDeleteButtonsProps {
-  onDelete: () => void;
-  onEdit: () => void;
+  onEdit?: () => void;
+  isEditDisabled?: boolean;
+  onDelete?: () => void;
+  isDeleteDisabled?: boolean;
 }
 
-const EditAndDeleteButtons = ({ onEdit, onDelete }: EditAndDeleteButtonsProps) => {
-  return (
-    <Row spacing={1}>
-      <IconButton onClick={onEdit} size="small">
-        <EditIcon fontSize="small" />
-      </IconButton>
-      <IconButton onClick={onDelete} size="small" color="error">
-        <DeleteIcon fontSize="small" />
-      </IconButton>
-    </Row>
-  );
-};
+const EditAndDeleteButtons = ({
+  onEdit = () => {},
+  isEditDisabled = false,
+  onDelete = () => {},
+  isDeleteDisabled = false,
+}: EditAndDeleteButtonsProps) => (
+  <Row spacing={1}>
+    <IconButton onClick={onEdit} size="small" disabled={isEditDisabled}>
+      <EditIcon fontSize="small" />
+    </IconButton>
+    <IconButton onClick={onDelete} size="small" color="error" disabled={isDeleteDisabled}>
+      <DeleteIcon fontSize="small" />
+    </IconButton>
+  </Row>
+);
 
 export default EditAndDeleteButtons;

@@ -14,8 +14,8 @@ const CategorySchema: Schema = new Schema(
     name: { type: String, required: true, trim: true },
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },
-    icon: { type: String, required: false },
-    monthlyLimit: { type: Number, required: false },
+    icon: { type: String },
+    monthlyLimit: { type: Number },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

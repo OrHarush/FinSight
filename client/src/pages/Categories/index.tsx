@@ -2,11 +2,11 @@ import Row from '@/components/Layout/Containers/Row';
 import { Button, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useOpen } from '@/hooks/useOpen';
 import CreateCategoryDialog from '@/components/Dialogs/CategoryDialogs/CreateCategoryDialog';
-import CategoryList from '@/pages/Categories/CategoryList';
 import PageLayout from '@/components/Layout/PageLayout';
 import EditCategoryDialog from '@/components/Dialogs/CategoryDialogs/EditCategoryDialog';
 import { useState } from 'react';
-import { CategoryDto } from '@/types/CategoryDto';
+import { CategoryDto } from '@/types/Category';
+import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
 
 const Categories = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
@@ -34,7 +34,7 @@ const Categories = () => {
           </Button>
         </Row>
       </Row>
-      <CategoryList selectCategory={selectCategory} />
+      <CategoriesPageContent selectCategory={selectCategory} />
       <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
       {!!selectedCategory && (
         <EditCategoryDialog

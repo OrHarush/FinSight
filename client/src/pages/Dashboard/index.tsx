@@ -5,11 +5,11 @@ import AccountsOverview from '@/pages/Dashboard/AccountsOverview';
 import YearlyChart from '@/pages/Dashboard/YearlyChart';
 import { Grid } from '@mui/material';
 import PageLayout from '@/components/Layout/PageLayout';
-import { DashboardDateProvider } from '@/pages/Dashboard/DashboardDateProvider';
+import { DashboardFiltersProvider } from '@/pages/Dashboard/DashboardFiltersProvider';
 
 const Dashboard = () => (
   <PageLayout>
-    <DashboardDateProvider>
+    <DashboardFiltersProvider>
       <DashboardHeader />
       <Grid container spacing={3}>
         <FinancialHighlights />
@@ -23,7 +23,7 @@ const Dashboard = () => (
           <RecentTransactions />
         </Grid>
       </Grid>
-    </DashboardDateProvider>
+    </DashboardFiltersProvider>
   </PageLayout>
 );
 

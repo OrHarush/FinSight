@@ -4,7 +4,6 @@ import PageLayout from '@/components/Layout/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
 import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';
-import { useCategories } from '@/providers/EntitiesProviders/CategoriesProvider';
 import * as Icons from '@mui/icons-material';
 import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -13,11 +12,12 @@ import { IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material
 import { ClearIcon, DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { Dayjs } from 'dayjs';
+import { useCategories } from '@/hooks/useCategories';
 
 export const Transactions = () => {
   const [isCreateDialogOpen, openDialog, closeCreateDialog] = useOpen();
   const [selectedMonth, setSelectedMonth] = useState<Dayjs | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const { categories } = useCategories();
 
   return (
@@ -26,13 +26,13 @@ export const Transactions = () => {
         <TransactionsHeader openCreateTransaction={openDialog} />
         <Row spacing={2} alignItems={'flex-end'}>
           <DatePicker
-            views={['year', 'month']}
+            views={['month']}
             value={selectedMonth}
             onChange={newValue => setSelectedMonth(newValue)}
             slotProps={{
               textField: {
-                sx: { width: 180, height: 40 }, // match Select width
-                size: 'small', // reduce padding
+                sx: { width: 180, height: 40 },
+                size: 'small',
               },
             }}
           />
@@ -60,7 +60,7 @@ export const Transactions = () => {
             <IconButton
               onClick={() => {
                 setSelectedMonth(null);
-                setSelectedCategory(null);
+                setSelectedCategory('');
               }}
             >
               <ClearIcon />

@@ -1,32 +1,41 @@
-import { CategoryDto } from '@/types/CategoryDto';
 import { AccountDto } from '@/types/Account';
+import { CategoryDto } from '@/types/Category';
 
-export enum TransactionType {
-  Expense = 'Expense',
-  Income = 'Income',
-}
+export type TransactionType = 'Income' | 'Expense' | 'Transfer';
 
 export interface TransactionFormValues {
-  name: string;
+  name?: string;
   amount: number;
   date: string;
   endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
-  category: string;
-  account: string;
+  type: TransactionType;
+  category?: string;
+  account?: string;
+  fromAccount?: string;
+  toAccount?: string;
+  userId?: string;
 }
 
 export interface TransactionDto {
   _id: string;
-  name: string;
+  name?: string;
   amount: number;
   date: string;
   endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
-  category: CategoryDto;
-  account: AccountDto;
+  type: TransactionType;
+  category?: CategoryDto;
+  account?: AccountDto;
+  fromAccount?: AccountDto;
+  toAccount?: AccountDto;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface TransactionSummaryDto {
+  monthlyIncome: number;
+  monthlyExpenses: number;
 }
 
 export interface ExtendedTransaction extends TransactionDto {

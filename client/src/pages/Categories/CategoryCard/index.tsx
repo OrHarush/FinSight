@@ -2,7 +2,6 @@ import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
 import Row from '@/components/Layout/Containers/Row';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
-import { CategoryDto } from '@/types/CategoryDto';
 import { ElementType } from 'react';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
@@ -11,8 +10,9 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
 import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
 import Column from '@/components/Layout/Containers/Column';
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
+import { CategoryDto } from '@/types/Category';
+import { useTransactions } from '@/hooks/useTransactions';
 
 interface CategoryCardProps {
   category: CategoryDto;
@@ -25,6 +25,8 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
+
+  console.log(transactions);
 
   const spent = transactions.reduce((sum, tx) => {
     const txDate = new Date(tx.date);
@@ -58,7 +60,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   });
 
   return (
-    <Grid key={category._id} size={{ xs: 12, sm: 6, md: 6, lg: 3 }}>
+    <Grid size={{ xs: 12, sm: 6 }}>
       <Card
         sx={{
           width: '280px',

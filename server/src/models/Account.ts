@@ -6,6 +6,7 @@ export interface IAccount extends Document {
   institution: string;
   accountNumber: string;
   icon: string;
+  isPrimary: boolean;
   lastSynced?: Date;
   userId: Types.ObjectId;
 }
@@ -17,10 +18,13 @@ const AccountSchema: Schema = new Schema(
     institution: { type: String },
     accountNumber: { type: String },
     icon: { type: String },
+    isPrimary: { type: Boolean, default: false },
     lastSynced: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );
+
+AccountSchema.index({ userId: 1 }, { unique: true, partialFilterExpression: { isPrimary: true } });
 
 export default mongoose.model<IAccount>('Account', AccountSchema, 'accounts');

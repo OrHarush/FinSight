@@ -7,7 +7,6 @@ import { SnackbarProvider } from './SnackbarProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from '@/providers/AuthProvider';
-import EntitiesProviders from '@/providers/EntitiesProviders';
 
 interface AppProvidersProps {
   children?: ReactNode;
@@ -24,9 +23,7 @@ const AppProviders = ({ children }: AppProvidersProps) => (
       <AuthProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <AppThemeProvider>
-            <SnackbarProvider>
-              <EntitiesProviders>{children}</EntitiesProviders>
-            </SnackbarProvider>
+            <SnackbarProvider>{children}</SnackbarProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </AppThemeProvider>
         </LocalizationProvider>

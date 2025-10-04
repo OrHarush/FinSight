@@ -20,7 +20,7 @@ const FinanceOverviewCard = ({
   isLoading,
   color = '#8b5cf6',
 }: FinanceOverviewCardProps) => (
-  <Card sx={{ height: 100, borderRadius: 3 }}>
+  <Card sx={{ height: 100, minWidth: '160px', borderRadius: 3 }}>
     <CardContent
       sx={{
         display: 'flex',

@@ -1,19 +1,21 @@
-import Row from '@/components/Layout/Containers/Row';
-import Column from '@/components/Layout/Containers/Column';
 import { FormProvider, useForm } from 'react-hook-form';
-import TextInput from '@/components/inputs/TextInput';
-import FormDialog, { DialogProps } from './FormDialog';
+import FormDialog, { DialogProps } from '../FormDialog';
 import { AccountDto, AccountFormValues } from '@/types/Account';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import { CreateAccountCommand } from '../../../../../shared/types/AccountCommands';
+import AccountForm from '@/components/Dialogs/AccountDialogs/AccountForm';
 
 const CreateAccountDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
-  const methods = useForm<AccountFormValues>();
 
-  const createAccount = useApiMutation<AccountDto, AccountFormValues>({
+  const methods = useForm<AccountFormValues>({
+    defaultValues: { icon: 'AccountBalance' },
+  });
+
+  const createAccount = useApiMutation<AccountDto, CreateAccountCommand>({
     method: 'post',
     url: API_ROUTES.ACCOUNTS,
     queryKeysToInvalidate: [queryKeys.accounts()],
@@ -21,9 +23,9 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: DialogProps) => {
 
   const submitNewAccount = async (data: AccountFormValues) => {
     try {
+      console.log(data);
       await createAccount.mutateAsync(data);
       alertSuccess('Account created!');
-      closeDialog();
     } catch (err) {
       alertError('Failed to create account.');
       console.error(err);
@@ -38,14 +40,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: DialogProps) => {
         title={'Create Account'}
         onSubmit={submitNewAccount}
       >
-        <Column spacing={2}>
-          <TextInput name="name" label="Account Name" required />
-          <TextInput name="balance" label="Balance" type="number" min={0} required />
-          <Row spacing={2}>
-            <TextInput name="institution" label="Institution" />
-            <TextInput name="accountNumber" label="Account Number" required />
-          </Row>
-        </Column>
+        <AccountForm />
       </FormDialog>
     </FormProvider>
   );

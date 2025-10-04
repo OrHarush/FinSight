@@ -1,0 +1,24 @@
+export interface CreateTransactionCommand {
+    name?: string;
+    amount: number;
+    date: string;
+    endDate?: string;
+    recurrence: 'None' | 'Monthly' | 'Yearly';
+    type: 'Income' | 'Expense' | 'Transfer';
+    categoryId?: string;
+    accountId?: string;
+    fromAccountId?: string;
+    toAccountId?: string;
+}
+
+export interface UpdateTransactionCommand  {
+    name?: string;
+    amount?: number;
+    date?: string;
+    endDate?: string;
+    recurrence?: 'None' | 'Monthly' | 'Yearly';
+    type?: 'Income' | 'Expense' | 'Transfer';
+    categoryId?: string;
+    accountId?: string;
+    fromAccountId?: string;
+    toAccountId?: string;}

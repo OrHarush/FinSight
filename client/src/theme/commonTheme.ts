@@ -1,4 +1,6 @@
 import { ThemeOptions } from '@mui/material';
+import dayjs from 'dayjs';
+import {} from '@mui/x-date-pickers/themeAugmentation';
 
 export const commonTheme: ThemeOptions = {
   components: {
@@ -29,8 +31,38 @@ export const commonTheme: ThemeOptions = {
         },
       },
     },
+    MuiDatePicker: {
+      defaultProps: {
+        minDate: dayjs().subtract(5, 'year'),
+        maxDate: dayjs().add(2, 'year'),
+        slotProps: {
+          textField: {
+            size: 'small',
+            sx: { width: 200 },
+          },
+          popper: {
+            sx: {
+              '& .MuiDateCalendar-root': {
+                height: 'auto',
+                minHeight: 'unset',
+                paddingBottom: 1,
+              },
+              '& .MuiDayCalendar-root': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    },
   },
   typography: {
-    fontFamily: '"Roboto", sans-serif',
+    fontFamily: `"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
+    button: { textTransform: 'none', fontWeight: 600 },
   },
 };

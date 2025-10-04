@@ -6,6 +6,8 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import TransactionForm from '@/components/Dialogs/TransactionDialogs/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
+import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
@@ -13,12 +15,13 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
     defaultValues: {
       date: new Date().toISOString().split('T')[0],
       recurrence: 'None',
+      type: 'Expense',
       category: '',
       account: '',
     },
   });
 
-  const createTransaction = useApiMutation<TransactionDto, TransactionFormValues>({
+  const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
     method: 'post',
     url: API_ROUTES.TRANSACTIONS,
     queryKeysToInvalidate: [queryKeys.transactions()],
@@ -26,11 +29,8 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
 
   const submitNewTransaction = async (data: TransactionFormValues) => {
     try {
-      await createTransaction.mutateAsync({
-        ...data,
-        amount: Number(data.amount),
-        date: new Date(data.date).toString(),
-      });
+      console.log(mapTransactionFormValuesToPayload(data));
+      await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
       alertSuccess('Transaction created!');
     } catch (err) {
       alertError('Failed to create transaction.');

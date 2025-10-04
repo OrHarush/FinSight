@@ -1,12 +1,15 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 interface AccountIconProps {
-  icon?: SvgIconComponent;
+  icon?: string;
 }
 
-const AccountIcon = ({ icon: Icon = AccountBalanceIcon }: AccountIconProps) => {
+const AccountIcon = ({ icon = 'AccountBalanceIcon' }: AccountIconProps) => {
+  const IconComponent = (Icons as Record<string, SvgIconComponent>)[icon] || AccountBalanceIcon;
+
   return (
     <Box
       sx={{
@@ -20,7 +23,7 @@ const AccountIcon = ({ icon: Icon = AccountBalanceIcon }: AccountIconProps) => {
         color: 'white',
       }}
     >
-      <Icon fontSize="medium" />
+      <IconComponent />
     </Box>
   );
 };

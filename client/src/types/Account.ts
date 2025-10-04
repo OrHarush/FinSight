@@ -1,8 +1,10 @@
 export interface AccountFormValues {
   name: string;
-  balance: string;
+  balance: number;
   institution: string;
   accountNumber: string;
+  icon: string;
+  isPrimary: boolean;
 }
 
 export interface AccountDto {
@@ -11,5 +13,7 @@ export interface AccountDto {
   balance: number;
   institution: string;
   accountNumber: string;
+  icon: string;
+  isPrimary: boolean;
   lastSynced: Date;
 }

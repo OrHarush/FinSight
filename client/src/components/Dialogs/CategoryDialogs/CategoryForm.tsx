@@ -1,16 +1,17 @@
-import ControlledSelect from '@/components/inputs/ControlledSelect';
+import RHFSelect from '@/components/inputs/RHFSelect';
 import TextInput from '@/components/inputs/TextInput';
 import Column from '@/components/Layout/Containers/Column';
-import IconPickerButton from '@/components/Dialogs/CategoryDialogs/IconPickerButton';
 import ColorPickerField from '@/components/Dialogs/CategoryDialogs/ColorPicker';
 import { Grid } from '@mui/material';
+import IconPickerField from '@/components/Dialogs/IconPicker/IconPickerButton';
+import { categoryIcons } from '@/constants/CategoryIcons';
 
 const CategoryForm = () => (
   <Column spacing={2}>
     <TextInput name="name" label="Name" />
     <Grid container spacing={2}>
       <Grid size={{ xs: 6 }}>
-        <ControlledSelect
+        <RHFSelect
           name="type"
           label="Type"
           options={[
@@ -23,7 +24,7 @@ const CategoryForm = () => (
         <TextInput name="monthlyLimit" label="Monthly Limit" type={'number'} min={0} />
       </Grid>
     </Grid>
-    <IconPickerButton />
+    <IconPickerField icons={categoryIcons} defaultIcon={'CategoryIcon'} />
     <ColorPickerField />
   </Column>
 );

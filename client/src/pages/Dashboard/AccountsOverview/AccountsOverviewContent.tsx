@@ -1,10 +1,10 @@
-import { useAccounts } from '@/providers/EntitiesProviders/AccountsProvider';
 import AccountsList from '@/pages/Dashboard/AccountsOverview/AccountsList';
 import AccountOverviewCardSkeleton from '@/pages/Dashboard/AccountsOverview/AccountOverviewCardSkeleton';
 import Row from '@/components/Layout/Containers/Row';
 import EntityError from '@/components/Entities/EntityError';
+import { useAccounts } from '@/hooks/useAccounts';
 
-const AccountsContent = () => {
+const AccountsOverviewContent = () => {
   const { refetch, isLoading, error } = useAccounts();
 
   if (error) {
@@ -24,4 +24,4 @@ const AccountsContent = () => {
   return <AccountsList />;
 };
 
-export default AccountsContent;
+export default AccountsOverviewContent;

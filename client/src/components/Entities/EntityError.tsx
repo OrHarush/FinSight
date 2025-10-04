@@ -8,18 +8,22 @@ interface EntityErrorProps {
   refetch: () => void;
 }
 
-const EntityError = ({ entityName, refetch }: EntityErrorProps) => {
-  return (
-    <EntityPlaceholderContainer>
-      <ErrorOutlineIcon sx={{ fontSize: 40, color: 'error.main', opacity: 0.8 }} />
-      <Typography variant="body1" color="error">
-        Failed to load {entityName}
-      </Typography>
-      <Button variant="outlined" size="small" color="error" onClick={refetch}>
-        Retry
-      </Button>
-    </EntityPlaceholderContainer>
-  );
-};
+const EntityError = ({ entityName, refetch }: EntityErrorProps) => (
+  <EntityPlaceholderContainer>
+    <ErrorOutlineIcon sx={{ fontSize: 48, color: 'error.main', opacity: 0.8 }} />
+    <Typography variant="body1" color="error">
+      Failed to load {entityName}
+    </Typography>
+    <Button
+      variant="outlined"
+      size="medium"
+      color="error"
+      sx={{ width: '120px' }}
+      onClick={refetch}
+    >
+      Retry
+    </Button>
+  </EntityPlaceholderContainer>
+);
 
 export default EntityError;

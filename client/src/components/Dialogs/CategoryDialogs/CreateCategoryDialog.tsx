@@ -1,24 +1,25 @@
 import FormDialog, { DialogProps } from '@/components/Dialogs/FormDialog';
 import { API_ROUTES } from '@/constants/Routes';
-import { CategoryDto, CategoryFormValues } from '@/types/CategoryDto';
+import { CategoryDto, CategoryFormValues } from '@/types/Category';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { queryKeys } from '@/constants/queryKeys';
 import CategoryForm from '@/components/Dialogs/CategoryDialogs/CategoryForm';
 import { FormProvider, useForm } from 'react-hook-form';
-import { TransactionType } from '@/types/Transaction';
+import { CreateCategoryCommand } from '../../../../../shared/types/CategoryCommands';
+import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
 
 const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const methods = useForm<CategoryFormValues>({
     defaultValues: {
-      name: '',
-      type: TransactionType.Expense,
+      type: 'Expense',
       color: '#4CAF50',
+      icon: 'CategoryIcon',
     },
   });
 
-  const createCategory = useApiMutation<CategoryDto, CategoryFormValues>({
+  const createCategory = useApiMutation<CategoryDto, CreateCategoryCommand>({
     method: 'post',
     url: API_ROUTES.CATEGORIES,
     queryKeysToInvalidate: [queryKeys.categories()],
@@ -26,7 +27,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
 
   const submitNewCategory = async (data: CategoryFormValues) => {
     try {
-      await createCategory.mutateAsync(data);
+      await createCategory.mutateAsync(mapCategoryFormToCommand(data));
       alertSuccess('Category created!');
       closeDialog();
     } catch (err) {

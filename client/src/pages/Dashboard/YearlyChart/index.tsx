@@ -1,32 +1,29 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
-import { useTransactions } from '@/providers/EntitiesProviders/TransactionsProvider';
 import { monthLabels } from '@/constants/monthLabels';
-import { useDashboardDate } from '@/pages/Dashboard/DashboardDateProvider';
+import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import Column from '@/components/Layout/Containers/Column';
 import EntityEmpty from '@/components/Entities/EntityEmpty';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import { useFetch } from '@/hooks/useFetch';
+import { TransactionSummaryDto } from '@/types/Transaction';
+import { API_ROUTES } from '@/constants/Routes';
 
 const YearlyChart = () => {
-  const { transactions } = useTransactions();
-  const { selectedYear } = useDashboardDate();
-
-  const monthlyIncome = Array(12).fill(0);
-  const monthlyExpenses = Array(12).fill(0);
-
-  transactions.forEach(tx => {
-    const date = new Date(tx.date);
-    if (date.getFullYear() !== selectedYear) return;
-
-    const monthIndex = date.getMonth();
-    if (tx.category?.type.toLowerCase() === 'income') {
-      monthlyIncome[monthIndex] += tx.amount;
-    } else if (tx.category?.type.toLowerCase() === 'expense') {
-      monthlyExpenses[monthIndex] += tx.amount;
-    }
+  const { year } = useDashboardFilters();
+  const { data: yearlySummary } = useFetch<TransactionSummaryDto[]>({
+    url: `${API_ROUTES.TRANSACTIONS}/summary?year=${year}`,
+    queryKey: ['transactionSummary', year],
+    enabled: !!year,
   });
 
-  // const timeline = calculateBalanceTimeline(transactions, 0);
+  const monthlyIncome = yearlySummary?.map(month => month.monthlyIncome) ?? [];
+  const monthlyExpenses = yearlySummary?.map(month => month.monthlyExpenses) ?? [];
+
+  console.log(yearlySummary);
+  const hasData =
+    yearlySummary &&
+    yearlySummary.some(m => (m.monthlyIncome ?? 0) !== 0 || (m.monthlyExpenses ?? 0) !== 0);
 
   return (
     <Grid size={{ xs: 12 }}>
@@ -40,8 +37,8 @@ const YearlyChart = () => {
           }}
         >
           <Column width={'100%'} height={'360px'}>
-            <Typography variant="h6">Income & Expenses ({selectedYear})</Typography>
-            {!transactions || !transactions.length ? (
+            <Typography variant="h6">Income & Expenses ({year})</Typography>
+            {!hasData ? (
               <EntityEmpty
                 entityName={'transactions'}
                 subtitle={'Add some to see your income & expenses graph'}

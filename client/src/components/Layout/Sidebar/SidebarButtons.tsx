@@ -64,18 +64,13 @@ const SidebarButtons = () => {
         const isActive = location.pathname === button.route;
 
         return (
-          <ListItem key={button.title}>
+          <ListItem key={button.title} sx={{ padding: '4px 8px' }}>
             <ListItemButton
               selected={isActive}
               onClick={() => navigate(button.route)}
-              sx={{ borderRadius: '16px', padding: 2, height: '36px' }}
+              sx={{ borderRadius: '12px', height: '44px' }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 24,
-                  mr: 1,
-                }}
-              >
+              <ListItemIcon sx={{ minWidth: 24, mr: 1 }}>
                 <Icon color={isActive ? 'primary' : 'inherit'} />
               </ListItemIcon>
               <ListItemText primary={button.title} />

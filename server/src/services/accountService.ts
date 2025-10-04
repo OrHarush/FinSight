@@ -1,34 +1,71 @@
 import * as accountRepository from '../repositories/accountRepository';
 import { IAccount } from '../models/Account';
+import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
 
-export const getAccounts = async (userId: string) => {
-  return accountRepository.findAll(userId);
-};
+export const getAccounts = async (userId: string) => accountRepository.findAll(userId);
 
-export const getAccountById = async (id: string, userId: string) => {
-  return accountRepository.findById(id, userId);
-};
+export const getAccountById = async (id: string, userId: string) =>
+  accountRepository.findById(id, userId);
 
-export const createAccount = async (data: Partial<IAccount>, userId: string) => {
-  if (!data.name) {
+export const createAccount = async (accountDetails: CreateAccountCommand, userId: string) => {
+  if (!accountDetails.name) {
     throw new Error('Account name is required');
   }
 
-  if (data.balance !== undefined && data.balance < 0) {
+  if (accountDetails.balance === undefined || accountDetails.balance < 0) {
     throw new Error('Balance cannot be negative');
   }
 
-  return accountRepository.create(data, userId);
+  const numOfAccounts = await accountRepository.countByUser(userId);
+
+  if (numOfAccounts === 0) {
+    accountDetails.isPrimary = true;
+  } else if (accountDetails.isPrimary) {
+    await accountRepository.unsetPrimary(userId);
+  }
+
+  return accountRepository.create(accountDetails, userId);
 };
 
-export const updateAccount = async (id: string, data: Partial<IAccount>, userId: string) => {
-  if (data.balance !== undefined && data.balance < 0) {
+export const updateAccount = async (
+  id: string,
+  updatedAccountDetails: UpdateAccountCommand,
+  userId: string
+) => {
+  if (updatedAccountDetails.balance !== undefined && updatedAccountDetails.balance < 0) {
     throw new Error('Balance cannot be negative');
   }
 
-  return accountRepository.update(id, data, userId);
+  console.log(updatedAccountDetails);
+  if (updatedAccountDetails.isPrimary) {
+    await accountRepository.unsetPrimary(userId, id);
+  } else {
+    const account = await accountRepository.findById(id, userId);
+
+    if (account?.isPrimary) {
+      throw new Error('There must always be a primary account');
+    }
+  }
+
+  return accountRepository.update(id, updatedAccountDetails, userId);
 };
 
 export const deleteAccount = async (id: string, userId: string) => {
-  return accountRepository.remove(id, userId);
+  const account = await accountRepository.findById(id, userId);
+
+  if (!account) {
+    return null;
+  }
+
+  const deletedAccount = await accountRepository.remove(id, userId);
+
+  if (deletedAccount?.isPrimary) {
+    const newPrimaryAccount = await accountRepository.findAnother(userId);
+
+    if (newPrimaryAccount) {
+      await accountRepository.update(newPrimaryAccount._id.toString(), { isPrimary: true }, userId);
+    }
+  }
+
+  return deletedAccount;
 };

@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from '@mui/material';
 import CurrencyText from '@/components/CurrencyText';
-import CategoryValue from '@/pages/Transactions/TransactionsPreview/CategoryValue';
+import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
 import { ExtendedTransaction } from '@/types/Transaction';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -32,23 +32,31 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
 
   return (
     <TableRow key={transaction._id}>
-      <TableCell>{transaction.name}</TableCell>
+      <TableCell>{transaction.type === 'Transfer' ? 'Transfer' : transaction.name}</TableCell>
       <TableCell align="left">
         <CurrencyText
           value={transaction.amount}
-          color={transaction?.category?.type == 'Expense' ? 'error.main' : 'success.main'}
+          color={
+            transaction.type === 'Transfer'
+              ? transaction.account?._id === transaction.fromAccount?._id
+                ? 'error.main'
+                : 'success.main'
+              : transaction?.category?.type === 'Expense'
+                ? 'error.main'
+                : 'success.main'
+          }
         />
       </TableCell>
       <TableCell align="left">
-        <CategoryValue
+        <CategoryChip
           name={transaction?.category?.name || 'Uncategorized'}
-          color={transaction?.category?.color}
+          color={transaction?.category?.color || '#c8c8c8'}
           icon={transaction?.category?.icon}
         />
       </TableCell>
       <TableCell align="left">{transaction.account?.name}</TableCell>
       <TableCell align="left">{transaction.recurrence}</TableCell>
-      <TableCell align="left">{new Date(transaction.date).toLocaleDateString()}</TableCell>
+      <TableCell align="left">{new Date(transaction.date).toLocaleDateString('en-GB')}</TableCell>
       <TableCell align="center">
         <EditAndDeleteButtons
           onDelete={() => deleteTransaction.mutate()}

@@ -3,15 +3,22 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Box, InputAdornment, InputLabel, TextField } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
-import IconPickerDialog from '@/components/Dialogs/IconPickerDialog';
+import IconPickerDialog from '@/components/Dialogs/IconPicker/IconPickerDialog';
 import Column from '@/components/Layout/Containers/Column';
 
 interface IconPickerFieldProps {
   name?: string;
   label?: string;
+  icons: string[];
+  defaultIcon?: string;
 }
 
-const IconPickerField = ({ name = 'icon', label = 'Icon' }: IconPickerFieldProps) => {
+const IconPickerField = ({
+  name = 'icon',
+  label = 'Icon',
+  icons,
+  defaultIcon = 'Category',
+}: IconPickerFieldProps) => {
   const { control, setValue } = useFormContext();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -21,13 +28,14 @@ const IconPickerField = ({ name = 'icon', label = 'Icon' }: IconPickerFieldProps
         name={name}
         control={control}
         render={({ field }) => {
-          const IconComponent = (Icons as any)[field.value] ?? CategoryIcon;
+          const IconComponent =
+            (Icons as any)[field.value] ?? (Icons as any)[defaultIcon] ?? CategoryIcon;
 
           return (
             <Column spacing={0.5}>
               <InputLabel>{label}</InputLabel>
               <TextField
-                value={field.value || 'CategoryIcon'}
+                value={field.value || defaultIcon}
                 onClick={() => setDialogOpen(true)}
                 slotProps={{
                   input: {
@@ -54,6 +62,7 @@ const IconPickerField = ({ name = 'icon', label = 'Icon' }: IconPickerFieldProps
         }}
         isOpen={isDialogOpen}
         closeDialog={() => setDialogOpen(false)}
+        icons={icons}
       />
     </>
   );
