@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 import { Typography, Button, CssBaseline } from '@mui/material';
 import Column from '@/components/Layout/Containers/Column';
-import finSightIcon from '@assets/finSightIcon.png';
+import finSightIcon from '@/assets/finSightIcon.png';
 
 interface Props {
   children: ReactNode;

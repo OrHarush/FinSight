@@ -1,6 +1,6 @@
 import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import Row from '@/components/Layout/Containers/Row';
-import finSightIcon from '@assets/finSightIcon.png';
+import finSightIcon from '@/assets/finSightIcon.png';
 
 const SidebarHeader = () => {
   const theme = useTheme();

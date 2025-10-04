@@ -15,12 +15,11 @@
     "isolatedModules": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"],
-      "@assets/*": ["assets/*"]
+      "@/*": ["*"],
     }
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

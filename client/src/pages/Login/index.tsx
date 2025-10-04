@@ -1,8 +1,8 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useAuth } from '@/providers/AuthProvider';
-import vaultImage from '@assets/vault2.png';
-import finSightIcon from '@assets/finSightIcon.png';
+import vaultImage from '@/assets/vault2.png';
+import finSightIcon from '@/assets/finSightIcon.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 
