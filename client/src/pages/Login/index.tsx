@@ -5,10 +5,12 @@ import vaultImage from '@/assets/vault2.png';
 // import finSightIcon from '../../assets/finSightIcon.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 
 const LoginPage = () => {
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const { alertError } = useSnackbar();
 
   if (user) {
     return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
@@ -57,7 +59,7 @@ const LoginPage = () => {
             Your personal finance dashboard
           </Typography>
           <Box display="flex" justifyContent="center">
-            <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('Login Failed')} />
+            <GoogleLogin onSuccess={handleSuccess} onError={() => alertError('a')} useOneTap />
           </Box>
         </CardContent>
       </Card>
