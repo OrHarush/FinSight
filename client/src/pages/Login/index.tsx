@@ -26,9 +26,7 @@ const LoginPage = () => {
       }
     }
   };
-  console.log = (...args) => {
-    alert(args.map(a => (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' '));
-  };
+
   return (
     <Box
       display="flex"
@@ -64,7 +62,6 @@ const LoginPage = () => {
             <GoogleLogin
               onSuccess={handleSuccess}
               onError={() => console.log('Error with login')}
-              useOneTap
             />
           </Box>
         </CardContent>
