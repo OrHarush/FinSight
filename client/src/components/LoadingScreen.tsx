@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import finSightIcon from '@/assets/finSightIcon.png';
+import finSightIcon from '../assets/finSightIcon.png';
 
 const LoadingScreen = () => (
   <Box
