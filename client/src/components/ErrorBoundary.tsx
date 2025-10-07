@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 import { Typography, Button, CssBaseline } from '@mui/material';
 import Column from '@/components/Layout/Containers/Column';
-import finSightIcon from '../assets/finSightIcon.png';
+// import finSightIcon from '../assets/finSightIcon.png';
 // import finSightIcon from '@/assets/finSightIcon.png';
 
 interface Props {
@@ -49,7 +49,7 @@ export class ErrorBoundary extends Component<Props, State> {
           }}
         >
           <CssBaseline />
-          <img src={finSightIcon} alt="App Logo" width={200} height={200} />
+          {/*<img src={finSightIcon} alt="App Logo" width={200} height={200} />*/}
           <Typography
             variant="h5"
             fontWeight={600}

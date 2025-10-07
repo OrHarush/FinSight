@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
-import finSightIcon from '../assets/finSightIcon.png';
+// import finSightIcon from '../assets/finSightIcon.png';
 
 const LoadingScreen = () => (
   <Box
@@ -10,7 +10,7 @@ const LoadingScreen = () => (
     flexDirection="column"
     sx={{ background: '#121212', color: 'white' }}
   >
-    <img src={finSightIcon} alt="FinSight Logo" width={180} height={180} />
+    {/*<img src={finSightIcon} alt="FinSight Logo" width={180} height={180} />*/}
     <Typography variant="h6" mt={2}>
       Loading FinSight...
     </Typography>
