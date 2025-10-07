@@ -26,7 +26,9 @@ const LoginPage = () => {
       }
     }
   };
-
+  console.log = (...args) => {
+    alert(args.map(a => (typeof a === 'object' ? JSON.stringify(a) : String(a))).join(' '));
+  };
   return (
     <Box
       display="flex"
@@ -59,7 +61,11 @@ const LoginPage = () => {
             Your personal finance dashboard
           </Typography>
           <Box display="flex" justifyContent="center">
-            <GoogleLogin onSuccess={handleSuccess} onError={() => alertError('a')} useOneTap />
+            <GoogleLogin
+              onSuccess={handleSuccess}
+              onError={() => console.log('Error with login')}
+              useOneTap
+            />
           </Box>
         </CardContent>
       </Card>
