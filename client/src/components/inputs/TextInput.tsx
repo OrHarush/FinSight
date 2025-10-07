@@ -21,7 +21,7 @@ const TextInput = ({
   max,
   minLength,
   maxLength,
-  rules,
+  type,
   ...rest
 }: TextInputProps) => {
   const {
@@ -29,29 +29,35 @@ const TextInput = ({
     formState: { errors },
   } = useFormContext();
 
-  const baseRules: RegisterOptions = {
-    ...rules,
-  };
+  let baseRules: RegisterOptions;
 
-  if (required) {
-    baseRules.required = typeof required === 'string' ? required : `${label} is required`;
-  }
-  if (min !== undefined) {
-    baseRules.min = { value: min, message: `${label} must be at least ${min}` };
-  }
-  if (max !== undefined) {
-    baseRules.max = { value: max, message: `${label} must be at most ${max}` };
-  }
-  if (minLength !== undefined) {
-    baseRules.minLength = {
-      value: minLength,
-      message: `${label} must be at least ${minLength} characters`,
+  if (type === 'number') {
+    baseRules = {
+      valueAsNumber: true,
+      ...(required && {
+        required: typeof required === 'string' ? required : `${label} is required`,
+      }),
+      ...(min !== undefined && { min: { value: min, message: `${label} ≥ ${min}` } }),
+      ...(max !== undefined && { max: { value: max, message: `${label} ≤ ${max}` } }),
     };
-  }
-  if (maxLength !== undefined) {
-    baseRules.maxLength = {
-      value: maxLength,
-      message: `${label} must be at most ${maxLength} characters`,
+  } else if (type === 'date') {
+    baseRules = {
+      valueAsDate: true,
+      ...(required && {
+        required: typeof required === 'string' ? required : `${label} is required`,
+      }),
+    };
+  } else {
+    baseRules = {
+      ...(required && {
+        required: typeof required === 'string' ? required : `${label} is required`,
+      }),
+      ...(minLength !== undefined && {
+        minLength: { value: minLength, message: `${label} ≥ ${minLength} chars` },
+      }),
+      ...(maxLength !== undefined && {
+        maxLength: { value: maxLength, message: `${label} ≤ ${maxLength} chars` },
+      }),
     };
   }
 
@@ -64,6 +70,7 @@ const TextInput = ({
         {...register(name, baseRules)}
         fullWidth
         helperText={fieldError}
+        type={type}
         slotProps={{
           htmlInput: {
             ...(min !== undefined ? { min: String(min) } : {}),

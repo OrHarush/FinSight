@@ -16,6 +16,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
       date: new Date().toISOString().split('T')[0],
       recurrence: 'None',
       type: 'Expense',
+      amount: 0,
       category: '',
       account: '',
     },

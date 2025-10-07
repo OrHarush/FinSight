@@ -56,7 +56,9 @@ const LoginPage = () => {
           <Typography variant="body1" mb={4} color="gray.300">
             Your personal finance dashboard
           </Typography>
-          <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('Login Failed')} />
+          <Box display="flex" justifyContent="center">
+            <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('Login Failed')} />
+          </Box>
         </CardContent>
       </Card>
     </Box>

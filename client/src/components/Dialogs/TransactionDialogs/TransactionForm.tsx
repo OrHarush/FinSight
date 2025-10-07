@@ -3,7 +3,7 @@ import Column from '@/components/Layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/Layout/Containers/Row';
 import { InputLabel, Skeleton } from '@mui/material';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/Categories/CategoriesSelect';
 import { useCategories } from '@/hooks/useCategories';
@@ -13,10 +13,10 @@ const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
 
 const TransactionForm = () => {
   const { categories, isLoading } = useCategories();
-  const { watch } = useFormContext<TransactionFormValues>();
+  const { control } = useFormContext<TransactionFormValues>();
 
-  const transactionType = watch('type');
-  const recurrence = watch('recurrence');
+  const transactionType = useWatch({ control, name: 'type' });
+  const recurrence = useWatch({ control, name: 'recurrence' });
 
   const filteredCategories = categories.filter(
     c => c.type.toLowerCase() === transactionType?.toLowerCase()

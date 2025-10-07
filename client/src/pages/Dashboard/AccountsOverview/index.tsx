@@ -10,7 +10,7 @@ const AccountsOverview = () => {
 
   return (
     <Grid size={{ xs: 12 }}>
-      <Card sx={{ height: '220px' }}>
+      <Card sx={{ height: '240px' }}>
         <CardContent sx={{ padding: 4, height: '100%' }}>
           <Column justifyContent="space-between" height="100%" spacing={2}>
             <Row justifyContent={'space-between'} alignItems={'center'}>

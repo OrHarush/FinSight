@@ -20,7 +20,7 @@ const RequireAuth = ({ children }: { children: ReactElement }) => {
     return <LoadingScreen />;
   }
 
-  return user ? children : <Navigate to="/login" replace />;
+  return user ? children : <Navigate to={ROUTES.LOGIN_URL} replace />;
 };
 
 const AppRoutes = () => (

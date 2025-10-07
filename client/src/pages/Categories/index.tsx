@@ -35,7 +35,7 @@ const Categories = () => {
         </Row>
       </Row>
       <CategoriesPageContent selectCategory={selectCategory} />
-      <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />
+      {isDialogOpen && <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />}
       {!!selectedCategory && (
         <EditCategoryDialog
           isOpen={!!selectedCategory}

@@ -12,7 +12,9 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
 
   return (
     <>
-      <CreateTransactionDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
+      {isCreateDialogOpen && (
+        <CreateTransactionDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
+      )}
       {!!selectedTransaction && (
         <EditTransactionDialog
           isOpen={!!selectedTransaction}
