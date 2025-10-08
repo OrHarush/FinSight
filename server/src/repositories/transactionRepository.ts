@@ -77,10 +77,10 @@ export const getSummary = async (userId: string, year: number, month?: number) =
 
   const expanded = expandTransactions(transactions, end);
 
-  console.log(
-    'expanded',
-    expanded.map((x) => ({ name: x.name, date: x.date, amount: x.amount }))
-  );
+  // console.log(
+  //   'expanded',
+  //   expanded.map((x) => ({ name: x.name, date: x.date, amount: x.amount }))
+  // );
 
   if (isMonthly) {
     // monthly summary keeps your original semantics: expand -> filter window -> reduce

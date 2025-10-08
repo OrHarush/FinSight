@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     url: `${API_ROUTES.AUTHENTICATION}/google`,
     options: {
       onSuccess: ({ token: jwtToken, user }) => {
+        console.log('Login successful:', { user, jwtToken });
         setUser(user);
         setToken(jwtToken);
         localStorage.setItem('user', JSON.stringify(user));
@@ -44,6 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const loginWithGoogle = async (googleToken: string) => {
+    console.log('Logging in with Google token:', googleToken);
     await loginMutation.mutateAsync({ token: googleToken });
   };
 

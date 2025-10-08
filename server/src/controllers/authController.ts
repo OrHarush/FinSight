@@ -9,6 +9,7 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export const googleLogin = async (req: Request, res: Response) => {
   try {
     const { token } = req.body;
+    console.log('Received Google token:', token);
 
     if (!token) {
       return res.status(400).json({ error: 'Google token is required' });
@@ -37,6 +38,8 @@ export const googleLogin = async (req: Request, res: Response) => {
     const appToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: '7d',
     });
+
+    console.log(`User ${user.email} logged in via Google`);
 
     res.json({ token: appToken, user });
   } catch (err) {
