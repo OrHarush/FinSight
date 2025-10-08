@@ -1,6 +1,7 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { Box, Card, CardContent, Typography, Alert, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { ROUTES } from '@/constants/Routes';
 
 // Mock these for the artifact - replace with your actual imports
 const useAuth = () => ({
@@ -11,7 +12,6 @@ const useAuth = () => ({
 });
 const useNavigate = () => (path: string) => console.log('Navigate to:', path);
 const Navigate = ({ to }: { to: string }) => <div>Redirecting to {to}</div>;
-const ROUTES = { DASHBOARD_URL: '/dashboard' };
 const vaultImage = 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200';
 
 const LoginPage = () => {
@@ -48,6 +48,9 @@ const LoginPage = () => {
         addLog('📤 Sending credential to backend...');
         await loginWithGoogle(credentialResponse.credential);
         addLog('✅ Backend login successful!');
+        console.log('⏳ Waiting for user state...');
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         addLog('🔄 Navigating to dashboard...');
         // navigate(ROUTES.DASHBOARD_URL);
         window.location.href = ROUTES.DASHBOARD_URL;
