@@ -1,20 +1,16 @@
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useAuth } from '@/providers/AuthProvider';
 import vaultImage from '@/assets/vault2.png';
 // import finSightIcon from '../../assets/finSightIcon.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 
 const LoginPage = () => {
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
-  const { alertError } = useSnackbar();
 
-  if (user) {
-    return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
-  }
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -26,6 +22,17 @@ const LoginPage = () => {
       }
     }
   };
+
+  useGoogleOneTapLogin({
+    onSuccess: handleSuccess,
+    onError: () => {
+      console.log('Login Failed');
+    },
+  });
+
+  if (user) {
+    return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
+  }
 
   return (
     <Box
@@ -62,6 +69,8 @@ const LoginPage = () => {
             <GoogleLogin
               onSuccess={handleSuccess}
               onError={() => console.log('Error with login')}
+              useOneTap={!isMobile}
+              ux_mode={isMobile ? 'redirect' : 'popup'}
             />
           </Box>
         </CardContent>
