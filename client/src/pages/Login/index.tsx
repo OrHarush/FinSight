@@ -23,13 +23,6 @@ const LoginPage = () => {
     }
   };
 
-  useGoogleOneTapLogin({
-    onSuccess: handleSuccess,
-    onError: () => {
-      console.log('Login Failed');
-    },
-  });
-
   if (user) {
     return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
   }
@@ -49,7 +42,8 @@ const LoginPage = () => {
     >
       <Card
         sx={{
-          width: 500,
+          maxWidth: 400,
+          width: '100%',
           borderRadius: 4,
           boxShadow: '0px 8px 20px rgba(0,0,0,0.5)',
           textAlign: 'center',
@@ -69,8 +63,11 @@ const LoginPage = () => {
             <GoogleLogin
               onSuccess={handleSuccess}
               onError={() => console.log('Error with login')}
-              useOneTap={!isMobile}
-              ux_mode={isMobile ? 'redirect' : 'popup'}
+              shape={'circle'}
+              useOneTap={false}
+              // useOneTap={!isMobile}
+              // ux_mode={'redirect'}
+              // red={window.location.origin}
             />
           </Box>
         </CardContent>
