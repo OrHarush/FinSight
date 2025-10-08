@@ -12,6 +12,7 @@ import LoginPage from '@/pages/Login';
 import { useAuth } from '@/providers/AuthProvider';
 import { ReactElement } from 'react';
 import LoadingScreen from '@/components/LoadingScreen';
+import NotFound from '@/components/NotFound';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user, isLoadingUser } = useAuth();
@@ -42,6 +43,7 @@ const AppRoutes = () => (
       <Route path="/" element={<Navigate to={ROUTES.DASHBOARD_URL} />} />
     </Route>
     <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 
