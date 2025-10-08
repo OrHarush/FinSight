@@ -49,7 +49,8 @@ const LoginPage = () => {
         await loginWithGoogle(credentialResponse.credential);
         addLog('✅ Backend login successful!');
         addLog('🔄 Navigating to dashboard...');
-        navigate(ROUTES.DASHBOARD_URL);
+        // navigate(ROUTES.DASHBOARD_URL);
+        window.location.href = ROUTES.DASHBOARD_URL;
       } catch (err) {
         addLog(`❌ Backend login failed: ${err}`);
         console.error('Google login failed:', err);
