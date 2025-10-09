@@ -20,7 +20,18 @@ const FinanceOverviewCard = ({
   isLoading,
   color = '#8b5cf6',
 }: FinanceOverviewCardProps) => (
-  <Card sx={{ height: 100, minWidth: '160px', borderRadius: 3 }}>
+  <Card
+    sx={{
+      height: 100,
+      minWidth: '160px',
+      borderRadius: 3,
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: '0 12px 24px rgba(139, 92, 246, 0.2)',
+      },
+    }}
+  >
     <CardContent
       sx={{
         display: 'flex',
@@ -38,7 +49,7 @@ const FinanceOverviewCard = ({
             <Typography variant="body2" color="text.secondary">
               {headerTitle}
             </Typography>
-            <CurrencyText variant="h5" value={balance} fontWeight={700} />
+            <CurrencyText variant="h5" value={balance} fontWeight={700} isAnimated />
           </Column>
           <Box
             sx={{

@@ -1,15 +1,18 @@
 import { Typography, TypographyProps } from '@mui/material';
+import CountUp from 'react-countup';
 
 export interface CurrencyTextProps extends TypographyProps {
   value: number;
   currency?: string;
   locale?: string;
+  isAnimated?: boolean;
 }
 
 const CurrencyText = ({
   value,
   currency = 'ILS',
   locale = 'he-IL',
+  isAnimated = false,
   ...typographyProps
 }: CurrencyTextProps) => {
   const formattedCurrency = value
@@ -23,7 +26,11 @@ const CurrencyText = ({
 
   return (
     <Typography component="span" {...typographyProps}>
-      {formattedCurrency}
+      {isAnimated ? (
+        <CountUp end={value} duration={1.5} decimals={0} suffix="₪" />
+      ) : (
+        formattedCurrency
+      )}
     </Typography>
   );
 };

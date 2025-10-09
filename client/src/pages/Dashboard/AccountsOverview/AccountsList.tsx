@@ -29,7 +29,7 @@ const AccountsList = () => {
                 <Typography variant="body2" color="text.secondary">
                   {account.name}
                 </Typography>
-                <CurrencyText variant="h6" fontWeight={700} value={account.balance} />
+                <CurrencyText variant="h6" fontWeight={700} value={account.balance} isAnimated />
               </Column>
             </Row>
           </Paper>

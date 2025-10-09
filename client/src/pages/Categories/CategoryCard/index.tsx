@@ -74,7 +74,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
               <Row alignItems="center" spacing={2}>
                 <Box
                   sx={{
-                    backgroundColor: category.color || 'green',
+                    backgroundColor: `${category.color}20`,
                     borderRadius: '12px',
                     width: 40,
                     height: 40,
@@ -83,7 +83,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                     justifyContent: 'center',
                   }}
                 >
-                  <IconComponent />
+                  <IconComponent sx={{ color: category.color, fontSize: 20 }} />
                 </Box>
                 <Typography fontWeight={500}>{category.name}</Typography>
               </Row>
