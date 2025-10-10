@@ -1,16 +1,20 @@
-import { Button, Typography } from '@mui/material';
-import Row from '@/components/Layout/Containers/Row';
-import { useOpen } from '@/hooks/useOpen';
+import { Button, useMediaQuery, useTheme } from '@mui/material';
 import CreateAccountDialog from '@/components/Dialogs/AccountDialogs/CreateAccountDialog';
 import PageLayout from '@/components/Layout/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
 import EditAccountDialog from '@/components/Dialogs/AccountDialogs/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
+import { useOpen } from '@/hooks/useOpen';
+import PageHeader from '@/components/Layout/PageHeader';
+import ActionFab from '@/components/ActionFab';
 
 const Accounts = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedAccount, setSelectedAccount] = useState<AccountDto>();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const selectAccount = (account: AccountDto) => {
     setSelectedAccount(account);
@@ -22,14 +26,14 @@ const Accounts = () => {
 
   return (
     <PageLayout>
-      <Row alignItems="center" justifyContent="space-between" flexWrap="wrap" spacing={2}>
-        <Typography variant="h4" fontWeight={700}>
-          Accounts
-        </Typography>
-        <Button variant="outlined" onClick={openCreateDialog}>
-          Create Account
-        </Button>
-      </Row>
+      <PageHeader pageTitle={'Accounts'}>
+        {!isMobile && (
+          <Button variant="outlined" onClick={openCreateDialog}>
+            Create Account
+          </Button>
+        )}
+      </PageHeader>
+      <ActionFab onClick={openCreateDialog} />
       <AccountsPageContent selectAccount={selectAccount} />
       {isCreateDialogOpen && (
         <CreateAccountDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />

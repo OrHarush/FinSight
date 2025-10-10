@@ -1,4 +1,3 @@
-import { useOpen } from '@/hooks/useOpen';
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
 import PageLayout from '@/components/Layout/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
@@ -13,6 +12,10 @@ import { ClearIcon, DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { Dayjs } from 'dayjs';
 import { useCategories } from '@/hooks/useCategories';
+import { useOpen } from '@/hooks/useOpen';
+import ActionFab from '@/components/ActionFab';
+import AddIcon from '@mui/icons-material/Add';
+import UploadIcon from '@mui/icons-material/UploadFile';
 
 export const Transactions = () => {
   const [isCreateDialogOpen, openDialog, closeCreateDialog] = useOpen();
@@ -24,6 +27,12 @@ export const Transactions = () => {
     <PageLayout>
       <SelectedTransactionProvider>
         <TransactionsHeader openCreateTransaction={openDialog} />
+        <ActionFab
+          actions={[
+            { name: 'Create', icon: <AddIcon />, onClick: openDialog },
+            { name: 'Import CSV', icon: <UploadIcon />, onClick: () => {} },
+          ]}
+        />
         <Row spacing={2} alignItems={'flex-end'}>
           <DatePicker
             views={['month']}

@@ -1,9 +1,8 @@
-import Row from '@/components/Layout/Containers/Row';
 import PageHeader from '@/components/Layout/PageHeader';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MenuItem, TextField } from '@mui/material';
+import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
 import AccountMenuItem from '@/components/Accounts/AccountMenuItem';
 import { ChangeEvent } from 'react';
 
@@ -19,9 +18,12 @@ const DashboardHeader = () => {
     }
   };
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <PageHeader pageTitle={'Financial Dashboard'}>
-      <Row spacing={2} alignItems="center">
+      <Stack spacing={2} alignItems="center" direction={isMobile ? 'column' : 'row'}>
         <DatePicker
           views={['year', 'month']}
           value={date}
@@ -44,7 +46,7 @@ const DashboardHeader = () => {
             </MenuItem>
           ))}
         </TextField>
-      </Row>
+      </Stack>
     </PageHeader>
   );
 };

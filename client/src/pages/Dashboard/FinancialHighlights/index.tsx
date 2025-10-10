@@ -74,7 +74,7 @@ const FinancialHighlights = () => {
     <Grid size={{ xs: 12 }}>
       <Grid container spacing={2} width="100%">
         {FinanceCards.map(card => (
-          <Grid key={card.id} size={{ xs: 6, md: 3 }}>
+          <Grid key={card.id} size={{ xs: 12, sm: 6, md: 3 }}>
             <FinanceOverviewCard
               headerTitle={card.headerTitle}
               balance={card.balance}

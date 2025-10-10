@@ -1,16 +1,18 @@
-import Row from '@/components/Layout/Containers/Row';
-import { Button, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useOpen } from '@/hooks/useOpen';
+import { Button, useMediaQuery, useTheme } from '@mui/material';
 import CreateCategoryDialog from '@/components/Dialogs/CategoryDialogs/CreateCategoryDialog';
 import PageLayout from '@/components/Layout/PageLayout';
 import EditCategoryDialog from '@/components/Dialogs/CategoryDialogs/EditCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto } from '@/types/Category';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
+import { useOpen } from '@/hooks/useOpen';
+import PageHeader from '@/components/Layout/PageHeader';
+import ActionFab from '@/components/ActionFab';
 
 const Categories = () => {
-  const [isDialogOpen, openDialog, closeDialog] = useOpen();
+  const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedCategory, setSelectedCategory] = useState<CategoryDto>();
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -24,18 +26,18 @@ const Categories = () => {
 
   return (
     <PageLayout>
-      <Row alignItems={'center'} justifyContent={isMobile ? 'center' : 'space-between'}>
-        <Typography variant={'h4'} fontWeight={700}>
-          Categories
-        </Typography>
-        <Row spacing={1}>
-          <Button variant={'outlined'} onClick={openDialog}>
+      <PageHeader pageTitle={'Categories'}>
+        {!isMobile && (
+          <Button variant={'outlined'} onClick={openCreateDialog}>
             Create Category
           </Button>
-        </Row>
-      </Row>
+        )}
+      </PageHeader>
+      <ActionFab onClick={openCreateDialog} />
       <CategoriesPageContent selectCategory={selectCategory} />
-      {isDialogOpen && <CreateCategoryDialog isOpen={isDialogOpen} closeDialog={closeDialog} />}
+      {isCreateDialogOpen && (
+        <CreateCategoryDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
+      )}
       {!!selectedCategory && (
         <EditCategoryDialog
           isOpen={!!selectedCategory}
