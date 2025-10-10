@@ -38,8 +38,6 @@ export const googleLogin = async (req: Request, res: Response) => {
       expiresIn: '7d',
     });
 
-    console.log(`User ${user.email} logged in via Google`);
-
     res.json({ token: appToken, user });
   } catch (err) {
     console.error('Google login error:', err);

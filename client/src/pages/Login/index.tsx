@@ -6,10 +6,12 @@ import vaultImageMobile from '@/assets/mobileVault.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 import FinSightIcon from '@/pages/Login/FinSightIcon';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 
 const LoginPage = () => {
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const { alertError } = useSnackbar();
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -96,7 +98,7 @@ const LoginPage = () => {
           >
             <GoogleLogin
               onSuccess={handleSuccess}
-              onError={() => console.log('Error with login')}
+              onError={() => alertError('Google login failed')}
               shape="pill"
               useOneTap={false}
               ux_mode={'popup'}

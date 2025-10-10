@@ -25,7 +25,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
     method: 'post',
     url: API_ROUTES.TRANSACTIONS,
-    queryKeysToInvalidate: [queryKeys.transactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions()],
   });
 
   const submitNewTransaction = async (data: TransactionFormValues) => {

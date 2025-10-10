@@ -1,9 +1,12 @@
 export const queryKeys = {
+  allTransactions: () => ['transactions'],
   transactions: (filters?: {
     year?: number;
     month?: number;
     categoryId?: string;
     accountId?: string;
+    page?: number;
+    limit?: number;
   }) => ['transactions', filters ?? {}],
   transaction: (id: string) => ['transactions', id],
   transactionSummary: (year: number, month: number) => ['transactionSummary', year, month],

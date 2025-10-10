@@ -8,7 +8,6 @@ import CategoryForm from '@/components/Dialogs/CategoryDialogs/CategoryForm';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreateCategoryCommand } from '../../../../../shared/types/CategoryCommands';
 import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
-import { useEffect } from 'react';
 
 const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
@@ -37,11 +36,6 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
     }
   };
 
-  const name = methods.watch('name');
-
-  useEffect(() => {
-    console.log('name changed:', name);
-  }, [name]);
   return (
     <FormProvider {...methods}>
       <FormDialog

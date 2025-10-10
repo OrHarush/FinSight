@@ -19,7 +19,7 @@ const RecentTransactions = () => {
               <Button
                 variant="outlined"
                 startIcon={<VisibilityIcon />}
-                sx={{ width: '140px' }}
+                sx={{ width: '120px' }}
                 onClick={() => navigate(ROUTES.TRANSACTIONS_URL)}
               >
                 View All

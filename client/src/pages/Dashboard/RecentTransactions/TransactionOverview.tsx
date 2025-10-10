@@ -23,7 +23,6 @@ const TransactionOverview = ({ transaction }: TransactionOverviewProps) => {
   const CategoryIcon = transaction.category?.icon
     ? Icons[transaction.category.icon as keyof typeof Icons]
     : null;
-  console.log(transaction.category?.color);
 
   return (
     <Row

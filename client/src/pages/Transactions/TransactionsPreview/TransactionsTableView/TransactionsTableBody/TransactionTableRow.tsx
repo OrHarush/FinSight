@@ -20,7 +20,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const deleteTransaction = useApiMutation<void, void>({
     method: 'delete',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
-    queryKeysToInvalidate: [queryKeys.transactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions()],
     options: {
       onSuccess: () => alertSuccess('Transaction deleted'),
       onError: err => {

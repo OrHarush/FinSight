@@ -14,6 +14,9 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       sort: sort as 'asc' | 'desc',
     });
 
+    console.log('==================');
+    console.log(page);
+
     res.json({ success: true, ...result });
   } catch (err: any) {
     res.status(500).json({ success: false, error: 'Failed to fetch transactions' });

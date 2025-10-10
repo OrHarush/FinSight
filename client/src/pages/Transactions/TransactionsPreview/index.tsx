@@ -13,7 +13,7 @@ interface TransactionsPreviewProps {
 }
 
 const TransactionsPreview = ({ selectedMonth, selectedCategory }: TransactionsPreviewProps) => {
-  const { transactions, pagination, refetch, isLoading, error } = useTransactions();
+  const { transactions, refetch, isLoading, error } = useTransactions();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -25,11 +25,7 @@ const TransactionsPreview = ({ selectedMonth, selectedCategory }: TransactionsPr
     return <EntityError entityName={'transactions'} refetch={refetch} />;
   }
 
-  return isMobile ? (
-    <TransactionsCardsView filteredTransactions={transactions} />
-  ) : (
-    <TransactionsTableView filteredTransactions={transactions} />
-  );
+  return isMobile ? <TransactionsCardsView /> : <TransactionsTableView />;
 };
 
 export default TransactionsPreview;

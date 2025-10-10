@@ -11,9 +11,8 @@ export const createAccount = async (accountDetails: CreateAccountCommand, userId
   if (!accountDetails.name) {
     throw new Error('Account name is required');
   }
-
-  if (accountDetails.balance === undefined || accountDetails.balance < 0) {
-    throw new Error('Balance cannot be negative');
+  if (accountDetails.balance === undefined) {
+    throw new Error('Balance is required');
   }
 
   const numOfAccounts = await accountRepository.countByUser(userId);
@@ -23,7 +22,6 @@ export const createAccount = async (accountDetails: CreateAccountCommand, userId
   } else if (accountDetails.isPrimary) {
     await accountRepository.unsetPrimary(userId);
   }
-
   return accountRepository.create(accountDetails, userId);
 };
 
@@ -32,8 +30,8 @@ export const updateAccount = async (
   updatedAccountDetails: UpdateAccountCommand,
   userId: string
 ) => {
-  if (updatedAccountDetails.balance !== undefined && updatedAccountDetails.balance < 0) {
-    throw new Error('Balance cannot be negative');
+  if (updatedAccountDetails.balance === undefined) {
+    throw new Error('Balance is required');
   }
 
   if (updatedAccountDetails.isPrimary) {

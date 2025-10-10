@@ -36,7 +36,7 @@ const EditTransactionDialog = ({
   const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionCommand>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
-    queryKeysToInvalidate: [queryKeys.transactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions()],
   });
 
   const update = async (data: TransactionFormValues) => {
