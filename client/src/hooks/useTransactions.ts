@@ -7,6 +7,7 @@ import { useAuth } from '@/providers/AuthProvider';
 export const useTransactions = (
   year?: number,
   month?: number,
+  categoryId?: string,
   page: number = 1,
   limit: number = 20
 ) => {
@@ -16,9 +17,28 @@ export const useTransactions = (
   const selectedYear = year ?? today.getFullYear();
   const selectedMonth = month ?? today.getMonth();
 
+  const params = new URLSearchParams({
+    year: selectedYear.toString(),
+    month: (selectedMonth + 1).toString(),
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+
+  if (categoryId) {
+    params.append('categoryId', categoryId);
+  }
+
+  const url = `${API_ROUTES.TRANSACTIONS}?${params.toString()}`;
+
   const query = useFetch<TransactionDto[]>({
-    url: `${API_ROUTES.TRANSACTIONS}?year=${selectedYear}&month=${selectedMonth + 1}`,
-    queryKey: queryKeys.transactions({ year: selectedYear, month: selectedMonth, page, limit }),
+    url,
+    queryKey: queryKeys.transactions({
+      year: selectedYear,
+      month: selectedMonth,
+      page,
+      limit,
+      categoryId,
+    }),
     enabled: !!user,
   });
 

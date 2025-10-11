@@ -3,7 +3,6 @@ import { ITransaction } from '../models/Transaction';
 import Category from '../models/Category';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommands';
 import { TransactionQueryOptions } from '../types/Transaction';
-import user from '../models/User';
 
 export const getTransactions = async (userId: string, options: TransactionQueryOptions = {}) =>
   transactionRepository.findAll(userId, options);

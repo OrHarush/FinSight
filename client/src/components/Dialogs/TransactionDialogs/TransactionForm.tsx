@@ -8,6 +8,7 @@ import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/Categories/CategoriesSelect';
 import { useCategories } from '@/hooks/useCategories';
 import AccountSelect from '@/components/Accounts/AccountSelect';
+import TransactionTypeSelector from '@/components/Dialogs/TransactionDialogs/TransactionTypeSelector';
 
 const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
 
@@ -23,17 +24,8 @@ const TransactionForm = () => {
   );
 
   return (
-    <Column spacing={2}>
-      <RHFSelect
-        name="type"
-        label="Type"
-        required
-        options={[
-          { label: 'Expense', value: 'Expense' },
-          { label: 'Income', value: 'Income' },
-          { label: 'Transfer', value: 'Transfer' },
-        ]}
-      />
+    <Column spacing={2} height={'480px'}>
+      <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
         <TextInput name="amount" label="Amount" type="number" min={1} required />

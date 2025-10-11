@@ -4,21 +4,33 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
-    const { page = '1', limit = '20', from, to, sort = 'desc' } = req.query;
+    const { page = '1', limit = '20', sort = 'desc', categoryId, year, month } = req.query;
+    console.log(req.query);
+
+    let fromDate: string | undefined;
+    let toDate: string | undefined;
+
+    if (year && month) {
+      const y = parseInt(year as string, 10);
+      const m = parseInt(month as string, 10) - 1;
+      const start = new Date(Date.UTC(y, m, 1, 0, 0, 0, 0));
+      const end = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999));
+      fromDate = start.toISOString();
+      toDate = end.toISOString();
+    }
 
     const result = await transactionService.getTransactions(req.userId!, {
       page: parseInt(page as string, 10),
       limit: parseInt(limit as string, 10),
-      from: from as string | undefined,
-      to: to as string | undefined,
+      from: fromDate,
+      to: toDate,
       sort: sort as 'asc' | 'desc',
+      categoryId: categoryId as string | undefined,
     });
 
-    console.log('==================');
-    console.log(page);
-
     res.json({ success: true, ...result });
-  } catch (err: any) {
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, error: 'Failed to fetch transactions' });
   }
 };

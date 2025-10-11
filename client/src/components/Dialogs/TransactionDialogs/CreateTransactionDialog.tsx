@@ -19,6 +19,8 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: DialogProps) => {
       amount: 0,
       category: '',
       account: '',
+      fromAccount: '',
+      toAccount: '',
     },
   });
 

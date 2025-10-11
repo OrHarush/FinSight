@@ -1,32 +1,33 @@
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTransactions } from '@/hooks/useTransactions';
 import { Dayjs } from 'dayjs';
 
 interface TransactionsTableViewProps {
   selectedMonth: Dayjs | null;
-  selectedCategory: string | null;
+  selectedCategory: string | undefined;
 }
 
 const TransactionsTableView = ({ selectedMonth, selectedCategory }: TransactionsTableViewProps) => {
-  // MUI uses 0-based page index, backend is 1-based
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
-  const { transactions, pagination } = useTransactions(2025, selectedMonth, page + 1, rowsPerPage);
+  const { transactions, pagination } = useTransactions(
+    2025,
+    selectedMonth?.month(),
+    selectedCategory,
+    page + 1,
+    rowsPerPage
+  );
 
   const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // reset to first page
+    setPage(0);
   };
-
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
 
   return (
     <TableContainer component={Paper}>
@@ -56,7 +57,6 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
           rowsPerPage={rowsPerPage}
         />
       </Table>
-
       <TablePagination
         component="div"
         count={pagination?.total ?? 0}

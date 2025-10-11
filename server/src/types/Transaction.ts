@@ -4,4 +4,5 @@ export interface TransactionQueryOptions {
   from?: string;
   to?: string;
   sort?: 'asc' | 'desc';
+  categoryId?: string;
 }

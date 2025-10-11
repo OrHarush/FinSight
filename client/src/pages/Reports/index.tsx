@@ -1,11 +1,5 @@
-import { Typography } from '@mui/material';
+import ComingSoon from '@/components/ComingSoon';
 
-const Reports = () => {
-  return (
-    <div>
-      <Typography>Reports</Typography>
-    </div>
-  );
-};
+const Reports = () => <ComingSoon />;
 
 export default Reports;

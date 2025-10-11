@@ -1,11 +1,5 @@
-import { Typography } from '@mui/material';
+import ComingSoon from '@/components/ComingSoon';
 
-const Planner = () => {
-  return (
-    <div>
-      <Typography>Planner</Typography>
-    </div>
-  );
-};
+const Planner = () => <ComingSoon />;
 
 export default Planner;

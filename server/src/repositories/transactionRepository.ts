@@ -9,7 +9,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const findAll = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const { page, limit, from, to, sort = 'desc' } = options;
+  const { page, limit, from, to, sort = 'desc', categoryId } = options;
 
   const query: any = { userId: new Types.ObjectId(userId) };
 
@@ -22,6 +22,10 @@ export const findAll = async (userId: string, options: TransactionQueryOptions =
     if (to) {
       query.date.$lte = new Date(to);
     }
+  }
+
+  if (categoryId) {
+    query.category = new Types.ObjectId(categoryId);
   }
 
   let cursor = Transaction.find(query)

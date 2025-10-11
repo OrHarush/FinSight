@@ -1,12 +1,5 @@
-import { Typography } from '@mui/material';
-import PageLayout from '@/components/Layout/PageLayout';
+import ComingSoon from '@/components/ComingSoon';
 
-const Budget = () => (
-  <PageLayout>
-    <Typography variant="h4" fontWeight={700}>
-      Budget
-    </Typography>
-  </PageLayout>
-);
+const Budget = () => <ComingSoon />;
 
 export default Budget;

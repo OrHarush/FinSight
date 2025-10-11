@@ -15,17 +15,14 @@ const TransactionTableBody = ({
   page,
   rowsPerPage,
 }: TransactionTableBodyProps) => {
-  const today = new Date();
-
-  const recentTransactions = [...filteredTransactions]
-    .filter(tx => new Date(tx.date) <= today)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const paginated = recentTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginated = filteredTransactions.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <TableBody>
-      {recentTransactions.length === 0 ? (
+      {filteredTransactions.length === 0 ? (
         <TableRow>
           <TableCell colSpan={7} align="center">
             <EntityEmpty
