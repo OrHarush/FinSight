@@ -8,6 +8,11 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import * as Icons from '@mui/icons-material';
+import { ElementType } from 'react';
+import CategoryIcon from '@mui/icons-material/Category';
+import Column from '@/components/Layout/Containers/Column';
+import Row from '@/components/Layout/Containers/Row';
 
 interface TransactionCardViewProps {
   transaction: ExtendedTransaction;
@@ -16,13 +21,17 @@ interface TransactionCardViewProps {
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const { setSelectedTransaction } = useSelectedTransaction();
+  const IconComponent =
+    (transaction.category?.icon &&
+      (Icons as Record<string, ElementType>)[transaction.category?.icon]) ||
+    CategoryIcon;
 
   const isTransfer = transaction.type === 'Transfer';
 
   const amountColor = isTransfer
     ? transaction.account?._id === transaction.fromAccount?._id
-      ? 'error.main' // outgoing
-      : 'success.main' // incoming
+      ? 'error.main'
+      : 'success.main'
     : transaction?.category?.type === 'Expense'
       ? 'error.main'
       : 'success.main';
@@ -46,30 +55,100 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
     <Paper
       key={transaction._id}
       sx={{
-        p: 2,
-        borderRadius: 2,
+        p: '14px 20px',
+        borderRadius: 0,
         display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
-        boxShadow: '0px 2px 6px rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        gap: 1.5,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        position: 'relative',
+        boxShadow: 'none',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: '3px',
+          background: 'transparent',
+          transition: 'background 0.2s ease',
+        },
+        '&:hover': {
+          backgroundColor: 'action.hover',
+          paddingLeft: '23px',
+        },
+        '&:hover::before': {
+          background: 'linear-gradient(180deg, #7c6bea, #ff6b9d)',
+        },
+        '&:first-of-type': {
+          borderTopLeftRadius: '12px',
+          borderTopRightRadius: '12px',
+        },
+        '&:last-of-type': {
+          borderBottomLeftRadius: '12px',
+          borderBottomRightRadius: '12px',
+          borderBottom: 'none',
+        },
       }}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="subtitle1" fontWeight={700}>
-          {isTransfer ? 'Transfer' : transaction.name}
-        </Typography>
-        <EditAndDeleteButtons
-          onDelete={() => deleteTransaction.mutate()}
-          onEdit={() => setSelectedTransaction(transaction)}
+      <Column
+        sx={{
+          width: 36,
+          height: 36,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '8px',
+          backgroundColor: 'action.selected',
+          flexShrink: 0,
+        }}
+      >
+        <IconComponent
+          color={transaction.category?.color}
+          sx={{ color: transaction.category?.color }}
         />
-      </Box>
-      <CurrencyText variant="h6" color={amountColor} value={transaction.amount} />
-      <Typography variant="body2" color="text.secondary">
-        Category: {transaction?.category?.name}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        {new Date(transaction.date).toLocaleDateString()}
-      </Typography>
+      </Column>
+      <Column sx={{ flex: 1, minWidth: 0 }}>
+        <Row justifyContent="space-between" alignItems="center" mb={0.5}>
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            sx={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {isTransfer ? 'Transfer' : transaction.name}
+          </Typography>
+          <CurrencyText
+            variant="body1"
+            fontWeight={700}
+            value={transaction.amount}
+            color={amountColor}
+            sx={{ ml: 1.5, flexShrink: 0 }}
+          />
+        </Row>
+        <Row
+          display="flex"
+          justifyContent="space-between"
+          sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
+        >
+          <Typography variant="caption" color="text.secondary">
+            {transaction?.category?.name}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {new Date(transaction.date).toLocaleDateString()}
+          </Typography>
+        </Row>
+      </Column>
+      <EditAndDeleteButtons
+        onDelete={() => deleteTransaction.mutate()}
+        onEdit={() => setSelectedTransaction(transaction)}
+      />
     </Paper>
   );
 };

@@ -3,9 +3,10 @@ import AccountOverviewCardSkeleton from '@/pages/Dashboard/AccountsOverview/Acco
 import Row from '@/components/Layout/Containers/Row';
 import EntityError from '@/components/Entities/EntityError';
 import { useAccounts } from '@/hooks/useAccounts';
+import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
 
 const AccountsOverviewContent = () => {
-  const { refetch, isLoading, error } = useAccounts();
+  const { accounts, refetch, isLoading, error } = useAccounts();
 
   if (error) {
     return <EntityError entityName={'accounts'} refetch={refetch} />;
@@ -19,6 +20,10 @@ const AccountsOverviewContent = () => {
         <AccountOverviewCardSkeleton />
       </Row>
     );
+  }
+
+  if (!accounts.length) {
+    return <AccountsEmpty />;
   }
 
   return <AccountsList />;

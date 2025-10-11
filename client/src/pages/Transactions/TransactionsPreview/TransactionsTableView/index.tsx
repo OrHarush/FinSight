@@ -7,7 +7,7 @@ import { Dayjs } from 'dayjs';
 
 interface TransactionsTableViewProps {
   selectedMonth: Dayjs | null;
-  selectedCategory: string | undefined;
+  selectedCategory: string | null;
 }
 
 const TransactionsTableView = ({ selectedMonth, selectedCategory }: TransactionsTableViewProps) => {

@@ -3,25 +3,23 @@ import PageLayout from '@/components/Layout/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
 import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';
-import * as Icons from '@mui/icons-material';
-import { SvgIconComponent } from '@mui/icons-material';
+import { AllInclusive, SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import Row from '@/components/Layout/Containers/Row';
-import { IconButton, MenuItem, Select, Tooltip, Typography } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { ClearIcon, DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
-import { Dayjs } from 'dayjs';
-import { useCategories } from '@/hooks/useCategories';
+import dayjs, { Dayjs } from 'dayjs';
 import { useOpen } from '@/hooks/useOpen';
 import ActionFab from '@/components/ActionFab';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/UploadFile';
+import CategorySelect from '@/pages/Transactions/CategorySelect';
 
 export const Transactions = () => {
   const [isCreateDialogOpen, openDialog, closeCreateDialog] = useOpen();
-  const [selectedMonth, setSelectedMonth] = useState<Dayjs | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<Dayjs>(dayjs());
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const { categories } = useCategories();
 
   return (
     <PageLayout>
@@ -45,30 +43,14 @@ export const Transactions = () => {
               },
             }}
           />
-          <Select
-            value={selectedCategory}
-            onChange={e => setSelectedCategory(e.target.value)}
-            sx={{ width: '180px' }}
-          >
-            {categories.map(category => {
-              const IconComponent =
-                (category.icon && (Icons as Record<string, SvgIconComponent>)[category.icon]) ||
-                CategoryIcon;
-
-              return (
-                <MenuItem key={category._id} value={category._id}>
-                  <Row spacing={1}>
-                    <IconComponent sx={{ color: category.color }} />
-                    <Typography>{category.name}</Typography>
-                  </Row>
-                </MenuItem>
-              );
-            })}
-          </Select>
+          <CategorySelect
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
           <Tooltip title="Clear filters">
             <IconButton
               onClick={() => {
-                setSelectedMonth(null);
+                setSelectedMonth(dayjs());
                 setSelectedCategory('');
               }}
             >

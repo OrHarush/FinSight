@@ -13,19 +13,22 @@ interface TransactionsCardsViewProps {
 const TransactionsCardsView = ({ selectedMonth, selectedCategory }: TransactionsCardsViewProps) => {
   const { transactions } = useTransactions();
 
+  if (!transactions.length) {
+    console.log('here');
+    return (
+      <EntityEmpty
+        entityName={'transactions'}
+        subtitle={'Start by adding your first one'}
+        icon={ReceiptLongIcon}
+      />
+    );
+  }
+
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
-      {transactions.length ? (
-        transactions.map(transaction => (
-          <TransactionCard key={transaction._id} transaction={transaction} />
-        ))
-      ) : (
-        <EntityEmpty
-          entityName={'transactions'}
-          subtitle={'Start by adding your first one'}
-          icon={ReceiptLongIcon}
-        />
-      )}
+    <Box display="flex" flexDirection="column">
+      {transactions.map(transaction => (
+        <TransactionCard key={transaction._id} transaction={transaction} />
+      ))}
     </Box>
   );
 };
