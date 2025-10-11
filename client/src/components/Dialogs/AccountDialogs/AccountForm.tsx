@@ -16,7 +16,7 @@ const AccountForm = () => {
 
   return (
     <Column spacing={2}>
-      <TextInput name="name" label="Account Name" required />
+      <TextInput name="name" label="Name" required />
       <TextInput name="balance" label="Balance" type="number" required />
       <Row spacing={2}>
         <TextInput name="institution" label="Institution" />

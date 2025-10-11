@@ -1,8 +1,8 @@
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useAuth } from '@/providers/AuthProvider';
 import vaultImage from '@/assets/vault2.png';
-import vaultImageMobile from '@/assets/mobileVault.png';
+import loginMobileImage from '@/assets/mobileLogin.png';
 import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 import FinSightIcon from '@/pages/Login/FinSightIcon';
@@ -12,6 +12,8 @@ const LoginPage = () => {
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { alertError } = useSnackbar();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -36,7 +38,7 @@ const LoginPage = () => {
       minHeight="100vh"
       sx={{
         backgroundImage: {
-          xs: `url(${vaultImageMobile})`,
+          xs: `url(${loginMobileImage})`,
           md: `url(${vaultImage})`,
         },
         backgroundSize: 'cover',
@@ -46,8 +48,7 @@ const LoginPage = () => {
     >
       <Card
         sx={{
-          maxWidth: 400,
-          width: '100%',
+          minWidth: 340,
           textAlign: 'center',
           borderRadius: 6,
           boxShadow: '0px 20px 60px rgba(0,0,0,0.6)',
@@ -59,7 +60,7 @@ const LoginPage = () => {
         <CardContent sx={{ py: 5, px: 4 }}>
           <FinSightIcon />
           <Typography
-            variant="h4"
+            variant={isMobile ? 'h5' : 'h4'}
             fontWeight={700}
             mb={1.5}
             sx={{

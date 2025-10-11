@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import finSightIcon from '@/assets/finSightIcon.png';
+import finSightIcon from '@/assets/finSightIconNoText.png';
 
 const FinSightIcon = () => (
   <Box
     sx={{
-      width: 120,
-      height: 120,
+      width: 100,
+      height: 100,
       margin: '0 auto 24px',
       borderRadius: '24px',
       background:
@@ -34,8 +34,8 @@ const FinSightIcon = () => (
     <img
       src={finSightIcon}
       alt="App Logo"
-      width={80}
-      height={80}
+      width={60}
+      height={60}
       style={{
         filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15))',
         position: 'relative',
