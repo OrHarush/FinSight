@@ -3,8 +3,6 @@ import PageLayout from '@/components/Layout/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
 import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';
-import { AllInclusive, SvgIconComponent } from '@mui/icons-material';
-import CategoryIcon from '@mui/icons-material/Category';
 import Row from '@/components/Layout/Containers/Row';
 import { IconButton, Tooltip } from '@mui/material';
 import { ClearIcon, DatePicker } from '@mui/x-date-pickers';

@@ -5,12 +5,20 @@ import Column from '@/components/Layout/Containers/Column';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/CurrencyText';
 import { useAccounts } from '@/hooks/useAccounts';
+import Box from '@mui/material/Box';
 
 const AccountsList = () => {
   const { accounts } = useAccounts();
 
   return (
-    <Row spacing={4} overflow={'auto'}>
+    <Box
+      display="flex"
+      flexDirection={{ xs: 'column', sm: 'row' }}
+      alignItems={{ xs: 'center', sm: 'flex-start' }}
+      justifyContent={{ xs: 'center', sm: 'flex-start' }}
+      gap={4}
+      overflow="auto"
+    >
       {accounts?.map(account => (
         <Paper
           key={account._id}
@@ -18,11 +26,14 @@ const AccountsList = () => {
           sx={{
             padding: 2,
             borderRadius: '12px',
-            width: '200px',
+            width: { xs: '100%', sm: '200px' },
+            maxWidth: '300px',
             height: '100px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <Row spacing={2} alignItems={'center'} height={'100%'}>
+          <Row spacing={2} alignItems="center" height="100%">
             <AccountIcon icon={account.icon} />
             <Column justifyContent="center" alignItems="flex-start" spacing={0.5}>
               <Typography variant="body2" color="text.secondary">
@@ -33,7 +44,7 @@ const AccountsList = () => {
           </Row>
         </Paper>
       ))}
-    </Row>
+    </Box>
   );
 };
 

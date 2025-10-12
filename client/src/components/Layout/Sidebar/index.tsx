@@ -1,4 +1,11 @@
-import { Divider, Drawer, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Divider,
+  Drawer,
+  IconButton,
+  SwipeableDrawer,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -31,9 +38,22 @@ const Sidebar = () => {
         >
           {open ? <CloseIcon /> : <MenuIcon />}
         </IconButton>
-        <Drawer open={open} onClose={() => setOpen(false)} variant="temporary">
+        <SwipeableDrawer
+          anchor="left"
+          open={open}
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          disableBackdropTransition={!/iPad|iPhone|iPod/.test(navigator.userAgent)}
+          swipeAreaWidth={30} // <== allows opening with a 30px edge swipe
+          disableDiscovery={false} // <== enables swipe-to-open
+          keepMounted // <== keeps it in DOM for smoother behavior
+          PaperProps={{
+            sx: { width: 255 },
+          }}
+        >
+          {' '}
           {drawerContent}
-        </Drawer>
+        </SwipeableDrawer>
       </>
     );
   }

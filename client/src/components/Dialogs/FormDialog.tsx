@@ -1,26 +1,19 @@
-import {
-  Dialog,
-  DialogTitle,
-  Button,
-  DialogActions,
-  DialogContent,
-  IconButton,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 import Column from '@/components/Layout/Containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
+import FinSightDialog from '@/components/Dialogs/FinSightDialog';
 
 export interface DialogProps {
   isOpen: boolean;
   closeDialog: () => void;
 }
 
-interface FinSightDialogProps<T extends FieldValues> extends DialogProps {
+interface FormDialogProps<T extends FieldValues> extends DialogProps {
   title: string;
   onSubmit: (data: T) => void;
   children: ReactNode;
-  isUpdate?: boolean;
+  isUpdateForm?: boolean;
 }
 
 const FormDialog = <T extends FieldValues>({
@@ -29,8 +22,8 @@ const FormDialog = <T extends FieldValues>({
   title,
   onSubmit,
   children,
-  isUpdate = false,
-}: FinSightDialogProps<T>) => {
+  isUpdateForm = false,
+}: FormDialogProps<T>) => {
   const { reset, handleSubmit } = useFormContext<T>();
 
   const closeForm = () => {
@@ -45,19 +38,7 @@ const FormDialog = <T extends FieldValues>({
   };
 
   return (
-    <Dialog onClose={closeForm} open={isOpen} maxWidth="xs" fullWidth>
-      <DialogTitle>{title}</DialogTitle>
-      <IconButton
-        onClick={closeForm}
-        sx={theme => ({
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: theme.palette.grey[500],
-        })}
-      >
-        <CloseIcon />
-      </IconButton>
+    <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title}>
       <form onSubmit={handleSubmit(handleFormSubmit)} id="transaction-form" noValidate>
         <DialogContent dividers>
           <Column spacing={2}>{children}</Column>
@@ -67,11 +48,11 @@ const FormDialog = <T extends FieldValues>({
             Cancel
           </Button>
           <Button type="submit" variant="contained">
-            {isUpdate ? 'Update' : 'Create'}
+            {isUpdateForm ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
       </form>
-    </Dialog>
+    </FinSightDialog>
   );
 };
 

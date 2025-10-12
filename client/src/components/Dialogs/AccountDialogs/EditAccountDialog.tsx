@@ -49,7 +49,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
         closeDialog={closeDialog}
         title="Edit Account"
         onSubmit={update}
-        isUpdate
+        isUpdateForm
       >
         <AccountForm />
       </FormDialog>

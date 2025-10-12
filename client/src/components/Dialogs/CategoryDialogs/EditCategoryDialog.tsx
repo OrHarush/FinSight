@@ -48,7 +48,7 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
         closeDialog={closeDialog}
         title="Edit Category"
         onSubmit={update}
-        isUpdate
+        isUpdateForm
       >
         <CategoryForm />
       </FormDialog>

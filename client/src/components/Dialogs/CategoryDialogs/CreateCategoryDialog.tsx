@@ -41,7 +41,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: DialogProps) => {
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title="New Category"
+        title="Create Category"
         onSubmit={submitNewCategory}
       >
         <CategoryForm />

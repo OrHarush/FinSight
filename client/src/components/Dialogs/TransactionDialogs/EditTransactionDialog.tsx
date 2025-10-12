@@ -57,7 +57,7 @@ const EditTransactionDialog = ({
         closeDialog={closeDialog}
         title={'Edit Transaction'}
         onSubmit={update}
-        isUpdate
+        isUpdateForm
       >
         <TransactionForm />
       </FormDialog>

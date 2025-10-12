@@ -1,6 +1,6 @@
 import Paper from '@mui/material/Paper';
 import { ExtendedTransaction } from '@/types/Transaction';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
 import CurrencyText from '@/components/CurrencyText';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
