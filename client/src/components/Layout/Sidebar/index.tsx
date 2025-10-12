@@ -44,12 +44,9 @@ const Sidebar = () => {
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           disableBackdropTransition={!/iPad|iPhone|iPod/.test(navigator.userAgent)}
-          swipeAreaWidth={30} // <== allows opening with a 30px edge swipe
-          disableDiscovery={false} // <== enables swipe-to-open
-          keepMounted // <== keeps it in DOM for smoother behavior
-          PaperProps={{
-            sx: { width: 255 },
-          }}
+          swipeAreaWidth={typeof window !== 'undefined' ? window.innerWidth : 30}
+          disableDiscovery={false}
+          keepMounted
         >
           {' '}
           {drawerContent}
