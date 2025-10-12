@@ -44,7 +44,7 @@ const Sidebar = () => {
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           disableBackdropTransition={!/iPad|iPhone|iPod/.test(navigator.userAgent)}
-          swipeAreaWidth={typeof window !== 'undefined' ? window.innerWidth : 30}
+          swipeAreaWidth={30}
           disableDiscovery={false}
           keepMounted
         >
