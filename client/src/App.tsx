@@ -4,18 +4,32 @@ import AppProviders from '@/providers/AppProviders';
 import AppRoutes from '@/routes/AppRoutes';
 import { BrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import OfflinePage from '@/components/OfflinePage';
 
-const App = () => (
-  <ErrorBoundary>
-    <AppProviders>
-      <Column width={'100vw'}>
-        <CssBaseline />
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </Column>
-    </AppProviders>
-  </ErrorBoundary>
-);
+const App = () => {
+  const isOnline = useOnlineStatus();
+
+  if (!isOnline) {
+    return (
+      <AppProviders>
+        <OfflinePage />
+      </AppProviders>
+    );
+  }
+
+  return (
+    <ErrorBoundary>
+      <AppProviders>
+        <Column width={'100vw'}>
+          <CssBaseline />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </Column>
+      </AppProviders>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
