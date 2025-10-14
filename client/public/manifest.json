@@ -9,10 +9,10 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/src/assets/finSightIcon.png",
-      "sizes": "832x832",
+      "src": "/finSightIcon.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any maskable any"
     }
   ]
 }
