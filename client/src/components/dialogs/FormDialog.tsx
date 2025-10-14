@@ -3,6 +3,7 @@ import Column from '@/components/layout/Containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
 
 interface FormDialogProps<T extends FieldValues> extends BaseDialogProps {
   title: string;
@@ -19,6 +20,7 @@ const FormDialog = <T extends FieldValues>({
   children,
   isUpdateForm = false,
 }: FormDialogProps<T>) => {
+  const { t } = useTranslation('common');
   const { reset, handleSubmit } = useFormContext<T>();
 
   const closeForm = () => {
@@ -34,16 +36,16 @@ const FormDialog = <T extends FieldValues>({
 
   return (
     <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title}>
-      <form onSubmit={handleSubmit(handleFormSubmit)} id="transaction-form" noValidate>
+      <form onSubmit={handleSubmit(handleFormSubmit)} id="form-dialog" noValidate>
         <DialogContent>
           <Column spacing={2}>{children}</Column>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} variant="outlined">
-            Cancel
+            {t('buttons.cancel')}
           </Button>
           <Button type="submit" variant="contained">
-            {isUpdateForm ? 'Update' : 'Create'}
+            {isUpdateForm ? t('buttons.update') : t('buttons.create')}
           </Button>
         </DialogActions>
       </form>

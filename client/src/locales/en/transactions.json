@@ -16,5 +16,9 @@
     "category": "Category",
     "date": "Date",
     "description": "Description"
+  },
+  "setupDialog": {
+    "title": "Complete Setup First",
+    "message": "You need to create at least one <account>Account</account> and one <category>Category</category> before you can add a transaction."
   }
 }

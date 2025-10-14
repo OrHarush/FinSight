@@ -8,8 +8,10 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import { CreateAccountCommand } from '../../../../../shared/types/AccountCommands';
 import AccountForm from '@/components/dialogs/AccountDialogs/AccountForm';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
 
 const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+  const { t } = useTranslation('accounts');
   const { alertSuccess, alertError } = useSnackbar();
 
   const methods = useForm<AccountFormValues>({
@@ -37,7 +39,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title={'Create Account'}
+        title={t('actions.create')}
         onSubmit={submitNewAccount}
       >
         <AccountForm />

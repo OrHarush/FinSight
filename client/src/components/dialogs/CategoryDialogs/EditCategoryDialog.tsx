@@ -9,12 +9,14 @@ import CategoryForm from '@/components/dialogs/CategoryDialogs/CategoryForm';
 import { UpdateCategoryCommand } from '../../../../../shared/types/CategoryCommands';
 import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
 
 interface EditCategoryDialogProps extends BaseDialogProps {
   category: CategoryDto;
 }
 
 const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialogProps) => {
+  const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
   const methods = useForm<CategoryFormValues>({
     defaultValues: {
@@ -47,7 +49,7 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title="Edit Category"
+        title={t('actions.edit')}
         onSubmit={update}
         isUpdateForm
       >

@@ -8,8 +8,10 @@ import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
 import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/layout/PageHeader';
 import ActionFab from '@/components/common/ActionFab';
+import { useTranslation } from 'react-i18next';
 
 const Accounts = () => {
+  const { t } = useTranslation('accounts');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedAccount, setSelectedAccount] = useState<AccountDto>();
 
@@ -29,7 +31,7 @@ const Accounts = () => {
       <PageHeader entityName={'accounts'}>
         {!isMobile && (
           <Button variant="contained" onClick={openCreateDialog}>
-            Create Account
+            {t('actions.create')}
           </Button>
         )}
       </PageHeader>

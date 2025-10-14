@@ -9,8 +9,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { CreateCategoryCommand } from '../../../../../shared/types/CategoryCommands';
 import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
 
 const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+  const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
   const methods = useForm<CategoryFormValues>({
     defaultValues: {
@@ -42,7 +44,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title="Create Category"
+        title={t('actions.create')}
         onSubmit={submitNewCategory}
       >
         <CategoryForm />

@@ -7,8 +7,10 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { AccountFormValues } from '@/types/Account';
 import IconPickerField from '@/components/dialogs/IconPicker/IconPickerButton';
 import { bankAccountIcons } from '@/constants/BankAccountIcons';
+import { useTranslation } from 'react-i18next';
 
 const AccountForm = () => {
+  const { t } = useTranslation('accounts');
   const { accounts } = useAccounts();
   const { control } = useFormContext<AccountFormValues>();
 
@@ -16,13 +18,17 @@ const AccountForm = () => {
 
   return (
     <Column spacing={2}>
-      <TextInput name="name" label="Name" required />
-      <TextInput name="balance" label="Balance" type="number" required />
+      <TextInput name="name" label={t('fields.name')} required />
+      <TextInput name="balance" label={t('fields.balance')} type="number" required />
       <Row spacing={2}>
-        <TextInput name="institution" label="Institution" />
-        <TextInput name="accountNumber" label="Account Number" type="number" required />
+        <TextInput name="institution" label={t('fields.institution')} />
+        <TextInput name="accountNumber" label={t('fields.accountNumber')} type="number" required />
       </Row>
-      <IconPickerField icons={bankAccountIcons} defaultIcon={'AccountBalance'} />
+      <IconPickerField
+        icons={bankAccountIcons}
+        defaultIcon="AccountBalance"
+        label={t('fields.icon')}
+      />
       <FormControlLabel
         control={
           <Controller
@@ -38,7 +44,7 @@ const AccountForm = () => {
             )}
           />
         }
-        label="Set as Primary Account"
+        label={t('fields.isPrimary')}
       />
     </Column>
   );

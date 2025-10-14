@@ -8,8 +8,10 @@ import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
 import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/layout/PageHeader';
 import ActionFab from '@/components/common/ActionFab';
+import { useTranslation } from 'react-i18next';
 
 const Categories = () => {
+  const { t } = useTranslation('categories');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedCategory, setSelectedCategory] = useState<CategoryDto>();
 
@@ -29,7 +31,7 @@ const Categories = () => {
       <PageHeader entityName={'categories'}>
         {!isMobile && (
           <Button variant={'contained'} onClick={openCreateDialog}>
-            Create Category
+            {t('actions.create')}
           </Button>
         )}
       </PageHeader>

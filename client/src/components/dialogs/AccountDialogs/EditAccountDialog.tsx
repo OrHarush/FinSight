@@ -8,12 +8,14 @@ import AccountForm from '@/components/dialogs/AccountDialogs/AccountForm';
 import { AccountDto, AccountFormValues } from '@/types/Account';
 import { UpdateAccountCommand } from '../../../../../shared/types/AccountCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
 
 interface EditAccountDialogProps extends BaseDialogProps {
   account: AccountDto;
 }
 
 const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogProps) => {
+  const { t } = useTranslation('accounts');
   const { alertSuccess, alertError } = useSnackbar();
 
   const methods = useForm<AccountFormValues>({
@@ -48,7 +50,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title="Edit Account"
+        title={t('actions.edit')}
         onSubmit={update}
         isUpdateForm
       >

@@ -3,6 +3,9 @@
     "signedInAs": "מחובר כ-"
   },
   "buttons": {
+    "cancel": "ביטול",
+    "create": "צור",
+    "update": "עדכן",
     "signOut": "התנתק"
   },
   "entities": {

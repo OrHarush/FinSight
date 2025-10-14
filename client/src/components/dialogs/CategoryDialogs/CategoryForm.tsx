@@ -5,28 +5,33 @@ import ColorPickerField from '@/components/dialogs/CategoryDialogs/ColorPicker';
 import { Grid } from '@mui/material';
 import IconPickerField from '@/components/dialogs/IconPicker/IconPickerButton';
 import { categoryIcons } from '@/constants/CategoryIcons';
+import { useTranslation } from 'react-i18next';
 
-const CategoryForm = () => (
-  <Column spacing={2}>
-    <TextInput name="name" label="Name" />
-    <Grid container spacing={2}>
-      <Grid size={{ xs: 6 }}>
-        <RHFSelect
-          name="type"
-          label="Type"
-          options={[
-            { value: 'Income', label: 'Income' },
-            { value: 'Expense', label: 'Expense' },
-          ]}
-        />
+const CategoryForm = () => {
+  const { t } = useTranslation('categories');
+
+  return (
+    <Column spacing={2}>
+      <TextInput name="name" label={t('fields.name')} />
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 6 }}>
+          <RHFSelect
+            name="type"
+            label={t('fields.type')}
+            options={[
+              { value: 'Income', label: t('options.income') },
+              { value: 'Expense', label: t('options.expense') },
+            ]}
+          />
+        </Grid>
+        <Grid size={{ xs: 6 }}>
+          <TextInput name="monthlyLimit" label={t('fields.monthlyLimit')} type="number" min={0} />
+        </Grid>
       </Grid>
-      <Grid size={{ xs: 6 }}>
-        <TextInput name="monthlyLimit" label="Monthly Limit" type={'number'} min={0} />
-      </Grid>
-    </Grid>
-    <IconPickerField icons={categoryIcons} defaultIcon={'CategoryIcon'} />
-    <ColorPickerField />
-  </Column>
-);
+      <IconPickerField icons={categoryIcons} defaultIcon="CategoryIcon" label={t('fields.icon')} />
+      <ColorPickerField label={t('fields.color')} />
+    </Column>
+  );
+};
 
 export default CategoryForm;

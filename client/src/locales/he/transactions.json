@@ -16,5 +16,9 @@
     "category": "קטגוריה",
     "date": "תאריך",
     "description": "תיאור"
+  },
+  "setupDialog": {
+    "title": "השלם את ההגדרות תחילה",
+    "message": "עליך ליצור לפחות <account>חשבון</account> ו<category>קטגוריה</category> לפני שתוכל להוסיף עסקה."
   }
 }

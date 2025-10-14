@@ -3,6 +3,9 @@
     "signedInAs": "Signed in as"
   },
   "buttons": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
     "signOut": "Sign Out"
   },
   "entities": {

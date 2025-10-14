@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, DialogContent, Typography } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
 import FinSightDialog from '@/components/dialogs/FinSightDialog';
+import { Trans, useTranslation } from 'react-i18next';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -14,6 +15,7 @@ interface TransactionDialogsProps {
 }
 
 const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: TransactionDialogsProps) => {
+  const { t } = useTranslation('transactions');
   const { selectedTransaction, setSelectedTransaction } = useSelectedTransaction();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
@@ -24,7 +26,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
   if (needsSetup) {
     return (
       <FinSightDialog
-        title={'Complete Setup First'}
+        title={t('setupDialog.title')}
         isOpen={isCreateDialogOpen}
         closeDialog={closeCreateDialog}
       >
@@ -35,27 +37,30 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            You need to create at least one{' '}
-            <Button
-              variant="text"
-              color="primary"
-              size="small"
-              sx={{ p: 0, height: '100%', minWidth: 'unset' }}
-              onClick={() => navigate(ROUTES.ACCOUNTS_URL)}
-            >
-              Account
-            </Button>{' '}
-            and one{' '}
-            <Button
-              variant="text"
-              color="primary"
-              size="small"
-              sx={{ p: 0, height: '100%', minWidth: 'unset' }}
-              onClick={() => navigate(ROUTES.CATEGORIES_URL)}
-            >
-              Category
-            </Button>{' '}
-            before you can add a transaction.
+            <Trans
+              ns="transactions"
+              i18nKey="setupDialog.message"
+              components={{
+                account: (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    sx={{ p: 0, height: '100%', minWidth: 'unset' }}
+                    onClick={() => navigate(ROUTES.ACCOUNTS_URL)}
+                  />
+                ),
+                category: (
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    sx={{ p: 0, height: '100%', minWidth: 'unset' }}
+                    onClick={() => navigate(ROUTES.CATEGORIES_URL)}
+                  />
+                ),
+              }}
+            />
           </Typography>
         </DialogContent>
       </FinSightDialog>

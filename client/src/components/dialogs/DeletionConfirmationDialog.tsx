@@ -48,17 +48,9 @@ const DeletionConfirmationDialog = ({
       closeDialog={closeDialog}
       title={`Delete ${entityType}`}
       titleIcon={WarningAmberRoundedIcon}
-      sx={{
-        '& .MuiDialog-paper': {
-          borderRadius: 3,
-          paddingY: 2,
-          paddingX: 1,
-          minWidth: 400,
-        },
-      }}
       onClick={e => e.stopPropagation()}
     >
-      <DialogContent sx={{ px: 3, py: 2 }}>
+      <DialogContent>
         <Column spacing={2.5} alignItems="flex-start">
           <Column spacing={0.5} sx={{ flex: 1 }}>
             <Typography variant="body1" color="text.primary" sx={{ lineHeight: 1.6 }}>
