@@ -1,11 +1,11 @@
 import PageHeader from '@/components/layout/PageHeader';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
 import AccountMenuItem from '@/components/accounts/AccountMenuItem';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import DateSelector from '@/pages/Transactions/DateSelector';
 
 const DashboardHeader = () => {
   const { t } = useTranslation('dashboard');
@@ -26,15 +26,7 @@ const DashboardHeader = () => {
   return (
     <PageHeader entityName={'dashboard'}>
       <Stack spacing={2} alignItems="center" direction={isMobile ? 'column' : 'row'}>
-        <DatePicker
-          views={['year', 'month']}
-          value={date}
-          onChange={newDate => {
-            if (newDate) {
-              setDate(newDate);
-            }
-          }}
-        />
+        <DateSelector allowYearSelection value={date} onChange={setDate} />
         <TextField
           select
           value={account?._id || 'noAccounts'}

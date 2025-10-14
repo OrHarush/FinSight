@@ -9,7 +9,6 @@ interface ResponsiveRowProps extends StackOwnProps {
 const ResponsiveRow = ({ children, ...props }: ResponsiveRowProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  console.log(isMobile);
 
   return (
     <Stack alignItems={'center'} {...props} direction={isMobile ? 'column' : 'row'}>

@@ -36,6 +36,7 @@ const FinSightDialog = ({
     {...props}
     open={isOpen}
     onClose={closeDialog}
+    onClick={e => e.stopPropagation()}
   >
     <DialogTitle>
       <Row spacing={1} alignItems={'flex-end'}>

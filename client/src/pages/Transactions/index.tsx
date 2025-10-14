@@ -13,7 +13,7 @@ import ActionFab from '@/components/common/ActionFab';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/UploadFile';
 import CategorySelect from '@/pages/Transactions/CategorySelect';
-import MonthSelector from '@/pages/Transactions/MonthSelector';
+import DateSelector from '@/pages/Transactions/DateSelector';
 import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
 
 export const Transactions = () => {
@@ -32,7 +32,7 @@ export const Transactions = () => {
           ]}
         />
         <ResponsiveRow spacing={2}>
-          <MonthSelector />
+          <DateSelector value={selectedMonth} onChange={setSelectedMonth} />
           <Row spacing={2}>
             <CategorySelect
               selectedCategory={selectedCategory}

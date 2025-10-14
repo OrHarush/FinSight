@@ -54,6 +54,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   return (
     <Paper
       key={transaction._id}
+      onClick={() => setSelectedTransaction(transaction)}
       sx={{
         p: '14px 20px',
         borderRadius: 0,
@@ -146,7 +147,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
         </Row>
       </Column>
       <EditAndDeleteButtons
-        onDelete={() => deleteTransaction.mutate()}
+        onConfirmDelete={deleteTransaction.mutate}
         onEdit={() => setSelectedTransaction(transaction)}
       />
     </Paper>

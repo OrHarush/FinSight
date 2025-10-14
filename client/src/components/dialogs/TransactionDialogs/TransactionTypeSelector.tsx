@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
 
 const TRANSACTION_TYPES = [
   {
@@ -74,14 +75,16 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
           >
             {TRANSACTION_TYPES.map(({ value, label, icon: Icon, color }) => (
               <ToggleButton key={value} value={value}>
-                <Icon
-                  sx={{
-                    mr: 1,
-                    fontSize: 20,
-                    color: field.value === value ? color : 'inherit',
-                  }}
-                />
-                {label}
+                <ResponsiveRow>
+                  <Icon
+                    sx={{
+                      mr: 1,
+                      fontSize: 20,
+                      color: field.value === value ? color : 'inherit',
+                    }}
+                  />
+                  {label}
+                </ResponsiveRow>
               </ToggleButton>
             ))}
           </ToggleButtonGroup>

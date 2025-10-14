@@ -1,33 +1,62 @@
-import { Box, Paper, Skeleton, Typography } from '@mui/material';
+import { Paper, Skeleton } from '@mui/material';
+import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/layout/Containers/Column';
 
-const TransactionsCardsSkeleton = () => {
-  return (
-    <Paper
+const TransactionCardSkeleton = () => (
+  <Paper
+    sx={{
+      height: '76px',
+      p: '14px 20px',
+      borderRadius: 0,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 1.5,
+      cursor: 'pointer',
+      transition: 'all 0.2s ease',
+      position: 'relative',
+      boxShadow: 'none',
+      borderBottom: '1px solid',
+      borderColor: 'divider',
+      '&:first-of-type': {
+        borderTopLeftRadius: '12px',
+        borderTopRightRadius: '12px',
+      },
+      '&:last-of-type': {
+        borderBottomLeftRadius: '12px',
+        borderBottomRightRadius: '12px',
+        borderBottom: 'none',
+      },
+    }}
+  >
+    <Column
       sx={{
-        p: 2,
-        borderRadius: 2,
+        width: 36,
+        height: 36,
+        borderRadius: '8px',
+        backgroundColor: 'action.selected',
+        flexShrink: 0,
         display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
-        boxShadow: '0px 2px 6px rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Skeleton variant="text" width={120} height={28} />
-        <Box display="flex" gap={1}>
-          <Skeleton variant="circular" width={28} height={28} />
-          <Skeleton variant="circular" width={28} height={28} />
-        </Box>
-      </Box>
-      <Skeleton variant="text" width={80} height={32} />
-      <Typography variant="body2" color="text.secondary">
-        <Skeleton variant="text" width={140} height={20} />
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        <Skeleton variant="text" width={100} height={20} />
-      </Typography>
-    </Paper>
-  );
-};
+      <Skeleton variant="circular" width={20} height={20} />
+    </Column>
+    <Column sx={{ flex: 1, minWidth: 0 }}>
+      <Row justifyContent="space-between" alignItems="center" mb={0.5}>
+        <Skeleton variant="text" width={70} height={20} />
+        <Skeleton variant="text" width={50} height={20} />
+      </Row>
+      <Row justifyContent="space-between">
+        <Skeleton variant="text" width="30%" height={16} />
+        <Skeleton variant="text" width="20%" height={16} />
+      </Row>
+    </Column>
+    <Row spacing={1}>
+      <Skeleton variant="circular" width={28} height={28} />
+      <Skeleton variant="circular" width={28} height={28} />
+    </Row>
+  </Paper>
+);
 
-export default TransactionsCardsSkeleton;
+export default TransactionCardSkeleton;
