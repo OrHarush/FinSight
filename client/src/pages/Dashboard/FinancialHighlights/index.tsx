@@ -11,6 +11,7 @@ import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/useAccounts';
 import { queryKeys } from '@/constants/queryKeys';
+import { useTranslation } from 'react-i18next';
 
 interface FinanceHighlightCardProps {
   id: string;
@@ -22,6 +23,7 @@ interface FinanceHighlightCardProps {
 }
 
 const FinancialHighlights = () => {
+  const { t } = useTranslation('dashboard');
   const { year, month, account } = useDashboardFilters();
   const { isLoading: isLoadingAccounts } = useAccounts();
 
@@ -38,7 +40,7 @@ const FinancialHighlights = () => {
   const FinanceCards: FinanceHighlightCardProps[] = [
     {
       id: account?._id || 'Error',
-      headerTitle: 'Balance',
+      headerTitle: t('financialHighlights.currentBalance'),
       balance: account?.balance || 0,
       icon: AccountBalanceWalletIcon,
       isLoading: isLoadingAccounts,
@@ -46,7 +48,7 @@ const FinancialHighlights = () => {
     },
     {
       id: 'total-monthly-income',
-      headerTitle: 'Income',
+      headerTitle: t('financialHighlights.income'),
       balance: monthlyIncome || 0,
       icon: ShowChartIcon,
       isLoading: isLoadingAccounts,
@@ -54,7 +56,7 @@ const FinancialHighlights = () => {
     },
     {
       id: 'total-monthly-expenses',
-      headerTitle: 'Total Monthly Expenses',
+      headerTitle: t('financialHighlights.totalMonthlyExpenses'),
       balance: monthlyExpenses || 0,
       icon: ShoppingCartIcon,
       isLoading: isLoadingTransactions,
@@ -62,7 +64,7 @@ const FinancialHighlights = () => {
     },
     {
       id: 'end-of-month-balance',
-      headerTitle: 'End of Month Balance',
+      headerTitle: t('financialHighlights.endOfMonthBalance'),
       balance: (account?.balance || 0) + monthlyIncome - monthlyExpenses,
       icon: CalculateIcon,
       isLoading: isLoadingAccounts,

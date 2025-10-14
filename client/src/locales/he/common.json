@@ -1,0 +1,17 @@
+{
+  "general": {
+    "signedInAs": "מחובר כ-"
+  },
+  "buttons": {
+    "signOut": "התנתק"
+  },
+  "entities": {
+    "empty": {
+      "title": "אין עדיין {{entityName}}"
+    }
+  },
+  "comingSoon": {
+    "title": "בקרוב מאוד",
+    "subtitle": "אנחנו עובדים קשה כדי להביא לכם משהו מדהים. הישארו מעודכנים לעדכונים נוספים!"
+  }
+}

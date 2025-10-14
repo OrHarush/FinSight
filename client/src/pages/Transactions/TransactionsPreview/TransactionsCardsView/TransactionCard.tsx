@@ -1,8 +1,8 @@
 import Paper from '@mui/material/Paper';
-import { ExtendedTransaction } from '@/types/Transaction';
+import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
-import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
-import CurrencyText from '@/components/CurrencyText';
+import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import CurrencyText from '@/components/common/CurrencyText';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
@@ -11,11 +11,11 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
-import Column from '@/components/Layout/Containers/Column';
-import Row from '@/components/Layout/Containers/Row';
+import Column from '@/components/layout/Containers/Column';
+import Row from '@/components/layout/Containers/Row';
 
 interface TransactionCardViewProps {
-  transaction: ExtendedTransaction;
+  transaction: ExpandedTransactionDto;
 }
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {

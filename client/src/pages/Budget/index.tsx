@@ -1,5 +1,5 @@
-import ComingSoon from '@/components/ComingSoon';
+import ComingSoonPage from '@/pages/ComingSoonPage';
 
-const Budget = () => <ComingSoon />;
+const Budget = () => <ComingSoonPage />;
 
 export default Budget;

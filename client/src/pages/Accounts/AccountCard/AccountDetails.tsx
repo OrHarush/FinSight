@@ -1,7 +1,7 @@
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/CurrencyText';
-import Column from '@/components/Layout/Containers/Column';
+import CurrencyText from '@/components/common/CurrencyText';
+import Column from '@/components/layout/Containers/Column';
 import { AccountDto } from '@/types/Account';
 
 interface AccountDetailsProps {

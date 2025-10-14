@@ -1,14 +1,14 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import Row from '@/components/Layout/Containers/Row';
-import Column from '@/components/Layout/Containers/Column';
+import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/layout/Containers/Column';
 import AccountDetails from '@/pages/Accounts/AccountCard/AccountDetails';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
+import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
 import { AccountDto } from '@/types/Account';
-import AccountIcon from '@/components/Accounts/AccountIcon';
+import AccountIcon from '@/components/accounts/AccountIcon';
 
 interface AccountCardProps {
   account: AccountDto;
@@ -35,6 +35,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
 
   return (
     <Card
+      onClick={() => selectAccount(account)}
       sx={{
         minWidth: '300px',
         width: '100%',
@@ -43,6 +44,13 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
         boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
         border: account.isPrimary ? '2px solid' : '1px solid',
         borderColor: account.isPrimary ? 'primary.main' : 'divider',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease-in-out',
+        '&:hover': {
+          boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+          transform: 'translateY(-2px)',
+          borderColor: 'primary.main',
+        },
       }}
     >
       <CardContent sx={{ p: 3 }}>
@@ -60,8 +68,11 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
               </Column>
             </Row>
             <EditAndDeleteButtons
-              onDelete={() => deleteAccount.mutate()}
+              entityType="account"
+              entityName={account.name}
               onEdit={() => selectAccount(account)}
+              onConfirmDelete={deleteAccount.mutate}
+              disabledReason={account.isPrimary ? 'Primary accounts cannot be deleted.' : undefined}
             />
           </Row>
           <AccountDetails account={account} />

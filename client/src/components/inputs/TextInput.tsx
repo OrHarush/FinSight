@@ -1,6 +1,6 @@
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 
 interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;

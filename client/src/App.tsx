@@ -1,11 +1,11 @@
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 import { CssBaseline } from '@mui/material';
 import AppProviders from '@/providers/AppProviders';
 import AppRoutes from '@/routes/AppRoutes';
 import { BrowserRouter } from 'react-router-dom';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import OfflinePage from '@/components/OfflinePage';
+import OfflinePage from '@/pages/OfflinePage';
 
 const App = () => {
   const isOnline = useOnlineStatus();

@@ -1,13 +1,13 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import CreateCategoryDialog from '@/components/Dialogs/CategoryDialogs/CreateCategoryDialog';
-import PageLayout from '@/components/Layout/PageLayout';
-import EditCategoryDialog from '@/components/Dialogs/CategoryDialogs/EditCategoryDialog';
+import CreateCategoryDialog from '@/components/dialogs/CategoryDialogs/CreateCategoryDialog';
+import PageLayout from '@/components/layout/PageLayout';
+import EditCategoryDialog from '@/components/dialogs/CategoryDialogs/EditCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto } from '@/types/Category';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
 import { useOpen } from '@/hooks/useOpen';
-import PageHeader from '@/components/Layout/PageHeader';
-import ActionFab from '@/components/ActionFab';
+import PageHeader from '@/components/layout/PageHeader';
+import ActionFab from '@/components/common/ActionFab';
 
 const Categories = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
@@ -26,9 +26,9 @@ const Categories = () => {
 
   return (
     <PageLayout>
-      <PageHeader pageTitle={'Categories'}>
+      <PageHeader entityName={'categories'}>
         {!isMobile && (
-          <Button variant={'outlined'} onClick={openCreateDialog}>
+          <Button variant={'contained'} onClick={openCreateDialog}>
             Create Category
           </Button>
         )}

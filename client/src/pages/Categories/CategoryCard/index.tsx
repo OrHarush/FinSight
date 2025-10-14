@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { ElementType } from 'react';
@@ -8,8 +8,8 @@ import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
-import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
-import Column from '@/components/Layout/Containers/Column';
+import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import Column from '@/components/layout/Containers/Column';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
 import { CategoryDto } from '@/types/Category';
 import { useTransactions } from '@/hooks/useTransactions';

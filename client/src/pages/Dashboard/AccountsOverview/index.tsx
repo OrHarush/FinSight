@@ -1,4 +1,4 @@
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 import {
   Button,
   Card,
@@ -9,11 +9,13 @@ import {
   useTheme,
 } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 import { useNavigate } from 'react-router-dom';
 import AccountsOverviewContent from '@/pages/Dashboard/AccountsOverview/AccountsOverviewContent';
+import { useTranslation } from 'react-i18next';
 
 const AccountsOverview = () => {
+  const { t } = useTranslation('dashboard');
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -24,14 +26,14 @@ const AccountsOverview = () => {
         <CardContent sx={{ padding: 4, height: '100%' }}>
           <Column justifyContent="space-between" height="100%" spacing={2}>
             <Row justifyContent={'space-between'}>
-              <Typography variant="h6">Accounts</Typography>
+              <Typography variant="h6">{t('accounts.title')}</Typography>
               {!isMobile && (
                 <Button
                   variant="outlined"
                   sx={{ borderRadius: '12px' }}
                   onClick={() => navigate(ROUTES.ACCOUNTS_URL)}
                 >
-                  Manage Accounts
+                  {t('accounts.manageAccounts')}
                 </Button>
               )}
             </Row>
@@ -42,7 +44,7 @@ const AccountsOverview = () => {
                 sx={{ borderRadius: '12px' }}
                 onClick={() => navigate(ROUTES.ACCOUNTS_URL)}
               >
-                Manage Accounts
+                {t('accounts.manageAccounts')}
               </Button>
             )}
           </Column>

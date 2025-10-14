@@ -1,6 +1,6 @@
-import EntityError from '@/components/Entities/EntityError';
+import EntityError from '@/components/entities/EntityError';
 import { useCategories } from '@/hooks/useCategories';
-import EntityEmpty from '@/components/Entities/EntityEmpty';
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import CategoryList from '@/pages/Categories/CategoryList';
 import CategoryIcon from '@mui/icons-material/Category';
 import { CategoryDto } from '@/types/Category';
@@ -22,13 +22,7 @@ const CategoriesPageContent = ({ selectCategory }: CategoriesPageContentProps) =
   }
 
   if (!categories.length) {
-    return (
-      <EntityEmpty
-        entityName={'categories'}
-        subtitle={'Add your first category to organize transactions'}
-        icon={CategoryIcon}
-      />
-    );
+    return <EntityEmpty entityName={'categories'} icon={CategoryIcon} />;
   }
 
   return <CategoryList selectCategory={selectCategory} />;

@@ -4,7 +4,7 @@ import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
 import AccountsOverview from '@/pages/Dashboard/AccountsOverview';
 import YearlyChart from '@/pages/Dashboard/YearlyChart';
 import { Grid } from '@mui/material';
-import PageLayout from '@/components/Layout/PageLayout';
+import PageLayout from '@/components/layout/PageLayout';
 import { DashboardFiltersProvider } from '@/pages/Dashboard/DashboardFiltersProvider';
 
 const Dashboard = () => (

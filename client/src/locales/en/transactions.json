@@ -1,0 +1,20 @@
+{
+  "pageTitle": "Transactions",
+  "empty": {
+    "title": "No transactions yet",
+    "subtitle": "Start by adding your first one",
+    "chart": "Add some to see your income & expenses graph"
+  },
+  "actions": {
+    "add": "Add Transaction",
+    "edit": "Edit Transaction",
+    "delete": "Delete Transaction",
+    "import": "Import CVS"
+  },
+  "fields": {
+    "amount": "Amount",
+    "category": "Category",
+    "date": "Date",
+    "description": "Description"
+  }
+}

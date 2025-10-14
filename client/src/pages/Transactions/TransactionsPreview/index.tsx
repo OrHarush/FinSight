@@ -3,7 +3,7 @@ import TransactionsCardsView from '@/pages/Transactions/TransactionsPreview/Tran
 import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/TransactionsTableView';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
-import EntityError from '@/components/Entities/EntityError';
+import EntityError from '@/components/entities/EntityError';
 import { Dayjs } from 'dayjs';
 import { useTransactions } from '@/hooks/useTransactions';
 

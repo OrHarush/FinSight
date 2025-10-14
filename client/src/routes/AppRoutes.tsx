@@ -4,15 +4,15 @@ import { ROUTES } from '@/constants/Routes';
 import Planner from '@/pages/Planner';
 import Reports from '@/pages/Reports';
 import Accounts from '@/pages/Accounts';
-import AppLayout from '@/components/Layout/AppLayout';
+import AppLayout from '@/components/layout/AppLayout';
 import Categories from '@/pages/Categories';
 import { Transactions } from '@/pages/Transactions';
 import Budget from '@/pages/Budget';
 import LoginPage from '@/pages/Login';
 import { useAuth } from '@/providers/AuthProvider';
 import { ReactElement } from 'react';
-import LoadingScreen from '@/components/LoadingScreen';
-import NotFound from '@/components/NotFound';
+import LoadingScreen from '@/components/common/LoadingScreen';
+import NotFound from '@/pages/NotFoundPage';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user, isLoadingUser } = useAuth();

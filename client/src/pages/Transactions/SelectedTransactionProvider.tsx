@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { ExtendedTransaction } from '@/types/Transaction';
+import { ExpandedTransactionDto } from '@/types/Transaction';
 
 interface SelectedTransactionContextValue {
-  selectedTransaction?: ExtendedTransaction;
-  setSelectedTransaction: (tx?: ExtendedTransaction) => void;
+  selectedTransaction?: ExpandedTransactionDto;
+  setSelectedTransaction: (tx?: ExpandedTransactionDto) => void;
 }
 
 const SelectedTransactionContext = createContext<SelectedTransactionContextValue | undefined>(
@@ -11,7 +11,7 @@ const SelectedTransactionContext = createContext<SelectedTransactionContextValue
 );
 
 export const SelectedTransactionProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedTransaction, setSelectedTransaction] = useState<ExtendedTransaction>();
+  const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
 
   return (
     <SelectedTransactionContext.Provider value={{ selectedTransaction, setSelectedTransaction }}>

@@ -1,8 +1,8 @@
 import { TableCell, TableRow } from '@mui/material';
-import CurrencyText from '@/components/CurrencyText';
+import CurrencyText from '@/components/common/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
-import EditAndDeleteButtons from '@/components/EditAndDeleteButtons';
-import { ExtendedTransaction } from '@/types/Transaction';
+import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import { ExpandedTransactionDto } from '@/types/Transaction';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
@@ -10,16 +10,18 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 
 interface TransactionTableRowProps {
-  transaction: ExtendedTransaction;
+  transaction: ExpandedTransactionDto;
 }
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const { setSelectedTransaction } = useSelectedTransaction();
 
+  const idToDelete = transaction.originalId ?? transaction._id;
+
   const deleteTransaction = useApiMutation<void, void>({
     method: 'delete',
-    url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
+    url: `${API_ROUTES.TRANSACTIONS}/${idToDelete}`,
     queryKeysToInvalidate: [queryKeys.allTransactions()],
     options: {
       onSuccess: () => alertSuccess('Transaction deleted'),

@@ -1,0 +1,68 @@
+{
+  "pageTitle": "לוח בקרה פיננסי",
+  "dateSelector": {
+    "placeholder": "אוקטובר 2025"
+  },
+  "accountSelector": {
+    "placeholder": "צור חשבון ראשית"
+  },
+  "financialHighlights": {
+    "currentBalance": "עובר ושב",
+    "income": "הכנסות",
+    "totalMonthlyExpenses": "הוצאות",
+    "endOfMonthBalance": "יתרה בסוף חודש"
+  },
+
+
+  "bankBalance": {
+    "label": "יתרת בנק",
+    "primary": "ראשי"
+  },
+  "stats": {
+    "balance": {
+      "title": "יתרה",
+      "currency": "₪"
+    },
+    "income": {
+      "title": "הכנסות",
+      "currency": "₪"
+    },
+    "totalMonthlyExpenses": {
+      "title": "סך הוצאות חודשיות",
+      "currency": "₪"
+    },
+    "endOfMonthBalance": {
+      "title": "יתרה בסוף חודש",
+      "currency": "₪"
+    }
+  },
+  "chart": {
+    "title": "הכנסות והוצאות ({{year}})",
+    "legend": {
+      "income": "הכנסות",
+      "expenses": "הוצאות"
+    },
+    "months": {
+      "jan": "ינו",
+      "feb": "פבר",
+      "mar": "מרץ",
+      "apr": "אפר",
+      "may": "מאי",
+      "jun": "יונ",
+      "jul": "יול",
+      "aug": "אוג",
+      "sep": "ספט",
+      "oct": "אוק",
+      "nov": "נוב",
+      "dec": "דצמ"
+    }
+  },
+  "recentTransactions": {
+    "title": "עסקאות אחרונות",
+    "viewAll": "הצג הכל"
+  },
+  "accounts": {
+    "title": "חשבונות",
+    "manageAccounts": "ניהול חשבונות"
+  }
+}

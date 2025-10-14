@@ -1,5 +1,5 @@
-import ComingSoon from '@/components/ComingSoon';
+import ComingSoonPage from '@/pages/ComingSoonPage';
 
-const Planner = () => <ComingSoon />;
+const Planner = () => <ComingSoonPage />;
 
 export default Planner;

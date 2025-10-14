@@ -1,18 +1,20 @@
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
-import PageLayout from '@/components/Layout/PageLayout';
+import PageLayout from '@/components/layout/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
 import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 import { IconButton, Tooltip } from '@mui/material';
-import { ClearIcon, DatePicker } from '@mui/x-date-pickers';
+import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { useOpen } from '@/hooks/useOpen';
-import ActionFab from '@/components/ActionFab';
+import ActionFab from '@/components/common/ActionFab';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/UploadFile';
 import CategorySelect from '@/pages/Transactions/CategorySelect';
+import MonthSelector from '@/pages/Transactions/MonthSelector';
+import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
 
 export const Transactions = () => {
   const [isCreateDialogOpen, openDialog, closeCreateDialog] = useOpen();
@@ -29,33 +31,25 @@ export const Transactions = () => {
             { name: 'Import CSV', icon: <UploadIcon />, onClick: () => {} },
           ]}
         />
-        <Row spacing={2} alignItems={'flex-end'}>
-          <DatePicker
-            views={['month']}
-            value={selectedMonth}
-            onChange={newValue => setSelectedMonth(newValue)}
-            slotProps={{
-              textField: {
-                sx: { width: 180, height: 40 },
-                size: 'small',
-              },
-            }}
-          />
-          <CategorySelect
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
-          <Tooltip title="Clear filters">
-            <IconButton
-              onClick={() => {
-                setSelectedMonth(dayjs());
-                setSelectedCategory('');
-              }}
-            >
-              <ClearIcon />
-            </IconButton>
-          </Tooltip>
-        </Row>
+        <ResponsiveRow spacing={2}>
+          <MonthSelector />
+          <Row spacing={2}>
+            <CategorySelect
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+            <Tooltip title="Clear filters">
+              <IconButton
+                onClick={() => {
+                  setSelectedMonth(dayjs());
+                  setSelectedCategory('');
+                }}
+              >
+                <ClearIcon />
+              </IconButton>
+            </Tooltip>
+          </Row>
+        </ResponsiveRow>
         <TransactionsPreview selectedMonth={selectedMonth} selectedCategory={selectedCategory} />
         <TransactionDialogs
           isCreateDialogOpen={isCreateDialogOpen}

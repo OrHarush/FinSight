@@ -1,7 +1,7 @@
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import CallMadeIcon from '@mui/icons-material/CallMade';
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 import { Typography, Box } from '@mui/material';
 import { TransactionDto } from '@/types/Transaction';
 import * as Icons from '@mui/icons-material';

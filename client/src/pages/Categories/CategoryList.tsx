@@ -1,8 +1,5 @@
 import CategoryCard from '@/pages/Categories/CategoryCard';
 import { Grid, Typography } from '@mui/material';
-import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
-import EntityEmpty from '@/components/Entities/EntityEmpty';
-import CategoryIcon from '@mui/icons-material/Category';
 import { CategoryDto } from '@/types/Category';
 import { useCategories } from '@/hooks/useCategories';
 
@@ -11,13 +8,11 @@ interface CategoryListProps {
 }
 
 const CategoryList = ({ selectCategory }: CategoryListProps) => {
-  const { categories, isLoading } = useCategories();
+  const { categories } = useCategories();
   const expenseCategories = categories.filter(c => c.type.toLowerCase() === 'expense');
   const incomeCategories = categories.filter(c => c.type.toLowerCase() === 'income');
 
-  return isLoading ? (
-    <CategoryListSkeleton />
-  ) : categories.length ? (
+  return (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
         <Typography variant="h6" gutterBottom>
@@ -40,12 +35,6 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         </Grid>
       </Grid>
     </Grid>
-  ) : (
-    <EntityEmpty
-      entityName={'categories'}
-      subtitle={'Add your first category to organize transactions'}
-      icon={CategoryIcon}
-    />
   );
 };
 

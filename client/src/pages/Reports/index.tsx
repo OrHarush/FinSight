@@ -1,5 +1,5 @@
-import ComingSoon from '@/components/ComingSoon';
+import ComingSoonPage from '@/pages/ComingSoonPage';
 
-const Reports = () => <ComingSoon />;
+const Reports = () => <ComingSoonPage />;
 
 export default Reports;

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
-import EntityEmpty from '@/components/Entities/EntityEmpty';
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { Dayjs } from 'dayjs';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -14,14 +14,7 @@ const TransactionsCardsView = ({ selectedMonth, selectedCategory }: Transactions
   const { transactions } = useTransactions();
 
   if (!transactions.length) {
-    console.log('here');
-    return (
-      <EntityEmpty
-        entityName={'transactions'}
-        subtitle={'Start by adding your first one'}
-        icon={ReceiptLongIcon}
-      />
-    );
+    return <EntityEmpty entityName={'transactions'} icon={ReceiptLongIcon} />;
   }
 
   return (

@@ -1,9 +1,11 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 import YearlyChartContent from '@/pages/Dashboard/YearlyChart/YearlyChartContent';
+import { useTranslation } from 'react-i18next';
 
 const YearlyChart = () => {
+  const { t } = useTranslation('dashboard');
   const { year } = useDashboardFilters();
 
   return (
@@ -18,7 +20,7 @@ const YearlyChart = () => {
           }}
         >
           <Column width={'100%'} height={'360px'}>
-            <Typography variant="h6">Income & Expenses ({year})</Typography>
+            <Typography variant="h6"> {t('chart.title', { year: year })}</Typography>
             <YearlyChartContent />
           </Column>
         </CardContent>

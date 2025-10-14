@@ -1,6 +1,6 @@
-import Column from '@/components/Layout/Containers/Column';
+import Column from '@/components/layout/Containers/Column';
 import { Skeleton } from '@mui/material';
-import Row from '@/components/Layout/Containers/Row';
+import Row from '@/components/layout/Containers/Row';
 
 const FinanceOverviewCardSkeleton = () => (
   <Row width="100%" justifyContent="space-between" alignItems="center">

@@ -38,6 +38,6 @@ export interface TransactionSummaryDto {
   monthlyExpenses: number;
 }
 
-export interface ExtendedTransaction extends TransactionDto {
-  originalId: string;
+export interface ExpandedTransactionDto extends TransactionDto {
+  originalId?: string;
 }

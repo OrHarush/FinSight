@@ -3,12 +3,12 @@ import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { useTransactions } from '@/hooks/useTransactions';
-import EntityEmpty from '@/components/Entities/EntityEmpty';
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Skeleton } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { monthLabels } from '@/constants/monthLabels';
-import EntityError from '@/components/Entities/EntityError';
+import EntityError from '@/components/entities/EntityError';
 
 const YearlyChartContent = () => {
   const { isLoading, error, refetch } = useTransactions();
@@ -36,13 +36,7 @@ const YearlyChartContent = () => {
   }
 
   if (!hasData) {
-    return (
-      <EntityEmpty
-        entityName={'transactions'}
-        subtitle={'Add some to see your income & expenses graph'}
-        icon={BarChartIcon}
-      />
-    );
+    return <EntityEmpty entityName={'transactions'} subtitleKey={'chart'} icon={BarChartIcon} />;
   }
   return (
     <BarChart

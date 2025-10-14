@@ -1,0 +1,15 @@
+{
+  "pageTitle": "Accounts",
+  "empty": {
+    "title": "No accounts yet",
+    "subtitle": "Add your first account to start tracking balances"
+  },
+  "actions": {
+    "add": "Add Account",
+    "edit": "Edit Account",
+    "delete": "Delete Account"
+  },
+  "fields": {
+
+  }
+}

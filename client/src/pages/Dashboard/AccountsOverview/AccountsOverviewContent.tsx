@@ -1,9 +1,10 @@
 import AccountsList from '@/pages/Dashboard/AccountsOverview/AccountsList';
 import AccountOverviewCardSkeleton from '@/pages/Dashboard/AccountsOverview/AccountOverviewCardSkeleton';
-import Row from '@/components/Layout/Containers/Row';
-import EntityError from '@/components/Entities/EntityError';
+import Row from '@/components/layout/Containers/Row';
+import EntityError from '@/components/entities/EntityError';
 import { useAccounts } from '@/hooks/useAccounts';
-import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 const AccountsOverviewContent = () => {
   const { accounts, refetch, isLoading, error } = useAccounts();
@@ -23,7 +24,7 @@ const AccountsOverviewContent = () => {
   }
 
   if (!accounts.length) {
-    return <AccountsEmpty />;
+    return <EntityEmpty entityName={'accounts'} icon={AccountBalanceWalletIcon} />;
   }
 
   return <AccountsList />;

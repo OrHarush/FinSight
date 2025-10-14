@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material';
 import AccountCard from '@/pages/Accounts/AccountCard';
-import AccountsEmpty from '@/components/Accounts/AccountsEmpty';
 import AccountCardSkeleton from '@/pages/Accounts/AccountCardSkeleton';
 import { useAccounts } from '@/hooks/useAccounts';
 import { AccountDto } from '@/types/Account';
-import EntityError from '@/components/Entities/EntityError';
+import EntityError from '@/components/entities/EntityError';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import EntityEmpty from '@/components/entities/EntityEmpty';
 
 interface AccountContentPageProps {
   selectAccount: (account: AccountDto) => void;
@@ -34,7 +35,7 @@ const AccountsPageContent = ({ selectAccount }: AccountContentPageProps) => {
   }
 
   if (!accounts.length) {
-    return <AccountsEmpty />;
+    return <EntityEmpty entityName={'accounts'} icon={AccountBalanceWalletIcon} />;
   }
 
   return (

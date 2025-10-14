@@ -1,12 +1,12 @@
-import CreateTransactionDialog from '@/components/Dialogs/TransactionDialogs/CreateTransactionDialog';
+import CreateTransactionDialog from '@/components/dialogs/TransactionDialogs/CreateTransactionDialog';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
-import EditTransactionDialog from '@/components/Dialogs/TransactionDialogs/EditTransactionDialog';
+import EditTransactionDialog from '@/components/dialogs/TransactionDialogs/EditTransactionDialog';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useCategories } from '@/hooks/useCategories';
 import { useNavigate } from 'react-router-dom';
 import { Button, DialogContent, Typography } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
-import FinSightDialog from '@/components/Dialogs/FinSightDialog';
+import FinSightDialog from '@/components/dialogs/FinSightDialog';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -30,7 +30,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
       >
         <DialogContent
           sx={{
-            p: 2,
+            p: 4,
             pt: 0,
           }}
         >

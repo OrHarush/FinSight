@@ -1,13 +1,13 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import CreateAccountDialog from '@/components/Dialogs/AccountDialogs/CreateAccountDialog';
-import PageLayout from '@/components/Layout/PageLayout';
+import CreateAccountDialog from '@/components/dialogs/AccountDialogs/CreateAccountDialog';
+import PageLayout from '@/components/layout/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
-import EditAccountDialog from '@/components/Dialogs/AccountDialogs/EditAccountDialog';
+import EditAccountDialog from '@/components/dialogs/AccountDialogs/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
 import { useOpen } from '@/hooks/useOpen';
-import PageHeader from '@/components/Layout/PageHeader';
-import ActionFab from '@/components/ActionFab';
+import PageHeader from '@/components/layout/PageHeader';
+import ActionFab from '@/components/common/ActionFab';
 
 const Accounts = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
@@ -26,9 +26,9 @@ const Accounts = () => {
 
   return (
     <PageLayout>
-      <PageHeader pageTitle={'Accounts'}>
+      <PageHeader entityName={'accounts'}>
         {!isMobile && (
-          <Button variant="outlined" onClick={openCreateDialog}>
+          <Button variant="contained" onClick={openCreateDialog}>
             Create Account
           </Button>
         )}

@@ -1,0 +1,45 @@
+{
+  "pageTitle": "Financial Dashboard",
+  "dateSelector": {
+    "placeholder": "Select date"
+  },
+  "accountSelector": {
+    "placeholder": "Create account first"
+  },
+  "financialHighlights": {
+    "currentBalance": "Balance",
+    "income": "Income",
+    "totalMonthlyExpenses": "Total Monthly Expenses",
+    "endOfMonthBalance": "End of Month Balance"
+  },
+
+  "chart": {
+    "title": "Income & Expenses ({{year}})",
+    "legend": {
+      "income": "Income",
+      "expenses": "Expenses"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    }
+  },
+  "recentTransactions": {
+    "title": "Recent Transactions",
+    "viewAll": "View All"
+  },
+  "accounts": {
+    "title": "Accounts",
+    "manageAccounts": "Manage Accounts"
+  }
+}

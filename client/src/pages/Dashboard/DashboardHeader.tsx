@@ -1,12 +1,14 @@
-import PageHeader from '@/components/Layout/PageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
-import AccountMenuItem from '@/components/Accounts/AccountMenuItem';
+import AccountMenuItem from '@/components/accounts/AccountMenuItem';
 import { ChangeEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DashboardHeader = () => {
+  const { t } = useTranslation('dashboard');
   const { accounts } = useAccounts();
   const { date, setDate, account, setAccount } = useDashboardFilters();
 
@@ -22,7 +24,7 @@ const DashboardHeader = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <PageHeader pageTitle={'Financial Dashboard'}>
+    <PageHeader entityName={'dashboard'}>
       <Stack spacing={2} alignItems="center" direction={isMobile ? 'column' : 'row'}>
         <DatePicker
           views={['year', 'month']}
@@ -35,11 +37,27 @@ const DashboardHeader = () => {
         />
         <TextField
           select
-          value={account?._id || ''}
+          value={account?._id || 'noAccounts'}
           onChange={changeAccount}
           sx={{ width: '240px' }}
           disabled={accounts?.length === 0}
         >
+          {accounts?.length === 0 && (
+            <MenuItem key={'noAccounts'} value={'noAccounts'}>
+              <AccountMenuItem
+                account={{
+                  name: t('accountSelector.placeholder'),
+                  icon: 'AccountBalanceIcon',
+                  accountNumber: '123',
+                  balance: 23,
+                  institution: 'Leumi',
+                  isPrimary: false,
+                  _id: 'empty account',
+                  lastSynced: new Date(),
+                }}
+              />
+            </MenuItem>
+          )}
           {accounts.map(account => (
             <MenuItem key={account._id} value={account._id}>
               <AccountMenuItem account={account} />

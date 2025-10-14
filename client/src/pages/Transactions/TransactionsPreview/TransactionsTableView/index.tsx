@@ -17,7 +17,7 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
   const { transactions, pagination } = useTransactions(
     2025,
     selectedMonth?.month(),
-    selectedCategory,
+    selectedCategory ?? undefined,
     page + 1,
     rowsPerPage
   );
@@ -51,11 +51,7 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
         }}
       >
         <TransactionTableHeaders />
-        <TransactionTableBody
-          filteredTransactions={transactions}
-          page={page}
-          rowsPerPage={rowsPerPage}
-        />
+        <TransactionTableBody transactions={transactions} />
       </Table>
       <TablePagination
         component="div"

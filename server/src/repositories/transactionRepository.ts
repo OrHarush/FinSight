@@ -2,7 +2,12 @@ import Transaction, { ITransaction } from '../models/Transaction';
 import { Types } from 'mongoose';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommands';
 import { TransactionQueryOptions } from '../types/Transaction';
-import { expandTransactions } from '../utils/transactionUtils';
+import {
+  buildTransactionQuery,
+  expandTransactions,
+  filterAndExpandTransactions,
+  sortAndPaginate,
+} from '../utils/transactionUtils';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -11,55 +16,26 @@ dayjs.extend(utc);
 export const findAll = async (userId: string, options: TransactionQueryOptions = {}) => {
   const { page, limit, from, to, sort = 'desc', categoryId } = options;
 
-  const query: any = { userId: new Types.ObjectId(userId) };
+  const fromDate = from ? new Date(from) : undefined;
+  const toDate = to ? new Date(to) : undefined;
 
-  if (from || to) {
-    query.date = {};
+  const query = buildTransactionQuery(userId, fromDate, toDate, categoryId);
 
-    if (from) {
-      query.date.$gte = new Date(from);
-    }
-    if (to) {
-      query.date.$lte = new Date(to);
-    }
-  }
-
-  if (categoryId) {
-    query.category = new Types.ObjectId(categoryId);
-  }
-
-  let cursor = Transaction.find(query)
-    .sort({ date: sort === 'asc' ? 1 : -1 })
+  const transactions = await Transaction.find(query)
     .populate('category')
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
 
-  if (page && limit) {
-    const skip = (page - 1) * limit;
-    cursor = cursor.skip(skip).limit(limit);
-  }
+  const filtered = filterAndExpandTransactions(transactions, fromDate, toDate);
 
-  const [transactions, total] = await Promise.all([cursor, Transaction.countDocuments(query)]);
-
-  return {
-    data: transactions,
-    pagination:
-      page && limit
-        ? {
-            total,
-            page,
-            limit,
-            totalPages: Math.ceil(total / limit),
-          }
-        : undefined,
-  };
+  return sortAndPaginate(filtered, sort, page, limit);
 };
 
 export const getSummary = async (userId: string, year: number, month?: number) => {
   const normalizeMonth = (m: number) => (m > 11 ? m - 1 : m);
 
-  const isMonthly = month !== undefined; // don't use truthiness!
+  const isMonthly = month !== undefined;
   const month0 = isMonthly ? normalizeMonth(Number(month - 1)) : undefined;
 
   const start = isMonthly
