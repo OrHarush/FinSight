@@ -88,7 +88,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                 <Typography fontWeight={500}>{category.name}</Typography>
               </Row>
               <EditAndDeleteButtons
-                onDelete={() => deleteCategory.mutate()}
+                onConfirmDelete={deleteCategory.mutate}
                 onEdit={() => selectCategory(category)}
               />
             </Row>

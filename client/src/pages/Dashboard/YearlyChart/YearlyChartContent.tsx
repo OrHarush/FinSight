@@ -7,12 +7,15 @@ import EntityEmpty from '@/components/entities/EntityEmpty';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Skeleton } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
-import { monthLabels } from '@/constants/monthLabels';
 import EntityError from '@/components/entities/EntityError';
+import { useMonthLabels } from '@/hooks/useMonthsLabels';
+import { useTranslation } from 'react-i18next';
 
 const YearlyChartContent = () => {
+  const { t } = useTranslation('common');
   const { isLoading, error, refetch } = useTransactions();
   const { year } = useDashboardFilters();
+  const monthLabels = useMonthLabels();
 
   const { data: yearlySummary } = useFetch<TransactionSummaryDto[]>({
     url: `${API_ROUTES.TRANSACTIONS}/summary?year=${year}`,
@@ -38,12 +41,21 @@ const YearlyChartContent = () => {
   if (!hasData) {
     return <EntityEmpty entityName={'transactions'} subtitleKey={'chart'} icon={BarChartIcon} />;
   }
+
   return (
     <BarChart
       xAxis={[{ data: monthLabels, scaleType: 'band' }]}
       series={[
-        { data: monthlyIncome, label: '₪ Income', color: '#67ec6b' },
-        { data: monthlyExpenses, label: '₪ Expenses', color: '#c31b12' },
+        {
+          data: monthlyIncome,
+          label: `₪ ${t('general.income')}`,
+          color: '#67ec6b',
+        },
+        {
+          data: monthlyExpenses,
+          label: `₪ ${t('general.expenses')}`,
+          color: '#c31b12',
+        },
       ]}
       height={300}
     />

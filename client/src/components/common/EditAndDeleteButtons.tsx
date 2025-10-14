@@ -42,10 +42,10 @@ const EditAndDeleteButtons = ({
 
   return (
     <>
-      <Row spacing={1}>
+      <Row>
         <IconButton
           onClick={onEdit}
-          size="large"
+          size="medium"
           disabled={isEditDisabled}
           aria-label={`Edit ${entityType}`}
         >
@@ -53,7 +53,7 @@ const EditAndDeleteButtons = ({
         </IconButton>
         <IconButton
           onClick={handleDeleteClick}
-          size="large"
+          size="medium"
           color="error"
           disabled={isDeleteDisabled}
           aria-label={`Delete ${entityType}`}

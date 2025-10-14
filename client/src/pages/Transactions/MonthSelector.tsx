@@ -5,11 +5,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Row from '@/components/layout/Containers/Row';
+import { useMonthLabels } from '@/hooks/useMonthsLabels';
 
 const MonthSelector = () => {
   const [selectedMonth, setSelectedMonth] = useState<Dayjs>(dayjs());
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const monthLabels = useMonthLabels();
 
   const handlePrevMonth = () => {
     setSelectedMonth(prev => prev.subtract(1, 'month'));
@@ -19,7 +21,9 @@ const MonthSelector = () => {
     setSelectedMonth(prev => prev.add(1, 'month'));
   };
 
-  const formattedMonth = selectedMonth.format('MMMM YYYY');
+  const monthIndex = selectedMonth.month();
+  const year = selectedMonth.year();
+  const formattedMonth = `${monthLabels[monthIndex]} ${year}`;
 
   if (isMobile) {
     return (
