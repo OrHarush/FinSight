@@ -28,22 +28,13 @@ const LanguageSelect = () => {
     { code: 'he', label: 'עברית', flag: 'IL' },
   ];
 
-  const currentLanguage = LANGUAGES.find(l => l.code === i18n.language) || LANGUAGES[0];
+  const currentFlag = LANGUAGES.find(({ code }) => code === i18n.language)?.flag ?? 'GB';
+
   return (
     <>
-      <IconButton
-        onClick={handleClick}
-        sx={{
-          width: 40,
-          height: 40,
-          backgroundColor: theme.palette.background.paper,
-          '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-          },
-        }}
-      >
+      <IconButton onClick={handleClick}>
         <ReactCountryFlag
-          countryCode={currentLanguage.flag}
+          countryCode={currentFlag}
           svg
           style={{
             fontSize: '1em',
@@ -60,7 +51,6 @@ const LanguageSelect = () => {
             backgroundColor: theme.palette.background.paper,
             borderRadius: 2,
             minWidth: 160,
-            mt: 1,
           },
         }}
       >
