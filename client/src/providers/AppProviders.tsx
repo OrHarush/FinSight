@@ -30,4 +30,5 @@ const AppProviders = ({ children }: AppProvidersProps) => (
     </GoogleOAuthProvider>
   </QueryClientProvider>
 );
+
 export default AppProviders;

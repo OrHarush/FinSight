@@ -7,8 +7,11 @@ import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 import FinSightIcon from '@/pages/Login/FinSightIcon';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import LanguageSelect from '@/components/common/LanguageSelect';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+  const { t } = useTranslation('login');
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { alertError } = useSnackbar();
@@ -46,9 +49,21 @@ const LoginPage = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: { xs: 16, md: 24 },
+          right: { xs: 16, md: 24 },
+          left: 'auto',
+          zIndex: 10,
+        }}
+      >
+        <LanguageSelect />
+      </Box>
       <Card
         sx={{
-          minWidth: 340,
+          width: isMobile ? '340px' : '420px',
+          height: isMobile ? '400px' : '440px',
           textAlign: 'center',
           borderRadius: 6,
           boxShadow: '0px 20px 60px rgba(0,0,0,0.6)',
@@ -57,7 +72,7 @@ const LoginPage = () => {
           border: '1px solid rgba(255, 255, 255, 0.125)',
         }}
       >
-        <CardContent sx={{ py: 5, px: 4 }}>
+        <CardContent sx={{ py: 5, px: 2 }}>
           <FinSightIcon />
           <Typography
             variant={isMobile ? 'h5' : 'h4'}
@@ -71,7 +86,7 @@ const LoginPage = () => {
               letterSpacing: '-0.02em',
             }}
           >
-            Welcome to FinSight
+            {t('title')}
           </Typography>
           <Typography
             variant="body1"
@@ -82,7 +97,7 @@ const LoginPage = () => {
               fontWeight: 400,
             }}
           >
-            Your personal finance dashboard
+            {t('subtitle')}
           </Typography>
           <Box
             display="flex"
@@ -114,7 +129,7 @@ const LoginPage = () => {
               fontSize: '0.875rem',
             }}
           >
-            Sign in securely with your Google account
+            {t('secure_note')}
           </Typography>
         </CardContent>
       </Card>

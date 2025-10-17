@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import Column from '@/components/layout/Containers/Column';
 import { SvgIconComponent } from '@mui/icons-material';
-import CurrencyText from '@/components/common/CurrencyText';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 import Row from '@/components/layout/Containers/Row';
 import FinanceOverviewCardSkeleton from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCardSkeleton';
 

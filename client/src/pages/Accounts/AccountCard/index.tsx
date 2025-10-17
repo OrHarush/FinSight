@@ -6,7 +6,7 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import { AccountDto } from '@/types/Account';
 import AccountIcon from '@/components/accounts/AccountIcon';
 import { useOpen } from '@/hooks/useOpen';

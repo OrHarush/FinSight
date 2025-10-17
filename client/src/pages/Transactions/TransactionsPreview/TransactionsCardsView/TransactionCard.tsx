@@ -1,8 +1,8 @@
 import Paper from '@mui/material/Paper';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
-import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
-import CurrencyText from '@/components/common/CurrencyText';
+import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';

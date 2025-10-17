@@ -4,7 +4,7 @@ import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import { useAuth } from '@/providers/AuthProvider';
 import ThemeToggle from '@/components/layout/Sidebar/Settings/ThemeToggle';
-import LanguageSelect from '@/components/layout/Sidebar/Settings/LanguageSelect';
+import LanguageSelect from '@/components/common/LanguageSelect';
 import { useTranslation } from 'react-i18next';
 
 const Settings = () => {

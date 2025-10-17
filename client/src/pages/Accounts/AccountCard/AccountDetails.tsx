@@ -1,6 +1,6 @@
 import Row from '@/components/layout/Containers/Row';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/common/CurrencyText';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 import Column from '@/components/layout/Containers/Column';
 import { AccountDto } from '@/types/Account';
 

@@ -9,7 +9,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { useOpen } from '@/hooks/useOpen';
-import ActionFab from '@/components/common/ActionFab';
+import ActionFab from '@/components/appCommon/ActionFab';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/UploadFile';
 import CategorySelect from '@/pages/Transactions/CategorySelect';

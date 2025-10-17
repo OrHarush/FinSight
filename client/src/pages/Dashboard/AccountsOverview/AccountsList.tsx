@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import AccountIcon from '@/components/accounts/AccountIcon';
 import Column from '@/components/layout/Containers/Column';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/common/CurrencyText';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 import { useAccounts } from '@/hooks/useAccounts';
 import Box from '@mui/material/Box';
 

@@ -1,7 +1,7 @@
 import { TableCell, TableRow } from '@mui/material';
-import CurrencyText from '@/components/common/CurrencyText';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
-import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';

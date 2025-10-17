@@ -8,7 +8,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
-import EditAndDeleteButtons from '@/components/common/EditAndDeleteButtons';
+import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import Column from '@/components/layout/Containers/Column';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
 import { CategoryDto } from '@/types/Category';

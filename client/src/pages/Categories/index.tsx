@@ -7,7 +7,7 @@ import { CategoryDto } from '@/types/Category';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
 import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/layout/PageHeader';
-import ActionFab from '@/components/common/ActionFab';
+import ActionFab from '@/components/appCommon/ActionFab';
 import { useTranslation } from 'react-i18next';
 
 const Categories = () => {
