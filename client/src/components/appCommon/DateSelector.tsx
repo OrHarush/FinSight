@@ -8,11 +8,8 @@ import Row from '@/components/layout/Containers/Row';
 import { useMonthLabels } from '@/hooks/useMonthsLabels';
 
 interface DateSelectorProps {
-  /** Current selected month (controlled from parent) */
   value: Dayjs;
-  /** Called whenever the month changes */
   onChange: (newDate: Dayjs) => void;
-  /** Allow switching between year and month in picker */
   allowYearSelection?: boolean;
 }
 
@@ -35,7 +32,7 @@ const DateSelector = ({ value, onChange, allowYearSelection = false }: DateSelec
 
   if (isMobile) {
     return (
-      <Row width="220px" alignItems="center" justifyContent="space-between" spacing={1}>
+      <Row width="220px" alignItems="center" justifyContent="space-between" spacing={1} dir={'ltr'}>
         <IconButton onClick={handlePrevMonth} size="small" color="primary">
           <ArrowBackIosNewIcon fontSize="small" />
         </IconButton>

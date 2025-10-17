@@ -4,10 +4,11 @@ import { Stack } from '@mui/material';
 
 interface RowProps extends StackOwnProps {
   children: React.ReactNode[] | React.ReactNode;
+  dir?: 'ltr' | 'rtl';
 }
 
-const Row = ({ children, ...props }: RowProps) => (
-  <Stack {...props} direction={'row'}>
+const Row = ({ children, dir, ...props }: RowProps) => (
+  <Stack {...props} direction={'row'} dir={dir}>
     {children}
   </Stack>
 );

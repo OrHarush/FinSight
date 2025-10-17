@@ -5,7 +5,7 @@ import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/materi
 import AccountMenuItem from '@/components/accounts/AccountMenuItem';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import DateSelector from '@/pages/Transactions/DateSelector';
+import DateSelector from '@/components/appCommon/DateSelector';
 
 const DashboardHeader = () => {
   const { t } = useTranslation('dashboard');

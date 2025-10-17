@@ -13,7 +13,7 @@ import ActionFab from '@/components/appCommon/ActionFab';
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/UploadFile';
 import CategorySelect from '@/pages/Transactions/CategorySelect';
-import DateSelector from '@/pages/Transactions/DateSelector';
+import DateSelector from '@/components/appCommon/DateSelector';
 import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
 
 export const Transactions = () => {
