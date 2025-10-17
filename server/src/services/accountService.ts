@@ -1,4 +1,5 @@
 import * as accountRepository from '../repositories/accountRepository';
+import * as transactionRepository from '../repositories/transactionRepository';
 import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
 import { Types } from 'mongoose';
 
@@ -66,4 +67,14 @@ export const deleteAccount = async (id: string, userId: string) => {
   }
 
   return deletedAccount;
+};
+
+export const getLinkedTransactionsCount = async (userId: string, accountId: string) => {
+  const account = await accountRepository.findById(accountId, userId);
+
+  if (!account) {
+    return null;
+  }
+
+  return await transactionRepository.countByAccountId(userId, accountId);
 };

@@ -3,11 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import EventIcon from '@mui/icons-material/Event';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CategoryIcon from '@mui/icons-material/Category';
-import PieChartIcon from '@mui/icons-material/PieChart';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 
@@ -38,21 +35,21 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
     icon: CategoryIcon,
     route: ROUTES.CATEGORIES_URL,
   },
-  {
-    titleKey: 'budget',
-    icon: PieChartIcon,
-    route: ROUTES.BUDGET_URL,
-  },
-  {
-    titleKey: 'planner',
-    icon: EventIcon,
-    route: ROUTES.PLANNER_URL,
-  },
-  {
-    titleKey: 'reports',
-    icon: BarChartIcon,
-    route: ROUTES.REPORTS_URL,
-  },
+  // {
+  //   titleKey: 'budget',
+  //   icon: PieChartIcon,
+  //   route: ROUTES.BUDGET_URL,
+  // },
+  // {
+  //   titleKey: 'planner',
+  //   icon: EventIcon,
+  //   route: ROUTES.PLANNER_URL,
+  // },
+  // {
+  //   titleKey: 'reports',
+  //   icon: BarChartIcon,
+  //   route: ROUTES.REPORTS_URL,
+  // },
 ];
 
 const SidebarButtons = () => {

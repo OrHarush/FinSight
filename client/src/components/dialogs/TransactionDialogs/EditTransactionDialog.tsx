@@ -29,6 +29,7 @@ const EditTransactionDialog = ({
           : transaction.date.split('T')[0],
       endDate: transaction.endDate ? transaction.endDate.split('T')[0] : undefined,
       recurrence: transaction.recurrence,
+      type: transaction.type,
       category: transaction?.category?._id,
       account: transaction?.account?._id,
     },
@@ -36,7 +37,7 @@ const EditTransactionDialog = ({
 
   const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionCommand>({
     method: 'put',
-    url: `${API_ROUTES.TRANSACTIONS}/${transaction.originalId}`,
+    url: `${API_ROUTES.TRANSACTIONS}/${transaction?.originalId ?? transaction._id}`,
     queryKeysToInvalidate: [queryKeys.allTransactions()],
   });
 

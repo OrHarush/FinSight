@@ -32,12 +32,12 @@ const EditAndDeleteButtons = ({
 
   const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-
-    if (requireConfirmation) {
-      setConfirmOpen(true);
-    } else {
-      onConfirmDelete?.();
-    }
+    onConfirmDelete();
+    // if (requireConfirmation) {
+    //   setConfirmOpen(true);
+    // } else {
+    //   onConfirmDelete?.();
+    // }
   };
 
   return (
@@ -61,17 +61,17 @@ const EditAndDeleteButtons = ({
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Row>
-      {requireConfirmation && (
-        <DeletionConfirmationDialog
-          isOpen={confirmOpen}
-          closeDialog={() => setConfirmOpen(false)}
-          onConfirm={() => onConfirmDelete?.()}
-          entityType={entityType}
-          entityName={entityName}
-          message={confirmationMessage}
-          disabledReason={disabledReason}
-        />
-      )}
+      {/*{requireConfirmation && (*/}
+      {/*  <DeletionConfirmationDialog*/}
+      {/*    isOpen={confirmOpen}*/}
+      {/*    closeDialog={() => setConfirmOpen(false)}*/}
+      {/*    onConfirm={() => onConfirmDelete?.()}*/}
+      {/*    entityType={entityType}*/}
+      {/*    entityName={entityName}*/}
+      {/*    message={confirmationMessage}*/}
+      {/*    disabledReason={disabledReason}*/}
+      {/*  />*/}
+      {/*)}*/}
     </>
   );
 };

@@ -57,13 +57,7 @@ export const getSummary = async (userId: string, year: number, month?: number) =
 
   const expanded = expandTransactions(transactions, end);
 
-  // console.log(
-  //   'expanded',
-  //   expanded.map((x) => ({ name: x.name, date: x.date, amount: x.amount }))
-  // );
-
   if (isMonthly) {
-    // monthly summary keeps your original semantics: expand -> filter window -> reduce
     let monthlyIncome = 0;
     let monthlyExpenses = 0;
 
@@ -77,7 +71,6 @@ export const getSummary = async (userId: string, year: number, month?: number) =
     return { monthlyIncome, monthlyExpenses };
   }
 
-  // yearly summary: bucket by month (0–11) within the year window
   const buckets = Array.from({ length: 12 }, (_, i) => ({
     month: i,
     monthlyIncome: 0,
@@ -98,44 +91,6 @@ export const getSummary = async (userId: string, year: number, month?: number) =
   return buckets;
 };
 
-// export const getSummary = async (userId: string, year: number, month: number) => {
-//   const start = dayjs
-//     .utc()
-//     .year(year)
-//     .month(month - 1)
-//     .startOf('month')
-//     .toDate();
-//   const end = dayjs
-//     .utc()
-//     .year(year)
-//     .month(month - 1)
-//     .endOf('month')
-//     .toDate();
-//
-//
-//   const transactions = await Transaction.find({
-//     userId: new Types.ObjectId(userId),
-//   })
-//     .populate('category')
-//     .populate('account')
-//     .populate('fromAccount')
-//     .populate('toAccount');
-//
-//   const expanded = expandTransactions(transactions, end);
-//
-//   const monthlyTx = expanded.filter((tx) => tx.date >= start && tx.date <= end);
-//
-//   return monthlyTx.reduce(
-//     (acc, tx) => {
-//       if (tx.category?.type === 'Income') acc.monthlyIncome += tx.amount;
-//       if (tx.category?.type === 'Expense') acc.monthlyExpenses += tx.amount;
-//       return acc;
-//     },
-//     { monthlyIncome: 0, monthlyExpenses: 0 }
-//   );
-// };
-
-// transactionRepository.ts
 export const getYearlySummary = async (userId: string, year: number) =>
   Transaction.aggregate([
     {
@@ -210,3 +165,24 @@ export const remove = async (id: string, userId: string) =>
   Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
     .populate('category')
     .populate('account');
+
+export const countByAccountId = async (userId: string, accountId: string) =>
+  Transaction.countDocuments({
+    userId: new Types.ObjectId(userId),
+    account: new Types.ObjectId(accountId),
+  });
+
+export const reassignAccountForUser = async (
+  userId: string,
+  fromAccountId: string,
+  toAccountId: string
+) =>
+  Transaction.updateMany(
+    {
+      userId: new Types.ObjectId(userId),
+      account: new Types.ObjectId(fromAccountId),
+    },
+    {
+      $set: { account: new Types.ObjectId(toAccountId) },
+    }
+  );

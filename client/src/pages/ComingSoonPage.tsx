@@ -14,7 +14,6 @@ const ComingSoonPage = () => {
       sx={{
         minHeight: '100%',
         textAlign: 'center',
-        color: '#fff',
       }}
     >
       <img

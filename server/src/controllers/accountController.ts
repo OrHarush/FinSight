@@ -58,3 +58,19 @@ export const deleteAccount = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ success: false, error: 'Server error' });
   }
 };
+
+export const getLinkedTransactionsCount = async (req: AuthRequest, res: Response) => {
+  try {
+    console.log('Getting linked transactions count for account:', req.params.id);
+    const count = await accountService.getLinkedTransactionsCount(req.userId!, req.params.id);
+
+    if (count === null) {
+      return res.status(404).json({ success: false, error: 'Account not found' });
+    }
+
+    res.json({ success: true, count });
+  } catch (err) {
+    console.error('Error getting linked transactions count:', err);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+};
