@@ -60,12 +60,23 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   return (
     <Grid size={{ xs: 12, sm: 6 }}>
       <Card
+        onClick={() => selectCategory(category)}
         sx={{
           width: '280px',
           height: '120px',
           borderRadius: '12px',
           paddingX: 2,
           paddingY: 1,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+          border: '1px solid',
+          borderColor: 'divider',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+            transform: 'translateY(-2px)',
+            borderColor: 'primary.main',
+          },
         }}
       >
         <CardContent sx={{ padding: '8px !important' }}>
