@@ -1,19 +1,29 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-const TransactionTableHeaders = () => {
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell>Name</TableCell>
-        <TableCell align="left">Amount</TableCell>
-        <TableCell align="left">Category</TableCell>
-        <TableCell align="left">Account</TableCell>
-        <TableCell align="left">Recurrence</TableCell>
-        <TableCell align="left">Date</TableCell>
-        <TableCell align="left">Actions</TableCell>
-      </TableRow>
-    </TableHead>
-  );
-};
+const TransactionTableHeaders = () => (
+  <TableHead>
+    <TableRow>
+      <TableCell sx={{ width: '15%' }}>Name</TableCell>
+      <TableCell sx={{ width: '10%' }} align="left">
+        Amount
+      </TableCell>
+      <TableCell sx={{ width: '20%' }} align="left">
+        Category
+      </TableCell>
+      <TableCell sx={{ width: '20%' }} align="left">
+        Account
+      </TableCell>
+      <TableCell sx={{ width: '15%' }} align="left">
+        Recurrence
+      </TableCell>
+      <TableCell sx={{ width: '15%' }} align="left">
+        Date
+      </TableCell>
+      <TableCell sx={{ width: '5%' }} align="left">
+        Actions
+      </TableCell>
+    </TableRow>
+  </TableHead>
+);
 
 export default TransactionTableHeaders;

@@ -18,9 +18,9 @@ const CategoryChip = ({ name, color, icon }: CategoryValueProps) => {
       label={name}
       variant="outlined"
       sx={{
-        width: '150px',
+        width: '160px',
+        height: '36px',
         justifyContent: 'flex-start',
-
         textAlign: 'left',
         padding: '0 12px',
         borderColor: 'default',

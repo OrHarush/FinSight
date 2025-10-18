@@ -9,12 +9,14 @@ import CategoriesSelect from '@/components/categories/CategoriesSelect';
 import { useCategories } from '@/hooks/useCategories';
 import AccountSelect from '@/components/accounts/AccountSelect';
 import TransactionTypeSelector from '@/components/dialogs/TransactionDialogs/TransactionTypeSelector';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
 
 const TransactionForm = () => {
   const { categories, isLoading } = useCategories();
   const { control } = useFormContext<TransactionFormValues>();
+  const isMobile = useIsMobile();
 
   const transactionType = useWatch({ control, name: 'type' });
   const recurrence = useWatch({ control, name: 'recurrence' });
@@ -24,7 +26,7 @@ const TransactionForm = () => {
   );
 
   return (
-    <Column spacing={2} height={'480px'}>
+    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '432px' : '460px'}>
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
@@ -41,7 +43,7 @@ const TransactionForm = () => {
           name="recurrence"
           label="Recurrence"
           required
-          sx={{ width: '190px' }}
+          fullWidth
           options={recurrenceOptions.map(option => ({
             label: option,
             value: option,
@@ -52,7 +54,7 @@ const TransactionForm = () => {
             name="endDate"
             label="End Date"
             type={recurrence === 'Monthly' ? 'month' : 'date'}
-            sx={{ width: '190px' }}
+            fullWidth
           />
         )}
       </Row>

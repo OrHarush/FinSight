@@ -61,7 +61,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
       <TableCell align="left">{new Date(transaction.date).toLocaleDateString('en-GB')}</TableCell>
       <TableCell align="center">
         <EditAndDeleteButtons
-          onDelete={() => deleteTransaction.mutate()}
+          onConfirmDelete={deleteTransaction.mutate}
           onEdit={() => setSelectedTransaction(transaction)}
         />
       </TableCell>

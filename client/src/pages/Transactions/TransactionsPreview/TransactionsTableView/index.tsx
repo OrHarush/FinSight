@@ -2,25 +2,17 @@ import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import { ChangeEvent, useState } from 'react';
-import { useTransactions } from '@/hooks/useTransactions';
-import { Dayjs } from 'dayjs';
+import { TransactionDto } from '@/types/Transaction';
+import { PaginationMeta } from '@/hooks/useFetch';
 
 interface TransactionsTableViewProps {
-  selectedMonth: Dayjs | null;
-  selectedCategory: string | null;
+  transactions: TransactionDto[];
+  pagination?: PaginationMeta;
 }
 
-const TransactionsTableView = ({ selectedMonth, selectedCategory }: TransactionsTableViewProps) => {
+const TransactionsTableView = ({ transactions, pagination }: TransactionsTableViewProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-
-  const { transactions, pagination } = useTransactions(
-    2025,
-    selectedMonth?.month(),
-    selectedCategory ?? undefined,
-    page + 1,
-    rowsPerPage
-  );
 
   const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 

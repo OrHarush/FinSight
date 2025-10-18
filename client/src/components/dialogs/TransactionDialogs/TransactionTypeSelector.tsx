@@ -3,7 +3,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
 
 const TRANSACTION_TYPES = [
   {
@@ -42,7 +41,7 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
             fullWidth
             sx={{
               '& .MuiToggleButton-root': {
-                py: 1.5,
+                py: { xs: 0.5, sm: 1.5 },
                 textTransform: 'none',
                 fontSize: '0.95rem',
                 fontWeight: 500,
@@ -74,17 +73,24 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
             }}
           >
             {TRANSACTION_TYPES.map(({ value, label, icon: Icon, color }) => (
-              <ToggleButton key={value} value={value}>
-                <ResponsiveRow>
-                  <Icon
-                    sx={{
-                      mr: 1,
-                      fontSize: 20,
-                      color: field.value === value ? color : 'inherit',
-                    }}
-                  />
-                  {label}
-                </ResponsiveRow>
+              <ToggleButton
+                key={value}
+                value={value}
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: 'center',
+                  gap: { xs: 0.5, sm: 1 },
+                }}
+              >
+                <Icon
+                  sx={{
+                    mr: 1,
+                    fontSize: 20,
+                    color: field.value === value ? color : 'inherit',
+                  }}
+                />
+                {label}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
