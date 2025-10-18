@@ -33,7 +33,7 @@ const LanguageSelect = () => {
 
   return (
     <>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} sx={{ borderRadius: '8px' }}>
         <ReactCountryFlag
           countryCode={currentFlag}
           svg

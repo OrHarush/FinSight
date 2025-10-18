@@ -1,27 +1,29 @@
 {
   "general": {
+    "signedInAs": "מחובר בתור",
     "income": "הכנסות",
-    "expenses": "הוצאות",
-    "signedInAs": "מחובר כ-"
+    "expenses": "הוצאות"
   },
   "buttons": {
-    "cancel": "ביטול",
     "create": "צור",
     "update": "עדכן",
-    "signOut": "התנתק"
+    "cancel": "בטל"
   },
-  "legal": {
-    "termsOfService": "תנאי שימוש",
-    "privacyPolicy": "מדיניות פרטיות"
+  "actions": {
+    "logout": "התנתק"
+  },
+  "settings": {
+    "title": "הגדרות",
+    "help": "עזרה",
+    "deleteAccount": "מחק חשבון",
+    "deleteConfirm": "האם אתה בטוח שברצונך למחוק את החשבון שלך לצמיתות? פעולה זו אינה ניתנת לביטול.",
+    "accountDeleted": "החשבון שלך נמחק בהצלחה.",
+    "deleteError": "מחיקת החשבון נכשלה."
   },
   "entities": {
     "empty": {
-      "title": "אין עדיין {{entityName}}"
+      "title": "אין {{entityName}} עדיין"
     }
-  },
-  "comingSoon": {
-    "title": "בקרוב מאוד",
-    "subtitle": "אנחנו עובדים קשה כדי להביא לכם משהו מדהים. הישארו מעודכנים לעדכונים נוספים!"
   },
   "months": {
     "jan": "ינו׳",
@@ -29,12 +31,20 @@
     "mar": "מרץ",
     "apr": "אפר׳",
     "may": "מאי",
-    "jun": "יונ׳",
-    "jul": "יול׳",
+    "jun": "יוני",
+    "jul": "יולי",
     "aug": "אוג׳",
     "sep": "ספט׳",
     "oct": "אוק׳",
     "nov": "נוב׳",
     "dec": "דצמ׳"
+  },
+  "legal": {
+    "termsOfService": "תנאי שימוש",
+    "privacyPolicy": "מדיניות פרטיות"
+  },
+  "comingSoon": {
+    "title": "בקרוב",
+    "subtitle": "אנחנו עובדים קשה כדי להביא לך משהו מדהים. הישאר מעודכן!"
   }
 }

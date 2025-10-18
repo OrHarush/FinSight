@@ -18,7 +18,7 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       toDate = end.toISOString();
     }
 
-    const result = await transactionService.getTransactions(req.userId!, {
+    const result = await transactionService.findAll(req.userId!, {
       page: parseInt(page as string, 10),
       limit: parseInt(limit as string, 10),
       from: fromDate,
@@ -48,7 +48,6 @@ export const getTransactionById = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// GET /transactions/summary?year=2025 OR ?year=2025&month=9
 export const getTransactionSummary = async (req: AuthRequest, res: Response) => {
   try {
     const { year, month } = req.query;
@@ -76,7 +75,7 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
 
 export const createTransaction = async (req: AuthRequest, res: Response) => {
   try {
-    const transaction = await transactionService.createTransaction(req.body, req.userId!);
+    const transaction = await transactionService.create(req.body, req.userId!);
     res.status(201).json(transaction);
   } catch (err: any) {
     console.log(err);
@@ -86,7 +85,7 @@ export const createTransaction = async (req: AuthRequest, res: Response) => {
 
 export const updateTransaction = async (req: AuthRequest, res: Response) => {
   try {
-    const updatedTransaction = await transactionService.updateTransaction(
+    const updatedTransaction = await transactionService.update(
       req.params.id,
       req.body,
       req.userId!

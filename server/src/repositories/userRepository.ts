@@ -48,3 +48,5 @@ export const acceptTerms = async ({
     { new: true }
   );
 };
+
+export const deleteUserById = (id: string) => User.findByIdAndDelete(id);

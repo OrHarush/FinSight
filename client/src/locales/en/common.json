@@ -1,27 +1,29 @@
 {
   "general": {
+    "signedInAs": "Signed in as",
     "income": "Income",
-    "expenses": "Expenses",
-    "signedInAs": "Signed in as"
+    "expenses": "Expenses"
   },
   "buttons": {
-    "cancel": "Cancel",
     "create": "Create",
     "update": "Update",
-    "signOut": "Sign Out"
+    "cancel": "Cancel"
   },
-  "legal": {
-    "termsOfService": "Terms of Service",
-    "privacyPolicy": "Privacy Policy"
+  "actions": {
+    "logout": "Log out"
+  },
+  "settings": {
+    "title": "Settings",
+    "help": "Help",
+    "deleteAccount": "Delete Account",
+    "deleteConfirm": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+    "accountDeleted": "Your account has been deleted successfully.",
+    "deleteError": "Failed to delete account."
   },
   "entities": {
     "empty": {
       "title": "No {{entityName}} yet"
     }
-  },
-  "comingSoon": {
-    "title": "Coming Soon",
-    "subtitle": "We’re working hard to bring you something amazing. Stay tuned for updates!"
   },
   "months": {
     "jan": "Jan",
@@ -36,5 +38,13 @@
     "oct": "Oct",
     "nov": "Nov",
     "dec": "Dec"
+  },
+  "legal": {
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "comingSoon": {
+    "title": "Coming Soon",
+    "subtitle": "We’re working hard to bring you something amazing. Stay tuned for updates!"
   }
 }

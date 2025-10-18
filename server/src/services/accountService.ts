@@ -3,12 +3,12 @@ import * as transactionRepository from '../repositories/transactionRepository';
 import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
 import { Types } from 'mongoose';
 
-export const getAccounts = async (userId: string) => accountRepository.findAll(userId);
+export const findAll = async (userId: string) => accountRepository.findMany(userId);
 
 export const getAccountById = async (id: string, userId: string) =>
   accountRepository.findById(id, userId);
 
-export const createAccount = async (accountDetails: CreateAccountCommand, userId: string) => {
+export const create = async (accountDetails: CreateAccountCommand, userId: string) => {
   if (!accountDetails.name) {
     throw new Error('Account name is required');
   }
@@ -23,10 +23,10 @@ export const createAccount = async (accountDetails: CreateAccountCommand, userId
   } else if (accountDetails.isPrimary) {
     await accountRepository.unsetPrimary(userId);
   }
-  return accountRepository.create(accountDetails, userId);
+  return accountRepository.insert(accountDetails, userId);
 };
 
-export const updateAccount = async (
+export const update = async (
   id: string,
   updatedAccountDetails: UpdateAccountCommand,
   userId: string
@@ -45,7 +45,7 @@ export const updateAccount = async (
     }
   }
 
-  return accountRepository.update(id, updatedAccountDetails, userId);
+  return accountRepository.updateById(id, updatedAccountDetails, userId);
 };
 
 export const deleteAccount = async (id: string, userId: string) => {
@@ -62,7 +62,7 @@ export const deleteAccount = async (id: string, userId: string) => {
 
     if (newPrimaryAccount) {
       const id = (newPrimaryAccount._id as Types.ObjectId).toString();
-      await accountRepository.update(id, { isPrimary: true }, userId);
+      await accountRepository.updateById(id, { isPrimary: true }, userId);
     }
   }
 

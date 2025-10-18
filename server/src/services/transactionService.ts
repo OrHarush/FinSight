@@ -4,8 +4,8 @@ import Category from '../models/Category';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommands';
 import { TransactionQueryOptions } from '../types/Transaction';
 
-export const getTransactions = async (userId: string, options: TransactionQueryOptions = {}) =>
-  transactionRepository.findAll(userId, options);
+export const findAll = async (userId: string, options: TransactionQueryOptions = {}) =>
+  transactionRepository.findMany(userId, options);
 
 export const getTransactionSummary = async (userId: string, year: number, month?: number) =>
   transactionRepository.getSummary(userId, year, month);
@@ -13,7 +13,7 @@ export const getTransactionSummary = async (userId: string, year: number, month?
 export const getTransactionById = async (id: string, userId: string) =>
   transactionRepository.findById(id, userId);
 
-export const createTransaction = async (data: CreateTransactionCommand, userId: string) => {
+export const create = async (data: CreateTransactionCommand, userId: string) => {
   if (!data.type) {
     throw new Error('Transaction type is required');
   }
@@ -55,11 +55,11 @@ export const createTransaction = async (data: CreateTransactionCommand, userId: 
     }
   }
 
-  return transactionRepository.create(data, userId);
+  return transactionRepository.insert(data, userId);
 };
 
-export const updateTransaction = async (id: string, data: Partial<ITransaction>, userId: string) =>
-  transactionRepository.update(id, data, userId);
+export const update = async (id: string, data: Partial<ITransaction>, userId: string) =>
+  transactionRepository.updateById(id, data, userId);
 
 export const deleteTransaction = async (id: string, userId: string) =>
   transactionRepository.remove(id, userId);

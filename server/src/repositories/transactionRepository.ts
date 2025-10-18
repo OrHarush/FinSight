@@ -13,7 +13,7 @@ import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 
-export const findAll = async (userId: string, options: TransactionQueryOptions = {}) => {
+export const findMany = async (userId: string, options: TransactionQueryOptions = {}) => {
   const { page, limit, from, to, sort = 'desc', categoryId } = options;
 
   const fromDate = from ? new Date(from) : undefined;
@@ -135,7 +135,7 @@ export const findById = async (id: string, userId: string) =>
     .populate('fromAccount')
     .populate('toAccount');
 
-export const create = async (data: CreateTransactionCommand, userId: string) => {
+export const insert = async (data: CreateTransactionCommand, userId: string) => {
   const transaction = new Transaction({
     name: data.name,
     amount: data.amount,
@@ -153,7 +153,7 @@ export const create = async (data: CreateTransactionCommand, userId: string) => 
   return transaction.save();
 };
 
-export const update = async (id: string, data: Partial<ITransaction>, userId: string) =>
+export const updateById = async (id: string, data: Partial<ITransaction>, userId: string) =>
   Transaction.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
     new: true,
     runValidators: true,
@@ -165,6 +165,8 @@ export const remove = async (id: string, userId: string) =>
   Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
     .populate('category')
     .populate('account');
+
+export const deleteMany = (filter: object) => Transaction.deleteMany(filter);
 
 export const countByAccountId = async (userId: string, accountId: string) =>
   Transaction.countDocuments({

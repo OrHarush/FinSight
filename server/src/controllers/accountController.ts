@@ -4,7 +4,7 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getAccounts = async (req: AuthRequest, res: Response) => {
   try {
-    const accounts = await accountService.getAccounts(req.userId!);
+    const accounts = await accountService.findAll(req.userId!);
     res.json({ success: true, data: accounts });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Server error' });
@@ -26,7 +26,7 @@ export const getAccountById = async (req: AuthRequest, res: Response) => {
 
 export const createAccount = async (req: AuthRequest, res: Response) => {
   try {
-    const account = await accountService.createAccount(req.body, req.userId!);
+    const account = await accountService.create(req.body, req.userId!);
     res.status(201).json({ success: true, data: account });
   } catch (err) {
     res.status(400).json({ success: false, error: 'Invalid data' });
@@ -35,7 +35,7 @@ export const createAccount = async (req: AuthRequest, res: Response) => {
 
 export const updateAccount = async (req: AuthRequest, res: Response) => {
   try {
-    const account = await accountService.updateAccount(req.params.id, req.body, req.userId!);
+    const account = await accountService.update(req.params.id, req.body, req.userId!);
 
     if (!account) {
       return res.status(404).json({ success: false, error: 'Account not found' });

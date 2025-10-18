@@ -2,7 +2,7 @@ import Category from '../models/Category';
 import { Types } from 'mongoose';
 import { CreateCategoryCommand, UpdateCategoryCommand } from '@shared/types/CategoryCommands';
 
-export const findAll = async (userId: string) =>
+export const findMany = async (userId: string) =>
   Category.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 });
 
 export const findById = async (id: string, userId: string) =>
@@ -14,7 +14,9 @@ export const create = async (categoryDetails: CreateCategoryCommand, userId: str
   return category.save();
 };
 
-export const update = async (
+export const createMany = (categories: CreateCategoryCommand[]) => Category.insertMany(categories);
+
+export const updateById = async (
   id: string,
   updatedCategoryDetails: UpdateCategoryCommand,
   userId: string
@@ -30,3 +32,5 @@ export const update = async (
 
 export const remove = async (id: string, userId: string) =>
   Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
+
+export const deleteMany = (filter: object) => Category.deleteMany(filter);
