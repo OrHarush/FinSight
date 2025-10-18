@@ -10,6 +10,10 @@
     "update": "Update",
     "signOut": "Sign Out"
   },
+  "legal": {
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
+  },
   "entities": {
     "empty": {
       "title": "No {{entityName}} yet"

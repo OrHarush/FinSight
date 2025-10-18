@@ -5,7 +5,6 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
     const { page = '1', limit = '20', sort = 'desc', categoryId, year, month } = req.query;
-    console.log(req.query);
 
     let fromDate: string | undefined;
     let toDate: string | undefined;

@@ -16,4 +16,6 @@ export const queryKeys = {
 
   accounts: () => ['accounts'],
   account: (id: string) => ['accounts', id],
+
+  user: () => ['user'],
 };

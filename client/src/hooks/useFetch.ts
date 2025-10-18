@@ -57,6 +57,7 @@ export const useFetch = <TData, TError = AxiosError>({
 
   useEffect(() => {
     if (query.isError && query.error && onError) {
+      console.log('Error occurred:', query.error);
       onError(query.error);
     }
   }, [query.isError, query.error, onError]);

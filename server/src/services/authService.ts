@@ -1,4 +1,12 @@
-import { findByProvider, findByEmail, createUser, saveUser } from '../repositories/userRepository';
+import {
+  findByProvider,
+  findByEmail,
+  createUser,
+  saveUser,
+  updateLastLogin,
+  acceptTerms,
+  findById,
+} from '../repositories/userRepository';
 import { IUser } from '../models/User';
 
 interface AuthPayload {
@@ -8,6 +16,8 @@ interface AuthPayload {
   name: string;
   picture?: string;
 }
+
+export const getCurrentUserById = async (userId: string) => findById(userId);
 
 export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
   const { provider, providerId, email, name, picture } = payload;
@@ -31,3 +41,29 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
 
   return user;
 };
+
+export const updateLastUserLogin = async (userId: string) => {
+  try {
+    await updateLastLogin(userId);
+  } catch (err) {
+    console.error('Failed to update lastLoginAt:', err);
+  }
+};
+
+const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION || 'v1.0';
+
+interface AcceptTermsParams {
+  userId: string;
+  locale: string;
+  ip: string;
+  userAgent: string;
+}
+
+export const acceptTermsService = async ({ userId, locale, ip, userAgent }: AcceptTermsParams) =>
+  acceptTerms({
+    userId,
+    locale,
+    ip,
+    userAgent,
+    version: CURRENT_TERMS_VERSION,
+  });

@@ -1,12 +1,12 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
 import CreateAccountDialog from '@/components/dialogs/AccountDialogs/CreateAccountDialog';
-import PageLayout from '@/components/layout/PageLayout';
+import PageLayout from '@/components/layout/Page/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
 import EditAccountDialog from '@/components/dialogs/AccountDialogs/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
 import { useOpen } from '@/hooks/useOpen';
-import PageHeader from '@/components/layout/PageHeader';
+import PageHeader from '@/components/layout/Page/PageHeader';
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useTranslation } from 'react-i18next';
 

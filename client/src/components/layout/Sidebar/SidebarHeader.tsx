@@ -1,23 +1,34 @@
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
-import finSightIcon from '@/assets/finSightIcon.png';
+import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import finSightIcon from '@/assets/finSightIconNoText.png';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/constants/Routes';
 
 const SidebarHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
 
   return (
-    <Row
+    <Stack
+      direction={'row'}
       alignItems={'center'}
       spacing={isMobile ? 1 : 2}
       padding={2}
       marginLeft={isMobile ? '32px' : 0}
     >
-      <img src={finSightIcon} alt="App Logo" width={50} height={50} />
-      <Typography variant={'h5'} fontWeight={700}>
+      <Box onClick={() => navigate(ROUTES.DASHBOARD_URL)} sx={{ ':hover': { cursor: 'pointer' } }}>
+        <img src={finSightIcon} alt="App Logo" width={50} height={50} />
+      </Box>
+
+      <Typography
+        variant={'h5'}
+        fontWeight={700}
+        onClick={() => navigate(ROUTES.DASHBOARD_URL)}
+        sx={{ ':hover': { cursor: 'pointer' } }}
+      >
         FinSight
       </Typography>
-    </Row>
+    </Stack>
   );
 };
 

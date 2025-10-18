@@ -7,8 +7,8 @@ import { ROUTES } from '@/constants/Routes';
 import { Navigate, useNavigate } from 'react-router-dom';
 import FinSightIcon from '@/pages/Login/FinSightIcon';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import LanguageSelect from '@/components/common/LanguageSelect';
 import { useTranslation } from 'react-i18next';
+import LegalLinks from '@/pages/Login/LegalLinks';
 
 const LoginPage = () => {
   const { t } = useTranslation('login');
@@ -38,7 +38,7 @@ const LoginPage = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh"
+      height="100%"
       sx={{
         backgroundImage: {
           xs: `url(${loginMobileImage})`,
@@ -49,17 +49,6 @@ const LoginPage = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: { xs: 16, md: 24 },
-          right: { xs: 16, md: 24 },
-          left: 'auto',
-          zIndex: 10,
-        }}
-      >
-        <LanguageSelect />
-      </Box>
       <Card
         sx={{
           width: isMobile ? '340px' : '420px',
@@ -131,6 +120,7 @@ const LoginPage = () => {
           >
             {t('secure_note')}
           </Typography>
+          <LegalLinks />
         </CardContent>
       </Card>
     </Box>

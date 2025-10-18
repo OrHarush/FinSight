@@ -10,6 +10,10 @@
     "update": "עדכן",
     "signOut": "התנתק"
   },
+  "legal": {
+    "termsOfService": "תנאי שימוש",
+    "privacyPolicy": "מדיניות פרטיות"
+  },
   "entities": {
     "empty": {
       "title": "אין עדיין {{entityName}}"

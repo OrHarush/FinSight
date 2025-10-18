@@ -28,7 +28,8 @@ const LanguageSelect = () => {
     { code: 'he', label: 'עברית', flag: 'IL' },
   ];
 
-  const currentFlag = LANGUAGES.find(({ code }) => code === i18n.language)?.flag ?? 'GB';
+  const currentLang = i18n.language;
+  const currentFlag = LANGUAGES.find(({ code }) => code === currentLang)?.flag ?? 'GB';
 
   return (
     <>
@@ -58,7 +59,7 @@ const LanguageSelect = () => {
           <MenuItem
             key={lang.code}
             onClick={() => handleLanguageChange(lang.code)}
-            selected={lang.code === i18n.language}
+            selected={lang.code === currentLang}
             sx={{
               py: 1.5,
               px: 2,

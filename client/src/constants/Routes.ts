@@ -7,10 +7,16 @@ export const ROUTES = {
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
   LOGIN_URL: '/login',
+  TERMS_OF_SERVICE_URL: '/terms-of-service',
+  PRIVACY_POLICY_URL: '/privacy-policy',
 } as const;
 
 export const API_ROUTES = {
-  AUTHENTICATION: '/api/auth',
+  AUTH: {
+    GOOGLE_LOGIN: '/api/auth/google-login',
+    ACCEPT_TERMS: '/api/auth/accept-terms',
+    ME: '/api/auth/me',
+  },
   TRANSACTIONS: '/api/transactions',
   CATEGORIES: '/api/categories',
   ACCOUNTS: '/api/accounts',

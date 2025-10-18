@@ -44,11 +44,10 @@ const Sidebar = () => {
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           disableBackdropTransition={!/iPad|iPhone|iPod/.test(navigator.userAgent)}
-          swipeAreaWidth={30}
+          swipeAreaWidth={56}
           disableDiscovery={false}
           keepMounted
         >
-          {' '}
           {drawerContent}
         </SwipeableDrawer>
       </>

@@ -1,4 +1,4 @@
-import PageHeader from '@/components/layout/PageHeader';
+import PageHeader from '@/components/layout/Page/PageHeader';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';

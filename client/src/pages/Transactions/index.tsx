@@ -1,5 +1,5 @@
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
-import PageLayout from '@/components/layout/PageLayout';
+import PageLayout from '@/components/layout/Page/PageLayout';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 import { SelectedTransactionProvider } from '@/pages/Transactions/SelectedTransactionProvider';
 import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';

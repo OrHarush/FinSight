@@ -30,9 +30,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoadingUser(false);
   }, []);
 
+  console.log('is enaled');
+  console.log(user);
+  console.log(!!token && !!user);
+  // const { refetch: fetchUser } = useFetch<UserDto>({
+  //   url: API_ROUTES.AUTH.ME,
+  //   queryKey: queryKeys.user(),
+  //   enabled: !!token && !!user,
+  //   onSuccess: data => {
+  //     setUser(data);
+  //     localStorage.setItem('user', JSON.stringify(data));
+  //   },
+  //   onError: () => {
+  //     console.log('why error');
+  //     setUser(null);
+  //     localStorage.removeItem('user');
+  //     localStorage.removeItem('token');
+  //   },
+  // });
+
   const loginMutation = useApiMutation<{ token: string; user: UserDto }, { token: string }>({
     method: 'post',
-    url: `${API_ROUTES.AUTHENTICATION}/google`,
+    url: API_ROUTES.AUTH.GOOGLE_LOGIN,
     options: {
       onSuccess: ({ token: jwtToken, user }) => {
         console.log('Login successful:', { user, jwtToken });

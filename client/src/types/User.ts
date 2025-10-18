@@ -3,4 +3,6 @@ export interface UserDto {
   email: string;
   name: string;
   picture?: string;
+  acceptedTermsAt?: string;
+  consentVersion?: string;
 }

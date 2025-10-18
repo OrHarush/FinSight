@@ -4,7 +4,11 @@ import notFoundIllustration from '@/assets/vault.png';
 import { ROUTES } from '@/constants/Routes';
 import { Home, ArrowBack } from '@mui/icons-material';
 
-const NotFound = () => {
+interface NotFoundPageProps {
+  isAuthenticated?: boolean;
+}
+
+const NotFoundPage = ({ isAuthenticated = false }: NotFoundPageProps) => {
   const navigate = useNavigate();
 
   return (
@@ -80,30 +84,32 @@ const NotFound = () => {
           }
         </Typography>
         <Box display="flex" gap={2} justifyContent="center" flexWrap="wrap">
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<Home />}
-            onClick={() => navigate(ROUTES.DASHBOARD_URL)}
-            sx={{
-              borderRadius: 3,
-              textTransform: 'none',
-              px: 4,
-              py: 1.5,
-              fontSize: '1rem',
-              fontWeight: 600,
-              background: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)',
-              boxShadow: '0 8px 24px rgba(139, 92, 246, 0.4)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 12px 32px rgba(139, 92, 246, 0.5)',
-              },
-            }}
-          >
-            Back to Dashboard
-          </Button>
+          {isAuthenticated && (
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<Home />}
+              onClick={() => navigate(ROUTES.DASHBOARD_URL)}
+              sx={{
+                borderRadius: 3,
+                textTransform: 'none',
+                px: 4,
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 600,
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)',
+                boxShadow: '0 8px 24px rgba(139, 92, 246, 0.4)',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 32px rgba(139, 92, 246, 0.5)',
+                },
+              }}
+            >
+              Back to Dashboard
+            </Button>
+          )}
           <Button
             variant="outlined"
             size="large"
@@ -134,4 +140,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;
