@@ -17,6 +17,7 @@ export const API_ROUTES = {
     ACCEPT_TERMS: '/api/auth/accept-terms',
     ME: '/api/auth/me',
   },
+  USERS: '/api/users',
   TRANSACTIONS: '/api/transactions',
   CATEGORIES: '/api/categories',
   ACCOUNTS: '/api/accounts',

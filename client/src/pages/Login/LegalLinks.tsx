@@ -26,12 +26,12 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
         rel="noopener noreferrer"
         variant={variant}
         sx={{
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: 'text.primary',
           textDecoration: 'none',
           fontSize: variant === 'body2' ? '0.875rem' : '0.75rem',
           transition: 'color 0.2s ease',
           '&:hover': {
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: 'text.secondary',
             textDecoration: 'underline',
           },
         }}
@@ -48,12 +48,12 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
         rel="noopener noreferrer"
         variant={variant}
         sx={{
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: 'text.primary',
           textDecoration: 'none',
           fontSize: variant === 'body2' ? '0.875rem' : '0.75rem',
           transition: 'color 0.2s ease',
           '&:hover': {
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: 'text.secondary',
             textDecoration: 'underline',
           },
         }}

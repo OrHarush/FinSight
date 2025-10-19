@@ -1,4 +1,4 @@
-import { ReactElement, Suspense, useState } from 'react';
+import { ReactElement, Suspense } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
@@ -14,27 +14,29 @@ import Accounts from '@/pages/Accounts';
 import LoginPage from '@/pages/Login';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import TermsDialog from '@/components/dialogs/TermsDialogs';
 import PublicLayout from '@/components/layout/PublicLayout';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
-  const { user, isLoadingUser } = useAuth();
-  const [showTerms, setShowTerms] = useState(!user?.acceptedTermsAt);
+  const { user } = useAuth();
+  // const [showTerms, setShowTerms] = useState(!user?.acceptedTermsAt);
+  //
+  // console.log(showTerms);
 
-  if (isLoadingUser) {
-    return <LoadingScreen />;
+  if (!user) {
+    return <Navigate to={ROUTES.LOGIN_URL} />;
   }
 
-  const handleAccepted = async () => {
-    // fetchUser();
-    setShowTerms(false);
-  };
+  // const handleAccepted = async () => {
+  //   // fetchUser();
+  //   setShowTerms(false);
+  // };
 
   return (
     <>
-      {showTerms && <TermsDialog open={showTerms} onAccepted={handleAccepted} />}
-      {!showTerms && children}
+      {/*{showTerms && <TermsDialog open={showTerms} onAccepted={handleAccepted} />}*/}
+      {/*{!showTerms && children}*/}
+      {children}
     </>
   );
 };
