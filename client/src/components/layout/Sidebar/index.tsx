@@ -62,6 +62,7 @@ const Sidebar = () => {
         '& .MuiDrawer-paper': {
           width: 255,
           boxSizing: 'border-box',
+          borderRadius: 0,
         },
       }}
       variant="permanent"

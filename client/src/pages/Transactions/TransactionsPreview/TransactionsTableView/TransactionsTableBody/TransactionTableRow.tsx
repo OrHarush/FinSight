@@ -32,6 +32,19 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
     },
   });
 
+  if (transaction.name === 'כביסות') {
+    console.log(transaction.type);
+    console.log(
+      transaction.type === 'Transfer'
+        ? transaction.account?._id === transaction.fromAccount?._id
+          ? 'error.main'
+          : 'success.main'
+        : transaction?.category?.type === 'Expense'
+          ? 'error.main'
+          : 'success.main'
+    );
+  }
+
   return (
     <TableRow key={transaction._id}>
       <TableCell>{transaction.type === 'Transfer' ? 'Transfer' : transaction.name}</TableCell>
@@ -43,7 +56,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
               ? transaction.account?._id === transaction.fromAccount?._id
                 ? 'error.main'
                 : 'success.main'
-              : transaction?.category?.type === 'Expense'
+              : transaction?.type === 'Expense'
                 ? 'error.main'
                 : 'success.main'
           }

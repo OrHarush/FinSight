@@ -1,13 +1,9 @@
 import { Request, Response } from 'express';
-import {
-  acceptTermsService,
-  getCurrentUserById,
-  loginOrRegister,
-  updateLastUserLogin,
-} from '../services/authService';
+import { acceptTermsService, loginOrRegister, updateLastUserLogin } from '../services/authService';
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { AuthRequest } from '../middlewares/authMiddleware';
+import { getCurrentUserById } from '../services/userService';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION!;

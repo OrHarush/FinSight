@@ -6,24 +6,68 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#9c88ff',
+      main: '#a78bfa',
+      light: '#c4b5fd',
+      dark: '#8b5cf6',
     },
     secondary: {
-      main: '#00cec9',
+      main: '#06b6d4',
+      light: '#22d3ee',
+      dark: '#0891b2',
     },
     error: {
-      main: '#ff7675',
+      main: '#f87171',
+      light: '#fca5a5',
+      dark: '#dc2626',
+    },
+    success: {
+      main: '#34d399',
+      light: '#6ee7b7',
+      dark: '#059669',
+    },
+    warning: {
+      main: '#fbbf24',
+      light: '#fcd34d',
+      dark: '#f59e0b',
     },
     background: {
-      // default: '#121212',
-      default: '#141a21',
-      // paper: '#1d1d1d',
-      paper: '#1c252e',
+      default: '#0a0f16',
+      paper: '#151b24',
     },
     text: {
-      primary: '#f5f6fa',
-      secondary: '#a4b0be',
+      primary: '#f8fafc',
+      secondary: '#94a3b8',
+      disabled: '#475569',
     },
-    divider: 'rgba(255,255,255,0.08)',
+    divider: 'rgba(148, 163, 184, 0.12)',
+    action: {
+      active: '#f8fafc',
+      hover: 'rgba(168, 139, 250, 0.08)',
+      selected: 'rgba(168, 139, 250, 0.12)',
+      disabled: '#475569',
+      disabledBackground: 'rgba(148, 163, 184, 0.08)',
+    },
+  },
+  components: {
+    ...commonTheme.components,
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(148, 163, 184, 0.08)',
+        },
+        elevation1: {
+          backgroundColor: 'rgba(21, 27, 36, 0.7)',
+          boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
+        },
+        elevation2: {
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.25)',
+        },
+        elevation3: {
+          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+        },
+      },
+    },
   },
 });
