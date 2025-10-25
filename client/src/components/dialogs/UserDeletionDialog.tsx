@@ -50,6 +50,12 @@ export const UserDeletionDialog = ({
             placeholder="Type 'delete' to confirm"
             value={confirmText}
             onChange={e => setConfirmText(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !isConfirmDisabled) {
+                e.preventDefault();
+                handleConfirm();
+              }
+            }}
           />
         </Column>
       </DialogContent>

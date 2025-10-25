@@ -75,6 +75,7 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
 
 export const createTransaction = async (req: AuthRequest, res: Response) => {
   try {
+    console.log(req.body);
     const transaction = await transactionService.create(req.body, req.userId!);
     res.status(201).json(transaction);
   } catch (err: any) {

@@ -141,13 +141,14 @@ export const insert = async (data: CreateTransactionCommand, userId: string) => 
     amount: data.amount,
     type: data.type,
     recurrence: data.recurrence,
+    date: new Date(data.date),
+    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    startDate: data.startDate ? new Date(data.startDate) : undefined,
     userId: new Types.ObjectId(userId),
     category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
     account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
     fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
     toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
-    date: new Date(data.date),
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
   });
 
   return transaction.save();

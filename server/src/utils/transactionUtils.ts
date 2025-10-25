@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { ITransaction } from '../models/Transaction';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
+import { Types } from 'mongoose';
 
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
@@ -12,7 +13,7 @@ export const expandRecurring = (tx: ITransaction, until: Date): any[] => {
   }
 
   const result: any[] = [];
-  let currentDate = dayjs.utc(tx.date);
+  let currentDate = dayjs.utc(tx.startDate);
   const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(until);
 
   const dayOfMonth = currentDate.date();
@@ -83,8 +84,6 @@ export const expandTransfer = (tx: any): any[] => {
 export const expandTransactions = (transactions: ITransaction[], until: Date): any[] =>
   transactions.flatMap((tx) => expandRecurring(tx, until)).flatMap((tx) => expandTransfer(tx));
 
-import { Types } from 'mongoose';
-
 export const buildTransactionQuery = (
   userId: string,
   from?: Date,
@@ -101,13 +100,20 @@ export const buildTransactionQuery = (
     for (const type of recurrenceTypes) {
       if (type === 'None') {
         const range: any = {};
-        if (from) range.$gte = from;
-        if (to) range.$lt = to;
+
+        if (from) {
+          range.$gte = from;
+        }
+
+        if (to) {
+          range.$lt = to;
+        }
+
         dateConditions.push({ recurrence: 'None', date: range });
       } else {
         dateConditions.push({
           recurrence: type,
-          date: { $lt: to ?? new Date() },
+          startDate: { $lt: to ?? new Date() },
           $or: [
             { endDate: { $exists: false } },
             { endDate: null },
@@ -132,6 +138,7 @@ export const filterAndExpandTransactions = (transactions: any[], from?: Date, to
 
   return expanded.filter((tx) => {
     const txDate = dayjs(tx.date);
+
     if (from && txDate.isBefore(from, 'day')) {
       return false;
     }

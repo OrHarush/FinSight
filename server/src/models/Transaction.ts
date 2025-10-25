@@ -3,7 +3,8 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 export interface ITransaction extends Document {
   name?: string;
   amount: number;
-  date: Date;
+  date?: Date;
+  startDate?: Date;
   endDate?: Date;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: 'Income' | 'Expense' | 'Transfer';
@@ -17,7 +18,8 @@ export interface ITransaction extends Document {
 const TransactionSchema: Schema = new Schema(
   {
     name: { type: String },
-    date: { type: Date, required: true },
+    date: { type: Date },
+    startDate: { type: Date },
     endDate: { type: Date },
     amount: { type: Number, required: true },
     recurrence: {

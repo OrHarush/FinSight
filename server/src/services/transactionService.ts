@@ -55,6 +55,15 @@ export const create = async (data: CreateTransactionCommand, userId: string) => 
     }
   }
 
+  if (data.recurrence != 'None') {
+    if (!data.startDate) {
+      throw new Error('Recurring transactions require startDate');
+    }
+    if (data.startDate && data.endDate && new Date(data.startDate) > new Date(data.endDate)) {
+      throw new Error('startDate cannot be after endDate for recurring transactions');
+    }
+  }
+
   return transactionRepository.insert(data, userId);
 };
 

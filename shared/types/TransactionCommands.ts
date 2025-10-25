@@ -2,6 +2,7 @@ export interface CreateTransactionCommand {
     name?: string;
     amount: number;
     date: string;
+    startDate?: string;
     endDate?: string;
     recurrence: 'None' | 'Monthly' | 'Yearly';
     type: 'Income' | 'Expense' | 'Transfer';
@@ -15,6 +16,7 @@ export interface UpdateTransactionCommand  {
     name?: string;
     amount?: number;
     date?: string;
+    startDate?: string;
     endDate?: string;
     recurrence?: 'None' | 'Monthly' | 'Yearly';
     type?: 'Income' | 'Expense' | 'Transfer';

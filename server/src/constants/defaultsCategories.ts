@@ -1,7 +1,7 @@
 import { CreateCategoryCommand } from '@shared/types/CategoryCommands';
 
 export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
-  // Income Categories
+  // Income
   {
     name: 'Salary',
     icon: 'AccountBalanceWallet',
@@ -20,14 +20,16 @@ export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
     type: 'Income',
     color: '#14b8a6',
   },
+
+  // Expenses
   {
-    name: 'Rent',
+    name: 'Housing',
     icon: 'Home',
     type: 'Expense',
     color: '#8b5cf6',
   },
   {
-    name: 'Groceries & Utilities',
+    name: 'Groceries',
     icon: 'ShoppingCart',
     type: 'Expense',
     color: '#3b82f6',
@@ -39,13 +41,19 @@ export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
     color: '#0ea5e9',
   },
   {
+    name: 'Utilities',
+    icon: 'Bolt',
+    type: 'Expense',
+    color: '#06b6d4',
+  },
+  {
     name: 'Healthcare',
     icon: 'LocalHospital',
     type: 'Expense',
     color: '#ec4899',
   },
   {
-    name: 'Dates',
+    name: 'Dining Out',
     icon: 'Restaurant',
     type: 'Expense',
     color: '#f43f5e',
@@ -57,43 +65,19 @@ export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
     color: '#a855f7',
   },
   {
-    name: 'Subscriptions',
-    icon: 'Subscriptions',
+    name: 'Entertainment',
+    icon: 'Movie',
     type: 'Expense',
-    color: '#6366f1',
-  },
-  {
-    name: 'Loan',
-    icon: 'AccountBalance',
-    type: 'Expense',
-    color: '#ef4444',
-  },
-  {
-    name: 'Education',
-    icon: 'School',
-    type: 'Expense',
-    color: '#84cc16',
-  },
-  {
-    name: 'Gifts',
-    icon: 'CardGiftcard',
-    type: 'Expense',
-    color: '#ec4899',
-  },
-  {
-    name: 'Household',
-    icon: 'Cottage',
-    type: 'Expense',
-    color: '#64748b',
+    color: '#f97316',
   },
   {
     name: 'Travel',
     icon: 'Flight',
     type: 'Expense',
-    color: '#06b6d4',
+    color: '#14b8a6',
   },
   {
-    name: 'Miscellaneous',
+    name: 'Other',
     icon: 'MoreHoriz',
     type: 'Expense',
     color: '#94a3b8',

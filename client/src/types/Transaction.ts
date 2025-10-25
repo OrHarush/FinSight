@@ -6,7 +6,8 @@ export type TransactionType = 'Income' | 'Expense' | 'Transfer';
 export interface TransactionFormValues {
   name?: string;
   amount: number;
-  date: string;
+  date?: string;
+  startDate?: string;
   endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: TransactionType;
@@ -21,7 +22,8 @@ export interface TransactionDto {
   _id: string;
   name?: string;
   amount: number;
-  date: string;
+  date?: string;
+  startDate?: string;
   endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: TransactionType;

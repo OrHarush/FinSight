@@ -31,14 +31,6 @@ const TransactionForm = () => {
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
         <TextInput name="amount" label="Amount" type="number" min={1} required />
-        <TextInput
-          name="date"
-          label="Date"
-          type={recurrence === 'Monthly' ? 'month' : 'date'}
-          sx={{ width: '190px' }}
-        />
-      </Row>
-      <Row spacing={2}>
         <RHFSelect
           name="recurrence"
           label="Recurrence"
@@ -49,16 +41,15 @@ const TransactionForm = () => {
             value: option,
           }))}
         />
-        {recurrence !== 'None' && (
-          <TextInput
-            name="endDate"
-            label="End Date"
-            type={recurrence === 'Monthly' ? 'month' : 'date'}
-            fullWidth
-          />
-        )}
       </Row>
-
+      {recurrence == 'None' ? (
+        <TextInput name="date" label="Date" type={'date'} sx={{ width: '180px' }} />
+      ) : (
+        <Row spacing={2}>
+          <TextInput name="startDate" label="Start Date" type={'date'} sx={{ width: '180px' }} />
+          <TextInput name="endDate" label="End Date" type={'month'} sx={{ width: '180px' }} />
+        </Row>
+      )}
       {transactionType !== 'Transfer' && !isLoading ? (
         <CategoriesSelect filteredCategories={filteredCategories} />
       ) : transactionType !== 'Transfer' ? (

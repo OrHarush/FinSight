@@ -23,11 +23,9 @@ const EditTransactionDialog = ({
     defaultValues: {
       name: transaction.name,
       amount: transaction.amount,
-      date:
-        transaction.recurrence === 'Monthly'
-          ? transaction.date.slice(0, 7)
-          : transaction.date.split('T')[0],
+      date: transaction.date ? transaction.date.split('T')[0] : undefined,
       endDate: transaction.endDate ? transaction.endDate.split('T')[0] : undefined,
+      startDate: transaction.startDate ? transaction.startDate.split('T')[0] : undefined,
       recurrence: transaction.recurrence,
       type: transaction.type,
       category: transaction?.category?._id,
