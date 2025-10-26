@@ -10,6 +10,7 @@ import { BarChart } from '@mui/x-charts';
 import EntityError from '@/components/entities/EntityError';
 import { useMonthLabels } from '@/hooks/useMonthsLabels';
 import { useTranslation } from 'react-i18next';
+import { queryKeys } from '@/constants/queryKeys';
 
 const YearlyChartContent = () => {
   const { t } = useTranslation('common');
@@ -18,8 +19,8 @@ const YearlyChartContent = () => {
   const monthLabels = useMonthLabels();
 
   const { data: yearlySummary } = useFetch<TransactionSummaryDto[]>({
-    url: `${API_ROUTES.TRANSACTIONS}/summary?year=${year}`,
-    queryKey: ['transactionSummary', year],
+    url: API_ROUTES.TRANSACTION_SUMMARY(year),
+    queryKey: queryKeys.yearlyChart(year),
     enabled: !!year,
   });
 
@@ -45,6 +46,7 @@ const YearlyChartContent = () => {
   return (
     <BarChart
       xAxis={[{ data: monthLabels, scaleType: 'band' }]}
+      borderRadius={4}
       series={[
         {
           data: monthlyIncome,
@@ -57,7 +59,6 @@ const YearlyChartContent = () => {
           color: '#c31b12',
         },
       ]}
-      height={300}
     />
   );
 };

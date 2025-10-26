@@ -53,7 +53,7 @@ const DateSelector = ({ value, onChange, allowYearSelection = false }: DateSelec
       onChange={newValue => onChange(newValue ?? dayjs())}
       slotProps={{
         textField: {
-          sx: { width: 180, height: 40 },
+          sx: { width: 185, height: 40 },
           size: 'small',
         },
       }}

@@ -29,7 +29,7 @@ const FinancialHighlights = () => {
 
   const { data: monthlyTransactions, isLoading: isLoadingTransactions } =
     useFetch<TransactionSummaryDto>({
-      url: `${API_ROUTES.TRANSACTIONS}/summary?year=${year}&month=${month}`,
+      url: API_ROUTES.TRANSACTION_SUMMARY(year, month),
       queryKey: queryKeys.transactionSummary(year, month),
       enabled: !!year && month >= 0,
     });

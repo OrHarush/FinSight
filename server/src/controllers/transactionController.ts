@@ -51,7 +51,7 @@ export const getTransactionById = async (req: AuthRequest, res: Response) => {
 export const getTransactionSummary = async (req: AuthRequest, res: Response) => {
   try {
     const { year, month } = req.query;
-
+    console.log(year, month);
     if (!year) {
       return res.status(400).json({ success: false, error: 'Year is required' });
     }
@@ -67,6 +67,8 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
     } else {
       summary = await transactionService.getTransactionSummary(req.userId!, Number(year));
     }
+
+    console.log(summary);
     return res.json({ success: true, data: summary });
   } catch (err: any) {
     res.status(500).json({ success: false, error: 'Failed to fetch summary' });
@@ -75,7 +77,6 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
 
 export const createTransaction = async (req: AuthRequest, res: Response) => {
   try {
-    console.log(req.body);
     const transaction = await transactionService.create(req.body, req.userId!);
     res.status(201).json(transaction);
   } catch (err: any) {

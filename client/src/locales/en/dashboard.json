@@ -12,7 +12,6 @@
     "totalMonthlyExpenses": "Total Monthly Expenses",
     "endOfMonthBalance": "End of Month Balance"
   },
-
   "chart": {
     "title": "Income & Expenses ({{year}})",
     "legend": {
@@ -33,6 +32,10 @@
       "nov": "Nov",
       "dec": "Dec"
     }
+  },
+  "chartTabs": {
+    "yearlySummary": "Yearly Summary",
+    "accountBalance": "Account Balance"
   },
   "recentTransactions": {
     "title": "Recent Transactions",

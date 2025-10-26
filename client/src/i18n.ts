@@ -26,8 +26,8 @@ i18n
       en: {
         common: enCommon,
         login: enLogin,
-        dashboard: enDashboard,
         sidebar: enSidebar,
+        dashboard: enDashboard,
         transactions: enTransactions,
         accounts: enAccounts,
         categories: enCategories,

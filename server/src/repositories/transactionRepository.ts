@@ -14,12 +14,12 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const findMany = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const { page, limit, from, to, sort = 'desc', categoryId } = options;
+  const { page, limit, from, to, sort = 'desc', categoryId, accountId } = options;
 
   const fromDate = from ? new Date(from) : undefined;
   const toDate = to ? new Date(to) : undefined;
 
-  const query = buildTransactionQuery(userId, fromDate, toDate, categoryId);
+  const query = buildTransactionQuery(userId, fromDate, toDate, categoryId, accountId);
 
   const transactions = await Transaction.find(query)
     .populate('category')
@@ -33,27 +33,28 @@ export const findMany = async (userId: string, options: TransactionQueryOptions 
 };
 
 export const getSummary = async (userId: string, year: number, month?: number) => {
-  const normalizeMonth = (m: number) => (m > 11 ? m - 1 : m);
-
   const isMonthly = month !== undefined;
-  const month0 = isMonthly ? normalizeMonth(Number(month - 1)) : undefined;
 
   const start = isMonthly
-    ? dayjs.utc().year(year).month(month0!).startOf('month').toDate()
+    ? dayjs.utc().year(year).month(month!).startOf('month').toDate()
     : dayjs.utc().year(year).startOf('year').toDate();
 
   const end = isMonthly
-    ? dayjs.utc().year(year).month(month0!).endOf('month').toDate()
+    ? dayjs.utc().year(year).month(month!).endOf('month').toDate()
     : dayjs.utc().year(year).endOf('year').toDate();
+
+  console.log(start, end);
 
   const transactions = await Transaction.find({
     userId: new Types.ObjectId(userId),
-    date: { $lte: end },
+    $or: [{ date: { $lte: end } }, { startDate: { $lte: end } }],
   })
     .populate('category')
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
+
+  console.log(transactions.map((x) => ({ name: x.name, amount: x.amount })));
 
   const expanded = expandTransactions(transactions, end);
 
@@ -63,8 +64,11 @@ export const getSummary = async (userId: string, year: number, month?: number) =
 
     for (const tx of expanded) {
       if (tx.date >= start && tx.date <= end) {
-        if (tx.category?.type === 'Income') monthlyIncome += tx.amount;
-        else if (tx.category?.type === 'Expense') monthlyExpenses += tx.amount;
+        if (tx.category?.type === 'Income') {
+          monthlyIncome += tx.amount;
+        } else if (tx.category?.type === 'Expense') {
+          monthlyExpenses += tx.amount;
+        }
       }
     }
 

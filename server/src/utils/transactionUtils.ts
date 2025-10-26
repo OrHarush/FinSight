@@ -88,7 +88,8 @@ export const buildTransactionQuery = (
   userId: string,
   from?: Date,
   to?: Date,
-  categoryId?: string
+  categoryId?: string,
+  accountId?: string
 ) => {
   const userObjId = new Types.ObjectId(userId);
   const query: any = { userId: userObjId };
@@ -128,6 +129,14 @@ export const buildTransactionQuery = (
 
   if (categoryId) {
     query.category = new Types.ObjectId(categoryId);
+  }
+
+  if (accountId) {
+    query.$or = [
+      { account: new Types.ObjectId(accountId) },
+      { fromAccount: new Types.ObjectId(accountId) },
+      { toAccount: new Types.ObjectId(accountId) },
+    ];
   }
 
   return query;

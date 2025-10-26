@@ -8,6 +8,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { UpdateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import dayjs from 'dayjs';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -24,7 +25,7 @@ const EditTransactionDialog = ({
       name: transaction.name,
       amount: transaction.amount,
       date: transaction.date ? transaction.date.split('T')[0] : undefined,
-      endDate: transaction.endDate ? transaction.endDate.split('T')[0] : undefined,
+      endDate: transaction.endDate ? dayjs(transaction.endDate).format('YYYY-MM') : undefined,
       startDate: transaction.startDate ? transaction.startDate.split('T')[0] : undefined,
       recurrence: transaction.recurrence,
       type: transaction.type,

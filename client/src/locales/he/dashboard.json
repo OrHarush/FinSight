@@ -57,6 +57,10 @@
       "dec": "דצמ"
     }
   },
+  "chartTabs": {
+    "yearlySummary": "סיכום שנתי",
+    "accountBalance": "מאזן חשבון"
+  },
   "recentTransactions": {
     "title": "עסקאות אחרונות",
     "viewAll": "הצג הכל"

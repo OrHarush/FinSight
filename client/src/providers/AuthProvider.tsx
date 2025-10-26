@@ -30,9 +30,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoadingUser(false);
   }, []);
 
-  console.log('is enaled');
-  console.log(user);
-  console.log(!!token && !!user);
   // const { refetch: fetchUser } = useFetch<UserDto>({
   //   url: API_ROUTES.AUTH.ME,
   //   queryKey: queryKeys.user(),

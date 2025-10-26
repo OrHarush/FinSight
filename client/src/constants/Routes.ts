@@ -17,8 +17,17 @@ export const API_ROUTES = {
     ACCEPT_TERMS: '/api/auth/accept-terms',
     ME: '/api/auth/me',
   },
-  USERS: '/api/users',
+
   TRANSACTIONS: '/api/transactions',
+  TRANSACTION_SUMMARY: (year: number, month?: number) =>
+    month
+      ? `/api/transactions/summary?year=${year}&month=${month}`
+      : `/api/transactions/summary?year=${year}`,
+
   CATEGORIES: '/api/categories',
+
   ACCOUNTS: '/api/accounts',
+  ACCOUNT_BALANCE_CURVE: (accountId: string) => `/api/accounts/${accountId}/balance-curve`,
+
+  USERS: '/api/users',
 };

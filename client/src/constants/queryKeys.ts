@@ -16,6 +16,13 @@ export const queryKeys = {
 
   accounts: () => ['accounts'],
   account: (id: string) => ['accounts', id],
+  accountBalanceCurve: (accountId: string, from?: string, to?: string) => [
+    'accountBalanceCurve',
+    accountId,
+    from ?? 'defaultFrom',
+    to ?? 'defaultTo',
+  ],
+  yearlyChart: (year: number) => ['yearlyChart', year],
 
   user: () => ['user'],
 };

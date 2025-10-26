@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import * as accountService from '../services/accountService';
 import { AuthRequest } from '../middlewares/authMiddleware';
+import { calculateAccountBalanceCurve } from '../services/balanceService';
 
 export const getAccounts = async (req: AuthRequest, res: Response) => {
   try {
@@ -21,6 +22,25 @@ export const getAccountById = async (req: AuthRequest, res: Response) => {
     res.json({ success: true, data: account });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Server error' });
+  }
+};
+
+export const getAccountBalanceCurve = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id: accountId } = req.params;
+    const { from, to } = req.query;
+
+    const data = await calculateAccountBalanceCurve(
+      req.userId!,
+      accountId,
+      from as string | undefined,
+      to as string | undefined
+    );
+
+    res.json({ success: true, data });
+  } catch (err: any) {
+    console.error('❌ Balance curve error:', err);
+    res.status(500).json({ success: false, error: err.message || 'Failed to fetch balance curve' });
   }
 };
 
@@ -61,7 +81,6 @@ export const deleteAccount = async (req: AuthRequest, res: Response) => {
 
 export const getLinkedTransactionsCount = async (req: AuthRequest, res: Response) => {
   try {
-    console.log('Getting linked transactions count for account:', req.params.id);
     const count = await accountService.getLinkedTransactionsCount(req.userId!, req.params.id);
 
     if (count === null) {
