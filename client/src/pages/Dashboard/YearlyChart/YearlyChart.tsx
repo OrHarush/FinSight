@@ -12,7 +12,7 @@ import { useMonthLabels } from '@/hooks/useMonthsLabels';
 import { useTranslation } from 'react-i18next';
 import { queryKeys } from '@/constants/queryKeys';
 
-const YearlyChartContent = () => {
+const YearlyChart = () => {
   const { t } = useTranslation('common');
   const { isLoading, error, refetch } = useTransactions();
   const { year } = useDashboardFilters();
@@ -63,4 +63,4 @@ const YearlyChartContent = () => {
   );
 };
 
-export default YearlyChartContent;
+export default YearlyChart;

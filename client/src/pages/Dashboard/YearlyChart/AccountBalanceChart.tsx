@@ -1,23 +1,16 @@
 import { LineChart } from '@mui/x-charts';
-import { Skeleton, Box, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
+import { CircularProgress, Box, Fade, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useAccountBalanceCurve } from '@/hooks/useAccountBalanceCurve';
-import EntityError from '@/components/entities/EntityError';
-import EntityEmpty from '@/components/entities/EntityEmpty';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useMemo, useState } from 'react';
+import Column from '@/components/layout/Containers/Column';
 
 dayjs.extend(utc);
 
-interface Props {
-  accountId: string;
-}
-
-const AccountBalanceChart = ({ accountId }: Props) => {
+const AccountBalanceChart = ({ accountId }: { accountId: string }) => {
   const [range, setRange] = useState<'1M' | '3M' | '6M' | '1Y'>('1M');
 
-  // Compute date range based on selected value
   const { from, to } = useMemo(() => {
     const now = dayjs.utc();
     switch (range) {
@@ -32,60 +25,75 @@ const AccountBalanceChart = ({ accountId }: Props) => {
     }
   }, [range]);
 
-  const { data, isLoading, error, refetch } = useAccountBalanceCurve(
+  const { data, isLoading } = useAccountBalanceCurve(
     accountId,
     from.toISOString(),
     to.toISOString()
   );
 
-  if (isLoading) {
-    return <Skeleton variant="rectangular" height={300} sx={{ borderRadius: 2 }} />;
-  }
-
-  if (error) {
-    return <EntityError entityName="transactions" refetch={refetch} />;
-  }
-
-  if (!data || data.length === 0) {
-    return <EntityEmpty entityName="transactions" icon={TrendingUpIcon} />;
-  }
+  const hasData = !!data?.length;
 
   return (
-    <Box>
-      <FormControl size="small" sx={{ minWidth: 140 }}>
-        <InputLabel id="range-select-label">Range</InputLabel>
-        <Select
-          labelId="range-select-label"
-          value={range}
-          label="Range"
-          onChange={e => setRange(e.target.value as '1M' | '3M' | '6M' | '1Y')}
-        >
-          <MenuItem value="1M">1 Month</MenuItem>
-          <MenuItem value="3M">3 Months</MenuItem>
-          <MenuItem value="6M">6 Months</MenuItem>
-          <MenuItem value="1Y">1 Year</MenuItem>
-        </Select>
-      </FormControl>
+    <Column>
+      <ToggleButtonGroup
+        value={range}
+        exclusive
+        onChange={(_, newRange) => {
+          if (newRange !== null) {
+            setRange(newRange);
+          }
+        }}
+        size="small"
+        sx={{ alignSelf: 'center' }}
+      >
+        <ToggleButton value="1M">1M</ToggleButton>
+        <ToggleButton value="3M">3M</ToggleButton>
+        <ToggleButton value="6M">6M</ToggleButton>
+        <ToggleButton value="1Y">1Y</ToggleButton>
+      </ToggleButtonGroup>{' '}
       <LineChart
         height={300}
         hideLegend
-        series={[
-          {
-            data: data.map(d => d.balance),
-            label: 'Balance ₪',
-            color: '#4caf50',
-            showMark: false,
-          },
-        ]}
+        grid={{ horizontal: true }}
+        series={
+          hasData
+            ? [
+                {
+                  data: isLoading ? data.map(() => null) : data.map(d => d.balance),
+                  label: 'Balance ₪',
+                  color: '#4caf50',
+                  showMark: false,
+                },
+              ]
+            : []
+        }
         xAxis={[
           {
-            data: data.map(d => new Date(d.date)), // actual Date objects, not formatted strings
-            scaleType: 'time', // continuous time axis
+            data: hasData ? data.map(d => new Date(d.date)) : [],
+            scaleType: 'time',
             valueFormatter: value => dayjs(value).format('MMM YYYY'),
           },
         ]}
       />
-    </Box>
+      {isLoading && (
+        <Fade in={isLoading}>
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backdropFilter: 'blur(2px)',
+              bgcolor: 'rgba(0,0,0,0.1)',
+              borderRadius: 2,
+            }}
+          >
+            <CircularProgress size={36} thickness={4} />
+          </Box>
+        </Fade>
+      )}
+    </Column>
   );
 };
 

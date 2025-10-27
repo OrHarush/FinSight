@@ -1,21 +1,19 @@
 import { Card, CardContent, Grid, Tabs, Tab } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
 import Column from '@/components/layout/Containers/Column';
-import YearlyChartContent from '@/pages/Dashboard/YearlyChart/YearlyChartContent';
+import YearlyChart from '@/pages/Dashboard/YearlyChart/YearlyChart';
 import AccountBalanceChart from '@/pages/Dashboard/YearlyChart/AccountBalanceChart';
 import { useTranslation } from 'react-i18next';
-import { useAccounts } from '@/hooks/useAccounts';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 
 const DashboardCharts = () => {
   const { t } = useTranslation('dashboard');
-  // const { year } = useDashboardFilters();
-  const { accounts } = useAccounts();
+  const { account } = useDashboardFilters();
   const [tab, setTab] = useState(0);
-
-  const primaryAccount = accounts.find(account => account.isPrimary);
-  if (!primaryAccount) return null;
 
   const handleChange = (_: SyntheticEvent, newValue: number) => {
     setTab(newValue);
@@ -66,9 +64,11 @@ const DashboardCharts = () => {
         >
           <Column width="100%" height="330px">
             {tab === 0 ? (
-              <YearlyChartContent />
+              <YearlyChart />
+            ) : account?._id ? (
+              <AccountBalanceChart accountId={account._id} />
             ) : (
-              <AccountBalanceChart accountId={primaryAccount._id} />
+              <EntityEmpty entityName={'accounts'} icon={AccountBalanceWalletIcon} />
             )}
           </Column>
         </CardContent>
