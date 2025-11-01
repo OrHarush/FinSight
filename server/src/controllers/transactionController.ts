@@ -6,6 +6,11 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
     const { page = '1', limit = '20', sort = 'desc', categoryId, year, month } = req.query;
 
+    console.log('===============');
+    console.log(page);
+    console.log(year);
+    console.log(month);
+
     let fromDate: string | undefined;
     let toDate: string | undefined;
 
@@ -51,7 +56,6 @@ export const getTransactionById = async (req: AuthRequest, res: Response) => {
 export const getTransactionSummary = async (req: AuthRequest, res: Response) => {
   try {
     const { year, month } = req.query;
-    console.log(year, month);
     if (!year) {
       return res.status(400).json({ success: false, error: 'Year is required' });
     }
@@ -68,7 +72,6 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
       summary = await transactionService.getTransactionSummary(req.userId!, Number(year));
     }
 
-    console.log(summary);
     return res.json({ success: true, data: summary });
   } catch (err: any) {
     res.status(500).json({ success: false, error: 'Failed to fetch summary' });

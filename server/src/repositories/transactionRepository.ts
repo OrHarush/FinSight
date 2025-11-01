@@ -43,8 +43,6 @@ export const getSummary = async (userId: string, year: number, month?: number) =
     ? dayjs.utc().year(year).month(month!).endOf('month').toDate()
     : dayjs.utc().year(year).endOf('year').toDate();
 
-  console.log(start, end);
-
   const transactions = await Transaction.find({
     userId: new Types.ObjectId(userId),
     $or: [{ date: { $lte: end } }, { startDate: { $lte: end } }],
@@ -53,8 +51,6 @@ export const getSummary = async (userId: string, year: number, month?: number) =
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
-
-  console.log(transactions.map((x) => ({ name: x.name, amount: x.amount })));
 
   const expanded = expandTransactions(transactions, end);
 

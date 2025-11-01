@@ -169,6 +169,11 @@ export const sortAndPaginate = (
   });
 
   const total = sorted.length;
+  console.log('-----');
+  console.log(total);
+  console.log(page);
+  console.log(limit);
+  console.log(page && limit);
   const paginated = page && limit ? sorted.slice((page - 1) * limit, page * limit) : sorted;
 
   return {

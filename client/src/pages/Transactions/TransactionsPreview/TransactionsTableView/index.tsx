@@ -1,25 +1,54 @@
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
-import { ChangeEvent, useState } from 'react';
-import { TransactionDto } from '@/types/Transaction';
-import { PaginationMeta } from '@/hooks/useFetch';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useTransactions } from '@/hooks/useTransactions';
+import { Dayjs } from 'dayjs';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import EntityError from '@/components/entities/EntityError';
 
 interface TransactionsTableViewProps {
-  transactions: TransactionDto[];
-  pagination?: PaginationMeta;
+  selectedMonth: Dayjs | null;
+  selectedCategory: string | null;
 }
 
-const TransactionsTableView = ({ transactions, pagination }: TransactionsTableViewProps) => {
+const TransactionsTableView = ({ selectedMonth, selectedCategory }: TransactionsTableViewProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
 
+  const { transactions, pagination, isLoading, error, refetch } = useTransactions(
+    2025,
+    selectedMonth?.month(),
+    selectedCategory ?? undefined,
+    page + 1,
+    rowsPerPage
+  );
+
+  console.log(pagination);
   const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  useEffect(() => {
+    setPage(0);
+  }, [selectedMonth, selectedCategory]);
+
+  if (isLoading) {
+    return <TransactionsTableSkeleton />;
+  }
+
+  if (!transactions.length && !isLoading) {
+    return <EntityEmpty entityName={'transactions'} icon={ReceiptLongIcon} />;
+  }
+
+  if (error) {
+    return <EntityError entityName={'transactions'} refetch={refetch} />;
+  }
 
   return (
     <TableContainer component={Paper}>

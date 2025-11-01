@@ -41,7 +41,6 @@ export const Transactions = () => {
             <Tooltip title="Clear filters">
               <IconButton
                 onClick={() => {
-                  setSelectedMonth(dayjs());
                   setSelectedCategory('');
                 }}
               >

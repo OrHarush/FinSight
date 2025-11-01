@@ -11,8 +11,6 @@ export const deleteUserController = async (req: AuthRequest, res: Response) => {
       return res.status(403).json({ message: 'Not authorized to delete this user.' });
     }
 
-    console.log(userId);
-
     const result = await deleteUserCompletely(userId);
 
     res.status(200).json({
