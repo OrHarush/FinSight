@@ -32,9 +32,9 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const submitNewCategory = async (data: CategoryFormValues) => {
     try {
       await createCategory.mutateAsync(mapCategoryFormToCommand(data));
-      alertSuccess('Category created!');
+      alertSuccess(t('messages.create_success'));
     } catch (err) {
-      alertError('Failed to create category.');
+      alertError(t('messages.create_error'));
       console.error(err);
     }
   };

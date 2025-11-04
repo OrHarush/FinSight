@@ -37,8 +37,11 @@ const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelec
           required={required}
           error={!!fieldState.error}
           helperText={fieldState.error?.message}
-          fullWidth
           {...props}
+          sx={{
+            ...(props.fullWidth && { flex: 1, minWidth: 0 }),
+            ...props.sx,
+          }}
         >
           {options.map(option => (
             <MenuItem key={option.value} value={option.value}>

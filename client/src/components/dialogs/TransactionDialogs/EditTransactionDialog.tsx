@@ -9,6 +9,7 @@ import { queryKeys } from '@/constants/queryKeys';
 import { UpdateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -19,6 +20,7 @@ const EditTransactionDialog = ({
   isOpen,
   closeDialog,
 }: EditTransactionDialogProps) => {
+  const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const methods = useForm<TransactionFormValues>({
     defaultValues: {
@@ -43,10 +45,10 @@ const EditTransactionDialog = ({
   const update = async (data: TransactionFormValues) => {
     try {
       await updateTransaction.mutateAsync({ ...data });
-      alertSuccess('Transaction updated!');
+      alertSuccess(t('message.update_success'));
       closeDialog();
     } catch (err) {
-      alertError('Failed to update transaction');
+      alertError(t('message.update_error'));
       console.error(err);
     }
   };

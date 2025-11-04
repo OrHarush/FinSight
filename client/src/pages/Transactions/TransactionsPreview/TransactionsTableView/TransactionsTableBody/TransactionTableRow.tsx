@@ -8,12 +8,14 @@ import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
 }
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
+  const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const { setSelectedTransaction } = useSelectedTransaction();
 
@@ -24,9 +26,9 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
     url: `${API_ROUTES.TRANSACTIONS}/${idToDelete}`,
     queryKeysToInvalidate: [queryKeys.allTransactions()],
     options: {
-      onSuccess: () => alertSuccess('Transaction deleted'),
+      onSuccess: () => alertSuccess(t('messages.delete_success')),
       onError: err => {
-        alertError('Failed to delete transaction');
+        alertError(t('messages.delete_error'));
         console.error('❌ Failed to delete transaction', err);
       },
     },

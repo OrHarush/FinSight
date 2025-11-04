@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Row from '@/components/layout/Containers/Row';
-import DeletionConfirmationDialog from '@/components/dialogs/DeletionConfirmationDialog';
 
 interface EditAndDeleteButtonsProps {
   onEdit?: () => void;
@@ -28,11 +26,12 @@ const EditAndDeleteButtons = ({
   confirmationMessage,
   disabledReason,
 }: EditAndDeleteButtonsProps) => {
-  const [confirmOpen, setConfirmOpen] = useState(false);
-
   const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onConfirmDelete();
+
+    if (onConfirmDelete) {
+      onConfirmDelete();
+    }
     // if (requireConfirmation) {
     //   setConfirmOpen(true);
     // } else {
@@ -43,14 +42,16 @@ const EditAndDeleteButtons = ({
   return (
     <>
       <Row>
-        <IconButton
-          onClick={onEdit}
-          size="medium"
-          disabled={isEditDisabled}
-          aria-label={`Edit ${entityType}`}
-        >
-          <EditIcon fontSize="small" />
-        </IconButton>
+        {onEdit && (
+          <IconButton
+            onClick={onEdit}
+            size="medium"
+            disabled={isEditDisabled}
+            aria-label={`Edit ${entityType}`}
+          >
+            <EditIcon fontSize="small" />
+          </IconButton>
+        )}
         <IconButton
           onClick={handleDeleteClick}
           size="medium"

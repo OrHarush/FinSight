@@ -46,8 +46,8 @@ const TransactionForm = () => {
         <TextInput name="date" label="Date" type={'date'} sx={{ width: '180px' }} />
       ) : (
         <Row spacing={2}>
-          <TextInput name="startDate" label="Start Date" type={'date'} sx={{ width: '180px' }} />
-          <TextInput name="endDate" label="End Date" type={'month'} sx={{ width: '180px' }} />
+          <TextInput name="startDate" label="Start Date" type={'date'} fullWidth />
+          <TextInput name="endDate" label="End Date" type={'month'} fullWidth />
         </Row>
       )}
       {transactionType !== 'Transfer' && !isLoading ? (

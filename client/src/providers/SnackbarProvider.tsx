@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { Alert, Snackbar } from '@mui/material';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 type AlertSeverity = 'success' | 'error' | 'warning' | 'info';
 
@@ -16,6 +17,7 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState<AlertSeverity>('info');
+  const isMobile = useIsMobile();
 
   const showAlert = (msg: string, sev: AlertSeverity) => {
     setMessage(msg);
@@ -39,7 +41,7 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
         open={open}
         autoHideDuration={4000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: isMobile ? 'top' : 'bottom', horizontal: 'right' }}
       >
         <Alert
           onClose={handleClose}

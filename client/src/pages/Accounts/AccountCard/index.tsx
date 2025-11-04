@@ -12,6 +12,7 @@ import AccountIcon from '@/components/accounts/AccountIcon';
 import { useOpen } from '@/hooks/useOpen';
 import { useState } from 'react';
 import TransferDialog from '@/components/dialogs/TransferDialog';
+import { useTranslation } from 'react-i18next';
 
 interface AccountCardProps {
   account: AccountDto;
@@ -19,6 +20,7 @@ interface AccountCardProps {
 }
 
 const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
+  const { t } = useTranslation('accounts');
   const { alertSuccess, alertError } = useSnackbar();
   const [isTransferDialogOpen, openTransferDialog, closeTransferDialog] = useOpen(false);
   const [linkedCount, setLinkedCount] = useState<number>(0);
@@ -29,10 +31,10 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
     queryKeysToInvalidate: [queryKeys.accounts()],
     options: {
       onSuccess: () => {
-        alertSuccess('Account deleted');
+        alertSuccess(t('messages.delete_success'));
       },
       onError: err => {
-        alertError('Failed to delete account');
+        alertError(t('messages.delete_error'));
         console.error('❌ Failed to delete account', err);
       },
     },

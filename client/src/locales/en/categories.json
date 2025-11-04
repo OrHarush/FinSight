@@ -1,5 +1,7 @@
 {
   "pageTitle": "Categories",
+  "income_categories": "Income Categories",
+  "expense_categories": "Expense Categories",
   "empty": {
     "title": "No categories yet",
     "subtitle": "Create your first category to organize transactions"
@@ -19,5 +21,13 @@
   "options": {
     "income": "Income",
     "expense": "Expense"
+  },
+  "messages": {
+    "create_success": "Category created successfully",
+    "create_error": "Failed to create category",
+    "update_success": "Category updated successfully",
+    "update_error": "Failed to update category",
+    "delete_success": "Category deleted successfully",
+    "delete_error": "Failed to delete category"
   }
 }

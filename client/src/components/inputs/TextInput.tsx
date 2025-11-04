@@ -21,6 +21,7 @@ const TextInput = ({
   max,
   minLength,
   maxLength,
+  fullWidth = true,
   type,
   ...rest
 }: TextInputProps) => {
@@ -64,7 +65,13 @@ const TextInput = ({
   const fieldError = errors[name]?.message as string | undefined;
 
   return (
-    <Column spacing={0.5}>
+    <Column
+      spacing={0.5}
+      sx={{
+        flex: fullWidth ? 1 : undefined,
+        minWidth: fullWidth ? 0 : undefined,
+      }}
+    >
       <InputLabel>{label}</InputLabel>
       <TextField
         {...register(name, baseRules)}

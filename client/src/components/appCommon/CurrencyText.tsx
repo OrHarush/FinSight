@@ -25,7 +25,7 @@ const CurrencyText = ({
     .replace(/\s+/g, '');
 
   return (
-    <Typography component="span" {...typographyProps}>
+    <Typography component="span" dir="ltr" {...typographyProps}>
       {isAnimated ? (
         <CountUp end={value} duration={1.5} decimals={0} suffix="₪" />
       ) : (

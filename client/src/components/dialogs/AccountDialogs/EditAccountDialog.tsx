@@ -38,9 +38,9 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
   const update = async (data: AccountFormValues) => {
     try {
       await updateAccount.mutateAsync(data);
-      alertSuccess('Account updated!');
+      alertSuccess(t('messages.update_success'));
     } catch (err) {
-      alertError('Failed to update account.');
+      alertError(t('message.update_error'));
       console.error(err);
     }
   };

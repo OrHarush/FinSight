@@ -13,12 +13,14 @@ import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
 }
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
+  const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const { setSelectedTransaction } = useSelectedTransaction();
   const IconComponent =
@@ -42,10 +44,10 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
     queryKeysToInvalidate: [queryKeys.categories()],
     options: {
       onSuccess: () => {
-        alertSuccess('Transaction deleted');
+        alertSuccess(t('messages.delete_success'));
       },
       onError: err => {
-        alertError('Failed to delete transaction');
+        alertError(t('messages.delete_error'));
         console.error('❌ Failed to delete transaction', err);
       },
     },
@@ -112,8 +114,8 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
           sx={{ color: transaction.category?.color }}
         />
       </Column>
-      <Column sx={{ flex: 1, minWidth: 0 }}>
-        <Row justifyContent="space-between" alignItems="center" mb={0.5}>
+      <Row width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+        <Column>
           <Typography
             variant="body2"
             fontWeight={500}
@@ -125,31 +127,19 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
           >
             {isTransfer ? 'Transfer' : transaction.name}
           </Typography>
-          <CurrencyText
-            variant="body1"
-            fontWeight={700}
-            value={transaction.amount}
-            color={amountColor}
-            sx={{ ml: 1.5, flexShrink: 0 }}
-          />
-        </Row>
-        <Row
-          display="flex"
-          justifyContent="space-between"
-          sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
-        >
-          <Typography variant="caption" color="text.secondary">
-            {transaction?.category?.name}
-          </Typography>
           <Typography variant="caption" color="text.secondary">
             {new Date(transaction.date).toLocaleDateString()}
           </Typography>
-        </Row>
-      </Column>
-      <EditAndDeleteButtons
-        onConfirmDelete={deleteTransaction.mutate}
-        onEdit={() => setSelectedTransaction(transaction)}
-      />
+        </Column>
+        <CurrencyText
+          variant="body1"
+          fontWeight={700}
+          value={transaction.amount}
+          color={amountColor}
+          sx={{ ml: 1.5, flexShrink: 0 }}
+        />
+      </Row>
+      <EditAndDeleteButtons onConfirmDelete={deleteTransaction.mutate} />
     </Paper>
   );
 };

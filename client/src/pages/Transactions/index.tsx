@@ -10,8 +10,6 @@ import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { useOpen } from '@/hooks/useOpen';
 import ActionFab from '@/components/appCommon/ActionFab';
-import AddIcon from '@mui/icons-material/Add';
-import UploadIcon from '@mui/icons-material/UploadFile';
 import CategorySelect from '@/pages/Transactions/CategorySelect';
 import DateSelector from '@/components/appCommon/DateSelector';
 import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
@@ -25,12 +23,7 @@ export const Transactions = () => {
     <PageLayout>
       <SelectedTransactionProvider>
         <TransactionsHeader openCreateTransaction={openDialog} />
-        <ActionFab
-          actions={[
-            { name: 'Create', icon: <AddIcon />, onClick: openDialog },
-            { name: 'Import CSV', icon: <UploadIcon />, onClick: () => {} },
-          ]}
-        />
+        <ActionFab onClick={openDialog} />
         <ResponsiveRow spacing={2}>
           <DateSelector value={selectedMonth} onChange={setSelectedMonth} />
           <Row spacing={2}>

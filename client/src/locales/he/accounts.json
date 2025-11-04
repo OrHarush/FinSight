@@ -16,5 +16,11 @@
     "accountNumber": "מספר חשבון",
     "isPrimary": "הגדר כחשבון ראשי",
     "icon": "אייקון חשבון"
+  },
+  "messages": {
+    "create_success": "החשבון נוצר בהצלחה",
+    "update_success": "החשבון עודכן בהצלחה",
+    "delete_success": "החשבון נמחק בהצלחה",
+    "delete_error": "מחיקת החשבון נכשלה"
   }
 }

@@ -20,5 +20,13 @@
   "setupDialog": {
     "title": "Complete Setup First",
     "message": "You need to create at least one <account>Account</account> and one <category>Category</category> before you can add a transaction."
+  },
+  "messages": {
+    "create_success": "Transaction created successfully",
+    "create_error": "Failed to create transaction",
+    "update_success": "Transaction updated successfully",
+    "update_error": "Failed to update transaction",
+    "delete_success": "Transaction deleted successfully",
+    "delete_error": "Failed to delete transaction"
   }
 }

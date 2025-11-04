@@ -9,17 +9,22 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
 import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { useTranslation } from 'react-i18next';
+import { useAccounts } from '@/hooks/useAccounts';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+  const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
+
+  const { primaryAccount } = useAccounts();
+
   const methods = useForm<TransactionFormValues>({
     defaultValues: {
       date: new Date().toISOString().split('T')[0],
       recurrence: 'None',
       type: 'Expense',
-      amount: 0,
       category: '',
-      account: '',
+      account: primaryAccount?._id || '',
       fromAccount: '',
       toAccount: '',
     },
@@ -34,9 +39,9 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const submitNewTransaction = async (data: TransactionFormValues) => {
     try {
       await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
-      alertSuccess('Transaction created!');
+      alertSuccess(t('messages.create_success'));
     } catch (err) {
-      alertError('Failed to create transaction.');
+      alertError(t('messages.create_error'));
       console.error('❌ Failed to create transaction:', err);
     }
   };

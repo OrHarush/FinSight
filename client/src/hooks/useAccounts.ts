@@ -17,8 +17,11 @@ export const useAccounts = () => {
     ? [...query.data].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
     : [];
 
+  const primaryAccount = accounts.find(({ isPrimary }) => isPrimary);
+
   return {
     ...query,
     accounts,
+    primaryAccount,
   };
 };
