@@ -36,9 +36,9 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
   const update = async (data: CategoryFormValues) => {
     try {
       await updateCategory.mutateAsync(mapCategoryFormToCommand(data));
-      alertSuccess(t('messages.update_success'));
+      alertSuccess(t('messages.updateSuccess'));
     } catch (err) {
-      alertError(t('message.update_error'));
+      alertError(t('message.updateError'));
       console.error(err);
     }
   };

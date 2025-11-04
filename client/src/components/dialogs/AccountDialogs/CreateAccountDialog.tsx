@@ -27,9 +27,9 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const submitNewAccount = async (data: AccountFormValues) => {
     try {
       await createAccount.mutateAsync(data);
-      alertSuccess(t('messages.create_success'));
+      alertSuccess(t('messages.createSuccess'));
     } catch (err) {
-      alertError(t('messages.create_error'));
+      alertError(t('messages.createError'));
       console.error(err);
     }
   };

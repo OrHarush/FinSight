@@ -1,7 +1,8 @@
 {
   "pageTitle": "קטגוריות",
-  "income_categories": "קטגוריות הכנסה",
-  "expense_categories": "קטגוריות הוצאה",
+  "incomeCategories": "קטגוריות הכנסה",
+  "expenseCategories": "קטגוריות הוצאה",
+  "allCategories": "כל הקטגוריות",
   "empty": {
     "title": "אין עדיין קטגוריות",
     "subtitle": "צור את הקטגוריה הראשונה שלך כדי לארגן עסקאות"
@@ -23,11 +24,11 @@
     "expense": "הוצאה"
   },
   "messages": {
-    "create_success": "הקטגוריה נוצרה בהצלחה",
-    "create_error": "יצירת הקטגוריה נכשלה",
-    "update_success": "הקטגוריה עודכנה בהצלחה",
-    "update_error": "עדכון הקטגוריה נכשל",
-    "delete_success": "הקטגוריה נמחקה בהצלחה",
-    "delete_error": "מחיקת הקטגוריה נכשלה"
+    "createSuccess": "הקטגוריה נוצרה בהצלחה",
+    "createError": "יצירת הקטגוריה נכשלה",
+    "updateSuccess": "הקטגוריה עודכנה בהצלחה",
+    "updateError": "עדכון הקטגוריה נכשל",
+    "deleteSuccess": "הקטגוריה נמחקה בהצלחה",
+    "deleteError": "מחיקת הקטגוריה נכשלה"
   }
 }

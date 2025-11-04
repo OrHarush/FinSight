@@ -5,6 +5,7 @@ import Column from '@/components/layout/Containers/Column';
 import { Typography, Box } from '@mui/material';
 import { TransactionDto } from '@/types/Transaction';
 import * as Icons from '@mui/icons-material';
+import CurrencyText from '@/components/appCommon/CurrencyText';
 
 interface TransactionOverviewProps {
   transaction: TransactionDto;
@@ -13,10 +14,11 @@ interface TransactionOverviewProps {
 const TransactionOverview = ({ transaction }: TransactionOverviewProps) => {
   const isIncome = (transaction: TransactionDto) => transaction?.category?.type === 'Income';
 
-  const isNew = (transactionDate: string | Date) => {
+  const isNewTransaction = (transactionDate: string | Date) => {
     const now = new Date();
     const txDate = new Date(transactionDate);
     const diffInHours = (now.getTime() - txDate.getTime()) / (1000 * 60 * 60);
+
     return diffInHours < 24;
   };
 
@@ -69,7 +71,7 @@ const TransactionOverview = ({ transaction }: TransactionOverviewProps) => {
             <Typography variant="body1" fontWeight={500}>
               {transaction.name}
             </Typography>
-            {isNew(transaction.date) && (
+            {isNewTransaction(transaction.date) && (
               <Typography
                 variant="caption"
                 sx={{
@@ -86,29 +88,18 @@ const TransactionOverview = ({ transaction }: TransactionOverviewProps) => {
               </Typography>
             )}
           </Row>
-          <Row spacing={1} alignItems="center">
-            {transaction.category && (
-              <>
-                <Typography variant="caption" color="text.secondary">
-                  {transaction.category.name}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  •
-                </Typography>
-              </>
-            )}
-            <Typography variant="caption" color="text.secondary">
-              {new Date(transaction.date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-              })}
-            </Typography>
-          </Row>
+          <Typography variant="caption" color="text.secondary">
+            {new Date(transaction.date).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+            })}
+          </Typography>
         </Column>
       </Row>
-      <Typography color={isIncome(transaction) ? 'success.main' : 'error.main'} fontWeight={600}>
-        {isIncome(transaction) ? `+${transaction.amount}₪` : `-${transaction.amount}₪`}
-      </Typography>
+      <CurrencyText
+        value={transaction.amount}
+        sx={{ color: isIncome(transaction) ? 'success.main' : 'error.main', fontWeight: 600 }}
+      />
     </Row>
   );
 };

@@ -17,10 +17,18 @@
     "isPrimary": "הגדר כחשבון ראשי",
     "icon": "אייקון חשבון"
   },
+  "info": {
+    "primary": "ראשי",
+    "openingBalance": "יתרת פתיחה",
+    "institution": "מוסד פיננסי",
+    "accountNumber": "מספר חשבון",
+    "lastSynced": "תאריך סנכרון אחרון",
+    "notSynced": "לא סונכרן עדיין"
+  },
   "messages": {
-    "create_success": "החשבון נוצר בהצלחה",
-    "update_success": "החשבון עודכן בהצלחה",
-    "delete_success": "החשבון נמחק בהצלחה",
-    "delete_error": "מחיקת החשבון נכשלה"
+    "createSuccess": "החשבון נוצר בהצלחה",
+    "updateSuccess": "החשבון עודכן בהצלחה",
+    "deleteSuccess": "החשבון נמחק בהצלחה",
+    "deleteError": "מחיקת החשבון נכשלה"
   }
 }

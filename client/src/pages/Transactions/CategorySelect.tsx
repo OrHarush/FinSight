@@ -4,6 +4,7 @@ import { useCategories } from '@/hooks/useCategories';
 import Row from '@/components/layout/Containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
+import { useTranslation } from 'react-i18next';
 
 interface CategorySelectProps {
   selectedCategory: string;
@@ -11,6 +12,7 @@ interface CategorySelectProps {
 }
 
 const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelectProps) => {
+  const { t } = useTranslation('categories');
   const { categories } = useCategories();
 
   return (
@@ -66,7 +68,7 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
       <MenuItem value="">
         <Row spacing={1.5} sx={{ alignItems: 'center' }}>
           <CategoryIcon sx={{ color: 'text.secondary', fontSize: '20px' }} />
-          <Typography sx={{ fontWeight: 500 }}>All Categories</Typography>
+          <Typography sx={{ fontWeight: 500 }}>{t('allCategories')}</Typography>
         </Row>
       </MenuItem>
       {categories.map(category => {

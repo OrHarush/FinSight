@@ -51,10 +51,10 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
     queryKeysToInvalidate: [queryKeys.categories()],
     options: {
       onSuccess: () => {
-        alertSuccess(t('messages.delete_success'));
+        alertSuccess(t('messages.deleteSuccess'));
       },
       onError: err => {
-        alertError(t('messages.delete_error'));
+        alertError(t('messages.deleteError'));
         console.error('❌ Failed to delete category', err);
       },
     },

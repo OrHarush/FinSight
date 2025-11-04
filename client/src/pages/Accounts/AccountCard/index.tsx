@@ -31,10 +31,10 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
     queryKeysToInvalidate: [queryKeys.accounts()],
     options: {
       onSuccess: () => {
-        alertSuccess(t('messages.delete_success'));
+        alertSuccess(t('messages.deleteSuccess'));
       },
       onError: err => {
-        alertError(t('messages.delete_error'));
+        alertError(t('messages.deleteError'));
         console.error('❌ Failed to delete account', err);
       },
     },
@@ -87,7 +87,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
                   <Typography fontWeight={700}>{account.name}</Typography>
                   {account.isPrimary && (
                     <Typography variant={'body2'} color={'primary'}>
-                      Primary
+                      {t('info.primary')}
                     </Typography>
                   )}
                 </Column>

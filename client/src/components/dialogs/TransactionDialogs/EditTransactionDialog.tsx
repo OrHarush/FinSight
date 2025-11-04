@@ -45,10 +45,10 @@ const EditTransactionDialog = ({
   const update = async (data: TransactionFormValues) => {
     try {
       await updateTransaction.mutateAsync({ ...data });
-      alertSuccess(t('message.update_success'));
+      alertSuccess(t('message.updateSuccess'));
       closeDialog();
     } catch (err) {
-      alertError(t('message.update_error'));
+      alertError(t('message.updateError'));
       console.error(err);
     }
   };

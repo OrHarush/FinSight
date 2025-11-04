@@ -26,9 +26,9 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
     url: `${API_ROUTES.TRANSACTIONS}/${idToDelete}`,
     queryKeysToInvalidate: [queryKeys.allTransactions()],
     options: {
-      onSuccess: () => alertSuccess(t('messages.delete_success')),
+      onSuccess: () => alertSuccess(t('messages.deleteSuccess')),
       onError: err => {
-        alertError(t('messages.delete_error'));
+        alertError(t('messages.deleteError'));
         console.error('❌ Failed to delete transaction', err);
       },
     },

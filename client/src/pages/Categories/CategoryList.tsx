@@ -18,7 +18,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
         <Typography variant="h6" gutterBottom>
-          {t('income_categories')}
+          {t('incomeCategories')}
         </Typography>
         <Grid container spacing={2} justifyContent="center">
           {incomeCategories.map(category => (
@@ -28,7 +28,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
       </Grid>
       <Grid size={{ xs: 12, md: 6 }}>
         <Typography variant="h6" gutterBottom>
-          {t('expense_categories')}
+          {t('expenseCategories')}
         </Typography>
         <Grid container spacing={2}>
           {expenseCategories.map(category => (

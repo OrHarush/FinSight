@@ -22,11 +22,11 @@
     "message": "עליך ליצור לפחות <account>חשבון</account> ו<category>קטגוריה</category> לפני שתוכל להוסיף עסקה."
   },
   "messages": {
-    "create_success": "העסקה נוצרה בהצלחה",
-    "create_error": "יצירת העסקה נכשלה",
-    "update_success": "העסקה עודכנה בהצלחה",
-    "update_error": "עדכון העסקה נכשל",
-    "delete_success": "העסקה נמחקה בהצלחה",
-    "delete_error": "מחיקת העסקה נכשלה"
+    "createSuccess": "העסקה נוצרה בהצלחה",
+    "createError": "יצירת העסקה נכשלה",
+    "updateSuccess": "העסקה עודכנה בהצלחה",
+    "updateError": "עדכון העסקה נכשל",
+    "deleteSuccess": "העסקה נמחקה בהצלחה",
+    "deleteError": "מחיקת העסקה נכשלה"
   }
 }

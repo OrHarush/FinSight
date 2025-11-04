@@ -39,9 +39,9 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const submitNewTransaction = async (data: TransactionFormValues) => {
     try {
       await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
-      alertSuccess(t('messages.create_success'));
+      alertSuccess(t('messages.createSuccess'));
     } catch (err) {
-      alertError(t('messages.create_error'));
+      alertError(t('messages.createError'));
       console.error('❌ Failed to create transaction:', err);
     }
   };

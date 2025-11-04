@@ -17,12 +17,20 @@
     "isPrimary": "Set as Primary Account",
     "icon": "Account Icon"
   },
+  "info": {
+    "primary": "Primary",
+    "openingBalance": "Opening Balance",
+    "institution": "Institution",
+    "accountNumber": "Account Number",
+    "lastSynced": "Last Synced",
+    "notSynced": "Not synced yet"
+  },
   "messages": {
-    "create_success": "החשבון נוצר בהצלחה",
-    "create_error": "יצירת החשבון נכשלה",
-    "update_success": "החשבון עודכן בהצלחה",
-    "update_error": "עדכון החשבון נכשל",
-    "delete_success": "החשבון נמחק בהצלחה",
-    "delete_error": "מחיקת החשבון נכשלה"
+    "createSuccess": "החשבון נוצר בהצלחה",
+    "createError": "יצירת החשבון נכשלה",
+    "updateSuccess": "החשבון עודכן בהצלחה",
+    "updateError": "עדכון החשבון נכשל",
+    "deleteSuccess": "החשבון נמחק בהצלחה",
+    "deleteError": "מחיקת החשבון נכשלה"
   }
 }
