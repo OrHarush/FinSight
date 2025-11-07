@@ -1,7 +1,6 @@
 import Paper from '@mui/material/Paper';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
-import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import CurrencyText from '@/components/appCommon/CurrencyText';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -14,6 +13,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import { useTranslation } from 'react-i18next';
+import SwipeableCard from '@/pages/Dashboard/FinancialHighlights/SwipeableCard';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
@@ -54,93 +54,94 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   });
 
   return (
-    <Paper
-      key={transaction._id}
-      onClick={() => setSelectedTransaction(transaction)}
-      sx={{
-        p: '14px 20px',
-        borderRadius: 0,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1.5,
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        position: 'relative',
-        boxShadow: 'none',
-        borderBottom: '1px solid',
-        borderColor: 'divider',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: '3px',
-          background: 'transparent',
-          transition: 'background 0.2s ease',
-        },
-        '&:hover': {
-          backgroundColor: 'action.hover',
-          paddingLeft: '23px',
-        },
-        '&:hover::before': {
-          background: 'linear-gradient(180deg, #7c6bea, #ff6b9d)',
-        },
-        '&:first-of-type': {
-          borderTopLeftRadius: '12px',
-          borderTopRightRadius: '12px',
-        },
-        '&:last-of-type': {
-          borderBottomLeftRadius: '12px',
-          borderBottomRightRadius: '12px',
-          borderBottom: 'none',
-        },
-      }}
-    >
-      <Column
+    <SwipeableCard onDelete={() => {}}>
+      <Paper
+        key={transaction._id}
+        onClick={() => setSelectedTransaction(transaction)}
         sx={{
-          width: 36,
-          height: 36,
+          p: '18px 20px',
+          borderRadius: 0,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '8px',
-          backgroundColor: 'action.selected',
-          flexShrink: 0,
+          gap: 1.5,
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          position: 'relative',
+          boxShadow: 'none',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: '3px',
+            background: 'transparent',
+            transition: 'background 0.2s ease',
+          },
+          '&:hover': {
+            backgroundColor: 'action.hover',
+            paddingLeft: '23px',
+          },
+          '&:hover::before': {
+            background: 'linear-gradient(180deg, #7c6bea, #ff6b9d)',
+          },
+          '.swipeable-wrapper:first-of-type &': {
+            borderTopLeftRadius: '12px',
+            borderTopRightRadius: '12px',
+          },
+          '.swipeable-wrapper:last-of-type &': {
+            borderBottomLeftRadius: '12px',
+            borderBottomRightRadius: '12px',
+            borderBottom: 'none',
+          },
         }}
       >
-        <IconComponent
-          color={transaction.category?.color}
-          sx={{ color: transaction.category?.color }}
-        />
-      </Column>
-      <Row width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
-        <Column>
-          <Typography
-            variant="body2"
-            fontWeight={500}
-            sx={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {isTransfer ? 'Transfer' : transaction.name}
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {new Date(transaction.date).toLocaleDateString()}
-          </Typography>
+        <Column
+          sx={{
+            width: 36,
+            height: 36,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '8px',
+            backgroundColor: 'action.selected',
+            flexShrink: 0,
+          }}
+        >
+          <IconComponent
+            color={transaction.category?.color}
+            sx={{ color: transaction.category?.color }}
+          />
         </Column>
-        <CurrencyText
-          variant="body1"
-          fontWeight={700}
-          value={transaction.amount}
-          color={amountColor}
-          sx={{ ml: 1.5, flexShrink: 0 }}
-        />
-      </Row>
-      <EditAndDeleteButtons onConfirmDelete={deleteTransaction.mutate} />
-    </Paper>
+        <Row width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+          <Column>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {isTransfer ? 'Transfer' : transaction.name}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              {new Date(transaction.date).toLocaleDateString()}
+            </Typography>
+          </Column>
+          <CurrencyText
+            variant="body1"
+            fontWeight={700}
+            value={transaction.amount}
+            color={amountColor}
+            sx={{ ml: 1.5, flexShrink: 0 }}
+          />
+        </Row>
+      </Paper>
+    </SwipeableCard>
   );
 };
 
