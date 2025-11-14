@@ -9,7 +9,7 @@ export const useTransactions = (
   month?: number,
   categoryId?: string,
   page: number = 1,
-  limit: number = 20
+  limit?: number
 ) => {
   const { user } = useAuth();
 
@@ -21,8 +21,11 @@ export const useTransactions = (
     year: selectedYear.toString(),
     month: (selectedMonth + 1).toString(),
     page: page.toString(),
-    limit: limit.toString(),
   });
+
+  if (limit !== undefined) {
+    params.append('limit', limit.toString());
+  }
 
   if (categoryId) {
     params.append('categoryId', categoryId);

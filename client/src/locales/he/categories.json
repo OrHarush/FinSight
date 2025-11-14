@@ -23,6 +23,13 @@
     "income": "הכנסה",
     "expense": "הוצאה"
   },
+  "budget": {
+    "spent": "הוצא",
+    "remaining": "נותר",
+    "of": "מתוך",
+    "overBy": "חריגה של",
+    "left": "נותר"
+  },
   "messages": {
     "createSuccess": "הקטגוריה נוצרה בהצלחה",
     "createError": "יצירת הקטגוריה נכשלה",

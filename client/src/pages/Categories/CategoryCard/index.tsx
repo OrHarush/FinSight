@@ -7,11 +7,8 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
 import Column from '@/components/layout/Containers/Column';
-import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
 import { CategoryDto } from '@/types/Category';
-import { useTransactions } from '@/hooks/useTransactions';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 
@@ -23,24 +20,6 @@ interface CategoryCardProps {
 const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  const { transactions } = useTransactions();
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-
-  const spent = transactions.reduce((sum, tx) => {
-    const txDate = new Date(tx.date);
-
-    if (
-      tx.category?._id === category._id &&
-      tx.category?.type === 'Expense' &&
-      txDate.getFullYear() === currentYear &&
-      txDate.getMonth() === currentMonth
-    ) {
-      return sum + tx.amount;
-    }
-    return sum;
-  }, 0);
 
   const IconComponent =
     (category.icon && (Icons as Record<string, ElementType>)[category.icon]) || CategoryIcon;
@@ -71,7 +50,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
         onClick={() => selectCategory(category)}
         sx={{
           width: '280px',
-          height: '120px',
+          height: '80px',
           borderRadius: '12px',
           paddingX: 2,
           paddingY: 1,
@@ -87,8 +66,8 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
           },
         }}
       >
-        <CardContent sx={{ padding: '8px !important' }}>
-          <Column spacing={2}>
+        <CardContent sx={{ height: '100%', padding: '8px !important' }}>
+          <Column height={'100%'} spacing={2} justifyContent={'center'}>
             <Row alignItems="center" justifyContent="space-between">
               <Row alignItems="center" spacing={2}>
                 <Box
@@ -109,16 +88,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
               <IconButton onClick={handleDelete} size="medium" color="error">
                 <DeleteIcon fontSize="small" />
               </IconButton>
-              {/*<EditAndDeleteButtons*/}
-              {/*  onConfirmDelete={deleteCategory.mutate}*/}
-              {/*  onEdit={() => selectCategory(category)}*/}
-              {/*/>*/}
             </Row>
-            {category.monthlyLimit ? (
-              <BudgetProgress spent={spent} limit={category.monthlyLimit} />
-            ) : (
-              <NoBudget />
-            )}
           </Column>
         </CardContent>
       </Card>

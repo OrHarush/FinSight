@@ -23,6 +23,14 @@
     "income": "Income",
     "expense": "Expense"
   },
+  "budget": {
+    "spent": "spent",
+    "remaining": "remaining",
+    "of": "of",
+    "overBy": "over by",
+    "left": "left"
+  },
+
   "messages": {
     "createSuccess": "Category created successfully",
     "createError": "Failed to create category",

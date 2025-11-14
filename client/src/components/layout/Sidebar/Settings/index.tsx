@@ -9,8 +9,8 @@ import LegalLinks from '@/pages/Login/LegalLinks';
 const Settings = () => (
   <Column height={'100%'} padding={2} spacing={2} justifyContent={'flex-end'}>
     <Row spacing={1} justifyContent="space-between" alignItems="center">
-      <LanguageSelect />
       <ThemeToggle />
+      <LanguageSelect />
     </Row>
     <Divider />
     <UserAvatar />

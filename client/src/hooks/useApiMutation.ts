@@ -4,7 +4,8 @@ import api from '@/api/axios';
 
 interface UseApiMutationProps<TData, TVariables, TError = AxiosError> {
   method: 'post' | 'put' | 'delete';
-  url: string;
+  url?: string;
+  buildUrl?: (variables: TVariables) => string; // NEW
   queryKeysToInvalidate?: unknown[][];
   options?: UseMutationOptions<TData, TError, TVariables>;
 }
@@ -12,6 +13,7 @@ interface UseApiMutationProps<TData, TVariables, TError = AxiosError> {
 export const useApiMutation = <TData = unknown, TVariables = unknown, TError = AxiosError>({
   method,
   url,
+  buildUrl,
   queryKeysToInvalidate = [],
   options,
 }: UseApiMutationProps<TData, TVariables, TError>) => {
@@ -19,17 +21,23 @@ export const useApiMutation = <TData = unknown, TVariables = unknown, TError = A
 
   return useMutation<TData, TError, TVariables>({
     mutationFn: async (variables: TVariables) => {
+      const requestUrl = buildUrl ? buildUrl(variables) : url;
+
+      if (!requestUrl) {
+        throw new Error('No URL provided for mutation');
+      }
+
       let res;
 
       switch (method) {
         case 'post':
-          res = await api.post<TData>(url, variables);
+          res = await api.post<TData>(requestUrl, variables);
           break;
         case 'put':
-          res = await api.put<TData>(url, variables);
+          res = await api.put<TData>(requestUrl, variables);
           break;
         case 'delete':
-          res = await api.delete<TData>(url, {
+          res = await api.delete<TData>(requestUrl, {
             data: variables,
           } as AxiosRequestConfig);
           break;

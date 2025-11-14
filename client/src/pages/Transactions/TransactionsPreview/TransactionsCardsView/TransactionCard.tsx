@@ -3,25 +3,19 @@ import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/appCommon/CurrencyText';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
-import { useTranslation } from 'react-i18next';
 import SwipeableCard from '@/pages/Dashboard/FinancialHighlights/SwipeableCard';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
+  onRequestDelete: () => void;
 }
 
-const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
-  const { t } = useTranslation('transactions');
-  const { alertSuccess, alertError } = useSnackbar();
+const TransactionCard = ({ transaction, onRequestDelete }: TransactionCardViewProps) => {
   const { setSelectedTransaction } = useSelectedTransaction();
   const IconComponent =
     (transaction.category?.icon &&
@@ -38,23 +32,8 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
       ? 'error.main'
       : 'success.main';
 
-  const deleteTransaction = useApiMutation<void, void>({
-    method: 'delete',
-    url: `${API_ROUTES.TRANSACTIONS}/${transaction._id}`,
-    queryKeysToInvalidate: [queryKeys.categories()],
-    options: {
-      onSuccess: () => {
-        alertSuccess(t('messages.deleteSuccess'));
-      },
-      onError: err => {
-        alertError(t('messages.deleteError'));
-        console.error('❌ Failed to delete transaction', err);
-      },
-    },
-  });
-
   return (
-    <SwipeableCard onDelete={() => {}}>
+    <SwipeableCard onDelete={onRequestDelete}>
       <Paper
         key={transaction._id}
         onClick={() => setSelectedTransaction(transaction)}

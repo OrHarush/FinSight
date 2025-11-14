@@ -13,18 +13,16 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export const me = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.userId) {
-      console.log('No userId found in request');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const user = await getCurrentUserById(req.userId);
 
     if (!user) {
-      console.warn(`User not found for ID: ${req.userId}`);
+      console.error(`User not found for ID: ${req.userId}`);
       return res.status(404).json({ error: 'User not found' });
     }
 
-    console.log(`Fetched user: ${user.email} (ID: ${user._id})`);
     res.status(200).json(user);
   } catch (err) {
     console.error('Error fetching current user:', err);

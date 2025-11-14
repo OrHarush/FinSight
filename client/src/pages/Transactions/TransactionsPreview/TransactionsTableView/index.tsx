@@ -26,7 +26,6 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
     rowsPerPage
   );
 
-  console.log(pagination);
   const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {

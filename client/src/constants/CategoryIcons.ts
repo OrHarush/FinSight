@@ -113,4 +113,42 @@ export const categoryIcons = [
   'Settings',
   'Build',
   'Info',
+
+  // 👤 Personal / People
+  'Person',
+  'PersonOutline',
+  'Face',
+  'FaceRetouchingNatural',
+  'EmojiPeople',
+
+  // 💍 Relationships / Events
+  'Diamond',
+  'Favorite',
+  'FavoriteBorder',
+  'VolunteerActivism',
+  'Redeem',
+  'EmojiEvents',
+
+  // 🐾 Pets
+  'Pets',
+
+  // 👶 Kids
+  'ChildCare',
+  'FamilyRestroom',
+
+  // 🧹 Cleaning / Home Care
+  'CleaningServices',
+  'Iron',
+  'Laundry',
+
+  // 📱 Tech (extra)
+  'Devices',
+  'Smartphone',
+  'Headphones',
+  'Watch',
+
+  // 🌟 Lifestyle
+  'EmojiObjects',
+  'WbSunny',
+  'Nightlight',
 ];

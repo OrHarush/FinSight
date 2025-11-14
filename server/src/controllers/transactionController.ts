@@ -4,12 +4,7 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
-    const { page = '1', limit = '20', sort = 'desc', categoryId, year, month } = req.query;
-
-    console.log('===============');
-    console.log(page);
-    console.log(year);
-    console.log(month);
+    const { page = '1', limit, sort = 'desc', categoryId, year, month } = req.query;
 
     let fromDate: string | undefined;
     let toDate: string | undefined;
@@ -83,7 +78,6 @@ export const createTransaction = async (req: AuthRequest, res: Response) => {
     const transaction = await transactionService.create(req.body, req.userId!);
     res.status(201).json(transaction);
   } catch (err: any) {
-    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };

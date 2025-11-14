@@ -4,11 +4,12 @@ import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface PageHeaderProps {
-  entityName: string;
+  entityName?: string;
+  title?: string;
   children?: ReactNode;
 }
 
-const PageHeader = ({ entityName, children }: PageHeaderProps) => {
+const PageHeader = ({ entityName, title, children }: PageHeaderProps) => {
   const { t } = useTranslation(entityName);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -27,7 +28,7 @@ const PageHeader = ({ entityName, children }: PageHeaderProps) => {
         fontWeight={700}
         sx={{ width: isMobile ? '100%' : 'auto' }}
       >
-        {t('pageTitle')}
+        {title || t('pageTitle')}
       </Typography>
       {children && (
         <Row justifyContent={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'}>
