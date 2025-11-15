@@ -4,8 +4,8 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
-    const { page = '1', limit, sort = 'desc', categoryId, year, month } = req.query;
-
+    const { page = '1', limit, sort = 'desc', categoryId, year, month, search } = req.query;
+    console.log(req.query);
     let fromDate: string | undefined;
     let toDate: string | undefined;
 
@@ -25,6 +25,7 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       to: toDate,
       sort: sort as 'asc' | 'desc',
       categoryId: categoryId as string | undefined,
+      search: search as string | undefined,
     });
 
     res.json({ success: true, ...result });
@@ -50,7 +51,8 @@ export const getTransactionById = async (req: AuthRequest, res: Response) => {
 
 export const getTransactionSummary = async (req: AuthRequest, res: Response) => {
   try {
-    const { year, month } = req.query;
+    const { year, month, accountId } = req.query;
+
     if (!year) {
       return res.status(400).json({ success: false, error: 'Year is required' });
     }
@@ -61,7 +63,8 @@ export const getTransactionSummary = async (req: AuthRequest, res: Response) => 
       summary = await transactionService.getTransactionSummary(
         req.userId!,
         Number(year),
-        Number(month)
+        Number(month),
+        accountId?.toString() || ''
       );
     } else {
       summary = await transactionService.getTransactionSummary(req.userId!, Number(year));

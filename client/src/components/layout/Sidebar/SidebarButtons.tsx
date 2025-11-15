@@ -1,5 +1,5 @@
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
@@ -8,6 +8,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 interface SidebarButtonProps {
   titleKey: string;
@@ -41,44 +42,71 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
     icon: PieChartIcon,
     route: ROUTES.BUDGET_URL,
   },
-  // {
-  //   titleKey: 'planner',
-  //   icon: EventIcon,
-  //   route: ROUTES.PLANNER_URL,
-  // },
-  // {
-  //   titleKey: 'reports',
-  //   icon: BarChartIcon,
-  //   route: ROUTES.REPORTS_URL,
-  // },
 ];
 
 const SidebarButtons = () => {
   const { t } = useTranslation('sidebar');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeIndex = useMemo(
+    () => SIDEBAR_NAVIGATION.findIndex(button => location.pathname === button.route),
+    [location.pathname]
+  );
 
   return (
-    <List>
-      {SIDEBAR_NAVIGATION.map(button => {
-        const Icon = button.icon;
-        const isActive = location.pathname === button.route;
+    <Box sx={{ position: 'relative' }}>
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '8px',
+          right: '8px',
+          height: '44px',
+          borderRadius: '12px',
+          backgroundColor: 'action.selected',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: `translateY(${activeIndex * 52 + 12}px)`,
+          zIndex: 0,
+          opacity: activeIndex >= 0 ? 1 : 0,
+          pointerEvents: 'none',
+        }}
+      />
 
-        return (
-          <ListItem key={button.titleKey} sx={{ padding: '4px 8px' }}>
-            <ListItemButton
-              selected={isActive}
-              onClick={() => navigate(button.route)}
-              sx={{ borderRadius: '12px', height: '44px' }}
-            >
-              <ListItemIcon sx={{ minWidth: 24, mr: 1 }}>
-                <Icon color={isActive ? 'primary' : 'inherit'} />
-              </ListItemIcon>
-              <ListItemText primary={t(button.titleKey)} />
-            </ListItemButton>
-          </ListItem>
-        );
-      })}
-    </List>
+      <List sx={{ position: 'relative', zIndex: 1 }}>
+        {SIDEBAR_NAVIGATION.map((button, index) => {
+          const Icon = button.icon;
+          const isActive = index === activeIndex;
+
+          return (
+            <ListItem key={button.titleKey} sx={{ padding: '4px 8px' }}>
+              <ListItemButton
+                onClick={() => navigate(button.route)}
+                sx={{
+                  borderRadius: '12px',
+                  height: '44px',
+                  backgroundColor: 'transparent',
+                  transition: 'color 0.2s ease-in-out',
+                  '&:hover': {
+                    backgroundColor: isActive ? 'transparent' : 'action.hover',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 24, mr: 1 }}>
+                  <Icon color={isActive ? 'primary' : 'inherit'} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={t(button.titleKey)}
+                  sx={{
+                    color: isActive ? 'primary.main' : 'inherit',
+                    transition: 'color 0.2s ease-in-out',
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
   );
 };
 

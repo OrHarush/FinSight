@@ -10,8 +10,9 @@
     "cancel": "בטל"
   },
   "actions": {
-    "logout": "התנתק",
-    "swipeToDelete": "החלק למחיקה"
+    "search": "חפש...",
+    "swipeToDelete": "החלק למחיקה",
+    "logout": "התנתק"
   },
   "settings": {
     "title": "הגדרות",

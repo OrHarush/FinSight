@@ -19,11 +19,19 @@ export const API_ROUTES = {
   },
 
   TRANSACTIONS: '/api/transactions',
-  TRANSACTION_SUMMARY: (year: number, month?: number) =>
-    month
-      ? `/api/transactions/summary?year=${year}&month=${month}`
-      : `/api/transactions/summary?year=${year}`,
+  TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string) => {
+    const params = new URLSearchParams({ year: String(year) });
 
+    if (month !== undefined) {
+      params.append('month', String(month));
+    }
+
+    if (accountId) {
+      params.append('accountId', accountId);
+    }
+
+    return `/api/transactions/summary?${params.toString()}`;
+  },
   CATEGORIES: '/api/categories',
 
   ACCOUNTS: '/api/accounts',

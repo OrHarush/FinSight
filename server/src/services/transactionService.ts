@@ -7,8 +7,12 @@ import { TransactionQueryOptions } from '../types/Transaction';
 export const findAll = async (userId: string, options: TransactionQueryOptions = {}) =>
   transactionRepository.findMany(userId, options);
 
-export const getTransactionSummary = async (userId: string, year: number, month?: number) =>
-  transactionRepository.getSummary(userId, year, month);
+export const getTransactionSummary = async (
+  userId: string,
+  year: number,
+  month?: number,
+  accountId?: string
+) => transactionRepository.getSummary(userId, year, month, accountId);
 
 export const getTransactionById = async (id: string, userId: string) =>
   transactionRepository.findById(id, userId);

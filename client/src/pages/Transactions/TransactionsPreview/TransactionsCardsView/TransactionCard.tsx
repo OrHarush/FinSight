@@ -9,14 +9,14 @@ import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import SwipeableCard from '@/pages/Dashboard/FinancialHighlights/SwipeableCard';
+import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
-  onRequestDelete: () => void;
 }
 
-const TransactionCard = ({ transaction, onRequestDelete }: TransactionCardViewProps) => {
-  const { setSelectedTransaction } = useSelectedTransaction();
+const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
+  const { setSelectedTransaction, setTransactionAction } = useSelectedTransaction();
   const IconComponent =
     (transaction.category?.icon &&
       (Icons as Record<string, ElementType>)[transaction.category?.icon]) ||
@@ -32,11 +32,21 @@ const TransactionCard = ({ transaction, onRequestDelete }: TransactionCardViewPr
       ? 'error.main'
       : 'success.main';
 
+  const setTransactionToEdit = () => {
+    setSelectedTransaction(transaction);
+    setTransactionAction('edit');
+  };
+
+  const setTransactionToDelete = () => {
+    setSelectedTransaction(transaction);
+    setTransactionAction('delete');
+  };
+
   return (
-    <SwipeableCard onDelete={onRequestDelete}>
+    <SwipeableCard onDelete={setTransactionToDelete}>
       <Paper
         key={transaction._id}
-        onClick={() => setSelectedTransaction(transaction)}
+        onClick={setTransactionToEdit}
         sx={{
           p: '18px 20px',
           borderRadius: 0,
@@ -108,7 +118,7 @@ const TransactionCard = ({ transaction, onRequestDelete }: TransactionCardViewPr
               {isTransfer ? 'Transfer' : transaction.name}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {new Date(transaction.date).toLocaleDateString()}
+              {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString()}
             </Typography>
           </Column>
           <CurrencyText

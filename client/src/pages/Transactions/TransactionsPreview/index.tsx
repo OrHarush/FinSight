@@ -4,18 +4,31 @@ import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/Tran
 import { Dayjs } from 'dayjs';
 
 interface TransactionsPreviewProps {
-  selectedMonth: Dayjs | null;
-  selectedCategory: string | null;
+  searchValue: string;
+  selectedCategory: string;
+  selectedMonth: Dayjs;
 }
 
-const TransactionsPreview = ({ selectedMonth, selectedCategory }: TransactionsPreviewProps) => {
+const TransactionsPreview = ({
+  selectedMonth,
+  selectedCategory,
+  searchValue,
+}: TransactionsPreviewProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return isMobile ? (
-    <TransactionsCardsView selectedMonth={selectedMonth} selectedCategory={selectedCategory} />
+    <TransactionsCardsView
+      searchValue={searchValue}
+      selectedCategory={selectedCategory}
+      selectedMonth={selectedMonth}
+    />
   ) : (
-    <TransactionsTableView selectedMonth={selectedMonth} selectedCategory={selectedCategory} />
+    <TransactionsTableView
+      searchValue={searchValue}
+      selectedCategory={selectedCategory}
+      selectedMonth={selectedMonth}
+    />
   );
 };
 

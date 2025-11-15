@@ -9,6 +9,7 @@ import Column from '@/components/layout/Containers/Column';
 import BudgetCategoryCard from '@/pages/Budget/BudgetCategoryCard';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import PageHeader from '@/components/layout/Page/PageHeader';
+import BudgetPieChart from '@/pages/Budget/BudgetPieChart';
 
 const Budget = () => {
   const { t } = useTranslation('categories');
@@ -63,18 +64,6 @@ const Budget = () => {
     <PageLayout>
       {/* Header */}
       <PageHeader title={'Budget'} />
-      {/*<Column spacing={2} mb={3}>*/}
-      {/*  <Typography variant="h4" fontWeight={600}>*/}
-      {/*    {t('budgetPage.title', 'Budgets')}*/}
-      {/*  </Typography>*/}
-      {/*  <Typography variant="subtitle1" color="text.secondary">*/}
-      {/*    {t('budgetPage.subtitle', '{{month}} {{year}}', {*/}
-      {/*      month: now.toLocaleString(undefined, { month: 'long' }),*/}
-      {/*      year: currentYear,*/}
-      {/*    })}*/}
-      {/*  </Typography>*/}
-      {/*</Column>*/}
-
       {/* Errors */}
       {categoriesError && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -133,8 +122,9 @@ const Budget = () => {
           </Card>
         )}
       </Box>
-
-      {/* Categories grid */}
+      <Card sx={{ borderRadius: 2, p: 2 }}>
+        <BudgetPieChart categories={categories} perCategorySpent={perCategorySpent} />
+      </Card>
       {isLoading ? (
         <Grid container spacing={2}>
           {Array.from({ length: 6 }).map((_, idx) => (
@@ -144,7 +134,7 @@ const Budget = () => {
           ))}
         </Grid>
       ) : (
-        <Grid container spacing={2}>
+        <Column spacing={2} height={'400px'} overflow={'auto'}>
           {categories?.map(category => (
             <BudgetCategoryCard key={category._id} category={category} />
           ))}
@@ -155,7 +145,7 @@ const Budget = () => {
               </Typography>
             </Box>
           )}
-        </Grid>
+        </Column>
       )}
     </PageLayout>
   );

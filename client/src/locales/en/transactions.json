@@ -9,13 +9,31 @@
     "add": "Add Transaction",
     "edit": "Edit Transaction",
     "delete": "Delete Transaction",
-    "import": "Import CVS"
+    "import": "Import CSV"
   },
   "fields": {
     "amount": "Amount",
     "category": "Category",
     "date": "Date",
-    "description": "Description"
+    "description": "Description",
+    "name": "Name",
+    "type": "Type",
+    "account": "Account",
+    "fromAccount": "From Account",
+    "toAccount": "To Account",
+    "recurrence": "Recurrence",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
+  "types": {
+    "income": "Income",
+    "expense": "Expense",
+    "transfer": "Transfer"
+  },
+  "recurrence": {
+    "none": "None",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
   },
   "setupDialog": {
     "title": "Complete Setup First",
@@ -28,5 +46,11 @@
     "updateError": "Failed to update transaction",
     "deleteSuccess": "Transaction deleted successfully",
     "deleteError": "Failed to delete transaction"
+  },
+  "details": {
+    "title": "Transaction Details",
+    "uncategorized": "Uncategorized",
+    "created": "Created",
+    "updated": "Updated"
   }
 }

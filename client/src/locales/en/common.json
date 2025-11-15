@@ -10,8 +10,9 @@
     "cancel": "Cancel"
   },
   "actions": {
-    "logout": "Log out",
-    "swipeToDelete": "Swipe to delete"
+    "search": "Search...",
+    "swipeToDelete": "Swipe to delete",
+    "logout": "Log out"
   },
   "settings": {
     "title": "Settings",

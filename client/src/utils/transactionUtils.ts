@@ -1,4 +1,4 @@
-import { TransactionFormValues } from '@/types/Transaction';
+import { ExpandedTransactionDto, TransactionFormValues } from '@/types/Transaction';
 import { CreateTransactionCommand } from '../../../shared/types/TransactionCommands';
 
 export const mapTransactionFormValuesToPayload = (
@@ -31,4 +31,12 @@ export const mapTransactionFormValuesToPayload = (
   }
 
   return base;
+};
+
+export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => {
+  if (tx.date) {
+    return tx.date;
+  }
+
+  return tx!.startDate!;
 };

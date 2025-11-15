@@ -2,24 +2,42 @@
   "pageTitle": "עסקאות",
   "empty": {
     "title": "אין עדיין עסקאות",
-    "subtitle": "התחל על-ידי הוספת העסקה הראשונה שלך",
-    "chart": "הוסף כמה עסקאות כדי לראות את גרף ההכנסות וההוצאות שלך"
+    "subtitle": "התחל על ידי הוספת העסקה הראשונה שלך",
+    "chart": "הוסף עסקאות כדי לראות את גרף ההכנסות וההוצאות"
   },
   "actions": {
     "add": "הוסף עסקה",
     "edit": "ערוך עסקה",
     "delete": "מחק עסקה",
-    "import": "ייבא CVS"
+    "import": "ייבא CSV"
   },
   "fields": {
     "amount": "סכום",
     "category": "קטגוריה",
     "date": "תאריך",
-    "description": "תיאור"
+    "description": "תיאור",
+    "name": "שם",
+    "type": "סוג",
+    "account": "חשבון",
+    "fromAccount": "מחשבון",
+    "toAccount": "לחשבון",
+    "recurrence": "חזרתיות",
+    "startDate": "תאריך התחלה",
+    "endDate": "תאריך סיום"
+  },
+  "types": {
+    "income": "הכנסה",
+    "expense": "הוצאה",
+    "transfer": "העברה"
+  },
+  "recurrence": {
+    "none": "ללא",
+    "monthly": "חודשי",
+    "yearly": "שנתי"
   },
   "setupDialog": {
     "title": "השלם את ההגדרות תחילה",
-    "message": "עליך ליצור לפחות <account>חשבון</account> ו<category>קטגוריה</category> לפני שתוכל להוסיף עסקה."
+    "message": "עליך ליצור לפחות <account>חשבון</account> אחד ו<category>קטגוריה</category> אחת לפני שתוכל להוסיף עסקה."
   },
   "messages": {
     "createSuccess": "העסקה נוצרה בהצלחה",
@@ -28,5 +46,11 @@
     "updateError": "עדכון העסקה נכשל",
     "deleteSuccess": "העסקה נמחקה בהצלחה",
     "deleteError": "מחיקת העסקה נכשלה"
+  },
+  "details": {
+    "title": "פרטי עסקה",
+    "uncategorized": "ללא קטגוריה",
+    "created": "נוצר",
+    "updated": "עודכן"
   }
 }

@@ -6,4 +6,5 @@ export interface TransactionQueryOptions {
   sort?: 'asc' | 'desc';
   categoryId?: string;
   accountId?: string;
+  search?: string;
 }

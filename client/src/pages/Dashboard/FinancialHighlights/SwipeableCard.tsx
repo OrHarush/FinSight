@@ -15,7 +15,7 @@ const SwipeableCard = ({ children, onDelete }: SwipeableCardProps) => {
 
   const x = useMotionValue(0);
   const controls = useAnimation();
-  const deleteButtonOpacity = useTransform(x, isRtl ? [0, 150] : [-150, 0], [0, 1]);
+  const deleteButtonOpacity = useTransform(x, isRtl ? [0, 150] : [0, -150], [0, 1]);
 
   const handleDragEnd = async (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     await controls.start({ x: 0, transition: { type: 'tween', stiffness: 300 } });
@@ -46,7 +46,7 @@ const SwipeableCard = ({ children, onDelete }: SwipeableCardProps) => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: isRtl ? 'flex-end' : 'flex-start',
+          justifyContent: 'flex-end',
           backgroundColor: '#ef4444',
           opacity: deleteButtonOpacity,
         }}

@@ -27,15 +27,17 @@ const FinancialHighlights = () => {
   const { year, month, account } = useDashboardFilters();
   const { isLoading: isLoadingAccounts } = useAccounts();
 
-  const { data: monthlyTransactions, isLoading: isLoadingTransactions } =
+  const { data: monthlySummary, isLoading: isLoadingTransactions } =
     useFetch<TransactionSummaryDto>({
-      url: API_ROUTES.TRANSACTION_SUMMARY(year, month),
-      queryKey: queryKeys.transactionSummary(year, month),
+      url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
+      queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
       enabled: !!year && month >= 0,
     });
 
-  const monthlyIncome = monthlyTransactions?.monthlyIncome ?? 0;
-  const monthlyExpenses = monthlyTransactions?.monthlyExpenses ?? 0;
+  console.log(monthlySummary);
+
+  const monthlyIncome = monthlySummary?.monthlyIncome ?? 0;
+  const monthlyExpenses = monthlySummary?.monthlyExpenses ?? 0;
 
   const FinanceCards: FinanceHighlightCardProps[] = [
     {

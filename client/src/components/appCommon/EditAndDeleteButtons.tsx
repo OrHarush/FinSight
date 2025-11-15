@@ -5,7 +5,7 @@ import Row from '@/components/layout/Containers/Row';
 
 interface EditAndDeleteButtonsProps {
   onEdit?: () => void;
-  onConfirmDelete?: () => void;
+  onDelete?: () => void;
   isEditDisabled?: boolean;
   isDeleteDisabled?: boolean;
   requireConfirmation?: boolean;
@@ -17,7 +17,7 @@ interface EditAndDeleteButtonsProps {
 
 const EditAndDeleteButtons = ({
   onEdit,
-  onConfirmDelete,
+  onDelete,
   isEditDisabled = false,
   isDeleteDisabled = false,
   requireConfirmation = true,
@@ -25,56 +25,41 @@ const EditAndDeleteButtons = ({
   entityName,
   confirmationMessage,
   disabledReason,
-}: EditAndDeleteButtonsProps) => {
-  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-
-    if (onConfirmDelete) {
-      onConfirmDelete();
-    }
-    // if (requireConfirmation) {
-    //   setConfirmOpen(true);
-    // } else {
-    //   onConfirmDelete?.();
-    // }
-  };
-
-  return (
-    <>
-      <Row>
-        {onEdit && (
-          <IconButton
-            onClick={onEdit}
-            size="medium"
-            disabled={isEditDisabled}
-            aria-label={`Edit ${entityType}`}
-          >
-            <EditIcon fontSize="small" />
-          </IconButton>
-        )}
+}: EditAndDeleteButtonsProps) => (
+  <>
+    <Row>
+      {onEdit && (
         <IconButton
-          onClick={handleDeleteClick}
+          onClick={onEdit}
           size="medium"
-          color="error"
-          disabled={isDeleteDisabled}
-          aria-label={`Delete ${entityType}`}
+          disabled={isEditDisabled}
+          aria-label={`Edit ${entityType}`}
         >
-          <DeleteIcon fontSize="small" />
+          <EditIcon fontSize="small" />
         </IconButton>
-      </Row>
-      {/*{requireConfirmation && (*/}
-      {/*  <DeletionConfirmationDialog*/}
-      {/*    isOpen={confirmOpen}*/}
-      {/*    closeDialog={() => setConfirmOpen(false)}*/}
-      {/*    onConfirm={() => onConfirmDelete?.()}*/}
-      {/*    entityType={entityType}*/}
-      {/*    entityName={entityName}*/}
-      {/*    message={confirmationMessage}*/}
-      {/*    disabledReason={disabledReason}*/}
-      {/*  />*/}
-      {/*)}*/}
-    </>
-  );
-};
+      )}
+      <IconButton
+        onClick={onDelete}
+        size="medium"
+        color="error"
+        disabled={isDeleteDisabled}
+        aria-label={`Delete ${entityType}`}
+      >
+        <DeleteIcon fontSize="small" />
+      </IconButton>
+    </Row>
+    {/*{requireConfirmation && (*/}
+    {/*  <DeletionConfirmationDialog*/}
+    {/*    isOpen={confirmOpen}*/}
+    {/*    closeDialog={() => setConfirmOpen(false)}*/}
+    {/*    onConfirm={() => onConfirmDelete?.()}*/}
+    {/*    entityType={entityType}*/}
+    {/*    entityName={entityName}*/}
+    {/*    message={confirmationMessage}*/}
+    {/*    disabledReason={disabledReason}*/}
+    {/*  />*/}
+    {/*)}*/}
+  </>
+);
 
 export default EditAndDeleteButtons;

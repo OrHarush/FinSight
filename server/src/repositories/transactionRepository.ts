@@ -14,7 +14,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const findMany = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const { page, limit, from, to, sort = 'desc', categoryId, accountId } = options;
+  const { page, limit, from, to, sort = 'desc', categoryId, accountId, search } = options;
 
   const fromDate = from ? new Date(from) : undefined;
   const toDate = to ? new Date(to) : undefined;
@@ -27,12 +27,22 @@ export const findMany = async (userId: string, options: TransactionQueryOptions 
     .populate('fromAccount')
     .populate('toAccount');
 
-  const filtered = filterAndExpandTransactions(transactions, fromDate, toDate);
+  let filteredTransaction = filterAndExpandTransactions(transactions, fromDate, toDate);
 
-  return sortAndPaginate(filtered, sort, page, limit);
+  if (search) {
+    const term = search.trim().toLowerCase();
+    filteredTransaction = filteredTransaction.filter((t) => t.name.toLowerCase().includes(term));
+  }
+
+  return sortAndPaginate(filteredTransaction, sort, page, limit);
 };
 
-export const getSummary = async (userId: string, year: number, month?: number) => {
+export const getSummary = async (
+  userId: string,
+  year: number,
+  month?: number,
+  accountId?: string
+) => {
   const isMonthly = month !== undefined;
 
   const start = isMonthly
@@ -43,10 +53,20 @@ export const getSummary = async (userId: string, year: number, month?: number) =
     ? dayjs.utc().year(year).month(month!).endOf('month').toDate()
     : dayjs.utc().year(year).endOf('year').toDate();
 
-  const transactions = await Transaction.find({
+  const mongoFilter: any = {
     userId: new Types.ObjectId(userId),
     $or: [{ date: { $lte: end } }, { startDate: { $lte: end } }],
-  })
+  };
+
+  if (accountId) {
+    mongoFilter.$or = [
+      { account: accountId },
+      { fromAccount: accountId },
+      { toAccount: accountId },
+    ];
+  }
+
+  const transactions = await Transaction.find(mongoFilter)
     .populate('category')
     .populate('account')
     .populate('fromAccount')
@@ -59,11 +79,32 @@ export const getSummary = async (userId: string, year: number, month?: number) =
     let monthlyExpenses = 0;
 
     for (const tx of expanded) {
-      if (tx.date >= start && tx.date <= end) {
+      if (tx.date < start || tx.date > end) {
+        continue;
+      }
+
+      if (tx.type !== 'Transfer') {
+        if (accountId && tx.account?._id.toString() !== accountId) {
+          continue;
+        }
+
         if (tx.category?.type === 'Income') {
           monthlyIncome += tx.amount;
         } else if (tx.category?.type === 'Expense') {
           monthlyExpenses += tx.amount;
+        }
+      }
+
+      if (tx.type === 'Transfer' && accountId) {
+        const from = tx.fromAccount?._id.toString();
+        const to = tx.toAccount?._id.toString();
+
+        if (from === accountId) {
+          monthlyExpenses += tx.amount;
+        }
+
+        if (to === accountId) {
+          monthlyIncome += tx.amount;
         }
       }
     }
@@ -78,12 +119,32 @@ export const getSummary = async (userId: string, year: number, month?: number) =
   }));
 
   for (const tx of expanded) {
-    if (tx.date >= start && tx.date <= end) {
-      const m = dayjs.utc(tx.date).month(); // 0–11
-      if (tx.category?.type === 'Income') {
-        buckets[m].monthlyIncome += tx.amount;
-      } else if (tx.category?.type === 'Expense') {
+    if (tx.date < start || tx.date > end) continue;
+
+    const m = dayjs.utc(tx.date).month();
+
+    if (tx.type !== 'Transfer') {
+      if (!accountId || tx.account?._id.toString() === accountId) {
+        if (tx.category?.type === 'Income') {
+          buckets[m].monthlyIncome += tx.amount;
+        } else if (tx.category?.type === 'Expense') {
+          buckets[m].monthlyExpenses += tx.amount;
+        }
+      }
+    }
+
+    if (tx.type === 'Transfer' && accountId) {
+      const from = tx.fromAccount?._id.toString();
+      const to = tx.toAccount?._id.toString();
+      console.log('HERE!');
+      if (from === accountId) {
+        console.log(tx);
         buckets[m].monthlyExpenses += tx.amount;
+      }
+
+      if (to === accountId) {
+        console.log(tx);
+        buckets[m].monthlyIncome += tx.amount;
       }
     }
   }

@@ -5,9 +5,14 @@ import { useAccounts } from '@/hooks/useAccounts';
 import { useCategories } from '@/hooks/useCategories';
 import { useNavigate } from 'react-router-dom';
 import { Button, DialogContent, Typography } from '@mui/material';
-import { ROUTES } from '@/constants/Routes';
+import { API_ROUTES, ROUTES } from '@/constants/Routes';
 import FinSightDialog from '@/components/dialogs/FinSightDialog';
 import { Trans, useTranslation } from 'react-i18next';
+import DeletionConfirmationDialog from '@/components/dialogs/DeletionConfirmationDialog';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { queryKeys } from '@/constants/queryKeys';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import TransactionOverview from '@/pages/Transactions/TransactionOverview';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -16,12 +21,34 @@ interface TransactionDialogsProps {
 
 const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: TransactionDialogsProps) => {
   const { t } = useTranslation('transactions');
-  const { selectedTransaction, setSelectedTransaction } = useSelectedTransaction();
+  const { selectedTransaction, setSelectedTransaction, transactionAction, setTransactionAction } =
+    useSelectedTransaction();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
   const navigate = useNavigate();
+  const { alertSuccess, alertError } = useSnackbar();
 
   const needsSetup = !accounts?.length || !categories?.length;
+
+  const resetSelectedTransaction = () => {
+    setSelectedTransaction(undefined);
+    setTransactionAction(undefined);
+  };
+
+  const deleteTransaction = useApiMutation<void, { id: string }>({
+    method: 'delete',
+    buildUrl: ({ id }) => `${API_ROUTES.TRANSACTIONS}/${id}`,
+    queryKeysToInvalidate: [queryKeys.transactions()],
+    options: {
+      onSuccess: () => {
+        alertSuccess(t('messages.deleteSuccess'));
+      },
+      onError: err => {
+        alertError(t('messages.deleteError'));
+        console.error('❌ Failed to delete transaction', err);
+      },
+    },
+  });
 
   if (needsSetup) {
     return (
@@ -66,15 +93,37 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
       </FinSightDialog>
     );
   }
+
   return (
     <>
       {isCreateDialogOpen && (
         <CreateTransactionDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}
-      {!!selectedTransaction && (
+      {!!selectedTransaction && transactionAction == 'edit' && (
         <EditTransactionDialog
           isOpen={!!selectedTransaction}
-          closeDialog={() => setSelectedTransaction(undefined)}
+          closeDialog={resetSelectedTransaction}
+          transaction={selectedTransaction}
+        />
+      )}
+      {!!selectedTransaction && transactionAction == 'delete' && (
+        <DeletionConfirmationDialog
+          isOpen={!!selectedTransaction}
+          closeDialog={resetSelectedTransaction}
+          onConfirm={() => {
+            if (selectedTransaction) {
+              deleteTransaction.mutate({
+                id: selectedTransaction.originalId ?? selectedTransaction._id,
+              });
+            }
+          }}
+          entityType="transaction"
+        />
+      )}
+      {!!selectedTransaction && (
+        <TransactionOverview
+          open={!!selectedTransaction}
+          onClose={() => setSelectedTransaction(undefined)}
           transaction={selectedTransaction}
         />
       )}

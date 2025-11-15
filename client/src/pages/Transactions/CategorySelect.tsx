@@ -21,7 +21,7 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
       onChange={e => setSelectedCategory(e.target.value)}
       displayEmpty
       sx={{
-        width: '200px',
+        width: '190px',
         '& .MuiOutlinedInput-notchedOutline': {
           borderColor: 'rgba(255, 255, 255, 0.12)',
         },

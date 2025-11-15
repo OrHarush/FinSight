@@ -96,7 +96,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
                 entityType="account"
                 entityName={account.name}
                 onEdit={() => selectAccount(account)}
-                onConfirmDelete={handleDeleteRequest}
+                onDelete={handleDeleteRequest}
                 disabledReason={
                   account.isPrimary ? 'Primary accounts cannot be deleted.' : undefined
                 }

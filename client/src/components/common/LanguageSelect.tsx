@@ -9,6 +9,7 @@ const LanguageSelect = () => {
   const { i18n } = useTranslation('common');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const isRtl = i18n.language === 'he';
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -47,6 +48,14 @@ const LanguageSelect = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: isRtl ? 'right' : 'left',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: isRtl ? 'right' : 'left',
+        }}
         sx={{
           '& .MuiPaper-root': {
             backgroundColor: theme.palette.background.paper,
