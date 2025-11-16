@@ -31,6 +31,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
   const needsSetup = !accounts?.length || !categories?.length;
 
   const resetSelectedTransaction = () => {
+    console.log('leaving');
     setSelectedTransaction(undefined);
     setTransactionAction(undefined);
   };
@@ -49,6 +50,8 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
       },
     },
   });
+
+  console.log(transactionAction);
 
   if (needsSetup) {
     return (
@@ -120,7 +123,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
           entityType="transaction"
         />
       )}
-      {!!selectedTransaction && (
+      {!!selectedTransaction && !transactionAction && (
         <TransactionOverview
           open={!!selectedTransaction}
           onClose={() => setSelectedTransaction(undefined)}

@@ -1,10 +1,12 @@
-import { TableCell, TableRow } from '@mui/material';
+import { IconButton, TableCell, TableRow } from '@mui/material';
 import CurrencyText from '@/components/appCommon/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import Row from '@/components/layout/Containers/Row';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
@@ -13,10 +15,20 @@ interface TransactionTableRowProps {
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { setSelectedTransaction, setTransactionAction } = useSelectedTransaction();
 
+  const handleTransactionSelect = () => {
+    setSelectedTransaction(transaction);
+    setTransactionAction('edit');
+  };
+
+  const handleViewTransaction = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setSelectedTransaction(transaction);
+  };
+
   return (
     <TableRow
       key={transaction._id}
-      onClick={() => setSelectedTransaction(transaction)}
+      onClick={handleTransactionSelect}
       sx={{
         cursor: 'pointer',
         '&:hover': {
@@ -53,16 +65,25 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
         {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString('en-GB')}
       </TableCell>
       <TableCell align="center">
-        <EditAndDeleteButtons
-          onDelete={() => {
-            setTransactionAction('delete');
-            setSelectedTransaction(transaction);
-          }}
-          onEdit={() => {
-            setTransactionAction('edit');
-            setSelectedTransaction(transaction);
-          }}
-        />
+        <Row>
+          <IconButton
+            onClick={handleViewTransaction}
+            size="medium"
+            aria-label={`View ${transaction.name}`}
+          >
+            <RemoveRedEyeIcon fontSize="small" />
+          </IconButton>
+          <EditAndDeleteButtons
+            onDelete={() => {
+              setTransactionAction('delete');
+              setSelectedTransaction(transaction);
+            }}
+            onEdit={() => {
+              setTransactionAction('edit');
+              setSelectedTransaction(transaction);
+            }}
+          />
+        </Row>
       </TableCell>
     </TableRow>
   );

@@ -38,6 +38,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   };
 
   const setTransactionToDelete = () => {
+    console.log('here');
     setSelectedTransaction(transaction);
     setTransactionAction('delete');
   };

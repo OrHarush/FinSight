@@ -68,7 +68,6 @@ const TransactionOverview = ({ open, onClose, transaction }: TransactionDetailsM
           </IconButton>
         </Row>
       </DialogTitle>
-
       <DialogContent>
         <Column spacing={2}>
           <Column alignItems="center" spacing={2} sx={{ py: 2 }}>

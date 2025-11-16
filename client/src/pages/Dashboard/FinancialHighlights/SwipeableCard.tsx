@@ -20,7 +20,7 @@ const SwipeableCard = ({ children, onDelete }: SwipeableCardProps) => {
   const handleDragEnd = async (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     await controls.start({ x: 0, transition: { type: 'tween', stiffness: 300 } });
 
-    const deleteThreshold = isRtl ? 500 : -500;
+    const deleteThreshold = isRtl ? 200 : -200;
     const shouldDelete = isRtl ? info.offset.x > deleteThreshold : info.offset.x < deleteThreshold;
 
     if (shouldDelete && onDelete) {

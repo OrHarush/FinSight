@@ -8,6 +8,7 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import DateSelector from '@/components/appCommon/DateSelector';
 import { Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface TransactionsFiltersProps {
   searchValue: string;
@@ -53,19 +54,16 @@ const TransactionsFilters = ({
                   <SearchIcon />
                 </InputAdornment>
               ),
+              endAdornment: searchValue && (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={() => setSearchValue('')} edge="end">
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
             },
           }}
         />
-        <Tooltip title="Clear filters">
-          <IconButton
-            onClick={() => {
-              setSelectedCategory('');
-              setSearchValue('');
-            }}
-          >
-            <ClearIcon />
-          </IconButton>
-        </Tooltip>
       </Row>
     </ResponsiveRow>
   );
