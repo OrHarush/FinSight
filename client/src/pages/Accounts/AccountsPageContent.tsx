@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import AccountCard from '@/pages/Accounts/AccountCard';
 import AccountCardSkeleton from '@/pages/Accounts/AccountCardSkeleton';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import { AccountDto } from '@/types/Account';
 import EntityError from '@/components/entities/EntityError';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';

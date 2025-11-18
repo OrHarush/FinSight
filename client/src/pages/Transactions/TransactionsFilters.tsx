@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
-import { IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CategorySelect from '@/pages/Transactions/CategorySelect';
 import Row from '@/components/layout/Containers/Row';
@@ -8,7 +8,6 @@ import { ClearIcon } from '@mui/x-date-pickers';
 import DateSelector from '@/components/appCommon/DateSelector';
 import { Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
 
 interface TransactionsFiltersProps {
   searchValue: string;

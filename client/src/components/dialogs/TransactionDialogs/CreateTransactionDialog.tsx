@@ -10,7 +10,7 @@ import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
 import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('transactions');

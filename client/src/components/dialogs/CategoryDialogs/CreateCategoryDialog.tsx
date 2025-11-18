@@ -14,14 +14,15 @@ import { useTranslation } from 'react-i18next';
 const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  const methods = useForm<CategoryFormValues>({
-    defaultValues: {
-      type: 'Expense',
-      color: '#4CAF50',
-      icon: 'CategoryIcon',
-      monthlyLimit: 0,
-    },
-  });
+  const methods = useForm<CategoryFormValues>();
+  // const methods = useForm<CategoryFormValues>({
+  //   defaultValues: {
+  //     type: 'Expense',
+  //     color: '#4CAF50',
+  //     icon: 'CategoryIcon',
+  //     monthlyLimit: 0,
+  //   },
+  // });
 
   const createCategory = useApiMutation<CategoryDto, CreateCategoryCommand>({
     method: 'post',

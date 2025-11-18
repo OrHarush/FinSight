@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 interface NoEntityProps {
   entityName: EntityName;
-  subtitleKey?: string; // optional
+  subtitleKey?: string;
   icon: SvgIconComponent;
 }
 

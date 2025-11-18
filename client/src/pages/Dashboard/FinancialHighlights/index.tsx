@@ -9,7 +9,7 @@ import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider'
 import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import { queryKeys } from '@/constants/queryKeys';
 import { useTranslation } from 'react-i18next';
 

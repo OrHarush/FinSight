@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Pagination } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions } from '@/hooks/entities/useTransactions';
 import EntityError from '@/components/entities/EntityError';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';

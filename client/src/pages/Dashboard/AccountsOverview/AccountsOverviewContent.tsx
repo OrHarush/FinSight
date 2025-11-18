@@ -2,7 +2,7 @@ import AccountsList from '@/pages/Dashboard/AccountsOverview/AccountsList';
 import AccountOverviewCardSkeleton from '@/pages/Dashboard/AccountsOverview/AccountOverviewCardSkeleton';
 import Row from '@/components/layout/Containers/Row';
 import EntityError from '@/components/entities/EntityError';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 

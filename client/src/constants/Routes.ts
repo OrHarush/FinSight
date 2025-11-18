@@ -2,6 +2,7 @@ export const ROUTES = {
   DASHBOARD_URL: '/dashboard',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',
+  PAYMENT_METHODS_URL: '/payment-methods',
   BUDGET_URL: '/budget',
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
@@ -32,10 +33,9 @@ export const API_ROUTES = {
 
     return `/api/transactions/summary?${params.toString()}`;
   },
-  CATEGORIES: '/api/categories',
-
   ACCOUNTS: '/api/accounts',
   ACCOUNT_BALANCE_CURVE: (accountId: string) => `/api/accounts/${accountId}/balance-curve`,
-
+  CATEGORIES: '/api/categories',
+  PAYMENT_METHODS: '/api/payment-methods',
   USERS: '/api/users',
 };

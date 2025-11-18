@@ -1,5 +1,5 @@
 import PageHeader from '@/components/layout/Page/PageHeader';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
 import AccountMenuItem from '@/components/accounts/AccountMenuItem';

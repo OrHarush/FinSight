@@ -1,7 +1,7 @@
 import CategoryCard from '@/pages/Categories/CategoryCard';
 import { Grid, Typography } from '@mui/material';
 import { CategoryDto } from '@/types/Category';
-import { useCategories } from '@/hooks/useCategories';
+import { useCategories } from '@/hooks/entities/useCategories';
 import { useTranslation } from 'react-i18next';
 
 interface CategoryListProps {

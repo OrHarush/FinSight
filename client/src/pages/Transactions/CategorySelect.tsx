@@ -1,6 +1,6 @@
 import { MenuItem, Select, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import { useCategories } from '@/hooks/useCategories';
+import { useCategories } from '@/hooks/entities/useCategories';
 import Row from '@/components/layout/Containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';

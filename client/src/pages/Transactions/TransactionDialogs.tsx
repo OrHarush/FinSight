@@ -1,8 +1,8 @@
 import CreateTransactionDialog from '@/components/dialogs/TransactionDialogs/CreateTransactionDialog';
 import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
 import EditTransactionDialog from '@/components/dialogs/TransactionDialogs/EditTransactionDialog';
-import { useAccounts } from '@/hooks/useAccounts';
-import { useCategories } from '@/hooks/useCategories';
+import { useAccounts } from '@/hooks/entities/useAccounts';
+import { useCategories } from '@/hooks/entities/useCategories';
 import { useNavigate } from 'react-router-dom';
 import { Button, DialogContent, Typography } from '@mui/material';
 import { API_ROUTES, ROUTES } from '@/constants/Routes';

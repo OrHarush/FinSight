@@ -2,7 +2,7 @@ import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider'
 import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions } from '@/hooks/entities/useTransactions';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Skeleton } from '@mui/material';

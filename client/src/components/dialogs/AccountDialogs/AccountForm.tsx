@@ -2,7 +2,7 @@ import Column from '@/components/layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/layout/Containers/Row';
 import { Checkbox, FormControlLabel } from '@mui/material';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import { Controller, useFormContext } from 'react-hook-form';
 import { AccountFormValues } from '@/types/Account';
 import IconPickerField from '@/components/dialogs/IconPicker/IconPickerButton';

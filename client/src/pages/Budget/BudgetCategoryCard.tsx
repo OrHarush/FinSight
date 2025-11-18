@@ -7,7 +7,7 @@ import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions } from '@/hooks/entities/useTransactions';
 
 interface BudgetCategoryCardProps {
   category: CategoryDto;

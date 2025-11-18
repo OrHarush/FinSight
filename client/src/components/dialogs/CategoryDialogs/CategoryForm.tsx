@@ -12,7 +12,7 @@ const CategoryForm = () => {
 
   return (
     <Column spacing={2}>
-      <TextInput name="name" label={t('fields.name')} />
+      <TextInput name="name" label={t('fields.name')} required />
       <Grid container spacing={2}>
         <Grid size={{ xs: 6 }}>
           <RHFSelect

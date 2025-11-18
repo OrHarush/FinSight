@@ -1,0 +1,30 @@
+{
+  "pageTitle": "Payment Methods",
+  "empty": {
+    "title": "No payment methods yet",
+    "subtitle": "Create your first payment method to start tracking billing cycles"
+  },
+  "actions": {
+    "create": "Create Payment Method",
+    "edit": "Edit Payment Method",
+    "delete": "Delete Payment Method"
+  },
+  "fields": {
+    "name": "Name",
+    "billingDay": "Billing Day",
+    "last4": "Last 4 Digits",
+    "type": "Type",
+    "isPrimary": "Primary Payment Method"
+  },
+  "types": {
+    "credit": "Credit Card",
+    "debit": "Debit Card",
+    "bankTransfer": "Bank Transfer",
+    "paypal": "PayPal",
+    "other": "Other"
+  },
+  "emptyState": {
+    "noMethods": "No payment methods yet.",
+    "addFirst": "Add your first method"
+  }
+}

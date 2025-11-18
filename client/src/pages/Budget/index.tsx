@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { Box, Grid, Typography, Card, CardContent, Skeleton, Alert } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import { useCategories } from '@/hooks/useCategories';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useCategories } from '@/hooks/entities/useCategories';
+import { useTransactions } from '@/hooks/entities/useTransactions';
 import Row from '@/components/layout/Containers/Row';
 import Column from '@/components/layout/Containers/Column';
 import BudgetCategoryCard from '@/pages/Budget/BudgetCategoryCard';

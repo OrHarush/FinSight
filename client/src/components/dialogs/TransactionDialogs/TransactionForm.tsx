@@ -6,7 +6,7 @@ import { InputLabel, Skeleton } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/categories/CategoriesSelect';
-import { useCategories } from '@/hooks/useCategories';
+import { useCategories } from '@/hooks/entities/useCategories';
 import AccountSelect from '@/components/accounts/AccountSelect';
 import TransactionTypeSelector from '@/components/dialogs/TransactionDialogs/TransactionTypeSelector';
 import { useIsMobile } from '@/hooks/useIsMobile';

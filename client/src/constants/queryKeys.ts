@@ -16,10 +16,6 @@ export const queryKeys = {
     month,
     accountId,
   ],
-
-  categories: () => ['categories'],
-  category: (id: string) => ['categories', id],
-
   accounts: () => ['accounts'],
   account: (id: string) => ['accounts', id],
   accountBalanceCurve: (accountId: string, from?: string, to?: string) => [
@@ -28,7 +24,9 @@ export const queryKeys = {
     from ?? 'defaultFrom',
     to ?? 'defaultTo',
   ],
+  categories: () => ['categories'],
+  category: (id: string) => ['categories', id],
+  paymentMethods: () => ['paymentMethods'],
   yearlyChart: (year: number) => ['yearlyChart', year],
-
   user: () => ['user'],
 };

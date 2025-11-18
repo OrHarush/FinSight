@@ -2,7 +2,7 @@ import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useTransactions } from '@/hooks/useTransactions';
+import { useTransactions } from '@/hooks/entities/useTransactions';
 import { Dayjs } from 'dayjs';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import EntityError from '@/components/entities/EntityError';

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { AccountDto } from '@/types/Account';
-import { useAccounts } from '@/hooks/useAccounts';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 
 interface DashboardFiltersContextValue {
   date: Dayjs;

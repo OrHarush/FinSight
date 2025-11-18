@@ -1,5 +1,5 @@
 import EntityError from '@/components/entities/EntityError';
-import { useCategories } from '@/hooks/useCategories';
+import { useCategories } from '@/hooks/entities/useCategories';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import CategoryList from '@/pages/Categories/CategoryList';
 import CategoryIcon from '@mui/icons-material/Category';

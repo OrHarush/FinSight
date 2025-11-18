@@ -4,7 +4,7 @@ import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import Row from '@/components/layout/Containers/Row';
 import { Typography } from '@mui/material';
-import { useCategories } from '@/hooks/useCategories';
+import { useCategories } from '@/hooks/entities/useCategories';
 import { CategoryDto } from '@/types/Category';
 
 interface CategoriesSelectProps {

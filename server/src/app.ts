@@ -5,6 +5,7 @@ import cors from 'cors';
 import transactionRoutes from './routes/transactionRoutes';
 import accountRoutes from './routes/accountRoutes';
 import categoryRoutes from './routes/categoryRoutes';
+import paymentMethodRoutes from './routes/paymentMethodsRoutes';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
@@ -20,6 +21,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/payment-methods', paymentMethodRoutes);
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('FinSight server is running 🚀');
