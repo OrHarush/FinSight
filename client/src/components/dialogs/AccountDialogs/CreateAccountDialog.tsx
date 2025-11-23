@@ -16,6 +16,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   const methods = useForm<AccountFormValues>({
     defaultValues: { icon: 'AccountBalance' },
+    mode: 'all',
   });
 
   const createAccount = useApiMutation<AccountDto, CreateAccountCommand>({

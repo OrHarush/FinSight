@@ -26,7 +26,7 @@ const EditPaymentMethodDialog = ({
     defaultValues: {
       name: paymentMethod.name,
       billingDay: paymentMethod.billingDay,
-      cardType: paymentMethod.cardType,
+      type: paymentMethod.type,
       last4: paymentMethod.last4,
     },
   });
@@ -34,11 +34,12 @@ const EditPaymentMethodDialog = ({
   const updatePaymentMethod = useApiMutation<PaymentMethodDto, UpdatePaymentMethodCommand>({
     method: 'put',
     url: `${API_ROUTES.PAYMENT_METHODS}/${paymentMethod._id}`,
-    queryKeysToInvalidate: [queryKeys.accounts()],
+    queryKeysToInvalidate: [queryKeys.paymentMethods()],
   });
 
   const update = async (data: PaymentMethodFormValues) => {
     try {
+      console.log(data);
       await updatePaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));
     } catch (err) {

@@ -1,18 +1,25 @@
 import TextInput from '@/components/inputs/TextInput';
 import RHFSelect from '@/components/inputs/RHFSelect';
 import Column from '@/components/layout/Containers/Column';
-import { Grid, FormControlLabel, Checkbox } from '@mui/material';
+import { FormControlLabel, Checkbox } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import Row from '@/components/layout/Containers/Row';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { PaymentMethodFormValues } from '@/types/PaymentMethod';
 
 const PaymentMethodForm = () => {
   const { t } = useTranslation('paymentMethods');
+  const { control } = useFormContext<PaymentMethodFormValues>();
+  const { paymentMethods } = usePaymentMethods();
+  const paymentType = useWatch({ control, name: 'type' });
+  console.log(paymentType);
+
+  const hasPaymentMethods = paymentMethods.length > 0;
 
   return (
     <Column spacing={2}>
-      {/* Name */}
       <TextInput name="name" label={t('fields.name')} required />
-
-      {/* Type */}
       <RHFSelect
         name="type"
         label={t('fields.type')}
@@ -25,27 +32,42 @@ const PaymentMethodForm = () => {
           { value: 'Other', label: t('types.other') },
         ]}
       />
-
-      {/* Billing Day + Last 4 */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 6 }}>
+      <Row spacing={2}>
+        <TextInput
+          name="billingDay"
+          label={t('fields.billingDay')}
+          type="number"
+          min={1}
+          max={31}
+          required
+        />
+        {(paymentType === 'Credit' || paymentType === 'Debit') && (
           <TextInput
-            name="billingDay"
-            label={t('fields.billingDay')}
-            type="number"
-            min={1}
-            max={31}
-            required
+            name="last4"
+            label={t('fields.last4')}
+            type="text"
+            minLength={4}
+            maxLength={4}
           />
-        </Grid>
-
-        <Grid size={{ xs: 6 }}>
-          <TextInput name="last4" label={t('fields.last4')} type="text" maxLength={4} />
-        </Grid>
-      </Grid>
-
-      {/* Primary */}
-      <FormControlLabel control={<Checkbox name="isPrimary" />} label={t('fields.isPrimary')} />
+        )}
+      </Row>
+      <FormControlLabel
+        control={
+          <Controller
+            name="isPrimary"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                {...field}
+                checked={field.value || !hasPaymentMethods}
+                onChange={e => field.onChange(e.target.checked)}
+                disabled={!hasPaymentMethods}
+              />
+            )}
+          />
+        }
+        label={t('fields.isPrimary')}
+      />
     </Column>
   );
 };
