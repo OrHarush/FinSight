@@ -1,4 +1,4 @@
-import { Button, useMediaQuery, useTheme } from '@mui/material';
+import { Button } from '@mui/material';
 import CreateAccountDialog from '@/components/dialogs/AccountDialogs/CreateAccountDialog';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import { useState } from 'react';
@@ -9,14 +9,13 @@ import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/layout/Page/PageHeader';
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const Accounts = () => {
   const { t } = useTranslation('accounts');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedAccount, setSelectedAccount] = useState<AccountDto>();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useIsMobile();
 
   const selectAccount = (account: AccountDto) => {
     setSelectedAccount(account);
@@ -35,8 +34,8 @@ const Accounts = () => {
           </Button>
         )}
       </PageHeader>
-      <ActionFab onClick={openCreateDialog} />
       <AccountsPageContent selectAccount={selectAccount} />
+      <ActionFab onClick={openCreateDialog} />
       {isCreateDialogOpen && (
         <CreateAccountDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}

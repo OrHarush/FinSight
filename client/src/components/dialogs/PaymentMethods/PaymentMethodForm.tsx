@@ -13,7 +13,6 @@ const PaymentMethodForm = () => {
   const { control } = useFormContext<PaymentMethodFormValues>();
   const { paymentMethods } = usePaymentMethods();
   const paymentType = useWatch({ control, name: 'type' });
-  console.log(paymentType);
 
   const hasPaymentMethods = paymentMethods.length > 0;
 

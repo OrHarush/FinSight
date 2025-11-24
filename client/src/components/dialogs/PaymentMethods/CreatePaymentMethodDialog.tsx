@@ -25,7 +25,6 @@ const CreatePaymentMethodDialog = ({ isOpen, closeDialog }: BaseDialogProps) => 
 
   const createNewPaymentMethod = async (data: PaymentMethodFormValues) => {
     try {
-      console.log(data);
       await createPaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.createSuccess'));
     } catch (err) {

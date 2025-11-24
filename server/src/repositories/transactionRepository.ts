@@ -14,15 +14,33 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const findMany = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const { page, limit, from, to, sort = 'desc', categoryId, accountId, search } = options;
+  const {
+    page,
+    limit,
+    from,
+    to,
+    sort = 'desc',
+    categoryId,
+    paymentMethodId,
+    accountId,
+    search,
+  } = options;
 
   const fromDate = from ? new Date(from) : undefined;
   const toDate = to ? new Date(to) : undefined;
 
-  const query = buildTransactionQuery(userId, fromDate, toDate, categoryId, accountId);
+  const query = buildTransactionQuery(
+    userId,
+    fromDate,
+    toDate,
+    categoryId,
+    paymentMethodId,
+    accountId
+  );
 
   const transactions = await Transaction.find(query)
     .populate('category')
+    .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
@@ -68,6 +86,7 @@ export const getSummary = async (
 
   const transactions = await Transaction.find(mongoFilter)
     .populate('category')
+    .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
@@ -136,14 +155,12 @@ export const getSummary = async (
     if (tx.type === 'Transfer' && accountId) {
       const from = tx.fromAccount?._id.toString();
       const to = tx.toAccount?._id.toString();
-      console.log('HERE!');
+
       if (from === accountId) {
-        console.log(tx);
         buckets[m].monthlyExpenses += tx.amount;
       }
 
       if (to === accountId) {
-        console.log(tx);
         buckets[m].monthlyIncome += tx.amount;
       }
     }
@@ -192,6 +209,7 @@ export const getYearlySummary = async (userId: string, year: number) =>
 export const findById = async (id: string, userId: string) =>
   Transaction.findOne({ _id: id, userId: new Types.ObjectId(userId) })
     .populate('category')
+    .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
     .populate('toAccount');
@@ -207,6 +225,7 @@ export const insert = async (data: CreateTransactionCommand, userId: string) => 
     startDate: data.startDate ? new Date(data.startDate) : undefined,
     userId: new Types.ObjectId(userId),
     category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
+    paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
     account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
     fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
     toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
@@ -221,11 +240,13 @@ export const updateById = async (id: string, data: Partial<ITransaction>, userId
     runValidators: true,
   })
     .populate('category')
+    .populate('paymentMethod')
     .populate('account');
 
 export const remove = async (id: string, userId: string) =>
   Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
     .populate('category')
+    .populate('paymentMethod')
     .populate('account');
 
 export const deleteMany = (filter: object) => Transaction.deleteMany(filter);

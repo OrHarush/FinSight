@@ -11,12 +11,13 @@ import { CreateTransactionCommand } from '../../../../../shared/types/Transactio
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
-
   const { primaryAccount } = useAccounts();
+  const { primaryPaymentMethod } = usePaymentMethods();
 
   const methods = useForm<TransactionFormValues>({
     defaultValues: {
@@ -25,6 +26,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
       type: 'Expense',
       category: '',
       account: primaryAccount?._id || '',
+      paymentMethod: primaryPaymentMethod?._id || '',
       fromAccount: '',
       toAccount: '',
     },

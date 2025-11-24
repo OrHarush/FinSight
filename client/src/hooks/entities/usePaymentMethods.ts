@@ -13,8 +13,15 @@ export const usePaymentMethods = () => {
     enabled: !!user,
   });
 
+  const paymentMethods = query.data
+    ? [...query.data].sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
+    : [];
+
+  const primaryPaymentMethod = paymentMethods.find(({ isPrimary }) => isPrimary);
+
   return {
     ...query,
     paymentMethods: query.data ?? [],
+    primaryPaymentMethod,
   };
 };

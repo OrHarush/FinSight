@@ -31,6 +31,7 @@ const EditTransactionDialog = ({
       startDate: transaction.startDate ? transaction.startDate.split('T')[0] : undefined,
       recurrence: transaction.recurrence,
       type: transaction.type,
+      paymentMethod: transaction?.paymentMethod?._id,
       category: transaction?.category?._id,
       account: transaction?.account?._id,
     },

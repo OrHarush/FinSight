@@ -4,8 +4,16 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 
 export const getTransactions = async (req: AuthRequest, res: Response) => {
   try {
-    const { page = '1', limit, sort = 'desc', categoryId, year, month, search } = req.query;
-    console.log(req.query);
+    const {
+      page = '1',
+      limit,
+      sort = 'desc',
+      categoryId,
+      paymentMethodId,
+      year,
+      month,
+      search,
+    } = req.query;
     let fromDate: string | undefined;
     let toDate: string | undefined;
 
@@ -25,6 +33,7 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       to: toDate,
       sort: sort as 'asc' | 'desc',
       categoryId: categoryId as string | undefined,
+      paymentMethodId: paymentMethodId as string | undefined,
       search: search as string | undefined,
     });
 
@@ -38,7 +47,6 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
 export const getTransactionById = async (req: AuthRequest, res: Response) => {
   try {
     const transaction = await transactionService.getTransactionById(req.params.id, req.userId!);
-
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }

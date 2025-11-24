@@ -15,6 +15,12 @@ interface TransactionTableRowProps {
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { setSelectedTransaction, setTransactionAction } = useSelectedTransaction();
 
+  const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setTransactionAction('delete');
+    setSelectedTransaction(transaction);
+  };
+
   const handleTransactionSelect = () => {
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
@@ -74,14 +80,8 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
             <RemoveRedEyeIcon fontSize="small" />
           </IconButton>
           <EditAndDeleteButtons
-            onDelete={() => {
-              setTransactionAction('delete');
-              setSelectedTransaction(transaction);
-            }}
-            onEdit={() => {
-              setTransactionAction('edit');
-              setSelectedTransaction(transaction);
-            }}
+            onDelete={e => handleTransactionDelete(e)}
+            onEdit={handleTransactionSelect}
           />
         </Row>
       </TableCell>

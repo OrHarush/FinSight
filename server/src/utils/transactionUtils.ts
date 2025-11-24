@@ -89,6 +89,7 @@ export const buildTransactionQuery = (
   from?: Date,
   to?: Date,
   categoryId?: string,
+  paymentMethodId?: string,
   accountId?: string
 ) => {
   const userObjId = new Types.ObjectId(userId);
@@ -129,6 +130,10 @@ export const buildTransactionQuery = (
 
   if (categoryId) {
     query.category = new Types.ObjectId(categoryId);
+  }
+
+  if (paymentMethodId) {
+    query.paymentMethod = new Types.ObjectId(paymentMethodId);
   }
 
   if (accountId) {

@@ -9,6 +9,7 @@ export const mapTransactionFormValuesToPayload = (
     date: new Date(data.date).toISOString(),
     recurrence: data.recurrence,
     type: data.type,
+    paymentMethodId: data.paymentMethod,
     endDate: data.endDate ? new Date(data.endDate).toISOString() : undefined,
     startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
   };

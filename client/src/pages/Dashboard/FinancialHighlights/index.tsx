@@ -34,8 +34,6 @@ const FinancialHighlights = () => {
       enabled: !!year && month >= 0,
     });
 
-  console.log(monthlySummary);
-
   const monthlyIncome = monthlySummary?.monthlyIncome ?? 0;
   const monthlyExpenses = monthlySummary?.monthlyExpenses ?? 0;
 

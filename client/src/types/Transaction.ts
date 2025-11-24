@@ -1,5 +1,6 @@
 import { AccountDto } from '@/types/Account';
 import { CategoryDto } from '@/types/Category';
+import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 export type TransactionType = 'Income' | 'Expense' | 'Transfer';
 
@@ -12,6 +13,7 @@ export interface TransactionFormValues {
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: TransactionType;
   category?: string;
+  paymentMethod?: string;
   account?: string;
   fromAccount?: string;
   toAccount?: string;
@@ -28,6 +30,7 @@ export interface TransactionDto {
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: TransactionType;
   category?: CategoryDto;
+  paymentMethod?: PaymentMethodDto;
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;

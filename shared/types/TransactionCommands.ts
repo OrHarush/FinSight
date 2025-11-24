@@ -7,6 +7,7 @@ export interface CreateTransactionCommand {
     recurrence: 'None' | 'Monthly' | 'Yearly';
     type: 'Income' | 'Expense' | 'Transfer';
     categoryId?: string;
+    paymentMethodId?: string;
     accountId?: string;
     fromAccountId?: string;
     toAccountId?: string;
@@ -21,6 +22,7 @@ export interface UpdateTransactionCommand  {
     recurrence?: 'None' | 'Monthly' | 'Yearly';
     type?: 'Income' | 'Expense' | 'Transfer';
     categoryId?: string;
+    paymentMethodId?: string;
     accountId?: string;
     fromAccountId?: string;
     toAccountId?: string;}

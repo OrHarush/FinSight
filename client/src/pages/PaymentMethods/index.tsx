@@ -8,10 +8,13 @@ import PaymentMethodsPageContent from '@/pages/PaymentMethods/PaymentMethodsPage
 import { useState } from 'react';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 import EditPaymentMethodDialog from '@/components/dialogs/PaymentMethods/EditPaymentMethodDialog';
+import ActionFab from '@/components/appCommon/ActionFab';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const PaymentMethodsPage = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodDto>();
+  const isMobile = useIsMobile();
 
   const closeEditDialogAndReset = () => {
     setSelectedPaymentMethod(undefined);
@@ -24,15 +27,17 @@ const PaymentMethodsPage = () => {
   return (
     <PageLayout>
       <PageHeader entityName={'paymentMethods'}>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
-          Add
-        </Button>
+        {!isMobile && (
+          <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
+            Add
+          </Button>
+        )}
       </PageHeader>
       <PaymentMethodsPageContent selectPaymentMethod={selectPaymentMethod} />
       {isCreateDialogOpen && (
         <CreatePaymentMethodDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}
-
+      <ActionFab onClick={openCreateDialog} />
       {!!selectedPaymentMethod && (
         <EditPaymentMethodDialog
           isOpen={!!selectedPaymentMethod}

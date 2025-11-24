@@ -5,6 +5,7 @@ export interface TransactionQueryOptions {
   to?: string;
   sort?: 'asc' | 'desc';
   categoryId?: string;
+  paymentMethodId?: string;
   accountId?: string;
   search?: string;
 }

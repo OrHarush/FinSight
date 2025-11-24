@@ -39,7 +39,6 @@ const EditPaymentMethodDialog = ({
 
   const update = async (data: PaymentMethodFormValues) => {
     try {
-      console.log(data);
       await updatePaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));
     } catch (err) {

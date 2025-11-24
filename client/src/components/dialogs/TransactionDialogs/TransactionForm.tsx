@@ -10,11 +10,13 @@ import { useCategories } from '@/hooks/entities/useCategories';
 import AccountSelect from '@/components/accounts/AccountSelect';
 import TransactionTypeSelector from '@/components/dialogs/TransactionDialogs/TransactionTypeSelector';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
 const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
 
 const TransactionForm = () => {
   const { categories, isLoading } = useCategories();
+  const { paymentMethods } = usePaymentMethods();
   const { control } = useFormContext<TransactionFormValues>();
   const isMobile = useIsMobile();
 
@@ -58,14 +60,25 @@ const TransactionForm = () => {
           <Skeleton variant="rectangular" width={'120px'} height={40} sx={{ borderRadius: 1 }} />
         </Column>
       ) : null}
-      {transactionType === 'Transfer' ? (
-        <>
-          <AccountSelect name={'fromAccount'} label={'From Account'} />
-          <AccountSelect name={'toAccount'} label={'To Account'} />
-        </>
-      ) : (
-        <AccountSelect label={'Account'} />
-      )}
+      <Row spacing={2}>
+        {transactionType === 'Transfer' ? (
+          <>
+            <AccountSelect name={'fromAccount'} label={'From Account'} />
+            <AccountSelect name={'toAccount'} label={'To Account'} />
+          </>
+        ) : (
+          <AccountSelect label={'Account'} />
+        )}
+        <RHFSelect
+          name={'paymentMethod'}
+          label={'Payment Method'}
+          required
+          options={paymentMethods.map(paymentMethod => ({
+            label: paymentMethod.name,
+            value: paymentMethod._id,
+          }))}
+        />
+      </Row>
     </Column>
   );
 };

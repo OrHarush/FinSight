@@ -9,6 +9,7 @@ export interface ITransaction extends Document {
   recurrence: 'None' | 'Monthly' | 'Yearly';
   type: 'Income' | 'Expense' | 'Transfer';
   category?: Types.ObjectId;
+  paymentMethod?: Types.ObjectId;
   account?: Types.ObjectId;
   fromAccount?: Types.ObjectId;
   toAccount?: Types.ObjectId;
@@ -33,6 +34,7 @@ const TransactionSchema: Schema = new Schema(
       required: true,
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    paymentMethod: { type: Schema.Types.ObjectId, ref: 'PaymentMethod' },
     account: { type: Schema.Types.ObjectId, ref: 'Account' },
     fromAccount: { type: Schema.Types.ObjectId, ref: 'Account' },
     toAccount: { type: Schema.Types.ObjectId, ref: 'Account' },
