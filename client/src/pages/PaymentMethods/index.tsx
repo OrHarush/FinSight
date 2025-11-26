@@ -11,8 +11,6 @@ import EditPaymentMethodDialog from '@/components/dialogs/PaymentMethods/EditPay
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useTranslation } from 'react-i18next';
-import Column from '@/components/layout/Containers/Column';
-import CategoryIcon from '@mui/icons-material/Category';
 
 const PaymentMethodsPage = () => {
   const { t } = useTranslation('paymentMethods');

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { AuthRequest } from '../middlewares/authMiddleware';
 import { getCurrentUserById } from '../services/userService';
+import { Types } from 'mongoose';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION!;
@@ -58,7 +59,7 @@ export const googleLogin = async (req: Request, res: Response) => {
       picture,
     });
 
-    await updateLastUserLogin(user._id as string);
+    await updateLastUserLogin((user._id as Types.ObjectId).toString());
 
     const appToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: '7d',
