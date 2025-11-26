@@ -6,5 +6,23 @@
   "paymentMethods": "Payment Methods",
   "budget": "Budget",
   "planner": "Planner",
-  "reports": "Reports"
+  "reports": "Reports",
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "actions": {
+    "logout": "Log out",
+    "deleteAccount": "Delete Account"
+  },
+  "messages": {
+    "accountDeleted": "Your account has been deleted successfully.",
+    "deleteError": "Failed to delete account."
+  },
+  "settings": {
+    "title": "Settings",
+    "help": "Help",
+    "signedInAs": "Signed in as",
+    "deleteConfirm": "Are you sure you want to permanently delete your account? This action cannot be undone."
+  }
 }

@@ -5,19 +5,14 @@
     "subtitle": "התחל על ידי הוספת העסקה הראשונה שלך",
     "chart": "הוסף עסקאות כדי לראות את גרף ההכנסות וההוצאות"
   },
-  "actions": {
-    "add": "הוסף עסקה",
-    "edit": "ערוך עסקה",
-    "delete": "מחק עסקה",
-    "import": "ייבא CSV"
-  },
   "fields": {
     "amount": "סכום",
-    "category": "קטגוריה",
     "date": "תאריך",
     "description": "תיאור",
     "name": "שם",
     "type": "סוג",
+    "category": "קטגוריה",
+    "paymentMethod": "אמצעי תשלום",
     "account": "חשבון",
     "fromAccount": "מחשבון",
     "toAccount": "לחשבון",
@@ -35,9 +30,21 @@
     "monthly": "חודשי",
     "yearly": "שנתי"
   },
+  "details": {
+    "title": "פרטי עסקה",
+    "uncategorized": "ללא קטגוריה",
+    "created": "נוצר",
+    "updated": "עודכן"
+  },
   "setupDialog": {
     "title": "השלם את ההגדרות תחילה",
     "message": "עליך ליצור לפחות <account>חשבון</account> אחד ו<category>קטגוריה</category> אחת לפני שתוכל להוסיף עסקה."
+  },
+  "actions": {
+    "add": "צור עסקה",
+    "edit": "ערוך עסקה",
+    "delete": "מחק עסקה",
+    "import": "ייבא CSV"
   },
   "messages": {
     "createSuccess": "העסקה נוצרה בהצלחה",
@@ -46,11 +53,5 @@
     "updateError": "עדכון העסקה נכשל",
     "deleteSuccess": "העסקה נמחקה בהצלחה",
     "deleteError": "מחיקת העסקה נכשלה"
-  },
-  "details": {
-    "title": "פרטי עסקה",
-    "uncategorized": "ללא קטגוריה",
-    "created": "נוצר",
-    "updated": "עודכן"
   }
 }

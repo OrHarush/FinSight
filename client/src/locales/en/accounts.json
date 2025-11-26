@@ -4,11 +4,6 @@
     "title": "No accounts yet",
     "subtitle": "Create your first account to start tracking balances"
   },
-  "actions": {
-    "create": "Create Account",
-    "edit": "Edit Account",
-    "delete": "Delete Account"
-  },
   "fields": {
     "name": "Name",
     "balance": "Balance",
@@ -17,7 +12,7 @@
     "isPrimary": "Set as Primary Account",
     "icon": "Account Icon"
   },
-  "info": {
+  "details": {
     "primary": "Primary",
     "openingBalance": "Opening Balance",
     "institution": "Institution",
@@ -25,12 +20,17 @@
     "lastSynced": "Last Synced",
     "notSynced": "Not synced yet"
   },
+  "actions": {
+    "create": "Add Account",
+    "edit": "Edit Account",
+    "delete": "Delete Account"
+  },
   "messages": {
-    "createSuccess": "החשבון נוצר בהצלחה",
-    "createError": "יצירת החשבון נכשלה",
-    "updateSuccess": "החשבון עודכן בהצלחה",
-    "updateError": "עדכון החשבון נכשל",
-    "deleteSuccess": "החשבון נמחק בהצלחה",
-    "deleteError": "מחיקת החשבון נכשלה"
+    "createSuccess": "Account created successfully",
+    "createError": "Failed to create account",
+    "updateSuccess": "Account updated successfully",
+    "updateError": "Failed to update account",
+    "deleteSuccess": "Account deleted successfully",
+    "deleteError": "Failed to delete account"
   }
 }

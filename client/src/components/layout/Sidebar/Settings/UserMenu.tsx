@@ -18,7 +18,7 @@ interface UserMenuProps {
 }
 
 const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('sidebar');
   const { user, logout } = useAuth();
   const { alertSuccess, alertError } = useSnackbar();
   const [isDeletionDialogOpen, openDeletionDialog, closeDeletionDialog] = useOpen();
@@ -81,7 +81,7 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
       >
         <MenuItem disabled sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
           <Typography variant="body2" color="text.secondary">
-            {t('general.signedInAs', { defaultValue: 'Signed in as' })}
+            {t('settings.signedInAs', { defaultValue: 'Signed in as' })}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
             {user!.email}
@@ -111,7 +111,7 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
           <ListItemIcon>
             <DeleteOutlineIcon color="error" fontSize="small" />
           </ListItemIcon>
-          {t('settings.deleteAccount')}
+          {t('actions.deleteAccount')}
         </MenuItem>
       </Menu>
       {isDeletionDialogOpen && (

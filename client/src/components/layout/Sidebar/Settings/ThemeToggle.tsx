@@ -4,8 +4,10 @@ import { ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material';
 import Row from '@/components/layout/Containers/Row';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { useTranslation } from 'react-i18next';
 
 const ThemeToggle = () => {
+  const { t } = useTranslation('sidebar');
   const { toggleColorMode } = useAppTheme();
   const theme = useTheme();
 
@@ -39,13 +41,13 @@ const ThemeToggle = () => {
       <ToggleButton value="light">
         <Row spacing={1} alignItems="center">
           <LightModeIcon fontSize="small" />
-          <span>Light</span>
+          <span>{t('theme.light')}</span>
         </Row>
       </ToggleButton>
       <ToggleButton value="dark">
         <Row spacing={1} alignItems="center">
           <DarkModeIcon fontSize="small" />
-          <span>Dark</span>
+          <span>{t('theme.dark')}</span>
         </Row>
       </ToggleButton>
     </ToggleButtonGroup>

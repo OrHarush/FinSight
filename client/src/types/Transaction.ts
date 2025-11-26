@@ -4,6 +4,12 @@ import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 export type TransactionType = 'Income' | 'Expense' | 'Transfer';
 
+export interface TranscationPageFormValues {
+  searchValue: string;
+  category: string;
+  paymentMethod: string;
+}
+
 export interface TransactionFormValues {
   name?: string;
   amount: number;

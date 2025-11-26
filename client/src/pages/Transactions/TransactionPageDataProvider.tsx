@@ -14,7 +14,7 @@ const SelectedTransactionContext = createContext<SelectedTransactionContextValue
   undefined
 );
 
-export const SelectedTransactionProvider = ({ children }: { children: ReactNode }) => {
+export const TransactionPageDataProvider = ({ children }: { children: ReactNode }) => {
   const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
   const [transactionAction, setTransactionAction] = useState<TransactionAction>();
 
@@ -32,7 +32,7 @@ export const SelectedTransactionProvider = ({ children }: { children: ReactNode 
   );
 };
 
-export const useSelectedTransaction = () => {
+export const useTransactinPageData = () => {
   const ctx = useContext(SelectedTransactionContext);
 
   if (!ctx) {

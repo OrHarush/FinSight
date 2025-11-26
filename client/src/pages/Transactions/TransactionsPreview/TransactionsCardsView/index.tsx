@@ -7,19 +7,19 @@ import EntityError from '@/components/entities/EntityError';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { TranscationPageFormValues } from '@/types/Transaction';
 
 interface TransactionsCardsViewProps {
-  searchValue: string;
   selectedCategory: string;
   selectedMonth: Dayjs;
 }
 
-const TransactionsCardsView = ({
-  searchValue,
-  selectedMonth,
-  selectedCategory,
-}: TransactionsCardsViewProps) => {
+const TransactionsCardsView = ({ selectedMonth, selectedCategory }: TransactionsCardsViewProps) => {
   const [page, setPage] = useState(1);
+  const { control } = useFormContext<TranscationPageFormValues>();
+
+  const searchValue = useWatch({ control, name: 'searchValue' });
 
   const { transactions, pagination, isLoading, error, refetch } = useTransactions(
     dayjs().year(),

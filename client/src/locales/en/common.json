@@ -1,6 +1,5 @@
 {
   "general": {
-    "signedInAs": "Signed in as",
     "income": "Income",
     "expenses": "Expenses"
   },
@@ -11,16 +10,7 @@
   },
   "actions": {
     "search": "Search...",
-    "swipeToDelete": "Swipe to delete",
-    "logout": "Log out"
-  },
-  "settings": {
-    "title": "Settings",
-    "help": "Help",
-    "deleteAccount": "Delete Account",
-    "deleteConfirm": "Are you sure you want to permanently delete your account? This action cannot be undone.",
-    "accountDeleted": "Your account has been deleted successfully.",
-    "deleteError": "Failed to delete account."
+    "swipeToDelete": "Swipe to delete"
   },
   "entities": {
     "empty": {

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Card, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import PageHeader from '@/components/layout/Page/PageHeader';
@@ -10,8 +10,12 @@ import { PaymentMethodDto } from '@/types/PaymentMethod';
 import EditPaymentMethodDialog from '@/components/dialogs/PaymentMethods/EditPaymentMethodDialog';
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useTranslation } from 'react-i18next';
+import Column from '@/components/layout/Containers/Column';
+import CategoryIcon from '@mui/icons-material/Category';
 
 const PaymentMethodsPage = () => {
+  const { t } = useTranslation('paymentMethods');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodDto>();
   const isMobile = useIsMobile();
@@ -29,15 +33,15 @@ const PaymentMethodsPage = () => {
       <PageHeader entityName={'paymentMethods'}>
         {!isMobile && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
-            Add
+            {t('actions.create')}
           </Button>
         )}
       </PageHeader>
       <PaymentMethodsPageContent selectPaymentMethod={selectPaymentMethod} />
+      <ActionFab onClick={openCreateDialog} />
       {isCreateDialogOpen && (
         <CreatePaymentMethodDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}
-      <ActionFab onClick={openCreateDialog} />
       {!!selectedPaymentMethod && (
         <EditPaymentMethodDialog
           isOpen={!!selectedPaymentMethod}

@@ -16,25 +16,25 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
     <Column spacing={1.5}>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">
-          {t('info.openingBalance')}:
+          {t('details.openingBalance')}:
         </Typography>
         <CurrencyText fontWeight={600} value={account.balance} />
       </Row>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">
-          {t('info.institution')}:
+          {t('details.institution')}:
         </Typography>
         <Typography fontWeight={500}>{account.institution}</Typography>
       </Row>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">
-          {t('info.accountNumber')}:
+          {t('details.accountNumber')}:
         </Typography>
         <Typography fontWeight={500}>{account.accountNumber}</Typography>
       </Row>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">
-          {t('info.lastSynced')}:
+          {t('details.lastSynced')}:
         </Typography>
         <Typography fontWeight={500}>
           {account.lastSynced
@@ -43,7 +43,7 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
                 month: 'short',
                 year: 'numeric',
               })
-            : t('info.notSynced')}
+            : t('details.notSynced')}
         </Typography>
       </Row>
     </Column>

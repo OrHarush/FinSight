@@ -1,5 +1,5 @@
 import CreateTransactionDialog from '@/components/dialogs/TransactionDialogs/CreateTransactionDialog';
-import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
+import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import EditTransactionDialog from '@/components/dialogs/TransactionDialogs/EditTransactionDialog';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
@@ -12,7 +12,7 @@ import DeletionConfirmationDialog from '@/components/dialogs/DeletionConfirmatio
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import TransactionOverview from '@/pages/Transactions/TransactionOverview';
+import TransactionOverviewDialog from '@/pages/Transactions/TransactionDialogs/TransactionOverviewDialog';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -22,7 +22,7 @@ interface TransactionDialogsProps {
 const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: TransactionDialogsProps) => {
   const { t } = useTranslation('transactions');
   const { selectedTransaction, setSelectedTransaction, transactionAction, setTransactionAction } =
-    useSelectedTransaction();
+    useTransactinPageData();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
   const navigate = useNavigate();
@@ -121,7 +121,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
         />
       )}
       {!!selectedTransaction && !transactionAction && (
-        <TransactionOverview
+        <TransactionOverviewDialog
           open={!!selectedTransaction}
           onClose={() => setSelectedTransaction(undefined)}
           transaction={selectedTransaction}

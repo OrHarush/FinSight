@@ -32,7 +32,7 @@ const TransactionsTableSkeleton = () => (
     >
       <TransactionTableHeaders />
       <TableBody>
-        {Array.from({ length: 10 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <TableRow key={index}>
             <TableCell>
               <Skeleton variant="text" width="60%" height={24} />

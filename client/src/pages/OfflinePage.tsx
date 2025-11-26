@@ -1,5 +1,5 @@
 import Column from '@/components/layout/Containers/Column';
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Typography, Box, CssBaseline } from '@mui/material';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
 import { keyframes } from '@mui/system';
 
@@ -22,9 +22,9 @@ const OfflinePage = () => (
     sx={{
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-      padding: 3,
     }}
   >
+    <CssBaseline />
     <Box
       sx={{
         width: 120,

@@ -3,7 +3,7 @@ import CurrencyText from '@/components/appCommon/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
+import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Row from '@/components/layout/Containers/Row';
@@ -13,7 +13,7 @@ interface TransactionTableRowProps {
 }
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
-  const { setSelectedTransaction, setTransactionAction } = useSelectedTransaction();
+  const { setSelectedTransaction, setTransactionAction } = useTransactinPageData();
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

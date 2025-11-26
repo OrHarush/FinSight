@@ -22,9 +22,7 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
       displayEmpty
       sx={{
         width: '190px',
-        '& .MuiOutlinedInput-notchedOutline': {
-          borderColor: 'rgba(255, 255, 255, 0.12)',
-        },
+        '& .MuiOutlinedInput-notchedOutline': {},
         '&:hover .MuiOutlinedInput-notchedOutline': {
           borderColor: 'rgba(255, 255, 255, 0.2)',
         },

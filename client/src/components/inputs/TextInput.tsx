@@ -4,7 +4,7 @@ import Column from '@/components/layout/Containers/Column';
 
 interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;
-  label: string;
+  label?: string;
   required?: boolean | string;
   min?: number;
   max?: number;
@@ -15,7 +15,7 @@ interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
 
 const TextInput = ({
   name,
-  label,
+  label = '',
   required,
   min,
   max,
@@ -72,7 +72,7 @@ const TextInput = ({
         minWidth: fullWidth ? 0 : undefined,
       }}
     >
-      <InputLabel>{label}</InputLabel>
+      {label && <InputLabel>{label}</InputLabel>}
       <TextField
         {...register(name, baseRules)}
         fullWidth

@@ -9,6 +9,7 @@ import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/layout/Page/PageHeader';
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useTranslation } from 'react-i18next';
+import AddIcon from '@mui/icons-material/Add';
 
 const Categories = () => {
   const { t } = useTranslation('categories');
@@ -30,13 +31,13 @@ const Categories = () => {
     <PageLayout>
       <PageHeader entityName={'categories'}>
         {!isMobile && (
-          <Button variant={'contained'} onClick={openCreateDialog}>
+          <Button variant={'contained'} onClick={openCreateDialog} startIcon={<AddIcon />}>
             {t('actions.create')}
           </Button>
         )}
       </PageHeader>
-      <ActionFab onClick={openCreateDialog} />
       <CategoriesPageContent selectCategory={selectCategory} />
+      <ActionFab onClick={openCreateDialog} />
       {isCreateDialogOpen && (
         <CreateCategoryDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}

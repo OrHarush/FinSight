@@ -42,7 +42,7 @@ const EditPaymentMethodDialog = ({
       await updatePaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));
     } catch (err) {
-      alertError(t('message.updateError'));
+      alertError(t('messages.updateError'));
       console.error(err);
     }
   };

@@ -7,11 +7,6 @@
     "title": "No categories yet",
     "subtitle": "Create your first category to organize transactions"
   },
-  "actions": {
-    "create": "Create Category",
-    "edit": "Edit Category",
-    "delete": "Delete Category"
-  },
   "fields": {
     "name": "Name",
     "type": "Type",
@@ -30,7 +25,11 @@
     "overBy": "over by",
     "left": "left"
   },
-
+  "actions": {
+    "create": "Create Category",
+    "edit": "Edit Category",
+    "delete": "Delete Category"
+  },
   "messages": {
     "createSuccess": "Category created successfully",
     "createError": "Failed to create category",

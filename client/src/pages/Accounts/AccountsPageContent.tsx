@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import AccountCard from '@/pages/Accounts/AccountCard';
-import AccountCardSkeleton from '@/pages/Accounts/AccountCardSkeleton';
+import AccountCardSkeleton from '@/pages/Accounts/AccountCardsSkeleton/AccountCardSkeleton';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { AccountDto } from '@/types/Account';
 import EntityError from '@/components/entities/EntityError';

@@ -5,19 +5,14 @@
     "subtitle": "Start by adding your first one",
     "chart": "Add some to see your income & expenses graph"
   },
-  "actions": {
-    "add": "Add Transaction",
-    "edit": "Edit Transaction",
-    "delete": "Delete Transaction",
-    "import": "Import CSV"
-  },
   "fields": {
     "amount": "Amount",
-    "category": "Category",
     "date": "Date",
     "description": "Description",
     "name": "Name",
     "type": "Type",
+    "category": "Category",
+    "paymentMethod": "Payment Method",
     "account": "Account",
     "fromAccount": "From Account",
     "toAccount": "To Account",
@@ -35,9 +30,21 @@
     "monthly": "Monthly",
     "yearly": "Yearly"
   },
+  "details": {
+    "title": "Transaction Details",
+    "uncategorized": "Uncategorized",
+    "created": "Created",
+    "updated": "Updated"
+  },
   "setupDialog": {
     "title": "Complete Setup First",
     "message": "You need to create at least one <account>Account</account> and one <category>Category</category> before you can add a transaction."
+  },
+  "actions": {
+    "add": "Create Transaction",
+    "edit": "Edit Transaction",
+    "delete": "Delete Transaction",
+    "import": "Import CSV"
   },
   "messages": {
     "createSuccess": "Transaction created successfully",
@@ -46,11 +53,5 @@
     "updateError": "Failed to update transaction",
     "deleteSuccess": "Transaction deleted successfully",
     "deleteError": "Failed to delete transaction"
-  },
-  "details": {
-    "title": "Transaction Details",
-    "uncategorized": "Uncategorized",
-    "created": "Created",
-    "updated": "Updated"
   }
 }

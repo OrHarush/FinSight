@@ -6,5 +6,23 @@
   "paymentMethods": "אמצעי תשלום",
   "budget": "תקציב",
   "planner": "מתכנן",
-  "reports": "דוחות"
+  "reports": "דוחות",
+  "theme": {
+    "light": "בהיר",
+    "dark": "כהה"
+  },
+  "actions": {
+    "logout": "התנתק",
+    "deleteAccount": "מחק חשבון"
+  },
+  "messages": {
+    "accountDeleted": "החשבון שלך נמחק בהצלחה.",
+    "deleteError": "מחיקת החשבון נכשלה."
+  },
+  "settings": {
+    "title": "הגדרות",
+    "help": "עזרה",
+    "signedInAs": "מחובר בתור",
+    "deleteConfirm": "האם אתה בטוח שברצונך למחוק את החשבון שלך לצמיתות? פעולה זו אינה ניתנת לביטול."
+  }
 }

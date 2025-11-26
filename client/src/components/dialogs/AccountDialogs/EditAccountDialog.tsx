@@ -40,7 +40,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
       await updateAccount.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));
     } catch (err) {
-      alertError(t('message.updateError'));
+      alertError(t('messages.updateError'));
       console.error(err);
     }
   };

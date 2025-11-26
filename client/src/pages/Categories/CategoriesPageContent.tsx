@@ -4,7 +4,7 @@ import EntityEmpty from '@/components/entities/EntityEmpty';
 import CategoryList from '@/pages/Categories/CategoryList';
 import CategoryIcon from '@mui/icons-material/Category';
 import { CategoryDto } from '@/types/Category';
-import CategoryListSkeleton from '@/pages/Categories/Skeletons/CategoryListSkeleton';
+import CategoryListSkeleton from '@/pages/Categories/CategoryListSkeleton';
 
 interface CategoriesPageContentProps {
   selectCategory: (category: CategoryDto) => void;

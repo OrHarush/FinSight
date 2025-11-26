@@ -4,11 +4,6 @@
     "title": "אין עדיין חשבונות",
     "subtitle": "צור את החשבון הראשון שלך כדי להתחיל לעקוב אחרי היתרות"
   },
-  "actions": {
-    "create": "צור חשבון",
-    "edit": "ערוך חשבון",
-    "delete": "מחק חשבון"
-  },
   "fields": {
     "name": "שם",
     "balance": "יתרה",
@@ -17,7 +12,7 @@
     "isPrimary": "הגדר כחשבון ראשי",
     "icon": "אייקון חשבון"
   },
-  "info": {
+  "details": {
     "primary": "ראשי",
     "openingBalance": "יתרת פתיחה",
     "institution": "מוסד פיננסי",
@@ -25,9 +20,16 @@
     "lastSynced": "תאריך סנכרון אחרון",
     "notSynced": "לא סונכרן עדיין"
   },
+  "actions": {
+    "create": "הוסף חשבון",
+    "edit": "ערוך חשבון",
+    "delete": "מחק חשבון"
+  },
   "messages": {
     "createSuccess": "החשבון נוצר בהצלחה",
+    "createError": "יצירת החשבון נכשלה",
     "updateSuccess": "החשבון עודכן בהצלחה",
+    "updateError": "עדכון החשבון נכשל",
     "deleteSuccess": "החשבון נמחק בהצלחה",
     "deleteError": "מחיקת החשבון נכשלה"
   }

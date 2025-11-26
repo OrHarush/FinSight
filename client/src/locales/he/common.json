@@ -1,6 +1,5 @@
 {
   "general": {
-    "signedInAs": "מחובר בתור",
     "income": "הכנסות",
     "expenses": "הוצאות"
   },
@@ -11,16 +10,7 @@
   },
   "actions": {
     "search": "חפש...",
-    "swipeToDelete": "החלק למחיקה",
-    "logout": "התנתק"
-  },
-  "settings": {
-    "title": "הגדרות",
-    "help": "עזרה",
-    "deleteAccount": "מחק חשבון",
-    "deleteConfirm": "האם אתה בטוח שברצונך למחוק את החשבון שלך לצמיתות? פעולה זו אינה ניתנת לביטול.",
-    "accountDeleted": "החשבון שלך נמחק בהצלחה.",
-    "deleteError": "מחיקת החשבון נכשלה."
+    "swipeToDelete": "החלק למחיקה"
   },
   "entities": {
     "empty": {

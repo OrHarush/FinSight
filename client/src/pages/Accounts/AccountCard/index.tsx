@@ -87,7 +87,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
                   <Typography fontWeight={700}>{account.name}</Typography>
                   {account.isPrimary && (
                     <Typography variant={'body2'} color={'primary'}>
-                      {t('info.primary')}
+                      {t('details.primary')}
                     </Typography>
                   )}
                 </Column>

@@ -4,14 +4,14 @@ import { ReactNode } from 'react';
 import TextInput from '@/components/inputs/TextInput';
 
 export interface ControlledSelectOption {
-  label: string;
+  label?: string;
   value: string | number;
   design?: ReactNode;
 }
 
 interface ControlledSelectProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;
-  label: string;
+  label?: string;
   options: ControlledSelectOption[];
   required?: boolean | string;
 }
@@ -32,7 +32,7 @@ const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelec
         <TextInput
           {...field}
           select
-          label={label}
+          label={label || ''}
           name={name}
           required={required}
           error={!!fieldState.error}

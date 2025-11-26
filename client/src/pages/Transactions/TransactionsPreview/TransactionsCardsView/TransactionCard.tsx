@@ -2,7 +2,7 @@ import Paper from '@mui/material/Paper';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/appCommon/CurrencyText';
-import { useSelectedTransaction } from '@/pages/Transactions/SelectedTransactionProvider';
+import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -16,7 +16,7 @@ interface TransactionCardViewProps {
 }
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
-  const { setSelectedTransaction, setTransactionAction } = useSelectedTransaction();
+  const { setSelectedTransaction, setTransactionAction } = useTransactinPageData();
   const IconComponent =
     (transaction.category?.icon &&
       (Icons as Record<string, ElementType>)[transaction.category?.icon]) ||

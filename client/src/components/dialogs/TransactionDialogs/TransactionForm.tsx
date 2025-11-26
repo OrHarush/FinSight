@@ -11,10 +11,12 @@ import AccountSelect from '@/components/accounts/AccountSelect';
 import TransactionTypeSelector from '@/components/dialogs/TransactionDialogs/TransactionTypeSelector';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { useTranslation } from 'react-i18next';
 
 const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
 
 const TransactionForm = () => {
+  const { t } = useTranslation('transactions');
   const { categories, isLoading } = useCategories();
   const { paymentMethods } = usePaymentMethods();
   const { control } = useFormContext<TransactionFormValues>();
@@ -32,7 +34,7 @@ const TransactionForm = () => {
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
-        <TextInput name="amount" label="Amount" type="number" min={1} required />
+        <TextInput name="amount" label={t('fields.amount')} type="number" min={1} required />
         <RHFSelect
           name="recurrence"
           label="Recurrence"
@@ -45,11 +47,11 @@ const TransactionForm = () => {
         />
       </Row>
       {recurrence == 'None' ? (
-        <TextInput name="date" label="Date" type={'date'} sx={{ width: '180px' }} />
+        <TextInput name="date" label={t('fields.date')} type={'date'} sx={{ width: '180px' }} />
       ) : (
         <Row spacing={2}>
-          <TextInput name="startDate" label="Start Date" type={'date'} fullWidth />
-          <TextInput name="endDate" label="End Date" type={'month'} fullWidth />
+          <TextInput name="startDate" label={t('fields.startDate')} type={'date'} fullWidth />
+          <TextInput name="endDate" label={t('fields.endDate')} type={'month'} fullWidth />
         </Row>
       )}
       {transactionType !== 'Transfer' && !isLoading ? (
@@ -63,15 +65,15 @@ const TransactionForm = () => {
       <Row spacing={2}>
         {transactionType === 'Transfer' ? (
           <>
-            <AccountSelect name={'fromAccount'} label={'From Account'} />
-            <AccountSelect name={'toAccount'} label={'To Account'} />
+            <AccountSelect name={'fromAccount'} label={t('fields.fromAccount')} />
+            <AccountSelect name={'toAccount'} label={t('fields.toAccount')} />
           </>
         ) : (
-          <AccountSelect label={'Account'} />
+          <AccountSelect label={t('fields.account')} />
         )}
         <RHFSelect
           name={'paymentMethod'}
-          label={'Payment Method'}
+          label={t('fields.paymentMethod')}
           required
           options={paymentMethods.map(paymentMethod => ({
             label: paymentMethod.name,

@@ -10,6 +10,7 @@ import PageHeader from '@/components/layout/Page/PageHeader';
 import ActionFab from '@/components/appCommon/ActionFab';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import AddIcon from '@mui/icons-material/Add';
 
 const Accounts = () => {
   const { t } = useTranslation('accounts');
@@ -29,7 +30,7 @@ const Accounts = () => {
     <PageLayout>
       <PageHeader entityName={'accounts'}>
         {!isMobile && (
-          <Button variant="contained" onClick={openCreateDialog}>
+          <Button variant="contained" onClick={openCreateDialog} startIcon={<AddIcon />}>
             {t('actions.create')}
           </Button>
         )}

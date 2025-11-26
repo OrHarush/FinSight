@@ -30,7 +30,11 @@ interface TransactionDetailsModalProps {
   transaction: ExpandedTransactionDto | null;
 }
 
-const TransactionOverview = ({ open, onClose, transaction }: TransactionDetailsModalProps) => {
+const TransactionOverviewDialog = ({
+  open,
+  onClose,
+  transaction,
+}: TransactionDetailsModalProps) => {
   const { t } = useTranslation('transactions');
 
   if (!transaction) {
@@ -179,4 +183,4 @@ const TransactionOverview = ({ open, onClose, transaction }: TransactionDetailsM
   );
 };
 
-export default TransactionOverview;
+export default TransactionOverviewDialog;
