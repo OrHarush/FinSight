@@ -21,10 +21,61 @@ interface ConsoleLog {
   timestamp: string;
 }
 
+// Capture logs before component mounts
+const capturedLogs: ConsoleLog[] = [];
+let logId = 0;
+
+const addLogToBuffer = (type: ConsoleLog['type'], args: any[]) => {
+  const message = args
+    .map(arg => {
+      if (typeof arg === 'object') {
+        try {
+          return JSON.stringify(arg, null, 2);
+        } catch {
+          return String(arg);
+        }
+      }
+      return String(arg);
+    })
+    .join(' ');
+
+  capturedLogs.push({
+    id: logId++,
+    type,
+    message,
+    timestamp: new Date().toLocaleTimeString(),
+  });
+};
+
+// Override console methods immediately
+const originalLog = console.log;
+const originalError = console.error;
+const originalWarn = console.warn;
+const originalInfo = console.info;
+
+console.log = (...args: any[]) => {
+  originalLog(...args);
+  addLogToBuffer('log', args);
+};
+
+console.error = (...args: any[]) => {
+  originalError(...args);
+  addLogToBuffer('error', args);
+};
+
+console.warn = (...args: any[]) => {
+  originalWarn(...args);
+  addLogToBuffer('warn', args);
+};
+
+console.info = (...args: any[]) => {
+  originalInfo(...args);
+  addLogToBuffer('info', args);
+};
+
 const MobileConsole = () => {
-  const [logs, setLogs] = useState<ConsoleLog[]>([]);
+  const [logs, setLogs] = useState<ConsoleLog[]>(capturedLogs);
   const [isOpen, setIsOpen] = useState(false);
-  const logIdRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,13 +94,14 @@ const MobileConsole = () => {
         .join(' ');
 
       const newLog: ConsoleLog = {
-        id: logIdRef.current++,
+        id: logId++,
         type,
         message,
         timestamp: new Date().toLocaleTimeString(),
       };
 
       setLogs(prev => [...prev, newLog]);
+      capturedLogs.push(newLog);
     };
 
     const originalLog = console.log;
@@ -115,7 +167,10 @@ const MobileConsole = () => {
     }
   };
 
-  const clearLogs = () => setLogs([]);
+  const clearLogs = () => {
+    setLogs([]);
+    capturedLogs.length = 0;
+  };
 
   return (
     <>
