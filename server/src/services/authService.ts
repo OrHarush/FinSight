@@ -43,7 +43,7 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
   }
 
   if (isNewUser) {
-    await createDefaultEntitiesForNewUser(user._id as string);
+    await createDefaultEntitiesForNewUser(user._id.toString());
   }
 
   return user;
