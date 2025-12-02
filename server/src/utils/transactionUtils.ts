@@ -61,11 +61,11 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
         name: 'Transfer',
         icon: 'SwapHoriz',
         color: '#ff6b6b',
-        type: 'Expense',
+        type: 'Expense' as const,
         monthlyLimit: 0,
-        userId: tx.userId,
+        userId: new Types.ObjectId(tx.user._id),
       },
-    },
+    } as ITransactionPopulated,
     {
       ...tx,
       _id: `${tx._id}-in`,
@@ -77,11 +77,11 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
         name: 'Transfer',
         icon: 'SwapHoriz',
         color: '#51cf66',
-        type: 'Income',
+        type: 'Income' as const,
         monthlyLimit: 0,
-        userId: tx.userId,
+        userId: new Types.ObjectId(tx.user._id),
       },
-    },
+    } as ITransactionPopulated,
   ];
 };
 
@@ -207,6 +207,8 @@ export const filterTransactionsByBillingPeriod = (
   const targetEnd = new Date(Date.UTC(targetYear, targetMonth + 1, 0, 23, 59, 59, 999));
 
   const filteredTransactions = transactions.filter((tx) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const txDate = new Date(tx.date);
 
     if (!tx.paymentMethod || tx.paymentMethod.type !== 'Credit') {

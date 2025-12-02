@@ -28,5 +28,5 @@ export interface ITransactionPopulated
   account?: IAccount;
   fromAccount?: IAccount;
   toAccount?: IAccount;
-  userId: IUser;
+  user: IUser;
 }
