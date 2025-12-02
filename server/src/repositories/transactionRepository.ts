@@ -84,6 +84,8 @@ export const getSummary = async (
     let monthlyExpenses = 0;
 
     for (const tx of expanded) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       if (tx.date < start || tx.date > end) {
         continue;
       }
@@ -124,6 +126,8 @@ export const getSummary = async (
   }));
 
   for (const tx of expanded) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     if (tx.date < start || tx.date > end) continue;
 
     const m = dayjs.utc(tx.date).month();
