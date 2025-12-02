@@ -9,6 +9,7 @@ import paymentMethodRoutes from './routes/paymentMethodsRoutes';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
+import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 
 const app = express();
 
@@ -26,5 +27,7 @@ app.use('/api/payment-methods', paymentMethodRoutes);
 app.get('/', (_req: Request, res: Response) => {
   res.send('FinSight server is running 🚀');
 });
+
+app.use(errorHandlerMiddleware);
 
 export default app;

@@ -4,7 +4,7 @@ import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 export type TransactionType = 'Income' | 'Expense' | 'Transfer';
 
-export interface TranscationPageFormValues {
+export interface TransactionPageFormValues {
   searchValue: string;
   category: string;
   paymentMethod: string;
@@ -17,31 +17,29 @@ export interface TransactionFormValues {
   startDate?: string;
   endDate?: string;
   recurrence: 'None' | 'Monthly' | 'Yearly';
+  belongToPreviousMonth: boolean;
   type: TransactionType;
   category?: string;
   paymentMethod?: string;
   account?: string;
   fromAccount?: string;
-  toAccount?: string;
-  userId?: string;
 }
 
 export interface TransactionDto {
   _id: string;
-  name?: string;
+  name: string;
+  type: TransactionType;
   amount: number;
   date?: string;
+  recurrence: 'None' | 'Monthly' | 'Yearly';
   startDate?: string;
   endDate?: string;
-  recurrence: 'None' | 'Monthly' | 'Yearly';
-  type: TransactionType;
+  belongToPreviousMonth?: boolean;
   category?: CategoryDto;
   paymentMethod?: PaymentMethodDto;
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface TransactionSummaryDto {

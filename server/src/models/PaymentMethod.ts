@@ -1,6 +1,7 @@
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 
-export interface IPaymentMethod extends Document {
+export interface IPaymentMethod {
+  _id: string;
   name: string;
   type: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
   billingDay: number | null;

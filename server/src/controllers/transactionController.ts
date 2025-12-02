@@ -14,16 +14,20 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       month,
       search,
     } = req.query;
-    let fromDate: string | undefined;
-    let toDate: string | undefined;
+    let fromDate: Date | undefined;
+    let toDate: Date | undefined;
+    let targetYear: number | undefined;
+    let targetMonth: number | undefined;
 
     if (year && month) {
       const y = parseInt(year as string, 10);
-      const m = parseInt(month as string, 10) - 1;
-      const start = new Date(Date.UTC(y, m, 1, 0, 0, 0, 0));
-      const end = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999));
-      fromDate = start.toISOString();
-      toDate = end.toISOString();
+      const m0 = parseInt(month as string, 10) - 1;
+
+      targetYear = y;
+      targetMonth = m0;
+
+      fromDate = new Date(Date.UTC(y, m0, 1));
+      toDate = new Date(Date.UTC(y, m0 + 2, 0, 23, 59, 59, 999));
     }
 
     const result = await transactionService.findAll(req.userId!, {
@@ -31,6 +35,8 @@ export const getTransactions = async (req: AuthRequest, res: Response) => {
       limit: parseInt(limit as string, 10),
       from: fromDate,
       to: toDate,
+      targetYear: targetYear,
+      targetMonth: targetMonth,
       sort: sort as 'asc' | 'desc',
       categoryId: categoryId as string | undefined,
       paymentMethodId: paymentMethodId as string | undefined,
@@ -95,6 +101,7 @@ export const createTransaction = async (req: AuthRequest, res: Response) => {
 
 export const updateTransaction = async (req: AuthRequest, res: Response) => {
   try {
+    console.log(req.body);
     const updatedTransaction = await transactionService.update(
       req.params.id,
       req.body,

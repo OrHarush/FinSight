@@ -8,7 +8,7 @@ import EntityEmpty from '@/components/entities/EntityEmpty';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TranscationPageFormValues } from '@/types/Transaction';
+import { TransactionPageFormValues } from '@/types/Transaction';
 
 interface TransactionsCardsViewProps {
   selectedCategory: string;
@@ -17,7 +17,7 @@ interface TransactionsCardsViewProps {
 
 const TransactionsCardsView = ({ selectedMonth, selectedCategory }: TransactionsCardsViewProps) => {
   const [page, setPage] = useState(1);
-  const { control } = useFormContext<TranscationPageFormValues>();
+  const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
 

@@ -2,8 +2,8 @@ import RHFSelect from '@/components/inputs/RHFSelect';
 import Column from '@/components/layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/layout/Containers/Row';
-import { InputLabel, Skeleton } from '@mui/material';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Checkbox, FormControlLabel, InputLabel, Skeleton, Typography } from '@mui/material';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/categories/CategoriesSelect';
 import { useCategories } from '@/hooks/entities/useCategories';
@@ -24,13 +24,15 @@ const TransactionForm = () => {
 
   const transactionType = useWatch({ control, name: 'type' });
   const recurrence = useWatch({ control, name: 'recurrence' });
+  const paymentMethodId = useWatch({ control, name: 'paymentMethod' });
+  const paymentMethod = paymentMethods.find(paymentMethod => paymentMethod._id === paymentMethodId);
 
   const filteredCategories = categories.filter(
     c => c.type.toLowerCase() === transactionType?.toLowerCase()
   );
 
   return (
-    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '432px' : '460px'}>
+    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '432px' : '560px'}>
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
@@ -62,15 +64,15 @@ const TransactionForm = () => {
           <Skeleton variant="rectangular" width={'120px'} height={40} sx={{ borderRadius: 1 }} />
         </Column>
       ) : null}
-      <Row spacing={2}>
-        {transactionType === 'Transfer' ? (
-          <>
-            <AccountSelect name={'fromAccount'} label={t('fields.fromAccount')} />
-            <AccountSelect name={'toAccount'} label={t('fields.toAccount')} />
-          </>
-        ) : (
-          <AccountSelect label={t('fields.account')} />
-        )}
+      {transactionType === 'Transfer' ? (
+        <Row spacing={2}>
+          <AccountSelect name={'fromAccount'} label={t('fields.fromAccount')} />
+          <AccountSelect name={'toAccount'} label={t('fields.toAccount')} />
+        </Row>
+      ) : (
+        <AccountSelect label={t('fields.account')} />
+      )}
+      <Row spacing={2} alignItems={'flex-end'} justifyContent={'center'}>
         <RHFSelect
           name={'paymentMethod'}
           label={t('fields.paymentMethod')}
@@ -80,6 +82,25 @@ const TransactionForm = () => {
             value: paymentMethod._id,
           }))}
         />
+        {paymentMethod?.type !== 'Credit' && (
+          <FormControlLabel
+            sx={{ width: '200px' }}
+            control={
+              <Controller
+                name="belongToPreviousMonth"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    {...field}
+                    checked={field.value}
+                    onChange={e => field.onChange(e.target.checked)}
+                  />
+                )}
+              />
+            }
+            label={'Count toward previous month?'}
+          />
+        )}
       </Row>
     </Column>
   );

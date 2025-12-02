@@ -19,6 +19,7 @@ export const getAccountById = async (req: AuthRequest, res: Response) => {
     if (!account) {
       return res.status(404).json({ success: false, error: 'Account not found' });
     }
+
     res.json({ success: true, data: account });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Server error' });

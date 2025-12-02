@@ -68,8 +68,7 @@ const TextInput = ({
     <Column
       spacing={0.5}
       sx={{
-        flex: fullWidth ? 1 : undefined,
-        minWidth: fullWidth ? 0 : undefined,
+        minWidth: fullWidth ? 0.5 : undefined,
       }}
     >
       {label && <InputLabel>{label}</InputLabel>}

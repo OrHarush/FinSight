@@ -1,11 +1,12 @@
 import Transaction, { ITransaction } from '../models/Transaction';
 import { Types } from 'mongoose';
-import { CreateTransactionCommand } from '@shared/types/TransactionCommands';
-import { TransactionQueryOptions } from '../types/Transaction';
+import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
+import { ITransactionPopulated, TransactionQueryOptions } from '../types/Transaction';
 import {
   buildTransactionQuery,
   expandTransactions,
-  filterAndExpandTransactions,
+  filterTransactionsByBillingPeriod,
+  filterTransactionsByDateRange,
   sortAndPaginate,
 } from '../utils/transactionUtils';
 import dayjs from 'dayjs';
@@ -14,17 +15,7 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export const findMany = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const {
-    page,
-    limit,
-    from,
-    to,
-    sort = 'desc',
-    categoryId,
-    paymentMethodId,
-    accountId,
-    search,
-  } = options;
+  const { from, to, categoryId, paymentMethodId, accountId } = options;
 
   const fromDate = from ? new Date(from) : undefined;
   const toDate = to ? new Date(to) : undefined;
@@ -38,21 +29,14 @@ export const findMany = async (userId: string, options: TransactionQueryOptions 
     accountId
   );
 
-  const transactions = await Transaction.find(query)
+  return await Transaction.find(query)
     .populate('category')
     .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
-    .populate('toAccount');
-
-  let filteredTransaction = filterAndExpandTransactions(transactions, fromDate, toDate);
-
-  if (search) {
-    const term = search.trim().toLowerCase();
-    filteredTransaction = filteredTransaction.filter((t) => t.name.toLowerCase().includes(term));
-  }
-
-  return sortAndPaginate(filteredTransaction, sort, page, limit);
+    .populate('toAccount')
+    .lean<ITransactionPopulated[]>()
+    .exec();
 };
 
 export const getSummary = async (
@@ -89,7 +73,9 @@ export const getSummary = async (
     .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
-    .populate('toAccount');
+    .populate('toAccount')
+    .lean<ITransactionPopulated[]>()
+    .exec();
 
   const expanded = expandTransactions(transactions, end);
 
@@ -212,7 +198,9 @@ export const findById = async (id: string, userId: string) =>
     .populate('paymentMethod')
     .populate('account')
     .populate('fromAccount')
-    .populate('toAccount');
+    .populate('toAccount')
+    .lean<ITransactionPopulated>()
+    .exec();
 
 export const insert = async (data: CreateTransactionCommand, userId: string) => {
   const transaction = new Transaction({
@@ -241,13 +229,17 @@ export const updateById = async (id: string, data: Partial<ITransaction>, userId
   })
     .populate('category')
     .populate('paymentMethod')
-    .populate('account');
+    .populate('account')
+    .lean<ITransactionPopulated>()
+    .exec();
 
 export const remove = async (id: string, userId: string) =>
   Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
     .populate('category')
     .populate('paymentMethod')
-    .populate('account');
+    .populate('account')
+    .lean<ITransactionPopulated>()
+    .exec();
 
 export const deleteMany = (filter: object) => Transaction.deleteMany(filter);
 

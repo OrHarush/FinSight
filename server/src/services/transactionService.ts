@@ -1,11 +1,40 @@
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ITransaction } from '../models/Transaction';
 import Category from '../models/Category';
-import { CreateTransactionCommand } from '@shared/types/TransactionCommands';
+import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
 import { TransactionQueryOptions } from '../types/Transaction';
+import {
+  expandTransactions,
+  filterTransactionsByBillingPeriod,
+  filterTransactionsByDateRange,
+  sortAndPaginate,
+} from '../utils/transactionUtils';
 
-export const findAll = async (userId: string, options: TransactionQueryOptions = {}) =>
-  transactionRepository.findMany(userId, options);
+export const findAll = async (userId: string, options: TransactionQueryOptions = {}) => {
+  const { page, limit, from, to, targetYear, targetMonth, sort = 'desc', search } = options;
+  const fromDate = from ? new Date(from) : undefined;
+  const toDate = to ? new Date(to) : undefined;
+
+  const transactions = await transactionRepository.findMany(userId, options);
+
+  const expandedTransactions = expandTransactions(transactions, to ?? new Date());
+  let filteredTransaction = filterTransactionsByDateRange(expandedTransactions, fromDate, toDate);
+
+  if (targetYear != null && targetMonth != null) {
+    filteredTransaction = filterTransactionsByBillingPeriod(
+      filteredTransaction,
+      targetYear,
+      targetMonth
+    );
+  }
+
+  if (search) {
+    const term = search.trim().toLowerCase();
+    filteredTransaction = filteredTransaction.filter((t) => t.name.toLowerCase().includes(term));
+  }
+
+  return sortAndPaginate(filteredTransaction, sort, page, limit);
+};
 
 export const getTransactionSummary = async (
   userId: string,

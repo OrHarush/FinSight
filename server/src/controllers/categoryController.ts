@@ -1,64 +1,64 @@
 import { Response } from 'express';
 import * as categoryService from '../services/categoryService';
 import { AuthRequest } from '../middlewares/authMiddleware';
+import { asyncHandler } from '../utils/asyncHandler';
+import { ApiError } from '../errors/ApiError';
+import { ApiResponse } from '../utils/ApiResponse';
 
-export const getCategories = async (req: AuthRequest, res: Response) => {
-  try {
-    const categories = await categoryService.findAll(req.userId!);
-    res.json({ success: true, data: categories });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+export const getCategories = asyncHandler(async (req: AuthRequest, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized();
   }
-};
 
-export const getCategoryById = async (req: AuthRequest, res: Response) => {
-  try {
-    const category = await categoryService.getCategoryById(req.params.id, req.userId!);
+  const categories = await categoryService.findAll(req.userId);
 
-    if (!category) {
-      return res.status(404).json({ success: false, error: 'Category not found' });
-    }
+  return ApiResponse.ok(res, categories);
+});
 
-    res.json({ success: true, data: category });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+export const getCategoryById = asyncHandler(async (req: AuthRequest, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized();
   }
-};
 
-export const createCategory = async (req: AuthRequest, res: Response) => {
-  try {
-    const category = await categoryService.create(req.body, req.userId!);
-    res.status(201).json({ success: true, data: category });
-  } catch (err: any) {
-    console.error(err);
-    res.status(400).json({ success: false, error: err.message });
+  const category = await categoryService.getCategoryById(req.params.id, req.userId);
+
+  return ApiResponse.ok(res, category);
+});
+
+export const createCategory = asyncHandler(async (req: AuthRequest, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized();
   }
-};
 
-export const updateCategory = async (req: AuthRequest, res: Response) => {
-  try {
-    const updated = await categoryService.update(req.params.id, req.body, req.userId!);
+  const category = await categoryService.create(req.body, req.userId);
 
-    if (!updated) {
-      return res.status(404).json({ success: false, error: 'Category not found' });
-    }
+  return ApiResponse.created(res, category);
+});
 
-    res.json({ success: true, data: updated });
-  } catch (err: any) {
-    res.status(400).json({ success: false, error: err.message });
+export const updateCategory = asyncHandler(async (req: AuthRequest, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized();
   }
-};
 
-export const deleteCategory = async (req: AuthRequest, res: Response) => {
-  try {
-    const deleted = await categoryService.deleteCategory(req.params.id, req.userId!);
+  const updated = await categoryService.update(req.params.id, req.body, req.userId);
 
-    if (!deleted) {
-      return res.status(404).json({ success: false, error: 'Category not found' });
-    }
-
-    res.json({ success: true, message: 'Category deleted successfully' });
-  } catch (err: any) {
-    res.status(500).json({ success: false, error: err.message });
+  if (!updated) {
+    throw ApiError.notFound('Category not found');
   }
-};
+
+  return ApiResponse.ok(res, updated);
+});
+
+export const deleteCategory = asyncHandler(async (req: AuthRequest, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized();
+  }
+
+  const deleted = await categoryService.deleteCategory(req.params.id, req.userId);
+
+  if (!deleted) {
+    throw ApiError.notFound('Category not found');
+  }
+
+  return ApiResponse.deleted(res, 'Category deleted successfully');
+});

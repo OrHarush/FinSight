@@ -1,11 +1,12 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 interface Provider {
   provider: string;
   providerId: string;
 }
 
-export interface IUser extends Document {
+export interface IUser {
+  _id: string;
   email: string;
   name: string;
   picture?: string;

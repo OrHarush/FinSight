@@ -7,7 +7,7 @@ import { queryKeys } from '@/constants/queryKeys';
 import TransactionForm from '@/components/dialogs/TransactionDialogs/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
-import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommands';
+import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';

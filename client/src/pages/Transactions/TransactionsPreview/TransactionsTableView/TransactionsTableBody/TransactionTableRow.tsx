@@ -2,11 +2,11 @@ import { IconButton, TableCell, TableRow } from '@mui/material';
 import CurrencyText from '@/components/appCommon/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
-import { ExpandedTransactionDto } from '@/types/Transaction';
 import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Row from '@/components/layout/Containers/Row';
+import { ExpandedTransactionDto } from '@/shared/types/Transaction';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;

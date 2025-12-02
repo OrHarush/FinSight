@@ -1,5 +1,5 @@
 import { ExpandedTransactionDto, TransactionFormValues } from '@/types/Transaction';
-import { CreateTransactionCommand } from '../../../shared/types/TransactionCommands';
+import { CreateTransactionCommand } from '../../../shared/types/TransactionCommmands';
 
 export const mapTransactionFormValuesToPayload = (
   data: TransactionFormValues

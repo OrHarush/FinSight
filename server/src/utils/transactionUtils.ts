@@ -1,18 +1,18 @@
 import dayjs from 'dayjs';
-import { ITransaction } from '../models/Transaction';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
+import { ITransactionPopulated } from '../types/Transaction';
 
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
 
-export const expandRecurring = (tx: ITransaction, until: Date): any[] => {
+export const expandRecurring = (tx: ITransactionPopulated, until: Date) => {
   if (tx.recurrence === 'None') {
     return [tx];
   }
 
-  const result: any[] = [];
+  const result = [];
   let currentDate = dayjs.utc(tx.startDate);
   const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(until);
 
@@ -20,7 +20,7 @@ export const expandRecurring = (tx: ITransaction, until: Date): any[] => {
 
   while (currentDate.isSameOrBefore(end, 'day')) {
     result.push({
-      ...tx.toObject(),
+      ...tx,
       date: currentDate.toDate(),
       _id: `${tx._id}-${currentDate.toISOString()}`,
       originalId: tx._id,
@@ -44,7 +44,7 @@ export const expandRecurring = (tx: ITransaction, until: Date): any[] => {
   return result;
 };
 
-export const expandTransfer = (tx: any): any[] => {
+export const expandTransfer = (tx: ITransactionPopulated) => {
   if (tx.type !== 'Transfer' || !tx.fromAccount || !tx.toAccount) {
     return [tx];
   }
@@ -62,6 +62,8 @@ export const expandTransfer = (tx: any): any[] => {
         icon: 'SwapHoriz',
         color: '#ff6b6b',
         type: 'Expense',
+        monthlyLimit: 0,
+        userId: tx.userId,
       },
     },
     {
@@ -76,12 +78,17 @@ export const expandTransfer = (tx: any): any[] => {
         icon: 'SwapHoriz',
         color: '#51cf66',
         type: 'Income',
+        monthlyLimit: 0,
+        userId: tx.userId,
       },
     },
   ];
 };
 
-export const expandTransactions = (transactions: ITransaction[], until: Date): any[] =>
+export const expandTransactions = (
+  transactions: ITransactionPopulated[],
+  until: Date
+): ITransactionPopulated[] =>
   transactions.flatMap((tx) => expandRecurring(tx, until)).flatMap((tx) => expandTransfer(tx));
 
 export const buildTransactionQuery = (
@@ -147,10 +154,12 @@ export const buildTransactionQuery = (
   return query;
 };
 
-export const filterAndExpandTransactions = (transactions: any[], from?: Date, to?: Date) => {
-  const expanded = expandTransactions(transactions, to ?? new Date());
-
-  return expanded.filter((tx) => {
+export const filterTransactionsByDateRange = (
+  transactions: ITransactionPopulated[],
+  from?: Date,
+  to?: Date
+) =>
+  transactions.filter((tx) => {
     const txDate = dayjs(tx.date);
 
     if (from && txDate.isBefore(from, 'day')) {
@@ -159,7 +168,6 @@ export const filterAndExpandTransactions = (transactions: any[], from?: Date, to
 
     return !((to && txDate.isSame(to, 'day')) || txDate.isAfter(to, 'day'));
   });
-};
 
 export const sortAndPaginate = (
   data: any[],
@@ -188,4 +196,49 @@ export const sortAndPaginate = (
           }
         : undefined,
   };
+};
+
+export const filterTransactionsByBillingPeriod = (
+  transactions: ITransactionPopulated[],
+  targetYear: number,
+  targetMonth: number
+) => {
+  const targetStart = new Date(Date.UTC(targetYear, targetMonth, 1, 0, 0, 0, 0));
+  const targetEnd = new Date(Date.UTC(targetYear, targetMonth + 1, 0, 23, 59, 59, 999));
+
+  const filteredTransactions = transactions.filter((tx) => {
+    const txDate = new Date(tx.date);
+
+    if (!tx.paymentMethod || tx.paymentMethod.type !== 'Credit') {
+      return txDate >= targetStart && txDate <= targetEnd;
+    }
+
+    const billingDay = tx.paymentMethod.billingDay;
+
+    if (typeof billingDay !== 'number') {
+      return txDate >= targetStart && txDate <= targetEnd;
+    }
+
+    const { year, month } = getCreditCardEffectiveYearMonth(txDate, billingDay);
+
+    return year === targetYear && month === targetMonth;
+  });
+
+  return filteredTransactions;
+};
+
+const getCreditCardEffectiveYearMonth = (txDate: Date, billingDay: number) => {
+  const day = txDate.getUTCDate();
+  let year = txDate.getUTCFullYear();
+  let month = txDate.getUTCMonth();
+
+  if (day <= billingDay) {
+    month -= 1;
+    if (month < 0) {
+      month = 11;
+      year -= 1;
+    }
+  }
+
+  return { year, month };
 };

@@ -15,7 +15,7 @@ export const deleteUserController = async (req: AuthRequest, res: Response) => {
 
     res.status(200).json({
       message: 'User and all related data deleted successfully.',
-      // result,
+      result,
     });
   } catch (err: any) {
     console.error('❌ deleteUserController:', err);
