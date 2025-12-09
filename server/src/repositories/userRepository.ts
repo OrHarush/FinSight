@@ -13,7 +13,7 @@ export const createUser = async (data: Partial<IUser>): Promise<IUser> => {
   return user.save();
 };
 
-export const saveUser = async (user: IUser): Promise<IUser> => user.save();
+export const saveUser = async (user: any): Promise<IUser> => user.save();
 
 export const updateLastLogin = async (userId: string) =>
   User.findByIdAndUpdate(userId, { lastLoginAt: new Date() }, { new: true });

@@ -49,7 +49,7 @@ export const insert = async (data: CreateTransactionCommand, userId: string) => 
     amount: data.amount,
     type: data.type,
     recurrence: data.recurrence,
-    date: new Date(data.date),
+    date: data.date ? new Date(data.date) : undefined,
     endDate: data.endDate ? new Date(data.endDate) : undefined,
     startDate: data.startDate ? new Date(data.startDate) : undefined,
     userId: new Types.ObjectId(userId),
