@@ -17,6 +17,8 @@ const createRecurringInstance = (
     ...tx,
     date,
     _id: `${tx._id}-${date.toISOString()}`,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     originalId: tx._id,
   };
 };

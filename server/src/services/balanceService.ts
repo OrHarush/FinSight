@@ -41,6 +41,8 @@ export const calculateAccountBalanceCurve = async (
   const transactions = expandTransactions(rawTransactions, end.toDate());
 
   const sortedTx = transactions.sort(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
