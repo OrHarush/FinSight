@@ -8,6 +8,7 @@ import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/
 import EntityError from '@/components/entities/EntityError';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
+import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 
 interface TransactionsTableViewProps {
   selectedCategory: string;
@@ -30,6 +31,15 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
     rowsPerPage
   );
 
+  const { totalIncome, totalExpenses } = transactions.reduce(
+    (acc, tx) => {
+      if (tx.type === 'Income') acc.totalIncome += tx.amount;
+      if (tx.type === 'Expense') acc.totalExpenses += tx.amount;
+      return acc;
+    },
+    { totalIncome: 0, totalExpenses: 0 }
+  );
+
   const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,39 +60,42 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table
-        stickyHeader
-        aria-label="transactions table"
-        sx={{
-          borderCollapse: 'separate',
-          borderSpacing: 0,
-          '& th': {
-            backgroundColor: 'background.paper',
-            fontWeight: 600,
-            color: 'text.primary',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-          },
-          '& td': {
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-          },
-        }}
-      >
-        <TransactionTableHeaders />
-        <TransactionTableBody transactions={transactions} />
-      </Table>
-      <TablePagination
-        component="div"
-        count={pagination?.total ?? 0}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[10, 20, 50]}
-      />
-    </TableContainer>
+    <>
+      <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
+      <TableContainer component={Paper}>
+        <Table
+          stickyHeader
+          aria-label="transactions table"
+          sx={{
+            borderCollapse: 'separate',
+            borderSpacing: 0,
+            '& th': {
+              backgroundColor: 'background.paper',
+              fontWeight: 600,
+              color: 'text.primary',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            },
+            '& td': {
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            },
+          }}
+        >
+          <TransactionTableHeaders />
+          <TransactionTableBody transactions={transactions} />
+        </Table>
+        <TablePagination
+          component="div"
+          count={pagination?.total ?? 0}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[10, 20, 50]}
+        />
+      </TableContainer>
+    </>
   );
 };
 

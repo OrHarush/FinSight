@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { acceptTermsService, loginOrRegister, updateLastUserLogin } from '../services/authService';
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
-import { AuthRequest } from '../middlewares/authMiddleware';
 import { getCurrentUserById } from '../services/userService';
 import { Types } from 'mongoose';
 
@@ -11,7 +10,7 @@ const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION!;
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-export const me = async (req: AuthRequest, res: Response) => {
+export const me = async (req: Request, res: Response) => {
   try {
     if (!req.userId) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -59,7 +58,7 @@ export const googleLogin = async (req: Request, res: Response) => {
       picture,
     });
 
-    await updateLastUserLogin((user._id as Types.ObjectId).toString());
+    await updateLastUserLogin(user._id);
 
     const appToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: '7d',
@@ -78,7 +77,7 @@ export const googleLogin = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptTerms = async (req: AuthRequest, res: Response) => {
+export const acceptTerms = async (req: Request, res: Response) => {
   try {
     if (!req.userId) {
       return res.status(401).json({ error: 'Unauthorized' });

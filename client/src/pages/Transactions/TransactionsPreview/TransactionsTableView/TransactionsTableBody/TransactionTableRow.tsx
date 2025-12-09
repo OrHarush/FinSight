@@ -6,7 +6,7 @@ import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataP
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Row from '@/components/layout/Containers/Row';
-import { ExpandedTransactionDto } from '@/shared/types/Transaction';
+import { ExpandedTransactionDto } from '@/types/Transaction';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
@@ -31,14 +31,29 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
     setSelectedTransaction(transaction);
   };
 
+  const isToday = (date: string | Date) => {
+    const d = new Date(date);
+    const now = new Date();
+    return (
+      d.getFullYear() === now.getFullYear() &&
+      d.getMonth() === now.getMonth() &&
+      d.getDate() === now.getDate()
+    );
+  };
+
+  const highlight = isToday(new Date(getTransactionDisplayDate(transaction)));
+
   return (
     <TableRow
       key={transaction._id}
       onClick={handleTransactionSelect}
       sx={{
         cursor: 'pointer',
+        borderLeft: highlight ? '4px solid' : 'none',
+        borderLeftColor: 'primary.main',
+        backgroundColor: highlight ? 'rgba(56, 189, 248, 0.08)' : 'transparent',
         '&:hover': {
-          backgroundColor: 'action.hover',
+          backgroundColor: highlight ? 'rgba(56, 189, 248, 0.15)' : 'action.hover',
         },
         transition: 'background-color 0.2s ease',
       }}

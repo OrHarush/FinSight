@@ -1,24 +1,20 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { deleteUserCompletely } from '../services/userService';
-import { AuthRequest } from '../middlewares/authMiddleware';
+import { ApiResponse } from '../utils/ApiResponse';
+import { ApiError } from '../errors/ApiError';
+import { asyncHandler } from '../utils/asyncHandler';
 
-export const deleteUserController = async (req: AuthRequest, res: Response) => {
-  try {
-    const { userId } = req.params;
-    const requesterId = req.userId;
+export const deleteUserController = asyncHandler(async (req: Request, res: Response) => {
+  const { userId } = req.params;
 
-    if (userId !== requesterId) {
-      return res.status(403).json({ message: 'Not authorized to delete this user.' });
-    }
-
-    const result = await deleteUserCompletely(userId);
-
-    res.status(200).json({
-      message: 'User and all related data deleted successfully.',
-      result,
-    });
-  } catch (err: any) {
-    console.error('❌ deleteUserController:', err);
-    res.status(500).json({ message: 'Failed to delete user.', error: err.message });
+  if (userId !== req.userId) {
+    throw ApiError.forbidden('Not authorized to delete this user.');
   }
-};
+
+  const result = await deleteUserCompletely(userId);
+
+  return ApiResponse.ok(res, {
+    message: 'User and all related data deleted successfully.',
+    result,
+  });
+});

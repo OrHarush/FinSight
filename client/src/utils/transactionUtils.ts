@@ -6,7 +6,7 @@ export const mapTransactionFormValuesToPayload = (
 ): CreateTransactionCommand => {
   const base = {
     amount: Number(data.amount),
-    date: new Date(data.date).toISOString(),
+    date: data.date ? new Date(data.date).toISOString() : undefined,
     recurrence: data.recurrence,
     type: data.type,
     paymentMethodId: data.paymentMethod,

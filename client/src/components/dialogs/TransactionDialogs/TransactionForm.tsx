@@ -2,7 +2,7 @@ import RHFSelect from '@/components/inputs/RHFSelect';
 import Column from '@/components/layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/layout/Containers/Row';
-import { Checkbox, FormControlLabel, InputLabel, Skeleton, Typography } from '@mui/material';
+import { Checkbox, FormControlLabel, InputLabel, Skeleton } from '@mui/material';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/categories/CategoriesSelect';
@@ -32,16 +32,16 @@ const TransactionForm = () => {
   );
 
   return (
-    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '432px' : '560px'}>
+    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '560px' : '580px'}>
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
         <TextInput name="amount" label={t('fields.amount')} type="number" min={1} required />
+        {/**/}
         <RHFSelect
           name="recurrence"
           label="Recurrence"
           required
-          fullWidth
           options={recurrenceOptions.map(option => ({
             label: option,
             value: option,
@@ -49,7 +49,7 @@ const TransactionForm = () => {
         />
       </Row>
       {recurrence == 'None' ? (
-        <TextInput name="date" label={t('fields.date')} type={'date'} sx={{ width: '180px' }} />
+        <TextInput name="date" label={t('fields.date')} type={'date'} sx={{ width: '50%' }} />
       ) : (
         <Row spacing={2}>
           <TextInput name="startDate" label={t('fields.startDate')} type={'date'} fullWidth />
@@ -72,7 +72,7 @@ const TransactionForm = () => {
       ) : (
         <AccountSelect label={t('fields.account')} />
       )}
-      <Row spacing={2} alignItems={'flex-end'} justifyContent={'center'}>
+      <Column>
         <RHFSelect
           name={'paymentMethod'}
           label={t('fields.paymentMethod')}
@@ -84,7 +84,6 @@ const TransactionForm = () => {
         />
         {paymentMethod?.type !== 'Credit' && (
           <FormControlLabel
-            sx={{ width: '200px' }}
             control={
               <Controller
                 name="belongToPreviousMonth"
@@ -101,7 +100,7 @@ const TransactionForm = () => {
             label={'Count toward previous month?'}
           />
         )}
-      </Row>
+      </Column>
     </Column>
   );
 };

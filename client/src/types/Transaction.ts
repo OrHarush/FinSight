@@ -23,6 +23,7 @@ export interface TransactionFormValues {
   paymentMethod?: string;
   account?: string;
   fromAccount?: string;
+  toAccount?: string;
 }
 
 export interface TransactionDto {

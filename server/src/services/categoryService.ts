@@ -21,7 +21,22 @@ export const update = async (
   id: string,
   updatedCategoryDetails: UpdateCategoryCommand,
   userId: string
-) => categoryRepository.updateById(id, updatedCategoryDetails, userId);
+) => {
+  const updated = await categoryRepository.updateById(id, updatedCategoryDetails, userId);
 
-export const deleteCategory = async (id: string, userId: string) =>
-  categoryRepository.remove(id, userId);
+  if (!updated) {
+    throw ApiError.notFound('Category not found');
+  }
+
+  return updated;
+};
+
+export const deleteCategory = async (id: string, userId: string) => {
+  const deleted = await categoryRepository.remove(id, userId);
+
+  if (!deleted) {
+    throw ApiError.notFound('Category not found');
+  }
+
+  return deleted;
+};

@@ -31,7 +31,6 @@ const TransactionsFilters = ({
   const isMobile = useIsMobile();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
-  console.log(searchValue);
 
   return (
     <ResponsiveRow spacing={1} alignItems={isMobile ? 'center' : 'flex-end'}>

@@ -1,8 +1,12 @@
 import * as transactionRepository from '../repositories/transactionRepository';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import mongoose from 'mongoose';
 import Account from '../models/Account';
-import { Types } from 'mongoose';
 import { expandTransactions } from '../utils/transactionUtils';
+import { ApiError } from '../errors/ApiError';
+
+dayjs.extend(utc);
 
 export const calculateAccountBalanceCurve = async (
   userId: string,
@@ -10,32 +14,38 @@ export const calculateAccountBalanceCurve = async (
   from?: string,
   to?: string
 ) => {
+  if (!mongoose.Types.ObjectId.isValid(accountId)) {
+    throw ApiError.badRequest('Invalid account ID');
+  }
+
   const start = from ? dayjs.utc(from) : dayjs.utc().startOf('month');
   const end = to ? dayjs.utc(to) : dayjs.utc().endOf('month');
 
-  const account = await Account.findOne({
-    _id: new Types.ObjectId(accountId),
-    userId: new Types.ObjectId(userId),
-  });
-
-  if (!account) {
-    throw new Error('Account not found');
+  if (!start.isValid() || !end.isValid()) {
+    throw ApiError.badRequest('Invalid date range');
   }
 
-  const { data: transactions } = await transactionRepository.findMany(userId, {
-    from: start.toISOString(),
-    to: end.toISOString(),
+  const account = await Account.findOne({ _id: accountId, userId });
+
+  if (!account) {
+    throw ApiError.notFound('Account not found');
+  }
+
+  const rawTransactions = await transactionRepository.findMany(userId, {
+    from: start.toDate(),
+    to: end.toDate(),
     sort: 'asc',
     accountId,
   });
 
-  const days: { date: string; balance: number }[] = [];
-  let runningBalance = account.balance;
+  const transactions = expandTransactions(rawTransactions, end.toDate());
 
   const sortedTx = transactions.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
+  const days: { date: string; balance: number }[] = [];
+  let runningBalance = account.balance;
   let txIndex = 0;
 
   for (
@@ -55,7 +65,10 @@ export const calculateAccountBalanceCurve = async (
       txIndex++;
     }
 
-    days.push({ date: current.toISOString(), balance: runningBalance });
+    days.push({
+      date: current.toISOString(),
+      balance: runningBalance,
+    });
   }
 
   return days;

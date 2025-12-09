@@ -31,7 +31,7 @@ const FinancialHighlights = () => {
     useFetch<TransactionSummaryDto>({
       url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
       queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
-      enabled: !!year && month >= 0,
+      enabled: !!year && month >= 0 && !!account?._id,
     });
 
   const monthlyIncome = monthlySummary?.monthlyIncome ?? 0;

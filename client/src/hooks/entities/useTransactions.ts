@@ -38,7 +38,15 @@ export const useTransactions = (
 
   const url = `${API_ROUTES.TRANSACTIONS}?${params.toString()}`;
 
-  const query = useFetch<TransactionDto[]>({
+  const query = useFetch<{
+    data: TransactionDto[];
+    pagination: {
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    };
+  }>({
     url,
     queryKey: queryKeys.transactions({
       year: selectedYear,
@@ -53,6 +61,7 @@ export const useTransactions = (
 
   return {
     ...query,
-    transactions: query.data ?? [],
+    transactions: query.data?.data ?? [],
+    pagination: query.data?.pagination,
   };
 };

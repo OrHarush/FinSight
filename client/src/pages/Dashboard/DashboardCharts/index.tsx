@@ -1,8 +1,8 @@
 import { Card, CardContent, Grid, Tabs, Tab } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
 import Column from '@/components/layout/Containers/Column';
-import YearlyChart from '@/pages/Dashboard/YearlyChart/YearlyChart';
-import AccountBalanceChart from '@/pages/Dashboard/YearlyChart/AccountBalanceChart';
+import YearlyChart from '@/pages/Dashboard/DashboardCharts/YearlyChart';
+import AccountBalanceChart from '@/pages/Dashboard/DashboardCharts/AccountBalanceChart';
 import { useTranslation } from 'react-i18next';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';

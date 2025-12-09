@@ -9,6 +9,7 @@ import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
+import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 
 interface TransactionsCardsViewProps {
   selectedCategory: string;
@@ -28,6 +29,15 @@ const TransactionsCardsView = ({ selectedMonth, selectedCategory }: Transactions
     selectedCategory,
     page,
     20
+  );
+
+  const { totalIncome, totalExpenses } = transactions.reduce(
+    (acc, tx) => {
+      if (tx.type === 'Income') acc.totalIncome += tx.amount;
+      if (tx.type === 'Expense') acc.totalExpenses += tx.amount;
+      return acc;
+    },
+    { totalIncome: 0, totalExpenses: 0 }
   );
 
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
@@ -53,6 +63,7 @@ const TransactionsCardsView = ({ selectedMonth, selectedCategory }: Transactions
 
   return (
     <Box display="flex" flexDirection="column">
+      <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
       {transactions.map(tx => (
         <TransactionCard key={tx._id} transaction={tx} />
       ))}

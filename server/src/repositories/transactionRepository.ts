@@ -2,13 +2,7 @@ import Transaction, { ITransaction } from '../models/Transaction';
 import { Types } from 'mongoose';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
 import { ITransactionPopulated, TransactionQueryOptions } from '../types/Transaction';
-import {
-  buildTransactionQuery,
-  expandTransactions,
-  filterTransactionsByBillingPeriod,
-  filterTransactionsByDateRange,
-  sortAndPaginate,
-} from '../utils/transactionUtils';
+import { buildTransactionQuery, expandTransactions } from '../utils/transactionUtils';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -38,6 +32,63 @@ export const findMany = async (userId: string, options: TransactionQueryOptions 
     .lean<ITransactionPopulated[]>()
     .exec();
 };
+
+export const findById = async (id: string, userId: string) =>
+  Transaction.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+    .populate('category')
+    .populate('paymentMethod')
+    .populate('account')
+    .populate('fromAccount')
+    .populate('toAccount')
+    .lean<ITransactionPopulated>()
+    .exec();
+
+export const insert = async (data: CreateTransactionCommand, userId: string) => {
+  const transaction = new Transaction({
+    name: data.name,
+    amount: data.amount,
+    type: data.type,
+    recurrence: data.recurrence,
+    date: new Date(data.date),
+    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    startDate: data.startDate ? new Date(data.startDate) : undefined,
+    userId: new Types.ObjectId(userId),
+    category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
+    paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
+    account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
+    fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
+    toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
+  });
+
+  return transaction.save();
+};
+
+export const updateById = async (id: string, data: Partial<ITransaction>, userId: string) =>
+  Transaction.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
+    new: true,
+    runValidators: true,
+  })
+    .populate('category')
+    .populate('paymentMethod')
+    .populate('account')
+    .lean<ITransactionPopulated>()
+    .exec();
+
+export const remove = async (id: string, userId: string) =>
+  Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+    .populate('category')
+    .populate('paymentMethod')
+    .populate('account')
+    .lean<ITransactionPopulated>()
+    .exec();
+
+export const deleteMany = (filter: object) => Transaction.deleteMany(filter);
+
+export const countByAccountId = async (userId: string, accountId: string) =>
+  Transaction.countDocuments({
+    userId: new Types.ObjectId(userId),
+    account: new Types.ObjectId(accountId),
+  });
 
 export const getSummary = async (
   userId: string,
@@ -195,63 +246,6 @@ export const getYearlySummary = async (userId: string, year: number) =>
     },
     { $sort: { month: 1 } },
   ]);
-
-export const findById = async (id: string, userId: string) =>
-  Transaction.findOne({ _id: id, userId: new Types.ObjectId(userId) })
-    .populate('category')
-    .populate('paymentMethod')
-    .populate('account')
-    .populate('fromAccount')
-    .populate('toAccount')
-    .lean<ITransactionPopulated>()
-    .exec();
-
-export const insert = async (data: CreateTransactionCommand, userId: string) => {
-  const transaction = new Transaction({
-    name: data.name,
-    amount: data.amount,
-    type: data.type,
-    recurrence: data.recurrence,
-    date: new Date(data.date),
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
-    startDate: data.startDate ? new Date(data.startDate) : undefined,
-    userId: new Types.ObjectId(userId),
-    category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
-    paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
-    account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
-    fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
-    toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
-  });
-
-  return transaction.save();
-};
-
-export const updateById = async (id: string, data: Partial<ITransaction>, userId: string) =>
-  Transaction.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
-    .populate('category')
-    .populate('paymentMethod')
-    .populate('account')
-    .lean<ITransactionPopulated>()
-    .exec();
-
-export const remove = async (id: string, userId: string) =>
-  Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
-    .populate('category')
-    .populate('paymentMethod')
-    .populate('account')
-    .lean<ITransactionPopulated>()
-    .exec();
-
-export const deleteMany = (filter: object) => Transaction.deleteMany(filter);
-
-export const countByAccountId = async (userId: string, accountId: string) =>
-  Transaction.countDocuments({
-    userId: new Types.ObjectId(userId),
-    account: new Types.ObjectId(accountId),
-  });
 
 export const reassignAccountForUser = async (
   userId: string,

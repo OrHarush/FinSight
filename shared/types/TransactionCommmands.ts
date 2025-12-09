@@ -1,7 +1,7 @@
 export interface CreateTransactionCommand {
     name?: string;
     amount: number;
-    date: string;
+    date?: string;
     startDate?: string;
     endDate?: string;
     recurrence: 'None' | 'Monthly' | 'Yearly';

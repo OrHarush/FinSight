@@ -2,7 +2,7 @@ import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
 import RecentTransactions from '@/pages/Dashboard/RecentTransactions';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
 import AccountsOverview from '@/pages/Dashboard/AccountsOverview';
-import DashboardCharts from '@/pages/Dashboard/YearlyChart';
+import DashboardCharts from '@/pages/Dashboard/DashboardCharts';
 import { Grid } from '@mui/material';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import { DashboardFiltersProvider } from '@/pages/Dashboard/DashboardFiltersProvider';

@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
@@ -7,38 +7,53 @@ import { ITransactionPopulated } from '../types/Transaction';
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
 
-export const expandRecurring = (tx: ITransactionPopulated, until: Date) => {
+const createRecurringInstance = (
+  tx: ITransactionPopulated,
+  currentDate: Dayjs
+): ITransactionPopulated => {
+  const date = currentDate.toDate();
+
+  return {
+    ...tx,
+    date,
+    _id: `${tx._id}-${date.toISOString()}`,
+    originalId: tx._id,
+  };
+};
+
+export const getNextRecurringDate = (
+  current: Dayjs,
+  isMonthlyRecurrence: boolean,
+  dayOfMonth: number
+): Dayjs => {
+  if (isMonthlyRecurrence) {
+    let next = current.add(1, 'month').startOf('month');
+
+    if (dayOfMonth <= next.daysInMonth()) {
+      next = next.date(dayOfMonth);
+    } else {
+      next = next.endOf('month');
+    }
+
+    return next;
+  }
+
+  return current.add(1, 'year').date(dayOfMonth);
+};
+
+export const expandRecurring = (tx: ITransactionPopulated, to: Date) => {
   if (tx.recurrence === 'None') {
     return [tx];
   }
 
   const result = [];
   let currentDate = dayjs.utc(tx.startDate);
-  const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(until);
-
+  const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(to);
   const dayOfMonth = currentDate.date();
 
   while (currentDate.isSameOrBefore(end, 'day')) {
-    result.push({
-      ...tx,
-      date: currentDate.toDate(),
-      _id: `${tx._id}-${currentDate.toISOString()}`,
-      originalId: tx._id,
-    });
-
-    if (tx.recurrence === 'Monthly') {
-      let next = currentDate.add(1, 'month').startOf('month');
-
-      if (dayOfMonth <= next.daysInMonth()) {
-        next = next.date(dayOfMonth);
-      } else {
-        next = next.endOf('month');
-      }
-
-      currentDate = next;
-    } else if (tx.recurrence === 'Yearly') {
-      currentDate = currentDate.add(1, 'year').date(dayOfMonth);
-    }
+    result.push(createRecurringInstance(tx, currentDate));
+    currentDate = getNextRecurringDate(currentDate, tx.recurrence === 'Monthly', dayOfMonth);
   }
 
   return result;
@@ -87,9 +102,9 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
 
 export const expandTransactions = (
   transactions: ITransactionPopulated[],
-  until: Date
+  to: Date
 ): ITransactionPopulated[] =>
-  transactions.flatMap((tx) => expandRecurring(tx, until)).flatMap((tx) => expandTransfer(tx));
+  transactions.flatMap((tx) => expandRecurring(tx, to)).flatMap((tx) => expandTransfer(tx));
 
 export const buildTransactionQuery = (
   userId: string,
@@ -100,39 +115,37 @@ export const buildTransactionQuery = (
   accountId?: string
 ) => {
   const userObjId = new Types.ObjectId(userId);
-  const query: any = { userId: userObjId };
-  const recurrenceTypes = ['None', 'Monthly', 'Yearly'];
+
+  const query: any = {
+    userId: userObjId,
+  };
 
   if (from || to) {
-    const dateConditions: any[] = [];
-
-    for (const type of recurrenceTypes) {
-      if (type === 'None') {
-        const range: any = {};
-
-        if (from) {
-          range.$gte = from;
-        }
-
-        if (to) {
-          range.$lt = to;
-        }
-
-        dateConditions.push({ recurrence: 'None', date: range });
-      } else {
-        dateConditions.push({
-          recurrence: type,
-          startDate: { $lt: to ?? new Date() },
-          $or: [
-            { endDate: { $exists: false } },
-            { endDate: null },
-            ...(from ? [{ endDate: { $gte: from } }] : []),
-          ],
-        });
-      }
+    const dateRange: any = {};
+    if (from) {
+      dateRange.$gte = from;
     }
 
-    query.$or = dateConditions;
+    if (to) {
+      dateRange.$lte = to;
+    }
+
+    const nonRecurring = {
+      recurrence: 'None',
+      date: dateRange,
+    };
+
+    const recurring = {
+      recurrence: { $in: ['Monthly', 'Yearly'] },
+      startDate: { ...(to && { $lte: to }) },
+      $or: [
+        { endDate: { $exists: false } },
+        { endDate: null },
+        ...(from ? [{ endDate: { $gte: from } }] : []),
+      ],
+    };
+
+    query.$or = [nonRecurring, recurring];
   }
 
   if (categoryId) {
@@ -144,11 +157,11 @@ export const buildTransactionQuery = (
   }
 
   if (accountId) {
-    query.$or = [
-      { account: new Types.ObjectId(accountId) },
-      { fromAccount: new Types.ObjectId(accountId) },
-      { toAccount: new Types.ObjectId(accountId) },
-    ];
+    const accId = new Types.ObjectId(accountId);
+    query.$and = query.$and || [];
+    query.$and.push({
+      $or: [{ account: accId }, { fromAccount: accId }, { toAccount: accId }],
+    });
   }
 
   return query;
@@ -198,49 +211,110 @@ export const sortAndPaginate = (
   };
 };
 
-export const filterTransactionsByBillingPeriod = (
-  transactions: ITransactionPopulated[],
+export function getEffectiveMonth(tx: ITransactionPopulated) {
+  const date = dayjs(tx.date);
+
+  if (tx.type === 'Transfer') {
+    return { year: date.year(), month: date.month() };
+  }
+
+  const pm = tx.paymentMethod;
+
+  if (pm && pm.type === 'Credit' && typeof pm.billingDay === 'number') {
+    const billingDay = pm.billingDay;
+
+    if (date.date() < billingDay) {
+      const prev = date.subtract(1, 'month');
+      return { year: prev.year(), month: prev.month() };
+    }
+
+    return { year: date.year(), month: date.month() };
+  }
+
+  if (tx.belongToPreviousMonth) {
+    const prev = date.subtract(1, 'month');
+    return { year: prev.year(), month: prev.month() };
+  }
+
+  return { year: date.year(), month: date.month() };
+}
+
+export const summarizeSingleMonth = (
+  txs: ITransactionPopulated[],
   targetYear: number,
-  targetMonth: number
+  targetMonth: number,
+  accountId?: string
 ) => {
-  const targetStart = new Date(Date.UTC(targetYear, targetMonth, 1, 0, 0, 0, 0));
-  const targetEnd = new Date(Date.UTC(targetYear, targetMonth + 1, 0, 23, 59, 59, 999));
+  let monthlyIncome = 0;
+  let monthlyExpenses = 0;
 
-  const filteredTransactions = transactions.filter((tx) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const txDate = new Date(tx.date);
+  for (const tx of txs) {
+    const { year, month } = getEffectiveMonth(tx);
+    // console.log({ name: tx.name, amount: tx.amount, date: tx.date, type: tx.type });
 
-    if (!tx.paymentMethod || tx.paymentMethod.type !== 'Credit') {
-      return txDate >= targetStart && txDate <= targetEnd;
+    if (year !== targetYear || month !== targetMonth) continue;
+
+    if (tx.type !== 'Transfer') {
+      if (!accountId || tx.account?._id.toString() === accountId) {
+        if (tx.category?.type === 'Income') {
+          monthlyIncome += tx.amount;
+        }
+        if (tx.category?.type === 'Expense') {
+          monthlyExpenses += tx.amount;
+        }
+      }
     }
 
-    const billingDay = tx.paymentMethod.billingDay;
-
-    if (typeof billingDay !== 'number') {
-      return txDate >= targetStart && txDate <= targetEnd;
-    }
-
-    const { year, month } = getCreditCardEffectiveYearMonth(txDate, billingDay);
-
-    return year === targetYear && month === targetMonth;
-  });
-
-  return filteredTransactions;
-};
-
-const getCreditCardEffectiveYearMonth = (txDate: Date, billingDay: number) => {
-  const day = txDate.getUTCDate();
-  let year = txDate.getUTCFullYear();
-  let month = txDate.getUTCMonth();
-
-  if (day <= billingDay) {
-    month -= 1;
-    if (month < 0) {
-      month = 11;
-      year -= 1;
+    if (tx.type === 'Transfer' && accountId) {
+      if (tx.fromAccount?._id.toString() === accountId) {
+        monthlyExpenses += tx.amount;
+      }
+      if (tx.toAccount?._id.toString() === accountId) {
+        monthlyIncome += tx.amount;
+      }
     }
   }
 
-  return { year, month };
+  return { monthlyIncome, monthlyExpenses };
+};
+
+export const summarizeWholeYear = (
+  txs: ITransactionPopulated[],
+  year: number,
+  accountId?: string
+) => {
+  const buckets = Array.from({ length: 12 }, (_, m) => ({
+    month: m,
+    monthlyIncome: 0,
+    monthlyExpenses: 0,
+  }));
+
+  for (const tx of txs) {
+    const { year: effYear, month: effMonth } = getEffectiveMonth(tx);
+
+    if (effYear !== year) continue;
+
+    if (tx.type !== 'Transfer') {
+      if (!accountId || tx.account?._id.toString() === accountId) {
+        if (tx.category?.type === 'Income') {
+          buckets[effMonth].monthlyIncome += tx.amount;
+        }
+        if (tx.category?.type === 'Expense') {
+          buckets[effMonth].monthlyExpenses += tx.amount;
+        }
+      }
+    }
+
+    if (tx.type === 'Transfer' && accountId) {
+      if (tx.fromAccount?._id.toString() === accountId) {
+        buckets[effMonth].monthlyExpenses += tx.amount;
+      }
+
+      if (tx.toAccount?._id.toString() === accountId) {
+        buckets[effMonth].monthlyIncome += tx.amount;
+      }
+    }
+  }
+
+  return buckets;
 };
