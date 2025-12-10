@@ -32,7 +32,7 @@ const TransactionForm = () => {
   );
 
   return (
-    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '560px' : '580px'}>
+    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '548px' : '580px'}>
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>
@@ -72,7 +72,7 @@ const TransactionForm = () => {
       ) : (
         <AccountSelect label={t('fields.account')} />
       )}
-      <Column>
+      <Column spacing={1}>
         <RHFSelect
           name={'paymentMethod'}
           label={t('fields.paymentMethod')}

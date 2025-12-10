@@ -13,6 +13,7 @@ export const createUser = async (data: Partial<IUser>): Promise<IUser> => {
   return user.save();
 };
 
+//TODO Fix type any
 export const saveUser = async (user: any): Promise<IUser> => user.save();
 
 export const updateLastLogin = async (userId: string) =>
