@@ -20,8 +20,8 @@ const DashboardCharts = () => {
   };
 
   return (
-    <Grid size={{ xs: 12 }}>
-      <Card sx={{ width: '100%', paddingBottom: 0 }}>
+    <Grid size={{ xs: 12, md: 8 }}>
+      <Card sx={{ width: '100%', height: '100%', paddingBottom: 0 }}>
         <Tabs
           value={tab}
           onChange={handleChange}
@@ -60,9 +60,10 @@ const DashboardCharts = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            height: '100%',
           }}
         >
-          <Column width="100%" height="330px">
+          <Column width="100%" height="550px">
             {tab === 0 ? (
               <YearlyChart />
             ) : account?._id ? (

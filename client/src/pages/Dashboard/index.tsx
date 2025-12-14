@@ -1,6 +1,5 @@
 import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
-import AccountsOverview from '@/pages/Dashboard/AccountsOverview';
 import DashboardCharts from '@/pages/Dashboard/DashboardCharts';
 import { Grid } from '@mui/material';
 import PageLayout from '@/components/layout/Page/PageLayout';
@@ -11,17 +10,10 @@ const Dashboard = () => (
   <PageLayout>
     <DashboardFiltersProvider>
       <DashboardHeader />
-      <Grid container spacing={3}>
+      <Grid container spacing={3} height={'100%'}>
         <FinancialHighlights />
-        <Grid container size={{ xs: 12 }} spacing={3}>
-          <Grid size={{ xs: 12, md: 8 }}>
-            <Grid container spacing={3}>
-              <DashboardCharts />
-              <AccountsOverview />
-            </Grid>
-          </Grid>
-          <TopSpendingCategories />
-        </Grid>
+        <DashboardCharts />
+        <TopSpendingCategories />
       </Grid>
     </DashboardFiltersProvider>
   </PageLayout>

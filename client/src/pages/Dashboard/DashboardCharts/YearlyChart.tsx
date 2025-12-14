@@ -46,7 +46,9 @@ const YearlyChart = () => {
   return (
     <BarChart
       xAxis={[{ data: monthLabels, scaleType: 'band' }]}
+      grid={{ horizontal: true }}
       borderRadius={4}
+      height={440}
       series={[
         {
           data: monthlyIncome,

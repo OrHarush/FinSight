@@ -64,7 +64,7 @@ const AccountBalanceChart = ({ accountId }: { accountId: string }) => {
         <ToggleButton value="1Y">1Y</ToggleButton>
       </ToggleButtonGroup>{' '}
       <LineChart
-        height={300}
+        height={460}
         hideLegend
         grid={{ horizontal: true }}
         series={
