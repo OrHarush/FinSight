@@ -10,7 +10,6 @@ export interface FinancialHealthResult {
   ratio: number;
   status: FinancialHealthStatus;
 }
-
 export function calculateFinancialHealth(
   income: number,
   expensesSoFar: number,
@@ -28,12 +27,26 @@ export function calculateFinancialHealth(
   const expectedExpenses = Math.max(rawExpected, minExpected);
 
   const ratio = expensesSoFar / expectedExpenses;
+  const remainingBudget = income - expensesSoFar;
+
   const earlyMonthBonus = day <= 3 ? 0.1 : 0;
 
-  if (ratio <= 0.85 + earlyMonthBonus) return { ratio, status: 'excellent' };
-  if (ratio <= 1.05) return { ratio, status: 'onTrack' };
-  if (ratio <= 1.25) return { ratio, status: 'risk' };
-  return { ratio, status: 'critical' };
+  if (remainingBudget < 0) {
+    return { ratio, status: 'critical' };
+  }
+
+  if (ratio <= 0.85 + earlyMonthBonus) {
+    return { ratio, status: 'excellent' };
+  }
+
+  if (ratio <= 1.05) {
+    return { ratio, status: 'onTrack' };
+  }
+
+  if (ratio <= 1.5) {
+    return { ratio, status: 'risk' };
+  }
+  return { ratio, status: 'risk' };
 }
 
 export const HEALTH_UI: Record<
@@ -60,7 +73,7 @@ export const HEALTH_UI: Record<
     Icon: WarningAmberIcon,
   },
   critical: {
-    label: 'Critical',
+    label: 'Overspent',
     color: '#ef4444',
     Icon: ErrorOutlineIcon,
   },

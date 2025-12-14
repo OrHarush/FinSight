@@ -5,6 +5,7 @@ import { BarChart } from '@mui/x-charts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
+import { getTopSpendingCategories } from '@/utils/categoryUtils';
 
 const MAX_ITEMS = 5;
 
@@ -14,27 +15,11 @@ const TopSpendingCategories = () => {
   const { transactions, isLoading: isTransactionsLoading } = useTransactions(year, month);
 
   const chartData = useMemo(() => {
-    if (!categories || !transactions) return [];
-
-    const perCategory = new Map<string, number>();
-
-    for (const tx of transactions) {
-      if (!tx.category || tx.category.type !== 'Expense') continue;
-
-      const id = tx.category._id;
-      perCategory.set(id, (perCategory.get(id) ?? 0) + tx.amount);
+    if (!categories || !transactions) {
+      return [];
     }
 
-    return categories
-      .filter(cat => cat.type === 'Expense' && perCategory.has(cat._id))
-      .map(cat => ({
-        id: cat._id,
-        label: cat.name,
-        value: perCategory.get(cat._id) ?? 0,
-        color: cat.color || '#171717',
-      }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, MAX_ITEMS);
+    return getTopSpendingCategories(transactions, categories, MAX_ITEMS);
   }, [categories, transactions]);
 
   const isLoading = isCategoriesLoading || isTransactionsLoading;
@@ -60,14 +45,15 @@ const TopSpendingCategories = () => {
     );
   }
   const dataset = chartData.map(d => ({
-    category: d.label,
-    spent: d.value,
+    category: d.name,
+    spent: d.amount,
   }));
-  const categoryColors = chartData.map(d => d.color);
+
+  const categoryColors: string[] = chartData.map(d => d.color ?? '#171717');
 
   return (
     <Grid size={{ xs: 12, md: 4 }}>
-      <Card sx={{ height: '100%', minWidth: '240px' }}>
+      <Card sx={{ height: '620px', minWidth: '240px' }}>
         <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
           <Typography variant="h6" gutterBottom>
             Top Spending Categories

@@ -1,76 +1,116 @@
-import { Card, CardContent, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
+import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
 import Column from '@/components/layout/Containers/Column';
-import { SvgIconComponent } from '@mui/icons-material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
 import Row from '@/components/layout/Containers/Row';
+import { SvgIconComponent } from '@mui/icons-material';
 import FinanceOverviewCardSkeleton from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCardSkeleton';
+import { ReactNode } from 'react';
 
 interface FinanceOverviewCardProps {
   headerTitle: string;
-  balance: number;
+  primaryValue: ReactNode;
+  secondaryText?: string;
   icon: SvgIconComponent;
   color: string;
   isLoading: boolean;
+  isPrimary?: boolean;
 }
 
 const FinanceOverviewCard = ({
   headerTitle,
-  balance,
+  primaryValue,
+  secondaryText,
   icon: Icon,
   isLoading,
   color = '#8b5cf6',
-}: FinanceOverviewCardProps) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  return (
+  isPrimary = false,
+}: FinanceOverviewCardProps) => (
+  <Grid size={{ xs: 12, md: 4 }}>
     <Card
       sx={{
-        height: 100,
-        minWidth: '160px',
+        minHeight: 120,
+        minWidth: '200px',
+        position: 'relative',
+        overflow: 'hidden',
         transition: 'all 0.3s ease',
+        border: isPrimary ? `1px solid ${color}` : 'none',
+        boxShadow: isPrimary ? `0 0 0 1px ${color}40` : '0 6px 16px rgba(0,0,0,0.25)',
         '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 12px 24px rgba(139, 92, 246, 0.2)',
+          transform: 'translateY(-2px)',
+          boxShadow: `0 8px 24px ${color}22`,
         },
       }}
     >
       <CardContent
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           height: '100%',
-          p: 3,
+          p: 2.5,
+          pb: '20px !important',
         }}
       >
         {isLoading ? (
           <FinanceOverviewCardSkeleton />
         ) : (
-          <Row width="100%" justifyContent="space-between" alignItems="center">
-            <Column>
-              <Typography variant="body2" color="text.secondary">
-                {headerTitle}
+          <Column height="100%" spacing={1.5}>
+            <Row spacing={2} alignItems={'center'}>
+              <Box
+                sx={{
+                  p: 1,
+                  borderRadius: 1.5,
+                  backgroundColor: `${color}18`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                }}
+              >
+                <Icon sx={{ fontSize: 24, color }} />
+              </Box>
+              <Column>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'text.secondary',
+                    letterSpacing: '0.5px',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                  }}
+                >
+                  {headerTitle}
+                </Typography>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 800,
+                    color: color,
+                    lineHeight: 1.2,
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  {primaryValue}
+                </Typography>
+              </Column>
+            </Row>
+            {secondaryText && (
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  lineHeight: 1.4,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  minHeight: '2.6em',
+                }}
+              >
+                {secondaryText}
               </Typography>
-              <CurrencyText variant="h5" value={balance} fontWeight={700} isAnimated />
-            </Column>
-            <Box
-              sx={{
-                p: 1.2,
-                borderRadius: 2,
-                backgroundColor: `${color}22`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Icon sx={{ fontSize: isMobile ? 24 : 24, color }} />
-            </Box>
-          </Row>
+            )}
+          </Column>
         )}
       </CardContent>
     </Card>
-  );
-};
+  </Grid>
+);
 
 export default FinanceOverviewCard;

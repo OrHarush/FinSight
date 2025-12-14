@@ -8,7 +8,7 @@ import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
-import SwipeableCard from '@/pages/Dashboard/FinancialHighlights/SwipeableCard';
+import SwipeableCard from '@/components/SwipeableCard';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 
 interface TransactionCardViewProps {

@@ -1,16 +1,45 @@
 {
   "pageTitle": "Financial Dashboard",
   "dateSelector": {
-    "placeholder": "Select date"
+    "placeholder": "Select month"
   },
   "accountSelector": {
-    "placeholder": "Create account first"
+    "placeholder": "Select account"
   },
   "financialHighlights": {
-    "currentBalance": "Balance",
-    "income": "Income",
-    "totalMonthlyExpenses": "Total Monthly Expenses",
-    "endOfMonthBalance": "End of Month Balance"
+    "currentMonth": {
+      "financialStatus": "Financial Status",
+      "budgetRunway": "Budget Runway",
+      "daysLeft_one": "{{count}} day left",
+      "daysLeft_other": "{{count}} days left",
+      "requiredDailySpend": "Required Daily Spend",
+      "dailySpendCapacity": "Daily Spend Capacity",
+      "healthDetail": "{{actual}}% spent · expected {{expected}}% by day {{day}}",
+      "exceedingWillOverspend": "Exceeding this will exceed monthly income",
+      "stayingBelowKeepsOnTrack": "Staying below this keeps you on track",
+      "dailySpendGap": "Reduce daily spending by {{gap}}₪ ({{current}}₪ → {{target}}₪)",
+      "runwayDetail": "Money runs out by {{date}} at current pace",
+      "noRunway": "No runway left",
+      "insufficientData": "Not enough data"
+    },
+    "monthSummary": {
+      "monthlyOutcome": "Monthly Outcome",
+      "onBudget": "On budget",
+      "endedWithinIncome": "Ended within monthly income",
+      "netResult": "Net Result",
+      "savedThisMonth": "Saved this month",
+      "biggestOverspend": "Biggest Overspend",
+      "overspentByAmount": "Overspent by {{amount}}₪",
+      "noOverspend": "No overspending",
+      "withinBudget": "All categories stayed within budget"
+    }
+  },
+
+  "status": {
+    "excellent": "Healthy Pace",
+    "onTrack": "On Track",
+    "risk": "At Risk",
+    "critical": "Critical"
   },
   "chart": {
     "title": "Income & Expenses ({{year}})",
@@ -37,12 +66,7 @@
     "yearlySummary": "Yearly Summary",
     "accountBalance": "Account Balance"
   },
-  "recentTransactions": {
-    "title": "Recent Transactions",
-    "viewAll": "View All"
-  },
-  "accounts": {
-    "title": "Accounts",
-    "manageAccounts": "Manage Accounts"
+  "topSpendingCategories": {
+    "title": "Top Spending Categories"
   }
 }

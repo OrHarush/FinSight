@@ -1,92 +1,81 @@
-import FinanceOverviewCard from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCard';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import CalculateIcon from '@mui/icons-material/Calculate';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { Grid } from '@mui/material';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { useFetch } from '@/hooks/useFetch';
+import { useAccounts } from '@/hooks/entities/useAccounts';
+import { useTransactions } from '@/hooks/entities/useTransactions';
+import { useCategories } from '@/hooks/entities/useCategories';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
-import { useAccounts } from '@/hooks/entities/useAccounts';
 import { queryKeys } from '@/constants/queryKeys';
-import { useTranslation } from 'react-i18next';
-import { SvgIconComponent } from '@mui/icons-material';
-
-interface FinanceHighlightCardProps {
-  id: string;
-  headerTitle: string;
-  balance: number;
-  icon: SvgIconComponent;
-  color: string;
-  isLoading: boolean;
-}
+import FinancialStatusCard from './CurrentMonth/FinancialStatusCard';
+import DailySpendCard from './CurrentMonth/DailySpendCard';
+import BudgetRunwayCard from './CurrentMonth/BudgetRunwayCard';
+import MonthlyOutcomeCard from './MonthSummary/MonthlyOutcomeCard';
+import NetResultCard from './MonthSummary/NetResultCard';
+import BiggestOverspendCard from './MonthSummary/BiggestOverspendCard';
+import { useMemo } from 'react';
+import { getTopSpendingCategories } from '@/utils/categoryUtils';
 
 const FinancialHighlights = () => {
-  const { t } = useTranslation('dashboard');
   const { year, month, account } = useDashboardFilters();
   const { isLoading: isLoadingAccounts } = useAccounts();
 
-  const { data: monthlySummary, isLoading: isLoadingTransactions } =
-    useFetch<TransactionSummaryDto>({
-      url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
-      queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
-      enabled: !!year && month >= 0 && !!account?._id,
-    });
+  const { data, isLoading: isLoadingSummary } = useFetch<TransactionSummaryDto>({
+    url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
+    queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
+    enabled: !!year && month >= 0 && !!account?._id,
+  });
 
-  const monthlyIncome = monthlySummary?.monthlyIncome ?? 0;
-  const monthlyExpenses = monthlySummary?.monthlyExpenses ?? 0;
+  const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
+  const { categories, isLoading: isLoadingCategories } = useCategories();
 
-  const FinanceCards: FinanceHighlightCardProps[] = [
-    {
-      id: account?._id || 'Error',
-      headerTitle: t('financialHighlights.currentBalance'),
-      balance: account?.balance || 0,
-      icon: AccountBalanceWalletIcon,
-      isLoading: isLoadingAccounts,
-      color: '#6366f1',
-    },
-    {
-      id: 'total-monthly-income',
-      headerTitle: t('financialHighlights.income'),
-      balance: monthlyIncome || 0,
-      icon: ShowChartIcon,
-      isLoading: isLoadingAccounts,
-      color: '#22c55e',
-    },
-    {
-      id: 'total-monthly-expenses',
-      headerTitle: t('financialHighlights.totalMonthlyExpenses'),
-      balance: monthlyExpenses || 0,
-      icon: ShoppingCartIcon,
-      isLoading: isLoadingTransactions,
-      color: '#ef4444',
-    },
-    {
-      id: 'end-of-month-balance',
-      headerTitle: t('financialHighlights.endOfMonthBalance'),
-      balance: (account?.balance || 0) + monthlyIncome - monthlyExpenses,
-      icon: CalculateIcon,
-      isLoading: isLoadingAccounts,
-      color: '#f59e0b',
-    },
-  ];
+  const monthlyIncome = data?.monthlyIncome ?? 0;
+  const monthlyExpenses = data?.monthlyExpenses ?? 0;
+
+  const isLoading =
+    isLoadingSummary || isLoadingAccounts || isLoadingTransactions || isLoadingCategories;
+
+  const today = new Date();
+  const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
+
+  const biggestOverspend = useMemo(() => {
+    if (!transactions || !categories) return null;
+
+    const top = getTopSpendingCategories(transactions, categories, 1);
+    return top.length > 0 ? top[0] : null;
+  }, [transactions, categories]);
 
   return (
-    <Grid size={{ xs: 12 }} spacing={1}>
-      <Grid container spacing={2} width="100%">
-        {FinanceCards.map(card => (
-          <Grid key={card.id} size={{ xs: 12, sm: 6, md: 3 }}>
-            <FinanceOverviewCard
-              headerTitle={card.headerTitle}
-              balance={card.balance}
-              icon={card.icon}
-              color={card.color}
-              isLoading={card.isLoading}
-            />
-          </Grid>
-        ))}
-      </Grid>
+    <Grid container spacing={2} width="100%">
+      {isCurrentMonth ? (
+        <>
+          <FinancialStatusCard
+            income={monthlyIncome}
+            expenses={monthlyExpenses}
+            isLoading={isLoading}
+          />
+          <BudgetRunwayCard
+            income={monthlyIncome}
+            expenses={monthlyExpenses}
+            isLoading={isLoading}
+          />
+          <DailySpendCard income={monthlyIncome} expenses={monthlyExpenses} isLoading={isLoading} />
+        </>
+      ) : (
+        <>
+          <MonthlyOutcomeCard
+            income={monthlyIncome}
+            expenses={monthlyExpenses}
+            isLoading={isLoading}
+          />
+          <NetResultCard income={monthlyIncome} expenses={monthlyExpenses} isLoading={isLoading} />
+          <BiggestOverspendCard
+            categoryName={biggestOverspend?.name}
+            overspendAmount={biggestOverspend?.amount}
+            isLoading={isLoading}
+          />
+        </>
+      )}
     </Grid>
   );
 };
