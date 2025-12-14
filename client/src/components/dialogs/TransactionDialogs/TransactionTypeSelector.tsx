@@ -80,7 +80,7 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
                   display: 'flex',
                   flexDirection: { xs: 'column', sm: 'row' },
                   alignItems: 'center',
-                  gap: { xs: 0.5, sm: 1 },
+                  gap: { xs: 0, sm: 1 },
                 }}
               >
                 <Icon

@@ -32,7 +32,7 @@ const TransactionForm = () => {
   );
 
   return (
-    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '548px' : '580px'}>
+    <Column spacing={isMobile ? 1 : 2} height={isMobile ? '548px' : '590px'}>
       <TransactionTypeSelector />
       {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
       <Row spacing={2}>

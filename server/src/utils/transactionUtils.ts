@@ -1,11 +1,13 @@
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
 import { ITransactionPopulated } from '../types/Transaction';
 
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 const createRecurringInstance = (
   tx: ITransactionPopulated,
@@ -43,19 +45,40 @@ export const getNextRecurringDate = (
   return current.add(1, 'year').date(dayOfMonth);
 };
 
-export const expandRecurring = (tx: ITransactionPopulated, to: Date) => {
+export const expandRecurring = (tx: ITransactionPopulated, from: Date, to: Date) => {
   if (tx.recurrence === 'None') {
-    return [tx];
+    if (!tx.date) {
+      return [];
+    }
+
+    return tx.date >= from && tx.date <= to ? [tx] : [];
   }
 
-  const result = [];
-  let currentDate = dayjs.utc(tx.startDate);
-  const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(to);
-  const dayOfMonth = currentDate.date();
+  const result: ITransactionPopulated[] = [];
 
-  while (currentDate.isSameOrBefore(end, 'day')) {
-    result.push(createRecurringInstance(tx, currentDate));
-    currentDate = getNextRecurringDate(currentDate, tx.recurrence === 'Monthly', dayOfMonth);
+  const start = dayjs.utc(tx.startDate);
+  const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(to);
+
+  let current = start;
+
+  if (current.isBefore(from, 'day')) {
+    if (tx.recurrence === 'Monthly') {
+      const diffMonths = dayjs.utc(from).diff(current, 'month');
+      current = current.add(diffMonths, 'month');
+    } else {
+      const diffYears = dayjs.utc(from).diff(current, 'year');
+      current = current.add(diffYears, 'year');
+    }
+  }
+
+  const dayOfMonth = start.date();
+
+  while (current.isSameOrBefore(end, 'day') && current.isSameOrBefore(to, 'day')) {
+    if (current.isSameOrAfter(from, 'day')) {
+      result.push(createRecurringInstance(tx, current));
+    }
+
+    current = getNextRecurringDate(current, tx.recurrence === 'Monthly', dayOfMonth);
   }
 
   return result;
@@ -104,9 +127,10 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
 
 export const expandTransactions = (
   transactions: ITransactionPopulated[],
+  from: Date,
   to: Date
 ): ITransactionPopulated[] =>
-  transactions.flatMap((tx) => expandRecurring(tx, to)).flatMap((tx) => expandTransfer(tx));
+  transactions.flatMap((tx) => expandRecurring(tx, from, to)).flatMap((tx) => expandTransfer(tx));
 
 export const buildTransactionQuery = (
   userId: string,
@@ -227,6 +251,7 @@ export function getEffectiveMonth(tx: ITransactionPopulated) {
 
     if (date.date() < billingDay) {
       const prev = date.subtract(1, 'month');
+
       return { year: prev.year(), month: prev.month() };
     }
 
@@ -235,10 +260,35 @@ export function getEffectiveMonth(tx: ITransactionPopulated) {
 
   if (tx.belongToPreviousMonth) {
     const prev = date.subtract(1, 'month');
+
     return { year: prev.year(), month: prev.month() };
   }
 
   return { year: date.year(), month: date.month() };
+}
+
+export function getEffectiveBalanceDate(tx: ITransactionPopulated): Date {
+  if (!tx.date) {
+    throw new Error('Transaction date is required for balance calculation');
+  }
+
+  const date = dayjs.utc(tx.date);
+  const pm = tx.paymentMethod;
+
+  if (pm?.type === 'Credit' && typeof pm.billingDay === 'number') {
+    const billingDay = pm.billingDay;
+
+    if (date.date() < billingDay) {
+      return date.date(billingDay).toDate();
+    }
+
+    const nextMonth = date.add(1, 'month');
+    const safeDay = Math.min(billingDay, nextMonth.daysInMonth());
+
+    return nextMonth.date(safeDay).toDate();
+  }
+
+  return date.toDate();
 }
 
 export const summarizeSingleMonth = (
@@ -254,7 +304,10 @@ export const summarizeSingleMonth = (
     const { year, month } = getEffectiveMonth(tx);
     // console.log({ name: tx.name, amount: tx.amount, date: tx.date, type: tx.type });
 
-    if (year !== targetYear || month !== targetMonth) continue;
+    if (year !== targetYear || month !== targetMonth) {
+      console.log(tx.name, tx.date);
+      continue;
+    }
 
     if (tx.type !== 'Transfer') {
       if (!accountId || tx.account?._id.toString() === accountId) {

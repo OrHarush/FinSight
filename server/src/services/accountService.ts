@@ -1,7 +1,7 @@
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 
 export const findAll = async (userId: string) => accountRepository.findMany(userId);
@@ -45,14 +45,20 @@ export const update = async (
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
-
-  if (updatedAccountDetails.balance === undefined) {
-    throw ApiError.badRequest('Balance is required');
-  }
+  console.log(id);
 
   const existing = await accountRepository.findById(id, userId);
 
-  if (!existing) throw ApiError.notFound('Account not found');
+  if (!existing) {
+    throw ApiError.notFound('Account not found');
+  }
+
+  const isBalanceProvided = typeof updatedAccountDetails.balance === 'number';
+  const balanceChanged = isBalanceProvided && updatedAccountDetails.balance !== existing.balance;
+
+  if (balanceChanged) {
+    (updatedAccountDetails as any).lastSynced = new Date();
+  }
 
   if (updatedAccountDetails.isPrimary) {
     await accountRepository.unsetPrimary(userId, id);

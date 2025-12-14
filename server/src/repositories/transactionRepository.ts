@@ -90,125 +90,125 @@ export const countByAccountId = async (userId: string, accountId: string) =>
     account: new Types.ObjectId(accountId),
   });
 
-export const getSummary = async (
-  userId: string,
-  year: number,
-  month?: number,
-  accountId?: string
-) => {
-  const isMonthly = month !== undefined;
-
-  const start = isMonthly
-    ? dayjs.utc().year(year).month(month!).startOf('month').toDate()
-    : dayjs.utc().year(year).startOf('year').toDate();
-
-  const end = isMonthly
-    ? dayjs.utc().year(year).month(month!).endOf('month').toDate()
-    : dayjs.utc().year(year).endOf('year').toDate();
-
-  const mongoFilter: any = {
-    userId: new Types.ObjectId(userId),
-    $or: [{ date: { $lte: end } }, { startDate: { $lte: end } }],
-  };
-
-  if (accountId) {
-    mongoFilter.$or = [
-      { account: accountId },
-      { fromAccount: accountId },
-      { toAccount: accountId },
-    ];
-  }
-
-  const transactions = await Transaction.find(mongoFilter)
-    .populate('category')
-    .populate('paymentMethod')
-    .populate('account')
-    .populate('fromAccount')
-    .populate('toAccount')
-    .lean<ITransactionPopulated[]>()
-    .exec();
-
-  const expanded = expandTransactions(transactions, end);
-
-  if (isMonthly) {
-    let monthlyIncome = 0;
-    let monthlyExpenses = 0;
-
-    for (const tx of expanded) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      if (tx.date < start || tx.date > end) {
-        continue;
-      }
-
-      if (tx.type !== 'Transfer') {
-        if (accountId && tx.account?._id.toString() !== accountId) {
-          continue;
-        }
-
-        if (tx.category?.type === 'Income') {
-          monthlyIncome += tx.amount;
-        } else if (tx.category?.type === 'Expense') {
-          monthlyExpenses += tx.amount;
-        }
-      }
-
-      if (tx.type === 'Transfer' && accountId) {
-        const from = tx.fromAccount?._id.toString();
-        const to = tx.toAccount?._id.toString();
-
-        if (from === accountId) {
-          monthlyExpenses += tx.amount;
-        }
-
-        if (to === accountId) {
-          monthlyIncome += tx.amount;
-        }
-      }
-    }
-
-    return { monthlyIncome, monthlyExpenses };
-  }
-
-  const buckets = Array.from({ length: 12 }, (_, i) => ({
-    month: i,
-    monthlyIncome: 0,
-    monthlyExpenses: 0,
-  }));
-
-  for (const tx of expanded) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    if (tx.date < start || tx.date > end) continue;
-
-    const m = dayjs.utc(tx.date).month();
-
-    if (tx.type !== 'Transfer') {
-      if (!accountId || tx.account?._id.toString() === accountId) {
-        if (tx.category?.type === 'Income') {
-          buckets[m].monthlyIncome += tx.amount;
-        } else if (tx.category?.type === 'Expense') {
-          buckets[m].monthlyExpenses += tx.amount;
-        }
-      }
-    }
-
-    if (tx.type === 'Transfer' && accountId) {
-      const from = tx.fromAccount?._id.toString();
-      const to = tx.toAccount?._id.toString();
-
-      if (from === accountId) {
-        buckets[m].monthlyExpenses += tx.amount;
-      }
-
-      if (to === accountId) {
-        buckets[m].monthlyIncome += tx.amount;
-      }
-    }
-  }
-
-  return buckets;
-};
+// export const getSummary = async (
+//   userId: string,
+//   year: number,
+//   month?: number,
+//   accountId?: string
+// ) => {
+//   const isMonthly = month !== undefined;
+//
+//   const start = isMonthly
+//     ? dayjs.utc().year(year).month(month!).startOf('month').toDate()
+//     : dayjs.utc().year(year).startOf('year').toDate();
+//
+//   const end = isMonthly
+//     ? dayjs.utc().year(year).month(month!).endOf('month').toDate()
+//     : dayjs.utc().year(year).endOf('year').toDate();
+//
+//   const mongoFilter: any = {
+//     userId: new Types.ObjectId(userId),
+//     $or: [{ date: { $lte: end } }, { startDate: { $lte: end } }],
+//   };
+//
+//   if (accountId) {
+//     mongoFilter.$or = [
+//       { account: accountId },
+//       { fromAccount: accountId },
+//       { toAccount: accountId },
+//     ];
+//   }
+//
+//   const transactions = await Transaction.find(mongoFilter)
+//     .populate('category')
+//     .populate('paymentMethod')
+//     .populate('account')
+//     .populate('fromAccount')
+//     .populate('toAccount')
+//     .lean<ITransactionPopulated[]>()
+//     .exec();
+//
+//   const expanded = expandTransactions(transactions, end);
+//
+//   if (isMonthly) {
+//     let monthlyIncome = 0;
+//     let monthlyExpenses = 0;
+//
+//     for (const tx of expanded) {
+//       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//       // @ts-expect-error
+//       if (tx.date < start || tx.date > end) {
+//         continue;
+//       }
+//
+//       if (tx.type !== 'Transfer') {
+//         if (accountId && tx.account?._id.toString() !== accountId) {
+//           continue;
+//         }
+//
+//         if (tx.category?.type === 'Income') {
+//           monthlyIncome += tx.amount;
+//         } else if (tx.category?.type === 'Expense') {
+//           monthlyExpenses += tx.amount;
+//         }
+//       }
+//
+//       if (tx.type === 'Transfer' && accountId) {
+//         const from = tx.fromAccount?._id.toString();
+//         const to = tx.toAccount?._id.toString();
+//
+//         if (from === accountId) {
+//           monthlyExpenses += tx.amount;
+//         }
+//
+//         if (to === accountId) {
+//           monthlyIncome += tx.amount;
+//         }
+//       }
+//     }
+//
+//     return { monthlyIncome, monthlyExpenses };
+//   }
+//
+//   const buckets = Array.from({ length: 12 }, (_, i) => ({
+//     month: i,
+//     monthlyIncome: 0,
+//     monthlyExpenses: 0,
+//   }));
+//
+//   for (const tx of expanded) {
+//     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//     // @ts-expect-error
+//     if (tx.date < start || tx.date > end) continue;
+//
+//     const m = dayjs.utc(tx.date).month();
+//
+//     if (tx.type !== 'Transfer') {
+//       if (!accountId || tx.account?._id.toString() === accountId) {
+//         if (tx.category?.type === 'Income') {
+//           buckets[m].monthlyIncome += tx.amount;
+//         } else if (tx.category?.type === 'Expense') {
+//           buckets[m].monthlyExpenses += tx.amount;
+//         }
+//       }
+//     }
+//
+//     if (tx.type === 'Transfer' && accountId) {
+//       const from = tx.fromAccount?._id.toString();
+//       const to = tx.toAccount?._id.toString();
+//
+//       if (from === accountId) {
+//         buckets[m].monthlyExpenses += tx.amount;
+//       }
+//
+//       if (to === accountId) {
+//         buckets[m].monthlyIncome += tx.amount;
+//       }
+//     }
+//   }
+//
+//   return buckets;
+// };
 
 export const getYearlySummary = async (userId: string, year: number) =>
   Transaction.aggregate([

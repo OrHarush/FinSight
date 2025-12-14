@@ -27,7 +27,11 @@ export const findAll = async (userId: string, options: TransactionQueryOptions =
 
   const transactions = await transactionRepository.findMany(userId, options);
 
-  const expandedTransactions = expandTransactions(transactions, to ?? new Date());
+  const expandedTransactions = expandTransactions(
+    transactions,
+    fromDate ?? new Date(0),
+    to ?? new Date()
+  );
 
   const txWithEffectiveMonth = expandedTransactions.map((tx) => {
     const { year, month } = getEffectiveMonth(tx);
@@ -78,7 +82,7 @@ export const getTransactionSummary = async (
     month !== undefined ? new Date(Date.UTC(year, month, 1)) : new Date(Date.UTC(year, 0, 1));
   const endDate =
     month !== undefined
-      ? new Date(Date.UTC(year, month + 1, 1))
+      ? new Date(Date.UTC(year, month + 2, 1))
       : new Date(Date.UTC(year + 1, 0, 1));
 
   const transactions = await transactionRepository.findMany(userId, {
@@ -87,7 +91,8 @@ export const getTransactionSummary = async (
     to: endDate,
   });
 
-  const expandedTransactions = expandTransactions(transactions, endDate);
+  console.log(endDate);
+  const expandedTransactions = expandTransactions(transactions, fromDate, endDate);
 
   if (month !== undefined) {
     return summarizeSingleMonth(expandedTransactions, year, month, accountId);

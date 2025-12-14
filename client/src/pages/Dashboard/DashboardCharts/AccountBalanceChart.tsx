@@ -31,6 +31,18 @@ const AccountBalanceChart = ({ accountId }: { accountId: string }) => {
     to.toISOString()
   );
 
+  const xAxisFormatter = (value: Date) => {
+    if (range === '1M') {
+      return dayjs(value).format('DD MMM');
+    }
+
+    if (range === '3M') {
+      return dayjs(value).format('DD MMM');
+    }
+
+    return dayjs(value).format('MMM YYYY');
+  };
+
   const hasData = !!data?.length;
 
   return (
@@ -71,7 +83,7 @@ const AccountBalanceChart = ({ accountId }: { accountId: string }) => {
           {
             data: hasData ? data.map(d => new Date(d.date)) : [],
             scaleType: 'time',
-            valueFormatter: value => dayjs(value).format('MMM YYYY'),
+            valueFormatter: xAxisFormatter,
           },
         ]}
       />

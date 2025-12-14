@@ -33,9 +33,14 @@ export const API_ROUTES = {
 
     return `/api/transactions/summary?${params.toString()}`;
   },
+
   ACCOUNTS: '/api/accounts',
+  ACCOUNT_SYNC_BALANCE: (accountId: string) => `/api/accounts/${accountId}/sync-balance`,
   ACCOUNT_BALANCE_CURVE: (accountId: string) => `/api/accounts/${accountId}/balance-curve`,
+
   CATEGORIES: '/api/categories',
+
   PAYMENT_METHODS: '/api/payment-methods',
+
   USERS: '/api/users',
 };

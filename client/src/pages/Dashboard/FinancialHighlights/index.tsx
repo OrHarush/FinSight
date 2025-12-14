@@ -1,10 +1,9 @@
 import FinanceOverviewCard from '@/pages/Dashboard/FinancialHighlights/FinanceOverviewCard';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { SvgIconComponent } from '@mui/icons-material';
-import { Grid } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import { Grid } from '@mui/material';
 import { useDashboardFilters } from '@/pages/Dashboard/DashboardFiltersProvider';
 import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
@@ -12,6 +11,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { queryKeys } from '@/constants/queryKeys';
 import { useTranslation } from 'react-i18next';
+import { SvgIconComponent } from '@mui/icons-material';
 
 interface FinanceHighlightCardProps {
   id: string;
@@ -73,7 +73,7 @@ const FinancialHighlights = () => {
   ];
 
   return (
-    <Grid size={{ xs: 12 }}>
+    <Grid size={{ xs: 12 }} spacing={1}>
       <Grid container spacing={2} width="100%">
         {FinanceCards.map(card => (
           <Grid key={card.id} size={{ xs: 12, sm: 6, md: 3 }}>

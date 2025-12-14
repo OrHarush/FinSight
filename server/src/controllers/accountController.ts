@@ -3,6 +3,7 @@ import * as accountService from '../services/accountService';
 import { calculateAccountBalanceCurve } from '../services/balanceService';
 import { asyncHandler } from '../utils/asyncHandler';
 import { ApiResponse } from '../utils/ApiResponse';
+import * as balanceService from '../services/balanceService';
 
 export const getAccounts = asyncHandler(async (req: Request, res: Response) => {
   const accounts = await accountService.findAll(req.userId);
@@ -40,6 +41,12 @@ export const updateAccount = asyncHandler(async (req: Request, res: Response) =>
   const updated = await accountService.update(req.params.id, req.body, req.userId);
 
   return ApiResponse.ok(res, updated);
+});
+
+export const syncAccountBalance = asyncHandler(async (req, res) => {
+  const result = await balanceService.syncAccountBalance(req.userId, req.params.id);
+
+  return ApiResponse.ok(res, result);
 });
 
 export const deleteAccount = asyncHandler(async (req: Request, res: Response) => {

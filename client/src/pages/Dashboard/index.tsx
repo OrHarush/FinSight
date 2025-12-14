@@ -1,16 +1,18 @@
 import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
-import RecentTransactions from '@/pages/Dashboard/RecentTransactions';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
 import AccountsOverview from '@/pages/Dashboard/AccountsOverview';
 import DashboardCharts from '@/pages/Dashboard/DashboardCharts';
 import { Grid } from '@mui/material';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import { DashboardFiltersProvider } from '@/pages/Dashboard/DashboardFiltersProvider';
+import FinancialHealthIndicator from '@/pages/Dashboard/FinancialHighlights/FinancialHealthIndicator';
+import TopSpendingCategories from '@/pages/Dashboard/TopSpendingCategories';
 
 const Dashboard = () => (
   <PageLayout>
     <DashboardFiltersProvider>
       <DashboardHeader />
+      <FinancialHealthIndicator />
       <Grid container spacing={3}>
         <FinancialHighlights />
         <Grid container size={{ xs: 12 }} spacing={3}>
@@ -20,7 +22,7 @@ const Dashboard = () => (
               <AccountsOverview />
             </Grid>
           </Grid>
-          <RecentTransactions />
+          <TopSpendingCategories />
         </Grid>
       </Grid>
     </DashboardFiltersProvider>
