@@ -62,7 +62,6 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
   let summary;
 
   if (month !== undefined) {
-    console.log('monthly');
     summary = await transactionService.getTransactionSummary(
       req.userId,
       Number(year),
@@ -70,7 +69,6 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
       accountId?.toString() || ''
     );
   } else {
-    console.log('yearly');
     summary = await transactionService.getTransactionSummary(req.userId, Number(year));
   }
 

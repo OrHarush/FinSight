@@ -1,11 +1,4 @@
-import {
-  Divider,
-  Drawer,
-  IconButton,
-  SwipeableDrawer,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Divider, Drawer, IconButton, SwipeableDrawer, useTheme } from '@mui/material';
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,10 +6,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import SidebarButtons from '@/components/layout/Sidebar/SidebarButtons';
 import Settings from '@/components/layout/Sidebar/Settings';
 import SidebarHeader from '@/components/layout/Sidebar/SidebarHeader';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const Sidebar = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
 
   const drawerContent = (

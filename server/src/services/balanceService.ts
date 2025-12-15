@@ -28,8 +28,6 @@ export const syncAccountBalance = async (userId: string, accountId: string) => {
 
   const expanded = expandTransactions(rawTransactions, account.lastSynced ?? new Date(0), now);
 
-  console.log(expanded.map((x) => ({ name: x.name, date: x.date })));
-
   let delta = 0;
 
   for (const tx of expanded) {

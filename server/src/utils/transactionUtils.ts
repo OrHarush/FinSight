@@ -305,7 +305,6 @@ export const summarizeSingleMonth = (
     // console.log({ name: tx.name, amount: tx.amount, date: tx.date, type: tx.type });
 
     if (year !== targetYear || month !== targetMonth) {
-      console.log(tx.name, tx.date);
       continue;
     }
 

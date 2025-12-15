@@ -45,7 +45,6 @@ export const update = async (
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
-  console.log(id);
 
   const existing = await accountRepository.findById(id, userId);
 

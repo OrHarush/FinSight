@@ -38,5 +38,26 @@
   "comingSoon": {
     "title": "Coming Soon",
     "subtitle": "We’re working hard to bring you something amazing. Stay tuned for updates!"
+  },
+  "feedback": {
+    "title": "Send feedback",
+    "fields": {
+      "type": "Type",
+      "message": "Your feedback",
+      "email": "Email (optional)"
+    },
+    "options": {
+      "feedback": "General feedback",
+      "bug": "Bug report",
+      "idea": "Feature idea"
+    },
+    "placeholders": {
+      "message": "Tell us what’s confusing, broken, or missing…",
+      "email": "So we can get back to you (optional)"
+    },
+    "messages": {
+      "success": "Thanks for the feedback 🙌",
+      "error": "Failed to send feedback"
+    }
   }
 }

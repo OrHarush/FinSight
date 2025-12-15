@@ -19,6 +19,8 @@ export const API_ROUTES = {
     ME: '/api/auth/me',
   },
 
+  FEEDBACK: '/api/feedback',
+
   TRANSACTIONS: '/api/transactions',
   TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string) => {
     const params = new URLSearchParams({ year: String(year) });

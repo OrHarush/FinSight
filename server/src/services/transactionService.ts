@@ -91,7 +91,6 @@ export const getTransactionSummary = async (
     to: endDate,
   });
 
-  console.log(endDate);
   const expandedTransactions = expandTransactions(transactions, fromDate, endDate);
 
   if (month !== undefined) {
