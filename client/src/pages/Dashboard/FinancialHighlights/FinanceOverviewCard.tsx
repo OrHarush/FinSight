@@ -32,10 +32,10 @@ const FinanceOverviewCard = ({
         position: 'relative',
         overflow: 'hidden',
         transition: 'all 0.3s ease',
-        border: isPrimary ? `1px solid ${color}` : 'none',
-        boxShadow: isPrimary ? `0 0 0 1px ${color}40` : '0 6px 16px rgba(0,0,0,0.25)',
+        border: isPrimary ? `1px solid ${color}` : 'default',
+        boxShadow: isPrimary ? `0 0 0 1px ${color}40` : 'default',
         '&:hover': {
-          transform: 'translateY(-2px)',
+          transform: 'translateY(-4px)',
           boxShadow: `0 8px 24px ${color}22`,
         },
       }}

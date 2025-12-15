@@ -5,7 +5,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CategoryIcon from '@mui/icons-material/Category';
-import PieChartIcon from '@mui/icons-material/PieChart';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -43,11 +42,11 @@ const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
     icon: CreditCardIcon,
     route: ROUTES.PAYMENT_METHODS_URL,
   },
-  {
-    titleKey: 'budget',
-    icon: PieChartIcon,
-    route: ROUTES.BUDGET_URL,
-  },
+  // {
+  //   titleKey: 'budget',
+  //   icon: PieChartIcon,
+  //   route: ROUTES.BUDGET_URL,
+  // },
 ];
 
 const SidebarButtons = () => {
