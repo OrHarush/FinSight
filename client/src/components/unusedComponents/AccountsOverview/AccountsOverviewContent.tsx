@@ -1,5 +1,5 @@
-import AccountsList from '@/pages/Dashboard/AccountsOverview/AccountsList';
-import AccountOverviewCardSkeleton from '@/pages/Dashboard/AccountsOverview/AccountOverviewCardSkeleton';
+import AccountsList from '@/components/unusedComponents/AccountsOverview/AccountsList';
+import AccountOverviewCardSkeleton from '@/components/unusedComponents/AccountsOverview/AccountOverviewCardSkeleton';
 import Row from '@/components/layout/Containers/Row';
 import EntityError from '@/components/entities/EntityError';
 import { useAccounts } from '@/hooks/entities/useAccounts';

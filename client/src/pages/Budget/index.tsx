@@ -75,8 +75,6 @@ const Budget = () => {
           {t('messages.transactionsLoadError', 'Failed to load transactions')}
         </Alert>
       )}
-
-      {/* Summary */}
       <Box mb={3}>
         {isLoading ? (
           <Skeleton variant="rectangular" height={90} sx={{ borderRadius: 2 }} />

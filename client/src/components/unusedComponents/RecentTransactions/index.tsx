@@ -3,7 +3,7 @@ import Column from '@/components/layout/Containers/Column';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
-import RecentTransactionsContent from '@/pages/Dashboard/RecentTransactions/RecentTransactionsContent';
+import RecentTransactionsContent from '@/components/unusedComponents/RecentTransactions/RecentTransactionsContent';
 import { useTranslation } from 'react-i18next';
 
 const RecentTransactions = () => {

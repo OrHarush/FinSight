@@ -1,67 +1,79 @@
 import { Paper, Skeleton } from '@mui/material';
 import Row from '@/components/layout/Containers/Row';
 import Column from '@/components/layout/Containers/Column';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const TransactionCardSkeleton = () => (
-  <Column>
-    {Array.from({ length: 6 }).map((_, index) => (
-      <Paper
-        key={index}
-        sx={{
-          height: '76px',
-          p: '14px 20px',
-          borderRadius: 0,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1.5,
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          position: 'relative',
-          boxShadow: 'none',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          '&:first-of-type': {
-            borderTopLeftRadius: '12px',
-            borderTopRightRadius: '12px',
-          },
-          '&:last-of-type': {
-            borderBottomLeftRadius: '12px',
-            borderBottomRightRadius: '12px',
-            borderBottom: 'none',
-          },
-        }}
-      >
-        <Column
+  <>
+    <Row spacing={2} alignItems="center">
+      <Row spacing={1} alignItems="center">
+        <ArrowDownwardIcon fontSize="small" color="error" />
+        <Skeleton variant="rectangular" height={20} width={60} sx={{ borderRadius: 2 }} />
+      </Row>
+      <ArrowUpwardIcon fontSize="small" color="success" />
+      <Skeleton variant="rectangular" height={20} width={60} sx={{ borderRadius: 2 }} />
+    </Row>
+    <Column>
+      {Array.from({ length: 6 }).map((_, index) => (
+        <Paper
+          key={index}
           sx={{
-            width: 36,
-            height: 36,
-            borderRadius: '8px',
-            backgroundColor: 'action.selected',
-            flexShrink: 0,
+            height: '76px',
+            p: '14px 20px',
+            borderRadius: 0,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            gap: 1.5,
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            position: 'relative',
+            boxShadow: 'none',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            '&:first-of-type': {
+              borderTopLeftRadius: '12px',
+              borderTopRightRadius: '12px',
+            },
+            '&:last-of-type': {
+              borderBottomLeftRadius: '12px',
+              borderBottomRightRadius: '12px',
+              borderBottom: 'none',
+            },
           }}
         >
-          <Skeleton variant="circular" width={20} height={20} />
-        </Column>
-        <Column sx={{ flex: 1, minWidth: 0 }}>
-          <Row justifyContent="space-between" alignItems="center" mb={0.5}>
-            <Skeleton variant="text" width={70} height={20} />
-            <Skeleton variant="text" width={50} height={20} />
+          <Column
+            sx={{
+              width: 36,
+              height: 36,
+              borderRadius: '8px',
+              backgroundColor: 'action.selected',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Skeleton variant="circular" width={20} height={20} />
+          </Column>
+          <Column sx={{ flex: 1, minWidth: 0 }}>
+            <Row justifyContent="space-between" alignItems="center" mb={0.5}>
+              <Skeleton variant="text" width={70} height={20} />
+              <Skeleton variant="text" width={50} height={20} />
+            </Row>
+            <Row justifyContent="space-between">
+              <Skeleton variant="text" width="30%" height={16} />
+              <Skeleton variant="text" width="20%" height={16} />
+            </Row>
+          </Column>
+          <Row spacing={1}>
+            <Skeleton variant="circular" width={28} height={28} />
+            <Skeleton variant="circular" width={28} height={28} />
           </Row>
-          <Row justifyContent="space-between">
-            <Skeleton variant="text" width="30%" height={16} />
-            <Skeleton variant="text" width="20%" height={16} />
-          </Row>
-        </Column>
-        <Row spacing={1}>
-          <Skeleton variant="circular" width={28} height={28} />
-          <Skeleton variant="circular" width={28} height={28} />
-        </Row>
-      </Paper>
-    ))}
-  </Column>
+        </Paper>
+      ))}
+    </Column>
+  </>
 );
 
 export default TransactionCardSkeleton;

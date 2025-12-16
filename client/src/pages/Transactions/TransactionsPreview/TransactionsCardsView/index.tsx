@@ -10,6 +10,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
+import Column from '@/components/layout/Containers/Column';
 
 interface TransactionsCardsViewProps {
   selectedCategory: string;
@@ -62,11 +63,13 @@ const TransactionsCardsView = ({ selectedMonth, selectedCategory }: Transactions
   }
 
   return (
-    <Box display="flex" flexDirection="column">
+    <Column spacing={1}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      {transactions.map(tx => (
-        <TransactionCard key={tx._id} transaction={tx} />
-      ))}
+      <Column>
+        {transactions.map(tx => (
+          <TransactionCard key={tx._id} transaction={tx} />
+        ))}
+      </Column>
       {pagination?.total && (
         <Box display="flex" justifyContent="center" py={2}>
           <Pagination
@@ -78,7 +81,7 @@ const TransactionsCardsView = ({ selectedMonth, selectedCategory }: Transactions
           />
         </Box>
       )}
-    </Box>
+    </Column>
   );
 };
 

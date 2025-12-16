@@ -11,7 +11,7 @@ import {
 import { ROUTES } from '@/constants/Routes';
 import Column from '@/components/layout/Containers/Column';
 import { useNavigate } from 'react-router-dom';
-import AccountsOverviewContent from '@/pages/Dashboard/AccountsOverview/AccountsOverviewContent';
+import AccountsOverviewContent from '@/components/unusedComponents/AccountsOverview/AccountsOverviewContent';
 import { useTranslation } from 'react-i18next';
 
 const AccountsOverview = () => {

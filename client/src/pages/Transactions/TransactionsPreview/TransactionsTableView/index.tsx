@@ -51,7 +51,7 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
     setPage(0);
   }, [selectedMonth, selectedCategory, searchValue]);
 
-  if (isLoading) {
+  if (!isLoading) {
     return <TransactionsTableSkeleton />;
   }
 

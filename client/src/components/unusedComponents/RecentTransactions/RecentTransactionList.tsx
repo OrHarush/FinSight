@@ -1,4 +1,4 @@
-import TransactionOverview from '@/pages/Dashboard/RecentTransactions/TransactionOverview';
+import TransactionOverview from '@/components/unusedComponents/RecentTransactions/TransactionOverview';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 
 const RecentTransactionList = () => {

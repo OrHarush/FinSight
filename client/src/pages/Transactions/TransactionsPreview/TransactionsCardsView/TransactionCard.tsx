@@ -10,6 +10,7 @@ import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import SwipeableCard from '@/components/SwipeableCard';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import { isToday } from '@/utils/dateUtils';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
@@ -22,6 +23,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
       (Icons as Record<string, ElementType>)[transaction.category?.icon]) ||
     CategoryIcon;
 
+  const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
   const isTransfer = transaction.type === 'Transfer';
 
   const amountColor = isTransfer
@@ -59,6 +61,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
           boxShadow: 'none',
           borderBottom: '1px solid',
           borderColor: 'divider',
+          backgroundColor: isTodayTransaction ? 'rgba(56, 189, 248, 0.08)' : 'default',
           '&::before': {
             content: '""',
             position: 'absolute',
