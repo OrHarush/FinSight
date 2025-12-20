@@ -3,7 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import enCommon from '@/locales/en/common.json';
+import enHome from '@/locales/en/home.json';
 import enLogin from '@/locales/en/login.json';
+import enPrivacyPolicy from '@/locales/en/privacyPolicy.json';
+import enTermsOfService from '@/locales/en/termsOfService.json';
 import enDashboard from '@/locales/en/dashboard.json';
 import enSidebar from '@/locales/en/sidebar.json';
 import enTransactions from '@/locales/en/transactions.json';
@@ -12,7 +15,10 @@ import enCategories from '@/locales/en/categories.json';
 import enPaymentMethods from '@/locales/en/paymentMethods.json';
 
 import heCommon from '@/locales/he/common.json';
+import heHome from '@/locales/he/home.json';
 import heLogin from '@/locales/he/login.json';
+import hePrivacyPolicy from '@/locales/he/privacyPolicy.json';
+import heTermsOfService from '@/locales/he/termsOfService.json';
 import heDashboard from '@/locales/he/dashboard.json';
 import heSidebar from '@/locales/he/sidebar.json';
 import heTransactions from '@/locales/he/transactions.json';
@@ -27,7 +33,10 @@ i18n
     resources: {
       en: {
         common: enCommon,
+        home: enHome,
         login: enLogin,
+        privacyPolicy: enPrivacyPolicy,
+        termsOfService: enTermsOfService,
         sidebar: enSidebar,
         dashboard: enDashboard,
         transactions: enTransactions,
@@ -37,7 +46,10 @@ i18n
       },
       he: {
         common: heCommon,
+        home: heHome,
         login: heLogin,
+        privacyPolicy: hePrivacyPolicy,
+        termsOfService: heTermsOfService,
         sidebar: heSidebar,
         dashboard: heDashboard,
         transactions: heTransactions,

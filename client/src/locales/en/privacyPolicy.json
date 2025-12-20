@@ -1,0 +1,77 @@
+{
+  "title": "Privacy Policy",
+
+  "sections": {
+    "intro": {
+      "title": "1. Introduction",
+      "body": "This Privacy Policy explains how FinSight (“we”, “our”, or “the application”) collects, uses, and protects your information when you use our application. By using FinSight, you agree to the practices described in this policy. If you do not agree with this Privacy Policy, please do not use the application."
+    },
+
+    "controller": {
+      "title": "2. Who We Are",
+      "body": "FinSight is an independent personal finance application operated as an early-stage product. For the purposes of applicable data protection laws, FinSight acts as the data controller responsible for your personal data.\n\nCountry of operation: Israel"
+    },
+
+    "dataCollected": {
+      "title": "3. Information We Collect",
+      "account": {
+        "title": "Account Information",
+        "body": "When you sign in using Google authentication, we receive your name, email address, and profile image as provided by Google."
+      },
+      "financial": {
+        "title": "Financial Data",
+        "body": "All financial data in FinSight is manually entered by you. We do not connect to banks, scrape financial institutions, use open banking APIs, or import data automatically. Your data is used only to display insights within the application."
+      },
+      "technical": {
+        "title": "Technical Data",
+        "body": "We may collect limited technical information such as IP address, browser type, operating system, and access times to ensure the security and proper functioning of the service."
+      }
+    },
+
+    "legalBasis": {
+      "title": "4. Legal Basis for Processing",
+      "body": "We process personal data based on one or more of the following legal grounds: providing the service you request, your consent when using the application, and our legitimate interest in operating and securing the service."
+    },
+
+    "usage": {
+      "title": "5. How We Use Your Information",
+      "items": [
+        "Provide and operate the application",
+        "Store and display your financial data as entered by you",
+        "Maintain authentication and account security",
+        "Improve stability and functionality",
+        "Comply with legal obligations when required"
+      ]
+    },
+
+    "deletion": {
+      "title": "6. Data Deletion and Retention",
+      "body": "You can delete your account at any time from within the application. When an account is deleted, all associated personal and financial data is permanently removed without undue delay."
+    },
+
+    "rights": {
+      "title": "7. Your Privacy Rights",
+      "body": "Depending on your location, you may have rights to access, correct, delete, or restrict the processing of your personal data. Requests can be made by contacting us using the email address below."
+    },
+
+    "cookies": {
+      "title": "8. Cookies and Tracking",
+      "body": "FinSight does not currently use analytics or advertising tracking cookies. Essential cookies may be used only for authentication and basic application functionality."
+    },
+
+    "thirdParties": {
+      "title": "9. Third-Party Services",
+      "body": "FinSight uses Google OAuth for authentication and cloud infrastructure providers for hosting and data storage. These services process data only as required to provide their functionality."
+    },
+
+    "age": {
+      "title": "10. Age Requirement",
+      "body": "FinSight is intended for users aged 16 and older. We do not knowingly collect personal data from individuals under the age of 16."
+    },
+
+    "changes": {
+      "title": "11. Changes to This Privacy Policy",
+      "body": "We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date."
+    }
+  }
+}

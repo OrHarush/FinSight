@@ -33,7 +33,13 @@
   },
   "legal": {
     "termsOfService": "Terms of Service",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "badge": "Early-stage product",
+    "lastUpdated": "Last updated: December 20, 2025",
+    "contactTitle": "Contact Information",
+    "contactEmailLabel": "Email",
+    "contactEmail": "finsight.dev@gmail.com",
+    "footer": "© 2025 FinSight. All rights reserved."
   },
   "comingSoon": {
     "title": "Coming Soon",
