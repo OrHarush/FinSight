@@ -2,6 +2,9 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { UserDto } from '@/types/User';
+import { useFetch } from '@/hooks/useFetch';
+import { queryKeys } from '@/constants/queryKeys';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AuthContextValue {
   user: UserDto | null;
@@ -17,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserDto | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -25,26 +29,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
+    } else {
+      setIsLoadingUser(false);
     }
-
-    setIsLoadingUser(false);
   }, []);
 
-  // const { refetch: fetchUser } = useFetch<UserDto>({
-  //   url: API_ROUTES.AUTH.ME,
-  //   queryKey: queryKeys.user(),
-  //   enabled: !!token && !!user,
-  //   onSuccess: data => {
-  //     setUser(data);
-  //     localStorage.setItem('user', JSON.stringify(data));
-  //   },
-  //   onError: () => {
-  //     console.log('why error');
-  //     setUser(null);
-  //     localStorage.removeItem('user');
-  //     localStorage.removeItem('token');
-  //   },
-  // });
+  useFetch<UserDto>({
+    url: API_ROUTES.AUTH.ME,
+    queryKey: queryKeys.user(),
+    enabled: !!token,
+    onSuccess: data => {
+      setUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
+      setIsLoadingUser(false);
+    },
+    onError: () => {
+      logout();
+      setIsLoadingUser(false);
+    },
+  });
 
   const loginMutation = useApiMutation<{ token: string; user: UserDto }, { token: string }>({
     method: 'post',
@@ -64,6 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
+    queryClient.clear();
     setUser(null);
     setToken(null);
     localStorage.removeItem('user');

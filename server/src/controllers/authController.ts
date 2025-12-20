@@ -3,32 +3,27 @@ import { acceptTermsService, loginOrRegister, updateLastUserLogin } from '../ser
 import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { getCurrentUserById } from '../services/userService';
-import { Types } from 'mongoose';
+import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION!;
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-export const me = async (req: Request, res: Response) => {
-  try {
-    if (!req.userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    const user = await getCurrentUserById(req.userId);
-
-    if (!user) {
-      console.error(`User not found for ID: ${req.userId}`);
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    res.status(200).json(user);
-  } catch (err) {
-    console.error('Error fetching current user:', err);
-    res.status(500).json({ error: 'Failed to fetch user' });
+export const me = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.userId) {
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
   }
-};
+
+  const user = await getCurrentUserById(req.userId);
+
+  if (!user) {
+    return res.status(404).json({ success: false, error: 'User not found' });
+  }
+
+  return ApiResponse.ok(res, user);
+});
 
 export const googleLogin = async (req: Request, res: Response) => {
   try {

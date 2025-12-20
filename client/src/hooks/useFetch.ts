@@ -38,6 +38,8 @@ export const useFetch = <TData, TError = AxiosError>({
       const { data: apiResponse } = await api.get<ApiResponse<TData>>(url);
 
       if (!apiResponse.success) {
+        console.log(apiResponse);
+        console.log(url);
         throw new Error(apiResponse.error || 'Request failed');
       }
 
