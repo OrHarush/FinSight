@@ -49,8 +49,7 @@
     "title": "שליחת משוב",
     "fields": {
       "type": "סוג",
-      "message": "המשוב שלך",
-      "email": "אימייל (לא חובה)"
+      "message": "המשוב שלך"
     },
     "options": {
       "feedback": "משוב כללי",

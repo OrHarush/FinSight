@@ -20,7 +20,6 @@ const FeedbackForm = () => {
       <TextInput
         name="message"
         label={t('feedback.fields.message')}
-        placeholder={t('feedback.placeholders.email')}
         multiline
         minRows={5}
         fullWidth

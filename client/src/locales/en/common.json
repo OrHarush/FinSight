@@ -49,8 +49,7 @@
     "title": "Send feedback",
     "fields": {
       "type": "Type",
-      "message": "Your feedback",
-      "email": "Email (optional)"
+      "message": "Your feedback"
     },
     "options": {
       "feedback": "General feedback",
