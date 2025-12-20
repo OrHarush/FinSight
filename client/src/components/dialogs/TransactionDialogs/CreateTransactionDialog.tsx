@@ -19,9 +19,12 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { primaryAccount } = useAccounts();
   const { primaryPaymentMethod } = usePaymentMethods();
 
+  const todayLocal = new Date();
+  todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
+
   const methods = useForm<TransactionFormValues>({
     defaultValues: {
-      date: new Date().toISOString().split('T')[0],
+      date: todayLocal.toISOString().split('T')[0],
       recurrence: 'None',
       type: 'Expense',
       category: '',
