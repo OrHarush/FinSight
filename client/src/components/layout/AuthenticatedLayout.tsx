@@ -5,19 +5,16 @@ import { Outlet } from 'react-router-dom';
 import { useOpen } from '@/hooks/useOpen';
 import FeedbackDialog from '@/components/dialogs/FeedbackDialog';
 import { Fab } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 const AuthenticatedLayout = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
-  const theme = useTheme();
   const isMobile = useIsMobile();
 
   return (
     <Row height={'100vh'} width={'100vw'} overflow={'auto'}>
       <Sidebar />
-
       <Column padding={'16px'} width={'100%'}>
         {!isMobile && (
           <Fab
@@ -27,7 +24,7 @@ const AuthenticatedLayout = () => {
             sx={{
               position: 'fixed',
               bottom: 24,
-              [theme.direction === 'rtl' ? 'left' : 'right']: 24,
+              right: 24,
               zIndex: 1200,
             }}
           >

@@ -17,7 +17,6 @@ const PublicLayout = () => (
     >
       <LanguageSelect />
     </Box>
-
     <Column width={'100%'} position={'relative'}>
       <Outlet />
     </Column>

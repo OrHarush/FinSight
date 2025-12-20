@@ -19,12 +19,14 @@ const ActionFab = ({ actions, onClick }: ActionFabProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  if (!isMobile) return null;
+  if (!isMobile) {
+    return null;
+  }
 
   const positionStyles = {
     position: 'fixed',
     bottom: 24,
-    [theme.direction === 'rtl' ? 'left' : 'right']: 24,
+    right: 24,
     zIndex: 1200,
   } as const;
 
