@@ -7,9 +7,6 @@ import { ROUTES } from '@/constants/Routes';
 import Dashboard from '@/pages/Dashboard';
 import { Transactions } from '@/pages/Transactions';
 import Categories from '@/pages/Categories';
-import Budget from '@/pages/Budget';
-import Planner from '@/pages/Planner';
-import Reports from '@/pages/Reports';
 import Accounts from '@/pages/Accounts';
 import LoginPage from '@/pages/Login';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
@@ -17,6 +14,7 @@ import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import PublicLayout from '@/components/layout/PublicLayout';
 import NotFoundPage from '@/pages/NotFoundPage';
 import PaymentMethods from '@/pages/PaymentMethods';
+import HomePage from '@/pages/Home';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();
@@ -54,9 +52,11 @@ const AppRoutes = () => {
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route element={<PublicLayout />}>
+            <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
             <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
             <Route path={ROUTES.PRIVACY_POLICY_URL} element={<PrivacyPolicyPage />} />
+            <Route path="/" element={<Navigate to={ROUTES.HOME_URL} />} />
             <Route path="*" element={<NotFoundPage isAuthenticated={!!user} />} />
           </Route>
           <Route
@@ -67,14 +67,14 @@ const AppRoutes = () => {
             }
           >
             <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
+            <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
             <Route path={ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
             <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
             <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />
             <Route path={ROUTES.PAYMENT_METHODS_URL} element={<PaymentMethods />} />
-            <Route path={ROUTES.BUDGET_URL} element={<Budget />} />
-            <Route path={ROUTES.PLANNER_URL} element={<Planner />} />
-            <Route path={ROUTES.REPORTS_URL} element={<Reports />} />
-            <Route path="/" element={<Navigate to={ROUTES.DASHBOARD_URL} />} />
+            {/*<Route path={ROUTES.BUDGET_URL} element={<Budget />} />*/}
+            {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
+            {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>
         </Routes>
       </Suspense>

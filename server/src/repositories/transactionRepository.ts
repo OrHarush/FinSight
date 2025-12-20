@@ -2,7 +2,7 @@ import Transaction, { ITransaction } from '../models/Transaction';
 import { Types } from 'mongoose';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
 import { ITransactionPopulated, TransactionQueryOptions } from '../types/Transaction';
-import { buildTransactionQuery, expandTransactions } from '../utils/transactionUtils';
+import { buildTransactionQuery } from '../utils/transactionUtils';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -42,6 +42,9 @@ export const findById = async (id: string, userId: string) =>
     .populate('toAccount')
     .lean<ITransactionPopulated>()
     .exec();
+
+export const countByUser = async (userId: string): Promise<number> =>
+  Transaction.countDocuments({ userId });
 
 export const insert = async (data: CreateTransactionCommand, userId: string) => {
   const transaction = new Transaction({

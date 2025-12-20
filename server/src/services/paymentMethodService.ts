@@ -52,6 +52,7 @@ export const update = async (
   }
 
   const existing = await paymentMethodRepository.findById(id, userId);
+
   if (!existing) {
     throw ApiError.notFound('Payment method not found');
   }
@@ -66,8 +67,35 @@ export const update = async (
   }
 
   const updated = await paymentMethodRepository.updateById(id, updatedDetails, userId);
+
   if (!updated) {
     throw ApiError.internal('Failed to update payment method');
+  }
+
+  return updated;
+};
+
+export const setPrimary = async (id: string, userId: string) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw ApiError.badRequest('Invalid payment method ID');
+  }
+
+  const existing = await paymentMethodRepository.findById(id, userId);
+
+  if (!existing) {
+    throw ApiError.notFound('Payment method not found');
+  }
+
+  if (existing.isPrimary) {
+    return existing;
+  }
+
+  await paymentMethodRepository.unsetPrimaryForUser(userId);
+
+  const updated = await paymentMethodRepository.updateById(id, { isPrimary: true }, userId);
+
+  if (!updated) {
+    throw ApiError.internal('Failed to set payment method as primary');
   }
 
   return updated;

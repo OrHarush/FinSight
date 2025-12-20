@@ -75,6 +75,12 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
   return ApiResponse.ok(res, summary);
 });
 
+export const getTransactionCount = asyncHandler(async (req: Request, res: Response) => {
+  const total = await transactionService.countAll(req.userId);
+
+  return ApiResponse.ok(res, { total });
+});
+
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {
   const transaction = await transactionService.create(req.body, req.userId);
 

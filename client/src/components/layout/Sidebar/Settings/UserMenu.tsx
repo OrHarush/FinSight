@@ -29,7 +29,7 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
     queryKeysToInvalidate: [queryKeys.user()],
     options: {
       onSuccess: () => {
-        alertSuccess('yay');
+        alertSuccess('Account deleted');
         logout();
       },
       onError: err => {

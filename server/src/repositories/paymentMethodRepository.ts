@@ -20,8 +20,6 @@ export const create = async (details: CreatePaymentMethodCommand, userId: string
   return method.save();
 };
 
-export const createMany = (items: CreatePaymentMethodCommand[]) => PaymentMethod.insertMany(items);
-
 export const updateById = async (
   id: string,
   updatedDetails: UpdatePaymentMethodCommand,
@@ -31,6 +29,10 @@ export const updateById = async (
     new: true,
     runValidators: true,
   });
+
+export const unsetPrimaryForUser = async (userId: string) => {
+  await PaymentMethod.updateMany({ userId, isPrimary: true }, { $set: { isPrimary: false } });
+};
 
 export const remove = async (id: string, userId: string) =>
   PaymentMethod.findOneAndDelete({

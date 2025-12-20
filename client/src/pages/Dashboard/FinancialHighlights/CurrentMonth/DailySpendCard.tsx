@@ -1,53 +1,61 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import FinanceOverviewCard from '../FinanceOverviewCard';
-import { calculateFinancialHealth } from '@/utils/financialHealth';
-
-interface Props {
-  income: number;
-  expenses: number;
-  isLoading: boolean;
-}
-
-const DailySpendCard = ({ income, expenses, isLoading }: Props) => {
+import { CurrentMonthCardProps } from '@/pages/Dashboard/FinancialHighlights/CurrentMonth/types';
+const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMonthCardProps) => {
   const { t } = useTranslation('dashboard');
-
   const today = new Date();
-  const day = today.getDate();
-  const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
-  const remainingDays = Math.max(totalDays - day, 1);
-  const remainingBudget = income - expenses;
-  const dailyLimit = remainingBudget / remainingDays;
+  let headerTitle: string;
+  let primaryValue: string | undefined;
+  let secondaryText: string | undefined;
+  let color: string | undefined;
 
-  const currentDailyBurn = expenses / day;
-  const dailyGap = currentDailyBurn - dailyLimit;
+  if (!hasMonthData || (income === 0 && expenses === 0)) {
+    headerTitle = t('dailySpendCard.capacity.title');
+    primaryValue = t('noData.title');
+  } else if (income <= 0 && expenses > 0) {
+    headerTitle = t('dailySpendCard.capacity.title');
+    primaryValue = t('noIncome.title');
+  } else {
+    const day = today.getDate();
+    const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
-  const { status } = calculateFinancialHealth(income, expenses, today);
-  const isWarning = status === 'risk' || status === 'critical';
+    const remainingDays = Math.max(totalDays - day, 1);
+    const remainingBudget = income - expenses;
 
-  const headerTitle = isWarning
-    ? t('financialHighlights.currentMonth.requiredDailySpend')
-    : t('financialHighlights.currentMonth.dailySpendCapacity');
+    const dailyLimit = remainingBudget / remainingDays;
+    const currentDailyBurn = expenses / day;
+    const dailyGap = currentDailyBurn - dailyLimit;
 
-  const secondaryText = isWarning
-    ? t('financialHighlights.currentMonth.dailySpendGap', {
-        current: Math.round(currentDailyBurn),
-        target: Math.round(dailyLimit),
-        gap: Math.round(dailyGap),
-      })
-    : t('financialHighlights.currentMonth.stayingBelowKeepsOnTrack');
+    const isWarning = currentDailyBurn > dailyLimit;
 
-  const color = status === 'critical' ? '#ef4444' : status === 'risk' ? '#f59e0b' : '#22c55e';
+    headerTitle = isWarning
+      ? t('dailySpendCard.required.title')
+      : t('dailySpendCard.capacity.title');
+
+    primaryValue = t('dailySpendCard.valuePerDay', {
+      amount: Math.round(dailyLimit),
+    });
+
+    secondaryText = isWarning
+      ? t('dailySpendCard.required.gap', {
+          current: Math.round(currentDailyBurn),
+          target: Math.round(dailyLimit),
+          gap: Math.round(dailyGap),
+        })
+      : t('dailySpendCard.capacity.belowKeepsOnTrack');
+
+    color = isWarning ? '#f59e0b' : '#22c55e';
+  }
 
   return (
     <FinanceOverviewCard
       headerTitle={headerTitle}
-      primaryValue={<Typography fontWeight={700}>{Math.round(dailyLimit)} ₪ / day</Typography>}
+      primaryValue={primaryValue}
       secondaryText={secondaryText}
       icon={AccountBalanceWalletIcon}
-      color={color}
+      color={color || '#6c5ce7'}
       isLoading={isLoading}
     />
   );

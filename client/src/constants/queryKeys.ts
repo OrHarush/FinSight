@@ -16,6 +16,7 @@ export const queryKeys = {
     month,
     accountId,
   ],
+  transactionsCount: () => ['transactions', 'count'],
 
   accounts: () => ['accounts'],
   account: (id: string) => ['accounts', id],

@@ -21,13 +21,16 @@
   "actions": {
     "create": "Add payment method",
     "edit": "Edit payment method",
-    "delete": "Delete Payment Method"
+    "delete": "Delete Payment Method",
+    "setPrimary": "Set as primary"
   },
   "messages": {
     "createSuccess": "Payment method created successfully",
     "createError": "Failed to create payment method",
     "updateSuccess": "Payment method updated successfully",
     "updateError": "Failed to update payment method",
+    "setPrimarySuccess": "Payment method set as primary",
+    "setPrimaryError": "Failed to set payment method as primary",
     "deleteSuccess": "Payment method deleted successfully",
     "deleteError": "Failed to delete payment method"
   }

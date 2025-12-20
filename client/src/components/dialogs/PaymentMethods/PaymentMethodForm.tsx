@@ -1,20 +1,15 @@
 import TextInput from '@/components/inputs/TextInput';
 import RHFSelect from '@/components/inputs/RHFSelect';
 import Column from '@/components/layout/Containers/Column';
-import { FormControlLabel, Checkbox } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import Row from '@/components/layout/Containers/Row';
-import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { PaymentMethodFormValues } from '@/types/PaymentMethod';
 
 const PaymentMethodForm = () => {
   const { t } = useTranslation('paymentMethods');
   const { control } = useFormContext<PaymentMethodFormValues>();
-  const { paymentMethods } = usePaymentMethods();
   const paymentType = useWatch({ control, name: 'type' });
-
-  const hasPaymentMethods = paymentMethods.length > 0;
 
   return (
     <Column spacing={2}>
@@ -32,14 +27,16 @@ const PaymentMethodForm = () => {
         ]}
       />
       <Row spacing={2}>
-        <TextInput
-          name="billingDay"
-          label={t('fields.billingDay')}
-          type="number"
-          min={1}
-          max={31}
-          required
-        />
+        {paymentType === 'Credit' && (
+          <TextInput
+            name="billingDay"
+            label={t('fields.billingDay')}
+            type="number"
+            min={1}
+            max={31}
+            required
+          />
+        )}
         {(paymentType === 'Credit' || paymentType === 'Debit') && (
           <TextInput
             name="last4"
@@ -50,23 +47,6 @@ const PaymentMethodForm = () => {
           />
         )}
       </Row>
-      <FormControlLabel
-        control={
-          <Controller
-            name="isPrimary"
-            control={control}
-            render={({ field }) => (
-              <Checkbox
-                {...field}
-                checked={field.value || !hasPaymentMethods}
-                onChange={e => field.onChange(e.target.checked)}
-                disabled={!hasPaymentMethods}
-              />
-            )}
-          />
-        }
-        label={t('fields.isPrimary')}
-      />
     </Column>
   );
 };

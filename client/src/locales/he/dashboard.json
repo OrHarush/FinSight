@@ -1,45 +1,70 @@
 {
   "pageTitle": "לוח בקרה פיננסי",
+
   "dateSelector": {
-    "placeholder": "בחר חודש"
+    "placeholder": "בחירת חודש"
   },
+
   "accountSelector": {
-    "placeholder": "בחר חשבון"
+    "placeholder": "בחירת חשבון"
   },
-  "financialHighlights": {
-    "currentMonth": {
-      "financialStatus": "מצב פיננסי",
-      "budgetRunway": "יתרת זמן לתקציב",
-      "daysLeft_one": "יום אחד נותר",
-      "daysLeft_other": "{{count}} ימים נותרו",
-      "requiredDailySpend": "הוצאה יומית נדרשת",
-      "dailySpendCapacity": "יכולת הוצאה יומית",
-      "healthDetail": "{{actual}}% נוצל · צפוי {{expected}}% עד יום {{day}}",
-      "exceedingWillOverspend": "חריגה מסכום זה תגרום לחריגה מההכנסה החודשית",
-      "stayingBelowKeepsOnTrack": "שמירה מתחת לסכום זה תשאיר אותך במסלול",
-      "dailySpendGap": "יש לצמצם הוצאה יומית ב־{{gap}}₪ ({{current}}₪ → {{target}}₪)",
-      "runwayDetail": "הכסף ייגמר עד {{date}} בקצב הנוכחי",
-      "noRunway": "לא נותרה יתרת תקציב",
-      "insufficientData": "אין מספיק נתונים"
-    },
-    "monthSummary": {
-      "monthlyOutcome": "תוצאת החודש",
-      "onBudget": "עמדת בתקציב",
-      "endedWithinIncome": "החודש הסתיים במסגרת ההכנסה",
-      "netResult": "תוצאה נטו",
-      "savedThisMonth": "נחסך החודש",
-      "biggestOverspend": "החריגה הגדולה ביותר",
-      "overspentByAmount": "חריגה של {{amount}}₪",
-      "noOverspend": "אין חריגות",
-      "withinBudget": "כל הקטגוריות נשארו במסגרת התקציב"
+
+  "noData": {
+    "title": "אין נתונים עדיין",
+    "detail": "הוסיפו תנועות לחודש זה כדי לראות תובנות פיננסיות"
+  },
+  "noIncome": {
+    "title": "לא הוגדרו הכנסות",
+    "detail": "בחודש זה קיימות הוצאות ללא הכנסות. לא ניתן להעריך מצב תקציבי."
+  },
+
+  "financialStatusCard": {
+    "title": "מצב פיננסי",
+    "detail": "{{actual}}% הוצא · צפי {{expected}}% עד יום {{day}}",
+    "status": {
+      "excellent": "קצב בריא",
+      "onTrack": "במסלול תקין",
+      "risk": "בסיכון",
+      "critical": "קריטי"
     }
   },
-  "status": {
-    "excellent": "קצב בריא",
-    "onTrack": "במסלול",
-    "risk": "בסיכון",
-    "critical": "קריטי"
+
+  "budgetRunwayCard": {
+    "title": "טווח תקציב",
+    "daysLeft_one": "נותר יום אחד",
+    "daysLeft_other": "נותרו {{count}} ימים",
+    "runwayDetail": "הכסף ייגמר עד {{date}} בקצב הנוכחי",
+    "onTrack": "אתה במסלול תקין",
+    "enoughForMonth": "התקציב הנוכחי מספיק עד סוף החודש בקצב ההוצאות הנוכחי",
+    "noRunway": "לא נותר טווח תקציב",
+    "noRunwayDetail": "קצב ההוצאות גבוה מההכנסה"
   },
+
+  "dailySpendCard": {
+    "valuePerDay": "{{amount}} ₪ ליום",
+    "required": {
+      "title": "הוצאה יומית נדרשת",
+      "gap": "יש להפחית {{gap}}₪ ליום ({{current}}₪ → {{target}}₪)"
+    },
+    "capacity": {
+      "title": "קיבולת הוצאה יומית",
+      "belowKeepsOnTrack": "שמירה מתחת לערך זה משאירה אתכם במסלול",
+      "exceedingOverspends": "חריגה תוביל לעודף הוצאות חודשי"
+    }
+  },
+
+  "monthSummary": {
+    "monthlyOutcome": "תוצאת החודש",
+    "onBudget": "בתוך התקציב",
+    "endedWithinIncome": "הסתיים במסגרת ההכנסות",
+    "netResult": "תוצאה נטו",
+    "savedThisMonth": "נחסך החודש",
+    "biggestOverspend": "החריגה הגדולה ביותר",
+    "overspentByAmount": "חריגה של {{amount}}₪",
+    "noOverspend": "אין חריגות",
+    "withinBudget": "כל הקטגוריות נשארו במסגרת התקציב"
+  },
+
   "chart": {
     "title": "הכנסות והוצאות ({{year}})",
     "legend": {
@@ -61,11 +86,13 @@
       "dec": "דצמ"
     }
   },
+
   "chartTabs": {
     "yearlySummary": "סיכום שנתי",
     "accountBalance": "יתרת חשבון"
   },
+
   "topSpendingCategories": {
-    "title": "קטגוריות הוצאה מובילות"
+    "title": "קטגוריות עם ההוצאה הגבוהה ביותר"
   }
 }

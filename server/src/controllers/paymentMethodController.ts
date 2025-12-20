@@ -27,6 +27,12 @@ export const updatePaymentMethod = asyncHandler(async (req: Request, res: Respon
   return ApiResponse.ok(res, updated);
 });
 
+export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
+  const method = await paymentMethodService.setPrimary(req.params.id, req.userId);
+
+  return ApiResponse.ok(res, method);
+});
+
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   await paymentMethodService.deleteById(req.params.id, req.userId);
 

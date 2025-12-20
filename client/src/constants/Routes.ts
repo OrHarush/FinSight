@@ -1,4 +1,8 @@
 export const ROUTES = {
+  HOME_URL: '/home',
+  LOGIN_URL: '/login',
+  TERMS_OF_SERVICE_URL: '/terms-of-service',
+  PRIVACY_POLICY_URL: '/privacy-policy',
   DASHBOARD_URL: '/dashboard',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',
@@ -7,9 +11,6 @@ export const ROUTES = {
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
-  LOGIN_URL: '/login',
-  TERMS_OF_SERVICE_URL: '/terms-of-service',
-  PRIVACY_POLICY_URL: '/privacy-policy',
 } as const;
 
 export const API_ROUTES = {

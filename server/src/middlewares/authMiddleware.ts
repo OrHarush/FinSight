@@ -1,23 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import { ApiError } from '../errors/ApiError';
-
-const JWT_SECRET = process.env.JWT_SECRET as string;
+import { getUserIdFromAuthHeader } from '../utils/auth';
 
 export const authMiddleware = (req: Request, _res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+  const userId = getUserIdFromAuthHeader(req.headers.authorization);
 
-  if (!authHeader?.startsWith('Bearer ')) {
-    throw ApiError.unauthorized('No token provided');
+  if (!userId) {
+    throw ApiError.unauthorized('No token provided or token invalid');
   }
 
-  const token = authHeader.split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
-    req.userId = decoded.userId;
-    next();
-  } catch {
-    throw ApiError.unauthorized('Invalid or expired token');
-  }
+  req.userId = userId;
+  next();
 };

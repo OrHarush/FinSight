@@ -27,7 +27,7 @@ const FinanceOverviewCard = ({
   <Grid size={{ xs: 12, md: 4 }}>
     <Card
       sx={{
-        minHeight: 120,
+        minHeight: 145,
         minWidth: '200px',
         position: 'relative',
         overflow: 'hidden',
@@ -79,9 +79,8 @@ const FinanceOverviewCard = ({
                   {headerTitle}
                 </Typography>
                 <Typography
-                  variant="h4"
                   sx={{
-                    fontWeight: 800,
+                    fontWeight: 700,
                     color: color,
                     lineHeight: 1.2,
                     letterSpacing: '-0.5px',

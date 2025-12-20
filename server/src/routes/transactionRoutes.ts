@@ -6,12 +6,14 @@ import {
   updateTransaction,
   deleteTransaction,
   getTransactionSummary,
+  getTransactionCount,
 } from '../controllers/transactionController';
 
 const router = Router();
 
-router.get('/', getTransactions);
+router.get('/count', getTransactionCount);
 router.get('/summary', getTransactionSummary);
+router.get('/', getTransactions);
 router.get('/:id', getTransactionById);
 router.post('/', createTransaction);
 router.put('/:id', updateTransaction);

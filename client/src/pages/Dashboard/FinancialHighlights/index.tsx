@@ -45,6 +45,8 @@ const FinancialHighlights = () => {
     return top.length > 0 ? top[0] : null;
   }, [transactions, categories]);
 
+  const hasMonthData = (transactions.length ?? 0) > 0;
+
   return (
     <Grid container spacing={2} width="100%">
       {isCurrentMonth ? (
@@ -53,25 +55,39 @@ const FinancialHighlights = () => {
             income={monthlyIncome}
             expenses={monthlyExpenses}
             isLoading={isLoading}
+            hasMonthData={hasMonthData}
           />
           <BudgetRunwayCard
             income={monthlyIncome}
             expenses={monthlyExpenses}
             isLoading={isLoading}
+            hasMonthData={hasMonthData}
           />
-          <DailySpendCard income={monthlyIncome} expenses={monthlyExpenses} isLoading={isLoading} />
+          <DailySpendCard
+            income={monthlyIncome}
+            expenses={monthlyExpenses}
+            isLoading={isLoading}
+            hasMonthData={hasMonthData}
+          />
         </>
       ) : (
         <>
           <MonthlyOutcomeCard
             income={monthlyIncome}
             expenses={monthlyExpenses}
+            hasMonthData={hasMonthData}
             isLoading={isLoading}
           />
-          <NetResultCard income={monthlyIncome} expenses={monthlyExpenses} isLoading={isLoading} />
+          <NetResultCard
+            income={monthlyIncome}
+            expenses={monthlyExpenses}
+            hasMonthData={hasMonthData}
+            isLoading={isLoading}
+          />
           <BiggestOverspendCard
             categoryName={biggestOverspend?.name}
             overspendAmount={biggestOverspend?.amount}
+            hasMonthData={hasMonthData}
             isLoading={isLoading}
           />
         </>

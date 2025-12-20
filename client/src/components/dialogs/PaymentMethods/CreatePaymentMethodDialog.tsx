@@ -9,12 +9,15 @@ import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { PaymentMethodDto, PaymentMethodFormValues } from '@/types/PaymentMethod';
 import { CreatePaymentMethodCommand } from '../../../../../shared/types/PaymentMethodCommands';
 import PaymentMethodForm from '@/components/dialogs/PaymentMethods/PaymentMethodForm';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
 const CreatePaymentMethodDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('paymentMethods');
   const { alertSuccess, alertError } = useSnackbar();
+  const { paymentMethods } = usePaymentMethods();
   const methods = useForm<PaymentMethodFormValues>({
     mode: 'all',
+    defaultValues: { isPrimary: paymentMethods.length === 0 },
   });
 
   const createPaymentMethod = useApiMutation<PaymentMethodDto, CreatePaymentMethodCommand>({

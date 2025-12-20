@@ -10,13 +10,14 @@ export interface FinancialHealthResult {
   ratio: number;
   status: FinancialHealthStatus;
 }
+
 export function calculateFinancialHealth(
   income: number,
   expensesSoFar: number,
   today: Date
 ): FinancialHealthResult {
-  if (income <= 0) {
-    return { ratio: 0, status: 'critical' };
+  if (income <= 0 && expensesSoFar > 0) {
+    return { ratio: 1, status: 'critical' };
   }
 
   const day = today.getDate();
@@ -28,7 +29,6 @@ export function calculateFinancialHealth(
 
   const ratio = expensesSoFar / expectedExpenses;
   const remainingBudget = income - expensesSoFar;
-
   const earlyMonthBonus = day <= 3 ? 0.1 : 0;
 
   if (remainingBudget < 0) {
@@ -46,34 +46,30 @@ export function calculateFinancialHealth(
   if (ratio <= 1.5) {
     return { ratio, status: 'risk' };
   }
+
   return { ratio, status: 'risk' };
 }
 
 export const HEALTH_UI: Record<
   FinancialHealthStatus,
   {
-    label: string;
     color: string;
     Icon: SvgIconComponent;
   }
 > = {
   excellent: {
-    label: 'Healthy Pace',
     color: '#22c55e',
     Icon: TrendingUpIcon,
   },
   onTrack: {
-    label: 'On Track',
-    color: '#84cc16',
+    color: '#6c5ce7',
     Icon: CheckCircleOutlineIcon,
   },
   risk: {
-    label: 'At Risk',
     color: '#f59e0b',
     Icon: WarningAmberIcon,
   },
   critical: {
-    label: 'Overspent',
     color: '#ef4444',
     Icon: ErrorOutlineIcon,
   },

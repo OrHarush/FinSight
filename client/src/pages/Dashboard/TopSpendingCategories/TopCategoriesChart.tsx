@@ -43,6 +43,13 @@ const TopCategoriesChart = ({ chartData }: TopCategoriesContentProps) => {
                     type: 'ordinal',
                     colors: categoryColors,
                   },
+                  barGapRatio: 0.5,
+                  categoryGapRatio: 0.8,
+                },
+              ]}
+              xAxis={[
+                {
+                  valueFormatter: (value: number) => `₪${value.toLocaleString()}`,
                 },
               ]}
             />

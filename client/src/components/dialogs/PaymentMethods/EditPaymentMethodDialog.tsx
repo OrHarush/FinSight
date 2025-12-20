@@ -28,6 +28,7 @@ const EditPaymentMethodDialog = ({
       billingDay: paymentMethod.billingDay,
       type: paymentMethod.type,
       last4: paymentMethod.last4,
+      isPrimary: paymentMethod.isPrimary,
     },
   });
 

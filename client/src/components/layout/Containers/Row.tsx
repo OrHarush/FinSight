@@ -1,8 +1,8 @@
 import React from 'react';
-import { StackOwnProps } from '@mui/material/Stack/Stack';
+import { StackProps } from '@mui/material/Stack/Stack';
 import { Stack } from '@mui/material';
 
-interface RowProps extends StackOwnProps {
+interface RowProps extends StackProps {
   children: React.ReactNode[] | React.ReactNode;
   dir?: 'ltr' | 'rtl';
 }

@@ -100,6 +100,9 @@ export const getTransactionSummary = async (
   return summarizeWholeYear(expandedTransactions, year, accountId);
 };
 
+export const countAll = async (userId: string): Promise<number> =>
+  transactionRepository.countByUser(userId);
+
 export const create = async (data: CreateTransactionCommand, userId: string) => {
   if (!data.type) throw ApiError.badRequest('Transaction type is required');
 

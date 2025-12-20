@@ -1,7 +1,7 @@
 export interface CreatePaymentMethodCommand {
     name: string;
     type: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
-    billingDay: number | null;
+    billingDay?: number;
     last4?: string;
     isPrimary?: boolean;
 }
@@ -9,7 +9,7 @@ export interface CreatePaymentMethodCommand {
 export interface UpdatePaymentMethodCommand {
     name?: string;
     type?: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
-    billingDay?: number | null;
+    billingDay?: number;
     last4?: string;
     isPrimary?: boolean;
 }

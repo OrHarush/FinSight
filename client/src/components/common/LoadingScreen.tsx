@@ -8,7 +8,7 @@ const LoadingScreen = () => (
     alignItems="center"
     minHeight="100vh"
     flexDirection="column"
-    sx={{ background: '#121212', color: 'white' }}
+    sx={{ color: 'white' }}
   >
     <img src={finSightIcon} alt="FinSight Logo" width={180} height={180} />
     <Typography variant="h6" mt={2}>

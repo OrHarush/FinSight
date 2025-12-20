@@ -31,6 +31,8 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
     rowsPerPage
   );
 
+  console.log(transactions);
+
   const { totalIncome, totalExpenses } = transactions.reduce(
     (acc, tx) => {
       if (tx.type === 'Income') acc.totalIncome += tx.amount;
@@ -51,7 +53,7 @@ const TransactionsTableView = ({ selectedMonth, selectedCategory }: Transactions
     setPage(0);
   }, [selectedMonth, selectedCategory, searchValue]);
 
-  if (!isLoading) {
+  if (isLoading) {
     return <TransactionsTableSkeleton />;
   }
 

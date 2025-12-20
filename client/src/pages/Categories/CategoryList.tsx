@@ -20,7 +20,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         <Typography variant="h6" gutterBottom>
           {t('incomeCategories')}
         </Typography>
-        <Grid container spacing={2} justifyContent="center">
+        <Grid container spacing={2}>
           {incomeCategories.map(category => (
             <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
           ))}
