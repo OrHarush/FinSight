@@ -1,6 +1,5 @@
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Card, CardContent, Grid, Typography, Box } from '@mui/material';
 import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
