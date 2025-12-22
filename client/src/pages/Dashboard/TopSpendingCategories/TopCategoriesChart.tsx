@@ -16,16 +16,14 @@ const TopCategoriesChart = ({ chartData }: TopCategoriesContentProps) => {
     spent: d.amount,
   }));
 
-  const categoryColors: string[] = chartData.map(d => d.color ?? '#171717');
-
   return (
-    <Grid size={{ xs: 12, md: 4 }}>
-      <Card sx={{ height: '620px', minWidth: '240px' }}>
+    <Grid size={{ xs: 12, md: 6 }}>
+      <Card sx={{ height: '100%', minWidth: '240px', padding: 2 }}>
         <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h5" color="text.secondary">
             Top Spending Categories
           </Typography>
-          <Box sx={{ flexGrow: 1, minHeight: 500 }}>
+          <Box sx={{ flexGrow: 1, minHeight: '350px' }}>
             <BarChart
               layout="horizontal"
               dataset={dataset}
@@ -33,18 +31,15 @@ const TopCategoriesChart = ({ chartData }: TopCategoriesContentProps) => {
               series={[
                 {
                   dataKey: 'spent',
+                  color: 'rgba(255, 255, 255, 0.3)',
                 },
               ]}
               yAxis={[
                 {
                   scaleType: 'band',
                   dataKey: 'category',
-                  colorMap: {
-                    type: 'ordinal',
-                    colors: categoryColors,
-                  },
                   barGapRatio: 0.5,
-                  categoryGapRatio: 0.8,
+                  categoryGapRatio: 0.4,
                 },
               ]}
               xAxis={[

@@ -1,6 +1,5 @@
 import FinancialHighlights from '@/pages/Dashboard/FinancialHighlights';
 import DashboardHeader from '@/pages/Dashboard/DashboardHeader';
-import DashboardCharts from '@/pages/Dashboard/DashboardCharts';
 import { Grid } from '@mui/material';
 import PageLayout from '@/components/layout/Page/PageLayout';
 import { DashboardFiltersProvider } from '@/pages/Dashboard/DashboardFiltersProvider';
@@ -10,6 +9,8 @@ import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import DashboardSetupPanel from '@/pages/Dashboard/DashboardSetupPanel';
 import { useHasAnyTransaction } from '@/hooks/useHasAnyTransaction';
 import LoadingScreen from '@/components/common/LoadingScreen';
+import MonthlyHeroStrip from '@/pages/Dashboard/MonthlyTotalsStrip';
+import BudgetWatch from '@/pages/Dashboard/BudgetWatch';
 
 const Dashboard = () => {
   const { accounts, isLoading: loadingAccounts } = useAccounts();
@@ -35,9 +36,10 @@ const Dashboard = () => {
       {isSetupComplete ? (
         <DashboardFiltersProvider>
           <DashboardHeader />
-          <Grid container spacing={3} height={'100%'}>
+          <MonthlyHeroStrip />
+          <Grid container spacing={3}>
             <FinancialHighlights />
-            <DashboardCharts />
+            <BudgetWatch />
             <TopSpendingCategories />
           </Grid>
         </DashboardFiltersProvider>

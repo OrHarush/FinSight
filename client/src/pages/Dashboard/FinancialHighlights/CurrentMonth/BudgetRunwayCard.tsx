@@ -9,12 +9,15 @@ const BudgetRunwayCard = ({ income, expenses, isLoading, hasMonthData }: Current
 
   let primaryValue: string;
   let secondaryText: string | undefined;
-  let color: string | undefined;
+  let isCritical = false;
+  let criticalColor: string | undefined;
 
   if (!hasMonthData || (income === 0 && expenses === 0)) {
     primaryValue = t('noData.title');
   } else if (income <= 0 && expenses > 0) {
     primaryValue = t('noIncome.title');
+    isCritical = true;
+    criticalColor = '#ef4444';
   } else {
     const currentDay = today.getDate();
     const currentDailyBurn = expenses / currentDay;
@@ -31,7 +34,8 @@ const BudgetRunwayCard = ({ income, expenses, isLoading, hasMonthData }: Current
     if (daysLeft <= 0) {
       primaryValue = t('budgetRunwayCard.noRunway');
       secondaryText = t('budgetRunwayCard.noRunwayDetail');
-      color = '#ef4444';
+      isCritical = true;
+      criticalColor = '#ef4444';
     } else if (runsOutThisMonth) {
       const projectedEndDate = new Date(today);
       projectedEndDate.setDate(today.getDate() + daysLeft);
@@ -40,11 +44,13 @@ const BudgetRunwayCard = ({ income, expenses, isLoading, hasMonthData }: Current
       secondaryText = t('budgetRunwayCard.runwayDetail', {
         date: projectedEndDate.toLocaleDateString(),
       });
-      color = daysLeft <= 7 ? '#ef4444' : '#f59e0b';
+
+      isCritical = true;
+      criticalColor = daysLeft <= 7 ? '#ef4444' : '#f59e0b';
     } else {
       primaryValue = t('budgetRunwayCard.onTrack');
       secondaryText = t('budgetRunwayCard.enoughForMonth');
-      color = '#22c55e';
+      // neutral state → NOT critical
     }
   }
 
@@ -54,8 +60,9 @@ const BudgetRunwayCard = ({ income, expenses, isLoading, hasMonthData }: Current
       primaryValue={primaryValue}
       secondaryText={secondaryText}
       icon={CalendarTodayIcon}
-      color={color || '#6c5ce7'}
       isLoading={isLoading}
+      isCritical={isCritical}
+      criticalColor={criticalColor}
     />
   );
 };

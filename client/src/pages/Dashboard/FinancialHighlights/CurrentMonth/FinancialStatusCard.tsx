@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import FinanceOverviewCard from '../FinanceOverviewCard';
 import { calculateFinancialHealth, HEALTH_UI } from '@/utils/financialHealth';
 import { CurrentMonthCardProps } from '@/pages/Dashboard/FinancialHighlights/CurrentMonth/types';
-import { SvgIconComponent } from '@mui/icons-material';
 
 const FinancialStatusCard = ({
   income,
@@ -16,8 +15,8 @@ const FinancialStatusCard = ({
 
   let primaryValue: string;
   let secondaryText: string;
-  let color: string | undefined;
-  let icon: SvgIconComponent | undefined;
+  let isCritical = false;
+  let criticalColor: string | undefined;
 
   if (!hasMonthData || (income === 0 && expenses === 0)) {
     primaryValue = t('noData.title');
@@ -25,6 +24,8 @@ const FinancialStatusCard = ({
   } else if (income <= 0 && expenses > 0) {
     primaryValue = t('noIncome.title');
     secondaryText = t('noIncome.detail');
+    isCritical = true;
+    criticalColor = '#ef4444';
   } else {
     const day = today.getDate();
     const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
@@ -33,7 +34,9 @@ const FinancialStatusCard = ({
     const expectedPercentage = Math.round((day / totalDays) * 100);
 
     const { status } = calculateFinancialHealth(income, expenses, today);
-    color = HEALTH_UI[status].color;
+
+    isCritical = status === 'risk' || status === 'critical';
+    criticalColor = HEALTH_UI[status].color;
 
     primaryValue = t(`financialStatusCard.status.${status}`);
     secondaryText = t('financialStatusCard.detail', {
@@ -48,10 +51,10 @@ const FinancialStatusCard = ({
       headerTitle={t('financialStatusCard.title')}
       primaryValue={primaryValue}
       secondaryText={secondaryText}
-      icon={icon || MonitorHeartIcon}
-      color={color || '#6c5ce7'}
+      icon={MonitorHeartIcon}
       isLoading={isLoading}
-      isPrimary
+      isCritical={isCritical}
+      criticalColor={criticalColor}
     />
   );
 };

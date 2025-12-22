@@ -2,6 +2,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useTranslation } from 'react-i18next';
 import FinanceOverviewCard from '../FinanceOverviewCard';
 import { CurrentMonthCardProps } from '@/pages/Dashboard/FinancialHighlights/CurrentMonth/types';
+
 const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMonthCardProps) => {
   const { t } = useTranslation('dashboard');
   const today = new Date();
@@ -9,7 +10,8 @@ const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMo
   let headerTitle: string;
   let primaryValue: string | undefined;
   let secondaryText: string | undefined;
-  let color: string | undefined;
+  let isCritical = false;
+  let criticalColor: string | undefined;
 
   if (!hasMonthData || (income === 0 && expenses === 0)) {
     headerTitle = t('dailySpendCard.capacity.title');
@@ -26,7 +28,6 @@ const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMo
 
     const dailyLimit = remainingBudget / remainingDays;
     const currentDailyBurn = expenses / day;
-    const dailyGap = currentDailyBurn - dailyLimit;
 
     const isWarning = currentDailyBurn > dailyLimit;
 
@@ -42,11 +43,14 @@ const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMo
       ? t('dailySpendCard.required.gap', {
           current: Math.round(currentDailyBurn),
           target: Math.round(dailyLimit),
-          gap: Math.round(dailyGap),
+          gap: Math.round(currentDailyBurn - dailyLimit),
         })
       : t('dailySpendCard.capacity.belowKeepsOnTrack');
 
-    color = isWarning ? '#f59e0b' : '#22c55e';
+    if (isWarning) {
+      isCritical = true;
+      criticalColor = '#f59e0b';
+    }
   }
 
   return (
@@ -55,8 +59,9 @@ const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMo
       primaryValue={primaryValue}
       secondaryText={secondaryText}
       icon={AccountBalanceWalletIcon}
-      color={color || '#6c5ce7'}
       isLoading={isLoading}
+      isCritical={isCritical}
+      criticalColor={criticalColor}
     />
   );
 };
