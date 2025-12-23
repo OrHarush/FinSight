@@ -15,6 +15,7 @@ import PublicLayout from '@/components/layout/PublicLayout';
 import NotFoundPage from '@/pages/NotFoundPage';
 import PaymentMethods from '@/pages/PaymentMethods';
 import HomePage from '@/pages/Home';
+import Column from '@/components/layout/Containers/Column';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();
@@ -44,7 +45,11 @@ const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
 
   if (isLoadingUser) {
-    return <LoadingScreen />;
+    return (
+      <Column height={'100vh'}>
+        <LoadingScreen />
+      </Column>
+    );
   }
 
   return (

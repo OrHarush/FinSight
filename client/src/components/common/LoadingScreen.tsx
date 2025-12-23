@@ -1,21 +1,15 @@
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import finSightIcon from '@/assets/finSightIcon.png';
+import Column from '@/components/layout/Containers/Column';
 
 const LoadingScreen = () => (
-  <Box
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    minHeight="100%"
-    flexDirection="column"
-    sx={{ color: 'white' }}
-  >
+  <Column justifyContent="center" alignItems="center" height="100%" justifySelf={'center'}>
     <img src={finSightIcon} alt="FinSight Logo" width={180} height={180} />
     <Typography variant="h6" mt={2}>
       Loading FinSight...
     </Typography>
     <CircularProgress sx={{ mt: 3, color: 'primary.main' }} />
-  </Box>
+  </Column>
 );
 
 export default LoadingScreen;
