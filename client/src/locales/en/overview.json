@@ -17,6 +17,24 @@
     "title": "No income recorded",
     "detail": "This month has expenses but no income. Budget health cannot be evaluated."
   },
+  "monthlyInsight": {
+    "excellent": {
+      "title": "Excellent month",
+      "message": "Efficient spending with a positive balance"
+    },
+    "good": {
+      "title": "Good month",
+      "message": "Expenses are well balanced relative to income"
+    },
+    "balanced": {
+      "title": "Balanced month",
+      "message": "Close to your monthly break-even point"
+    },
+    "overspent": {
+      "title": "Overspending",
+      "message": "Expenses exceed income this month"
+    }
+  },
   "incomeUsageMeter": {
     "netThisMonth": "Net this month",
     "percentSpent": "{{percent}}% of income spent"
