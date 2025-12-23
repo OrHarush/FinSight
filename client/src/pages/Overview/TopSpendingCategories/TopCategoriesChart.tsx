@@ -48,7 +48,6 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
               series={[
                 {
                   dataKey: 'spent',
-                  // color: alpha(theme.palette.grey[500], 0.8),
                 },
               ]}
               yAxis={[

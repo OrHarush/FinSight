@@ -8,7 +8,7 @@ const AllOnTrackState = () => {
 
   return (
     <Column
-      height={'80%'}
+      height={'100%'}
       alignItems="center"
       justifyContent="center"
       sx={{ py: 6, opacity: 0.85 }}

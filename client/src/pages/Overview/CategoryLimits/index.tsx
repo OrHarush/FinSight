@@ -68,7 +68,7 @@ const CategoryLimits = () => {
     <Grid size={{ xs: 12, md: 6 }}>
       <Card sx={{ height: '100%', p: 2 }}>
         <CardContent sx={{ height: '100%' }}>
-          <Column spacing={2}>
+          <Column height={'100%'} spacing={2}>
             <Typography variant="h5" color="text.secondary" gutterBottom>
               {t('budgetWatch.title')}
             </Typography>
