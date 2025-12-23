@@ -12,7 +12,7 @@ export interface CategoryDto {
   _id: string;
   name: string;
   type: CategoryType;
-  color?: string;
-  icon?: string;
+  color: string;
+  icon: string;
   monthlyLimit?: number;
 }

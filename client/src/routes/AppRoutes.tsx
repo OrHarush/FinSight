@@ -4,7 +4,7 @@ import LoadingScreen from '@/components/common/LoadingScreen';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import AuthenticatedLayout from '@/components/layout/AuthenticatedLayout';
 import { ROUTES } from '@/constants/Routes';
-import Dashboard from '@/pages/Dashboard';
+import Overview from '@/pages/Overview';
 import { Transactions } from '@/pages/Transactions';
 import Categories from '@/pages/Categories';
 import Accounts from '@/pages/Accounts';
@@ -66,8 +66,7 @@ const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
-            <Route path={ROUTES.DASHBOARD_URL} element={<Dashboard />} />
+            <Route path={ROUTES.OVERVIEW_URL} element={<Overview />} />
             <Route path={ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
             <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
             <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />

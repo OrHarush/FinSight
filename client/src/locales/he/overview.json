@@ -1,0 +1,103 @@
+{
+  "pageTitle": "לוח בקרה פיננסי",
+
+  "dateSelector": {
+    "placeholder": "בחירת חודש"
+  },
+
+  "accountSelector": {
+    "placeholder": "בחירת חשבון"
+  },
+
+  "noData": {
+    "title": "אין נתונים עדיין",
+    "detail": "הוסיפו תנועות לחודש זה כדי לראות תובנות פיננסיות"
+  },
+  "noIncome": {
+    "title": "לא הוגדרו הכנסות",
+    "detail": "בחודש זה קיימות הוצאות ללא הכנסות. לא ניתן להעריך מצב תקציבי."
+  },
+  "incomeUsageMeter": {
+    "netThisMonth": "יתרה נטו החודש",
+    "percentSpent": "{{percent}}% מההכנסה נוצלה"
+  },
+
+  "financialStatusCard": {
+    "title": "מצב פיננסי",
+    "detail": "{{actual}}% הוצא · צפי {{expected}}% עד יום {{day}}",
+    "status": {
+      "ok": "קצב בריא",
+      "warning": "בסיכון",
+      "critical": "קריטי"
+    }
+  },
+
+  "budgetRunwayCard": {
+    "title": "טווח תקציב",
+    "daysLeft_one": "נותר יום אחד",
+    "daysLeft_other": "נותרו {{count}} ימים",
+    "runwayDetail": "הכסף ייגמר עד {{date}} בקצב הנוכחי",
+    "onTrack": "אתה במסלול תקין",
+    "enoughForMonth": "התקציב הנוכחי מספיק עד סוף החודש בקצב ההוצאות הנוכחי",
+    "noRunway": "לא נותר טווח תקציב",
+    "noRunwayDetail": "קצב ההוצאות גבוה מההכנסה"
+  },
+
+  "dailySpendCard": {
+    "valuePerDay": "{{amount}} ₪ ליום",
+    "title": "הוצאה יומית נדרשת",
+    "gap": "יש להפחית {{gap}}₪ ליום ({{current}}₪ → {{target}}₪)",
+    "capacity": {
+      "title": "קיבולת הוצאה יומית",
+      "belowKeepsOnTrack": "שמירה מתחת לערך זה משאירה אתכם במסלול",
+      "exceedingOverspends": "חריגה תוביל לעודף הוצאות חודשי"
+    }
+  },
+
+  "monthSummary": {
+    "monthlyOutcome": "תוצאת החודש",
+    "onBudget": "בתוך התקציב",
+    "endedWithinIncome": "הסתיים במסגרת ההכנסות",
+    "netResult": "תוצאה נטו",
+    "savedThisMonth": "נחסך החודש",
+    "biggestOverspend": "החריגה הגדולה ביותר",
+    "overspentByAmount": "חריגה של {{amount}}₪",
+    "noOverspend": "אין חריגות",
+    "withinBudget": "כל הקטגוריות נשארו במסגרת התקציב"
+  },
+
+  "chart": {
+    "title": "הכנסות והוצאות ({{year}})",
+    "legend": {
+      "income": "הכנסות",
+      "expenses": "הוצאות"
+    },
+    "months": {
+      "jan": "ינו",
+      "feb": "פבר",
+      "mar": "מרץ",
+      "apr": "אפר",
+      "may": "מאי",
+      "jun": "יונ",
+      "jul": "יול",
+      "aug": "אוג",
+      "sep": "ספט",
+      "oct": "אוק",
+      "nov": "נוב",
+      "dec": "דצמ"
+    }
+  },
+
+  "chartTabs": {
+    "yearlySummary": "סיכום שנתי",
+    "accountBalance": "יתרת חשבון"
+  },
+
+  "topSpendingCategories": {
+    "title": "קטגוריות עם ההוצאה הגבוהה ביותר"
+  },
+  "budgetWatch": {
+    "title": "מעקב תקציב",
+    "allOnTrack": "כל התקציבים בשליטה"
+  }
+}

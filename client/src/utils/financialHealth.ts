@@ -1,10 +1,16 @@
 import { SvgIconComponent } from '@mui/icons-material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-export type FinancialHealthStatus = 'excellent' | 'onTrack' | 'risk' | 'critical';
+export type FinancialHealthStatus = 'noData' | 'ok' | 'warning' | 'critical';
+
+export const HEALTH_SEVERITY_ORDER: FinancialHealthStatus[] = [
+  'noData',
+  'ok',
+  'warning',
+  'critical',
+];
 
 export interface FinancialHealthResult {
   ratio: number;
@@ -29,43 +35,33 @@ export function calculateFinancialHealth(
 
   const ratio = expensesSoFar / expectedExpenses;
   const remainingBudget = income - expensesSoFar;
-  const earlyMonthBonus = day <= 3 ? 0.1 : 0;
 
   if (remainingBudget < 0) {
     return { ratio, status: 'critical' };
   }
 
-  if (ratio <= 0.85 + earlyMonthBonus) {
-    return { ratio, status: 'excellent' };
-  }
-
   if (ratio <= 1.05) {
-    return { ratio, status: 'onTrack' };
+    return { ratio, status: 'ok' };
   }
 
   if (ratio <= 1.5) {
-    return { ratio, status: 'risk' };
+    return { ratio, status: 'warning' };
   }
 
-  return { ratio, status: 'risk' };
+  return { ratio, status: 'critical' };
 }
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
-export const HEALTH_UI: Record<
-  FinancialHealthStatus,
-  {
-    color: string;
-    Icon: SvgIconComponent;
-  }
-> = {
-  excellent: {
-    color: '#22c55e',
-    Icon: TrendingUpIcon,
+export const HEALTH_UI: Record<FinancialHealthStatus, { color: string; Icon: SvgIconComponent }> = {
+  noData: {
+    color: '#64748b',
+    Icon: HelpOutlineIcon,
   },
-  onTrack: {
-    color: '#6c5ce7',
+  ok: {
+    color: '#22c55e',
     Icon: CheckCircleOutlineIcon,
   },
-  risk: {
+  warning: {
     color: '#f59e0b',
     Icon: WarningAmberIcon,
   },

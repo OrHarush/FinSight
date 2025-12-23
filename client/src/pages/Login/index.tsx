@@ -22,7 +22,7 @@ const LoginPage = () => {
     if (credentialResponse.credential) {
       try {
         await loginWithGoogle(credentialResponse.credential);
-        navigate(ROUTES.DASHBOARD_URL);
+        navigate(ROUTES.OVERVIEW_URL);
       } catch (err) {
         console.error('Google login failed:', err);
       }
@@ -30,7 +30,7 @@ const LoginPage = () => {
   };
 
   if (user) {
-    return <Navigate to={ROUTES.DASHBOARD_URL} replace />;
+    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
   }
 
   return (

@@ -1,5 +1,6 @@
 {
   "general": {
+    "balance": "Balance",
     "income": "Income",
     "expenses": "Expenses"
   },

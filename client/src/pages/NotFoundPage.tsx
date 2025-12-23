@@ -89,7 +89,7 @@ const NotFoundPage = ({ isAuthenticated = false }: NotFoundPageProps) => {
               variant="contained"
               size="large"
               startIcon={<Home />}
-              onClick={() => navigate(ROUTES.DASHBOARD_URL)}
+              onClick={() => navigate(ROUTES.OVERVIEW_URL)}
               sx={{
                 borderRadius: 3,
                 textTransform: 'none',

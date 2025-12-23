@@ -7,7 +7,7 @@ import enHome from '@/locales/en/home.json';
 import enLogin from '@/locales/en/login.json';
 import enPrivacyPolicy from '@/locales/en/privacyPolicy.json';
 import enTermsOfService from '@/locales/en/termsOfService.json';
-import enDashboard from '@/locales/en/dashboard.json';
+import enOverview from '@/locales/en/overview.json';
 import enSidebar from '@/locales/en/sidebar.json';
 import enTransactions from '@/locales/en/transactions.json';
 import enAccounts from '@/locales/en/accounts.json';
@@ -19,7 +19,7 @@ import heHome from '@/locales/he/home.json';
 import heLogin from '@/locales/he/login.json';
 import hePrivacyPolicy from '@/locales/he/privacyPolicy.json';
 import heTermsOfService from '@/locales/he/termsOfService.json';
-import heDashboard from '@/locales/he/dashboard.json';
+import heOverview from '@/locales/he/overview.json';
 import heSidebar from '@/locales/he/sidebar.json';
 import heTransactions from '@/locales/he/transactions.json';
 import heAccounts from '@/locales/he/accounts.json';
@@ -38,7 +38,7 @@ i18n
         privacyPolicy: enPrivacyPolicy,
         termsOfService: enTermsOfService,
         sidebar: enSidebar,
-        dashboard: enDashboard,
+        overview: enOverview,
         transactions: enTransactions,
         accounts: enAccounts,
         categories: enCategories,
@@ -51,7 +51,7 @@ i18n
         privacyPolicy: hePrivacyPolicy,
         termsOfService: heTermsOfService,
         sidebar: heSidebar,
-        dashboard: heDashboard,
+        overview: heOverview,
         transactions: heTransactions,
         accounts: heAccounts,
         categories: heCategories,

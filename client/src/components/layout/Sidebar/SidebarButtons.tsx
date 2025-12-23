@@ -18,9 +18,9 @@ interface SidebarButtonProps {
 
 const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
   {
-    titleKey: 'dashboard',
+    titleKey: 'overview',
     icon: DashboardIcon,
-    route: ROUTES.DASHBOARD_URL,
+    route: ROUTES.OVERVIEW_URL,
   },
   {
     titleKey: 'transactions',

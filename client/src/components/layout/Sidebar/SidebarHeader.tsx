@@ -17,7 +17,7 @@ const SidebarHeader = () => {
       marginLeft={isMobile ? '32px' : 0}
     >
       <Box
-        onClick={() => navigate(ROUTES.DASHBOARD_URL)}
+        onClick={() => navigate(ROUTES.OVERVIEW_URL)}
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -35,7 +35,7 @@ const SidebarHeader = () => {
       <Typography
         variant="h5"
         fontWeight={700}
-        onClick={() => navigate(ROUTES.DASHBOARD_URL)}
+        onClick={() => navigate(ROUTES.OVERVIEW_URL)}
         sx={{
           ':hover': {
             cursor: 'pointer',
