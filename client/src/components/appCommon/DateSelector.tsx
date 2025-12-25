@@ -51,6 +51,7 @@ const DateSelector = ({ value, onChange, allowYearSelection = false }: DateSelec
       views={allowYearSelection ? ['year', 'month'] : ['month']}
       value={value}
       onChange={newValue => onChange(newValue ?? dayjs())}
+      format="MMMM YYYY"
       slotProps={{
         textField: {
           sx: { width: 185, height: 40 },

@@ -62,7 +62,6 @@ const CategoryLimits = () => {
   if (isLoading) {
     return <CategoryLimitsSkeleton />;
   }
-  console.log(watchedCategories);
 
   return (
     <Grid size={{ xs: 12, md: 6 }}>

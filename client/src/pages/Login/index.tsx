@@ -9,14 +9,18 @@ import FinSightIcon from '@/pages/Login/FinSightIcon';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useTranslation } from 'react-i18next';
 import LegalLinks from '@/pages/Login/LegalLinks';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { IconButton, Tooltip } from '@mui/material';
 
 const LoginPage = () => {
-  const { t } = useTranslation('login');
+  const { t, i18n } = useTranslation('login');
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { alertError } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isRtl = i18n.language === 'he';
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -49,6 +53,23 @@ const LoginPage = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
+      <Tooltip title={t('backToHome', { defaultValue: 'Back to home' })}>
+        <IconButton
+          onClick={() => navigate(ROUTES.HOME_URL)}
+          aria-label="Back to home"
+          sx={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            backdropFilter: 'blur(8px)',
+            '&:hover': {
+              backgroundColor: 'rgba(255,255,255,0.16)',
+            },
+          }}
+        >
+          {isRtl ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+        </IconButton>
+      </Tooltip>
       <Card
         sx={{
           width: isMobile ? '340px' : '420px',

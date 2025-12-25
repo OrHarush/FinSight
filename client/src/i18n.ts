@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import dayjs from 'dayjs';
 
 import enCommon from '@/locales/en/common.json';
 import enHome from '@/locales/en/home.json';
@@ -68,5 +69,11 @@ i18n
       caches: ['localStorage'],
     },
   });
+
+dayjs.locale(i18n.language);
+
+i18n.on('languageChanged', lng => {
+  dayjs.locale(lng);
+});
 
 export default i18n;

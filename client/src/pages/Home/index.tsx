@@ -1,4 +1,4 @@
-import { alpha, Box, Button, Chip, Grid, Typography, useTheme } from '@mui/material';
+import { alpha, Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { Psychology, Shield, Visibility } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import Column from '@/components/layout/Containers/Column';
@@ -46,23 +46,9 @@ const HomePage = () => {
         sx={{
           flex: 1,
           justifyContent: 'center',
-          px: 3,
-          py: 8,
-          position: 'relative',
           zIndex: 1,
         }}
       >
-        <Chip
-          label={t('badge')}
-          sx={{
-            bgcolor: alpha(theme.palette.primary.main, 0.1),
-            color: theme.palette.primary.main,
-            fontWeight: 600,
-            px: 2,
-            py: 0.5,
-            fontSize: '0.9rem',
-          }}
-        />
         <Column spacing={3} alignItems="center" sx={{ maxWidth: 800 }}>
           <Typography
             variant="h1"
@@ -127,9 +113,11 @@ const HomePage = () => {
         >
           {t('cta')}
         </Button>
-        <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={1}>
           {principles.map(p => (
-            <Principle key={p.label} label={p.label} icon={p.icon} />
+            <Grid key={p.label} size={{ xs: 12, sm: 4 }} justifyItems={'center'}>
+              <Principle label={p.label} icon={p.icon} />
+            </Grid>
           ))}
         </Grid>
       </Column>

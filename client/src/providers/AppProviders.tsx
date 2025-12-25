@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { queryClient } from '@/queryClient';
+import i18n from '@/i18n';
 
 interface AppProvidersProps {
   children?: ReactNode;
@@ -19,7 +20,7 @@ const AppProviders = ({ children }: AppProvidersProps) => (
   <QueryClientProvider client={queryClient}>
     <GoogleOAuthProvider clientId={clientId}>
       <AuthProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
           <AppThemeProvider>
             <SnackbarProvider>{children}</SnackbarProvider>
             <ReactQueryDevtools initialIsOpen={false} />

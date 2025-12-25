@@ -5,14 +5,13 @@ import { ROUTES } from '@/constants/Routes';
 import { useTranslation } from 'react-i18next';
 
 const HomePageFooter = () => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation(['home', 'common']);
 
   return (
     <Column alignItems="center" sx={{ pb: 4, position: 'relative', zIndex: 1 }}>
       <Typography variant="caption" sx={{ color: 'text.secondary', textAlign: 'center' }}>
         {t('footer')}
       </Typography>
-
       <Row spacing={2}>
         <Typography
           component="a"
@@ -26,7 +25,7 @@ const HomePageFooter = () => {
             '&:hover': { textDecoration: 'underline' },
           }}
         >
-          Privacy Policy
+          {t('common:legal.privacyPolicy')}
         </Typography>
         <Typography
           component="a"
@@ -40,7 +39,7 @@ const HomePageFooter = () => {
             '&:hover': { textDecoration: 'underline' },
           }}
         >
-          Terms of Service
+          {t('common:legal.termsOfService')}
         </Typography>
       </Row>
     </Column>

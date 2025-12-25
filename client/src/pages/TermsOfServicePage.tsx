@@ -8,7 +8,7 @@ import LegalMeta from '@/components/legal/LegalMeta';
 import LegalHeader from '@/components/legal/LegalHeader';
 
 export const TermsOfServicePage = () => {
-  const { t } = useTranslation(['termsOfService', 'common']);
+  const { t } = useTranslation(['termsOfService']);
 
   return (
     <Column spacing={4} sx={{ maxWidth: 900, margin: '0 auto', p: { xs: 2, md: 4 } }}>
