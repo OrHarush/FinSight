@@ -5,11 +5,15 @@
     "subtitle": "Start by adding your first one",
     "chart": "Add some to see your income & expenses graph"
   },
+  "totals": {
+    "income": "Total income",
+    "expenses": "Total expenses"
+  },
   "fields": {
+    "name": "Name",
     "amount": "Amount",
     "date": "Date",
     "description": "Description",
-    "name": "Name",
     "type": "Type",
     "category": "Category",
     "paymentMethod": "Payment Method",
@@ -18,7 +22,8 @@
     "toAccount": "To Account",
     "recurrence": "Recurrence",
     "startDate": "Start Date",
-    "endDate": "End Date"
+    "endDate": "End Date",
+    "countTowardPreviousMonth": "Count toward previous month?"
   },
   "types": {
     "income": "Income",

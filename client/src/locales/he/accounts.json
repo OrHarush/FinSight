@@ -17,13 +17,16 @@
     "openingBalance": "יתרת פתיחה",
     "institution": "מוסד פיננסי",
     "accountNumber": "מספר חשבון",
-    "lastSynced": "תאריך סנכרון אחרון",
-    "notSynced": "לא סונכרן עדיין"
+    "asOfDate": "נכון לתאריך",
+    "noDataYet": "אין נתונים עדיין"
   },
   "actions": {
     "create": "הוסף חשבון",
     "edit": "ערוך חשבון",
     "delete": "מחק חשבון"
+  },
+  "validation": {
+    "accountNumberFormat": "מספר חשבון חייב להכיל בדיוק 4 ספרות"
   },
   "messages": {
     "createSuccess": "החשבון נוצר בהצלחה",

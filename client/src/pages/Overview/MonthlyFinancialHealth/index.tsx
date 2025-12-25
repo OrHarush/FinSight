@@ -113,7 +113,7 @@ const MonthlyFinancialHealth = () => {
   return (
     <Grid size={{ xs: 12, md: 6, lg: 7 }}>
       <Card sx={{ p: 3, height: '100%', width: '100%' }}>
-        <Grid container alignItems={'center'}>
+        <Grid height={'100%'} container alignItems={'center'}>
           <Grid size={{ xs: 12, sm: 3, md: 12, lg: 3 }} justifyItems={'center'}>
             <OverallHealthIcon status={overallStatus} />
           </Grid>

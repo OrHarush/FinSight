@@ -50,26 +50,25 @@ const IconPickerDialog = ({ isOpen, closeDialog, selectIcon, icons }: IconPicker
       </IconButton>
       <DialogContent sx={{ height: '480px' }}>
         <Column height="100%" justifyContent={'space-between'}>
-          <TextField
-            fullWidth
-            placeholder="Search icons..."
-            value={search}
-            onChange={handleSearch}
-            size="small"
-            sx={{ mb: 2 }}
-          />
-          <Grid container spacing={2}>
-            {currentIcons.map(name => (
-              <IconOption
-                key={name}
-                name={name}
-                selectIcon={selectIcon}
-                closeDialog={closeDialog}
-              />
-            ))}
-          </Grid>
+          <Column>
+            <TextField
+              fullWidth
+              placeholder="Search icons..."
+              value={search}
+              onChange={handleSearch}
+              size="small"
+              sx={{ mb: 2 }}
+            />
+            <Grid container spacing={2} alignItems={'flex-start'}>
+              {currentIcons.map(name => (
+                <Grid key={name} size={{ xs: 2 }}>
+                  <IconOption name={name} selectIcon={selectIcon} closeDialog={closeDialog} />
+                </Grid>
+              ))}
+            </Grid>
+          </Column>
           {totalPages > 1 && (
-            <Grid container justifyContent="center" sx={{ mt: 2 }}>
+            <Grid container justifyContent="center">
               <Pagination count={totalPages} page={page} onChange={(_, value) => setPage(value)} />
             </Grid>
           )}

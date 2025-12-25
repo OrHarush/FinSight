@@ -17,7 +17,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
   return (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom color={'textSecondary'}>
           {t('incomeCategories')}
         </Typography>
         <Grid container spacing={2}>
@@ -27,7 +27,7 @@ const CategoryList = ({ selectCategory }: CategoryListProps) => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12, md: 6 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom color={'textSecondary'}>
           {t('expenseCategories')}
         </Typography>
         <Grid container spacing={2}>

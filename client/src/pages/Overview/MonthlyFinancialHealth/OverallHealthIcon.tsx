@@ -11,9 +11,9 @@ const OverallHealthIcon = ({ status }: OverallHealthIconProps) => {
   return (
     <Column
       sx={{
-        width: 100,
-        height: 100,
-        borderRadius: 100,
+        width: 80,
+        height: 80,
+        borderRadius: 5,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

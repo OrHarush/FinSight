@@ -17,13 +17,16 @@
     "openingBalance": "Opening Balance",
     "institution": "Institution",
     "accountNumber": "Account Number",
-    "lastSynced": "Last Synced",
-    "notSynced": "Not synced yet"
+    "asOfDate": "Updated at",
+    "noDataYet": "No data yet"
   },
   "actions": {
     "create": "Add Account",
     "edit": "Edit Account",
     "delete": "Delete Account"
+  },
+  "validation": {
+    "accountNumberFormat": "Account number must be exactly 4 digits"
   },
   "messages": {
     "createSuccess": "Account created successfully",

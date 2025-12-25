@@ -1,6 +1,7 @@
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
 import Column from '@/components/layout/Containers/Column';
+import { useTranslation } from 'react-i18next';
 
 interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;
@@ -23,8 +24,10 @@ const TextInput = ({
   maxLength,
   fullWidth = true,
   type,
+  rules,
   ...rest
 }: TextInputProps) => {
+  const { t } = useTranslation('common');
   const {
     register,
     formState: { errors },
@@ -36,31 +39,40 @@ const TextInput = ({
     baseRules = {
       valueAsNumber: true,
       ...(required && {
-        required: typeof required === 'string' ? required : `${label} is required`,
+        required:
+          typeof required === 'string' ? required : t('validation.required', { field: label }),
       }),
-      ...(min !== undefined && { min: { value: min, message: `${label} ≥ ${min}` } }),
-      ...(max !== undefined && { max: { value: max, message: `${label} ≤ ${max}` } }),
+      ...(min !== undefined && {
+        min: { value: min, message: t('validation.min', { field: label, value: min }) },
+      }),
+      ...(max !== undefined && {
+        max: { value: max, message: t('validation.max', { field: label, value: min }) },
+      }),
     };
   } else if (type === 'date') {
     baseRules = {
       valueAsDate: true,
       ...(required && {
-        required: typeof required === 'string' ? required : `${label} is required`,
+        required:
+          typeof required === 'string' ? required : t('validation.required', { field: label }),
       }),
     };
   } else {
     baseRules = {
       ...(required && {
-        required: typeof required === 'string' ? required : `${label} is required`,
+        required:
+          typeof required === 'string' ? required : t('validation.required', { field: label }),
       }),
       ...(minLength !== undefined && {
-        minLength: { value: minLength, message: `${label} ≥ ${minLength} chars` },
+        minLength: { value: minLength, message: t('validation.min', { field: label, value: min }) },
       }),
       ...(maxLength !== undefined && {
-        maxLength: { value: maxLength, message: `${label} ≤ ${maxLength} chars` },
+        maxLength: { value: maxLength, message: t('validation.max', { field: label, value: min }) },
       }),
     };
   }
+
+  const finalRules = { ...baseRules, ...rules };
 
   const fieldError = errors[name]?.message as string | undefined;
 
@@ -73,7 +85,7 @@ const TextInput = ({
     >
       {label && <InputLabel>{label}</InputLabel>}
       <TextField
-        {...register(name, baseRules)}
+        {...register(name, finalRules)}
         fullWidth
         helperText={fieldError}
         type={type}

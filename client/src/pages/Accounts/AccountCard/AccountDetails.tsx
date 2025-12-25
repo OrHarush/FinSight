@@ -52,7 +52,7 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
       </Row>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">
-          {t('details.lastSynced')}:
+          {t('details.asOfDate')}:
         </Typography>
         <Row spacing={1}>
           <Typography fontWeight={500}>
@@ -62,7 +62,7 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
                   month: 'short',
                   year: 'numeric',
                 })
-              : t('details.notSynced')}
+              : t('details.noDataYet')}
           </Typography>
           <IconButton size="small" sx={{ padding: 0 }} onClick={syncAccount} disabled={isPending}>
             <SyncIcon

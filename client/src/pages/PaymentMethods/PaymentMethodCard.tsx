@@ -1,5 +1,4 @@
-import { Box, Chip, Typography, IconButton } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Box, Chip, Typography } from '@mui/material';
 import creditCardChip from '@/assets/creditCardChip.png';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 import Column from '@/components/layout/Containers/Column';
@@ -8,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import PaymentMethodCardMenu from '@/pages/PaymentMethods/PaymentMethodCardMenu';
 import PaymentMethodCardContainer from '@/pages/PaymentMethods/PaymentMethodCardContainer';
+import MenuTriggerButton from '@/components/appCommon/MenuTriggerButton';
 
 interface PaymentMethodCardProps {
   paymentMethod: PaymentMethodDto;
@@ -18,6 +18,7 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
   const { t } = useTranslation('paymentMethods');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const isCardPayment = paymentMethod.type === 'Credit' || paymentMethod.type === 'Debit';
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
@@ -52,9 +53,7 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
               variant="outlined"
               sx={{ height: 28, fontSize: '1rem', fontWeight: 500 }}
             />
-            <IconButton size="small" onClick={handleMenuOpen}>
-              <MoreVertIcon />
-            </IconButton>
+            <MenuTriggerButton openMenu={handleMenuOpen} />
           </Row>
         </Row>
         {isCardPayment && (

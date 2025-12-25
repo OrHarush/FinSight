@@ -49,7 +49,6 @@ const IconPickerField = ({
                     ),
                   },
                 }}
-                fullWidth
               />
             </Column>
           );

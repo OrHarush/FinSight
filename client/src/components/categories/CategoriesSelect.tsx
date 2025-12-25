@@ -6,12 +6,14 @@ import Row from '@/components/layout/Containers/Row';
 import { Typography } from '@mui/material';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { CategoryDto } from '@/types/Category';
+import { useTranslation } from 'react-i18next';
 
 interface CategoriesSelectProps {
   filteredCategories?: CategoryDto[];
 }
 
 const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
+  const { t } = useTranslation('transactions');
   const { categories } = useCategories();
 
   const categoriesToDisplay = filteredCategories || categories;
@@ -19,7 +21,7 @@ const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
   return (
     <RHFSelect
       name="category"
-      label="Category"
+      label={t('fields.category')}
       required
       options={categoriesToDisplay.map(category => {
         const IconComponent =

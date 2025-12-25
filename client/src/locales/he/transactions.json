@@ -5,11 +5,15 @@
     "subtitle": "התחל על ידי הוספת העסקה הראשונה שלך",
     "chart": "הוסף עסקאות כדי לראות את גרף ההכנסות וההוצאות"
   },
+  "totals": {
+    "income": "סך הכנסות",
+    "expenses": "סך הוצאות"
+  },
   "fields": {
+    "name": "שם",
     "amount": "סכום",
     "date": "תאריך",
     "description": "תיאור",
-    "name": "שם",
     "type": "סוג",
     "category": "קטגוריה",
     "paymentMethod": "אמצעי תשלום",
@@ -18,7 +22,8 @@
     "toAccount": "לחשבון",
     "recurrence": "חזרתיות",
     "startDate": "תאריך התחלה",
-    "endDate": "תאריך סיום"
+    "endDate": "תאריך סיום",
+    "countTowardPreviousMonth": "לשייך לחודש הקודם?"
   },
   "types": {
     "income": "הכנסה",

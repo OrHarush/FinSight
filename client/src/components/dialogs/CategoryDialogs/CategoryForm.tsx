@@ -27,9 +27,17 @@ const CategoryForm = () => {
         <Grid size={{ xs: 6 }}>
           <TextInput name="monthlyLimit" label={t('fields.monthlyLimit')} type="number" min={0} />
         </Grid>
+        <Grid size={{ xs: 6 }}>
+          <IconPickerField
+            icons={categoryIcons}
+            defaultIcon="CategoryIcon"
+            label={t('fields.icon')}
+          />
+        </Grid>
+        <Grid size={{ xs: 6 }}>
+          <ColorPickerField label={t('fields.color')} />
+        </Grid>
       </Grid>
-      <IconPickerField icons={categoryIcons} defaultIcon="CategoryIcon" label={t('fields.icon')} />
-      <ColorPickerField label={t('fields.color')} />
     </Column>
   );
 };

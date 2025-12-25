@@ -3,6 +3,7 @@ import Row from '@/components/layout/Containers/Row';
 import CurrencyText from '@/components/appCommon/CurrencyText';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionsTotalsProps {
   totalIncome: number;
@@ -10,6 +11,7 @@ interface TransactionsTotalsProps {
 }
 
 const TransactionsTotals = ({ totalIncome, totalExpenses }: TransactionsTotalsProps) => {
+  const { t } = useTranslation('transactions');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -19,7 +21,7 @@ const TransactionsTotals = ({ totalIncome, totalExpenses }: TransactionsTotalsPr
         {isMobile ? (
           <ArrowDownwardIcon fontSize="small" color="error" />
         ) : (
-          <Typography color="text.secondary">Total expenses:</Typography>
+          <Typography color="text.secondary">{t('totals.expenses')}:</Typography>
         )}
         <CurrencyText value={totalExpenses} color="error" />
       </Row>
@@ -27,7 +29,7 @@ const TransactionsTotals = ({ totalIncome, totalExpenses }: TransactionsTotalsPr
         {isMobile ? (
           <ArrowUpwardIcon fontSize="small" color="success" />
         ) : (
-          <Typography color="text.secondary">Total income:</Typography>
+          <Typography color="text.secondary">{t('totals.income')}:</Typography>
         )}
         <CurrencyText value={totalIncome} color="success" />
       </Row>

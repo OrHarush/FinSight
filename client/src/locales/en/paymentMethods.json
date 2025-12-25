@@ -6,7 +6,9 @@
   },
   "fields": {
     "name": "Name",
-    "billingDay": "Billing Day",
+    "billingDay": "Monthly billing day",
+    "billingDayPlaceholder": "1–31 of the month",
+    "billingDayHelper": "Charged on this day every month",
     "last4": "Last 4 Digits",
     "type": "Type",
     "isPrimary": "Primary Payment Method"

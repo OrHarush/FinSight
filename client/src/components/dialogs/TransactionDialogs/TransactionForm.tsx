@@ -2,7 +2,7 @@ import RHFSelect from '@/components/inputs/RHFSelect';
 import Column from '@/components/layout/Containers/Column';
 import TextInput from '@/components/inputs/TextInput';
 import Row from '@/components/layout/Containers/Row';
-import { Checkbox, FormControlLabel, InputLabel, Skeleton } from '@mui/material';
+import { Checkbox, FormControlLabel, Grid, InputLabel, Skeleton } from '@mui/material';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import CategoriesSelect from '@/components/categories/CategoriesSelect';
@@ -13,7 +13,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useTranslation } from 'react-i18next';
 
-const recurrenceOptions = ['None', 'Monthly', 'Yearly'];
+type RecurrenceValue = 'None' | 'Monthly' | 'Yearly';
 
 const TransactionForm = () => {
   const { t } = useTranslation('transactions');
@@ -21,6 +21,11 @@ const TransactionForm = () => {
   const { paymentMethods } = usePaymentMethods();
   const { control } = useFormContext<TransactionFormValues>();
   const isMobile = useIsMobile();
+  const recurrenceOptions: { label: string; value: RecurrenceValue }[] = [
+    { value: 'None', label: t('recurrence.none') },
+    { value: 'Monthly', label: t('recurrence.monthly') },
+    { value: 'Yearly', label: t('recurrence.yearly') },
+  ];
 
   const transactionType = useWatch({ control, name: 'type' });
   const recurrence = useWatch({ control, name: 'recurrence' });
@@ -31,30 +36,42 @@ const TransactionForm = () => {
     c => c.type.toLowerCase() === transactionType?.toLowerCase()
   );
 
+  console.log('=');
+  console.log(t('recurrence.none'));
+  console.log(recurrence);
   return (
     <Column spacing={isMobile ? 1 : 2} height={isMobile ? '548px' : '590px'}>
       <TransactionTypeSelector />
-      {transactionType !== 'Transfer' && <TextInput name="name" label="Name" required />}
-      <Row spacing={2}>
-        <TextInput name="amount" label={t('fields.amount')} type="number" min={1} required />
-        {/**/}
-        <RHFSelect
-          name="recurrence"
-          label="Recurrence"
-          required
-          options={recurrenceOptions.map(option => ({
-            label: option,
-            value: option,
-          }))}
-        />
-      </Row>
+      {transactionType !== 'Transfer' && (
+        <TextInput name="name" label={t('fields.name')} required />
+      )}
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 6 }}>
+          <TextInput name="amount" label={t('fields.amount')} type="number" min={1} required />
+        </Grid>
+        <Grid size={{ xs: 6 }}>
+          <RHFSelect
+            name="recurrence"
+            label={t('fields.recurrence')}
+            required
+            options={recurrenceOptions.map(option => ({
+              label: option.label,
+              value: option.value,
+            }))}
+          />
+        </Grid>
+      </Grid>
       {recurrence == 'None' ? (
         <TextInput name="date" label={t('fields.date')} type={'date'} sx={{ width: '50%' }} />
       ) : (
-        <Row spacing={2}>
-          <TextInput name="startDate" label={t('fields.startDate')} type={'date'} fullWidth />
-          <TextInput name="endDate" label={t('fields.endDate')} type={'month'} fullWidth />
-        </Row>
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 6 }}>
+            <TextInput name="startDate" label={t('fields.startDate')} type={'date'} fullWidth />
+          </Grid>
+          <Grid size={{ xs: 6 }}>
+            <TextInput name="endDate" label={t('fields.endDate')} type={'month'} fullWidth />
+          </Grid>
+        </Grid>
       )}
       {transactionType !== 'Transfer' && !isLoading ? (
         <CategoriesSelect filteredCategories={filteredCategories} />
@@ -97,7 +114,7 @@ const TransactionForm = () => {
                 )}
               />
             }
-            label={'Count toward previous month?'}
+            label={t('fields.countTowardPreviousMonth')}
           />
         )}
       </Column>

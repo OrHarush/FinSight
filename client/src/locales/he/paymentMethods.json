@@ -6,7 +6,9 @@
   },
   "fields": {
     "name": "שם",
-    "billingDay": "יום חיוב",
+    "billingDay": "יום חיוב חודשי",
+    "billingDayPlaceholder": "1–31 בחודש",
+    "billingDayHelper": "החיוב מתבצע ביום זה בכל חודש",
     "last4": "4 ספרות אחרונות",
     "type": "סוג אמצעי תשלום",
     "isPrimary": "אמצעי תשלום ראשי"

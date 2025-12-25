@@ -1,4 +1,5 @@
 {
+  "loading": "טוען את FinSight...",
   "general": {
     "balance": "יתרה",
     "income": "הכנסות",
@@ -11,7 +12,15 @@
   },
   "actions": {
     "search": "חפש...",
-    "swipeToDelete": "החלק למחיקה"
+    "swipeToDelete": "החלק למחיקה",
+    "setPrimary": "הגדר כראשי"
+  },
+  "validation": {
+    "required": "השדה {{field}} הוא שדה חובה",
+    "min": "{{field}} חייב להיות לפחות {{value}}",
+    "max": "{{field}} חייב להיות לכל היותר {{value}}",
+    "minLength": "{{field}} חייב להכיל לפחות {{value}} תווים",
+    "maxLength": "{{field}} יכול להכיל עד {{value}} תווים"
   },
   "entities": {
     "empty": {

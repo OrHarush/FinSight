@@ -139,7 +139,7 @@ export const categoryIcons = [
   // 🧹 Cleaning / Home Care
   'CleaningServices',
   'Iron',
-  'Laundry',
+  'LocalLaundryService',
 
   // 📱 Tech (extra)
   'Devices',

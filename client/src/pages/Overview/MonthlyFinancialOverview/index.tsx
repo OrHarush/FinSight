@@ -34,6 +34,8 @@ const MonthlyFinancialOverview = () => {
   const expenses = data?.monthlyExpenses ?? 0;
   const net = income - expenses;
 
+  console.log(income, net);
+
   if (!account) {
     return null;
   }
