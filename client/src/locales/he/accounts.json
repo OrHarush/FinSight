@@ -23,7 +23,8 @@
   "actions": {
     "create": "הוסף חשבון",
     "edit": "ערוך חשבון",
-    "delete": "מחק חשבון"
+    "delete": "מחק חשבון",
+    "recalculateBalance": "חישוב יתרה"
   },
   "validation": {
     "accountNumberFormat": "מספר חשבון חייב להכיל בדיוק 4 ספרות"

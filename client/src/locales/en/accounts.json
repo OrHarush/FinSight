@@ -23,7 +23,8 @@
   "actions": {
     "create": "Add Account",
     "edit": "Edit Account",
-    "delete": "Delete Account"
+    "delete": "Delete Account",
+    "recalculateBalance": "Recalculate balance"
   },
   "validation": {
     "accountNumberFormat": "Account number must be exactly 4 digits"
