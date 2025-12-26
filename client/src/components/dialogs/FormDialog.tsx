@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent } from '@mui/material';
+import { Breakpoint, Button, DialogActions, DialogContent } from '@mui/material';
 import Column from '@/components/layout/Containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
@@ -10,6 +10,7 @@ interface FormDialogProps<T extends FieldValues> extends BaseDialogProps {
   onSubmit: (data: T) => void;
   children: ReactNode;
   isUpdateForm?: boolean;
+  maxWidth?: Breakpoint;
 }
 
 const FormDialog = <T extends FieldValues>({
@@ -19,6 +20,7 @@ const FormDialog = <T extends FieldValues>({
   onSubmit,
   children,
   isUpdateForm = false,
+  maxWidth = 'xs',
 }: FormDialogProps<T>) => {
   const { t } = useTranslation('common');
   const { reset, handleSubmit } = useFormContext<T>();
@@ -35,7 +37,7 @@ const FormDialog = <T extends FieldValues>({
   };
 
   return (
-    <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title}>
+    <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title} maxWidth={maxWidth}>
       <form onSubmit={handleSubmit(handleFormSubmit)} id="form-dialog" noValidate>
         <DialogContent>
           <Column spacing={2}>{children}</Column>

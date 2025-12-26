@@ -45,7 +45,7 @@ const MonthlyFinancialHealth = () => {
 
   const isLoading = isLoadingSummary || isLoadingAccounts || isLoadingTransactions;
 
-  if (isLoading) {
+  if (!isLoading) {
     return <MonthlyFinancialHealthSkeleton />;
   }
 

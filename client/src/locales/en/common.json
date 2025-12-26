@@ -20,7 +20,8 @@
     "min": "{{field}} must be at least {{value}}",
     "max": "{{field}} must be at most {{value}}",
     "minLength": "{{field}} must be at least {{value}} characters",
-    "maxLength": "{{field}} must be at most {{value}} characters"
+    "maxLength": "{{field}} must be at most {{value}} characters",
+    "maxTwoDecimals": "Up to 2 decimal places are allowed"
   },
   "entities": {
     "empty": {

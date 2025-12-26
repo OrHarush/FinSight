@@ -23,11 +23,6 @@ const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelec
     <Controller
       name={name}
       control={control}
-      rules={
-        required
-          ? { required: typeof required === 'string' ? required : `${label} is required` }
-          : {}
-      }
       render={({ field, fieldState }) => (
         <TextInput
           {...field}

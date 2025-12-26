@@ -8,7 +8,16 @@
   "accountSelector": {
     "placeholder": "Select account"
   },
-
+  "setup": {
+    "title": "Let’s get you set up",
+    "subtitle": "Complete the steps below to unlock your financial dashboard",
+    "steps": {
+      "account": "Create your first account",
+      "paymentMethod": "Add a payment method",
+      "transaction": "Add your first transaction"
+    },
+    "footer": "You can complete these steps in any order"
+  },
   "noData": {
     "title": "No data yet",
     "detail": "Add transactions for this month to unlock insights"

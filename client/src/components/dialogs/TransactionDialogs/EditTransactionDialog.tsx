@@ -1,6 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import FormDialog from '@/components/dialogs/FormDialog';
-import TransactionForm from '@/components/dialogs/TransactionDialogs/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto, TransactionDto, TransactionFormValues } from '@/types/Transaction';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -10,6 +9,7 @@ import { UpdateTransactionCommand } from '../../../../../shared/types/Transactio
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import TransactionForm from '@/components/dialogs/TransactionDialogs/TransactionForm';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;

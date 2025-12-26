@@ -17,7 +17,7 @@ const OverallHealthIcon = ({ status }: OverallHealthIconProps) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: `${color}22`,
+        backgroundColor: `${color}22`,
         flexShrink: 0,
       }}
     >

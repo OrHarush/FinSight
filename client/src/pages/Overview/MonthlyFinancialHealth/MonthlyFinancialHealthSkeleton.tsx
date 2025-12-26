@@ -8,13 +8,13 @@ const MonthlyFinancialHealthSkeleton = () => {
 
   return (
     <Grid size={{ xs: 12, md: 6, lg: 7 }}>
-      <Card sx={{ p: 3, height: '100%' }}>
+      <Card sx={{ p: 3, height: '100%', width: '100%' }}>
         <Row width="100%" height="100%" spacing={2} alignItems="center">
           <Skeleton
-            variant="circular"
-            width={100}
-            height={100}
-            sx={{ minWidth: 100, minHeight: 100 }}
+            variant="rectangular"
+            width={80}
+            height={80}
+            sx={{ minWidth: 80, minHeight: 80, borderRadius: 5 }}
           />
           <Row width="100%" justifyContent="space-evenly" alignItems="center" textAlign="center">
             {[1, 2, 3].map(i => (

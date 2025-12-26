@@ -20,7 +20,8 @@
     "min": "{{field}} חייב להיות לפחות {{value}}",
     "max": "{{field}} חייב להיות לכל היותר {{value}}",
     "minLength": "{{field}} חייב להכיל לפחות {{value}} תווים",
-    "maxLength": "{{field}} יכול להכיל עד {{value}} תווים"
+    "maxLength": "{{field}} יכול להכיל עד {{value}} תווים",
+    "maxTwoDecimals": "ניתן להזין עד שתי ספרות אחרי הנקודה"
   },
   "entities": {
     "empty": {

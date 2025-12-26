@@ -4,7 +4,6 @@ import { TransactionDto, TransactionFormValues } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
-import TransactionForm from '@/components/dialogs/TransactionDialogs/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
 import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
@@ -12,12 +11,15 @@ import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import TransactionForm from '@/components/dialogs/TransactionDialogs/TransactionForm';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const { primaryAccount } = useAccounts();
   const { primaryPaymentMethod } = usePaymentMethods();
+  const isMobile = useIsMobile();
 
   const todayLocal = new Date();
   todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
@@ -58,6 +60,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
         closeDialog={closeDialog}
         title={'Create Transaction'}
         onSubmit={submitNewTransaction}
+        maxWidth={isMobile ? 'xs' : 'md'}
       >
         <TransactionForm />
       </FormDialog>
