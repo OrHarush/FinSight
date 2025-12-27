@@ -1,8 +1,10 @@
 import mongoose, { Schema, Types } from 'mongoose';
+import { DEFAULT_CATEGORY_KEYS, DefaultCategoryKey } from '../../../shared/types/defaultCategories';
 
 export interface ICategory {
   _id: string;
   name: string;
+  key?: DefaultCategoryKey;
   type: 'Income' | 'Expense';
   color: string;
   icon: string;
@@ -12,6 +14,11 @@ export interface ICategory {
 
 const CategorySchema: Schema = new Schema(
   {
+    key: {
+      type: String,
+      enum: DEFAULT_CATEGORY_KEYS,
+      required: false,
+    },
     name: { type: String, required: true, trim: true },
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },

@@ -1,0 +1,13 @@
+{
+  "deleteDialog": {
+    "title": "מחיקת חשבון",
+    "description": "האם אתה בטוח שברצונך למחוק את החשבון שלך? פעולה זו אינה ניתנת לביטול.",
+    "instruction": "יש להקליד {{keyword}} כדי לאשר.",
+    "placeholder": "הקלד '{{keyword}}' לאישור",
+    "confirmKeyword": "delete",
+    "cancel": "ביטול",
+    "confirm": "מחיקת חשבון",
+    "success": "החשבון נמחק בהצלחה.",
+    "error": "מחיקת החשבון נכשלה."
+  }
+}

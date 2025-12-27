@@ -14,7 +14,9 @@ import { useTranslation } from 'react-i18next';
 const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  const methods = useForm<CategoryFormValues>();
+  const methods = useForm<CategoryFormValues>({
+    mode: 'all',
+  });
 
   const createCategory = useApiMutation<CategoryDto, CreateCategoryCommand>({
     method: 'post',

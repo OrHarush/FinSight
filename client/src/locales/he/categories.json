@@ -58,5 +58,16 @@
     "updateError": "עדכון הקטגוריה נכשל",
     "deleteSuccess": "הקטגוריה נמחקה בהצלחה",
     "deleteError": "מחיקת הקטגוריה נכשלה"
+  },
+  "defaults": {
+    "salary": "משכורת",
+    "freelance": "פרילנס",
+    "investments": "השקעות",
+    "housing": "דיור",
+    "groceries": "מצרכים",
+    "transportation": "תחבורה",
+    "utilities": "חשבונות",
+    "dining_out": "אוכל בחוץ",
+    "other": "אחר"
   }
 }

@@ -35,6 +35,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
       fromAccount: '',
       toAccount: '',
     },
+    mode: 'all',
   });
 
   const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
@@ -58,7 +59,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title={'Create Transaction'}
+        title={t('actions.create')}
         onSubmit={submitNewTransaction}
         maxWidth={isMobile ? 'xs' : 'md'}
       >

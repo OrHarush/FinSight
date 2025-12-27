@@ -35,8 +35,13 @@ const PaymentMethodForm = () => {
             name="last4"
             label={t('fields.last4')}
             type="text"
-            minLength={4}
             maxLength={4}
+            rules={{
+              pattern: {
+                value: /^\d{4}$/,
+                message: t('validation.last4Format'),
+              },
+            }}
           />
         )}
       </Grid>

@@ -15,10 +15,6 @@
     "logout": "התנתק",
     "deleteAccount": "מחק חשבון"
   },
-  "messages": {
-    "accountDeleted": "החשבון שלך נמחק בהצלחה.",
-    "deleteError": "מחיקת החשבון נכשלה."
-  },
   "settings": {
     "title": "הגדרות",
     "help": "עזרה",

@@ -11,10 +11,13 @@ import {
 } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { useTranslation } from 'react-i18next';
+import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
+import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface TopCategoriesContentProps {
   chartData: {
     id: string;
+    key?: DefaultCategoryKey;
     name: string;
     amount: number;
     color: string | undefined;
@@ -25,14 +28,17 @@ interface TopCategoriesContentProps {
 const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps) => {
   const theme = useTheme();
   const { t } = useTranslation('overview');
+  const { t: tCategories } = useTranslation('categories');
 
   const dataset = chartData.map(d => ({
-    category: d.name,
+    category: getCategoryDisplayName(d, tCategories),
     spent: d.amount,
   }));
+
   const categoryColors: string[] = chartData.map(d =>
     d.color ? alpha(d.color, 0.5) : alpha(theme.palette.grey[500], 0.7)
   );
+
   return (
     <Grid size={{ xs: 12, md: 6 }}>
       <Card sx={{ height: '100%', minWidth: '240px', padding: 2 }}>

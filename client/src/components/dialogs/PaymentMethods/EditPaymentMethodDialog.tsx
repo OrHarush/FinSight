@@ -30,6 +30,7 @@ const EditPaymentMethodDialog = ({
       last4: paymentMethod.last4,
       isPrimary: paymentMethod.isPrimary,
     },
+    mode: 'all',
   });
 
   const updatePaymentMethod = useApiMutation<PaymentMethodDto, UpdatePaymentMethodCommand>({

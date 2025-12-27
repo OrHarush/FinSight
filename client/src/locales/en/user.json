@@ -1,0 +1,13 @@
+{
+  "deleteDialog": {
+    "title": "Delete Account",
+    "description": "Are you sure you want to delete your account? This action cannot be undone.",
+    "instruction": "Please type {{keyword}} to confirm.",
+    "placeholder": "Type '{{keyword}}' to confirm",
+    "confirmKeyword": "delete",
+    "cancel": "Cancel",
+    "confirm": "Delete Account",
+    "success": "Your account has been deleted successfully.",
+    "error": "Failed to delete account."
+  }
+}

@@ -1,13 +1,23 @@
 import { CategoryDto, CategoryFormValues } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
+import { PRESET_COLORS, PresetColor } from '../../../shared/types/colors';
+import { CreateCategoryCommand } from '../../../shared/types/CategoryCommands';
+import { DefaultCategoryKey } from '../../../shared/types/defaultCategories';
+import { TFunction } from 'i18next';
 
-export const mapCategoryFormToCommand = (values: CategoryFormValues) => ({
-  name: values.name.trim(),
-  type: values.type,
-  color: values.color,
-  icon: values.icon,
-  monthlyLimit: values.monthlyLimit,
-});
+export function mapCategoryFormToCommand(values: CategoryFormValues): CreateCategoryCommand {
+  if (!PRESET_COLORS.includes(values.color as PresetColor)) {
+    throw new Error(`Invalid category color: ${values.color}`);
+  }
+
+  return {
+    name: values.name.trim(),
+    type: values.type,
+    icon: values.icon,
+    color: values.color as PresetColor,
+    monthlyLimit: values.monthlyLimit,
+  };
+}
 
 export function getTopSpendingCategories(
   transactions: TransactionDto[],
@@ -24,13 +34,25 @@ export function getTopSpendingCategories(
   }
 
   return categories
-    .filter(cat => cat.type === 'Expense' && perCategory.has(cat._id))
-    .map(cat => ({
-      id: cat._id,
-      name: cat.name,
-      amount: perCategory.get(cat._id) ?? 0,
-      color: cat.color,
+    .filter(category => category.type === 'Expense' && perCategory.has(category._id))
+    .map(category => ({
+      id: category._id,
+      key: category.key,
+      name: category.name,
+      amount: perCategory.get(category._id) ?? 0,
+      color: category.color,
     }))
     .sort((a, b) => b.amount - a.amount)
     .slice(0, limit);
+}
+
+export function getCategoryDisplayName(
+  category: { name: string; key?: DefaultCategoryKey },
+  t: TFunction<'categories'>
+): string {
+  if (category.key) {
+    return t(`defaults.${category.key}`);
+  }
+
+  return category.name;
 }

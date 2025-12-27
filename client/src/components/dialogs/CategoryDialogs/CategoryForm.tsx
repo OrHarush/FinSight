@@ -6,9 +6,14 @@ import { Grid } from '@mui/material';
 import IconPickerField from '@/components/dialogs/IconPicker/IconPickerButton';
 import { categoryIcons } from '@/constants/CategoryIcons';
 import { useTranslation } from 'react-i18next';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { CategoryFormValues } from '@/types/Category';
 
 const CategoryForm = () => {
   const { t } = useTranslation('categories');
+  const { control } = useFormContext<CategoryFormValues>();
+
+  const categoryType = useWatch({ control, name: 'type' });
 
   return (
     <Column spacing={2}>
@@ -24,9 +29,11 @@ const CategoryForm = () => {
             ]}
           />
         </Grid>
-        <Grid size={{ xs: 6 }}>
-          <TextInput name="monthlyLimit" label={t('fields.monthlyLimit')} type="number" min={0} />
-        </Grid>
+        {categoryType === 'Expense' && (
+          <Grid size={{ xs: 6 }}>
+            <TextInput name="monthlyLimit" label={t('fields.monthlyLimit')} type="number" min={0} />
+          </Grid>
+        )}
         <Grid size={{ xs: 6 }}>
           <IconPickerField
             icons={categoryIcons}

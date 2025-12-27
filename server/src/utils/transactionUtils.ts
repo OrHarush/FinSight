@@ -89,6 +89,8 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
     return [tx];
   }
 
+  console.log(tx);
+
   return [
     {
       ...tx,
@@ -103,7 +105,7 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
         color: '#ff6b6b',
         type: 'Expense' as const,
         monthlyLimit: 0,
-        userId: new Types.ObjectId(tx.user._id),
+        userId: new Types.ObjectId(tx.userId),
       },
     } as ITransactionPopulated,
     {
@@ -119,7 +121,7 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
         color: '#51cf66',
         type: 'Income' as const,
         monthlyLimit: 0,
-        userId: new Types.ObjectId(tx.user._id),
+        userId: new Types.ObjectId(tx.userId),
       },
     } as ITransactionPopulated,
   ];

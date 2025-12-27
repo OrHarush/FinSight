@@ -1,4 +1,4 @@
-import { Card, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { useAccounts } from '@/hooks/entities/useAccounts';
@@ -15,6 +15,7 @@ import {
 import OverallHealthIcon from './OverallHealthIcon';
 import HealthIndicatorCell from './HealthIndicatorCell';
 import MonthlyFinancialHealthSkeleton from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthSkeleton';
+import MonthlyFinancialHealthCard from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthCard';
 
 interface HealthIndicator {
   title: string;
@@ -45,7 +46,7 @@ const MonthlyFinancialHealth = () => {
 
   const isLoading = isLoadingSummary || isLoadingAccounts || isLoadingTransactions;
 
-  if (!isLoading) {
+  if (isLoading) {
     return <MonthlyFinancialHealthSkeleton />;
   }
 
@@ -111,27 +112,25 @@ const MonthlyFinancialHealth = () => {
   const hasNoData = indicators.length === 1 && indicators[0].status === 'noData';
 
   return (
-    <Grid size={{ xs: 12, md: 6, lg: 7 }}>
-      <Card sx={{ p: 3, height: '100%', width: '100%' }}>
-        <Grid height={'100%'} container alignItems={'center'}>
-          <Grid size={{ xs: 12, sm: 3, md: 12, lg: 3 }} justifyItems={'center'}>
-            <OverallHealthIcon status={overallStatus} />
-          </Grid>
-          <Grid container size={{ xs: 12, sm: 9, md: 12, lg: 9 }} justifyItems={'center'}>
-            {indicators.map((i, idx) => (
-              <Grid key={idx} size={{ xs: hasNoData ? 12 : 4 }} textAlign={'center'}>
-                <HealthIndicatorCell
-                  key={idx}
-                  title={i.title}
-                  value={i.value}
-                  description={i.description}
-                />
-              </Grid>
-            ))}
-          </Grid>
+    <MonthlyFinancialHealthCard>
+      <Grid container height={'100%'} spacing={2} alignItems={'center'}>
+        <Grid size={{ xs: 12, sm: 3, md: 12, lg: 3 }} justifyItems={'center'}>
+          <OverallHealthIcon status={overallStatus} />
         </Grid>
-      </Card>
-    </Grid>
+        <Grid container size={{ xs: 12, sm: 9, md: 12, lg: 9 }} justifyItems={'center'}>
+          {indicators.map((i, idx) => (
+            <Grid key={idx} size={{ xs: hasNoData ? 12 : 4 }} textAlign={'center'}>
+              <HealthIndicatorCell
+                key={idx}
+                title={i.title}
+                value={i.value}
+                description={i.description}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Grid>
+    </MonthlyFinancialHealthCard>
   );
 };
 

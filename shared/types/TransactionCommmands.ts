@@ -1,3 +1,5 @@
+export type TransactionType = 'Income' | 'Expense' | 'Transfer';
+
 export interface CreateTransactionCommand {
     name?: string;
     amount: number;
@@ -5,7 +7,7 @@ export interface CreateTransactionCommand {
     startDate?: string;
     endDate?: string;
     recurrence: 'None' | 'Monthly' | 'Yearly';
-    type: 'Income' | 'Expense' | 'Transfer';
+    type: TransactionType;
     categoryId?: string;
     paymentMethodId?: string;
     accountId?: string;
@@ -20,7 +22,7 @@ export interface UpdateTransactionCommand  {
     startDate?: string;
     endDate?: string;
     recurrence?: 'None' | 'Monthly' | 'Yearly';
-    type?: 'Income' | 'Expense' | 'Transfer';
+    type?: TransactionType;
     categoryId?: string;
     paymentMethodId?: string;
     accountId?: string;

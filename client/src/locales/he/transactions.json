@@ -46,7 +46,7 @@
     "message": "עליך ליצור לפחות <account>חשבון</account> אחד ו<category>קטגוריה</category> אחת לפני שתוכל להוסיף עסקה."
   },
   "actions": {
-    "add": "צור עסקה",
+    "create": "צור עסקה",
     "edit": "ערוך עסקה",
     "delete": "מחק עסקה",
     "import": "ייבא CSV"

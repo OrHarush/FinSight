@@ -16,10 +16,6 @@
     "logout": "Log out",
     "deleteAccount": "Delete Account"
   },
-  "messages": {
-    "accountDeleted": "Your account has been deleted successfully.",
-    "deleteError": "Failed to delete account."
-  },
   "settings": {
     "title": "Settings",
     "help": "Help",

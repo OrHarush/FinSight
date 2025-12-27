@@ -1,35 +1,27 @@
-import { Card, Grid, Typography, Skeleton } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
-import Column from '@/components/layout/Containers/Column';
-import { useTranslation } from 'react-i18next';
+import { Skeleton, Grid } from '@mui/material';
+import MonthlyFinancialHealthCard from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthCard';
 
-const MonthlyFinancialHealthSkeleton = () => {
-  const { t } = useTranslation('overview');
-
-  return (
-    <Grid size={{ xs: 12, md: 6, lg: 7 }}>
-      <Card sx={{ p: 3, height: '100%', width: '100%' }}>
-        <Row width="100%" height="100%" spacing={2} alignItems="center">
-          <Skeleton
-            variant="rectangular"
-            width={80}
-            height={80}
-            sx={{ minWidth: 80, minHeight: 80, borderRadius: 5 }}
-          />
-          <Row width="100%" justifyContent="space-evenly" alignItems="center" textAlign="center">
-            {[1, 2, 3].map(i => (
-              <Column key={i} spacing={0.5} alignItems="center">
-                <Typography variant="body2" color="text.secondary">
-                  {t('financialStatusCard.title')}
-                </Typography>
-                <Skeleton variant="text" width={90} height={28} />
-              </Column>
-            ))}
-          </Row>
-        </Row>
-      </Card>
+const MonthlyFinancialHealthSkeleton = () => (
+  <MonthlyFinancialHealthCard>
+    <Grid height={'100%'} container alignItems={'center'}>
+      <Grid size={{ xs: 12, sm: 3, md: 12, lg: 3 }} justifyItems={'center'}>
+        <Skeleton
+          variant="rectangular"
+          width={80}
+          height={80}
+          sx={{ minWidth: 80, minHeight: 80, borderRadius: 5 }}
+        />
+      </Grid>
+      <Grid container size={{ xs: 12, sm: 9, md: 12, lg: 9 }} justifyItems={'center'}>
+        {[1, 2, 3].map(i => (
+          <Grid key={i} size={{ xs: 4 }} justifyItems={'center'}>
+            <Skeleton variant="text" width={60} height={22} />
+            <Skeleton variant="text" width={90} height={28} />
+          </Grid>
+        ))}
+      </Grid>
     </Grid>
-  );
-};
+  </MonthlyFinancialHealthCard>
+);
 
 export default MonthlyFinancialHealthSkeleton;

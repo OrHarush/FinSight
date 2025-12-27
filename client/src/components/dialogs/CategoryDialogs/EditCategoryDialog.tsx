@@ -26,6 +26,7 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
       color: category.color,
       icon: category.icon,
     },
+    mode: 'all',
   });
 
   const updateCategory = useApiMutation<CategoryDto, UpdateCategoryCommand>({

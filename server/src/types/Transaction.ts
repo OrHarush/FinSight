@@ -21,12 +21,11 @@ export interface TransactionQueryOptions {
 export interface ITransactionPopulated
   extends Omit<
     ITransaction,
-    'category' | 'paymentMethod' | 'account' | 'fromAccount' | 'toAccount' | 'userId'
+    'category' | 'paymentMethod' | 'account' | 'fromAccount' | 'toAccount'
   > {
   category?: ICategory;
   paymentMethod?: IPaymentMethod;
   account?: IAccount;
   fromAccount?: IAccount;
   toAccount?: IAccount;
-  user: IUser;
 }

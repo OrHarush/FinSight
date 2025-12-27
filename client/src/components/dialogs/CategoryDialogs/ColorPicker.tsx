@@ -4,35 +4,14 @@ import { Controller, useFormContext } from 'react-hook-form';
 import CheckIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 import Column from '@/components/layout/Containers/Column';
+import { PRESET_COLORS, PresetColor } from '../../../../../shared/types/colors';
 
 interface ColorPickerFieldProps {
   name?: string;
   label?: string;
-  presetColors?: string[];
+  presetColors?: readonly PresetColor[];
 }
 
-const defaultPresetColors = [
-  '#f44336',
-  '#e91e63',
-  '#9c27b0',
-  '#673ab7',
-  '#3f51b5',
-  '#2196f3',
-  '#03a9f4',
-  '#00bcd4',
-  '#009688',
-  '#4caf50',
-  '#8bc34a',
-  '#cddc39',
-  '#ffeb3b',
-  '#ffc107',
-  '#ff9800',
-  '#ff5722',
-  '#795548',
-  '#9e9e9e',
-];
-
-// Calculate contrast color for text
 const getContrastColor = (hexColor: string): string => {
   const hex = hexColor.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
@@ -46,7 +25,7 @@ const getContrastColor = (hexColor: string): string => {
 const ColorPickerField = ({
   name = 'color',
   label = 'Color',
-  presetColors = defaultPresetColors,
+  presetColors = PRESET_COLORS,
 }: ColorPickerFieldProps) => {
   const { t } = useTranslation('categories');
   const { control } = useFormContext();

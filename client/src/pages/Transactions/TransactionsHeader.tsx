@@ -19,7 +19,7 @@ const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) =
         <Row spacing={1} justifyItems={'flex-end'} alignItems={'flex-end'}>
           {/*<Button variant={'outlined'}> {t('actions.import')}</Button>*/}
           <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
-            {t('actions.add')}
+            {t('actions.create')}
           </Button>
         </Row>
       )}

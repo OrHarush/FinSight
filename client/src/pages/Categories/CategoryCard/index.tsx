@@ -11,6 +11,7 @@ import Column from '@/components/layout/Containers/Column';
 import { CategoryDto } from '@/types/Category';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
+import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface CategoryCardProps {
   category: CategoryDto;
@@ -43,6 +44,8 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
     e.stopPropagation();
     deleteCategory.mutate();
   };
+
+  console.log(category);
 
   return (
     <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -83,7 +86,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                 >
                   <IconComponent sx={{ color: category.color, fontSize: 20 }} />
                 </Box>
-                <Typography fontWeight={500}>{category.name}</Typography>
+                <Typography fontWeight={500}>{getCategoryDisplayName(category, t)}</Typography>
               </Row>
               <IconButton onClick={handleDelete} size="medium" color="error">
                 <DeleteIcon fontSize="small" />

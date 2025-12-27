@@ -1,8 +1,7 @@
 import { AccountDto } from '@/types/Account';
 import { CategoryDto } from '@/types/Category';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-
-export type TransactionType = 'Income' | 'Expense' | 'Transfer';
+import { TransactionType } from '../../../shared/types/TransactionCommmands';
 
 export interface TransactionPageFormValues {
   searchValue: string;

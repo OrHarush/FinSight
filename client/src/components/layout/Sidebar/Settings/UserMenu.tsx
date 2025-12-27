@@ -18,7 +18,7 @@ interface UserMenuProps {
 }
 
 const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
-  const { t } = useTranslation('sidebar');
+  const { t } = useTranslation(['sidebar', 'user']);
   const { user, logout } = useAuth();
   const { alertSuccess, alertError } = useSnackbar();
   const [isDeletionDialogOpen, openDeletionDialog, closeDeletionDialog] = useOpen();
@@ -29,12 +29,11 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
     queryKeysToInvalidate: [queryKeys.user()],
     options: {
       onSuccess: () => {
-        alertSuccess('Account deleted');
+        alertSuccess(t('user:deleteDialog.success'));
         logout();
       },
-      onError: err => {
-        alertError('Failed to delete user');
-        console.error('❌ Failed to delete user', err);
+      onError: () => {
+        alertError(t('user:deleteDialog.error'));
       },
     },
   });

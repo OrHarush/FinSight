@@ -46,7 +46,7 @@
     "message": "You need to create at least one <account>Account</account> and one <category>Category</category> before you can add a transaction."
   },
   "actions": {
-    "add": "Create Transaction",
+    "create": "Create Transaction",
     "edit": "Edit Transaction",
     "delete": "Delete Transaction",
     "import": "Import CSV"

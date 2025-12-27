@@ -3,29 +3,30 @@ import { Controller, useFormContext } from 'react-hook-form';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { useTranslation } from 'react-i18next';
+import { TransactionType } from '../../../../../shared/types/TransactionCommmands';
+import { SvgIconComponent } from '@mui/icons-material';
 
-const TRANSACTION_TYPES = [
+const TRANSACTION_TYPES: { value: TransactionType; icon: SvgIconComponent; color: string }[] = [
   {
     value: 'Expense',
-    label: 'Expense',
     icon: TrendingDownIcon,
     color: '#ef4444',
   },
   {
     value: 'Income',
-    label: 'Income',
     icon: TrendingUpIcon,
     color: '#22c55e',
   },
   {
     value: 'Transfer',
-    label: 'Transfer',
     icon: SwapHorizIcon,
     color: '#3b82f6',
   },
-];
+] as const;
 
 const TransactionTypeSelector = ({ name = 'type', required = true }) => {
+  const { t } = useTranslation('transactions');
   const { control } = useFormContext();
 
   return (
@@ -72,7 +73,7 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
               },
             }}
           >
-            {TRANSACTION_TYPES.map(({ value, label, icon: Icon, color }) => (
+            {TRANSACTION_TYPES.map(({ value, icon: Icon, color }) => (
               <ToggleButton
                 key={value}
                 value={value}
@@ -90,7 +91,7 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
                     color: field.value === value ? color : 'inherit',
                   }}
                 />
-                {label}
+                {t(`types.${value.toLowerCase()}`)}
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
