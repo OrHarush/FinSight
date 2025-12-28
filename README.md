@@ -1,66 +1,66 @@
-FinSight
+# FinSight
+**FinSight** is a personal finance app built to answer one simple question:
 
-FinSight is a personal finance tracker built for my own daily use. It helps me follow expenses, accounts, and budgets in a convenient unified place without relying on credit card apps. The app supports manual transaction entry, category-based budgeting, a dashboard with financial highlights, account management, English and Hebrew, RTL layout, and full mobile responsiveness.
+> **Do I actually know where my money goes?**
 
-Tech Stack
-Frontend
-React 19
-TypeScript
-Vite
-Material UI
-TanStack Query
-React Hook Form
-i18next (EN + HE + RTL)
-Framer Motion
+Most people don’t lack discipline. They lack clarity.
 
-Backend
-Node.js
-Express
-MongoDB (Mongoose)
-JWT authentication
-Google OAuth
+FinSight helps you build that clarity through **manual tracking with strong visual feedback**, designed for real daily use rather than financial theory or bank-driven automation.
 
+---
 
-Getting Started
-Clone
-git clone https://github.com/your-username/finsight.git
+## What FinSight Is
+FinSight is a lightweight, mobile-friendly personal finance tracker that focuses on:
 
+* Understanding spending patterns
+* Seeing balance changes over time
+* Building awareness through consistent, intentional tracking
 
-Install dependencies
-Frontend
-cd client
-npm install
-npm run dev
+It is built for people who want control and transparency, without connecting bank accounts or dealing with complex financial tooling.
 
-Backend
-cd server
-npm install
-npm run dev
+---
 
-Environment Variables
-Create .env files for both projects:
+## What You Can Do With It
+* Track income, expenses, and transfers
+* Organize spending with custom categories
+* View monthly and daily balance trends
+* Understand where money accumulates or leaks
+* Use the app comfortably on desktop and mobile
 
-Frontend
-VITE_API_BASE_URL=http://localhost:5000
-VITE_GOOGLE_CLIENT_ID=your_client_id
+The system is designed to be **fast, clear, and opinionated**, prioritizing insight over feature overload.
 
-Backend
-PORT=5000
-MONGO_URI=your_mongo_uri
-JWT_SECRET=your_secret
-GOOGLE_CLIENT_ID=your_client_id
+---
 
-Features
-Manual transaction entry
-Categories and budgets
-Financial dashboard with highlights
-Accounts with balances
-English and Hebrew localization
-RTL support
-Fully responsive UI
-Google login
-JWT-secured API
+## Why Manual Tracking
+Automatic tools often hide what matters.
 
-Screenshots will be added later.
+By entering transactions yourself:
 
-License MIT
+* You stay aware of spending decisions
+* Patterns become obvious faster
+* Financial habits improve naturally
+
+FinSight supports this approach with a UI optimized for **low friction and frequent use**.
+
+---
+
+## Current State
+FinSight is a **working MVP** that is used daily and continuously improved based on real usage.
+
+Current focus areas:
+
+* Better insights
+* Clearer summaries
+* A smooth mobile experience
+
+---
+
+## Philosophy
+FinSight is intentionally:
+
+* Simple over complex
+* Explicit over automated
+* Insight-driven over data-heavy
+
+The goal is not to manage money for you.
+The goal is to help you **see it clearly**.
