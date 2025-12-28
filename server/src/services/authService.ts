@@ -8,6 +8,7 @@ import {
 } from '../repositories/userRepository';
 import { IUser } from '../models/User';
 import { createDefaultEntitiesForNewUser } from './userService';
+import { recordLoginEvent } from './kpiService';
 
 interface AuthPayload {
   provider: string;
@@ -45,6 +46,12 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
   if (isNewUser) {
     await createDefaultEntitiesForNewUser(user._id.toString());
   }
+
+  await recordLoginEvent({
+    id: user._id.toString(),
+    email: user.email,
+    name: user.name,
+  });
 
   return user;
 };

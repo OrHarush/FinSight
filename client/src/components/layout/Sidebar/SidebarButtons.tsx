@@ -6,9 +6,10 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CategoryIcon from '@mui/icons-material/Category';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useAuth } from '@/providers/AuthProvider';
 
 interface SidebarButtonProps {
   titleKey: string;
@@ -16,48 +17,54 @@ interface SidebarButtonProps {
   route: string;
 }
 
-const SIDEBAR_NAVIGATION: SidebarButtonProps[] = [
-  {
-    titleKey: 'overview',
-    icon: DashboardIcon,
-    route: ROUTES.OVERVIEW_URL,
-  },
-  {
-    titleKey: 'transactions',
-    icon: RequestQuoteIcon,
-    route: ROUTES.TRANSACTIONS_URL,
-  },
-  {
-    titleKey: 'accounts',
-    icon: AccountBalanceWalletIcon,
-    route: ROUTES.ACCOUNTS_URL,
-  },
-  {
-    titleKey: 'categories',
-    icon: CategoryIcon,
-    route: ROUTES.CATEGORIES_URL,
-  },
-  {
-    titleKey: 'paymentMethods',
-    icon: CreditCardIcon,
-    route: ROUTES.PAYMENT_METHODS_URL,
-  },
-  // {
-  //   titleKey: 'budget',
-  //   icon: PieChartIcon,
-  //   route: ROUTES.BUDGET_URL,
-  // },
-];
-
 const SidebarButtons = () => {
   const { t } = useTranslation('sidebar');
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
-  const activeIndex = useMemo(
-    () => SIDEBAR_NAVIGATION.findIndex(button => location.pathname === button.route),
-    [location.pathname]
-  );
+  const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
+  console.log(user?.email);
+  console.log(import.meta.env.VITE_ADMIN_EMAIL);
+
+  const navigation: SidebarButtonProps[] = [
+    {
+      titleKey: 'overview',
+      icon: DashboardIcon,
+      route: ROUTES.OVERVIEW_URL,
+    },
+    {
+      titleKey: 'transactions',
+      icon: RequestQuoteIcon,
+      route: ROUTES.TRANSACTIONS_URL,
+    },
+    {
+      titleKey: 'accounts',
+      icon: AccountBalanceWalletIcon,
+      route: ROUTES.ACCOUNTS_URL,
+    },
+    {
+      titleKey: 'categories',
+      icon: CategoryIcon,
+      route: ROUTES.CATEGORIES_URL,
+    },
+    {
+      titleKey: 'paymentMethods',
+      icon: CreditCardIcon,
+      route: ROUTES.PAYMENT_METHODS_URL,
+    },
+    ...(isAdmin
+      ? [
+          {
+            titleKey: 'admin',
+            icon: AdminPanelSettingsIcon,
+            route: ROUTES.ADMIN_KPIS_URL,
+          },
+        ]
+      : []),
+  ];
+
+  const activeIndex = navigation.findIndex(button => location.pathname === button.route);
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -78,7 +85,7 @@ const SidebarButtons = () => {
       />
 
       <List sx={{ position: 'relative', zIndex: 1 }}>
-        {SIDEBAR_NAVIGATION.map((button, index) => {
+        {navigation.map((button, index) => {
           const Icon = button.icon;
           const isActive = index === activeIndex;
 

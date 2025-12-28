@@ -11,6 +11,7 @@ export const ROUTES = {
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
+  ADMIN_KPIS_URL: '/admin/kpis',
 } as const;
 
 export const API_ROUTES = {
@@ -46,4 +47,6 @@ export const API_ROUTES = {
   PAYMENT_METHODS: '/api/payment-methods',
 
   USERS: '/api/users',
+
+  ADMIN: '/api/admin/kpis',
 };

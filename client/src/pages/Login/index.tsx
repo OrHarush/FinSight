@@ -12,6 +12,7 @@ import LegalLinks from '@/pages/Login/LegalLinks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { IconButton, Tooltip } from '@mui/material';
+import Column from '@/components/layout/Containers/Column';
 
 const LoginPage = () => {
   const { t, i18n } = useTranslation('login');
@@ -82,66 +83,71 @@ const LoginPage = () => {
           border: '1px solid rgba(255, 255, 255, 0.125)',
         }}
       >
-        <CardContent sx={{ py: 5, px: 2 }}>
-          <FinSightIcon />
-          <Typography
-            variant={isMobile ? 'h5' : 'h4'}
-            fontWeight={700}
-            mb={1.5}
-            sx={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {t('title')}
-          </Typography>
-          <Typography
-            variant="body1"
-            mb={4}
-            sx={{
-              color: 'rgba(255, 255, 255, 0.7)',
-              fontSize: '1.1rem',
-              fontWeight: 400,
-            }}
-          >
-            {t('subtitle')}
-          </Typography>
-          <Box
-            display="flex"
-            justifyContent="center"
-            sx={{
-              '& button': {
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 8px 24px rgba(66, 133, 244, 0.3)',
-                },
-              },
-            }}
-          >
-            <GoogleLogin
-              onSuccess={handleSuccess}
-              onError={() => alertError('Google login failed')}
-              shape="pill"
-              useOneTap={false}
-              ux_mode={'popup'}
-            />
-          </Box>
-          <Typography
-            variant="caption"
-            sx={{
-              display: 'block',
-              mt: 3,
-              color: 'rgba(255, 255, 255, 0.4)',
-              fontSize: '0.875rem',
-            }}
-          >
-            {t('secure_note')}
-          </Typography>
-          <LegalLinks />
+        <CardContent sx={{ py: 5, height: '100%' }}>
+          <Column height="100%" justifyContent={'space-between'}>
+            <Column>
+              <FinSightIcon />
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                fontWeight={700}
+                sx={{
+                  background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                {t('title')}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '1.1rem',
+                  fontWeight: 400,
+                }}
+              >
+                {t('subtitle')}
+              </Typography>
+            </Column>
+            <Column spacing={1}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                sx={{
+                  '& button': {
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                      boxShadow: '0 8px 24px rgba(66, 133, 244, 0.3)',
+                    },
+                  },
+                }}
+              >
+                <GoogleLogin
+                  onSuccess={handleSuccess}
+                  onError={() => alertError('Google login failed')}
+                  shape="pill"
+                  useOneTap={false}
+                  ux_mode={'popup'}
+                  width={'200px'}
+                />
+              </Box>
+              <Typography
+                variant="caption"
+                sx={{
+                  display: 'block',
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  fontSize: '0.875rem',
+                }}
+              >
+                {t('secure_note')}
+              </Typography>
+            </Column>
+
+            <LegalLinks />
+          </Column>
         </CardContent>
       </Card>
     </Box>

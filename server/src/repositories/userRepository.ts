@@ -19,6 +19,10 @@ export const saveUser = async (user: any): Promise<IUser> => user.save();
 export const updateLastLogin = async (userId: string) =>
   User.findByIdAndUpdate(userId, { lastLoginAt: new Date() }, { new: true });
 
+export const deleteUserById = (id: string) => User.findByIdAndDelete(id);
+
+export const countAll = async (): Promise<number> => User.countDocuments();
+
 interface AcceptTermsRepoInput {
   userId: string | Types.ObjectId;
   locale: string;
@@ -49,5 +53,3 @@ export const acceptTerms = async ({
     { new: true }
   );
 };
-
-export const deleteUserById = (id: string) => User.findByIdAndDelete(id);

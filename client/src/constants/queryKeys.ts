@@ -35,4 +35,6 @@ export const queryKeys = {
   yearlyChart: (year: number) => ['yearlyChart', year],
 
   user: () => ['user'],
+
+  kpis: () => ['kpis'],
 };

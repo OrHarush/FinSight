@@ -1,0 +1,5 @@
+export interface KpiOverviewDto {
+  dau: number;
+  avgLogins30d: number;
+  activeLast7dPercent: number;
+}

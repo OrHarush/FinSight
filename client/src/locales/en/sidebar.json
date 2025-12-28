@@ -8,6 +8,7 @@
   "budget": "Budget",
   "planner": "Planner",
   "reports": "Reports",
+  "admin": "Admin",
   "theme": {
     "light": "Light",
     "dark": "Dark"

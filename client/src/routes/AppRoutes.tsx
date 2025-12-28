@@ -16,29 +16,28 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import PaymentMethods from '@/pages/PaymentMethods';
 import HomePage from '@/pages/Home';
 import Column from '@/components/layout/Containers/Column';
+import { AdminKpiDashboard } from '@/pages/Admin';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();
-  // const [showTerms, setShowTerms] = useState(!user?.acceptedTermsAt);
-  //
-  // console.log(showTerms);
 
   if (!user) {
     return <Navigate to={ROUTES.LOGIN_URL} />;
   }
 
-  // const handleAccepted = async () => {
-  //   // fetchUser();
-  //   setShowTerms(false);
-  // };
+  return children;
+};
 
-  return (
-    <>
-      {/*{showTerms && <TermsDialog open={showTerms} onAccepted={handleAccepted} />}*/}
-      {/*{!showTerms && children}*/}
-      {children}
-    </>
-  );
+const RequireAdmin = ({ children }: { children: ReactElement }) => {
+  const { user } = useAuth();
+
+  const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
+
+  if (!isAdmin) {
+    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
+  }
+
+  return children;
 };
 
 const AppRoutes = () => {
@@ -76,6 +75,14 @@ const AppRoutes = () => {
             <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
             <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />
             <Route path={ROUTES.PAYMENT_METHODS_URL} element={<PaymentMethods />} />
+            <Route
+              path={ROUTES.ADMIN_KPIS_URL}
+              element={
+                <RequireAdmin>
+                  <AdminKpiDashboard />
+                </RequireAdmin>
+              }
+            />
             {/*<Route path={ROUTES.BUDGET_URL} element={<Budget />} />*/}
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
