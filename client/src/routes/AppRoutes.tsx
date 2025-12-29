@@ -40,6 +40,16 @@ const RequireAdmin = ({ children }: { children: ReactElement }) => {
   return children;
 };
 
+const RequireGuest = ({ children }: { children: ReactElement }) => {
+  const { user } = useAuth();
+
+  if (user) {
+    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
+  }
+
+  return children;
+};
+
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
 
@@ -55,7 +65,13 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          <Route element={<PublicLayout />}>
+          <Route
+            element={
+              <RequireGuest>
+                <PublicLayout />
+              </RequireGuest>
+            }
+          >
             <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
             <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
