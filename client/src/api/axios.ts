@@ -19,7 +19,6 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
-      console.log('Error 401');
       queryClient.clear();
       localStorage.removeItem('user');
       localStorage.removeItem('token');

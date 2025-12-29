@@ -25,8 +25,6 @@ export const TransactionPageDataProvider = ({ children }: { children: ReactNode 
   const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
   const [transactionAction, setTransactionAction] = useState<TransactionAction>();
 
-  console.log(selectedMonth);
-
   return (
     <SelectedTransactionContext.Provider
       value={{

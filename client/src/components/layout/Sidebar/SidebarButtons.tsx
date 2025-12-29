@@ -24,8 +24,6 @@ const SidebarButtons = () => {
   const { user } = useAuth();
 
   const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
-  console.log(user?.email);
-  console.log(import.meta.env.VITE_ADMIN_EMAIL);
 
   const navigation: SidebarButtonProps[] = [
     {

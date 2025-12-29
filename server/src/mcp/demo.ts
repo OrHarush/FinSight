@@ -14,7 +14,6 @@ async function demo() {
     },
     CallToolResultSchema
   );
-  console.log('Tools:', tools);
 
   // call getTransactions
   const result = await mcpClient.request(

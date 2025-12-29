@@ -89,8 +89,6 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
     return [tx];
   }
 
-  console.log(tx);
-
   return [
     {
       ...tx,

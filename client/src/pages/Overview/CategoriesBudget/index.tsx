@@ -8,7 +8,7 @@ import Row from '@/components/layout/Containers/Row';
 import { useTranslation } from 'react-i18next';
 import * as Icons from '@mui/icons-material';
 import AllOnTrackState from '@/pages/Overview/CategoriesBudget/AllOnTrackState';
-import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudget/CategoryLimitSkeleton';
+import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudget/CategoryBudgetSkeleton';
 
 const CategoriesBudget = () => {
   const { t } = useTranslation('overview');

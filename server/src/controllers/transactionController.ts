@@ -27,10 +27,6 @@ export const getTransactions = asyncHandler(async (req: Request, res: Response) 
     targetYear = y;
     targetMonth = m0;
 
-    console.log('=========');
-    console.log(targetMonth);
-    console.log(targetYear);
-
     fromDate = new Date(Date.UTC(y, m0, 1));
     toDate = new Date(Date.UTC(y, m0 + 2, 0, 23, 59, 59, 999));
   }

@@ -45,8 +45,6 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
     deleteCategory.mutate();
   };
 
-  console.log(category);
-
   return (
     <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center' }}>
       <Card

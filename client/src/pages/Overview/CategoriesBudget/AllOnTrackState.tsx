@@ -11,16 +11,10 @@ const AllOnTrackState = () => {
       height={'100%'}
       alignItems="center"
       justifyContent="center"
-      sx={{ py: 6, opacity: 0.85 }}
+      sx={{ opacity: 0.85 }}
       spacing={1}
     >
-      <CheckCircleOutlineIcon
-        sx={{
-          fontSize: 40,
-          color: 'success.main',
-          mb: 0.5,
-        }}
-      />
+      <CheckCircleOutlineIcon sx={{ fontSize: 40, color: 'success.main' }} />
       <Typography fontWeight={700}>{t('budgetWatch.allOnTrack')}</Typography>
       <Typography>{t('budgetWatch.addBudgetHint')}</Typography>
     </Column>

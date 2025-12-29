@@ -2,6 +2,7 @@ import { SvgIconComponent } from '@mui/icons-material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 export type FinancialHealthStatus = 'noData' | 'ok' | 'warning' | 'critical';
 
@@ -15,6 +16,11 @@ export const HEALTH_SEVERITY_ORDER: FinancialHealthStatus[] = [
 export interface FinancialHealthResult {
   ratio: number;
   status: FinancialHealthStatus;
+}
+
+export interface BudgetRunwayResult {
+  status: FinancialHealthStatus;
+  daysLeft?: number;
 }
 
 export function calculateFinancialHealth(
@@ -50,7 +56,54 @@ export function calculateFinancialHealth(
 
   return { ratio, status: 'critical' };
 }
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+
+export function calculateBudgetRunway(params: {
+  income: number;
+  expenses: number;
+  dayOfMonth: number;
+  totalDaysInMonth: number;
+}): BudgetRunwayResult {
+  const { income, expenses, dayOfMonth, totalDaysInMonth } = params;
+  const BUFFER_RATIO = 0.5;
+
+  if (income <= 0) {
+    return { status: 'noData' };
+  }
+
+  const remainingBudget = income - expenses;
+
+  if (remainingBudget <= 0) {
+    return {
+      status: 'critical',
+      daysLeft: 0,
+    };
+  }
+
+  const safeDay = Math.max(dayOfMonth, 1);
+  const dailyBurn = expenses / safeDay;
+
+  if (dailyBurn <= 0) {
+    return {
+      status: 'ok',
+      daysLeft: Infinity,
+    };
+  }
+
+  const rawDaysLeft = remainingBudget / dailyBurn;
+  const remainingDaysInMonth = Math.max(totalDaysInMonth - dayOfMonth, 1);
+
+  if (rawDaysLeft < remainingDaysInMonth * BUFFER_RATIO) {
+    return {
+      status: 'warning',
+      daysLeft: Math.ceil(rawDaysLeft),
+    };
+  }
+
+  return {
+    status: 'ok',
+    daysLeft: Math.ceil(rawDaysLeft),
+  };
+}
 
 export const HEALTH_UI: Record<FinancialHealthStatus, { color: string; Icon: SvgIconComponent }> = {
   noData: {

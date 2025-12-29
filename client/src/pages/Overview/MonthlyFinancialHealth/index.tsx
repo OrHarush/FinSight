@@ -8,6 +8,7 @@ import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import {
+  calculateBudgetRunway,
   calculateFinancialHealth,
   FinancialHealthStatus,
   HEALTH_SEVERITY_ORDER,
@@ -75,20 +76,24 @@ const MonthlyFinancialHealth = () => {
 
   if (income > 0) {
     const day = today.getDate();
-    const dailyBurn = expenses / day;
-    const remainingBudget = income - expenses;
-    const daysLeft = dailyBurn > 0 ? Math.floor(remainingBudget / dailyBurn) : Infinity;
     const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+
+    const runway = calculateBudgetRunway({
+      income,
+      expenses,
+      dayOfMonth: day,
+      totalDaysInMonth: totalDays,
+    });
 
     indicators.push({
       title: t('budgetRunwayCard.title'),
       value:
-        daysLeft <= 0
+        runway.status === 'critical'
           ? t('budgetRunwayCard.noRunway')
-          : daysLeft < totalDays - day
-            ? t('budgetRunwayCard.daysLeft', { count: daysLeft })
+          : runway.status === 'warning'
+            ? t('budgetRunwayCard.daysLeft', { count: runway.daysLeft })
             : t('budgetRunwayCard.onTrack'),
-      status: daysLeft <= 0 ? 'critical' : daysLeft < totalDays - day ? 'warning' : 'ok',
+      status: runway.status,
     });
   }
 

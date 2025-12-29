@@ -34,14 +34,6 @@ const FeedbackDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   const onSubmit = async (data: FeedbackFormValues) => {
     try {
-      console.log('sending feedback...');
-      console.log({
-        message: data.message,
-        email: user?.email,
-        metadata: {
-          route: location.pathname,
-        },
-      });
       await submitFeedback.mutateAsync({
         message: data.message,
         email: user?.email,

@@ -61,7 +61,5 @@ export const createLoginEvent = async (userId: string, userName: string) => {
     occurredAt: new Date(),
   });
 
-  console.log(event);
-
   return event.save();
 };
