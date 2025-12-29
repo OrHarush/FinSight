@@ -3,7 +3,7 @@ import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import { useTranslation } from 'react-i18next';
 
-const CategoryLimitsSkeleton = () => {
+const CategoriesBudgetSkeleton = () => {
   const { t } = useTranslation('overview');
 
   return (
@@ -48,4 +48,4 @@ const CategoryLimitsSkeleton = () => {
   );
 };
 
-export default CategoryLimitsSkeleton;
+export default CategoriesBudgetSkeleton;

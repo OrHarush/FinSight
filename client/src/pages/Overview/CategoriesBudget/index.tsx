@@ -7,10 +7,10 @@ import Column from '@/components/layout/Containers/Column';
 import Row from '@/components/layout/Containers/Row';
 import { useTranslation } from 'react-i18next';
 import * as Icons from '@mui/icons-material';
-import AllOnTrackState from '@/pages/Overview/CategoryLimits/AllOnTrackState';
-import CategoryLimitsSkeleton from '@/pages/Overview/CategoryLimits/CategoryLimitSkeleton';
+import AllOnTrackState from '@/pages/Overview/CategoriesBudget/AllOnTrackState';
+import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudget/CategoryLimitSkeleton';
 
-const CategoryLimits = () => {
+const CategoriesBudget = () => {
   const { t } = useTranslation('overview');
   const theme = useTheme();
   const { year, month } = useOverviewFilters();
@@ -60,7 +60,7 @@ const CategoryLimits = () => {
   };
 
   if (isLoading) {
-    return <CategoryLimitsSkeleton />;
+    return <CategoriesBudgetSkeleton />;
   }
 
   return (
@@ -132,4 +132,4 @@ const CategoryLimits = () => {
   );
 };
 
-export default CategoryLimits;
+export default CategoriesBudget;

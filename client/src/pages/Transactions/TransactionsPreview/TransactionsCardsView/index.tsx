@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Pagination } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import EntityError from '@/components/entities/EntityError';
@@ -11,20 +10,17 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 import Column from '@/components/layout/Containers/Column';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 
-interface TransactionsCardsViewProps {
-  selectedCategory: string;
-  selectedMonth: Dayjs;
-}
-
-const TransactionsCardsView = ({ selectedMonth, selectedCategory }: TransactionsCardsViewProps) => {
+const TransactionsCardsView = () => {
   const [page, setPage] = useState(1);
+  const { selectedMonth, selectedCategory } = useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
 
   const { transactions, pagination, isLoading, error, refetch } = useTransactions(
-    dayjs().year(),
+    selectedMonth.year(),
     selectedMonth.month(),
     searchValue,
     selectedCategory,

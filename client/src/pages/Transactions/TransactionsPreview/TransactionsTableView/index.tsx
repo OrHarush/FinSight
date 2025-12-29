@@ -3,21 +3,17 @@ import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/Tr
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import { Dayjs } from 'dayjs';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import EntityError from '@/components/entities/EntityError';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 
-interface TransactionsTableViewProps {
-  selectedCategory: string;
-  selectedMonth: Dayjs;
-}
-
-const TransactionsTableView = ({ selectedMonth, selectedCategory }: TransactionsTableViewProps) => {
+const TransactionsTableView = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const { selectedMonth, selectedCategory } = useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });

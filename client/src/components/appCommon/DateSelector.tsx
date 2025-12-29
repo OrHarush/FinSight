@@ -10,20 +10,19 @@ import { useMonthLabels } from '@/hooks/useMonthsLabels';
 interface DateSelectorProps {
   value: Dayjs;
   onChange: (newDate: Dayjs) => void;
-  allowYearSelection?: boolean;
 }
 
-const DateSelector = ({ value, onChange, allowYearSelection = false }: DateSelectorProps) => {
+const DateSelector = ({ value, onChange }: DateSelectorProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const monthLabels = useMonthLabels();
 
   const handlePrevMonth = () => {
-    onChange(value.subtract(1, 'month'));
+    onChange(value.subtract(1, 'month').startOf('month'));
   };
 
   const handleNextMonth = () => {
-    onChange(value.add(1, 'month'));
+    onChange(value.add(1, 'month').startOf('month'));
   };
 
   const monthIndex = value.month();
@@ -48,9 +47,9 @@ const DateSelector = ({ value, onChange, allowYearSelection = false }: DateSelec
 
   return (
     <DatePicker
-      views={allowYearSelection ? ['year', 'month'] : ['month']}
+      views={['month', 'year']}
       value={value}
-      onChange={newValue => onChange(newValue ?? dayjs())}
+      onChange={newValue => onChange((newValue ?? dayjs()).startOf('month'))}
       format="MMMM YYYY"
       slotProps={{
         textField: {

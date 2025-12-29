@@ -10,7 +10,7 @@
   "fields": {
     "name": "Name",
     "type": "Type",
-    "monthlyLimit": "Monthly Limit",
+    "monthlyBudget": "Monthly Budget",
     "icon": "Category Icon",
     "color": "Color",
     "selectColor": "Select a color"

@@ -1,5 +1,5 @@
 import CreateTransactionDialog from '@/components/dialogs/TransactionDialogs/CreateTransactionDialog';
-import { useTransactinPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import EditTransactionDialog from '@/components/dialogs/TransactionDialogs/EditTransactionDialog';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
@@ -22,7 +22,7 @@ interface TransactionDialogsProps {
 const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: TransactionDialogsProps) => {
   const { t } = useTranslation('transactions');
   const { selectedTransaction, setSelectedTransaction, transactionAction, setTransactionAction } =
-    useTransactinPageData();
+    useTransactionPageData();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
   const navigate = useNavigate();

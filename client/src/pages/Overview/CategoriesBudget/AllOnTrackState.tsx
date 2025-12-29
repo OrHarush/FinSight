@@ -21,7 +21,8 @@ const AllOnTrackState = () => {
           mb: 0.5,
         }}
       />
-      <Typography fontWeight={600}>{t('budgetWatch.allOnTrack')}</Typography>
+      <Typography fontWeight={700}>{t('budgetWatch.allOnTrack')}</Typography>
+      <Typography>{t('budgetWatch.addBudgetHint')}</Typography>
     </Column>
   );
 };

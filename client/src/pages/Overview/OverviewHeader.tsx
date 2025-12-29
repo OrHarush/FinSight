@@ -26,7 +26,7 @@ const OverviewHeader = () => {
   return (
     <PageHeader entityName={'overview'}>
       <Stack spacing={2} alignItems="center" direction={isMobile ? 'column' : 'row'}>
-        <DateSelector allowYearSelection value={date} onChange={setDate} />
+        <DateSelector value={date} onChange={setDate} />
         <TextField
           select
           value={account?._id || 'noAccounts'}

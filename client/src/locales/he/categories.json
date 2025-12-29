@@ -10,7 +10,7 @@
   "fields": {
     "name": "שם",
     "type": "סוג",
-    "monthlyLimit": "הגבלת חודשית",
+    "monthlyBudget": "תקציב חודשי",
     "icon": "אייקון קטגוריה",
     "color": "צבע",
     "selectColor": "בחר צבע"

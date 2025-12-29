@@ -125,6 +125,7 @@
   },
   "budgetWatch": {
     "title": "Budget Watch",
-    "allOnTrack": "All budgets on track"
+    "allOnTrack": "All budgets on track",
+    "addBudgetHint": "Add budgets to categories to unlock deeper insights"
   }
 }

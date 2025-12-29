@@ -5,27 +5,17 @@ import CategorySelect from '@/pages/Transactions/TransactionFilters/CategorySele
 import Row from '@/components/layout/Containers/Row';
 import { ClearIcon } from '@mui/x-date-pickers';
 import DateSelector from '@/components/appCommon/DateSelector';
-import { Dayjs } from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useForm, useWatch } from 'react-hook-form';
 import TextInput from '@/components/inputs/TextInput';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 
-interface TransactionsFiltersProps {
-  selectedCategory: string;
-  setSelectedCategory: (selectedCategory: string) => void;
-  selectedMonth: Dayjs;
-  setSelectedMonth: (selectedMonth: Dayjs) => void;
-}
-
-const TransactionsFilters = ({
-  selectedCategory,
-  setSelectedCategory,
-  selectedMonth,
-  setSelectedMonth,
-}: TransactionsFiltersProps) => {
+const TransactionsFilters = () => {
   const { t } = useTranslation('common');
+  const { selectedMonth, setSelectedMonth, selectedCategory, setSelectedCategory } =
+    useTransactionPageData();
   const methods = useForm<TransactionPageFormValues>();
   const { control, setValue } = methods;
   const isMobile = useIsMobile();

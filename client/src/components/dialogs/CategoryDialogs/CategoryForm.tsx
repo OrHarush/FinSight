@@ -31,7 +31,12 @@ const CategoryForm = () => {
         </Grid>
         {categoryType === 'Expense' && (
           <Grid size={{ xs: 6 }}>
-            <TextInput name="monthlyLimit" label={t('fields.monthlyLimit')} type="number" min={0} />
+            <TextInput
+              name="monthlyLimit"
+              label={t('fields.monthlyBudget')}
+              type="number"
+              min={0}
+            />
           </Grid>
         )}
         <Grid size={{ xs: 6 }}>
