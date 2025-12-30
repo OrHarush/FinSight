@@ -1,14 +1,14 @@
 import { Button, Card, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import PageLayout from '@/components/layout/Page/PageLayout';
-import PageHeader from '@/components/layout/Page/PageHeader';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
 import { useOpen } from '@/hooks/useOpen';
-import CreatePaymentMethodDialog from '@/components/dialogs/PaymentMethods/CreatePaymentMethodDialog';
+import CreatePaymentMethodDialog from '@/components/features/paymentMethods/CreatePaymentMethodDialog';
 import PaymentMethodsPageContent from '@/pages/PaymentMethods/PaymentMethodsPageContent';
 import { useState } from 'react';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import EditPaymentMethodDialog from '@/components/dialogs/PaymentMethods/EditPaymentMethodDialog';
-import ActionFab from '@/components/appCommon/ActionFab';
+import EditPaymentMethodDialog from '@/components/features/paymentMethods/EditPaymentMethodDialog';
+import ActionFab from '@/components/shared/ui/ActionFab';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useTranslation } from 'react-i18next';
 

@@ -1,11 +1,11 @@
 import { IconButton, TableCell, TableRow } from '@mui/material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
-import EditAndDeleteButtons from '@/components/appCommon/EditAndDeleteButtons';
+import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/dateUtils';
 

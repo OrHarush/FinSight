@@ -4,7 +4,7 @@ import { useAccountBalanceCurve } from '@/hooks/useAccountBalanceCurve';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { useMemo, useState } from 'react';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 
 dayjs.extend(utc);
 

@@ -2,7 +2,7 @@ import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { Card, Typography } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import ChecklistItem from '@/pages/Overview/SetupPanel/ChecklistItem';
 import { ROUTES } from '@/constants/Routes';
 import { useTranslation } from 'react-i18next';

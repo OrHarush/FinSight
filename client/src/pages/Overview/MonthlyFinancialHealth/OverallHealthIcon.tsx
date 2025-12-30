@@ -1,4 +1,4 @@
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { FinancialHealthStatus, HEALTH_UI } from '@/utils/financialHealth';
 
 interface OverallHealthIconProps {

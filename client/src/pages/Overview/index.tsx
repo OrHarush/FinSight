@@ -1,12 +1,12 @@
 import OverviewHeader from '@/pages/Overview/OverviewHeader';
 import { Grid } from '@mui/material';
-import PageLayout from '@/components/layout/Page/PageLayout';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
 import { useHasAnyTransaction } from '@/hooks/useHasAnyTransaction';
-import LoadingScreen from '@/components/common/LoadingScreen';
+import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
 import CategoriesBudget from '@/pages/Overview/CategoriesBudget';

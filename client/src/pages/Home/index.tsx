@@ -1,6 +1,6 @@
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { Psychology, Shield, Visibility } from '@mui/icons-material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import Principle from '@/pages/Home/Principle';
 import homePage from '@/assets/homePage.jpg';
 import HomePageFooter from '@/pages/Home/HomePageFooter';

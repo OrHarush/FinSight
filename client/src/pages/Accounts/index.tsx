@@ -1,13 +1,13 @@
 import { Button } from '@mui/material';
-import CreateAccountDialog from '@/components/dialogs/AccountDialogs/CreateAccountDialog';
-import PageLayout from '@/components/layout/Page/PageLayout';
+import CreateAccountDialog from '@/components/features/accounts/CreateAccountDialog';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
-import EditAccountDialog from '@/components/dialogs/AccountDialogs/EditAccountDialog';
+import EditAccountDialog from '@/components/features/accounts/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
 import { useOpen } from '@/hooks/useOpen';
-import PageHeader from '@/components/layout/Page/PageHeader';
-import ActionFab from '@/components/appCommon/ActionFab';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
+import ActionFab from '@/components/shared/ui/ActionFab';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,6 +1,6 @@
 import { Typography, alpha, useTheme, Box } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 
 export interface OverviewMetricProps {

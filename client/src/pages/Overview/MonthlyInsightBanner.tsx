@@ -6,7 +6,7 @@ import { useFetch } from '@/hooks/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 type InsightKey = 'excellent' | 'good' | 'balanced' | 'overspent';

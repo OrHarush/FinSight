@@ -2,7 +2,6 @@ import { CategoryDto, CategoryFormValues } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
 import { PRESET_COLORS, PresetColor } from '../../../shared/types/colors';
 import { CreateCategoryCommand } from '../../../shared/types/CategoryCommands';
-import { DefaultCategoryKey } from '../../../shared/types/defaultCategories';
 import { TFunction } from 'i18next';
 
 export function mapCategoryFormToCommand(values: CategoryFormValues): CreateCategoryCommand {
@@ -46,10 +45,7 @@ export function getTopSpendingCategories(
     .slice(0, limit);
 }
 
-export function getCategoryDisplayName(
-  category: { name: string; key?: DefaultCategoryKey },
-  t: TFunction<'categories'>
-): string {
+export function getCategoryDisplayName(category: CategoryDto, t: TFunction<'categories'>): string {
   if (category.key) {
     return t(`defaults.${category.key}`);
   }

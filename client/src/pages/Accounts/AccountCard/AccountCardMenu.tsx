@@ -4,7 +4,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import ActionMenu, { ActionMenuItem } from '@/components/appCommon/ActionMenu';
+import ActionMenu, { ActionMenuItem } from '@/components/shared/ui/ActionMenu';
 
 interface AccountCardMenuProps {
   account: AccountDto;

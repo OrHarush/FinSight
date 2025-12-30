@@ -2,7 +2,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Dialog, DialogProps, DialogTitle, IconButton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import { SvgIconComponent } from '@mui/icons-material';
-import Row from '../layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 
 export interface BaseDialogProps {
   isOpen: boolean;

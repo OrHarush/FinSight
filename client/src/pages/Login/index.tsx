@@ -12,7 +12,7 @@ import LegalLinks from '@/pages/Login/LegalLinks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { IconButton, Tooltip } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 
 const LoginPage = () => {
   const { t, i18n } = useTranslation('login');

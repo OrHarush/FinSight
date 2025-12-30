@@ -1,6 +1,6 @@
 import { alpha, Grid, Typography, useTheme } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
-import Column from '@/components/layout/Containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
 import { JSX } from 'react';
 
 interface PrincipleProps {

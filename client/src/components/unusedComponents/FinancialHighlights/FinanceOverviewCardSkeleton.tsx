@@ -1,6 +1,6 @@
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { Skeleton } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 
 const FinanceOverviewCardSkeleton = () => (
   <Column height="104px" spacing={1.5}>

@@ -1,6 +1,6 @@
-import CreateTransactionDialog from '@/components/dialogs/TransactionDialogs/CreateTransactionDialog';
+import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import EditTransactionDialog from '@/components/dialogs/TransactionDialogs/EditTransactionDialog';
+import EditTransactionDialog from '@/components/features/transactions/EditTransactionDialog';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { Button, DialogContent, Typography } from '@mui/material';
 import { API_ROUTES, ROUTES } from '@/constants/Routes';
 import FinSightDialog from '@/components/dialogs/FinSightDialog';
 import { Trans, useTranslation } from 'react-i18next';
-import DeletionConfirmationDialog from '@/components/dialogs/DeletionConfirmationDialog';
+import DeletionConfirmationDialog from '@/components/dialogs/deletion/DeletionConfirmationDialog';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';

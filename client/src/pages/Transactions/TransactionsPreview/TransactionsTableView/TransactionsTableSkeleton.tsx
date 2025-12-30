@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
 
 const TransactionsTableSkeleton = () => {

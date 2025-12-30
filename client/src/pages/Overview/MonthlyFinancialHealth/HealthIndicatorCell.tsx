@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 
 interface HealthIndicatorCellProps {
   title: string;

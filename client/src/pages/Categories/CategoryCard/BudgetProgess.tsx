@@ -1,7 +1,7 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import CurrencyText from '@/components/appCommon/CurrencyText';
-import Row from '@/components/layout/Containers/Row';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
+import Row from '@/components/shared/layout/containers/Row';
 
 interface BudgetProgressProps {
   spent: number;

@@ -1,6 +1,6 @@
 import { Card, CardContent, Grid, Tabs, Tab } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import YearlyChart from '@/components/unusedComponents/OverviewCharts/YearlyChart';
 import AccountBalanceChart from '@/components/unusedComponents/OverviewCharts/AccountBalanceChart';
 import { useTranslation } from 'react-i18next';

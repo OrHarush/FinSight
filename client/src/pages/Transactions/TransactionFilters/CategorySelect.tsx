@@ -1,7 +1,7 @@
 import { MenuItem, Select, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { useCategories } from '@/hooks/entities/useCategories';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { useTranslation } from 'react-i18next';

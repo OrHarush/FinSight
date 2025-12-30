@@ -1,6 +1,6 @@
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { Box, Typography } from '@mui/material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useTranslation } from 'react-i18next';
 
 interface NoBudgetProps {

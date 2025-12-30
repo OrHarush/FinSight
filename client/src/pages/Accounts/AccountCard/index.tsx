@@ -1,12 +1,12 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
-import Column from '@/components/layout/Containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
 import AccountDetails from '@/pages/Accounts/AccountCard/AccountDetails';
 import { AccountDto } from '@/types/Account';
-import AccountIcon from '@/components/accounts/AccountIcon';
+import AccountIcon from '@/components/features/accounts/AccountIcon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MenuTriggerButton from '@/components/appCommon/MenuTriggerButton';
+import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';
 import AccountCardMenu from '@/pages/Accounts/AccountCard/AccountCardMenu';
 
 interface AccountCardProps {
@@ -105,7 +105,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
         anchorEl={anchorEl}
       />
       {/*{isTransferDialogOpen && (*/}
-      {/*  <TransferDialog*/}
+      {/*  <ReassignTransactionsDialog*/}
       {/*    open={true}*/}
       {/*    onClose={closeTransferDialog}*/}
       {/*    entityType="account"*/}

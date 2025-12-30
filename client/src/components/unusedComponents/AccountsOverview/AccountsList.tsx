@@ -1,9 +1,9 @@
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import Paper from '@mui/material/Paper';
-import AccountIcon from '@/components/accounts/AccountIcon';
-import Column from '@/components/layout/Containers/Column';
+import AccountIcon from '@/components/features/accounts/AccountIcon';
+import Column from '@/components/shared/layout/containers/Column';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import Box from '@mui/material/Box';
 

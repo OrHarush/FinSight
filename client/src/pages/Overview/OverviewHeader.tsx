@@ -1,11 +1,11 @@
-import PageHeader from '@/components/layout/Page/PageHeader';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
-import AccountMenuItem from '@/components/accounts/AccountMenuItem';
+import AccountMenuItem from '@/components/features/accounts/AccountMenuItem';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import DateSelector from '@/components/appCommon/DateSelector';
+import DateSelector from '@/components/shared/ui/DateSelector';
 
 const OverviewHeader = () => {
   const { t } = useTranslation('overview');

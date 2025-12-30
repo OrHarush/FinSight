@@ -1,6 +1,6 @@
 import AccountsList from '@/components/unusedComponents/AccountsOverview/AccountsList';
 import AccountOverviewCardSkeleton from '@/components/unusedComponents/AccountsOverview/AccountOverviewCardSkeleton';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import EntityError from '@/components/entities/EntityError';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import EntityEmpty from '@/components/entities/EntityEmpty';

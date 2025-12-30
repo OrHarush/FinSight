@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Box, Grid, useTheme } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 import FinanceOverviewCardSkeleton from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCardSkeleton';
 import { ReactNode } from 'react';

@@ -1,16 +1,16 @@
-import ResponsiveRow from '@/components/layout/Containers/ResponsiveRow';
+import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import { IconButton, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CategorySelect from '@/pages/Transactions/TransactionFilters/CategorySelect';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { ClearIcon } from '@mui/x-date-pickers';
-import DateSelector from '@/components/appCommon/DateSelector';
+import DateSelector from '@/components/shared/ui/DateSelector';
 import { useTranslation } from 'react-i18next';
 import { useForm, useWatch } from 'react-hook-form';
-import TextInput from '@/components/inputs/TextInput';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import TextInput from '@/components/shared/inputs/TextInput';
 
 const TransactionsFilters = () => {
   const { t } = useTranslation('common');

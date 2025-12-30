@@ -1,5 +1,5 @@
 import { Breakpoint, Button, DialogActions, DialogContent } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';

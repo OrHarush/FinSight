@@ -1,7 +1,7 @@
 import { Typography, Link } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const LegalMeta = () => {
   const { t } = useTranslation('common');

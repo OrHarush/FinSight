@@ -9,7 +9,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 
 const TransactionsCardsView = () => {

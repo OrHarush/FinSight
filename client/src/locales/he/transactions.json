@@ -41,6 +41,15 @@
     "created": "נוצר",
     "updated": "עודכן"
   },
+  "table": {
+    "name": "שם",
+    "amount": "סכום",
+    "category": "קטגוריה",
+    "account": "חשבון",
+    "recurrence": "חזרתיות",
+    "date": "תאריך",
+    "actions": "פעולות"
+  },
   "setupDialog": {
     "title": "השלם את ההגדרות תחילה",
     "message": "עליך ליצור לפחות <account>חשבון</account> אחד ו<category>קטגוריה</category> אחת לפני שתוכל להוסיף עסקה."

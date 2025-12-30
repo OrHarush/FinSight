@@ -1,4 +1,4 @@
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import {
   Button,
   Card,
@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { ROUTES } from '@/constants/Routes';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { useNavigate } from 'react-router-dom';
 import AccountsOverviewContent from '@/components/unusedComponents/AccountsOverview/AccountsOverviewContent';
 import { useTranslation } from 'react-i18next';

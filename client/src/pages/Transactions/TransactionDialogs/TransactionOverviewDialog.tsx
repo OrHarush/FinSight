@@ -16,12 +16,12 @@ import {
   TrendingDown,
   SwapHoriz,
 } from '@mui/icons-material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
 
 interface TransactionDetailsModalProps {

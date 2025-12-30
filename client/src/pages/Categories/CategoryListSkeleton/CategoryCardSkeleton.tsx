@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Grid, IconButton, Skeleton } from '@mui/material';
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CategoryCardSkeleton = () => (

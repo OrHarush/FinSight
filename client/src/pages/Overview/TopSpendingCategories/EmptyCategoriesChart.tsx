@@ -1,5 +1,5 @@
 import { Card, Grid, Typography } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import EntityEmpty from '@/components/entities/EntityEmpty';
 import CategoryIcon from '@mui/icons-material/Category';
 import { useTranslation } from 'react-i18next';

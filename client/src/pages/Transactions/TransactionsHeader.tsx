@@ -1,7 +1,7 @@
-import Row from '@/components/layout/Containers/Row';
+import Row from '@/components/shared/layout/containers/Row';
 import { Button, useMediaQuery, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import PageHeader from '@/components/layout/Page/PageHeader';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
 import { useTranslation } from 'react-i18next';
 
 interface TransactionHeaderProps {

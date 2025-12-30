@@ -1,14 +1,14 @@
 import Paper from '@mui/material/Paper';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/appCommon/CurrencyText';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
 import CategoryIcon from '@mui/icons-material/Category';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
-import SwipeableCard from '@/components/SwipeableCard';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import SwipeableCard from '@/components/shared/ui/SwipeableCard';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 import { isToday } from '@/utils/dateUtils';
 

@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import Row from '@/components/layout/Containers/Row';
-import Column from '@/components/layout/Containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
 import BudgetCategoryCard from '@/pages/Budget/BudgetCategoryCard';
-import PageLayout from '@/components/layout/Page/PageLayout';
-import PageHeader from '@/components/layout/Page/PageHeader';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
 import BudgetPieChart from '@/pages/Budget/BudgetPieChart';
 
 const Budget = () => {

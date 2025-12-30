@@ -1,6 +1,6 @@
 import { Divider } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import LegalSection from '@/components/legal/LegalSection';
 import LegalBulletList from '@/components/legal/LegalBulletList';
 import LegalFooter from '@/components/legal/LegalFooter';

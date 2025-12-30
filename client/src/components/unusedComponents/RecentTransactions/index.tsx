@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';

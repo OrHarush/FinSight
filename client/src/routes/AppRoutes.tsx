@@ -1,8 +1,7 @@
 import { ReactElement, Suspense } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
-import LoadingScreen from '@/components/common/LoadingScreen';
+import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import AuthenticatedLayout from '@/components/layout/AuthenticatedLayout';
 import { ROUTES } from '@/constants/Routes';
 import Overview from '@/pages/Overview';
 import { Transactions } from '@/pages/Transactions';
@@ -11,12 +10,13 @@ import Accounts from '@/pages/Accounts';
 import LoginPage from '@/pages/Login';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import PublicLayout from '@/components/layout/PublicLayout';
 import NotFoundPage from '@/pages/NotFoundPage';
 import PaymentMethods from '@/pages/PaymentMethods';
 import HomePage from '@/pages/Home';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import { AdminKpiDashboard } from '@/pages/Admin';
+import PublicLayout from '@/components/shared/layout/PublicLayout';
+import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();

@@ -1,13 +1,13 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import CreateCategoryDialog from '@/components/dialogs/CategoryDialogs/CreateCategoryDialog';
-import PageLayout from '@/components/layout/Page/PageLayout';
-import EditCategoryDialog from '@/components/dialogs/CategoryDialogs/EditCategoryDialog';
+import CreateCategoryDialog from '@/components/features/categories/CreateCategoryDialog';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
+import EditCategoryDialog from '@/components/features/categories/EditCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto } from '@/types/Category';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
 import { useOpen } from '@/hooks/useOpen';
-import PageHeader from '@/components/layout/Page/PageHeader';
-import ActionFab from '@/components/appCommon/ActionFab';
+import PageHeader from '@/components/shared/layout/page/PageHeader';
+import ActionFab from '@/components/shared/ui/ActionFab';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
 

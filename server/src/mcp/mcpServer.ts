@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { getUserIdFromAuthHeader } from '../utils/auth';
 
 const TransactionQueryOptionsSchema = z.object({
-  page: z.number().int().positive().optional().describe('Page number (1-based)'),
+  page: z.number().int().positive().optional().describe('page number (1-based)'),
   limit: z.number().int().positive().optional().describe('Max items per page'),
   from: z.string().datetime().optional().describe('Start date (ISO 8601)'),
   to: z.string().datetime().optional().describe('End date (ISO 8601)'),

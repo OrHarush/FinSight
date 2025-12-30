@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import Column from '@/components/layout/Containers/Column';
+import Column from '@/components/shared/layout/containers/Column';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Typography } from '@mui/material';
 

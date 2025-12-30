@@ -3,8 +3,8 @@ import { Card, CardContent, Typography, LinearProgress, Grid, useTheme } from '@
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
-import Column from '@/components/layout/Containers/Column';
-import Row from '@/components/layout/Containers/Row';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
 import * as Icons from '@mui/icons-material';
 import AllOnTrackState from '@/pages/Overview/CategoriesBudget/AllOnTrackState';
