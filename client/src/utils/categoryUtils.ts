@@ -2,7 +2,7 @@ import { CategoryDto, CategoryFormValues } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
 import { PRESET_COLORS, PresetColor } from '../../../shared/types/colors';
 import { CreateCategoryCommand } from '../../../shared/types/CategoryCommands';
-import { TFunction } from 'i18next';
+import i18n, { TFunction } from 'i18next';
 
 export function mapCategoryFormToCommand(values: CategoryFormValues): CreateCategoryCommand {
   if (!PRESET_COLORS.includes(values.color as PresetColor)) {
@@ -46,9 +46,19 @@ export function getTopSpendingCategories(
 }
 
 export function getCategoryDisplayName(category: CategoryDto, t: TFunction<'categories'>): string {
-  if (category.key) {
-    return t(`defaults.${category.key}`);
+  if (!category.key) {
+    return category.name;
   }
 
-  return category.name;
+  const defaultName = i18n.getFixedT('en', 'categories')(`defaults.${category.key}`);
+
+  console.log('==============');
+  console.log(category.name);
+  console.log(defaultName);
+
+  if (category.name !== defaultName) {
+    return category.name;
+  }
+
+  return t(`defaults.${category.key}`);
 }

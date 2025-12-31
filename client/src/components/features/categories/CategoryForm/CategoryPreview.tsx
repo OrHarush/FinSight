@@ -4,16 +4,17 @@ import Row from '@/components/shared/layout/containers/Row';
 import { useState } from 'react';
 import CategoryStylePopover from '@/components/features/categories/CategoryForm/CategoryStylePopover';
 import { categoryIcons } from '@/constants/CategoryIcons';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { CategoryFormValues } from '@/types/Category';
 
-interface CategoryPreviewProps {
-  name?: string;
-  icon?: string;
-  color?: string;
-}
-
-const CategoryPreview = ({ name, icon = 'Category', color = '#9ca3af' }: CategoryPreviewProps) => {
+const CategoryPreview = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const { control } = useFormContext<CategoryFormValues>();
+
+  const name = useWatch({ control, name: 'name' });
+  const icon = useWatch({ control, name: 'icon' });
+  const color = useWatch({ control, name: 'color' });
 
   return (
     <>
@@ -31,13 +32,11 @@ const CategoryPreview = ({ name, icon = 'Category', color = '#9ca3af' }: Categor
           cursor: 'pointer',
           transition: 'all 160ms ease',
           boxShadow: `0 6px 18px ${alpha(theme.palette.common.black, 0.25)}`,
-
           '&:hover': {
             borderColor: alpha(theme.palette.primary.main, 0.4),
             backgroundColor: alpha(theme.palette.primary.main, 0.04),
             transform: 'scale(1.02)',
           },
-
           '&:active': {
             transform: 'scale(0.99)',
           },

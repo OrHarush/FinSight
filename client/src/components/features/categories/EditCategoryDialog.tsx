@@ -7,7 +7,7 @@ import { queryKeys } from '@/constants/queryKeys';
 import { FormProvider, useForm } from 'react-hook-form';
 import CategoryForm from '@/components/features/categories/CategoryForm';
 import { UpdateCategoryCommand } from '../../../../../shared/types/CategoryCommands';
-import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
+import { getCategoryDisplayName, mapCategoryFormToCommand } from '@/utils/categoryUtils';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 
@@ -18,9 +18,10 @@ interface EditCategoryDialogProps extends BaseDialogProps {
 const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
+  console.log(category);
   const methods = useForm<CategoryFormValues>({
     defaultValues: {
-      name: category.name,
+      name: getCategoryDisplayName(category, t),
       type: category.type,
       monthlyLimit: category.monthlyLimit,
       color: category.color,
