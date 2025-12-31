@@ -4,9 +4,9 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { queryKeys } from '@/constants/queryKeys';
 import { FormProvider, useForm } from 'react-hook-form';
-import AccountForm from '@/components/features/accounts/AccountForm';
+import AccountForm from '@/components/features/accounts/components/AccountForm';
 import { AccountDto, AccountFormValues } from '@/types/Account';
-import { UpdateAccountCommand } from '../../../../../shared/types/AccountCommands';
+import { UpdateAccountCommand } from '../../../../../../shared/types/AccountCommands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 

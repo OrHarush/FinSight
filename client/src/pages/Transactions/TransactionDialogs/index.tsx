@@ -1,6 +1,6 @@
-import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
+import CreateTransactionDialog from '@/components/features/transactions/dialogs/CreateTransactionDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import EditTransactionDialog from '@/components/features/transactions/EditTransactionDialog';
+import EditTransactionDialog from '@/components/features/transactions/dialogs/EditTransactionDialog';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useNavigate } from 'react-router-dom';

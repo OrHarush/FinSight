@@ -3,7 +3,7 @@ import Row from '@/components/shared/layout/containers/Row';
 import Column from '@/components/shared/layout/containers/Column';
 import AccountDetails from '@/pages/Accounts/AccountCard/AccountDetails';
 import { AccountDto } from '@/types/Account';
-import AccountIcon from '@/components/features/accounts/AccountIcon';
+import AccountIcon from '@/components/features/accounts/components/AccountIcon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';

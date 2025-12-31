@@ -1,6 +1,6 @@
 import Row from '@/components/shared/layout/containers/Row';
 import Paper from '@mui/material/Paper';
-import AccountIcon from '@/components/features/accounts/AccountIcon';
+import AccountIcon from '@/components/features/accounts/components/AccountIcon';
 import Column from '@/components/shared/layout/containers/Column';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/shared/ui/CurrencyText';

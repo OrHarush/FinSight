@@ -1,12 +1,12 @@
 import Column from '@/components/shared/layout/containers/Column';
 import { Grid } from '@mui/material';
-import TransactionTypeSelector from '@/components/features/transactions/TransactionTypeSelector';
+import TransactionTypeSelector from '@/components/features/transactions/components/TransactionForm/TransactionTypeSelector';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import PaymentSection from '@/components/features/transactions/TransactionForm/PaymentSection';
-import AccountSection from '@/components/features/transactions/TransactionForm/AccountSection';
-import ClassificationSection from '@/components/features/transactions/TransactionForm/ClassificationSection';
-import ScheduleSection from '@/components/features/transactions/TransactionForm/ScheduleSection';
-import TransactionBaseDetails from '@/components/features/transactions/TransactionForm/TransactionBaseDetails';
+import PaymentSection from '@/components/features/transactions/components/TransactionForm/PaymentSection';
+import AccountSection from '@/components/features/transactions/components/TransactionForm/AccountSection';
+import ClassificationSection from '@/components/features/transactions/components/TransactionForm/ClassificationSection';
+import ScheduleSection from '@/components/features/transactions/components/TransactionForm/ScheduleSection';
+import TransactionBaseDetails from '@/components/features/transactions/components/TransactionForm/TransactionBaseDetails';
 
 const TransactionForm = () => {
   const isMobile = useIsMobile();

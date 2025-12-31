@@ -10,6 +10,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/providers/AuthProvider';
+import { isAdmin } from '@/utils/envUtils';
 
 interface SidebarButtonProps {
   titleKey: string;
@@ -22,8 +23,6 @@ const SidebarButtons = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
-
-  const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
 
   const navigation: SidebarButtonProps[] = [
     {
@@ -51,7 +50,7 @@ const SidebarButtons = () => {
       icon: CreditCardIcon,
       route: ROUTES.PAYMENT_METHODS_URL,
     },
-    ...(isAdmin
+    ...(isAdmin(user)
       ? [
           {
             titleKey: 'admin',

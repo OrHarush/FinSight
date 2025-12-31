@@ -1,5 +1,5 @@
 import { useAccounts } from '@/hooks/entities/useAccounts';
-import AccountMenuItem from '@/components/features/accounts/AccountMenuItem';
+import AccountMenuItem from '@/components/features/accounts/components/AccountMenuItem';
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
 
 interface AccountSelectProps {

@@ -10,7 +10,11 @@ export const requireAdmin = async (req: Request, res: Response, next: NextFuncti
 
   const user = await findById(userId);
 
-  if (!user || user.email !== process.env.ADMIN_EMAIL) {
+  const ADMIN_EMAILS = process.env.ADMIN_EMAILS?.split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (!user || !ADMIN_EMAILS?.includes(user.email.toLowerCase())) {
     return res.status(403).end();
   }
 

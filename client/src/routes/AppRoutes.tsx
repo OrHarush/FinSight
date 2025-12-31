@@ -17,6 +17,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import { AdminKpiDashboard } from '@/pages/Admin';
 import PublicLayout from '@/components/shared/layout/PublicLayout';
 import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
+import { isAdmin } from '@/utils/envUtils';
 
 const RequireAuth = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();
@@ -31,9 +32,7 @@ const RequireAuth = ({ children }: { children: ReactElement }) => {
 const RequireAdmin = ({ children }: { children: ReactElement }) => {
   const { user } = useAuth();
 
-  const isAdmin = user?.email === import.meta.env.VITE_ADMIN_EMAIL;
-
-  if (!isAdmin) {
+  if (!isAdmin(user)) {
     return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
   }
 

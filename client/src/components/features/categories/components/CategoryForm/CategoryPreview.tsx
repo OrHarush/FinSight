@@ -1,8 +1,8 @@
 import { alpha, Typography, useTheme } from '@mui/material';
-import CategoryIconFrame from '@/components/features/categories/CategoryIconFrame';
+import CategoryIconFrame from '@/components/features/categories/components/CategoryIconFrame';
 import Row from '@/components/shared/layout/containers/Row';
 import { useState } from 'react';
-import CategoryStylePopover from '@/components/features/categories/CategoryForm/CategoryStylePopover';
+import CategoryStylePopover from '@/components/features/categories/components/CategoryForm/CategoryStylePopover';
 import { categoryIcons } from '@/constants/CategoryIcons';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { CategoryFormValues } from '@/types/Category';

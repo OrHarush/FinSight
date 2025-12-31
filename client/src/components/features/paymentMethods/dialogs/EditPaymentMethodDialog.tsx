@@ -7,31 +7,44 @@ import { queryKeys } from '@/constants/queryKeys';
 import FormDialog from '@/components/dialogs/FormDialog';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { PaymentMethodDto, PaymentMethodFormValues } from '@/types/PaymentMethod';
-import { CreatePaymentMethodCommand } from '../../../../../shared/types/PaymentMethodCommands';
+import { UpdatePaymentMethodCommand } from '../../../../../../shared/types/PaymentMethodCommands';
 import PaymentMethodForm from '@/components/features/paymentMethods/PaymentMethodForm';
-import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
-const CreatePaymentMethodDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+interface EditPaymentMethodDialogProps extends BaseDialogProps {
+  paymentMethod: PaymentMethodDto;
+}
+
+const EditPaymentMethodDialog = ({
+  isOpen,
+  closeDialog,
+  paymentMethod,
+}: EditPaymentMethodDialogProps) => {
   const { t } = useTranslation('paymentMethods');
   const { alertSuccess, alertError } = useSnackbar();
-  const { paymentMethods } = usePaymentMethods();
+
   const methods = useForm<PaymentMethodFormValues>({
+    defaultValues: {
+      name: paymentMethod.name,
+      billingDay: paymentMethod.billingDay,
+      type: paymentMethod.type,
+      last4: paymentMethod.last4,
+      isPrimary: paymentMethod.isPrimary,
+    },
     mode: 'all',
-    defaultValues: { isPrimary: paymentMethods.length === 0 },
   });
 
-  const createPaymentMethod = useApiMutation<PaymentMethodDto, CreatePaymentMethodCommand>({
-    method: 'post',
-    url: API_ROUTES.PAYMENT_METHODS,
+  const updatePaymentMethod = useApiMutation<PaymentMethodDto, UpdatePaymentMethodCommand>({
+    method: 'put',
+    url: `${API_ROUTES.PAYMENT_METHODS}/${paymentMethod._id}`,
     queryKeysToInvalidate: [queryKeys.paymentMethods()],
   });
 
-  const createNewPaymentMethod = async (data: PaymentMethodFormValues) => {
+  const update = async (data: PaymentMethodFormValues) => {
     try {
-      await createPaymentMethod.mutateAsync(data);
-      alertSuccess(t('messages.createSuccess'));
+      await updatePaymentMethod.mutateAsync(data);
+      alertSuccess(t('messages.updateSuccess'));
     } catch (err) {
-      alertError(t('messages.createError'));
+      alertError(t('messages.updateError'));
       console.error(err);
     }
   };
@@ -41,8 +54,9 @@ const CreatePaymentMethodDialog = ({ isOpen, closeDialog }: BaseDialogProps) => 
       <FormDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
-        title={t('actions.create')}
-        onSubmit={createNewPaymentMethod}
+        title={t('actions.edit')}
+        onSubmit={update}
+        isUpdateForm
       >
         <PaymentMethodForm />
       </FormDialog>
@@ -50,4 +64,4 @@ const CreatePaymentMethodDialog = ({ isOpen, closeDialog }: BaseDialogProps) => 
   );
 };
 
-export default CreatePaymentMethodDialog;
+export default EditPaymentMethodDialog;

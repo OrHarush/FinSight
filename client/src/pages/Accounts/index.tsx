@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
-import CreateAccountDialog from '@/components/features/accounts/CreateAccountDialog';
+import CreateAccountDialog from '@/components/features/accounts/dialogs/CreateAccountDialog';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
-import EditAccountDialog from '@/components/features/accounts/EditAccountDialog';
+import EditAccountDialog from '@/components/features/accounts/dialogs/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
 import { useOpen } from '@/hooks/useOpen';
 import PageHeader from '@/components/shared/layout/page/PageHeader';

@@ -1,8 +1,8 @@
 import { Divider, Popover } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import Column from '@/components/shared/layout/containers/Column';
-import IconGridPicker from '@/components/features/categories/CategoryForm/IconGridPicker';
-import ColorGridPicker from '@/components/features/categories/CategoryForm/ColorGridPicker';
+import IconGridPicker from '@/components/features/categories/components/CategoryForm/IconGridPicker';
+import ColorGridPicker from '@/components/features/categories/components/CategoryForm/ColorGridPicker';
 
 interface CategoryStylePopoverProps {
   anchorEl: HTMLElement | null;

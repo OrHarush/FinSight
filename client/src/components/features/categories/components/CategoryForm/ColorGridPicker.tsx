@@ -1,6 +1,6 @@
 import { Grid, IconButton } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
-import { PRESET_COLORS } from '../../../../../../shared/types/colors';
+import { PRESET_COLORS } from '../../../../../../../shared/types/colors';
 import { getContrastColor } from '@/utils/colorUtils';
 
 interface ColorGridPickerProps {

@@ -3,9 +3,9 @@ import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { CategoryFormValues } from '@/types/Category';
-import CategoryPreview from '@/components/features/categories/CategoryForm/CategoryPreview';
+import CategoryPreview from '@/components/features/categories/components/CategoryForm/CategoryPreview';
 import TextInput from '@/components/shared/inputs/TextInput';
-import CategoryTypeToggle from '@/components/features/categories/CategoryForm/CategoryTypeToggle';
+import CategoryTypeToggle from '@/components/features/categories/components/CategoryForm/CategoryTypeToggle';
 
 const CategoryForm = () => {
   const { t } = useTranslation('categories');

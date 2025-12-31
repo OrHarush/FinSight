@@ -5,11 +5,11 @@ import { ExpandedTransactionDto, TransactionDto, TransactionFormValues } from '@
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import { UpdateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
+import { UpdateTransactionCommand } from '../../../../../../shared/types/TransactionCommmands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import TransactionForm from '@/components/features/transactions/TransactionForm';
+import TransactionForm from '@/components/features/transactions/components/TransactionForm';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface EditTransactionDialogProps extends BaseDialogProps {

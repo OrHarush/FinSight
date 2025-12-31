@@ -5,8 +5,8 @@ import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { CreateAccountCommand } from '../../../../../shared/types/AccountCommands';
-import AccountForm from '@/components/features/accounts/AccountForm';
+import { CreateAccountCommand } from '../../../../../../shared/types/AccountCommands';
+import AccountForm from '@/components/features/accounts/components/AccountForm';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 

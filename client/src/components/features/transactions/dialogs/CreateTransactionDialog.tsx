@@ -6,12 +6,12 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
-import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
+import { CreateTransactionCommand } from '../../../../../../shared/types/TransactionCommmands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import TransactionForm from '@/components/features/transactions/TransactionForm';
+import TransactionForm from '@/components/features/transactions/components/TransactionForm';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {

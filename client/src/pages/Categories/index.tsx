@@ -1,7 +1,7 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import CreateCategoryDialog from '@/components/features/categories/CreateCategoryDialog';
+import CreateCategoryDialog from '@/components/features/categories/dialogs/CreateCategoryDialog';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import EditCategoryDialog from '@/components/features/categories/EditCategoryDialog';
+import EditCategoryDialog from '@/components/features/categories/dialogs/EditCategoryDialog';
 import { useState } from 'react';
 import { CategoryDto } from '@/types/Category';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';

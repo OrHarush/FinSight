@@ -171,10 +171,10 @@ const TransactionOverviewDialog = ({
           <Divider />
           <Column spacing={1}>
             <Typography variant="caption" color="text.secondary">
-              {t('details.created')}: {new Date(transaction.createdAt).toLocaleString('en-GB')}
+              {t('details.created')}: {new Date(transaction?.createdAt).toLocaleString('en-GB')}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {t('details.updated')}: {new Date(transaction.updatedAt).toLocaleString('en-GB')}
+              {t('details.updated')}: {new Date(transaction?.updatedAt).toLocaleString('en-GB')}
             </Typography>
           </Column>
         </Column>

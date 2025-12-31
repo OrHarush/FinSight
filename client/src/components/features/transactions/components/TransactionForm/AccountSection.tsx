@@ -1,8 +1,8 @@
-import AccountSelect from '@/components/features/accounts/AccountSelect';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
+import AccountSelect from '@/components/features/accounts/components/AccountSelect';
 
 const AccountsSection = () => {
   const { t } = useTranslation('transactions');
