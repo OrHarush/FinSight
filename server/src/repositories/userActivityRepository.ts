@@ -53,6 +53,19 @@ export const findDistinctActiveUserIdsSince = async (since: Date): Promise<Types
     occurredAt: { $gte: since },
   });
 
+export const findLoginEventsSince = async (since: Date) =>
+  UserActivityEvent.find({
+    type: 'LOGIN',
+    occurredAt: { $gte: since },
+  })
+    .sort({ occurredAt: -1 })
+    .select({
+      userId: 1,
+      userName: 1,
+      occurredAt: 1,
+    })
+    .lean();
+
 export const createLoginEvent = async (userId: string, userName: string) => {
   const event = new UserActivityEvent({
     userId: new Types.ObjectId(userId),

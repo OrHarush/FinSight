@@ -48,5 +48,5 @@ export const API_ROUTES = {
 
   USERS: '/api/users',
 
-  ADMIN: '/api/admin/kpis',
+  ADMIN: '/api/admin',
 };

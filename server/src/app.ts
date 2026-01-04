@@ -9,7 +9,7 @@ import paymentMethodRoutes from './routes/paymentMethodsRoutes';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
-import kpiRoutes from './routes/kpiRoutes';
+import adminRoutes from './routes/adminRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 import { mcpMiddleware } from './mcp/mcpServer';
@@ -27,7 +27,7 @@ app.use('/api/accounts', accountRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/feedback', feedbackRoutes);
-app.use('/api/admin/kpis', kpiRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.post('/mcp', mcpMiddleware);
 
