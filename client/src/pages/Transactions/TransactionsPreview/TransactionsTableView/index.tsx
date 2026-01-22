@@ -19,7 +19,7 @@ const TransactionsTableView = () => {
   const searchValue = useWatch({ control, name: 'searchValue' });
 
   const { transactions, pagination, isLoading, error, refetch } = useTransactions(
-    2025,
+    selectedMonth.year(),
     selectedMonth?.month(),
     searchValue,
     selectedCategory ?? undefined,
