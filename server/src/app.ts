@@ -13,12 +13,37 @@ import adminRoutes from './routes/adminRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 import { mcpMiddleware } from './mcp/mcpServer';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
 
 const app = express();
+app.set('trust proxy', 1);
 
-app.use(cors());
-app.use(express.json());
+app.use(helmet());
 
+app.use(
+  cors({
+    origin: [
+      'https://fin-sight-ors-projects-5fe0be55.vercel.app',
+      'https://finsight-app.com',
+      'http://localhost:3000',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
+app.use(express.json({ limit: '200kb' }));
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 50,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api', authMiddleware);
 app.use('/api/users', userRoutes);
@@ -35,6 +60,7 @@ app.get('/', (_req: Request, res: Response) => {
   res.send('FinSight server is running');
 });
 
+app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 export default app;

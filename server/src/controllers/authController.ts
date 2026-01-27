@@ -7,6 +7,8 @@ import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_ISSUER = process.env.JWT_ISSUER as string;
+const JWT_AUDIENCE = process.env.JWT_AUDIENCE as string;
 const CURRENT_TERMS_VERSION = process.env.CURRENT_TERMS_VERSION!;
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -55,8 +57,12 @@ export const googleLogin = async (req: Request, res: Response) => {
 
     await updateLastUserLogin(user._id);
 
-    const appToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    const appToken = jwt.sign({ userId: user._id.toString() }, JWT_SECRET, {
+      algorithm: 'HS256',
       expiresIn: '7d',
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
+      subject: user._id.toString(),
     });
 
     const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
