@@ -3,7 +3,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import * as transactionService from '../services/transactionService';
 import { TransactionQueryOptions } from '../types/Transaction';
 import { z } from 'zod';
-import { getUserIdFromAuthHeader } from '../utils/auth';
+import { extractUserIdFromBearerToken, isValidBearerToken } from '../utils/auth';
 
 const TransactionQueryOptionsSchema = z.object({
   page: z.number().int().positive().optional().describe('page number (1-based)'),
@@ -43,7 +43,14 @@ mcpServer.registerTool(
       (headers['authorization'] as string | undefined) ??
       (headers['Authorization'] as string | undefined);
 
-    const userId = getUserIdFromAuthHeader(authHeader);
+    if (!isValidBearerToken(authHeader)) {
+      return {
+        content: [{ type: 'text', text: 'Unauthorized: missing or invalid token' }],
+        isError: true,
+      };
+    }
+
+    const userId = extractUserIdFromBearerToken(authHeader);
 
     if (!userId) {
       return {
