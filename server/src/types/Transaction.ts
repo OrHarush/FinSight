@@ -2,7 +2,6 @@ import { IPaymentMethod } from '../models/PaymentMethod';
 import { ITransaction } from '../models/Transaction';
 import { ICategory } from '../models/Category';
 import { IAccount } from '../models/Account';
-import { IUser } from '../models/User';
 
 export interface TransactionQueryOptions {
   page?: number;
