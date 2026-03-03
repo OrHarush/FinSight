@@ -4,6 +4,7 @@ import Category from '../models/Category';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
 import { ITransactionPopulated, TransactionQueryOptions } from '../types/Transaction';
 import {
+  expandRecurring,
   expandTransactions,
   filterTransactionsByDateRange,
   getEffectiveMonth,
@@ -91,7 +92,7 @@ export const getTransactionSummary = async (
     to: endDate,
   });
 
-  const expandedTransactions = expandTransactions(transactions, fromDate, endDate);
+  const expandedTransactions = transactions.flatMap((tx) => expandRecurring(tx, fromDate, endDate));
 
   if (month !== undefined) {
     return summarizeSingleMonth(expandedTransactions, year, month, accountId);

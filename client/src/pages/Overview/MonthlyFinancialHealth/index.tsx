@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useFetch } from '@/hooks/useFetch';
@@ -7,34 +6,14 @@ import { useTransactions } from '@/hooks/entities/useTransactions';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import {
-  calculateBudgetRunway,
-  calculateFinancialHealth,
-  FinancialHealthStatus,
-  HEALTH_SEVERITY_ORDER,
-} from '@/utils/financialHealth';
+import { useFinancialHealthIndicators } from '@/hooks/useFinancialHealthIndicators';
+import { resolveOverallSeverity, hasNoData, HealthIndicator } from '@/utils/healthIndicatorUtils';
 import OverallHealthIcon from './OverallHealthIcon';
 import HealthIndicatorCell from './HealthIndicatorCell';
 import MonthlyFinancialHealthSkeleton from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthSkeleton';
 import MonthlyFinancialHealthCard from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthCard';
 
-interface HealthIndicator {
-  title: string;
-  value: string;
-  description?: string;
-  status: FinancialHealthStatus;
-}
-
-const resolveOverallSeverity = (indicators: HealthIndicator[]): FinancialHealthStatus =>
-  indicators.reduce<FinancialHealthStatus>((worst, current) => {
-    const worstIndex = HEALTH_SEVERITY_ORDER.indexOf(worst);
-    const currentIndex = HEALTH_SEVERITY_ORDER.indexOf(current.status);
-
-    return currentIndex > worstIndex ? current.status : worst;
-  }, 'noData');
-
 const MonthlyFinancialHealth = () => {
-  const { t } = useTranslation('overview');
   const { year, month, account } = useOverviewFilters();
   const { isLoading: isLoadingAccounts } = useAccounts();
   const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
@@ -47,74 +26,22 @@ const MonthlyFinancialHealth = () => {
 
   const isLoading = isLoadingSummary || isLoadingAccounts || isLoadingTransactions;
 
+  const income = data?.monthlyIncome ?? 0;
+  const expenses = data?.monthlyExpenses ?? 0;
+  const hasMonthData = transactions.filter(tx => tx.account?._id === account?._id).length > 0;
+
+  const indicators = useFinancialHealthIndicators({
+    income,
+    expenses,
+    hasMonthData,
+  });
+
   if (isLoading) {
     return <MonthlyFinancialHealthSkeleton />;
   }
 
-  const income = data?.monthlyIncome ?? 0;
-  const expenses = data?.monthlyExpenses ?? 0;
-  const hasMonthData = transactions.filter(tx => tx.account?._id === account?._id).length > 0;
-  const today = new Date();
-
-  const indicators: HealthIndicator[] = [];
-
-  if (!hasMonthData) {
-    indicators.push({
-      title: t('financialStatusCard.title'),
-      value: t('noData.title'),
-      description: t('noData.detail'),
-      status: 'noData',
-    });
-  } else {
-    const { status } = calculateFinancialHealth(income, expenses, today);
-    indicators.push({
-      title: t('financialStatusCard.title'),
-      value: t(`financialStatusCard.status.${status}`),
-      status,
-    });
-  }
-
-  if (income > 0) {
-    const day = today.getDate();
-    const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-
-    const runway = calculateBudgetRunway({
-      income,
-      expenses,
-      dayOfMonth: day,
-      totalDaysInMonth: totalDays,
-    });
-
-    indicators.push({
-      title: t('budgetRunwayCard.title'),
-      value:
-        runway.status === 'critical'
-          ? t('budgetRunwayCard.noRunway')
-          : runway.status === 'warning'
-            ? t('budgetRunwayCard.daysLeft', { count: runway.daysLeft })
-            : t('budgetRunwayCard.onTrack'),
-      status: runway.status,
-    });
-  }
-
-  if (income > 0) {
-    const day = today.getDate();
-    const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-    const remainingDays = Math.max(totalDays - day, 1);
-    const dailyLimit = (income - expenses) / remainingDays;
-    const currentDailyBurn = expenses / day;
-
-    indicators.push({
-      title: t('dailySpendCard.title'),
-      value: t('dailySpendCard.valuePerDay', {
-        amount: Math.round(dailyLimit),
-      }),
-      status: currentDailyBurn > dailyLimit ? 'warning' : 'ok',
-    });
-  }
-
   const overallStatus = resolveOverallSeverity(indicators);
-  const hasNoData = indicators.length === 1 && indicators[0].status === 'noData';
+  const isNoDataState = hasNoData(indicators);
 
   return (
     <MonthlyFinancialHealthCard>
@@ -123,20 +50,30 @@ const MonthlyFinancialHealth = () => {
           <OverallHealthIcon status={overallStatus} />
         </Grid>
         <Grid container size={{ xs: 12, sm: 9, md: 12, lg: 9 }} justifyItems={'center'}>
-          {indicators.map((i, idx) => (
-            <Grid key={idx} size={{ xs: hasNoData ? 12 : 4 }} textAlign={'center'}>
-              <HealthIndicatorCell
-                key={idx}
-                title={i.title}
-                value={i.value}
-                description={i.description}
-              />
-            </Grid>
-          ))}
+          <HealthIndicatorsGrid indicators={indicators} isNoDataState={isNoDataState} />
         </Grid>
       </Grid>
     </MonthlyFinancialHealthCard>
   );
 };
+
+interface HealthIndicatorsGridProps {
+  indicators: HealthIndicator[];
+  isNoDataState: boolean;
+}
+
+const HealthIndicatorsGrid = ({ indicators, isNoDataState }: HealthIndicatorsGridProps) => (
+  <>
+    {indicators.map((indicator, idx) => (
+      <Grid key={idx} size={{ xs: isNoDataState ? 12 : 4 }} textAlign={'center'}>
+        <HealthIndicatorCell
+          title={indicator.title}
+          value={indicator.value}
+          description={indicator.description}
+        />
+      </Grid>
+    ))}
+  </>
+);
 
 export default MonthlyFinancialHealth;

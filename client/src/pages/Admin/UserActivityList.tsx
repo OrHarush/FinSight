@@ -23,8 +23,6 @@ const UserActivityList = () => {
     queryKey: queryKeys.activity(),
   });
 
-  console.log(data);
-
   return (
     <Box sx={{ mt: 4 }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>

@@ -302,7 +302,6 @@ export const summarizeSingleMonth = (
 
   for (const tx of txs) {
     const { year, month } = getEffectiveMonth(tx);
-    // console.log({ name: tx.name, amount: tx.amount, date: tx.date, type: tx.type });
 
     if (year !== targetYear || month !== targetMonth) {
       continue;

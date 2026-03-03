@@ -52,10 +52,6 @@ export function getCategoryDisplayName(category: CategoryDto, t: TFunction<'cate
 
   const defaultName = i18n.getFixedT('en', 'categories')(`defaults.${category.key}`);
 
-  console.log('==============');
-  console.log(category.name);
-  console.log(defaultName);
-
   if (category.name !== defaultName) {
     return category.name;
   }

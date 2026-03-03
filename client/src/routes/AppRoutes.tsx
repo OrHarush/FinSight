@@ -1,4 +1,4 @@
-import { ReactElement, Suspense } from 'react';
+import { Suspense } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
@@ -17,37 +17,8 @@ import Column from '@/components/shared/layout/containers/Column';
 import { AdminKpiDashboard } from '@/pages/Admin';
 import PublicLayout from '@/components/shared/layout/PublicLayout';
 import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
-import { isAdmin } from '@/utils/envUtils';
-
-const RequireAuth = ({ children }: { children: ReactElement }) => {
-  const { user } = useAuth();
-
-  if (!user) {
-    return <Navigate to={ROUTES.LOGIN_URL} />;
-  }
-
-  return children;
-};
-
-const RequireAdmin = ({ children }: { children: ReactElement }) => {
-  const { user } = useAuth();
-
-  if (!isAdmin(user)) {
-    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
-  }
-
-  return children;
-};
-
-const RequireGuest = ({ children }: { children: ReactElement }) => {
-  const { user } = useAuth();
-
-  if (user) {
-    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
-  }
-
-  return children;
-};
+import { RequireAuth, RequireAdmin, RequireGuest } from '@/routes/guards/ProtectedRoute';
+import Budget from '@/pages/Budget';
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
@@ -98,7 +69,7 @@ const AppRoutes = () => {
                 </RequireAdmin>
               }
             />
-            {/*<Route path={ROUTES.BUDGET_URL} element={<Budget />} />*/}
+            <Route path={ROUTES.BUDGET_URL} element={<Budget />} />
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>

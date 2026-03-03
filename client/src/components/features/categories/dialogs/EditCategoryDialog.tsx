@@ -18,7 +18,6 @@ interface EditCategoryDialogProps extends BaseDialogProps {
 const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  console.log(category);
   const methods = useForm<CategoryFormValues>({
     defaultValues: {
       name: getCategoryDisplayName(category, t),

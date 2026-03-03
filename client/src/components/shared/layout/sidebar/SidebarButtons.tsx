@@ -50,6 +50,11 @@ const SidebarButtons = () => {
       icon: CreditCardIcon,
       route: ROUTES.PAYMENT_METHODS_URL,
     },
+    {
+      titleKey: 'budget',
+      icon: CreditCardIcon,
+      route: ROUTES.BUDGET_URL,
+    },
     ...(isAdmin(user)
       ? [
           {

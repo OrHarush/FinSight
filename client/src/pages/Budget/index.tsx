@@ -1,19 +1,19 @@
-import { useMemo } from 'react';
-import { Box, Grid, Typography, Card, CardContent, Skeleton, Alert } from '@mui/material';
+import { useMemo, useState } from 'react';
+import { Box, Typography, Card, Skeleton, Alert } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import Row from '@/components/shared/layout/containers/Row';
+import { CategoryDto } from '@/types/Category';
 import Column from '@/components/shared/layout/containers/Column';
 import BudgetCategoryCard from '@/pages/Budget/BudgetCategoryCard';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
 import BudgetPieChart from '@/pages/Budget/BudgetPieChart';
+import CategoryTransactionsList from '@/pages/Budget/CategoryTransactionsList';
 
 const Budget = () => {
   const { t } = useTranslation('categories');
-  // const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryDto | null>(null);
 
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -26,7 +26,7 @@ const Budget = () => {
     error: transactionsError,
   } = useTransactions(currentYear, currentMonth);
 
-  const { totalSpent, totalBudget, perCategorySpent } = useMemo(() => {
+  const { perCategorySpent } = useMemo(() => {
     let totalSpentAcc = 0;
     let totalBudgetAcc = 0;
     const map = new Map<string, number>();
@@ -52,19 +52,15 @@ const Budget = () => {
     };
   }, [transactions, categories]);
 
-  // const handleCategorySelect = (category: CategoryDto) => {
-  //   setSelectedCategory(category);
-  // };
-  //
-  // const handleCloseDetails = () => setSelectedCategory(null);
+  const handleCategorySelect = (category: CategoryDto) => {
+    setSelectedCategory(category);
+  };
 
   const isLoading = isCategoriesLoading || isTransactionsLoading;
 
   return (
     <PageLayout>
-      {/* Header */}
       <PageHeader title={'Budget'} />
-      {/* Errors */}
       {categoriesError && (
         <Alert severity="error" sx={{ mb: 2 }}>
           {t('messages.categoriesLoadError', 'Failed to load categories')}
@@ -75,76 +71,74 @@ const Budget = () => {
           {t('messages.transactionsLoadError', 'Failed to load transactions')}
         </Alert>
       )}
-      <Box mb={3}>
-        {isLoading ? (
-          <Skeleton variant="rectangular" height={90} sx={{ borderRadius: 2 }} />
-        ) : (
-          <Card
-            sx={{
-              borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'divider',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-            }}
-          >
-            <CardContent>
-              <Row justifyContent="space-between" alignItems="center">
-                <Column spacing={0.5}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    {t('budgetPage.summary.totalSpent', 'Total spent this month')}
-                  </Typography>
-                  <Typography variant="h6">₪{totalSpent.toLocaleString()}</Typography>
-                </Column>
-                <Column spacing={0.5}>
-                  <Typography variant="subtitle2" color="text.secondary">
-                    {t('budgetPage.summary.totalBudget', 'Total budget')}
-                  </Typography>
-                  <Typography variant="h6">
-                    {totalBudget
-                      ? `₪${totalBudget.toLocaleString()}`
-                      : t('budgetPage.noTotalBudget', 'No budgets set')}
-                  </Typography>
-                </Column>
-                {totalBudget > 0 && (
-                  <Column spacing={0.5} alignItems="flex-end">
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {t('budgetPage.summary.remaining', 'Remaining')}
-                    </Typography>
-                    <Typography variant="h6">
-                      ₪{(totalBudget - totalSpent).toLocaleString()}
-                    </Typography>
-                  </Column>
-                )}
-              </Row>
-            </CardContent>
-          </Card>
-        )}
-      </Box>
-      <Card sx={{ borderRadius: 2, p: 2 }}>
-        <BudgetPieChart categories={categories} perCategorySpent={perCategorySpent} />
+      <Card sx={{ borderRadius: 2, p: 3, mb: 3, height: '45vh' }}>
+        <BudgetPieChart
+          categories={categories}
+          perCategorySpent={perCategorySpent}
+          onCategoryClick={handleCategorySelect}
+        />
       </Card>
-      {isLoading ? (
-        <Grid container spacing={2}>
-          {Array.from({ length: 6 }).map((_, idx) => (
-            <Grid key={idx} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Skeleton variant="rectangular" height={120} sx={{ borderRadius: 2 }} />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Column spacing={2} height={'400px'} overflow={'auto'}>
-          {categories?.map(category => (
-            <BudgetCategoryCard key={category._id} category={category} />
-          ))}
-          {!categories?.length && (
-            <Box mt={4} width="100%" textAlign="center">
-              <Typography variant="body1" color="text.secondary">
-                {t('budgetPage.empty', 'No categories yet. Create one to start budgeting.')}
-              </Typography>
-            </Box>
+
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', lg: '300px 1fr' },
+          gap: 2,
+          height: '40vh',
+        }}
+      >
+        <Card
+          sx={{ borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        >
+          <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="h6">Categories</Typography>
+          </Box>
+          {isLoading ? (
+            <Column spacing={2} sx={{ p: 2 }}>
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <Skeleton key={idx} variant="rectangular" height={100} sx={{ borderRadius: 1 }} />
+              ))}
+            </Column>
+          ) : (
+            <Column
+              spacing={1}
+              sx={{ flex: 1, overflow: 'auto', p: 2, display: 'flex', flexDirection: 'column' }}
+            >
+              {categories?.map(category => (
+                <BudgetCategoryCard
+                  key={category._id}
+                  category={category}
+                  onSelect={handleCategorySelect}
+                  isSelected={selectedCategory?._id === category._id}
+                />
+              ))}
+              {!categories?.length && (
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    {t('budgetPage.empty', 'No categories yet.')}
+                  </Typography>
+                </Box>
+              )}
+            </Column>
           )}
-        </Column>
-      )}
+        </Card>
+        <Card
+          sx={{ borderRadius: 2, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        >
+          <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="h6">Transactions</Typography>
+          </Box>
+          <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
+            <CategoryTransactionsList
+              category={selectedCategory}
+              transactions={transactions}
+              isLoading={isLoading}
+            />
+          </Box>
+        </Card>
+      </Box>
     </PageLayout>
   );
 };

@@ -1,8 +1,15 @@
 import { PieChart } from '@mui/x-charts';
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
+import { CategoryDto } from '@/types/Category';
 
-const BudgetPieChart = ({ categories, perCategorySpent }) => {
+interface BudgetPieChartProps {
+  categories?: CategoryDto[];
+  perCategorySpent: Map<string, number>;
+  onCategoryClick?: (category: CategoryDto) => void;
+}
+
+const BudgetPieChart = ({ categories, perCategorySpent, onCategoryClick }: BudgetPieChartProps) => {
   const data = useMemo(() => {
     if (!categories) return [];
 
@@ -22,20 +29,21 @@ const BudgetPieChart = ({ categories, perCategorySpent }) => {
     <Box
       sx={{
         width: '100%',
-        height: { xs: 240, sm: 280 },
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        cursor: 'pointer',
       }}
     >
       <PieChart
-        height={300}
+        height={500}
         series={[
           {
             data,
+            outerRadius: 100,
           },
         ]}
-        hideLegend
       />
     </Box>
   );
