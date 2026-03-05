@@ -25,7 +25,7 @@ const colorMap: Record<InsightKey, 'success.main' | 'warning.main' | 'error.main
   overspent: 'error.main',
 };
 
-const MonthlyInsightBanner = () => {
+const MonthlyInsight = () => {
   const { year, month, account } = useOverviewFilters();
   const isMobile = useIsMobile();
   const { t } = useTranslation('overview');
@@ -65,4 +65,4 @@ const MonthlyInsightBanner = () => {
   );
 };
 
-export default MonthlyInsightBanner;
+export default MonthlyInsight;

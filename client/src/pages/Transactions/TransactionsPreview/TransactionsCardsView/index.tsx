@@ -11,6 +11,7 @@ import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 
 const TransactionsCardsView = () => {
   const [page, setPage] = useState(1);
@@ -59,15 +60,15 @@ const TransactionsCardsView = () => {
   }
 
   return (
-    <Column spacing={1}>
+    <Column spacing={1} overflow={'hidden'}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      <Column>
+      <ScrollableColumn flex={1} minHeight={0} sx={{ pr: 0, maxHeight: 'none' }}>
         {transactions.map(tx => (
           <TransactionCard key={tx._id} transaction={tx} />
         ))}
-      </Column>
+      </ScrollableColumn>
       {pagination?.total && (
-        <Box display="flex" justifyContent="center" py={2}>
+        <Box display="flex" justifyContent="center" py={2} sx={{ flexShrink: 0 }}>
           <Pagination
             count={Math.ceil(pagination.total / 20)}
             page={page}

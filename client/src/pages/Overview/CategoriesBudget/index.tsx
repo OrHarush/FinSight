@@ -1,18 +1,18 @@
-import { ElementType, useMemo } from 'react';
-import { Card, CardContent, Typography, LinearProgress, Grid, useTheme } from '@mui/material';
+import { useMemo } from 'react';
+import { Card, CardContent, Typography, Grid, Button } from '@mui/material';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
-import * as Icons from '@mui/icons-material';
-import AllOnTrackState from '@/pages/Overview/CategoriesBudget/AllOnTrackState';
 import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudget/CategoryBudgetSkeleton';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/constants/Routes';
+import BudgetList from '@/pages/Overview/CategoriesBudget/BudgetList';
 
 const CategoriesBudget = () => {
   const { t } = useTranslation('overview');
-  const theme = useTheme();
+  const navigate = useNavigate();
   const { year, month } = useOverviewFilters();
   const { categories, isLoading: isLoadingCategories } = useCategories();
   const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
@@ -47,17 +47,8 @@ const CategoriesBudget = () => {
           percent,
         };
       })
-      .filter(c => c.percent >= 70)
-      .sort((a, b) => b.percent - a.percent)
-      .slice(0, 3);
+      .sort((a, b) => b.percent - a.percent);
   }, [categories, transactions]);
-
-  const getBarColor = (percent: number) => {
-    if (percent >= 90) return theme.palette.error.main;
-    if (percent >= 75) return theme.palette.warning.main;
-
-    return theme.palette.grey[600];
-  };
 
   if (isLoading) {
     return <CategoriesBudgetSkeleton />;
@@ -72,58 +63,14 @@ const CategoriesBudget = () => {
               {t('budgetWatch.title')}
             </Typography>
             {watchedCategories.length === 0 ? (
-              <AllOnTrackState />
-            ) : (
-              <Column spacing={2}>
-                {watchedCategories.map(cat => {
-                  const percentColor =
-                    cat.percent >= 90
-                      ? 'error.main'
-                      : cat.percent >= 80
-                        ? 'warning.main'
-                        : 'text.secondary';
-                  const Icon = (Icons as Record<string, ElementType>)[cat.icon];
-
-                  return (
-                    <Column key={cat.id} spacing={0.5}>
-                      <Row spacing={1} alignItems={'center'}>
-                        <Icon
-                          sx={{
-                            width: 20,
-                            height: 20,
-                            color: cat.color ?? theme.palette.text.secondary,
-                          }}
-                        />
-                        <Typography variant="body2" fontWeight={500}>
-                          {cat.name}
-                        </Typography>
-                      </Row>
-                      <Column>
-                        <Row justifyContent={'space-between'}>
-                          <Typography variant="caption" color="text.secondary">
-                            ₪{cat.spent.toLocaleString()} / ₪{cat.limit.toLocaleString()}
-                          </Typography>
-                          <Typography variant="caption" fontWeight={700} color={percentColor}>
-                            {cat.percent.toFixed(0)}%
-                          </Typography>
-                        </Row>
-                        <LinearProgress
-                          variant="determinate"
-                          value={Math.min(cat.percent, 100)}
-                          sx={{
-                            height: 10,
-                            borderRadius: 3,
-                            bgcolor: 'rgba(255,255,255,0.08)',
-                            '& .MuiLinearProgress-bar': {
-                              backgroundColor: getBarColor(cat.percent),
-                            },
-                          }}
-                        />
-                      </Column>
-                    </Column>
-                  );
-                })}
+              <Column height={'100%'} alignItems="center" justifyContent="center" spacing={2}>
+                <Typography color="text.secondary">{t('budgetWatch.noBudgets')}</Typography>
+                <Button variant="contained" onClick={() => navigate(ROUTES.CATEGORIES_URL)}>
+                  {t('budgetWatch.addBudgetCTA')}
+                </Button>
               </Column>
+            ) : (
+              <BudgetList budgets={watchedCategories} />
             )}
           </Column>
         </CardContent>

@@ -11,7 +11,7 @@ import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
 import CategoriesBudget from '@/pages/Overview/CategoriesBudget';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
-import MonthlyInsightBanner from '@/pages/Overview/MonthlyInsightBanner';
+import MonthlyInsight from '@/pages/Overview/MonthlyInsight';
 
 const Overview = () => {
   const { accounts, isLoading: loadingAccounts } = useAccounts();
@@ -37,7 +37,7 @@ const Overview = () => {
       {isSetupComplete ? (
         <OverviewFiltersProvider>
           <OverviewHeader />
-          <MonthlyInsightBanner />
+          <MonthlyInsight />
           <Grid container spacing={4}>
             <Grid container spacing={4} size={{ xs: 12 }}>
               <MonthlyFinancialOverview />

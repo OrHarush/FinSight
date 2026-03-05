@@ -35,7 +35,7 @@ const SwipeableCard = ({ children, onDelete }: SwipeableCardProps) => {
   return (
     <Box
       className="swipeable-wrapper"
-      sx={{ position: 'relative', overflow: 'hidden', width: '100%' }}
+      sx={{ position: 'relative', overflow: 'hidden', width: '100%', minHeight: '77px' }}
     >
       <motion.div
         style={{

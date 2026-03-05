@@ -1,10 +1,11 @@
-import { MenuItem, Select, Typography } from '@mui/material';
+import { MenuItem, Select, Typography, useTheme } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { useCategories } from '@/hooks/entities/useCategories';
 import Row from '@/components/shared/layout/containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { useTranslation } from 'react-i18next';
+import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
 
 interface CategorySelectProps {
   selectedCategory: string;
@@ -13,6 +14,7 @@ interface CategorySelectProps {
 
 const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelectProps) => {
   const { t } = useTranslation('categories');
+  const theme = useTheme();
   const { categories } = useCategories();
 
   return (
@@ -41,6 +43,8 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
             mt: 1,
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
             maxHeight: '400px',
+            overflow: 'auto',
+            ...getCustomScrollbarStyles(theme),
             '& .MuiMenuItem-root': {
               px: 2,
               py: 1.5,

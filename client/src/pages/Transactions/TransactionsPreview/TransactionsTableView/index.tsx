@@ -58,29 +58,31 @@ const TransactionsTableView = () => {
   return (
     <>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      <TableContainer component={Paper}>
-        <Table
-          stickyHeader
-          aria-label="transactions table"
-          sx={{
-            borderCollapse: 'separate',
-            borderSpacing: 0,
-            '& th': {
-              backgroundColor: 'background.paper',
-              fontWeight: 600,
-              color: 'text.primary',
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-            },
-            '& td': {
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-            },
-          }}
-        >
-          <TransactionTableHeaders />
-          <TransactionTableBody transactions={transactions} />
-        </Table>
+      <Paper>
+        <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+          <Table
+            stickyHeader
+            aria-label="transactions table"
+            sx={{
+              borderCollapse: 'separate',
+              borderSpacing: 0,
+              '& th': {
+                backgroundColor: 'background.paper',
+                fontWeight: 600,
+                color: 'text.primary',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+              '& td': {
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+            }}
+          >
+            <TransactionTableHeaders />
+            <TransactionTableBody transactions={transactions} />
+          </Table>
+        </TableContainer>
         <TablePagination
           component="div"
           count={pagination?.total ?? 0}
@@ -90,7 +92,7 @@ const TransactionsTableView = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[10, 20, 50]}
         />
-      </TableContainer>
+      </Paper>
     </>
   );
 };
