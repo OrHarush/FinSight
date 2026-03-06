@@ -11,6 +11,7 @@ import { SvgIconComponent } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/providers/AuthProvider';
 import { isAdmin } from '@/utils/envUtils';
+import SavingsIcon from '@mui/icons-material/Savings';
 
 interface SidebarButtonProps {
   titleKey: string;
@@ -52,8 +53,8 @@ const SidebarButtons = () => {
     },
     {
       titleKey: 'budget',
-      icon: CreditCardIcon,
-      route: ROUTES.BUDGET_URL,
+      icon: SavingsIcon,
+      route: ROUTES.BUDGETS_URL,
     },
     ...(isAdmin(user)
       ? [

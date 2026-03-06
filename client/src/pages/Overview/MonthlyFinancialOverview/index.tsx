@@ -1,7 +1,7 @@
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import { Card, Grid } from '@mui/material';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';

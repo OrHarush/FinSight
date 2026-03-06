@@ -1,16 +1,15 @@
 import { Button } from '@mui/material';
-import CreateAccountDialog from '@/components/features/accounts/dialogs/CreateAccountDialog';
+import AddIcon from '@mui/icons-material/Add';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useState } from 'react';
 import { AccountDto } from '@/types/Account';
-import EditAccountDialog from '@/components/features/accounts/dialogs/EditAccountDialog';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
-import { useOpen } from '@/hooks/useOpen';
+import AccountsDialogManager from '@/pages/Accounts/AccountsDialogManager';
+import { useOpen } from '@/hooks/common/useOpen';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
 import ActionFab from '@/components/shared/ui/ActionFab';
 import { useTranslation } from 'react-i18next';
-import { useIsMobile } from '@/hooks/useIsMobile';
-import AddIcon from '@mui/icons-material/Add';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const Accounts = () => {
   const { t } = useTranslation('accounts');
@@ -18,11 +17,11 @@ const Accounts = () => {
   const [selectedAccount, setSelectedAccount] = useState<AccountDto>();
   const isMobile = useIsMobile();
 
-  const selectAccount = (account: AccountDto) => {
+  const handleSelectAccount = (account: AccountDto) => {
     setSelectedAccount(account);
   };
 
-  const closeEditDialogAndReset = () => {
+  const handleCloseEdit = () => {
     setSelectedAccount(undefined);
   };
 
@@ -35,18 +34,14 @@ const Accounts = () => {
           </Button>
         )}
       </PageHeader>
-      <AccountsPageContent selectAccount={selectAccount} />
+      <AccountsPageContent selectAccount={handleSelectAccount} />
       <ActionFab onClick={openCreateDialog} />
-      {isCreateDialogOpen && (
-        <CreateAccountDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
-      )}
-      {!!selectedAccount && (
-        <EditAccountDialog
-          isOpen={!!selectedAccount}
-          closeDialog={closeEditDialogAndReset}
-          account={selectedAccount}
-        />
-      )}
+      <AccountsDialogManager
+        isCreateOpen={isCreateDialogOpen}
+        selectedAccount={selectedAccount}
+        onCloseCreate={closeCreateDialog}
+        onCloseEdit={handleCloseEdit}
+      />
     </PageLayout>
   );
 };

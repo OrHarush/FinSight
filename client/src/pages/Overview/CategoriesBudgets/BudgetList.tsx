@@ -4,6 +4,7 @@ import * as Icons from '@mui/icons-material';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { getBudgetProgressColor } from '@/utils/colorUtils';
 
 interface BudgetItem {
   id: string;
@@ -21,18 +22,6 @@ interface BudgetListProps {
 
 const BudgetList = ({ budgets }: BudgetListProps) => {
   const theme = useTheme();
-
-  const getBarColor = (percent: number) => {
-    if (percent >= 90) return theme.palette.error.main;
-    if (percent >= 75) return theme.palette.warning.main;
-    return theme.palette.grey[600];
-  };
-
-  const getPercentColor = (percent: number) => {
-    if (percent >= 90) return 'error.main';
-    if (percent >= 80) return 'warning.main';
-    return 'text.secondary';
-  };
 
   return (
     <ScrollableColumn spacing={2} maxHeight={400}>
@@ -58,7 +47,11 @@ const BudgetList = ({ budgets }: BudgetListProps) => {
                 <Typography variant="caption" color="text.secondary">
                   ₪{cat.spent.toLocaleString()} / ₪{cat.limit.toLocaleString()}
                 </Typography>
-                <Typography variant="caption" fontWeight={700} color={getPercentColor(cat.percent)}>
+                <Typography
+                  variant="caption"
+                  fontWeight={700}
+                  color={getBudgetProgressColor(cat.percent, theme)}
+                >
                   {cat.percent.toFixed(0)}%
                 </Typography>
               </Row>
@@ -70,7 +63,7 @@ const BudgetList = ({ budgets }: BudgetListProps) => {
                   borderRadius: 3,
                   bgcolor: 'rgba(255,255,255,0.08)',
                   '& .MuiLinearProgress-bar': {
-                    backgroundColor: getBarColor(cat.percent),
+                    backgroundColor: getBudgetProgressColor(cat.percent, theme),
                   },
                 }}
               />

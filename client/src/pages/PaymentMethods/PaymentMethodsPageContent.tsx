@@ -2,10 +2,10 @@ import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { Grid } from '@mui/material';
 import EntityError from '@/components/entities/EntityError';
 import EntityEmpty from '@/components/entities/EntityEmpty';
-import PaymentMethodCard from '@/pages/PaymentMethods/PaymentMethodCard';
+import PaymentMethodCard from '@/pages/PaymentMethods/components/PaymentMethodCard';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import PaymentMethodsSkeleton from '@/pages/PaymentMethods/paymentMethodsSkeleton';
+import PaymentMethodsSkeleton from '@/pages/PaymentMethods/components/PaymentMethodsSkeleton';
 
 interface PaymentMethodsPageContentProps {
   selectPaymentMethod: (paymentMethod: PaymentMethodDto) => void;

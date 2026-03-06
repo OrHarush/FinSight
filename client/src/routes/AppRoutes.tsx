@@ -69,7 +69,7 @@ const AppRoutes = () => {
                 </RequireAdmin>
               }
             />
-            <Route path={ROUTES.BUDGET_URL} element={<Budgets />} />
+            <Route path={ROUTES.BUDGETS_URL} element={<Budgets />} />
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>

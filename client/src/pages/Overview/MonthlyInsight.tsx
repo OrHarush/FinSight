@@ -2,12 +2,12 @@ import { Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import Row from '@/components/shared/layout/containers/Row';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 type InsightKey = 'excellent' | 'good' | 'balanced' | 'overspent';
 

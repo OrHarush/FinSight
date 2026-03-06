@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { useAccounts } from '@/hooks/entities/useAccounts';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { TransactionSummaryDto } from '@/types/Transaction';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import { useFinancialHealthIndicators } from '@/hooks/useFinancialHealthIndicators';
+import { useFinancialHealthIndicators } from '@/hooks/business/useFinancialHealthIndicators';
 import { resolveOverallSeverity, hasNoData, HealthIndicator } from '@/utils/healthIndicatorUtils';
 import OverallHealthIcon from './OverallHealthIcon';
 import HealthIndicatorCell from './HealthIndicatorCell';

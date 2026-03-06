@@ -8,7 +8,7 @@ import DateSelector from '@/components/shared/ui/DateSelector';
 import { useTranslation } from 'react-i18next';
 import { useForm, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import TextInput from '@/components/shared/inputs/TextInput';
 

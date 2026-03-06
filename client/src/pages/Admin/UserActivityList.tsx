@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import dayjs from 'dayjs';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import { LoginEventDto } from '@/types/Admin';

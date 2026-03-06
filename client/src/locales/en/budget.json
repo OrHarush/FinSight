@@ -1,5 +1,5 @@
 {
-  "pageTitle": "Budget",
+  "pageTitle": "Budgets",
   "messages": {
     "categoriesLoadError": "Failed to load categories",
     "transactionsLoadError": "Failed to load transactions",

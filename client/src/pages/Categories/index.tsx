@@ -1,29 +1,27 @@
-import { Button, useMediaQuery, useTheme } from '@mui/material';
-import CreateCategoryDialog from '@/components/features/categories/dialogs/CreateCategoryDialog';
-import PageLayout from '@/components/shared/layout/page/PageLayout';
-import EditCategoryDialog from '@/components/features/categories/dialogs/EditCategoryDialog';
 import { useState } from 'react';
+import { Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useTranslation } from 'react-i18next';
+import { useOpen } from '@/hooks/common/useOpen';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { CategoryDto } from '@/types/Category';
-import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
-import { useOpen } from '@/hooks/useOpen';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
 import ActionFab from '@/components/shared/ui/ActionFab';
-import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
+import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
+import CategoriesDialogManager from '@/pages/Categories/CategoriesDialogManager';
 
 const Categories = () => {
   const { t } = useTranslation('categories');
+  const isMobile = useIsMobile();
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedCategory, setSelectedCategory] = useState<CategoryDto>();
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const selectCategory = (category: CategoryDto) => {
+  const handleSelectCategory = (category: CategoryDto) => {
     setSelectedCategory(category);
   };
 
-  const closeEditDialogAndReset = () => {
+  const handleCloseEdit = () => {
     setSelectedCategory(undefined);
   };
 
@@ -36,18 +34,14 @@ const Categories = () => {
           </Button>
         )}
       </PageHeader>
-      <CategoriesPageContent selectCategory={selectCategory} />
+      <CategoriesPageContent selectCategory={handleSelectCategory} />
       <ActionFab onClick={openCreateDialog} />
-      {isCreateDialogOpen && (
-        <CreateCategoryDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
-      )}
-      {!!selectedCategory && (
-        <EditCategoryDialog
-          isOpen={!!selectedCategory}
-          closeDialog={closeEditDialogAndReset}
-          category={selectedCategory}
-        />
-      )}
+      <CategoriesDialogManager
+        isCreateOpen={isCreateDialogOpen}
+        selectedCategory={selectedCategory}
+        onCloseCreate={closeCreateDialog}
+        onCloseEdit={handleCloseEdit}
+      />
     </PageLayout>
   );
 };

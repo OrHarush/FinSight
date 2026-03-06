@@ -1,15 +1,14 @@
-import { Button, Card, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
-import { useOpen } from '@/hooks/useOpen';
-import CreatePaymentMethodDialog from '@/components/features/paymentMethods/dialogs/CreatePaymentMethodDialog';
+import { useOpen } from '@/hooks/common/useOpen';
 import PaymentMethodsPageContent from '@/pages/PaymentMethods/PaymentMethodsPageContent';
+import PaymentMethodsDialogManager from '@/pages/PaymentMethods/PaymentMethodsDialogManager';
 import { useState } from 'react';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import EditPaymentMethodDialog from '@/components/features/paymentMethods/dialogs/EditPaymentMethodDialog';
 import ActionFab from '@/components/shared/ui/ActionFab';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useTranslation } from 'react-i18next';
 
 const PaymentMethodsPage = () => {
@@ -18,12 +17,12 @@ const PaymentMethodsPage = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodDto>();
   const isMobile = useIsMobile();
 
-  const closeEditDialogAndReset = () => {
-    setSelectedPaymentMethod(undefined);
+  const handleSelectPaymentMethod = (paymentMethod: PaymentMethodDto) => {
+    setSelectedPaymentMethod(paymentMethod);
   };
 
-  const selectPaymentMethod = (paymentMethod: PaymentMethodDto) => {
-    setSelectedPaymentMethod(paymentMethod);
+  const handleCloseEdit = () => {
+    setSelectedPaymentMethod(undefined);
   };
 
   return (
@@ -35,18 +34,14 @@ const PaymentMethodsPage = () => {
           </Button>
         )}
       </PageHeader>
-      <PaymentMethodsPageContent selectPaymentMethod={selectPaymentMethod} />
+      <PaymentMethodsPageContent selectPaymentMethod={handleSelectPaymentMethod} />
       <ActionFab onClick={openCreateDialog} />
-      {isCreateDialogOpen && (
-        <CreatePaymentMethodDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
-      )}
-      {!!selectedPaymentMethod && (
-        <EditPaymentMethodDialog
-          isOpen={!!selectedPaymentMethod}
-          closeDialog={closeEditDialogAndReset}
-          paymentMethod={selectedPaymentMethod}
-        />
-      )}
+      <PaymentMethodsDialogManager
+        isCreateOpen={isCreateDialogOpen}
+        selectedPaymentMethod={selectedPaymentMethod}
+        onCloseCreate={closeCreateDialog}
+        onCloseEdit={handleCloseEdit}
+      />
     </PageLayout>
   );
 };

@@ -1,4 +1,4 @@
-import CategoryCard from '@/pages/Categories/CategoryCard';
+import CategoryCard from '@/pages/Categories/components/CategoryCard';
 import { Grid, Typography } from '@mui/material';
 import { CategoryDto } from '@/types/Category';
 import { useCategories } from '@/hooks/entities/useCategories';

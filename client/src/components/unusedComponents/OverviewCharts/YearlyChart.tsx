@@ -8,7 +8,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import { Skeleton } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import EntityError from '@/components/entities/EntityError';
-import { useMonthLabels } from '@/hooks/useMonthsLabels';
+import { useMonthLabels } from '@/hooks/common/useMonthsLabels';
 import { useTranslation } from 'react-i18next';
 import { queryKeys } from '@/constants/queryKeys';
 

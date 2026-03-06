@@ -17,16 +17,11 @@ export const findMany = async (userId: string, options: BudgetQueryOptions = {})
   if (month !== undefined) query.month = month;
   if (categoryId) query.categoryId = new Types.ObjectId(categoryId);
 
-  return Budget.find(query)
-    .populate('categoryId')
-    .sort({ year: -1, month: -1, createdAt: -1 })
-    .lean<IBudget[]>()
-    .exec();
+  return Budget.find(query).sort({ year: -1, month: -1, createdAt: -1 }).lean<IBudget[]>().exec();
 };
 
 export const findById = async (id: string, userId: string) =>
   Budget.findOne({ _id: id, userId: new Types.ObjectId(userId) })
-    .populate('categoryId')
     .lean<IBudget>()
     .exec();
 
@@ -74,7 +69,6 @@ export const updateById = async (id: string, data: UpdateBudgetCommand, userId: 
     new: true,
     runValidators: true,
   })
-    .populate('categoryId')
     .lean<IBudget>()
     .exec();
 

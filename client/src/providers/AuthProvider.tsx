@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { API_ROUTES } from '@/constants/Routes';
 import { UserDto } from '@/types/User';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { queryKeys } from '@/constants/queryKeys';
 import { useQueryClient } from '@tanstack/react-query';
 

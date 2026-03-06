@@ -5,7 +5,7 @@ import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvide
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
-import { useHasAnyTransaction } from '@/hooks/useHasAnyTransaction';
+import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';

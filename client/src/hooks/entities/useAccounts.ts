@@ -1,6 +1,6 @@
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { AccountDto } from '@/types/Account';
 import { useAuth } from '@/providers/AuthProvider';
 

@@ -9,7 +9,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { useOpen } from '@/hooks/useOpen';
+import { useOpen } from '@/hooks/common/useOpen';
 import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
 
 interface UserMenuProps {

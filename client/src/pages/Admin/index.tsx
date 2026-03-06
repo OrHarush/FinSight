@@ -2,7 +2,7 @@ import { Box, Typography, Grid } from '@mui/material';
 import { TrendingUp, CalendarMonth } from '@mui/icons-material';
 import PeopleIcon from '@mui/icons-material/People';
 import { KpiOverviewDto } from '@/types/Admin';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
 import KpiSkeleton from '@/pages/Admin/KpiSkeleton';

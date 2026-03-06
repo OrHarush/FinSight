@@ -7,7 +7,7 @@ export const ROUTES = {
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',
   PAYMENT_METHODS_URL: '/payment-methods',
-  BUDGET_URL: '/budget',
+  BUDGETS_URL: '/budget',
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',

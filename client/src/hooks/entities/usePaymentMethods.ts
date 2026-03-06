@@ -1,8 +1,8 @@
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import { useFetch } from '@/hooks/useFetch';
 import { useAuth } from '@/providers/AuthProvider';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
+import { useFetch } from '@/hooks/common/useFetch';
 
 export const usePaymentMethods = () => {
   const { user } = useAuth();

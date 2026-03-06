@@ -1,8 +1,8 @@
 import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
-import { useFetch } from '@/hooks/useFetch';
 import { TransactionDto } from '@/types/Transaction';
 import { useAuth } from '@/providers/AuthProvider';
+import { useFetch } from '@/hooks/common/useFetch';
 
 export const useTransactions = (
   year?: number,

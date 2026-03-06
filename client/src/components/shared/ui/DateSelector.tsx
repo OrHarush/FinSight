@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Row from '@/components/shared/layout/containers/Row';
-import { useMonthLabels } from '@/hooks/useMonthsLabels';
+import { useMonthLabels } from '@/hooks/common/useMonthsLabels';
 
 interface DateSelectorProps {
   value: Dayjs;

@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import Settings from '@/components/shared/layout/sidebar/settings';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const Sidebar = () => {
   const theme = useTheme();

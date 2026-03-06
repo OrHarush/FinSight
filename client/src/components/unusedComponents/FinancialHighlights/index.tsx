@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
-import { useFetch } from '@/hooks/useFetch';
+import { useFetch } from '@/hooks/common/useFetch';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useCategories } from '@/hooks/entities/useCategories';

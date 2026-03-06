@@ -5,9 +5,9 @@ import Row from '@/components/shared/layout/containers/Row';
 import ThemeToggle from '@/components/shared/layout/sidebar/settings/ThemeToggle';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import LegalLinks from '@/pages/Login/LegalLinks';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
-import { useOpen } from '@/hooks/useOpen';
+import { useOpen } from '@/hooks/common/useOpen';
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 
 const Settings = () => {
