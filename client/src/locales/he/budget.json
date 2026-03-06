@@ -1,5 +1,6 @@
 {
   "pageTitle": "תקציבים",
+  "createBudget": "צור תקציב",
   "messages": {
     "categoriesLoadError": "נכשל בטעינת קטגוריות",
     "transactionsLoadError": "נכשל בטעינת עסקאות",
@@ -22,6 +23,7 @@
   "dialog": {
     "setTitle": "הגדר תקציב",
     "editTitle": "ערוך תקציב",
+    "categoryLabel": "קטגוריה",
     "limitLabel": "מגבלת תקציב חודשי",
     "limitHelper": "תקציב עבור {{monthYear}}",
     "applyToYear": "החל תקציב זה על שאר השנה",
@@ -29,7 +31,6 @@
     "cancel": "ביטול",
     "save": "שמור"
   },
-  "setBudget": "הגדר תקציב",
   "editBudget": "ערוך תקציב",
   "deleteBudget": "מחק תקציב",
   "noBudget": "לא הוגדר תקציב"

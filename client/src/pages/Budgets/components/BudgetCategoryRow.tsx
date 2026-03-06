@@ -8,16 +8,14 @@ import {
   IconButton,
   LinearProgress,
   Chip,
-  Button,
   useTheme,
 } from '@mui/material';
 import { CategoryDto } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
-import { BudgetDto } from '@/hooks/entities/useBudgets';
+import { BudgetDto } from '@/types/Budget';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/Add';
 import Row from '@/components/shared/layout/containers/Row';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
@@ -27,9 +25,9 @@ import CategoryIconFrame from '@/components/features/categories/CategoryIconFram
 interface BudgetCategoryRowProps {
   category: CategoryDto;
   spent: number;
-  budget?: BudgetDto;
+  budget: BudgetDto;
   transactions: TransactionDto[];
-  onSetBudget: () => void;
+  onEditBudget: () => void;
 }
 
 const BudgetCategoryRow = ({
@@ -37,21 +35,21 @@ const BudgetCategoryRow = ({
   spent,
   budget,
   transactions,
-  onSetBudget,
+  onEditBudget,
 }: BudgetCategoryRowProps) => {
   const { t } = useTranslation('budget');
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const percentage = budget ? Math.min((spent / budget.limit) * 100, 100) : 0;
+  const percentage = Math.min((spent / budget.limit) * 100, 100);
   const categoryTransactions = transactions.filter(tx => tx.category?._id === category._id);
 
-  const handleBudgetClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onSetBudget();
-  };
+  const toggleExpanded = () => setIsExpanded(!isExpanded);
 
-  console.log(budget);
+  const editBudget = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onEditBudget();
+  };
 
   return (
     <Card
@@ -68,7 +66,7 @@ const BudgetCategoryRow = ({
           alignItems="center"
           justifyContent="space-between"
           sx={{ cursor: 'pointer' }}
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={toggleExpanded}
         >
           <Row alignItems="center" spacing={2} flex={1}>
             <CategoryIconFrame color={category.color} icon={category.icon} />
@@ -78,53 +76,37 @@ const BudgetCategoryRow = ({
               </Typography>
               <Row spacing={2} alignItems="center">
                 <Typography variant="body2" color="text.secondary">
-                  ₪{spent.toLocaleString()} {budget && `/ ₪${budget.limit.toLocaleString()}`}
+                  ₪{spent.toLocaleString()} / ₪{budget.limit.toLocaleString()}
                 </Typography>
-                {budget && (
-                  <Chip
-                    label={`${Math.round(percentage)}%`}
-                    size="small"
-                    sx={{
-                      backgroundColor: `${getBudgetProgressColor(percentage, theme)}20`,
-                      color: getBudgetProgressColor(percentage, theme),
-                      fontWeight: 600,
-                      height: 24,
-                    }}
-                  />
-                )}
-              </Row>
-              {budget && (
-                <LinearProgress
-                  variant="determinate"
-                  value={Math.min(percentage, 100)}
+                <Chip
+                  label={`${Math.round(percentage)}%`}
+                  size="small"
                   sx={{
-                    height: 10,
-                    borderRadius: 3,
-                    bgcolor: 'rgba(255,255,255,0.08)',
-                    '& .MuiLinearProgress-bar': {
-                      backgroundColor: getBudgetProgressColor(percentage, theme),
-                      borderRadius: 3,
-                    },
+                    backgroundColor: `${getBudgetProgressColor(percentage, theme)}20`,
+                    color: getBudgetProgressColor(percentage, theme),
+                    fontWeight: 600,
+                    height: 24,
                   }}
                 />
-              )}
+              </Row>
+              <LinearProgress
+                variant="determinate"
+                value={Math.min(percentage, 100)}
+                sx={{
+                  height: 10,
+                  borderRadius: 3,
+                  bgcolor: 'rgba(255,255,255,0.08)',
+                  '& .MuiLinearProgress-bar': {
+                    backgroundColor: getBudgetProgressColor(percentage, theme),
+                    borderRadius: 3,
+                  },
+                }}
+              />
             </Column>
             <Row spacing={1} alignItems="center">
-              {budget ? (
-                <IconButton size="small" onClick={handleBudgetClick} title="Edit Budget">
-                  <EditIcon fontSize="small" />
-                </IconButton>
-              ) : (
-                <Button
-                  size="small"
-                  variant="outlined"
-                  startIcon={<AddIcon />}
-                  onClick={handleBudgetClick}
-                  sx={{ minWidth: 'auto', px: 1.5 }}
-                >
-                  {t('setBudget')}
-                </Button>
-              )}
+              <IconButton size="small" onClick={editBudget} title={t('editBudget')}>
+                <EditIcon fontSize="small" />
+              </IconButton>
               <IconButton size="small">
                 {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </IconButton>

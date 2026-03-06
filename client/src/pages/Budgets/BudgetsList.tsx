@@ -3,13 +3,14 @@ import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useSortedBudgetCategories } from '@/hooks/business/useSortedBudgetCategories';
 import { CategoryDto } from '@/types/Category';
+import { BudgetDto } from '@/types/Budget';
 import Column from '@/components/shared/layout/containers/Column';
 import BudgetCategoryRow from '@/pages/Budgets/components/BudgetCategoryRow';
 
 interface BudgetsListProps {
   year: number;
   month: number;
-  onSetBudget: (category: CategoryDto) => void;
+  onSetBudget: (category: CategoryDto, budget: BudgetDto) => void;
 }
 
 const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
@@ -24,16 +25,20 @@ const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
       {sortedBudgets.map(item => {
         const category = categories.find(c => c._id === item.id);
         const budget = budgets.find(b => b.categoryId === item.id);
-        const transactions_ = transactions.filter(tx => tx.category?._id === item.id);
+        const categoryTransactions = transactions.filter(tx => tx.category?._id === item.id);
+
+        if (!category || !budget) {
+          return null;
+        }
 
         return (
           <BudgetCategoryRow
             key={item.id}
-            category={category!}
+            category={category}
             spent={item.spent}
             budget={budget}
-            transactions={transactions_}
-            onSetBudget={() => onSetBudget(category!)}
+            transactions={categoryTransactions}
+            onEditBudget={() => onSetBudget(category, budget)}
           />
         );
       })}

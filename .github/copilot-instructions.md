@@ -27,16 +27,28 @@ React Component Patterns:
   2. **EntityPageContent.tsx** - State coordinator (loading/error/empty/success with early returns)
   3. **EntityList.tsx** - Pure rendering (map data to components)
   4. **EntityDialogManager.tsx** - Dialog manager (conditionally render create/edit dialogs)
-  5. **components/** folder - Page-scoped UI pieces (lowercase for grouping folders, PascalCase for component folders)
+  5. **components/dialogs/** - `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`
   
   Required naming:
   - State: `isCreateDialogOpen`, `selectedEntity`
-  - Handlers: `handleSelectEntity`, `handleCloseEdit`
-  - Props: `isCreateOpen`, `onCloseCreate`, `onCloseEdit`
+  - Functions describe what they do — never prefix with `handle` or `on` for internal functions:
+    - `openCreateDialog`, `closeCreateDialog`, `closeEditDialog`, `selectEntity`
+  - Props: `isCreateOpen`, `closeCreateDialog`, `closeEditDialog`
 
-- For page components, follow this structure:
-  1. **Page Index** (orchestration only): State management, event handlers, layout structure
-  2. **PageContent** (state-based rendering): Handle loading/error/empty/success states
-  3. **List/Grid components**: Render the actual data
-  4. **Dialog/Modal managers**: Handle mutation logic separately
+Function Naming:
+- Name functions after what they do, not who calls them.
+- Never prefix internal functions with `handle` or `on`.
+- Correct: `openCreateDialog`, `closeCreateDialog`, `selectEntity`, `submitCreate`
+- Wrong: `handleClose`, `onCloseCreate`, `handleSelectEntity`, `onSave`
+
+Entity Form & Dialog Conventions:
+- Always use `TextInput` (from `@/components/shared/inputs/TextInput`) instead of raw MUI `TextField`. It integrates with `useFormContext` automatically.
+- Dialogs must extend `BaseDialogProps` from `@/components/dialogs/FinSightDialog`.
+- Every entity must have a dedicated `EntityForm` component (pure fields, no submit logic).
+- Create and Edit dialogs are separate files: `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`.
+- Both dialogs use `FormProvider` + `useForm` wrapping `FormDialog`, which handles submit/reset/cancel.
+- `EditEntityDialog` receives the entity as a prop and pre-fills `defaultValues`.
+- Place dialogs in `pages/EntityName/components/dialogs/`.
+- Mutation logic lives in the dialog, not in the dialog manager.
+- `EntityDialogManager` is purely conditional rendering — no logic, no hooks.
 

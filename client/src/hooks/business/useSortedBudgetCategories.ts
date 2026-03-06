@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { CategoryDto } from '@/types/Category';
-import { BudgetDto } from '@/hooks/entities/useBudgets';
+import { BudgetDto } from '@/types/Budget';
 import { TransactionDto } from '@/types/Transaction';
 import { calculateCategorySpent, transformAndSortCategoriesWithBudgets } from '@/utils/budgetUtils';
 

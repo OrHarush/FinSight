@@ -25,7 +25,7 @@ const TRANSACTION_TYPES: { value: TransactionType; icon: SvgIconComponent; color
   },
 ] as const;
 
-const TransactionTypeSelector = ({ name = 'type', required = true }) => {
+const TransactionTypeSelector = ({ name = 'type', required = true, disabled = false }) => {
   const { t } = useTranslation('transactions');
   const { control } = useFormContext();
 
@@ -40,6 +40,7 @@ const TransactionTypeSelector = ({ name = 'type', required = true }) => {
             {...field}
             exclusive
             fullWidth
+            disabled={disabled}
             sx={{
               '& .MuiToggleButton-root': {
                 py: { xs: 0.5, sm: 1.5 },

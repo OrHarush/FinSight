@@ -69,7 +69,7 @@ const EditTransactionDialog = ({
         isUpdateForm
         maxWidth={isMobile ? 'xs' : 'md'}
       >
-        <TransactionForm />
+        <TransactionForm disableTypeSelector />
       </FormDialog>
     </FormProvider>
   );

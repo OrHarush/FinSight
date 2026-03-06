@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import axiosInstance from '@/api/axios';
-import { BudgetDto } from '@/hooks/entities/useBudgets';
+import { BudgetDto } from '@/types/Budget';
 
 interface CreateBudgetInput {
   categoryId: string;

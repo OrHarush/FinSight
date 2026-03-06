@@ -1,5 +1,6 @@
 {
   "pageTitle": "Budgets",
+  "createBudget": "Create Budget",
   "messages": {
     "categoriesLoadError": "Failed to load categories",
     "transactionsLoadError": "Failed to load transactions",
@@ -22,6 +23,7 @@
   "dialog": {
     "setTitle": "Set Budget",
     "editTitle": "Edit Budget",
+    "categoryLabel": "Category",
     "limitLabel": "Monthly Budget Limit",
     "limitHelper": "Budget for {{monthYear}}",
     "applyToYear": "Apply this budget to the rest of the year",
@@ -29,7 +31,6 @@
     "cancel": "Cancel",
     "save": "Save"
   },
-  "setBudget": "Set Budget",
   "editBudget": "Edit Budget",
   "deleteBudget": "Delete Budget",
   "noBudget": "No budget set"

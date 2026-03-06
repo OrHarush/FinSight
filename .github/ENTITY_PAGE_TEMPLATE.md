@@ -1,6 +1,249 @@
-# Entity Page Structure Template
+# Entity Page Template
 
-This document defines the **standard structure** for all entity pages in FinSight.
+## Folder Structure
+
+```
+pages/EntityName/
+├── index.tsx
+├── EntityNamePageContent.tsx
+├── EntityNameList.tsx
+├── EntityNameDialogManager.tsx
+└── components/
+    ├── EntityNameForm.tsx
+    └── dialogs/
+        ├── CreateEntityNameDialog.tsx
+        └── EditEntityNameDialog.tsx
+```
+
+---
+
+## 1. index.tsx — Orchestration only
+
+No data fetching. No rendering logic. State + handlers + layout only.
+
+```tsx
+const EntityPage = () => {
+  const { t } = useTranslation('entity');
+  const isMobile = useIsMobile();
+  const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
+  const [selectedEntity, setSelectedEntity] = useState<EntityDto>();
+
+  const selectEntity = (entity: EntityDto) => setSelectedEntity(entity);
+  const closeEditDialog = () => setSelectedEntity(undefined);
+
+  return (
+    <PageLayout>
+      <PageHeader entityName="entity">
+        {!isMobile && (
+          <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
+            {t('actions.create')}
+          </Button>
+        )}
+      </PageHeader>
+      <EntityPageContent selectEntity={selectEntity} />
+      <ActionFab onClick={openCreateDialog} />
+      <EntityDialogManager
+        isCreateOpen={isCreateDialogOpen}
+        selectedEntity={selectedEntity}
+        closeCreateDialog={closeCreateDialog}
+        closeEditDialog={closeEditDialog}
+      />
+    </PageLayout>
+  );
+};
+```
+
+---
+
+## 2. EntityPageContent.tsx — State coordinator
+
+Early returns for each state. No inline JSX — each state renders a dedicated component.
+
+```tsx
+const EntityPageContent = ({ selectEntity }: EntityPageContentProps) => {
+  const { entities, isLoading, error, refetch } = useEntities();
+
+  if (error) {
+    return <EntityError entityName="entity" refetch={refetch} />;
+  }
+
+  if (isLoading) {
+    return <EntityListSkeleton />;
+  }
+
+  if (!entities.length) {
+    return <EntityEmpty entityName="entity" icon={SomeIcon} />;
+  }
+
+  return <EntityList entities={entities} selectEntity={selectEntity} />;
+};
+```
+
+---
+
+## 3. EntityList.tsx — Pure rendering
+
+No hooks, no logic. Maps data to components.
+
+```tsx
+const EntityList = ({ entities, selectEntity }: EntityListProps) => (
+  <Column spacing={2}>
+    {entities.map(entity => (
+      <EntityCard key={entity._id} entity={entity} onSelect={selectEntity} />
+    ))}
+  </Column>
+);
+```
+
+---
+
+## 4. EntityDialogManager.tsx — Conditional rendering only
+
+No hooks, no logic, no mutations. Pure conditional rendering.
+
+```tsx
+const EntityDialogManager = ({
+  isCreateOpen,
+  selectedEntity,
+  closeCreateDialog,
+  closeEditDialog,
+}: EntityDialogManagerProps) => (
+  <>
+    {isCreateOpen && (
+      <CreateEntityDialog isOpen={isCreateOpen} closeDialog={closeCreateDialog} />
+    )}
+    {selectedEntity && (
+      <EditEntityDialog
+        isOpen={!!selectedEntity}
+        closeDialog={closeEditDialog}
+        entity={selectedEntity}
+      />
+    )}
+  </>
+);
+```
+
+---
+
+## 5. EntityForm.tsx — Pure fields
+
+Only form fields. No submit logic. Always use `TextInput`, never raw MUI `TextField`.
+
+```tsx
+const EntityForm = () => {
+  const { t } = useTranslation('entity');
+
+  return (
+    <Column spacing={2}>
+      <TextInput name="name" label={t('fields.name')} required />
+    </Column>
+  );
+};
+```
+
+---
+
+## 6. CreateEntityDialog.tsx
+
+Extends `BaseDialogProps`. Mutation logic lives here.
+
+```tsx
+const CreateEntityDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+  const { t } = useTranslation('entity');
+  const { alertSuccess, alertError } = useSnackbar();
+  const methods = useForm<EntityFormValues>({ mode: 'all' });
+
+  const createEntity = useApiMutation({
+    method: 'post',
+    url: API_ROUTES.ENTITY,
+    queryKeysToInvalidate: [queryKeys.entities()],
+  });
+
+  const submitCreate = async (data: EntityFormValues) => {
+    try {
+      await createEntity.mutateAsync(data);
+      alertSuccess(t('messages.createSuccess'));
+    } catch {
+      alertError(t('messages.createError'));
+    }
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <FormDialog isOpen={isOpen} closeDialog={closeDialog} title={t('actions.create')} onSubmit={submitCreate}>
+        <EntityForm />
+      </FormDialog>
+    </FormProvider>
+  );
+};
+```
+
+---
+
+## 7. EditEntityDialog.tsx
+
+Extends `BaseDialogProps`. Receives entity and pre-fills `defaultValues`.
+
+```tsx
+interface EditEntityDialogProps extends BaseDialogProps {
+  entity: EntityDto;
+}
+
+const EditEntityDialog = ({ isOpen, closeDialog, entity }: EditEntityDialogProps) => {
+  const { t } = useTranslation('entity');
+  const { alertSuccess, alertError } = useSnackbar();
+
+  const methods = useForm<EntityFormValues>({
+    defaultValues: { name: entity.name },
+    mode: 'all',
+  });
+
+  const updateEntity = useApiMutation({
+    method: 'put',
+    url: `${API_ROUTES.ENTITY}/${entity._id}`,
+    queryKeysToInvalidate: [queryKeys.entities()],
+  });
+
+  const submitUpdate = async (data: EntityFormValues) => {
+    try {
+      await updateEntity.mutateAsync(data);
+      alertSuccess(t('messages.updateSuccess'));
+    } catch {
+      alertError(t('messages.updateError'));
+    }
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <FormDialog isOpen={isOpen} closeDialog={closeDialog} title={t('actions.edit')} onSubmit={submitUpdate} isUpdateForm>
+        <EntityForm />
+      </FormDialog>
+    </FormProvider>
+  );
+};
+```
+
+---
+
+## Naming Conventions
+
+Function names describe **what they do**, not who calls them. Never use `handle` or `on` prefixes for internal functions.
+
+| Concept | Correct | Wrong |
+|---------|---------|-------|
+| Open create dialog | `openCreateDialog` | `handleCreate`, `onOpenCreate` |
+| Close create dialog | `closeCreateDialog` | `handleCloseCreate`, `onCloseCreate` |
+| Close edit dialog | `closeEditDialog` | `handleCloseEdit`, `onCloseEdit` |
+| Select entity | `selectEntity` | `handleSelectEntity`, `onSetEntity` |
+| Submit create form | `submitCreate` | `handleSubmit`, `onSave` |
+| Submit update form | `submitUpdate` | `handleSubmit`, `onSave` |
+
+### Props naming
+Dialog manager props use the same descriptive names:
+- `closeCreateDialog` — not `onCloseCreate`
+- `closeEditDialog` — not `onCloseEdit`
+- `selectEntity` — not `onSelectEntity`
+
 
 ---
 
@@ -249,22 +492,4 @@ const { data } = useEntities();
 ```
 
 ---
-
-## 📊 Benefits
-
-1. **Consistency** - All entity pages look and work the same
-2. **Maintainability** - Easy to update all pages by updating template
-3. **Testability** - Small, focused components are easy to test
-4. **Predictability** - Developers know exactly where to find logic
-5. **Scalability** - Easy to add new entity pages
-
----
-
-## 📝 Current Status
-
-✅ **Categories** - Follows template
-✅ **Accounts** - Follows template
-✅ **PaymentMethods** - Follows template
-✅ **Budgets** - Follows template (with special date filtering in header)
-⏳ **Transactions** - Special case (complex filters, different dialog manager pattern)
 

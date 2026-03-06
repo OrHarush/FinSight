@@ -31,7 +31,7 @@ const OverviewHeader = () => {
           select
           value={account?._id || 'noAccounts'}
           onChange={changeAccount}
-          sx={{ width: '240px' }}
+          sx={{ width: '200px' }}
           disabled={accounts?.length === 0}
         >
           {accounts?.length === 0 && (

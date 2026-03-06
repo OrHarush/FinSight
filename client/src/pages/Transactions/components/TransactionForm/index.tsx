@@ -8,12 +8,12 @@ import ClassificationSection from '@/pages/Transactions/components/TransactionFo
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 import TransactionBaseDetails from '@/pages/Transactions/components/TransactionForm/TransactionBaseDetails';
 
-const TransactionForm = () => {
+const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?: boolean }) => {
   const isMobile = useIsMobile();
 
   return (
     <Column spacing={4} height={isMobile ? '100%' : '440px'}>
-      <TransactionTypeSelector />
+      <TransactionTypeSelector disabled={disableTypeSelector} />
       <Grid container spacing={isMobile ? 1 : 8}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Column spacing={isMobile ? 1 : 4}>

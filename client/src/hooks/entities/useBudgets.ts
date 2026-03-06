@@ -1,17 +1,7 @@
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
-
-export interface BudgetDto {
-  _id: string;
-  userId: string;
-  categoryId: string;
-  year: number;
-  month: number;
-  limit: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { BudgetDto } from '@/types/Budget';
 
 export const useBudgets = (year?: number, month?: number, categoryId?: string) => {
   const params = new URLSearchParams();
