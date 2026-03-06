@@ -23,7 +23,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
 
   const methods = useForm<BudgetFormValues>({
     defaultValues: {
-      categoryId: '',
+      category: '',
       limit: 0,
       applyToRestOfYear: false,
     },
@@ -31,7 +31,12 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
   });
 
   const submitCreate = async (data: BudgetFormValues) => {
-    const category = categories.find(c => c._id === data.categoryId);
+    console.log(categories);
+    const category = categories.find(c => c._id === data.category);
+
+    console.log('here');
+    console.log(category);
+    console.log(data);
 
     if (!category) {
       return;

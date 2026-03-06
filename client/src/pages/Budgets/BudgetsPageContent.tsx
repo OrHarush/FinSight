@@ -3,7 +3,7 @@ import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useBudgets } from '@/hooks/entities/useBudgets';
 import BudgetsSkeleton from '@/pages/Budgets/components/BudgetsSkeleton';
-import BudgetsList from '@/pages/Budgets/BudgetsList';
+import BudgetsList from '@/pages/Budgets/components/BudgetsList';
 import { CategoryDto } from '@/types/Category';
 import { Button, Typography } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';

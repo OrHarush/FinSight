@@ -12,6 +12,40 @@ export interface BudgetCategoryItem {
   percent: number;
 }
 
+export interface PreviousMonth {
+  year: number;
+  month: number;
+}
+
+export const computePreviousMonth = (year: number, month: number): PreviousMonth => {
+  if (month === 0) {
+    return { year: year - 1, month: 11 };
+  }
+
+  return { year, month: month - 1 };
+};
+
+export const computeBudgetUsagePercentChange = (
+  currentSpent: number,
+  currentLimit: number,
+  prevSpent: number,
+  prevLimit: number
+): number | null => {
+  if (prevLimit === 0 || currentLimit === 0) {
+    return null;
+  }
+
+  const currentUsage = (currentSpent / currentLimit) * 100;
+  const prevUsage = (prevSpent / prevLimit) * 100;
+  const change = Math.round(currentUsage - prevUsage);
+
+  if (isNaN(change)) {
+    return null;
+  }
+
+  return change;
+};
+
 export const calculateCategorySpent = (transactions: TransactionDto[]): Map<string, number> => {
   const map = new Map<string, number>();
 

@@ -33,5 +33,6 @@
   },
   "editBudget": "ערוך תקציב",
   "deleteBudget": "מחק תקציב",
-  "noBudget": "לא הוגדר תקציב"
+  "noBudget": "לא הוגדר תקציב",
+  "vsLastMonth": "לעומת חודש קודם"
 }

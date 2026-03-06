@@ -20,7 +20,7 @@ const EditBudgetDialog = ({ isOpen, closeDialog, category, budget }: EditBudgetD
 
   const methods = useForm<BudgetFormValues>({
     defaultValues: {
-      categoryId: category._id,
+      category: category._id,
       limit: budget.limit,
       applyToRestOfYear: false,
     },

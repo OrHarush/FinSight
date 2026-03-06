@@ -33,5 +33,6 @@
   },
   "editBudget": "Edit Budget",
   "deleteBudget": "Delete Budget",
-  "noBudget": "No budget set"
+  "noBudget": "No budget set",
+  "vsLastMonth": "vs last month"
 }

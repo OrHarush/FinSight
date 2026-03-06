@@ -4,8 +4,8 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
-import { TransactionType } from '../../../../../../../shared/types/TransactionCommmands';
 import { SvgIconComponent } from '@mui/icons-material';
+import { TransactionType } from '../../../../../../shared/types/TransactionCommmands';
 
 const TRANSACTION_TYPES: { value: TransactionType; icon: SvgIconComponent; color: string }[] = [
   {

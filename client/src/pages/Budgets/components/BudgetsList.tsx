@@ -4,6 +4,7 @@ import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useSortedBudgetCategories } from '@/hooks/business/useSortedBudgetCategories';
 import { CategoryDto } from '@/types/Category';
 import { BudgetDto } from '@/types/Budget';
+import { computePreviousMonth, calculateCategorySpent } from '@/utils/budgetUtils';
 import Column from '@/components/shared/layout/containers/Column';
 import BudgetCategoryRow from '@/pages/Budgets/components/BudgetCategoryRow';
 
@@ -18,6 +19,11 @@ const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
   const { transactions } = useTransactions(year, month);
   const { budgets } = useBudgets(year, month);
 
+  const { year: prevYear, month: prevMonth } = computePreviousMonth(year, month);
+  const { budgets: prevBudgets } = useBudgets(prevYear, prevMonth);
+  const { transactions: prevTransactions } = useTransactions(prevYear, prevMonth);
+
+  const prevSpentMap = calculateCategorySpent(prevTransactions);
   const sortedBudgets = useSortedBudgetCategories(categories, transactions, budgets);
 
   return (
@@ -25,6 +31,7 @@ const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
       {sortedBudgets.map(item => {
         const category = categories.find(c => c._id === item.id);
         const budget = budgets.find(b => b.categoryId === item.id);
+        const prevBudget = prevBudgets.find(b => b.categoryId === item.id);
         const categoryTransactions = transactions.filter(tx => tx.category?._id === item.id);
 
         if (!category || !budget) {
@@ -37,6 +44,8 @@ const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
             category={category}
             spent={item.spent}
             budget={budget}
+            prevBudget={prevBudget}
+            prevSpent={prevSpentMap.get(item.id)}
             transactions={categoryTransactions}
             onEditBudget={() => onSetBudget(category, budget)}
           />

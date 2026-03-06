@@ -1,5 +1,5 @@
 export interface BudgetFormValues {
-  categoryId: string;
+  category: string;
   limit: number;
   applyToRestOfYear: boolean;
 }
