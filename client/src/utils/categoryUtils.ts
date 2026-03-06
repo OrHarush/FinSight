@@ -14,7 +14,6 @@ export function mapCategoryFormToCommand(values: CategoryFormValues): CreateCate
     type: values.type,
     icon: values.icon,
     color: values.color as PresetColor,
-    monthlyLimit: values.monthlyLimit,
   };
 }
 

@@ -6,7 +6,6 @@ export interface CategoryFormValues {
   type: CategoryType;
   color: string;
   icon: string;
-  monthlyLimit?: number;
 }
 
 export interface CategoryDto {
@@ -16,5 +15,4 @@ export interface CategoryDto {
   type: CategoryType;
   color: PresetColor;
   icon: string;
-  monthlyLimit?: number;
 }

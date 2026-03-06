@@ -124,8 +124,8 @@
     "title": "Top Spending Categories"
   },
   "budgetWatch": {
-    "title": "Budget Watch",
-    "allOnTrack": "All budgets on track",
-    "addBudgetHint": "Add budgets to categories to unlock deeper insights"
+    "title": "Budgets",
+    "noBudgets": "No budgets set yet",
+    "addBudgetCTA": "Add Budget"
   }
 }

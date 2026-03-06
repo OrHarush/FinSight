@@ -18,7 +18,7 @@ import { AdminKpiDashboard } from '@/pages/Admin';
 import PublicLayout from '@/components/shared/layout/PublicLayout';
 import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
 import { RequireAuth, RequireAdmin, RequireGuest } from '@/routes/guards/ProtectedRoute';
-import Budget from '@/pages/Budget';
+import Budgets from '@/pages/Budgets';
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
@@ -69,7 +69,7 @@ const AppRoutes = () => {
                 </RequireAdmin>
               }
             />
-            <Route path={ROUTES.BUDGET_URL} element={<Budget />} />
+            <Route path={ROUTES.BUDGET_URL} element={<Budgets />} />
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>

@@ -6,6 +6,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTranslation } from 'react-i18next';
 
 interface CategoryTransactionsListProps {
   category: CategoryDto | null;
@@ -18,6 +19,8 @@ const CategoryTransactionsList = ({
   transactions,
   isLoading,
 }: CategoryTransactionsListProps) => {
+  const { t } = useTranslation('budget');
+
   if (!category) {
     return (
       <Column
@@ -29,7 +32,7 @@ const CategoryTransactionsList = ({
         }}
       >
         <Box textAlign="center">
-          <Typography variant="body1">Select a category to view transactions</Typography>
+          <Typography variant="body1">{t('transactions.selectCategory')}</Typography>
         </Box>
       </Column>
     );
@@ -87,7 +90,7 @@ const CategoryTransactionsList = ({
         </Row>
         <Row justifyContent="space-between" alignItems="center">
           <Typography variant="body2" color="text.secondary">
-            Total spent:
+            {t('transactions.totalSpent')}:
           </Typography>
           <Chip
             label={`₪${totalAmount.toLocaleString()}`}
@@ -108,7 +111,7 @@ const CategoryTransactionsList = ({
             color: 'text.secondary',
           }}
         >
-          <Typography variant="body2">No transactions for this category</Typography>
+          <Typography variant="body2">{t('transactions.noTransactions')}</Typography>
         </Column>
       ) : (
         <List sx={{ flex: 1, overflow: 'auto', width: '100%' }}>

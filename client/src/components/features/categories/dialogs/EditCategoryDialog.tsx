@@ -22,7 +22,6 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
     defaultValues: {
       name: getCategoryDisplayName(category, t),
       type: category.type,
-      monthlyLimit: category.monthlyLimit,
       color: category.color,
       icon: category.icon,
     },

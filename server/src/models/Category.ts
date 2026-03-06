@@ -8,7 +8,6 @@ export interface ICategory {
   type: 'Income' | 'Expense';
   color: string;
   icon: string;
-  monthlyLimit: number;
   userId: Types.ObjectId;
 }
 
@@ -23,7 +22,6 @@ const CategorySchema: Schema = new Schema(
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },
     icon: { type: String },
-    monthlyLimit: { type: Number },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

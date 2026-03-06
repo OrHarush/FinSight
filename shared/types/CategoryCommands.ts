@@ -9,7 +9,6 @@ export interface CreateCategoryCommand {
     type: CategoryType;
     color?: PresetColor;
     icon?: string;
-    monthlyLimit?: number;
 }
 
 export interface UpdateCategoryCommand {
@@ -17,5 +16,4 @@ export interface UpdateCategoryCommand {
     type?: CategoryType;
     color?: PresetColor;
     icon?: string;
-    monthlyLimit?: number;
 }

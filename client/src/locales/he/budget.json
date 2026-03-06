@@ -1,0 +1,36 @@
+{
+  "pageTitle": "תקציב",
+  "messages": {
+    "categoriesLoadError": "נכשל בטעינת קטגוריות",
+    "transactionsLoadError": "נכשל בטעינת עסקאות",
+    "budgetsLoadError": "נכשל בטעינת תקציבים",
+    "budgetUpdated": "התקציב עודכן בהצלחה",
+    "budgetCreated": "התקציב נוצר בהצלחה",
+    "budgetSetForYear": "התקציב הוגדר לשאר השנה",
+    "budgetSaveFailed": "נכשל בשמירת התקציב"
+  },
+  "categories": {
+    "title": "קטגוריות",
+    "empty": "עדיין אין קטגוריות"
+  },
+  "transactions": {
+    "title": "עסקאות",
+    "selectCategory": "בחר קטגוריה כדי לראות עסקאות",
+    "noTransactions": "אין עסקאות עבור קטגוריה זו",
+    "totalSpent": "סה״כ הוצא"
+  },
+  "dialog": {
+    "setTitle": "הגדר תקציב",
+    "editTitle": "ערוך תקציב",
+    "limitLabel": "מגבלת תקציב חודשי",
+    "limitHelper": "תקציב עבור {{monthYear}}",
+    "applyToYear": "החל תקציב זה על שאר השנה",
+    "validationError": "נא להזין מגבלת תקציב תקינה",
+    "cancel": "ביטול",
+    "save": "שמור"
+  },
+  "setBudget": "הגדר תקציב",
+  "editBudget": "ערוך תקציב",
+  "deleteBudget": "מחק תקציב",
+  "noBudget": "לא הוגדר תקציב"
+}

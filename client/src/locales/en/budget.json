@@ -1,0 +1,36 @@
+{
+  "pageTitle": "Budget",
+  "messages": {
+    "categoriesLoadError": "Failed to load categories",
+    "transactionsLoadError": "Failed to load transactions",
+    "budgetsLoadError": "Failed to load budgets",
+    "budgetUpdated": "Budget updated successfully",
+    "budgetCreated": "Budget created successfully",
+    "budgetSetForYear": "Budget set for the rest of the year",
+    "budgetSaveFailed": "Failed to save budget"
+  },
+  "categories": {
+    "title": "Categories",
+    "empty": "No categories yet"
+  },
+  "transactions": {
+    "title": "Transactions",
+    "selectCategory": "Select a category to view transactions",
+    "noTransactions": "No transactions for this category",
+    "totalSpent": "Total spent"
+  },
+  "dialog": {
+    "setTitle": "Set Budget",
+    "editTitle": "Edit Budget",
+    "limitLabel": "Monthly Budget Limit",
+    "limitHelper": "Budget for {{monthYear}}",
+    "applyToYear": "Apply this budget to the rest of the year",
+    "validationError": "Please enter a valid budget limit",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "setBudget": "Set Budget",
+  "editBudget": "Edit Budget",
+  "deleteBudget": "Delete Budget",
+  "noBudget": "No budget set"
+}

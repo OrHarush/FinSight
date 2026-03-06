@@ -8,19 +8,26 @@ import Row from '@/components/shared/layout/containers/Row';
 import BudgetProgress from '@/pages/Categories/CategoryCard/BudgetProgess';
 import NoBudget from '@/pages/Categories/CategoryCard/NoBudget';
 import { useTransactions } from '@/hooks/entities/useTransactions';
+import { BudgetDto } from '@/hooks/entities/useBudgets';
 
 interface BudgetCategoryCardProps {
   category: CategoryDto;
   onSelect?: (category: CategoryDto) => void;
   isSelected?: boolean;
+  year: number;
+  month: number;
+  budgets: BudgetDto[];
 }
 
-const BudgetCategoryCard = ({ category, onSelect, isSelected }: BudgetCategoryCardProps) => {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-
-  const { transactions } = useTransactions(currentYear, currentMonth);
+const BudgetCategoryCard = ({
+  category,
+  onSelect,
+  isSelected,
+  year,
+  month,
+  budgets,
+}: BudgetCategoryCardProps) => {
+  const { transactions } = useTransactions(year, month);
 
   const spent = transactions.reduce((sum, tx) => {
     if (!tx.date) return sum;
@@ -30,13 +37,15 @@ const BudgetCategoryCard = ({ category, onSelect, isSelected }: BudgetCategoryCa
     if (
       tx.category?._id === category._id &&
       tx.category?.type === 'Expense' &&
-      txDate.getFullYear() === currentYear &&
-      txDate.getMonth() === currentMonth
+      txDate.getFullYear() === year &&
+      txDate.getMonth() === month
     ) {
       return sum + tx.amount;
     }
     return sum;
   }, 0);
+
+  const budget = budgets.find(b => b.categoryId === category._id);
 
   const IconComponent =
     (category.icon && (Icons as Record<string, ElementType>)[category.icon]) || CategoryIcon;
@@ -84,8 +93,8 @@ const BudgetCategoryCard = ({ category, onSelect, isSelected }: BudgetCategoryCa
                 <Typography fontWeight={500}>{category.name}</Typography>
               </Row>
             </Row>
-            {category.monthlyLimit ? (
-              <BudgetProgress spent={spent} limit={category.monthlyLimit} />
+            {budget ? (
+              <BudgetProgress spent={spent} limit={budget.limit} />
             ) : (
               <NoBudget totalCategorySpending={spent} />
             )}

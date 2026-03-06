@@ -2,26 +2,29 @@ import { useMemo } from 'react';
 import { Card, CardContent, Typography, Grid, Button } from '@mui/material';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
+import { useBudgets } from '@/hooks/entities/useBudgets';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
-import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudget/CategoryBudgetSkeleton';
+import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudgets/CategoryBudgetSkeleton';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
-import BudgetList from '@/pages/Overview/CategoriesBudget/BudgetList';
+import BudgetList from '@/pages/Overview/CategoriesBudgets/BudgetList';
 
-const CategoriesBudget = () => {
+const CategoriesBudgets = () => {
   const { t } = useTranslation('overview');
   const navigate = useNavigate();
   const { year, month } = useOverviewFilters();
   const { categories, isLoading: isLoadingCategories } = useCategories();
   const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
+  const { budgets, isLoading: isLoadingBudgets } = useBudgets(year, month);
 
-  const isLoading = isLoadingCategories || isLoadingTransactions;
+  const isLoading = isLoadingCategories || isLoadingTransactions || isLoadingBudgets;
 
   const watchedCategories = useMemo(() => {
-    if (!categories || !transactions) return [];
+    if (!categories || !transactions || !budgets) return [];
 
+    const budgetMap = new Map(budgets.map(b => [b.categoryId, b.limit]));
     const spentMap = new Map<string, number>();
 
     transactions.forEach(tx => {
@@ -31,10 +34,10 @@ const CategoriesBudget = () => {
     });
 
     return categories
-      .filter(c => c.monthlyLimit && c.monthlyLimit > 0)
+      .filter(c => c.type === 'Expense' && budgetMap.has(c._id))
       .map(c => {
         const spent = spentMap.get(c._id) ?? 0;
-        const limit = c.monthlyLimit!;
+        const limit = budgetMap.get(c._id)!;
         const percent = (spent / limit) * 100;
 
         return {
@@ -48,7 +51,7 @@ const CategoriesBudget = () => {
         };
       })
       .sort((a, b) => b.percent - a.percent);
-  }, [categories, transactions]);
+  }, [categories, transactions, budgets]);
 
   if (isLoading) {
     return <CategoriesBudgetSkeleton />;
@@ -79,4 +82,4 @@ const CategoriesBudget = () => {
   );
 };
 
-export default CategoriesBudget;
+export default CategoriesBudgets;
