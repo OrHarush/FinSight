@@ -13,7 +13,7 @@ interface BudgetFormProps {
 }
 
 const BudgetForm = ({ showCategorySelect = false, isEditing = false }: BudgetFormProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
   const { control, register } = useFormContext<BudgetFormValues>();
   const { categories } = useCategories();
   const expenseCategories = categories.filter(c => c.type === 'Expense');

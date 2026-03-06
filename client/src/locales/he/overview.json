@@ -9,14 +9,9 @@
     "placeholder": "בחירת חשבון"
   },
   "setup": {
-    "title": "בוא נתחיל בהגדרה",
-    "subtitle": "השלמת השלבים הבאים תאפשר לך לראות את הדשבורד הפיננסי",
-    "steps": {
-      "account": "יצירת חשבון ראשון",
-      "paymentMethod": "הוספת אמצעי תשלום",
-      "transaction": "הוספת טרנזקציה ראשונה"
-    },
-    "footer": "אפשר להשלים את השלבים בכל סדר"
+    "emptyTitle": "מוכן להתחיל לעקוב אחרי הכספים שלך?",
+    "emptyDescription": "הוסף את העסקה הראשונה שלך כדי להתחיל לראות תובנות פיננסיות",
+    "addFirstTransaction": "הוסף עסקה ראשונה"
   },
   "noData": {
     "title": "אין נתונים עדיין",
@@ -72,8 +67,8 @@
   },
 
   "dailySpendCard": {
-    "valuePerDay": "{{amount}} ₪ ליום",
     "title": "הוצאה יומית נדרשת",
+    "valuePerDay": "{{amount}} ₪ ליום",
     "gap": "יש להפחית {{gap}}₪ ליום ({{current}}₪ → {{target}}₪)",
     "capacity": {
       "title": "קיבולת הוצאה יומית",

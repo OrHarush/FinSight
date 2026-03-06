@@ -14,7 +14,7 @@ interface CreateBudgetDialogProps extends BaseDialogProps {
 }
 
 const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDialogProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
   const { alertSuccess, alertError } = useSnackbar();
   const { categories } = useCategories();
 

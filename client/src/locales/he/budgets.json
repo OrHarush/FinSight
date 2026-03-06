@@ -1,6 +1,10 @@
 {
   "pageTitle": "תקציבים",
   "createBudget": "צור תקציב",
+  "empty": {
+    "title": "אין עדיין תקציבים",
+    "subtitle": "צור את התקציב הראשון שלך כדי לעקוב אחר הוצאות"
+  },
   "messages": {
     "categoriesLoadError": "נכשל בטעינת קטגוריות",
     "transactionsLoadError": "נכשל בטעינת עסקאות",

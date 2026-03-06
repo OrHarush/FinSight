@@ -5,11 +5,9 @@ import { useBudgets } from '@/hooks/entities/useBudgets';
 import BudgetsSkeleton from '@/pages/Budgets/components/BudgetsSkeleton';
 import BudgetsList from '@/pages/Budgets/components/BudgetsList';
 import { CategoryDto } from '@/types/Category';
-import { Button, Typography } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
-import { useTranslation } from 'react-i18next';
+import SavingsIcon from '@mui/icons-material/Savings';
 import { BudgetDto } from '@/types/Budget';
-import AddIcon from '@mui/icons-material/Add';
+import EntityEmpty from '@/components/entities/EntityEmpty';
 
 interface BudgetsPageContentProps {
   year: number;
@@ -18,13 +16,7 @@ interface BudgetsPageContentProps {
   onCreateBudget: () => void;
 }
 
-const BudgetsPageContent = ({
-  year,
-  month,
-  onSetBudget,
-  onCreateBudget,
-}: BudgetsPageContentProps) => {
-  const { t } = useTranslation('budget');
+const BudgetsPageContent = ({ year, month, onSetBudget }: BudgetsPageContentProps) => {
   const { isLoading: isCategoriesLoading, error, refetch } = useCategories();
   const { isLoading: isTransactionsLoading } = useTransactions(year, month);
   const { budgets, isLoading: isBudgetsLoading } = useBudgets(year, month);
@@ -40,14 +32,7 @@ const BudgetsPageContent = ({
   }
 
   if (!budgets.length) {
-    return (
-      <Column flex={1} alignItems="center" justifyContent="center" spacing={2}>
-        <Typography color="text.secondary">{t('noBudget')}</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={onCreateBudget}>
-          {t('createBudget')}
-        </Button>
-      </Column>
-    );
+    return <EntityEmpty entityName={'budgets'} icon={SavingsIcon} />;
   }
 
   return <BudgetsList year={year} month={month} onSetBudget={onSetBudget} />;

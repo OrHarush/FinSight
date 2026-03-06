@@ -6,11 +6,11 @@ import { useSortedBudgetCategories } from '@/hooks/business/useSortedBudgetCateg
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
-import CategoriesBudgetSkeleton from '@/pages/Overview/CategoriesBudgets/CategoryBudgetSkeleton';
-import BudgetList from '@/pages/Overview/CategoriesBudgets/BudgetList';
-import NoBudgetsEmptyCTA from '@/pages/Overview/CategoriesBudgets/NoBudgetsEmptyCTA';
+import CategoriesBudgetSkeleton from '@/pages/Overview/BudgetsOverview/CategoryBudgetSkeleton';
+import BudgetList from '@/pages/Overview/BudgetsOverview/BudgetList';
+import NoBudgetsEmptyCTA from '@/pages/Overview/BudgetsOverview/NoBudgetsEmptyCTA';
 
-const CategoriesBudgets = () => {
+const BudgetsOverview = () => {
   const { t } = useTranslation('overview');
   const { year, month } = useOverviewFilters();
   const { categories, isLoading: isLoadingCategories } = useCategories();
@@ -45,4 +45,4 @@ const CategoriesBudgets = () => {
   );
 };
 
-export default CategoriesBudgets;
+export default BudgetsOverview;

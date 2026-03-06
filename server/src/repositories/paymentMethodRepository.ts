@@ -20,6 +20,9 @@ export const create = async (details: CreatePaymentMethodCommand, userId: string
   return method.save();
 };
 
+export const createMany = (methods: (CreatePaymentMethodCommand & { userId: string })[]) =>
+  PaymentMethod.insertMany(methods);
+
 export const updateById = async (
   id: string,
   updatedDetails: UpdatePaymentMethodCommand,

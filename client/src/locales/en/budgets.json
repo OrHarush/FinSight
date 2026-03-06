@@ -1,6 +1,10 @@
 {
   "pageTitle": "Budgets",
   "createBudget": "Create Budget",
+  "empty": {
+    "title": "No budgets yet",
+    "subtitle": "Create your first budget to track spending"
+  },
   "messages": {
     "categoriesLoadError": "Failed to load categories",
     "transactionsLoadError": "Failed to load transactions",

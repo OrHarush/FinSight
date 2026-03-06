@@ -9,7 +9,7 @@ import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
-import CategoriesBudgets from '@/pages/Overview/CategoriesBudgets';
+import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
 import MonthlyInsight from '@/pages/Overview/MonthlyInsight';
 
@@ -44,7 +44,7 @@ const Overview = () => {
               <MonthlyFinancialHealth />
             </Grid>
             <Grid container spacing={4} size={{ xs: 12 }} maxHeight={'300px'}>
-              <CategoriesBudgets />
+              <BudgetsOverview />
               <TopSpendingCategories />
             </Grid>
           </Grid>

@@ -14,7 +14,7 @@ interface EditBudgetDialogProps extends BaseDialogProps {
 }
 
 const EditBudgetDialog = ({ isOpen, closeDialog, category, budget }: EditBudgetDialogProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
   const { alertSuccess, alertError } = useSnackbar();
   const updateBudget = useUpdateBudget();
 

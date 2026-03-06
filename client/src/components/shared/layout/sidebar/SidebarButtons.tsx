@@ -52,7 +52,7 @@ const SidebarButtons = () => {
       route: ROUTES.PAYMENT_METHODS_URL,
     },
     {
-      titleKey: 'budget',
+      titleKey: 'budgets',
       icon: SavingsIcon,
       route: ROUTES.BUDGETS_URL,
     },

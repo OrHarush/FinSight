@@ -27,7 +27,7 @@ const BudgetTransactionItem = ({ tx }: { tx: TransactionDto }) => (
           {tx.account && ` • ${tx.account.name}`}
         </Typography>
       </Column>
-      <Typography variant="body2" fontWeight={600} color="error.main" sx={{ ml: 2 }}>
+      <Typography variant="body2" fontWeight={600} color="error.main" sx={{ ml: 2 }} dir={'ltr'}>
         -₪{tx.amount.toLocaleString()}
       </Typography>
     </Row>
@@ -35,7 +35,7 @@ const BudgetTransactionItem = ({ tx }: { tx: TransactionDto }) => (
 );
 
 const BudgetTransactionList = ({ transactions }: BudgetTransactionListProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
 
   if (transactions.length === 0) {
     return (

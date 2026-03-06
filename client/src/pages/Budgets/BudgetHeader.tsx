@@ -14,7 +14,7 @@ interface BudgetHeaderProps {
 }
 
 const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
   const isMobile = useIsMobile();
 
   const changeDate = (newDate: Dayjs | null) => {
@@ -24,7 +24,7 @@ const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps)
   };
 
   return (
-    <PageHeader entityName={'budget'}>
+    <PageHeader entityName={'budgets'}>
       <Row spacing={2}>
         <DateSelector value={date} onChange={changeDate} />
         {!isMobile && (

@@ -8,7 +8,7 @@ interface BudgetChangeBadgeProps {
 }
 
 const BudgetChangeBadge = ({ usageChange }: BudgetChangeBadgeProps) => {
-  const { t } = useTranslation('budget');
+  const { t } = useTranslation('budgets');
   const theme = useTheme();
 
   const isIncrease = usageChange > 0;

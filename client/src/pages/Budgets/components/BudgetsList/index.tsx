@@ -6,7 +6,7 @@ import { CategoryDto } from '@/types/Category';
 import { BudgetDto } from '@/types/Budget';
 import { computePreviousMonth, calculateCategorySpent } from '@/utils/budgetUtils';
 import Column from '@/components/shared/layout/containers/Column';
-import BudgetCategoryRow from '@/pages/Budgets/components/BudgetCategoryRow';
+import BudgetCard from '@/pages/Budgets/components/BudgetsList/BudgetCard';
 
 interface BudgetsListProps {
   year: number;
@@ -39,7 +39,7 @@ const BudgetsList = ({ year, month, onSetBudget }: BudgetsListProps) => {
         }
 
         return (
-          <BudgetCategoryRow
+          <BudgetCard
             key={item.id}
             category={category}
             spent={item.spent}

@@ -3,10 +3,16 @@ import {
   createMany as createCategories,
   deleteMany as deleteCategories,
 } from '../repositories/categoryRepository';
-import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
+import { deleteMany as deleteAccounts, insert } from '../repositories/accountRepository';
 import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
+import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
+import * as accountRepository from '../repositories/accountRepository';
 import mongoose from 'mongoose';
-import { DEFAULT_CATEGORIES } from '../constants/defaultsCategories';
+import {
+  DEFAULT_CATEGORIES,
+  DEFAULT_PAYMENT_METHODS,
+  DEFAULT_ACCOUNT,
+} from '../constants/defaultEntities';
 
 export const getCurrentUserById = async (userId: string) => findById(userId);
 
@@ -16,7 +22,16 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
     userId,
   }));
 
-  await createCategories(categoriesToCreate);
+  const paymentMethodsToCreate = DEFAULT_PAYMENT_METHODS.map((method) => ({
+    ...method,
+    userId,
+  }));
+
+  await Promise.all([
+    createCategories(categoriesToCreate),
+    paymentMethodRepository.createMany(paymentMethodsToCreate),
+    accountRepository.insert(DEFAULT_ACCOUNT, userId),
+  ]);
 };
 
 export const deleteUserCompletely = async (userId: string) => {
