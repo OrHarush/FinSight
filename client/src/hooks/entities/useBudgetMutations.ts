@@ -81,12 +81,11 @@ export const useCreateBudgetForRestOfYear = () => {
   return useMutation({
     mutationFn: async (input: CreateBudgetInput) => {
       const currentMonth = input.month;
-      const monthsRemaining = 11 - currentMonth;
+      const endMonth = 11;
 
       const promises = [];
 
-      for (let i = 0; i <= monthsRemaining; i++) {
-        const month = currentMonth + i;
+      for (let month = currentMonth; month <= endMonth; month++) {
         promises.push(
           axiosInstance.post(API_ROUTES.BUDGETS, {
             categoryId: input.categoryId,

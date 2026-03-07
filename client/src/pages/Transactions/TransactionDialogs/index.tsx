@@ -1,6 +1,5 @@
-import CreateTransactionDialog from '@/pages/Transactions/components/dialogs/CreateTransactionDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import EditTransactionDialog from '@/pages/Transactions/components/dialogs/EditTransactionDialog';
+import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +12,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import TransactionOverviewDialog from '@/pages/Transactions/TransactionDialogs/TransactionOverviewDialog';
+import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;

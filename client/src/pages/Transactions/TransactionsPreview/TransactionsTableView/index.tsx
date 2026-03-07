@@ -9,8 +9,10 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { useTranslation } from 'react-i18next';
 
 const TransactionsTableView = () => {
+  const { t } = useTranslation('transactions');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const { selectedMonth, selectedCategory } = useTransactionPageData();
@@ -91,6 +93,10 @@ const TransactionsTableView = () => {
           rowsPerPage={rowsPerPage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[10, 20, 50]}
+          labelRowsPerPage={t('table.rowsPerPage')}
+          labelDisplayedRows={({ from, to, count }) =>
+            t('table.displayedRows', { from, to, count })
+          }
         />
       </Paper>
     </>

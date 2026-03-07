@@ -6,7 +6,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { queryKeys } from '@/constants/queryKeys';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
-import { CreateTransactionCommand } from '../../../../../../shared/types/TransactionCommmands';
+import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
@@ -48,6 +48,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
     try {
       await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
       alertSuccess(t('messages.createSuccess'));
+      closeDialog();
     } catch (err) {
       alertError(t('messages.createError'));
       console.error('❌ Failed to create transaction:', err);

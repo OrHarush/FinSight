@@ -48,7 +48,9 @@
     "account": "Account",
     "recurrence": "Recurrence",
     "date": "Date",
-    "actions": "Actions"
+    "actions": "Actions",
+    "rowsPerPage": "Rows per page:",
+    "displayedRows": "{{from}}–{{to}} of {{count}}"
   },
   "setupDialog": {
     "title": "Complete Setup First",

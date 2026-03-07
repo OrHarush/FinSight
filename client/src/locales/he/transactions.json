@@ -48,7 +48,9 @@
     "account": "חשבון",
     "recurrence": "חזרתיות",
     "date": "תאריך",
-    "actions": "פעולות"
+    "actions": "פעולות",
+    "rowsPerPage": "שורות בעמוד:",
+    "displayedRows": "{{from}}–{{to}} מתוך {{count}}"
   },
   "setupDialog": {
     "title": "השלם את ההגדרות תחילה",
