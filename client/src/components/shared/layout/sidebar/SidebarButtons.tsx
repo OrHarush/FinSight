@@ -1,4 +1,12 @@
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  Chip,
+} from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '@/constants/Routes';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -12,11 +20,13 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/providers/AuthProvider';
 import { isAdmin } from '@/utils/envUtils';
 import SavingsIcon from '@mui/icons-material/Savings';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 
 interface SidebarButtonProps {
   titleKey: string;
   icon: SvgIconComponent;
   route: string;
+  badge?: string;
 }
 
 const SidebarButtons = () => {
@@ -55,6 +65,12 @@ const SidebarButtons = () => {
       titleKey: 'budgets',
       icon: SavingsIcon,
       route: ROUTES.BUDGETS_URL,
+    },
+    {
+      titleKey: 'chat',
+      icon: SmartToyIcon,
+      route: ROUTES.CHAT_URL,
+      badge: 'NEW',
     },
     ...(isAdmin(user)
       ? [
@@ -104,18 +120,37 @@ const SidebarButtons = () => {
                   '&:hover': {
                     backgroundColor: isActive ? 'transparent' : 'action.hover',
                   },
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 24, mr: 1 }}>
-                  <Icon color={isActive ? 'primary' : 'inherit'} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={t(button.titleKey)}
-                  sx={{
-                    color: isActive ? 'primary.main' : 'inherit',
-                    transition: 'color 0.2s ease-in-out',
-                  }}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 0, flex: 1 }}>
+                  <ListItemIcon sx={{ minWidth: 24, mr: 1 }}>
+                    <Icon color={isActive ? 'primary' : 'inherit'} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={t(button.titleKey)}
+                    sx={{
+                      color: isActive ? 'primary.main' : 'inherit',
+                      transition: 'color 0.2s ease-in-out',
+                    }}
+                  />
+                </Box>
+                {button.badge && (
+                  <Chip
+                    label={button.badge}
+                    size="small"
+                    sx={{
+                      height: 20,
+                      fontSize: '0.65rem',
+                      fontWeight: 500,
+                      ml: 1,
+                      backgroundColor: 'primary.main',
+                      color: 'primary.contrastText',
+                    }}
+                  />
+                )}
               </ListItemButton>
             </ListItem>
           );

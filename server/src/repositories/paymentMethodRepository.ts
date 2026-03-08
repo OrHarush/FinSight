@@ -1,4 +1,4 @@
-import PaymentMethod from '../models/PaymentMethod';
+import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
 import { Types } from 'mongoose';
 import {
   CreatePaymentMethodCommand,
@@ -6,7 +6,10 @@ import {
 } from '@shared/types/PaymentMethodCommands';
 
 export const findMany = async (userId: string) =>
-  PaymentMethod.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 });
+  PaymentMethod.find({ userId: new Types.ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .lean<IPaymentMethod[]>()
+    .exec();
 
 export const findById = async (id: string, userId: string) =>
   PaymentMethod.findOne({ _id: id, userId: new Types.ObjectId(userId) });

@@ -11,6 +11,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import adminRoutes from './routes/adminRoutes';
+import chatRoutes from './routes/chatRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 import { mcpMiddleware } from './mcp/mcpServer';
@@ -57,6 +58,7 @@ app.use('/api/budgets', budgetRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/chat', chatRoutes);
 
 app.post('/mcp', mcpMiddleware);
 

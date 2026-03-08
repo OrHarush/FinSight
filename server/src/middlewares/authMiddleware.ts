@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../errors/ApiError';
-import { extractUserIdFromBearerToken, isValidBearerToken } from '../utils/auth';
+import { extractUserDataFromBearerToken, isValidBearerToken } from '../utils/auth';
 
 export const authMiddleware = (req: Request, _res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -9,7 +9,9 @@ export const authMiddleware = (req: Request, _res: Response, next: NextFunction)
     return next(ApiError.unauthorized('Unauthorized'));
   }
 
-  req.userId = extractUserIdFromBearerToken(authHeader);
+  const userData = extractUserDataFromBearerToken(authHeader);
+  req.userId = userData.userId;
+  req.userRole = userData.role;
 
   return next();
 };

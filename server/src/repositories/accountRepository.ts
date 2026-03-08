@@ -3,7 +3,9 @@ import { Types } from 'mongoose';
 import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
 
 export const findMany = async (userId: string) =>
-  Account.find({ userId: new Types.ObjectId(userId) });
+  Account.find({ userId: new Types.ObjectId(userId) })
+    .lean<IAccount[]>()
+    .exec();
 
 export const findById = async (id: string, userId: string) =>
   Account.findById({ _id: id, userId: new Types.ObjectId(userId) });

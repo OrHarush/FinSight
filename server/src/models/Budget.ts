@@ -5,7 +5,7 @@ export interface IBudget {
   userId: Types.ObjectId;
   categoryId: Types.ObjectId;
   year: number;
-  month: number; // 0-11 (JavaScript month format)
+  month: number;
   limit: number;
 }
 

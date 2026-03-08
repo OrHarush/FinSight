@@ -19,6 +19,7 @@ import PublicLayout from '@/components/shared/layout/PublicLayout';
 import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
 import { RequireAuth, RequireAdmin, RequireGuest } from '@/routes/guards/ProtectedRoute';
 import Budgets from '@/pages/Budgets';
+import Chat from '@/pages/Chat';
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
@@ -70,6 +71,7 @@ const AppRoutes = () => {
               }
             />
             <Route path={ROUTES.BUDGETS_URL} element={<Budgets />} />
+            <Route path={ROUTES.CHAT_URL} element={<Chat />} />
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>

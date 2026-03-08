@@ -57,13 +57,20 @@ export const googleLogin = async (req: Request, res: Response) => {
 
     await updateLastUserLogin(user._id);
 
-    const appToken = jwt.sign({ userId: user._id.toString() }, JWT_SECRET, {
-      algorithm: 'HS256',
-      expiresIn: '7d',
-      issuer: JWT_ISSUER,
-      audience: JWT_AUDIENCE,
-      subject: user._id.toString(),
-    });
+    const appToken = jwt.sign(
+      {
+        userId: user._id.toString(),
+        role: user.role,
+      },
+      JWT_SECRET,
+      {
+        algorithm: 'HS256',
+        expiresIn: '7d',
+        issuer: JWT_ISSUER,
+        audience: JWT_AUDIENCE,
+        subject: user._id.toString(),
+      }
+    );
 
     const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
 

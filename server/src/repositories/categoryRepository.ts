@@ -1,9 +1,12 @@
-import Category from '../models/Category';
+import Category, { ICategory } from '../models/Category';
 import { Types } from 'mongoose';
 import { CreateCategoryCommand, UpdateCategoryCommand } from '@shared/types/CategoryCommands';
 
 export const findMany = async (userId: string) =>
-  Category.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 });
+  Category.find({ userId: new Types.ObjectId(userId) })
+    .sort({ createdAt: -1 })
+    .lean<ICategory[]>()
+    .exec();
 
 export const findById = async (id: string, userId: string) =>
   Category.findOne({ _id: id, userId: new Types.ObjectId(userId) });

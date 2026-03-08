@@ -28,4 +28,8 @@ export class ApiError extends Error {
   static forbidden(message = 'Forbidden') {
     return new ApiError(403, message);
   }
+
+  static tooManyRequests(message = 'Too many requests') {
+    return new ApiError(429, message);
+  }
 }

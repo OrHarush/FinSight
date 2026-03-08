@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { USER_ROLES, UserRole } from '../../../shared/types/Role';
 
 interface Provider {
   provider: string;
@@ -10,6 +11,7 @@ export interface IUser {
   email: string;
   name: string;
   picture?: string;
+  role: UserRole;
   providers: Provider[];
   acceptedTermsAt: Date | null;
   acceptedPrivacyAt: Date | null;
@@ -33,6 +35,12 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     name: { type: String, required: true, trim: true },
     picture: String,
+    role: {
+      type: String,
+      enum: Object.values(USER_ROLES),
+      default: USER_ROLES.USER,
+      required: true,
+    },
     providers: { type: [ProviderSchema], default: [] },
     acceptedTermsAt: { type: Date, default: null },
     acceptedPrivacyAt: { type: Date, default: null },
