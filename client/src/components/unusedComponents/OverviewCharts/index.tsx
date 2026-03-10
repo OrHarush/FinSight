@@ -1,18 +1,11 @@
 import { Card, CardContent, Grid, Tabs, Tab } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
-import Column from '@/components/shared/layout/containers/Column';
-import YearlyChart from '@/components/unusedComponents/OverviewCharts/YearlyChart';
-import AccountBalanceChart from '@/components/unusedComponents/OverviewCharts/AccountBalanceChart';
 import { useTranslation } from 'react-i18next';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
-import EntityEmpty from '@/components/entities/EntityEmpty';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 
 const OverviewCharts = () => {
   const { t } = useTranslation('overview');
-  const { account } = useOverviewFilters();
   const [tab, setTab] = useState(0);
 
   const handleChange = (_: SyntheticEvent, newValue: number) => {
@@ -62,17 +55,7 @@ const OverviewCharts = () => {
             alignItems: 'center',
             height: '100%',
           }}
-        >
-          <Column width="100%" height="550px">
-            {tab === 0 ? (
-              <YearlyChart />
-            ) : account?._id ? (
-              <AccountBalanceChart accountId={account._id} />
-            ) : (
-              <EntityEmpty entityName={'accounts'} icon={AccountBalanceWalletIcon} />
-            )}
-          </Column>
-        </CardContent>
+        ></CardContent>
       </Card>
     </Grid>
   );

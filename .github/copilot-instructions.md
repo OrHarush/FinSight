@@ -23,7 +23,7 @@ React Component Patterns:
 - **ENTITY PAGES MUST FOLLOW THE STANDARD TEMPLATE** (see ENTITY_PAGE_TEMPLATE.md for full details):
   
   Mandatory structure:
-  1. **index.tsx** - Orchestration only (state + handlers + layout, NO data fetching)
+  1. **ChatInput.tsx** - Orchestration only (state + handlers + layout, NO data fetching)
   2. **EntityPageContent.tsx** - State coordinator (loading/error/empty/success with early returns)
   3. **EntityList.tsx** - Pure rendering (map data to components)
   4. **EntityDialogManager.tsx** - Dialog manager (conditionally render create/edit dialogs)

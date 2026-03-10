@@ -9,7 +9,7 @@ interface ScrollableColumnProps extends StackOwnProps {
   maxHeight?: number | string;
 }
 
-const ScrollableColumn = ({ maxHeight = 400, children, ...props }: ScrollableColumnProps) => {
+const ScrollableColumn = ({ maxHeight = 'none', children, ...props }: ScrollableColumnProps) => {
   const theme = useTheme();
 
   return (

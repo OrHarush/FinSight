@@ -1,26 +1,29 @@
 import { ChatMessage } from '@/types/Chat';
-import Column from '@/components/shared/layout/containers/Column';
 import ChatMessageBubble from '@/pages/Chat/components/ChatMessageBubble';
+import ChatLoadingSkeleton from '@/pages/Chat/components/ChatLoadingSkeleton';
 import { useEffect, useRef } from 'react';
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
+  isLoading?: boolean;
 }
 
-const ChatMessageList = ({ messages }: ChatMessageListProps) => {
+const ChatMessageList = ({ messages, isLoading = false }: ChatMessageListProps) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
-    <Column flex={1} overflow="auto" spacing={2} padding={2}>
+    <ScrollableColumn flex={1} spacing={2} sx={{ p: 3 }}>
       {messages.map(message => (
         <ChatMessageBubble key={message.id} message={message} />
       ))}
+      {isLoading && <ChatLoadingSkeleton />}
       <div ref={bottomRef} />
-    </Column>
+    </ScrollableColumn>
   );
 };
 

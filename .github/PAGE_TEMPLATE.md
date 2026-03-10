@@ -1,10 +1,120 @@
+# Page Template Guide
+
+This guide covers two page patterns used in FinSight:
+1. **General Page Template** - For non-CRUD pages (Chat, Reports, etc.)
+2. **Entity Page Template** - For CRUD pages (Categories, Accounts, etc.)
+
+---
+
+# General Page Template
+
+For pages that don't follow a CRUD pattern (Chat, Reports, Planner, etc.).
+
+## Folder Structure
+
+```
+pages/PageName/
+├── ChatMessageList.tsx                      # Pure orchestration (state + layout)
+├── PageNameContent.tsx            # State coordinator (loading/error/empty/success)
+└── components/
+    ├── FeatureComponent.tsx
+    ├── AnotherComponent.tsx
+    └── [other components]
+```
+
+## Components
+
+### 1. ChatMessageList.tsx — Orchestration only
+
+State management and layout only. No data fetching, no rendering logic.
+
+```tsx
+const PageName = () => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const [state1, setState1] = useState<Type>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handler1 = (value: Type) => setState1(value);
+  const handler2 = () => setIsLoading(true);
+
+  const pageContent = (
+    <PageLayout>
+      <PageHeader />
+      <PageNameContent state={state1} isLoading={isLoading} />
+      <PageFooter onAction={handler1} />
+    </PageLayout>
+  );
+};
+```
+
+### 2. PageNameContent.tsx — State Coordinator
+
+Early returns for each state. Coordinates what to render based on state.
+
+```tsx
+const PageNameContent = ({ state, isLoading }: PageNameContentProps) => {
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (!state) {
+    return <EmptyState />;
+  }
+
+  return <ContentDisplay state={state} />;
+};
+```
+
+### 3. Feature Components
+
+Pure rendering components with no logic.
+
+```tsx
+const ContentDisplay = ({ state }: ContentDisplayProps) => (
+  <Column spacing={2}>
+    {/* Pure rendering based on props */}
+  </Column>
+);
+```
+
+## Example: Chat Page
+
+Real example of a general page following this pattern.
+
+```
+pages/Chat/
+├── ChatMessageList.tsx                      # State: messages, isLoading
+├── ChatPageContent.tsx            # Early returns: empty → content
+└── components/
+    ├── ChatHeader.tsx
+    ├── ChatInput.tsx              # Handles message sending
+    ├── index.tsx
+    ├── ChatMessageLayout.tsx
+    ├── ChatCategoryPills.tsx
+    ├── ChatAccountCards.tsx
+    ├── ChatEmpty.tsx
+    └── ChatLoadingSkeleton.tsx
+```
+
+**Key Points**:
+- `ChatMessageList.tsx`: Manages messages array, isLoading, responsive layout
+- `ChatPageContent`: Renders ChatEmpty if no messages, else ChatMessageList
+- `ChatInput`: Contains message sending logic (sendMessage())
+- `ChatMessageBubble`: Renders single message based on parsed type
+- Feature components: Pure rendering, no logic
+
+---
+
 # Entity Page Template
+
+For CRUD pages (Categories, Accounts, Budgets, etc.).
 
 ## Folder Structure
 
 ```
 pages/EntityName/
-├── index.tsx
+├── ChatMessageList.tsx
 ├── EntityNamePageContent.tsx
 ├── EntityNameList.tsx
 ├── EntityNameDialogManager.tsx
@@ -17,7 +127,9 @@ pages/EntityName/
 
 ---
 
-## 1. index.tsx — Orchestration only
+## Components
+
+### 1. ChatMessageList.tsx — Orchestration only
 
 No data fetching. No rendering logic. State + handlers + layout only.
 
@@ -53,9 +165,7 @@ const EntityPage = () => {
 };
 ```
 
----
-
-## 2. EntityPageContent.tsx — State coordinator
+### 2. EntityPageContent.tsx — State coordinator
 
 Early returns for each state. No inline JSX — each state renders a dedicated component.
 
@@ -79,9 +189,7 @@ const EntityPageContent = ({ selectEntity }: EntityPageContentProps) => {
 };
 ```
 
----
-
-## 3. EntityList.tsx — Pure rendering
+### 3. EntityList.tsx — Pure rendering
 
 No hooks, no logic. Maps data to components.
 
@@ -95,9 +203,7 @@ const EntityList = ({ entities, selectEntity }: EntityListProps) => (
 );
 ```
 
----
-
-## 4. EntityDialogManager.tsx — Conditional rendering only
+### 4. EntityDialogManager.tsx — Conditional rendering only
 
 No hooks, no logic, no mutations. Pure conditional rendering.
 
@@ -123,9 +229,7 @@ const EntityDialogManager = ({
 );
 ```
 
----
-
-## 5. EntityForm.tsx — Pure fields
+### 5. EntityForm.tsx — Pure fields
 
 Only form fields. No submit logic. Always use `TextInput`, never raw MUI `TextField`.
 
@@ -141,9 +245,7 @@ const EntityForm = () => {
 };
 ```
 
----
-
-## 6. CreateEntityDialog.tsx
+### 6. CreateEntityDialog.tsx
 
 Extends `BaseDialogProps`. Mutation logic lives here.
 
@@ -178,9 +280,7 @@ const CreateEntityDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
 };
 ```
 
----
-
-## 7. EditEntityDialog.tsx
+### 7. EditEntityDialog.tsx
 
 Extends `BaseDialogProps`. Receives entity and pre-fills `defaultValues`.
 
@@ -244,252 +344,90 @@ Dialog manager props use the same descriptive names:
 - `closeEditDialog` — not `onCloseEdit`
 - `selectEntity` — not `onSelectEntity`
 
-
 ---
 
-## 📁 Folder Structure
+## 🔄 Applying the Templates
 
-```
-pages/EntityName/
-├── components/                    # Small, reusable UI pieces
-│   ├── EntityDialog.tsx           # Dialog form (create/edit combined or separate)
-│   ├── EntityRow.tsx              # Individual row/card component
-│   ├── EntitySkeleton.tsx         # Loading skeleton
-│   └── [entity-specific components]
-├── EntityDialogManager.tsx        # Manages dialog rendering logic
-├── EntityPageContent.tsx          # State coordinator (loading/error/empty/success)
-└── index.tsx                      # Main orchestrator (STANDARD for all entities)
-```
+### For a General Page (Chat, Reports, etc.):
+1. Create `ChatMessageList.tsx` with state management
+2. Create `PageNameContent.tsx` with early returns
+3. Create feature components in `components/` folder
+4. Keep all data logic in feature components
+5. Follow separation of concerns
 
----
-
-## 📋 File Responsibilities
-
-### 1. **index.tsx** - Main Orchestrator
-**Purpose**: Pure orchestration - state management and layout only
-
-**Responsibilities**:
-- Manage dialog open/close state
-- Manage selected entity state
-- Define event handlers
-- Compose layout structure
-- NO data fetching, NO business logic, NO rendering logic
-
-**Standard Structure**:
-```
-const EntityPage = () => {
-  const { t } = useTranslation('entities');
-  const isMobile = useIsMobile();
-  const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
-  const [selectedEntity, setSelectedEntity] = useState<EntityDto>();
-
-  const handleSelectEntity = (entity: EntityDto) => {
-    setSelectedEntity(entity);
-  };
-
-  const handleCloseEdit = () => {
-    setSelectedEntity(undefined);
-  };
-
-  return (
-    <PageLayout>
-      <PageHeader entityName={'entities'}>
-        {!isMobile && (
-          <Button variant={'contained'} onClick={openCreateDialog} startIcon={<AddIcon />}>
-            {t('actions.create')}
-          </Button>
-        )}
-      </PageHeader>
-      <EntityPageContent selectEntity={handleSelectEntity} />
-      <ActionFab onClick={openCreateDialog} />
-      <EntityDialogManager
-        isCreateOpen={isCreateDialogOpen}
-        selectedEntity={selectedEntity}
-        onCloseCreate={closeCreateDialog}
-        onCloseEdit={handleCloseEdit}
-      />
-    </PageLayout>
-  );
-};
-```
-
----
-
-### 2. **EntityPageContent.tsx** - State Coordinator
-**Purpose**: Handle all UI states (loading, error, empty, success)
-
-**Responsibilities**:
-- Fetch data using custom hook
-- Render appropriate component based on state
-- Use early returns for each state
-- Delegate actual rendering to list/grid components
-
-**Standard Structure**:
-```
-const EntityPageContent = ({ selectEntity }: EntityPageContentProps) => {
-  const { data: entities, isLoading, error, refetch } = useEntities();
-
-  if (error) {
-    return <EntityError entityName="entities" refetch={refetch} />;
-  }
-
-  if (isLoading) {
-    return <EntitySkeleton />;
-  }
-
-  if (!entities?.length) {
-    return <EntityEmpty entityName="entities" icon={EntityIcon} />;
-  }
-
-  return <EntityList entities={entities} selectEntity={selectEntity} />;
-};
-```
-
----
-
-### 3. **EntityDialogManager.tsx** - Dialog Manager
-**Purpose**: Manage dialog rendering logic
-
-**Responsibilities**:
-- Conditionally render create and edit dialogs
-- Pass props to dialog components
-- NO mutation logic (handled inside dialog components)
-
-**Standard Structure**:
-```
-interface EntityDialogManagerProps {
-  isCreateOpen: boolean;
-  selectedEntity?: EntityDto;
-  onCloseCreate: () => void;
-  onCloseEdit: () => void;
-}
-
-const EntityDialogManager = ({
-  isCreateOpen,
-  selectedEntity,
-  onCloseCreate,
-  onCloseEdit,
-}: EntityDialogManagerProps) => (
-  <>
-    {isCreateOpen && <CreateEntityDialog isOpen={isCreateOpen} closeDialog={onCloseCreate} />}
-    {selectedEntity && (
-      <EditEntityDialog
-        isOpen={!!selectedEntity}
-        closeDialog={onCloseEdit}
-        entity={selectedEntity}
-      />
-    )}
-  </>
-);
-```
-
----
-
-### 4. **EntityList.tsx** - Rendering Logic
-**Purpose**: Pure rendering component
-
-**Responsibilities**:
-- Map over entities and render rows/cards
-- Pass event handlers to child components
-- NO data fetching, NO state management
-
-**Standard Structure**:
-```
-const EntityList = ({ entities, selectEntity }: EntityListProps) => (
-  <Column spacing={2}>
-    {entities.map(entity => (
-      <EntityRow key={entity.id} entity={entity} onSelect={() => selectEntity(entity)} />
-    ))}
-  </Column>
-);
-```
-
----
-
-## ✅ Naming Conventions
-
-### Variables
-- `isCreateDialogOpen` - Dialog open state
-- `selectedEntity` - Currently selected entity for editing
-- `handleSelectEntity` - Handler to select entity
-- `handleCloseEdit` - Handler to close edit dialog
-
-### Functions
-- `openCreateDialog` - Opens create dialog
-- `closeCreateDialog` - Closes create dialog
-- `selectEntity` - Prop function to select entity
-
-### Props
-- `isCreateOpen` - Boolean for create dialog
-- `selectedEntity` - Selected entity or undefined
-- `onCloseCreate` - Close create dialog callback
-- `onCloseEdit` - Close edit dialog callback
-
----
-
-## 🔄 Applying the Template
-
-To create a new entity page or refactor an existing one:
-
-1. **Replace placeholders**:
-   - `Entity` → `Category`, `Account`, `Transaction`, etc.
-   - `entities` → `categories`, `accounts`, `transactions`, etc.
+### For an Entity Page (Categories, Accounts, etc.):
+1. Replace placeholders in template:
+   - `Entity` → `Category`, `Account`, etc.
+   - `entities` → `categories`, `accounts`, etc.
    - `EntityDto` → `CategoryDto`, `AccountDto`, etc.
    - `useEntities` → `useCategories`, `useAccounts`, etc.
-
-2. **Keep structure identical** - Don't deviate from template unless entity has special requirements
-
-3. **Follow naming conventions** - Use exact variable/function names
+2. Keep structure identical
+3. Follow naming conventions exactly
 
 ---
 
 ## 🚫 Anti-Patterns to Avoid
 
-❌ **DON'T** inline dialog components in index.tsx:
-```
+❌ **DON'T** inline dialog components in ChatMessageList.tsx:
+```tsx
 // BAD
 {isCreateDialogOpen && <CreateDialog ... />}
 {selectedEntity && <EditDialog ... />}
 ```
 
 ✅ **DO** use DialogManager:
-```
+```tsx
 // GOOD
 <EntityDialogManager
   isCreateOpen={isCreateDialogOpen}
   selectedEntity={selectedEntity}
-  onCloseCreate={closeCreateDialog}
-  onCloseEdit={handleCloseEdit}
+  closeCreateDialog={closeCreateDialog}
+  closeEditDialog={closeEditDialog}
 />
 ```
 
 ---
 
-❌ **DON'T** mix state handling in index.tsx:
-```
+❌ **DON'T** mix state handling in ChatMessageList.tsx:
+```tsx
 // BAD - rendering logic in orchestrator
 {isLoading ? <Skeleton /> : <List />}
 ```
 
 ✅ **DO** delegate to PageContent:
-```
+```tsx
 // GOOD - delegate to state coordinator
-<EntityPageContent selectEntity={handleSelectEntity} />
+<EntityPageContent selectEntity={selectEntity} />
 ```
 
 ---
 
-❌ **DON'T** fetch data in index.tsx:
-```
+❌ **DON'T** fetch data in ChatMessageList.tsx:
+```tsx
 // BAD
 const { data } = useEntities();
 ```
 
 ✅ **DO** fetch in PageContent:
-```
+```tsx
 // GOOD - data fetching in state coordinator
-// index.tsx has NO data fetching
+// ChatMessageList.tsx has NO data fetching
 ```
 
 ---
+
+❌ **DON'T** mix HTML structure components with layout logic:
+```tsx
+// BAD - layout logic in render
+if (isDesktop) return <PageLayout>...</PageLayout>;
+else return <Column>...</Column>;
+```
+
+✅ **DO** extract layout logic early or use responsive components:
+```tsx
+// GOOD - clean separation
+<PageLayout shouldUseLayout={isDesktop}>
+  {/* content */}
+</PageLayout>
+```
 

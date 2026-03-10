@@ -62,7 +62,7 @@ const TransactionsCardsView = () => {
   return (
     <Column spacing={1} overflow={'hidden'}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      <ScrollableColumn flex={1} minHeight={0} sx={{ pr: 0, maxHeight: 'none' }}>
+      <ScrollableColumn flex={1} sx={{ pr: 0.5 }}>
         {transactions.map(tx => (
           <TransactionCard key={tx._id} transaction={tx} />
         ))}

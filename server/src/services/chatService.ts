@@ -1,11 +1,10 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { Tool, SchemaType } from '@google/generative-ai';
+import { SchemaType, Tool, GoogleGenerativeAI } from '@google/generative-ai';
 import * as transactionService from './transactionService';
 import * as accountService from './accountService';
 import * as categoryService from './categoryService';
 import * as paymentMethodService from './paymentMethodService';
 import * as budgetService from './budgetService';
-import { TransactionQueryOptions } from '../types/Transaction';
+import { TransactionQueryOptions, ITransactionPopulated } from '../types/Transaction';
 import { ApiError } from '../errors/ApiError';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -15,6 +14,23 @@ if (!apiKey) {
 }
 
 const genAI = new GoogleGenerativeAI(apiKey);
+
+const formatTransactionsAsTable = (transactions: ITransactionPopulated[]): string => {
+  if (!transactions || transactions.length === 0) {
+    return 'No transactions found.';
+  }
+
+  const rows = transactions
+    .slice(0, 20) // Limit to 20 rows for readability
+    .map((tx) => {
+      const dateStr = tx.date ? new Date(tx.date).toLocaleDateString() : 'N/A';
+      return `| ${dateStr} | ${tx.category?.name || 'N/A'} | ${tx.type} | $${tx.amount.toFixed(2)} | ${tx.account?.name || 'N/A'} |`;
+    })
+    .join('\n');
+
+  // Use only dashes for the separator row (no colons)
+  return `| Date | Category | Type | Amount | Account |\n|---|---|---|---|---|\n${rows}`;
+};
 
 // Base tools available to all users
 const baseTools: Tool[] = [
@@ -217,9 +233,8 @@ const executeTool = async (
 
     switch (toolName) {
       case 'getTransactions': {
+        // Build options, excluding page/limit to fetch ALL transactions
         const options: TransactionQueryOptions = {
-          page: args.page as number | undefined,
-          limit: args.limit as number | undefined,
           from: args.from ? new Date(args.from as string) : undefined,
           to: args.to ? new Date(args.to as string) : undefined,
           targetYear: args.targetYear as number | undefined,
@@ -230,7 +245,19 @@ const executeTool = async (
           accountId: args.accountId as string | undefined,
           search: args.search as string | undefined,
         };
-        result = await transactionService.findAll(userId, options);
+        const transactions = await transactionService.findAll(userId, options);
+
+        // Extract data from paginated response (if pagination exists, get data array, otherwise use full response)
+        const txData = Array.isArray(transactions)
+          ? transactions
+          : (transactions as any).data || [];
+
+        const formattedTable = formatTransactionsAsTable(txData as ITransactionPopulated[]);
+        result = {
+          formatted: formattedTable,
+          raw: txData,
+          count: txData.length,
+        };
         break;
       }
       case 'getTransactionSummary': {
@@ -243,25 +270,29 @@ const executeTool = async (
         break;
       }
       case 'getAccounts': {
-        result = await accountService.findAll(userId);
+        const accounts = await accountService.findAll(userId);
+        let filtered = accounts as any[];
         if (args.isPrimary) {
-          result = (result as any[]).filter((a) => a.isPrimary === args.isPrimary);
+          filtered = filtered.filter((a) => a.isPrimary === args.isPrimary);
         }
         if (args.search) {
           const term = (args.search as string).toLowerCase();
-          result = (result as any[]).filter((a) => a.name.toLowerCase().includes(term));
+          filtered = filtered.filter((a) => a.name.toLowerCase().includes(term));
         }
+        result = { accounts: filtered };
         break;
       }
       case 'getCategories': {
-        result = await categoryService.findAll(userId);
+        const categories = await categoryService.findAll(userId);
+        let filtered = categories as any[];
         if (args.type) {
-          result = (result as any[]).filter((c) => c.type === args.type);
+          filtered = filtered.filter((c) => c.type === args.type);
         }
         if (args.search) {
           const term = (args.search as string).toLowerCase();
-          result = (result as any[]).filter((c) => c.name.toLowerCase().includes(term));
+          filtered = filtered.filter((c) => c.name.toLowerCase().includes(term));
         }
+        result = { categories: filtered };
         break;
       }
       case 'getPaymentMethods': {
@@ -297,6 +328,46 @@ const executeTool = async (
   }
 };
 
+const MODEL_FALLBACK_CHAIN = [
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash',
+  'gemini-2.5-flash',
+  'gemini-2.5-pro',
+];
+
+const isQuotaError = (message: string) =>
+  message.includes('429') ||
+  message.includes('quota') ||
+  message.includes('Quota exceeded') ||
+  message.includes('RESOURCE_EXHAUSTED');
+
+const generateWithFallback = async (
+  buildModel: (modelName: string) => ReturnType<typeof genAI.getGenerativeModel>,
+  generate: (model: ReturnType<typeof genAI.getGenerativeModel>) => Promise<any>
+): Promise<{ response: any; modelUsed: string }> => {
+  let lastError: Error | null = null;
+
+  for (const modelName of MODEL_FALLBACK_CHAIN) {
+    try {
+      const model = buildModel(modelName);
+      const response = await generate(model);
+      return { response, modelUsed: modelName };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+
+      if (isQuotaError(message)) {
+        console.warn(`Model ${modelName} quota exceeded, trying next model...`);
+        lastError = error instanceof Error ? error : new Error(message);
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw lastError ?? new Error('All models quota exceeded');
+};
+
 export const chat = async (
   userId: string,
   userMessage: string,
@@ -311,9 +382,8 @@ export const chat = async (
   }
 
   try {
-    // Get appropriate tools based on user role
     const userTools = getToolsForUser(isAdmin);
-    // Format current date info for the system instruction
+
     const dateContext = currentDate
       ? `The current date is ${currentDate} (${new Date(currentDate).toLocaleDateString('en-US', {
           weekday: 'long',
@@ -323,31 +393,45 @@ export const chat = async (
         })}). Current year: ${currentYear}, Current month: ${currentMonth === 0 ? 'January' : currentMonth === 1 ? 'February' : currentMonth === 2 ? 'March' : currentMonth === 3 ? 'April' : currentMonth === 4 ? 'May' : currentMonth === 5 ? 'June' : currentMonth === 6 ? 'July' : currentMonth === 7 ? 'August' : currentMonth === 8 ? 'September' : currentMonth === 9 ? 'October' : currentMonth === 10 ? 'November' : 'December'} (month index: ${currentMonth}).`
       : '';
 
-    // Use the stable free-tier model with function calling support
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      tools: userTools,
-      systemInstruction: `You are a helpful financial assistant for FinSight. Help users understand and analyze their finances using the available tools.
+    const systemInstruction = `You are a helpful financial assistant for FinSight. Help users understand and analyze their finances using the available tools.
 
 ${dateContext}
 
-When users mention relative dates like "this month", "last month", "this year", automatically determine the correct year and month values:
-- "this month" = current month (${currentMonth ?? 'unknown'})
-- "last month" = previous month (${currentMonth !== undefined ? (currentMonth ? currentMonth - 1 : 11) : 'unknown'})
-- "next month" = next month (${currentMonth !== undefined ? (currentMonth !== 11 ? currentMonth + 1 : 0) : 'unknown'})
-- "this year" = current year (${currentYear ?? 'unknown'})
-- "last year" = previous year (${currentYear !== undefined ? currentYear - 1 : 'unknown'})
+## Date defaults (IMPORTANT — always apply unless user specifies otherwise):
+- "this month" = targetMonth: ${currentMonth ?? 'unknown'}, targetYear: ${currentYear ?? 'unknown'}
+- "last month" = targetMonth: ${currentMonth !== undefined ? (currentMonth ? currentMonth - 1 : 11) : 'unknown'}, targetYear: ${currentYear ?? 'unknown'}
+- "next month" = targetMonth: ${currentMonth !== undefined ? (currentMonth !== 11 ? currentMonth + 1 : 0) : 'unknown'}
+- "this year" = targetYear: ${currentYear ?? 'unknown'}
+- "last year" = targetYear: ${currentYear !== undefined ? currentYear - 1 : 'unknown'}
+- If the user asks about budgets, transactions, or summaries WITHOUT specifying a date, ALWAYS default to current month (${currentMonth ?? 'unknown'}) and current year (${currentYear ?? 'unknown'}). NEVER ask the user for a date — just use the defaults.
 
-When responding:
+## Tool usage rules:
+- getCategories: if user does NOT specify "income" or "expense", fetch ALL categories (do not filter by type, do not ask).
+- getBudgets: if no month/year specified, use current month (${currentMonth ?? 'unknown'}) and current year (${currentYear ?? 'unknown'}).
+- getTransactions: if no date range specified, use current month and year.
+
+## IMPORTANT — Structured response format:
+When the user asks to SEE or LIST categories, respond with ONLY this JSON (no markdown, no extra text):
+{"type":"categories","text":"<your short summary sentence>","categories":<categories array from tool>}
+
+When the user asks to SEE or LIST accounts, respond with ONLY this JSON (no markdown, no extra text):
+{"type":"accounts","text":"<your short summary sentence>","accounts":<accounts array from tool>}
+
+For all other responses, respond with ONLY this JSON:
+{"type":"text","text":"<your full markdown response>"}
+
+Do NOT wrap the JSON in markdown code blocks. Return raw JSON only.
+
+## Text formatting (inside the "text" field):
+When displaying transactions:
+- ALWAYS use the pre-formatted markdown table provided in the tool result under the "formatted" field
+- DO NOT create your own table format
+- You can add analysis or insights before/after the table
 - Use **bold** for important numbers and key insights
 - Use lists and bullet points to organize information
 - Format currency amounts consistently
-- Break complex information into clear sections
-- Use headers (##) to structure longer responses
-- Highlight trends and patterns with emphasis`,
-    });
+- Use headers (##) to structure longer responses`;
 
-    // Build initial message list with conversation history
     const messageList: any[] = [
       ...conversationHistory.map((msg) => ({
         role: msg.role === 'assistant' ? 'model' : 'user',
@@ -359,90 +443,113 @@ When responding:
       },
     ];
 
-    let response = await model.generateContent({
-      contents: messageList,
-    });
+    return generateWithFallback(
+      (modelName) =>
+        genAI.getGenerativeModel({
+          model: modelName,
+          tools: userTools,
+          systemInstruction,
+        }),
+      async (model) => {
+        let response = await model.generateContent({ contents: messageList });
 
-    // Handle tool use loop
-    let iterations = 0;
-    const maxIterations = 10;
+        let iterations = 0;
+        const maxIterations = 10;
 
-    while (
-      iterations < maxIterations &&
-      response.response.candidates?.[0]?.content.parts.some((p: any) => p.functionCall)
-    ) {
-      iterations++;
+        while (
+          iterations < maxIterations &&
+          response.response.candidates?.[0]?.content.parts.some((p: any) => p.functionCall)
+        ) {
+          iterations++;
 
-      const toolCalls = response.response.candidates[0].content.parts.filter(
-        (p: any) => p.functionCall
-      );
-
-      if (!toolCalls.length) {
-        break;
-      }
-
-      // Add model's response to message history
-      messageList.push({
-        role: 'model',
-        parts: response.response.candidates[0].content.parts,
-      });
-
-      // Execute all tool calls
-      const toolResults = await Promise.all(
-        toolCalls.map(async (toolCall: any) => {
-          const resultString = await executeTool(
-            toolCall.functionCall.name,
-            toolCall.functionCall.args || {},
-            userId,
-            isAdmin
+          const toolCalls = response.response.candidates[0].content.parts.filter(
+            (p: any) => p.functionCall
           );
 
-          // Parse the JSON string back to an object
-          let resultObject;
-          try {
-            resultObject = JSON.parse(resultString);
-          } catch {
-            resultObject = { error: 'Failed to parse tool result' };
+          if (!toolCalls.length) {
+            break;
           }
 
-          return {
-            functionResponse: {
-              name: toolCall.functionCall.name,
-              response: resultObject,
-            },
-          };
-        })
-      );
+          messageList.push({
+            role: 'model',
+            parts: response.response.candidates[0].content.parts,
+          });
 
-      // Add tool results to message history
-      messageList.push({
-        role: 'user',
-        parts: toolResults,
-      });
+          const toolResults = await Promise.all(
+            toolCalls.map(async (toolCall: any) => {
+              const resultString = await executeTool(
+                toolCall.functionCall.name,
+                toolCall.functionCall.args || {},
+                userId,
+                isAdmin
+              );
 
-      // Continue conversation with accumulated history
-      response = await model.generateContent({
-        contents: messageList,
-      });
-    }
+              let resultObject;
+              try {
+                resultObject = JSON.parse(resultString);
+              } catch {
+                resultObject = { error: 'Failed to parse tool result' };
+              }
 
-    // Extract final text response
-    const textParts =
-      response.response.candidates?.[0]?.content.parts.filter((p: any) => p.text) || [];
-    const responseText = textParts.map((p: any) => p.text).join('');
+              const wrappedResult = Array.isArray(resultObject)
+                ? { data: resultObject }
+                : resultObject;
 
-    return responseText || 'I could not process your request.';
+              return {
+                functionResponse: {
+                  name: toolCall.functionCall.name,
+                  response: wrappedResult,
+                },
+              };
+            })
+          );
+
+          messageList.push({ role: 'user', parts: toolResults });
+
+          response = await model.generateContent({ contents: messageList });
+        }
+
+        const textParts =
+          response.response.candidates?.[0]?.content.parts.filter((p: any) => p.text) || [];
+        const rawText = textParts
+          .map((p: any) => p.text)
+          .join('')
+          .trim();
+
+        // Try to parse structured JSON response from Gemini
+        try {
+          // Strip markdown code fences if Gemini wrapped it anyway
+          const jsonStr = rawText
+            .replace(/^```(?:json)?\n?/, '')
+            .replace(/\n?```$/, '')
+            .trim();
+          const parsed = JSON.parse(jsonStr);
+
+          if (
+            parsed.type === 'categories' ||
+            parsed.type === 'accounts' ||
+            parsed.type === 'text'
+          ) {
+            return parsed;
+          }
+        } catch {
+          // Not JSON — fall through to plain text
+        }
+
+        return { type: 'text', text: rawText || 'I could not process your request.' };
+      }
+    ).then(({ response, modelUsed }) => ({
+      message: response.text,
+      model: modelUsed,
+      parsed: response,
+    }));
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error('Chat service error:', errorMessage);
 
-    if (
-      errorMessage.includes('429') ||
-      errorMessage.includes('quota') ||
-      errorMessage.includes('Quota exceeded')
-    ) {
+    if (isQuotaError(errorMessage)) {
       throw ApiError.tooManyRequests(
-        'AI service quota exceeded. Please try again later or upgrade your plan.'
+        'AI service quota exceeded on all available models. Please try again tomorrow.'
       );
     }
 

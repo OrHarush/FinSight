@@ -1,10 +1,13 @@
 import { ChatMessage } from '@/types/Chat';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import { Paper, Typography, Avatar, useMediaQuery, useTheme } from '@mui/material';
+import { Paper, Typography, Avatar, useTheme, useMediaQuery } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAuth } from '@/providers/AuthProvider';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import ChatCategoryPills from '@/pages/Chat/components/ChatMessageBubble/ChatCategoryPills';
+import ChatAccountCards from '@/pages/Chat/components/ChatMessageBubble/ChatAccountCards';
+import ModelBadge from '@/pages/Chat/components/ChatMessageBubble/ModelBadge';
+import ChatMessageLayout from '@/pages/Chat/components/ChatMessageBubble/ChatMessageLayout';
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;
@@ -46,8 +49,9 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
       sx={{
         px: 2,
         py: 1.5,
-        maxWidth: isMobile ? '100%' : '75%',
-        borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+        width: '100%',
+        maxWidth: isMobile ? '100%' : '60%',
+        borderRadius: isUser ? '16px 4px 16px 16px' : '4px 16px 16px 16px',
         bgcolor: isUser ? 'primary.main' : 'background.paper',
         color: isUser ? 'primary.contrastText' : 'text.primary',
         border: isUser ? 'none' : '1px solid',
@@ -55,40 +59,35 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
       }}
     >
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           p: ({ children }) => (
-            <Typography variant="body2" sx={{ lineHeight: 1.6, mb: 1 }}>
+            <Typography
+              variant="body2"
+              sx={{ lineHeight: 1.6, whiteSpace: 'normal', wordBreak: 'break-word' }}
+            >
               {children}
             </Typography>
           ),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           strong: ({ children }) => <strong>{children}</strong>,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           em: ({ children }) => <em>{children}</em>,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ul: ({ children }) => (
             <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>{children}</ul>
           ),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           ol: ({ children }) => (
             <ol style={{ margin: '8px 0', paddingLeft: '20px' }}>{children}</ol>
           ),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           li: ({ children }) => <li style={{ marginBottom: '4px' }}>{children}</li>,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           h1: ({ children }) => (
             <Typography variant="h6" sx={{ mt: 1, mb: 0.5 }}>
               {children}
             </Typography>
           ),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           h2: ({ children }) => (
             <Typography variant="subtitle1" sx={{ mt: 1, mb: 0.5 }}>
               {children}
             </Typography>
           ),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           code: ({ children }) => (
             <code
               style={{
@@ -101,40 +100,60 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
               {children}
             </code>
           ),
+          table: ({ children }) => (
+            <div style={{ overflowX: 'auto', margin: '8px 0' }}>
+              <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.8rem' }}>
+                {children}
+              </table>
+            </div>
+          ),
+          th: ({ children }) => (
+            <th
+              style={{
+                border: '1px solid rgba(128,128,128,0.4)',
+                padding: '6px 10px',
+                textAlign: 'left',
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+                backgroundColor: 'rgba(0,0,0,0.12)',
+              }}
+            >
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td
+              style={{
+                border: '1px solid rgba(128,128,128,0.2)',
+                padding: '5px 10px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {children}
+            </td>
+          ),
         }}
       >
         {message.content}
       </ReactMarkdown>
+      {!isUser && message.parsed?.type === 'categories' && (
+        <ChatCategoryPills categories={message.parsed.categories} />
+      )}
+      {!isUser && message.parsed?.type === 'accounts' && (
+        <ChatAccountCards accounts={message.parsed.accounts} />
+      )}
     </Paper>
   );
 
-  // On mobile: message above icon for user, icon above message for AI
-  // On desktop: avatar beside message
-  if (isMobile) {
-    if (isUser) {
-      return (
-        <Column alignItems="flex-end" spacing={0.75}>
-          {avatar}
-          {messageBubble}
-        </Column>
-      );
-    }
+  const modelBadge = !isUser && message.model && <ModelBadge model={message.model} />;
 
-    return (
-      <Column alignItems="flex-start" spacing={0.75}>
-        {avatar}
-        {messageBubble}
-      </Column>
-    );
-  }
-
-  // Desktop layout: horizontal
   return (
-    <Row justifyContent={isUser ? 'flex-end' : 'flex-start'} alignItems="flex-start" spacing={1}>
-      {!isUser && avatar}
-      {messageBubble}
-      {isUser && avatar}
-    </Row>
+    <ChatMessageLayout
+      avatar={avatar}
+      messageBubble={messageBubble}
+      modelBadge={modelBadge}
+      isUser={isUser}
+    />
   );
 };
 

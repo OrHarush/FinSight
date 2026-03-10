@@ -12,15 +12,6 @@ interface ChatRequest {
   currentMonth?: number;
 }
 
-// Extend Express Request to include isAdmin flag
-declare global {
-  namespace Express {
-    interface Request {
-      isAdmin?: boolean;
-    }
-  }
-}
-
 export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   const {
     message,
@@ -36,7 +27,11 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
 
   const isAdmin = (req as any).user?.role === 'admin';
 
-  const response = await chatService.chat(
+  const {
+    message: responseText,
+    model,
+    parsed,
+  } = await chatService.chat(
     req.userId,
     message.trim(),
     conversationHistory,
@@ -46,5 +41,9 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
     isAdmin
   );
 
-  return ApiResponse.ok(res, response);
+  return ApiResponse.ok(res, {
+    message: responseText,
+    model,
+    parsed,
+  });
 });
