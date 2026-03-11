@@ -52,7 +52,7 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
         width: '100%',
         maxWidth: isMobile ? '100%' : '60%',
         borderRadius: isUser ? '16px 4px 16px 16px' : '4px 16px 16px 16px',
-        bgcolor: isUser ? 'primary.main' : 'background.paper',
+        backgroundColor: isUser ? 'primary.main' : 'background.paper',
         color: isUser ? 'primary.contrastText' : 'text.primary',
         border: isUser ? 'none' : '1px solid',
         borderColor: 'divider',
@@ -63,8 +63,13 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
         components={{
           p: ({ children }) => (
             <Typography
-              variant="body2"
-              sx={{ lineHeight: 1.6, whiteSpace: 'normal', wordBreak: 'break-word' }}
+              variant="body1"
+              sx={{
+                lineHeight: 1.6,
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                fontWeight: '500',
+              }}
             >
               {children}
             </Typography>
@@ -102,7 +107,7 @@ const ChatMessageBubble = ({ message }: ChatMessageBubbleProps) => {
           ),
           table: ({ children }) => (
             <div style={{ overflowX: 'auto', margin: '8px 0' }}>
-              <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.8rem' }}>
+              <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.95rem' }}>
                 {children}
               </table>
             </div>
