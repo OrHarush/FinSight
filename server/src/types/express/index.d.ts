@@ -2,5 +2,7 @@ declare namespace Express {
   interface Request {
     userId: string;
     userRole: 'admin' | 'user';
+    validatedQuery?: unknown;
+    validatedBody?: unknown;
   }
 }

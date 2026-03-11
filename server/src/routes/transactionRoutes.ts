@@ -8,12 +8,14 @@ import {
   getTransactionSummary,
   getTransactionCount,
 } from '../controllers/transactionController';
+import { validateQuery } from '../middlewares/validate';
+import { GetTransactionsSchema, GetTransactionSummarySchema } from '../schemas/transactionSchemas';
 
 const router = Router();
 
 router.get('/count', getTransactionCount);
-router.get('/summary', getTransactionSummary);
-router.get('/', getTransactions);
+router.get('/summary', validateQuery(GetTransactionSummarySchema), getTransactionSummary);
+router.get('/', validateQuery(GetTransactionsSchema), getTransactions);
 router.get('/:id', getTransactionById);
 router.post('/', createTransaction);
 router.put('/:id', updateTransaction);

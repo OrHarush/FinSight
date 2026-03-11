@@ -2,47 +2,13 @@ import { Request, Response } from 'express';
 import * as transactionService from '../services/transactionService';
 import { asyncHandler } from '../utils/asyncHandler';
 import { ApiResponse } from '../utils/ApiResponse';
+import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
-  const {
-    page = '1',
-    limit,
-    sort = 'desc',
-    categoryId,
-    paymentMethodId,
-    year,
-    month,
-    search,
-  } = req.query;
-
-  let fromDate: Date | undefined;
-  let toDate: Date | undefined;
-  let targetYear: number | undefined;
-  let targetMonth: number | undefined;
-
-  if (year && month) {
-    const y = parseInt(year as string, 10);
-    const m0 = parseInt(month as string, 10) - 1;
-
-    targetYear = y;
-    targetMonth = m0;
-
-    fromDate = new Date(Date.UTC(y, m0, 1));
-    toDate = new Date(Date.UTC(y, m0 + 2, 0, 23, 59, 59, 999));
-  }
-
-  const result = await transactionService.findAll(req.userId, {
-    page: parseInt(page as string, 10),
-    limit: limit ? parseInt(limit as string, 10) : undefined,
-    from: fromDate,
-    to: toDate,
-    targetYear,
-    targetMonth,
-    sort: sort as 'asc' | 'desc',
-    categoryId: categoryId as string | undefined,
-    paymentMethodId: paymentMethodId as string | undefined,
-    search: search as string | undefined,
-  });
+  const result = await transactionService.findAll(
+    req.userId,
+    req.validatedQuery as GetTransactionsQuery
+  );
 
   return ApiResponse.ok(res, {
     data: result.data,
@@ -57,20 +23,10 @@ export const getTransactionById = asyncHandler(async (req: Request, res: Respons
 });
 
 export const getTransactionSummary = asyncHandler(async (req: Request, res: Response) => {
-  const { year, month, accountId } = req.query;
-
-  let summary;
-
-  if (month !== undefined) {
-    summary = await transactionService.getTransactionSummary(
-      req.userId,
-      Number(year),
-      Number(month),
-      accountId?.toString() || ''
-    );
-  } else {
-    summary = await transactionService.getTransactionSummary(req.userId, Number(year));
-  }
+  const summary = await transactionService.getTransactionSummary(
+    req.userId,
+    req.validatedQuery as GetTransactionSummaryQuery
+  );
 
   return ApiResponse.ok(res, summary);
 });

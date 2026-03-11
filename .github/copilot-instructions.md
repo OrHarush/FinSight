@@ -1,4 +1,4 @@
-Clean Code & SOLID:
+## Clean Code & SOLID:
 - Every function must do ONE thing only. If a function does more than one thing, split it.
 - Side effects must be isolated. Pure logic (calculations, transformations) must never mix
   with I/O, DB calls, or state mutations in the same function.
@@ -14,7 +14,7 @@ Clean Code & SOLID:
 - Don't use one line if return. Add curly braces and new lines for better readability, even for simple returns.
 - Before ifs and returns statements add a new line. 
 
-React Component Patterns:
+### React Component Patterns:
 - For orchestration components that handle multiple UI states (loading, error, empty, success):
   Use early returns with separate components for each state.
   Keep orchestration components focused solely on state coordination, not rendering logic.
@@ -22,26 +22,26 @@ React Component Patterns:
 
 - **ENTITY PAGES MUST FOLLOW THE STANDARD TEMPLATE** (see ENTITY_PAGE_TEMPLATE.md for full details):
   
-  Mandatory structure:
+  #### Mandatory structure:
   1. **ChatInput.tsx** - Orchestration only (state + handlers + layout, NO data fetching)
   2. **EntityPageContent.tsx** - State coordinator (loading/error/empty/success with early returns)
   3. **EntityList.tsx** - Pure rendering (map data to components)
   4. **EntityDialogManager.tsx** - Dialog manager (conditionally render create/edit dialogs)
   5. **components/dialogs/** - `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`
   
-  Required naming:
+  #### Required naming:
   - State: `isCreateDialogOpen`, `selectedEntity`
   - Functions describe what they do — never prefix with `handle` or `on` for internal functions:
     - `openCreateDialog`, `closeCreateDialog`, `closeEditDialog`, `selectEntity`
   - Props: `isCreateOpen`, `closeCreateDialog`, `closeEditDialog`
 
-Function Naming:
+### Function Naming:
 - Name functions after what they do, not who calls them.
 - Never prefix internal functions with `handle` or `on`.
 - Correct: `openCreateDialog`, `closeCreateDialog`, `selectEntity`, `submitCreate`
 - Wrong: `handleClose`, `onCloseCreate`, `handleSelectEntity`, `onSave`
 
-Entity Form & Dialog Conventions:
+### Entity Form & Dialog Conventions:
 - Always use `TextInput` (from `@/components/shared/inputs/TextInput`) instead of raw MUI `TextField`. It integrates with `useFormContext` automatically.
 - Dialogs must extend `BaseDialogProps` from `@/components/dialogs/FinSightDialog`.
 - Every entity must have a dedicated `EntityForm` component (pure fields, no submit logic).
@@ -52,3 +52,34 @@ Entity Form & Dialog Conventions:
 - Mutation logic lives in the dialog, not in the dialog manager.
 - `EntityDialogManager` is purely conditional rendering — no logic, no hooks.
 
+## Backend Architecture & Conventions
+### Layered Structure
+- Routes → Controllers → Services → Repositories → DTOs
+- Controllers handle HTTP only: extract params, call service, return response. No business logic.
+- Services own all business logic and domain rules. No req/res objects ever enter a service.
+- Repositories handle all DB access. No query logic in services. 
+- Use /server/controllers/categoriesController as a reference when creating or editing a controller.
+
+### Error Handling
+- Always throw `ApiError` from services and repositories. Never throw plain `Error`.
+- Use static factory methods — never instantiate directly:
+    - `ApiError.badRequest('message')` → 400
+    - `ApiError.notFound('message')` → 404
+    - `ApiError.unauthorized()` → 401
+    - `ApiError.forbidden()` → 403
+    - `ApiError.internal()` → 500
+    - `ApiError.tooManyRequests()` → 429
+- Never wrap service calls in try/catch inside controllers — the global error middleware handles ApiError.
+- Never mix happy-path logic with error handling in the same function.
+
+
+### Response Shape
+- Always use `ApiResponse` static methods — never call `res.status().json()` directly:
+    - `ApiResponse.ok(res, data)` → 200 `{ success: true, data }`
+    - `ApiResponse.created(res, data)` → 201 `{ success: true, data }`
+    - `ApiResponse.deleted(res)` → 200 `{ success: true, message }`
+- Controllers must be one-liners after the service call:
+```ts
+  const result = await transactionService.create(dto);
+  return ApiResponse.created(res, result);
+```

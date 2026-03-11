@@ -14,7 +14,7 @@ router.get('/', getPaymentMethods);
 router.get('/:id', getPaymentMethodById);
 router.post('/', createPaymentMethod);
 router.put('/:id', updatePaymentMethod);
-router.post('/:id/set-primary', setPrimaryPaymentMethod);
+router.patch('/:id/primary', setPrimaryPaymentMethod);
 router.delete('/:id', deletePaymentMethod);
 
 export default router;

@@ -5,6 +5,7 @@ import {
   getAccountById,
   deleteAccount,
   updateAccount,
+  setPrimaryAccount,
   getLinkedTransactionsCount,
   getAccountBalanceCurve,
   syncAccountBalance,
@@ -19,6 +20,7 @@ router.get('/:id/balance-curve', getAccountBalanceCurve);
 router.post('/:id/sync-balance', syncAccountBalance);
 router.post('/', createAccount);
 router.put('/:id', updateAccount);
+router.patch('/:id/primary', setPrimaryAccount);
 router.delete('/:id', deleteAccount);
 
 export default router;

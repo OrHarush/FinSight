@@ -2,7 +2,7 @@ import * as transactionRepository from '../repositories/transactionRepository';
 import { ITransaction } from '../models/Transaction';
 import Category from '../models/Category';
 import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
-import { ITransactionPopulated, TransactionQueryOptions } from '../types/Transaction';
+import { ITransactionPopulated } from '../types/Transaction';
 import {
   expandRecurring,
   expandTransactions,
@@ -14,23 +14,23 @@ import {
 } from '../utils/transactionUtils';
 import { ApiError } from '../errors/ApiError';
 import mongoose from 'mongoose';
+import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 
 type TxWithEffective = ITransactionPopulated & {
   effectiveYear: number;
   effectiveMonth: number;
 };
 
-export const findAll = async (userId: string, options: TransactionQueryOptions = {}) => {
-  const { page, limit, from, to, targetYear, targetMonth, sort = 'desc', search } = options;
-
-  const fromDate = from ? new Date(from) : undefined;
-  const toDate = to ? new Date(to) : undefined;
+// options is GetTransactionsQuery when called from HTTP controller (fully validated)
+// and GetTransactionsOptions when called from internal callers (partial)
+export const findAll = async (userId: string, options: GetTransactionsOptions = {}) => {
+  const { page, limit, from, to, targetYear, targetMonth, sort, search } = options;
 
   const transactions = await transactionRepository.findMany(userId, options);
 
   const expandedTransactions = expandTransactions(
     transactions,
-    fromDate ?? new Date(0),
+    from ?? new Date(0),
     to ?? new Date()
   );
 
@@ -40,7 +40,7 @@ export const findAll = async (userId: string, options: TransactionQueryOptions =
     return { ...tx, effectiveYear: year, effectiveMonth: month };
   });
 
-  let filtered = filterTransactionsByDateRange(txWithEffectiveMonth, fromDate, toDate);
+  let filtered = filterTransactionsByDateRange(txWithEffectiveMonth, from, to);
 
   if (targetYear != null && targetMonth != null) {
     filtered = (filtered as TxWithEffective[]).filter(
@@ -69,15 +69,8 @@ export const getTransactionById = async (id: string, userId: string) => {
   return transaction;
 };
 
-export const getTransactionSummary = async (
-  userId: string,
-  year: number,
-  month?: number,
-  accountId?: string
-) => {
-  if (!year) {
-    throw ApiError.badRequest('Year is required');
-  }
+export const getTransactionSummary = async (userId: string, query: GetTransactionSummaryQuery) => {
+  const { year, month, accountId } = query;
 
   const fromDate =
     month !== undefined ? new Date(Date.UTC(year, month, 1)) : new Date(Date.UTC(year, 0, 1));

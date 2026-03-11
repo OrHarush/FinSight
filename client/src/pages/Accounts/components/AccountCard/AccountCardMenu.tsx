@@ -18,8 +18,8 @@ const AccountCardMenu = ({ account, open, handleMenuClose, anchorEl }: AccountCa
   const { alertSuccess, alertError } = useSnackbar();
 
   const setPrimaryAccount = useApiMutation<void, { id: string }>({
-    method: 'post',
-    buildUrl: ({ id }) => `${API_ROUTES.ACCOUNTS}/${id}/set-primary`,
+    method: 'patch',
+    buildUrl: ({ id }) => `${API_ROUTES.ACCOUNTS}/${id}/primary`,
     queryKeysToInvalidate: [queryKeys.accounts()],
     options: {
       onSuccess: () => alertSuccess(t('messages.setPrimarySuccess')),

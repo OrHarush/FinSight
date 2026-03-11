@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as accountService from '../services/accountService';
-import { calculateAccountBalanceCurve } from '../services/balanceService';
 import { asyncHandler } from '../utils/asyncHandler';
 import { ApiResponse } from '../utils/ApiResponse';
 import * as balanceService from '../services/balanceService';
@@ -21,7 +20,7 @@ export const getAccountBalanceCurve = asyncHandler(async (req: Request, res: Res
   const { id: accountId } = req.params;
   const { from, to } = req.query;
 
-  const data = await calculateAccountBalanceCurve(
+  const data = await balanceService.calculateAccountBalanceCurve(
     req.userId,
     accountId,
     from as string | undefined,
@@ -43,7 +42,13 @@ export const updateAccount = asyncHandler(async (req: Request, res: Response) =>
   return ApiResponse.ok(res, updated);
 });
 
-export const syncAccountBalance = asyncHandler(async (req, res) => {
+export const setPrimaryAccount = asyncHandler(async (req: Request, res: Response) => {
+  const account = await accountService.setPrimary(req.params.id, req.userId);
+
+  return ApiResponse.ok(res, account);
+});
+
+export const syncAccountBalance = asyncHandler(async (req: Request, res: Response) => {
   const result = await balanceService.syncAccountBalance(req.userId, req.params.id);
 
   return ApiResponse.ok(res, result);

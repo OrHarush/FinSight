@@ -1,16 +1,15 @@
 import * as budgetRepository from '../repositories/budgetRepository';
 import {
-  CreateBudgetCommand,
-  UpdateBudgetCommand,
-  BulkCreateBudgetCommand,
-} from '@shared/types/BudgetCommands';
+  CreateBudgetBody,
+  CreateBudgetBulkBody,
+  UpdateBudgetBody,
+  GetBudgetsQuery,
+} from '../schemas/budgetSchemas';
 import { ApiError } from '../errors/ApiError';
 import mongoose from 'mongoose';
 
-export const findAll = async (
-  userId: string,
-  options?: { year?: number; month?: number; categoryId?: string }
-) => budgetRepository.findMany(userId, options);
+export const findAll = async (userId: string, options: GetBudgetsQuery) =>
+  budgetRepository.findMany(userId, options);
 
 export const getBudgetById = async (id: string, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -26,7 +25,7 @@ export const getBudgetById = async (id: string, userId: string) => {
   return budget;
 };
 
-export const create = async (data: CreateBudgetCommand, userId: string) => {
+export const create = async (data: CreateBudgetBody, userId: string) => {
   validateBudgetCreation(data);
 
   const existing = await budgetRepository.findByMonthYearCategory(
@@ -45,25 +44,25 @@ export const create = async (data: CreateBudgetCommand, userId: string) => {
   return budgetRepository.insert(data, userId);
 };
 
-export const createBulk = async (command: BulkCreateBudgetCommand, userId: string) => {
-  validateBulkBudgetCreation(command);
+export const createBulk = async (data: CreateBudgetBulkBody, userId: string) => {
+  validateBulkBudgetCreation(data);
 
-  const budgets: Array<CreateBudgetCommand & { userId: string }> = [];
+  const budgets: Array<CreateBudgetBody & { userId: string }> = [];
 
-  for (let month = command.startMonth; month <= command.endMonth; month++) {
+  for (let month = data.startMonth; month <= data.endMonth; month++) {
     const existing = await budgetRepository.findByMonthYearCategory(
       userId,
-      command.categoryId,
-      command.year,
+      data.categoryId,
+      data.year,
       month
     );
 
     if (!existing) {
       budgets.push({
-        categoryId: command.categoryId,
-        year: command.year,
+        categoryId: data.categoryId,
+        year: data.year,
         month,
-        limit: command.limit,
+        limit: data.limit,
         userId,
       });
     }
@@ -76,7 +75,7 @@ export const createBulk = async (command: BulkCreateBudgetCommand, userId: strin
   return budgetRepository.insertMany(budgets);
 };
 
-export const update = async (id: string, data: UpdateBudgetCommand, userId: string) => {
+export const update = async (id: string, data: UpdateBudgetBody, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid budget ID');
   }
@@ -122,7 +121,7 @@ export const deleteBudget = async (id: string, userId: string) => {
   return deleted;
 };
 
-const validateBudgetCreation = (data: CreateBudgetCommand) => {
+const validateBudgetCreation = (data: CreateBudgetBody) => {
   if (!data.categoryId) {
     throw ApiError.badRequest('Category ID is required');
   }
@@ -148,7 +147,7 @@ const validateBudgetCreation = (data: CreateBudgetCommand) => {
   // and fetching category here, OR do it in controller before calling service
 };
 
-const validateBulkBudgetCreation = (command: BulkCreateBudgetCommand) => {
+const validateBulkBudgetCreation = (command: CreateBudgetBulkBody) => {
   if (!command.categoryId) {
     throw ApiError.badRequest('Category ID is required');
   }

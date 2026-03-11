@@ -5,7 +5,7 @@ import * as accountService from '../services/accountService';
 import * as categoryService from '../services/categoryService';
 import * as paymentMethodService from '../services/paymentMethodService';
 import * as budgetService from '../services/budgetService';
-import { TransactionQueryOptions } from '../types/Transaction';
+import { GetTransactionsOptions } from '../schemas/transactionSchemas';
 import {
   TransactionQuerySchema,
   TransactionSummaryQuerySchema,
@@ -59,7 +59,7 @@ mcpServer.registerTool(
       return authErrorResponse;
     }
 
-    const options: TransactionQueryOptions = {
+    const options: GetTransactionsOptions = {
       page: args.page,
       limit: args.limit,
       sort: args.sort,
@@ -113,12 +113,18 @@ mcpServer.registerTool(
       return authErrorResponse;
     }
 
-    const summary = await transactionService.getTransactionSummary(
-      userId,
-      args.year,
-      args.month,
-      args.accountId
-    );
+    const parsed = TransactionSummaryQuerySchema.safeParse(args);
+    if (!parsed.success) {
+      return {
+        content: [
+          { type: 'text' as const, text: 'Invalid arguments: ' + parsed.error.issues[0].message },
+        ],
+        isError: true,
+      };
+    }
+    const query = parsed.data;
+
+    const summary = await transactionService.getTransactionSummary(userId, query);
 
     const data = JSON.parse(JSON.stringify(summary));
     const structured = Array.isArray(data) ? { totalMonths: data.length, months: data } : data;

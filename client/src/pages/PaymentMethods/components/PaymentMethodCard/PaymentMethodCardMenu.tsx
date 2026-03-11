@@ -23,8 +23,8 @@ const PaymentMethodCardMenu = ({
   const { alertSuccess, alertError } = useSnackbar();
 
   const setPrimaryPaymentMethod = useApiMutation<void, { id: string }>({
-    method: 'post',
-    buildUrl: ({ id }) => `${API_ROUTES.PAYMENT_METHODS}/${id}/set-primary`,
+    method: 'patch',
+    buildUrl: ({ id }) => `${API_ROUTES.PAYMENT_METHODS}/${id}/primary`,
     queryKeysToInvalidate: [queryKeys.paymentMethods()],
     options: {
       onSuccess: () => alertSuccess(t('messages.setPrimarySuccess')),

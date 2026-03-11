@@ -1,14 +1,8 @@
 import Budget, { IBudget } from '../models/Budget';
 import { Types } from 'mongoose';
-import { CreateBudgetCommand, UpdateBudgetCommand } from '@shared/types/BudgetCommands';
+import { CreateBudgetBody, UpdateBudgetBody, GetBudgetsQuery } from '../schemas/budgetSchemas';
 
-interface BudgetQueryOptions {
-  year?: number;
-  month?: number;
-  categoryId?: string;
-}
-
-export const findMany = async (userId: string, options: BudgetQueryOptions = {}) => {
+export const findMany = async (userId: string, options: GetBudgetsQuery) => {
   const { year, month, categoryId } = options;
 
   const query: any = { userId: new Types.ObjectId(userId) };
@@ -40,7 +34,7 @@ export const findByMonthYearCategory = async (
     .lean<IBudget>()
     .exec();
 
-export const insert = async (data: CreateBudgetCommand, userId: string) => {
+export const insert = async (data: CreateBudgetBody, userId: string) => {
   const budget = new Budget({
     userId: new Types.ObjectId(userId),
     categoryId: new Types.ObjectId(data.categoryId),
@@ -52,7 +46,7 @@ export const insert = async (data: CreateBudgetCommand, userId: string) => {
   return budget.save();
 };
 
-export const insertMany = async (budgets: Array<CreateBudgetCommand & { userId: string }>) => {
+export const insertMany = async (budgets: Array<CreateBudgetBody & { userId: string }>) => {
   const formatted = budgets.map((b) => ({
     userId: new Types.ObjectId(b.userId),
     categoryId: new Types.ObjectId(b.categoryId),
@@ -64,7 +58,7 @@ export const insertMany = async (budgets: Array<CreateBudgetCommand & { userId: 
   return Budget.insertMany(formatted);
 };
 
-export const updateById = async (id: string, data: UpdateBudgetCommand, userId: string) =>
+export const updateById = async (id: string, data: UpdateBudgetBody, userId: string) =>
   Budget.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
     new: true,
     runValidators: true,

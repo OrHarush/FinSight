@@ -4,7 +4,8 @@ import * as accountService from './accountService';
 import * as categoryService from './categoryService';
 import * as paymentMethodService from './paymentMethodService';
 import * as budgetService from './budgetService';
-import { TransactionQueryOptions, ITransactionPopulated } from '../types/Transaction';
+import { ITransactionPopulated } from '../types/Transaction';
+import { GetTransactionsOptions } from '../schemas/transactionSchemas';
 import { ApiError } from '../errors/ApiError';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -233,8 +234,7 @@ const executeTool = async (
 
     switch (toolName) {
       case 'getTransactions': {
-        // Build options, excluding page/limit to fetch ALL transactions
-        const options: TransactionQueryOptions = {
+        const options: GetTransactionsOptions = {
           from: args.from ? new Date(args.from as string) : undefined,
           to: args.to ? new Date(args.to as string) : undefined,
           targetYear: args.targetYear as number | undefined,

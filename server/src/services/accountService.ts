@@ -59,13 +59,23 @@ export const update = async (
     (updatedAccountDetails as any).lastSynced = new Date();
   }
 
-  if (updatedAccountDetails.isPrimary) {
-    await accountRepository.unsetPrimary(userId, id);
-  } else if (existing.isPrimary) {
-    throw ApiError.badRequest('There must always be a primary account');
+  return accountRepository.updateById(id, updatedAccountDetails, userId);
+};
+
+export const setPrimary = async (id: string, userId: string) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw ApiError.badRequest('Invalid account ID');
   }
 
-  return accountRepository.updateById(id, updatedAccountDetails, userId);
+  const account = await accountRepository.findById(id, userId);
+
+  if (!account) {
+    throw ApiError.notFound('Account not found');
+  }
+
+  await accountRepository.unsetPrimary(userId, id);
+
+  return accountRepository.updateById(id, { isPrimary: true }, userId);
 };
 
 export const deleteAccount = async (id: string, userId: string) => {

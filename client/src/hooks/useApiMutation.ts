@@ -3,7 +3,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import api from '@/api/axios';
 
 interface UseApiMutationProps<TData, TVariables, TError = AxiosError> {
-  method: 'post' | 'put' | 'delete';
+  method: 'post' | 'put' | 'patch' | 'delete';
   url?: string;
   buildUrl?: (variables: TVariables) => string; // NEW
   queryKeysToInvalidate?: unknown[][];
@@ -35,6 +35,9 @@ export const useApiMutation = <TData = unknown, TVariables = unknown, TError = A
           break;
         case 'put':
           res = await api.put<TData>(requestUrl, variables);
+          break;
+        case 'patch':
+          res = await api.patch<TData>(requestUrl, variables);
           break;
         case 'delete':
           res = await api.delete<TData>(requestUrl, {

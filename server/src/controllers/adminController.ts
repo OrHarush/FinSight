@@ -6,6 +6,7 @@ import { ApiError } from '../errors/ApiError';
 
 export const getKpiOverview = asyncHandler(async (_req: Request, res: Response) => {
   const overview = await adminService.getKpiOverview();
+
   return ApiResponse.ok(res, overview);
 });
 
@@ -17,5 +18,6 @@ export const getLoginEvents = asyncHandler(async (req: Request, res: Response) =
   }
 
   const events = await adminService.getLoginEvents(days);
+
   return ApiResponse.ok(res, events);
 });
