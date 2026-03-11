@@ -3,13 +3,12 @@ import { Types } from 'mongoose';
 import { CreateBudgetBody, UpdateBudgetBody, GetBudgetsQuery } from '../schemas/budgetSchemas';
 
 export const findMany = async (userId: string, options: GetBudgetsQuery) => {
-  const { year, month, categoryId } = options;
+  const { year, month } = options;
 
   const query: any = { userId: new Types.ObjectId(userId) };
 
   if (year !== undefined) query.year = year;
   if (month !== undefined) query.month = month;
-  if (categoryId) query.categoryId = new Types.ObjectId(categoryId);
 
   return Budget.find(query).sort({ year: -1, month: -1, createdAt: -1 }).lean<IBudget[]>().exec();
 };
@@ -72,6 +71,3 @@ export const remove = async (id: string, userId: string) =>
     .exec();
 
 export const deleteMany = (filter: object) => Budget.deleteMany(filter);
-
-export const countByUser = async (userId: string): Promise<number> =>
-  Budget.countDocuments({ userId: new Types.ObjectId(userId) });

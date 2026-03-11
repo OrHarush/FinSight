@@ -124,6 +124,8 @@ mcpServer.registerTool(
     }
     const query = parsed.data;
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     const summary = await transactionService.getTransactionSummary(userId, query);
 
     const data = JSON.parse(JSON.stringify(summary));

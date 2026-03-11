@@ -5,7 +5,7 @@ import * as categoryService from './categoryService';
 import * as paymentMethodService from './paymentMethodService';
 import * as budgetService from './budgetService';
 import { ITransactionPopulated } from '../types/Transaction';
-import { GetTransactionsOptions } from '../schemas/transactionSchemas';
+import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 import { ApiError } from '../errors/ApiError';
 
 const apiKey = process.env.GEMINI_API_KEY;
@@ -261,12 +261,12 @@ const executeTool = async (
         break;
       }
       case 'getTransactionSummary': {
-        result = await transactionService.getTransactionSummary(
-          userId,
-          args.year as number,
-          args.month as number | undefined,
-          args.accountId as string | undefined
-        );
+        const query: GetTransactionSummaryQuery = {
+          year: args.year as number,
+          month: args.month as number | undefined,
+          accountId: args.accountId as string | undefined,
+        };
+        result = await transactionService.getTransactionSummary(userId, query);
         break;
       }
       case 'getAccounts': {
