@@ -67,13 +67,13 @@ i18n
         budgets: heBudgets,
       },
     },
-    fallbackLng: 'en',
+    fallbackLng: 'he',
     defaultNS: 'common',
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['localStorage'],
       caches: ['localStorage'],
     },
   });

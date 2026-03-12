@@ -58,16 +58,6 @@ export const commonTheme: ThemeOptions = {
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(148, 163, 184, 0.08)',
         },
-        // elevation1: {
-        //   backgroundColor: 'rgba(21, 27, 36, 0.7)',
-        //   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.2)',
-        // },
-        // elevation2: {
-        //   boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.25)',
-        // },
-        // elevation3: {
-        //   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
-        // },
       },
     },
     MuiDialog: {
