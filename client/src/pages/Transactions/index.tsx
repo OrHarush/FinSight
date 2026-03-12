@@ -29,3 +29,5 @@ export const Transactions = () => {
     </PageLayout>
   );
 };
+
+export default Transactions;

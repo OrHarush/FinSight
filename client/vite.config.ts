@@ -7,7 +7,18 @@ export default defineConfig({
   plugins: [
     react({
       babel: {
-        plugins: [['babel-plugin-react-compiler', { dev: true }]],
+        plugins: [
+          ['babel-plugin-react-compiler', { dev: true }],
+          [
+            'babel-plugin-import',
+            {
+              libraryName: '@mui/icons-material',
+              libraryDirectory: '',
+              camel2DashComponentName: false,
+            },
+            'mui-icons',
+          ],
+        ],
       },
     }),
     tsconfigPaths(),

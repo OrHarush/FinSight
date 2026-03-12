@@ -4,9 +4,10 @@ export interface IAccount {
   _id: string;
   name: string;
   balance: number;
-  institution: string;
-  accountNumber: string;
-  icon: string;
+  institution?: string;
+  accountNumber?: string;
+  icon?: string;
+  currency?: string;
   isPrimary: boolean;
   lastSynced?: Date;
   userId: Types.ObjectId;
@@ -19,6 +20,7 @@ const AccountSchema: Schema = new Schema(
     institution: { type: String },
     accountNumber: { type: String },
     icon: { type: String },
+    currency: { type: String, default: 'ILS' },
     isPrimary: { type: Boolean, default: false },
     lastSynced: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },

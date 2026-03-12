@@ -1,5 +1,5 @@
 import { Box, Chip, Typography } from '@mui/material';
-import creditCardChip from '@/assets/creditCardChip.png';
+import creditCardChip from '@/assets/creditCardChip.webp';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';

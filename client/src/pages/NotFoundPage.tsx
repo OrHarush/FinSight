@@ -1,8 +1,9 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import notFoundIllustration from '@/assets/vault.png';
+import notFoundIllustration from '@/assets/emptyVault.webp';
 import { ROUTES } from '@/constants/Routes';
-import { Home, ArrowBack } from '@mui/icons-material';
+import Home from '@mui/icons-material/Home';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
 interface NotFoundPageProps {
   isAuthenticated?: boolean;

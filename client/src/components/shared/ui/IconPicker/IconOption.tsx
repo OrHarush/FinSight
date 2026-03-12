@@ -1,4 +1,3 @@
-import * as Icons from '@mui/icons-material';
 import { SvgIconComponent } from '@mui/icons-material';
 import { Grid, IconButton, Tooltip } from '@mui/material';
 
@@ -6,10 +5,11 @@ interface IconOptionProps {
   name: string;
   selectIcon: (iconName: string) => void;
   closeDialog: () => void;
+  iconMap: Record<string, SvgIconComponent>;
 }
 
-const IconOption = ({ name, selectIcon, closeDialog }: IconOptionProps) => {
-  const IconComponent = (Icons as Record<string, SvgIconComponent>)[name];
+const IconOption = ({ name, selectIcon, closeDialog, iconMap }: IconOptionProps) => {
+  const IconComponent = iconMap[name];
 
   if (!IconComponent) {
     return null;

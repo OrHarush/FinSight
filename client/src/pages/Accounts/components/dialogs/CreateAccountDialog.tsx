@@ -15,7 +15,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
 
   const methods = useForm<AccountFormValues>({
-    defaultValues: { icon: 'AccountBalance' },
+    defaultValues: { icon: 'AccountBalance', currency: 'ILS' },
     mode: 'all',
   });
 

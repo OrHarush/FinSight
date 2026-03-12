@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Box, InputAdornment, InputLabel, TextField } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import IconPickerDialog from '@/components/shared/ui/IconPicker/IconPickerDialog';
 import Column from '@/components/shared/layout/containers/Column';
+import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 
 interface IconPickerFieldProps {
   name?: string;
@@ -29,7 +29,9 @@ const IconPickerField = ({
         control={control}
         render={({ field }) => {
           const IconComponent =
-            (Icons as any)[field.value] ?? (Icons as any)[defaultIcon] ?? CategoryIcon;
+            (field.value && bankAccountIconMap[field.value]) ||
+            bankAccountIconMap[defaultIcon] ||
+            CategoryIcon;
 
           return (
             <Column spacing={0.5}>
@@ -55,13 +57,14 @@ const IconPickerField = ({
         }}
       />
       <IconPickerDialog
+        isOpen={isDialogOpen}
+        closeDialog={() => setDialogOpen(false)}
         selectIcon={(icon: string) => {
           setValue(name, icon);
           setDialogOpen(false);
         }}
-        isOpen={isDialogOpen}
-        closeDialog={() => setDialogOpen(false)}
         icons={icons}
+        iconMap={bankAccountIconMap}
       />
     </>
   );

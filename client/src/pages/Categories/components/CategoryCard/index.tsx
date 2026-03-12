@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Box, Grid, IconButton } from '@mui/material';
 import Row from '@/components/shared/layout/containers/Row';
-import * as Icons from '@mui/icons-material';
+import { categoryIconMap } from '@/constants/categoryIconMap';
 import CategoryIcon from '@mui/icons-material/Category';
 import { ElementType } from 'react';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -22,8 +22,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
 
-  const IconComponent =
-    (category.icon && (Icons as Record<string, ElementType>)[category.icon]) || CategoryIcon;
+  const IconComponent: ElementType = (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
   const deleteCategory = useApiMutation<void, void>({
     method: 'delete',

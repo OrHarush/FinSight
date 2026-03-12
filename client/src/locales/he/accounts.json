@@ -7,6 +7,7 @@
   "fields": {
     "name": "שם",
     "balance": "יתרה",
+    "currency": "מטבע",
     "institution": "מוסד",
     "accountNumber": "מספר חשבון",
     "isPrimary": "הגדר כחשבון ראשי",

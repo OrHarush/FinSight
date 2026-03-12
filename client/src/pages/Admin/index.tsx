@@ -1,5 +1,6 @@
 import { Box, Typography, Grid } from '@mui/material';
-import { TrendingUp, CalendarMonth } from '@mui/icons-material';
+import TrendingUp from '@mui/icons-material/TrendingUp';
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
 import { KpiOverviewDto } from '@/types/Admin';
 import { useFetch } from '@/hooks/common/useFetch';

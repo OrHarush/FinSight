@@ -1,14 +1,13 @@
-import { SvgIconComponent } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 
 interface AccountIconProps {
   icon?: string;
 }
 
-const AccountIcon = ({ icon = 'AccountBalanceIcon' }: AccountIconProps) => {
-  const IconComponent = (Icons as Record<string, SvgIconComponent>)[icon] || AccountBalanceIcon;
+const AccountIcon = ({ icon = 'AccountBalance' }: AccountIconProps) => {
+  const IconComponent = (icon && bankAccountIconMap[icon]) || AccountBalanceIcon;
 
   return (
     <Box

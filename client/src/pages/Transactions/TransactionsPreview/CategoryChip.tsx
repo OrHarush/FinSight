@@ -1,6 +1,6 @@
 import { Chip } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
+import { categoryIconMap } from '@/constants/categoryIconMap';
 import { ElementType } from 'react';
 
 interface CategoryValueProps {
@@ -10,7 +10,7 @@ interface CategoryValueProps {
 }
 
 const CategoryChip = ({ name, color, icon }: CategoryValueProps) => {
-  const IconComponent = (icon && (Icons as Record<string, ElementType>)[icon]) || CategoryIcon;
+  const IconComponent: ElementType = (icon && categoryIconMap[icon]) || CategoryIcon;
 
   return (
     <Chip

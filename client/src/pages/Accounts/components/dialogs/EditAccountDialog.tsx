@@ -25,6 +25,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
       institution: account.institution,
       accountNumber: account.accountNumber,
       icon: account.icon,
+      currency: account.currency ?? 'ILS',
       isPrimary: account.isPrimary,
     },
   });

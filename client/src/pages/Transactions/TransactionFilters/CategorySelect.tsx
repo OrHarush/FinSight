@@ -1,11 +1,11 @@
 import { MenuItem, Select, Typography, useTheme } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import { useCategories } from '@/hooks/entities/useCategories';
 import Row from '@/components/shared/layout/containers/Row';
-import { SvgIconComponent } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import { useTranslation } from 'react-i18next';
 import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
+import { categoryIconMap } from '@/constants/categoryIconMap';
+import { ElementType } from 'react';
 
 interface CategorySelectProps {
   selectedCategory: string;
@@ -74,9 +74,8 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
         </Row>
       </MenuItem>
       {categories.map(category => {
-        const IconComponent =
-          (category.icon && (Icons as Record<string, SvgIconComponent>)[category.icon]) ||
-          CategoryIcon;
+        const IconComponent: ElementType =
+          (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
         return (
           <MenuItem key={category._id} value={category._id}>

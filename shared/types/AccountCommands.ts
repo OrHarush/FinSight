@@ -1,9 +1,11 @@
 export interface CreateAccountCommand  {
     name: string;
     balance: number;
-    institution: string;
-    accountNumber: string;
-    isPrimary: boolean;
+    institution?: string;
+    accountNumber?: string;
+    icon?: string;
+    currency?: string;
+    isPrimary?: boolean;
 }
 
 export interface UpdateAccountCommand  {
@@ -11,5 +13,7 @@ export interface UpdateAccountCommand  {
     balance?: number;
     institution?: string;
     accountNumber?: string;
+    icon?: string;
+    currency?: string;
     isPrimary?: boolean;
 }

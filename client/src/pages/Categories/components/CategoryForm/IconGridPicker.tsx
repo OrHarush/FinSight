@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, IconButton } from '@mui/material';
-import * as Icons from '@mui/icons-material';
+import { categoryIconMap } from '@/constants/categoryIconMap';
 
 const ICONS_PER_PAGE = 18;
 
@@ -24,7 +24,7 @@ const IconGridPicker = ({ icons, value, onChange }: IconGridPickerProps) => {
     <>
       <Grid container columns={6} spacing={1}>
         {pagedIcons.map(name => {
-          const IconComponent = (Icons as any)[name];
+          const IconComponent = categoryIconMap[name];
 
           if (!IconComponent) {
             return null;

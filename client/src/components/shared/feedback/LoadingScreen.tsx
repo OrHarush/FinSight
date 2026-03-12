@@ -1,5 +1,5 @@
 import { CircularProgress, Typography } from '@mui/material';
-import finSightIcon from '@/assets/finSightIcon.png';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
 

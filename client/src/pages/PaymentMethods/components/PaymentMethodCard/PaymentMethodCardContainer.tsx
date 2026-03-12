@@ -1,5 +1,5 @@
 import paypalBg from '@/assets/paypal.png';
-import bankBg from '@/assets/bankBackground.png';
+import bankBg from '@/assets/bankBackground.webp';
 import { Card } from '@mui/material';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 import { ReactNode } from 'react';

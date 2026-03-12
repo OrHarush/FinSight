@@ -1,22 +1,19 @@
 import { Box } from '@mui/material';
-import * as Icons from '@mui/icons-material';
 import { ElementType } from 'react';
+import { categoryIconMap } from '@/constants/categoryIconMap';
 
 interface CategoryIconFrameProps {
   color?: string;
   icon?: string;
 }
 
-type MuiIconName = keyof typeof Icons;
+const DEFAULT_ICON = 'Category';
 
-const DEFAULT_ICON: MuiIconName = 'Category';
-
-const isValidMuiIcon = (icon: string): icon is MuiIconName => icon in Icons;
+const resolveIcon = (icon?: string): ElementType =>
+  (icon && categoryIconMap[icon]) || categoryIconMap[DEFAULT_ICON];
 
 const CategoryIconFrame = ({ color = '#9ca3af', icon }: CategoryIconFrameProps) => {
-  const resolvedIcon: MuiIconName = icon && isValidMuiIcon(icon) ? icon : DEFAULT_ICON;
-
-  const IconComponent: ElementType = Icons[resolvedIcon];
+  const IconComponent = resolveIcon(icon);
 
   return (
     <Box

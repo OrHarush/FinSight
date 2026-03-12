@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import finSightIcon from '@/assets/finSightIconNoText.png';
+import finSightIcon from '@/assets/finSightIconNoText.webp';
 
 const FinSightIcon = () => (
   <Box

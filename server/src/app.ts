@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Request, Response } from 'express';
-import cors from 'cors';
 import transactionRoutes from './routes/transactionRoutes';
 import accountRoutes from './routes/accountRoutes';
 import categoryRoutes from './routes/categoryRoutes';
@@ -15,9 +14,10 @@ import chatRoutes from './routes/chatRoutes';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 import { mcpMiddleware } from './mcp/mcpServer';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import { authLimiter } from './config/rateLimiters';
 import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
+import helmet from 'helmet';
+import { corsConfig } from './config/security';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -28,30 +28,12 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: [
-      'https://fin-sight-ten.vercel.app',
-      'https://fin-sight-ors-projects-5fe0be55.vercel.app',
-      'https://finsight-app.com',
-      'http://localhost:3000',
-    ],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
-app.use(express.json({ limit: '200kb' }));
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 50,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+app.use(corsConfig);
 
 app.get('/health', (_req, res) => {
   res.status(200).json({ ok: true });
 });
+
 app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api', authMiddleware);

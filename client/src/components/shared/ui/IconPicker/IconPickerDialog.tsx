@@ -8,6 +8,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { useState, ChangeEvent } from 'react';
+import { SvgIconComponent } from '@mui/icons-material';
 import Column from '@/components/shared/layout/containers/Column';
 import IconOption from '@/components/shared/ui/IconPicker/IconOption';
 import CloseIcon from '@mui/icons-material/Close';
@@ -18,14 +19,14 @@ const iconsPerPage = 30;
 interface IconPickerDialogProps extends BaseDialogProps {
   selectIcon: (iconName: string) => void;
   icons: string[];
+  iconMap: Record<string, SvgIconComponent>;
 }
 
-const IconPickerDialog = ({ isOpen, closeDialog, selectIcon, icons }: IconPickerDialogProps) => {
+const IconPickerDialog = ({ isOpen, closeDialog, selectIcon, icons, iconMap }: IconPickerDialogProps) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
   const filteredIcons = icons.filter(name => name.toLowerCase().includes(search.toLowerCase()));
-
   const totalPages = Math.ceil(filteredIcons.length / iconsPerPage);
   const currentIcons = filteredIcons.slice((page - 1) * iconsPerPage, page * iconsPerPage);
 
@@ -62,7 +63,12 @@ const IconPickerDialog = ({ isOpen, closeDialog, selectIcon, icons }: IconPicker
             <Grid container spacing={2} alignItems={'flex-start'}>
               {currentIcons.map(name => (
                 <Grid key={name} size={{ xs: 2 }}>
-                  <IconOption name={name} selectIcon={selectIcon} closeDialog={closeDialog} />
+                  <IconOption
+                    name={name}
+                    selectIcon={selectIcon}
+                    closeDialog={closeDialog}
+                    iconMap={iconMap}
+                  />
                 </Grid>
               ))}
             </Grid>
