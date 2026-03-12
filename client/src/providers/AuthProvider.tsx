@@ -26,9 +26,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const storedUser = localStorage.getItem('user');
     const storedToken = localStorage.getItem('token');
 
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setToken(storedToken);
+    if (
+      storedUser &&
+      storedToken &&
+      storedUser !== 'undefined' &&
+      storedToken !== 'undefined' &&
+      storedUser !== 'null' &&
+      storedToken !== 'null'
+    ) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+        setToken(storedToken);
+      } catch {
+        // Invalid JSON in localStorage, treat as unauthenticated
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        setIsLoadingUser(false);
+      }
     } else {
       setIsLoadingUser(false);
     }
@@ -54,6 +69,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     url: API_ROUTES.AUTH.GOOGLE_LOGIN,
     options: {
       onSuccess: ({ token: jwtToken, user }) => {
+        // Validate: both token and user must be provided and not undefined/null
+        if (!jwtToken || !user) {
+          logout();
+          return;
+        }
+
         setUser(user);
         setToken(jwtToken);
         localStorage.setItem('user', JSON.stringify(user));
