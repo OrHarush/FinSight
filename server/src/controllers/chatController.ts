@@ -28,24 +28,23 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   const isAdmin = req.userRole === 'admin';
   console.log(req.userRole);
 
-  // const {
-  //   message: responseText,
-  //   model,
-  //   parsed,
-  // } = await chatService.chat(
-  //   req.userId,
-  //   message.trim(),
-  //   conversationHistory,
-  //   currentDate,
-  //   currentYear,
-  //   currentMonth,
-  //   isAdmin
-  // );
+  const {
+    message: responseText,
+    model,
+    parsed,
+  } = await chatService.chat(
+    req.userId,
+    message.trim(),
+    conversationHistory,
+    currentDate,
+    currentYear,
+    currentMonth,
+    isAdmin
+  );
 
-  return ApiResponse.ok();
-  // return ApiResponse.ok(res, {
-  //   message: responseText,
-  //   model,
-  //   parsed,
-  // });
+  return ApiResponse.ok(res, {
+    message: responseText,
+    model,
+    parsed,
+  });
 });
