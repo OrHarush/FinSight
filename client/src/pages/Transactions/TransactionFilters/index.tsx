@@ -53,15 +53,6 @@ const TransactionsFilters = () => {
             },
           }}
         />
-        {/*<RHFSelect*/}
-        {/*  name={'paymentMethod'}*/}
-        {/*  sx={{ width: '160px' }}*/}
-        {/*  required*/}
-        {/*  options={paymentMethods.map(paymentMethod => ({*/}
-        {/*    label: paymentMethod.name,*/}
-        {/*    value: paymentMethod._id,*/}
-        {/*  }))}*/}
-        {/*/>*/}
       </Row>
     </ResponsiveRow>
   );
