@@ -22,11 +22,16 @@ import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
 const app = express();
 app.set('trust proxy', 1);
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  })
+);
 
 app.use(
   cors({
     origin: [
+      'https://fin-sight-ten.vercel.app',
       'https://fin-sight-ors-projects-5fe0be55.vercel.app',
       'https://finsight-app.com',
       'http://localhost:3000',
