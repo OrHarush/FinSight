@@ -14,7 +14,7 @@ export const getLoginEvents = asyncHandler(async (req: Request, res: Response) =
   const days = Number(req.query.days ?? 7);
 
   if (Number.isNaN(days) || days <= 0) {
-    return ApiError.badRequest('Days must be a positive number');
+    throw ApiError.badRequest('Days must be a positive number');
   }
 
   const events = await adminService.getLoginEvents(days);

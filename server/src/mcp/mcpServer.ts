@@ -14,7 +14,7 @@ import {
   PaymentMethodQuerySchema,
   BudgetQuerySchema,
 } from './mcpSchemas';
-import { extractUserIdFromBearerToken, isValidBearerToken } from '../utils/auth';
+import { verifyAndExtractBearerToken } from '../utils/auth';
 
 const authErrorResponse = {
   content: [{ type: 'text' as const, text: 'Unauthorized: missing or invalid token' }],
@@ -27,11 +27,9 @@ const extractUserIdFromContext = (context: any): string | null => {
     (headers['authorization'] as string | undefined) ??
     (headers['Authorization'] as string | undefined);
 
-  if (!isValidBearerToken(authHeader)) {
-    return null;
-  }
+  const userData = verifyAndExtractBearerToken(authHeader);
 
-  return extractUserIdFromBearerToken(authHeader);
+  return userData?.userId ?? null;
 };
 
 export const mcpServer = new McpServer({

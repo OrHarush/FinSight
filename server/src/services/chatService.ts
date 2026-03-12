@@ -383,6 +383,7 @@ export const chat = async (
 
   try {
     const userTools = getToolsForUser(isAdmin);
+    const usedTools: Set<string> = new Set();
 
     const dateContext = currentDate
       ? `The current date is ${currentDate} (${new Date(currentDate).toLocaleDateString('en-US', {
@@ -392,6 +393,10 @@ export const chat = async (
           day: 'numeric',
         })}). Current year: ${currentYear}, Current month: ${currentMonth === 0 ? 'January' : currentMonth === 1 ? 'February' : currentMonth === 2 ? 'March' : currentMonth === 3 ? 'April' : currentMonth === 4 ? 'May' : currentMonth === 5 ? 'June' : currentMonth === 6 ? 'July' : currentMonth === 7 ? 'August' : currentMonth === 8 ? 'September' : currentMonth === 9 ? 'October' : currentMonth === 10 ? 'November' : 'December'} (month index: ${currentMonth}).`
       : '';
+
+    const toolDisclosureInstruction = isAdmin
+      ? '\n\n## ADMIN MODE — Tool Transparency:\nYou may mention which tools you used to gather the information (e.g., "I used getTransactionSummary to fetch this data").'
+      : '\n\n## Tool Disclosure (IMPORTANT):\nNEVER mention which tools you used to retrieve information. Users should only see the results, not the underlying tool calls. Focus entirely on presenting the analysis and insights.';
 
     const systemInstruction = `You are a helpful financial assistant for FinSight. Help users understand and analyze their finances using the available tools.
 
@@ -438,7 +443,11 @@ When displaying transactions:
 - Use **bold** for important numbers and key insights
 - Use lists and bullet points to organize information
 - Format currency amounts consistently
-- Use headers (##) to structure longer responses`;
+- Use headers (##) to structure longer responses${toolDisclosureInstruction}`;
+
+    console.log('=== SYSTEM INSTRUCTION SENT TO GEMINI ===');
+    console.log(systemInstruction);
+    console.log('==========================================\n');
 
     const messageList: any[] = [
       ...conversationHistory.map((msg) => ({
@@ -477,6 +486,11 @@ When displaying transactions:
           if (!toolCalls.length) {
             break;
           }
+
+          // Track which tools were used
+          toolCalls.forEach((toolCall: any) => {
+            usedTools.add(toolCall.functionCall.name);
+          });
 
           messageList.push({
             role: 'model',
@@ -538,13 +552,24 @@ When displaying transactions:
             parsed.type === 'accounts' ||
             parsed.type === 'text'
           ) {
+            // Add tools used for admin users
+            if (isAdmin && usedTools.size > 0) {
+              parsed.toolsUsed = Array.from(usedTools);
+            }
             return parsed;
           }
         } catch {
           // Not JSON — fall through to plain text
         }
 
-        return { type: 'text', text: rawText || 'I could not process your request.' };
+        const responseData: any = { type: 'text', text: rawText || 'I could not process your request.' };
+        
+        // Add tools used for admin users
+        if (isAdmin && usedTools.size > 0) {
+          responseData.toolsUsed = Array.from(usedTools);
+        }
+        
+        return responseData;
       }
     ).then(({ response, modelUsed }) => ({
       message: response.text,

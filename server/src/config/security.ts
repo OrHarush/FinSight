@@ -9,6 +9,7 @@ export const helmetConfig = helmet({
 
 export const corsConfig = cors({
   origin: [
+    'https://fin-sight-ten.vercel.app',
     'https://fin-sight-ors-projects-5fe0be55.vercel.app',
     'https://finsight-app.com',
     'http://localhost:3000',
@@ -16,4 +17,3 @@ export const corsConfig = cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 });
-

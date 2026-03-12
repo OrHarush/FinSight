@@ -25,25 +25,27 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
     throw ApiError.badRequest('Message is required');
   }
 
-  const isAdmin = (req as any).user?.role === 'admin';
+  const isAdmin = req.userRole === 'admin';
+  console.log(req.userRole);
 
-  const {
-    message: responseText,
-    model,
-    parsed,
-  } = await chatService.chat(
-    req.userId,
-    message.trim(),
-    conversationHistory,
-    currentDate,
-    currentYear,
-    currentMonth,
-    isAdmin
-  );
+  // const {
+  //   message: responseText,
+  //   model,
+  //   parsed,
+  // } = await chatService.chat(
+  //   req.userId,
+  //   message.trim(),
+  //   conversationHistory,
+  //   currentDate,
+  //   currentYear,
+  //   currentMonth,
+  //   isAdmin
+  // );
 
-  return ApiResponse.ok(res, {
-    message: responseText,
-    model,
-    parsed,
-  });
+  return ApiResponse.ok();
+  // return ApiResponse.ok(res, {
+  //   message: responseText,
+  //   model,
+  //   parsed,
+  // });
 });

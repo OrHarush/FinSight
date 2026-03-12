@@ -10,44 +10,31 @@ export interface UserTokenPayload {
   role: UserRole;
 }
 
-export function isValidBearerToken(authHeader?: string): boolean {
+export function verifyAndExtractBearerToken(authHeader?: string): UserTokenPayload | null {
   if (!authHeader?.startsWith('Bearer ')) {
-    return false;
+    return null;
   }
 
   const token = authHeader.slice('Bearer '.length).trim();
 
-  if (!token) {
-    return false;
-  }
-
   try {
-    jwt.verify(token, JWT_SECRET, {
+    const decoded = jwt.verify(token, JWT_SECRET, {
       algorithms: ['HS256'],
       issuer: JWT_ISSUER,
       audience: JWT_AUDIENCE,
-    });
+    }) as JwtPayload;
 
-    return true;
+    if (!decoded || typeof decoded.userId !== 'string') {
+      return null;
+    }
+
+    return {
+      userId: decoded.userId,
+      role: decoded.role as UserRole,
+    };
   } catch {
-    return false;
+    return null;
   }
-}
-
-export function extractUserIdFromBearerToken(authHeader?: string): string {
-  if (!authHeader?.startsWith('Bearer ')) {
-    throw new Error('Missing Bearer token');
-  }
-
-  const token = authHeader.slice('Bearer '.length).trim();
-
-  const decoded = jwt.decode(token) as JwtPayload | null;
-
-  if (!decoded || typeof decoded.userId !== 'string') {
-    throw new Error('Invalid token payload');
-  }
-
-  return decoded.userId;
 }
 
 export function extractUserDataFromBearerToken(authHeader?: string): UserTokenPayload {
@@ -55,16 +42,11 @@ export function extractUserDataFromBearerToken(authHeader?: string): UserTokenPa
     throw new Error('Missing Bearer token');
   }
 
-  const token = authHeader.slice('Bearer '.length).trim();
+  const userData = verifyAndExtractBearerToken(authHeader);
 
-  const decoded = jwt.decode(token) as JwtPayload | null;
-
-  if (!decoded || typeof decoded.userId !== 'string') {
-    throw new Error('Invalid token payload');
+  if (!userData) {
+    throw new Error('Invalid or expired token');
   }
 
-  return {
-    userId: decoded.userId,
-    role: decoded.role as UserRole,
-  };
+  return userData;
 }
