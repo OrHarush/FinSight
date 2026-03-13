@@ -3,8 +3,7 @@ import { ExpandedTransactionDto } from '@/types/Transaction';
 import { Typography } from '@mui/material';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import * as Icons from '@mui/icons-material';
-import { ElementType } from 'react';
+import { categoryIconMap } from '@/constants/categoryIconMap';
 import CategoryIcon from '@mui/icons-material/Category';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -20,8 +19,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const IconComponent =
     (transaction.category?.icon &&
-      (Icons as Record<string, ElementType>)[transaction.category?.icon]) ||
-    CategoryIcon;
+      categoryIconMap[transaction.category?.icon]) || CategoryIcon;
 
   const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
   const isTransfer = transaction.type === 'Transfer';
