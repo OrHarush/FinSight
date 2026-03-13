@@ -12,6 +12,7 @@ import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview'
 import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
 import MonthlyInsight from '@/pages/Overview/MonthlyInsight';
+import Column from '@/components/shared/layout/containers/Column';
 
 const Overview = () => {
   const { accounts, isLoading: loadingAccounts } = useAccounts();
@@ -36,18 +37,21 @@ const Overview = () => {
     <PageLayout>
       {isSetupComplete ? (
         <OverviewFiltersProvider>
-          <OverviewHeader />
-          <MonthlyInsight />
-          <Grid container spacing={4}>
-            <Grid container spacing={4} size={{ xs: 12 }}>
-              <MonthlyFinancialOverview />
-              <MonthlyFinancialHealth />
-            </Grid>
-            <Grid container spacing={4} size={{ xs: 12 }} maxHeight={'300px'}>
-              <BudgetsOverview />
-              <TopSpendingCategories />
-            </Grid>
-          </Grid>
+          <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
+            <OverviewHeader />
+            <MonthlyInsight />
+            <Column height={'100%'} minHeight={0} spacing={4} sx={{ flex: 1 }}>
+              <Grid container spacing={4} size={{ xs: 12 }}>
+                <MonthlyFinancialOverview />
+                <MonthlyFinancialHealth />
+              </Grid>
+
+              <Grid container size={{ xs: 12 }} spacing={4} alignItems={'stretch'} sx={{ flex: 1, minHeight: 0 }}>
+                <BudgetsOverview />
+                <TopSpendingCategories />
+              </Grid>
+            </Column>
+          </Column>
         </OverviewFiltersProvider>
       ) : (
         <SetupPanel />

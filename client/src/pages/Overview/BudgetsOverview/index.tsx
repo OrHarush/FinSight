@@ -26,10 +26,21 @@ const BudgetsOverview = () => {
   }
 
   return (
-    <Grid size={{ xs: 12, md: 6 }}>
-      <Card sx={{ height: '100%', p: 2 }}>
-        <CardContent sx={{ height: '100%' }}>
-          <Column height={'100%'} spacing={2}>
+    <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
+      <Card sx={{ height: '100%', p: 2, display: 'flex', flex: 1, minHeight: 0 }}>
+        <CardContent
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flex: 1,
+            minHeight: 0,
+            p: 0,
+            '&:last-child': {
+              pb: 0,
+            },
+          }}
+        >
+          <Column height={'100%'} spacing={2} sx={{ flex: 1, minHeight: 0 }}>
             <Typography variant="h5" color="text.secondary" gutterBottom>
               {t('budgetWatch.title')}
             </Typography>

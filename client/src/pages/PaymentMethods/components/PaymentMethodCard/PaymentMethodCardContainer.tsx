@@ -25,6 +25,8 @@ const PaymentMethodCardContainer = ({
         height: '216px',
         width: '343px',
         minWidth: '300px',
+        aspectRatio: '343 / 216',
+
         borderRadius: 3,
         boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
         border: paymentMethod.isPrimary ? '2px solid' : '1px solid',

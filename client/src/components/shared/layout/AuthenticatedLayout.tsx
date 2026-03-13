@@ -13,9 +13,9 @@ const AuthenticatedLayout = () => {
   const isMobile = useIsMobile();
 
   return (
-    <Row height={'100vh'} width={'100vw'} overflow={'auto'}>
+    <Row height={'100dvh'} width={'100%'} overflow={'hidden'}>
       <Sidebar />
-      <Column padding={'16px'} width={'100%'}>
+      <Column padding={'16px'} width={'100%'} minWidth={0} minHeight={0} overflow={'auto'}>
         {!isMobile && (
           <Fab
             color="primary"

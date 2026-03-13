@@ -17,14 +17,13 @@ const Settings = () => {
 
   return (
     <>
-      <Column height={'100%'} justifyContent={'flex-end'}>
+      <Column paddingTop={2} justifyContent={'flex-end'} >
         <Column>
           {isMobile && (
-            <ListItem>
+            <ListItem sx={{pt: 0}}>
               <ListItemButton
                 onClick={openFeedbackDialog}
                 sx={{
-                  px: 1.5,
                   borderRadius: 1,
                   color: 'text.secondary',
                 }}

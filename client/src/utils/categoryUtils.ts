@@ -44,7 +44,10 @@ export function getTopSpendingCategories(
     .slice(0, limit);
 }
 
-export function getCategoryDisplayName(category: CategoryDto, t: TFunction<'categories'>): string {
+export function getCategoryDisplayName(
+  category: Pick<CategoryDto, 'name' | 'key'>,
+  t: TFunction<'categories'>
+): string {
   if (!category.key) {
     return category.name;
   }

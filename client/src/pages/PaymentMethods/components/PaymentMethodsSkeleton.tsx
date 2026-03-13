@@ -5,13 +5,12 @@ import Row from '@/components/shared/layout/containers/Row';
 const PaymentMethodsSkeleton = () => (
   <Grid container spacing={2}>
     {[1, 2, 3].map(i => (
-      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Card
           sx={{
             position: 'relative',
-            height: '216px',
-            width: '343px',
-            minWidth: '300px',
+            width: 'clamp(18rem, 92vw, 21.4375rem)',
+            aspectRatio: '343 / 216',
             borderRadius: 3,
             boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
           }}

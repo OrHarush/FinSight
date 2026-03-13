@@ -7,7 +7,7 @@ interface BudgetListProps {
 }
 
 const BudgetList = ({ budgets }: BudgetListProps) => (
-  <ScrollableColumn spacing={2} maxHeight={400}>
+  <ScrollableColumn spacing={2} flex={1} minHeight={0}>
     {budgets.map(budget => (
       <BudgetProgressRow key={budget.id} budget={budget} />
     ))}

@@ -2,11 +2,12 @@ import { Divider, Drawer, IconButton, SwipeableDrawer, useTheme } from '@mui/mat
 import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-
 import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import Settings from '@/components/shared/layout/sidebar/settings';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import Column from '@/components/shared/layout/containers/Column';
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -14,13 +15,17 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
 
   const drawerContent = (
-    <>
+    <Column height={'100%'} >
       <SidebarHeader />
       <Divider />
-      <SidebarButtons />
+      <ScrollableColumn spacing={2} flex={1} minHeight={0}>
+
+      {/*<ScrollableColumn height={'100%'} sx={{  overflow: 'auto' }}>*/}
+        <SidebarButtons />
+      </ScrollableColumn>
       <Divider />
       <Settings />
-    </>
+    </Column>
   );
 
   if (isMobile) {

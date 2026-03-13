@@ -29,7 +29,11 @@ const PaymentMethodsPageContent = ({ selectPaymentMethod }: PaymentMethodsPageCo
   return (
     <Grid container spacing={3}>
       {paymentMethods?.map(paymentMethod => (
-        <Grid key={paymentMethod._id} size={{ xs: 12, sm: 6, md: 4 }}>
+        <Grid
+          key={paymentMethod._id}
+          size={{ xs: 12, sm: 6, md: 4 }}
+          sx={{ display: 'flex', justifyContent: 'center' }}
+        >
           <PaymentMethodCard
             paymentMethod={paymentMethod}
             selectPaymentMethod={selectPaymentMethod}

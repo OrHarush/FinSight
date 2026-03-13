@@ -1,5 +1,6 @@
 import { CategoryType } from '../../../shared/types/CategoryCommands';
 import { PresetColor } from '../../../shared/types/colors';
+import { DefaultCategoryKey } from '../../../shared/types/defaultCategories';
 
 export interface CategoryFormValues {
   name: string;
@@ -10,7 +11,7 @@ export interface CategoryFormValues {
 
 export interface CategoryDto {
   _id: string;
-  key?: DecompressionStream;
+  key?: DefaultCategoryKey;
   name: string;
   type: CategoryType;
   color: PresetColor;
