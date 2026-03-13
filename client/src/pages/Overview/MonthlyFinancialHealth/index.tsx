@@ -19,11 +19,10 @@ const MonthlyFinancialHealth = () => {
   const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
 
   const { data, isLoading: isLoadingSummary } = useFetch<TransactionSummaryDto>({
-    url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
-    queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
+    url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id),
+    queryKey: queryKeys.transactionSummary(year, month + 1, account?._id || ''),
     enabled: !!year && month >= 0 && !!account?._id,
   });
-
   const isLoading = isLoadingSummary || isLoadingAccounts || isLoadingTransactions;
 
   const income = data?.monthlyIncome ?? 0;

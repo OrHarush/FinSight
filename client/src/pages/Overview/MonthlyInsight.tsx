@@ -31,8 +31,8 @@ const MonthlyInsight = () => {
   const { t } = useTranslation('overview');
 
   const { data, isLoading } = useFetch<TransactionSummaryDto>({
-    url: API_ROUTES.TRANSACTION_SUMMARY(year, month, account?._id),
-    queryKey: queryKeys.transactionSummary(year, month, account?._id || ''),
+    url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id),
+    queryKey: queryKeys.transactionSummary(year, month + 1, account?._id || ''),
     enabled: !!year && month >= 0 && !!account?._id,
   });
 
