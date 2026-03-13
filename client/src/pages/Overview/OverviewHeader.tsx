@@ -39,7 +39,7 @@ const OverviewHeader = () => {
               <AccountMenuItem
                 account={{
                   name: t('accountSelector.placeholder'),
-                  icon: 'AccountBalanceIcon',
+                  icon: 'AccountBalance',
                   accountNumber: '123',
                   balance: 23,
                   institution: 'Leumi',
