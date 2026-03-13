@@ -30,6 +30,8 @@ app.use(
 
 app.use(corsConfig);
 
+app.use(express.json({ limit: '200kb' }));
+
 app.get('/health', (_req, res) => {
   res.status(200).json({ ok: true });
 });
