@@ -1,5 +1,7 @@
 import { Typography } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
+import Row from '@/components/shared/layout/containers/Row';
 
 export interface BalanceHeadlineProps {
   balance: number;
@@ -8,9 +10,9 @@ export interface BalanceHeadlineProps {
 
 const BalanceHeadline = ({ balance, label }: BalanceHeadlineProps) => (
   <Column>
-    <Typography variant="h4" fontWeight={700}>
-      {`₪${balance.toLocaleString()}`}
-    </Typography>
+    <Row>
+      <CurrencyText value={balance} variant="h4" fontWeight={700} isAnimated/>
+    </Row>
     <Typography variant="body2" color="text.secondary">
       {label}
     </Typography>

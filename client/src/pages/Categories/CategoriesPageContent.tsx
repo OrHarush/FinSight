@@ -1,7 +1,7 @@
 import EntityError from '@/components/entities/EntityError';
 import { useCategories } from '@/hooks/entities/useCategories';
 import EntityEmpty from '@/components/entities/EntityEmpty';
-import CategoryList from '@/pages/Categories/CategoryList';
+import CategoryList from './CategoryList';
 import CategoryIcon from '@mui/icons-material/Category';
 import { CategoryDto } from '@/types/Category';
 import CategoryListSkeleton from '@/pages/Categories/components/CategoryListSkeleton';

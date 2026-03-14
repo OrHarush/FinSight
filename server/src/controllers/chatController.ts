@@ -26,7 +26,6 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const isAdmin = req.userRole === 'admin';
-  console.log(req.userRole);
 
   const {
     message: responseText,

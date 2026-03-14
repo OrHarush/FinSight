@@ -1,5 +1,6 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 interface IncomeUsageMeterProps {
   income: number;
@@ -13,9 +14,7 @@ const IncomeUsageMeter = ({ income, expenses, net }: IncomeUsageMeterProps) => {
 
   return (
     <Box sx={{ minWidth: '120px' }}>
-      <Typography variant="h5" fontWeight={700} color={net >= 0 ? 'success.main' : 'error.main'}>
-        {net >= 0 && '+'}₪{Math.abs(net).toLocaleString()}
-      </Typography>
+      <CurrencyText value={net} variant="h5" fontWeight={700} hasColor hasSign/>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
         {t('incomeUsageMeter.netThisMonth')}
       </Typography>

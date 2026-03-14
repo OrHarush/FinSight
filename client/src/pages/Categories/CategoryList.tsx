@@ -1,8 +1,8 @@
-import CategoryCard from '@/pages/Categories/components/CategoryCard';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { CategoryDto } from '@/types/Category';
-import { useCategories } from '@/hooks/entities/useCategories';
 import { useTranslation } from 'react-i18next';
+import CategoriesTypeSection from '@/pages/Categories/components/CategoriesTypeSection';
+import { useCategories } from '@/hooks/entities/useCategories';
 
 interface CategoryListProps {
   selectCategory: (category: CategoryDto) => void;
@@ -11,31 +11,22 @@ interface CategoryListProps {
 const CategoryList = ({ selectCategory }: CategoryListProps) => {
   const { t } = useTranslation('categories');
   const { categories } = useCategories();
+
   const expenseCategories = categories.filter(c => c.type.toLowerCase() === 'expense');
   const incomeCategories = categories.filter(c => c.type.toLowerCase() === 'income');
 
   return (
     <Grid container spacing={4}>
-      <Grid size={{ xs: 12, md: 6 }}>
-        <Typography variant="h6" gutterBottom color={'textSecondary'}>
-          {t('incomeCategories')}
-        </Typography>
-        <Grid container spacing={2}>
-          {incomeCategories.map(category => (
-            <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
-          ))}
-        </Grid>
-      </Grid>
-      <Grid size={{ xs: 12, md: 6 }}>
-        <Typography variant="h6" gutterBottom color={'textSecondary'}>
-          {t('expenseCategories')}
-        </Typography>
-        <Grid container spacing={2}>
-          {expenseCategories.map(category => (
-            <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
-          ))}
-        </Grid>
-      </Grid>
+      <CategoriesTypeSection
+        title={t('incomeCategories')}
+        categories={incomeCategories}
+        selectCategory={selectCategory}
+      />
+      <CategoriesTypeSection
+        title={t('expenseCategories')}
+        categories={expenseCategories}
+        selectCategory={selectCategory}
+      />
     </Grid>
   );
 };

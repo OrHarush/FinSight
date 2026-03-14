@@ -1,0 +1,20 @@
+{
+  "header": {
+    "title": "AI Assistant"
+  },
+  "input": {
+    "placeholder": "Ask about your finances..."
+  },
+  "empty": {
+    "title": "Ask me anything about your finances",
+    "description": "I can analyze your transactions, budgets, accounts and more."
+  },
+  "errors": {
+    "fallback": "Failed to get response from AI",
+    "prefix": "Sorry, I encountered an error: {{message}}"
+  },
+  "badges": {
+    "primary": "Primary"
+  }
+}
+

@@ -445,10 +445,6 @@ When displaying transactions:
 - Format currency amounts consistently
 - Use headers (##) to structure longer responses${toolDisclosureInstruction}`;
 
-    console.log('=== SYSTEM INSTRUCTION SENT TO GEMINI ===');
-    console.log(systemInstruction);
-    console.log('==========================================\n');
-
     const messageList: any[] = [
       ...conversationHistory.map((msg) => ({
         role: msg.role === 'assistant' ? 'model' : 'user',

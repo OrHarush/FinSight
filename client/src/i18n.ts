@@ -16,6 +16,7 @@ import enAccounts from '@/locales/en/accounts.json';
 import enCategories from '@/locales/en/categories.json';
 import enPaymentMethods from '@/locales/en/paymentMethods.json';
 import enBudgets from '@/locales/en/budgets.json';
+import enChat from '@/locales/en/chat.json';
 
 import heCommon from '@/locales/he/common.json';
 import heHome from '@/locales/he/home.json';
@@ -30,6 +31,7 @@ import heAccounts from '@/locales/he/accounts.json';
 import heCategories from '@/locales/he/categories.json';
 import hePaymentMethods from '@/locales/he/paymentMethods.json';
 import heBudgets from '@/locales/he/budgets.json';
+import heChat from '@/locales/he/chat.json';
 
 i18n
   .use(LanguageDetector)
@@ -50,6 +52,7 @@ i18n
         categories: enCategories,
         paymentMethods: enPaymentMethods,
         budgets: enBudgets,
+        chat: enChat,
       },
       he: {
         common: heCommon,
@@ -65,6 +68,7 @@ i18n
         categories: heCategories,
         paymentMethods: hePaymentMethods,
         budgets: heBudgets,
+        chat: heChat,
       },
     },
     fallbackLng: 'he',

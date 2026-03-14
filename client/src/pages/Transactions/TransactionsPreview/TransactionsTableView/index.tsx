@@ -10,6 +10,7 @@ import { TransactionPageFormValues } from '@/types/Transaction';
 import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { useTranslation } from 'react-i18next';
+import Column from '@/components/shared/layout/containers/Column';
 
 const TransactionsTableView = () => {
   const { t } = useTranslation('transactions');
@@ -58,10 +59,10 @@ const TransactionsTableView = () => {
   }
 
   return (
-    <>
+    <Column height={'100%'} spacing={2}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      <Paper>
-        <TableContainer sx={{ maxHeight: 600 }} component={Paper}>
+      <Paper sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+        <TableContainer sx={{ flex: 1, minHeight: 0 }}>
           <Table
             stickyHeader
             aria-label="transactions table"
@@ -99,7 +100,7 @@ const TransactionsTableView = () => {
           }
         />
       </Paper>
-    </>
+    </Column>
   );
 };
 

@@ -7,6 +7,7 @@ import { useOpen } from '@/hooks/common/useOpen';
 import ActionFab from '@/components/shared/ui/ActionFab';
 import TransactionsFilters from '@/pages/Transactions/TransactionFilters';
 import { FormProvider, useForm } from 'react-hook-form';
+import Column from '@/components/shared/layout/containers/Column';
 
 export const Transactions = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
@@ -16,9 +17,13 @@ export const Transactions = () => {
     <PageLayout>
       <TransactionPageDataProvider>
         <FormProvider {...methods}>
-          <TransactionsHeader openCreateTransaction={openCreateDialog} />
-          <TransactionsFilters />
-          <TransactionsPreview />
+          <Column height={'100%'} minHeight={0} spacing={2}>
+            <TransactionsHeader openCreateTransaction={openCreateDialog} />
+            <TransactionsFilters />
+            <Column flex={1} minHeight={0}>
+              <TransactionsPreview />
+            </Column>
+          </Column>
           <ActionFab onClick={openCreateDialog} />
           <TransactionDialogs
             isCreateDialogOpen={isCreateDialogOpen}

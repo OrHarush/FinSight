@@ -6,6 +6,7 @@ import { ChatMessage } from '@/types/Chat';
 import api from '@/api/axios';
 import { API_ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useTranslation } from 'react-i18next';
 
 interface ChatInputProps {
   messages: ChatMessage[];
@@ -15,6 +16,7 @@ interface ChatInputProps {
 
 const ChatInput = ({ messages, onAddMessage, onSetLoading }: ChatInputProps) => {
   const isMobile = useIsMobile();
+  const { t } = useTranslation('chat');
   const [value, setValue] = useState('');
 
   const sendMessage = async () => {
@@ -70,10 +72,13 @@ const ChatInput = ({ messages, onAddMessage, onSetLoading }: ChatInputProps) => 
         | undefined;
       const errorMsg = (errorResponse?.data as Record<string, unknown>)?.error as string;
 
+      const fallbackErrorMessage = t('errors.fallback');
+      const finalErrorMessage = errorMsg || fallbackErrorMessage;
+
       const errorChatMessage: ChatMessage = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: `Sorry, I encountered an error: ${errorMsg || 'Failed to get response from AI'}`,
+        content: t('errors.prefix', { message: finalErrorMessage }),
         createdAt: new Date(),
       };
 
@@ -104,7 +109,7 @@ const ChatInput = ({ messages, onAddMessage, onSetLoading }: ChatInputProps) => 
         value={value}
         onChange={e => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Ask about your finances..."
+        placeholder={t('input.placeholder')}
         size="small"
         sx={{
           '& .MuiOutlinedInput-root': {

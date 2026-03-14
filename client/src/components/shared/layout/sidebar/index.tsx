@@ -19,8 +19,6 @@ const Sidebar = () => {
       <SidebarHeader />
       <Divider />
       <ScrollableColumn spacing={2} flex={1} minHeight={0}>
-
-      {/*<ScrollableColumn height={'100%'} sx={{  overflow: 'auto' }}>*/}
         <SidebarButtons />
       </ScrollableColumn>
       <Divider />

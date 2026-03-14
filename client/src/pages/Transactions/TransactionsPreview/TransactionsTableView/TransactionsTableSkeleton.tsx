@@ -11,12 +11,13 @@ import {
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
+import Column from '@/components/shared/layout/containers/Column';
 
 const TransactionsTableSkeleton = () => {
   const { t } = useTranslation('transactions');
 
   return (
-    <>
+    <Column height={'100%'} minHeight={0} spacing={2}>
       <Row spacing={4} alignItems="center">
         <Row spacing={1} alignItems="center">
           <Typography color="text.secondary">{t('totals.expenses')}:</Typography>
@@ -27,7 +28,8 @@ const TransactionsTableSkeleton = () => {
           <Skeleton variant="rectangular" height={24} width={70} sx={{ borderRadius: 2 }} />
         </Row>
       </Row>
-      <TableContainer component={Paper}>
+      <Paper sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+      <TableContainer sx={{ flex: 1, minHeight: 0 }}>
         <Table
           sx={{
             borderCollapse: 'separate',
@@ -84,7 +86,9 @@ const TransactionsTableSkeleton = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+      <Skeleton variant="rectangular" height={52} sx={{ borderTop: '1px solid', borderColor: 'divider' }} />
+      </Paper>
+    </Column>
   );
 };
 
