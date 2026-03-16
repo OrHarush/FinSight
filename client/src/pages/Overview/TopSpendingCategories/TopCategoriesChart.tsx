@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { useTranslation } from 'react-i18next';
+import { useRef, useState, useEffect } from 'react';
 import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
@@ -34,6 +35,22 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
   const { t } = useTranslation('overview');
   const { t: tCategories } = useTranslation('categories');
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [dims, setDims] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      if (width > 0 && height > 0) setDims({ width, height });
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const dataset = chartData.map(d => ({
     category: getCategoryDisplayName(d, tCategories),
     spent: d.amount,
@@ -42,56 +59,66 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
   const categoryColors: string[] = chartData.map(d =>
     d.color ? alpha(d.color, 0.5) : alpha(theme.palette.grey[500], 0.7)
   );
+
   return (
     <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
-      <Card sx={{ height: '100%', minHeight: { xs: 320, sm: 360, md: 0 }, flex: 1, display: 'flex' }}>
+      <Card
+        sx={{
+          width: '100%',
+          p: isMobile ? 1 : 2,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          overflow: 'hidden',
+        }}
+      >
         <CardContent
           sx={{
-            height: '100%',
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             minHeight: 0,
+            overflow: 'hidden',
             position: 'relative',
-            p: 2,
-            '&:last-child': {
-              pb: 2,
-            },
+            '&:last-child': { pb: 2 },
           }}
         >
-          <Typography variant="h5" color="text.secondary">
+          <Typography variant="h5" color="text.secondary" sx={{ flexShrink: 0, mb: 1 }}>
             {t('topSpendingCategories.title')}
           </Typography>
-          <Box sx={{ flexGrow: 1, minHeight: { xs: 240, sm: 280, md: 0 } }}>
-            <BarChart
-              key={isMobile ? 'mobile-chart' : isTablet ? 'tablet-chart' : 'desktop-chart'}
-              height={isMobile ? 240 : isTablet ? 220 : 200}
-              layout="horizontal"
-              dataset={dataset}
-              borderRadius={8}
-              series={[
-                {
-                  dataKey: 'spent',
-                },
-              ]}
-              yAxis={[
-                {
-                  scaleType: 'band',
-                  dataKey: 'category',
-                  colorMap: {
-                    type: 'ordinal',
-                    colors: categoryColors,
+          <Box
+            ref={containerRef}
+            sx={{
+              flex: 1,
+              minHeight: isMobile ? 260 : 0,
+              overflow: 'hidden',
+            }}
+          >
+            {dims && (
+              <BarChart
+                key={`${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}-${dims.width}-${dims.height}`}
+                layout="horizontal"
+                dataset={dataset}
+                width={dims.width}
+                height={dims.height}
+                borderRadius={8}
+                series={[{ dataKey: 'spent' }]}
+                yAxis={[
+                  {
+                    scaleType: 'band',
+                    dataKey: 'category',
+                    colorMap: { type: 'ordinal', colors: categoryColors },
+                    barGapRatio: 0.5,
+                    categoryGapRatio: 0.4,
                   },
-                  barGapRatio: 0.5,
-                  categoryGapRatio: 0.4,
-                },
-              ]}
-              xAxis={[
-                {
-                  valueFormatter: (value: number) => `₪${value.toLocaleString()}`,
-                },
-              ]}
-            />
+                ]}
+                xAxis={[
+                  {
+                    valueFormatter: (value: number) => `₪${value.toLocaleString()}`,
+                  },
+                ]}
+              />
+            )}
           </Box>
           {isLoading && (
             <Fade in={isLoading}>

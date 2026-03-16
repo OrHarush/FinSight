@@ -9,9 +9,11 @@ import { useTranslation } from 'react-i18next';
 import CategoriesBudgetSkeleton from '@/pages/Overview/BudgetsOverview/CategoryBudgetSkeleton';
 import BudgetList from '@/pages/Overview/BudgetsOverview/BudgetList';
 import NoBudgetsEmptyCTA from '@/pages/Overview/BudgetsOverview/NoBudgetsEmptyCTA';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const BudgetsOverview = () => {
   const { t } = useTranslation('overview');
+  const isMobile = useIsMobile();
   const { year, month } = useOverviewFilters();
   const { categories, isLoading: isLoadingCategories } = useCategories();
   const { transactions, isLoading: isLoadingTransactions } = useTransactions(year, month);
@@ -27,14 +29,13 @@ const BudgetsOverview = () => {
 
   return (
     <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
-      <Card sx={{ height: '100%', p: 2, display: 'flex', flex: 1, minHeight: 0 }}>
+      <Card sx={{ height: '100%', p: isMobile ? 1 : 2, display: 'flex', flex: 1, minHeight: 0 }}>
         <CardContent
           sx={{
             height: '100%',
             display: 'flex',
             flex: 1,
             minHeight: 0,
-            p: 0,
             '&:last-child': {
               pb: 0,
             },
