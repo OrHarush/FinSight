@@ -11,7 +11,9 @@
   "setup": {
     "emptyTitle": "Ready to track your finances?",
     "emptyDescription": "Add your first transaction to start seeing your financial insights",
-    "addFirstTransaction": "Add First Transaction"
+    "addFirstTransaction": "Add First Transaction",
+    "addIncome": "Add income",
+    "addExpense": "Add expense"
   },
   "noData": {
     "title": "No data yet",

@@ -36,7 +36,7 @@ export const commonTheme: ThemeOptions = {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
+          borderRadius: '12px',
           height: '40px',
           backdropFilter: 'blur(20px)',
         },

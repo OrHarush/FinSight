@@ -25,7 +25,7 @@ const TransactionsFilters = () => {
   return (
     <ResponsiveRow spacing={1} alignItems={isMobile ? 'center' : 'flex-end'}>
       <DateSelector value={selectedMonth} onChange={setSelectedMonth} />
-      <Row spacing={1}>
+      <Row spacing={1} alignItems={'center'} justifyContent={'center'}>
         <CategorySelect
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -35,7 +35,7 @@ const TransactionsFilters = () => {
           placeholder={t('actions.search')}
           value={searchValue}
           size="small"
-          sx={{ width: '180px' }}
+          sx={{ flex: 1 }}
           slotProps={{
             input: {
               startAdornment: (

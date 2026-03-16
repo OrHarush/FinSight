@@ -48,7 +48,9 @@ const FinSightDialog = ({
             }}
           />
         )}
-        <Typography>{title}</Typography>
+        <Typography variant="h6" fontWeight={600} fontSize="1.1rem">
+          {title}
+        </Typography>
       </Row>
     </DialogTitle>
     <IconButton

@@ -5,7 +5,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const TransactionCardSkeleton = () => (
-  <>
+  <Column spacing={1}>
     <Row spacing={2} alignItems="center">
       <Row spacing={1} alignItems="center">
         <ArrowDownwardIcon fontSize="small" color="error" />
@@ -73,7 +73,7 @@ const TransactionCardSkeleton = () => (
         </Paper>
       ))}
     </Column>
-  </>
+  </Column>
 );
 
 export default TransactionCardSkeleton;

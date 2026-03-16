@@ -1,46 +1,43 @@
-import { Grid } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
+import { Box, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import TextInput from '@/components/shared/inputs/TextInput';
-import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import Row from '@/components/shared/layout/containers/Row';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-const ScheduleSection = () => {
+interface ScheduleSectionProps {
+  isTransfer?: boolean;
+}
+
+const ScheduleSection = ({ isTransfer = false }: ScheduleSectionProps) => {
   const { t } = useTranslation('transactions');
   const { control } = useFormContext<TransactionFormValues>();
 
   const recurrence = useWatch({ control, name: 'recurrence' });
 
-  return (
-    <Column spacing={2}>
-      <RHFSelect
-        name="recurrence"
-        label={t('fields.recurrence')}
-        required
-        options={[
-          { value: 'None', label: t('recurrence.none') },
-          { value: 'Monthly', label: t('recurrence.monthly') },
-          { value: 'Yearly', label: t('recurrence.yearly') },
-        ]}
-      />
-      <Grid container spacing={2}>
-        {recurrence === 'None' ? (
-          <Grid size={{ xs: 12 }}>
-            <TextInput name="date" label={t('fields.date')} type="date" />
-          </Grid>
-        ) : (
-          <>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <TextInput name="startDate" label={t('fields.startDate')} type="date" />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <TextInput name="endDate" label={t('fields.endDate')} type="month" />
-            </Grid>
-          </>
-        )}
+  if (recurrence === 'None') {
+    return (
+      <Grid size={{ xs: 12, sm: isTransfer ? 12 : 6 }}>
+        <TextInput name="date" label={t('fields.date')} type="date" />
       </Grid>
-    </Column>
+    );
+  }
+
+  return (
+    <Grid size={{ xs: 12, sm: 12 }}>
+      <Row spacing={1}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <TextInput name="startDate" label={t('fields.startDate')} type="date" />
+        </Box>
+        <Box>
+          <ArrowForwardIcon sx={{ color: 'text.secondary', mt: '32px' }} />
+        </Box>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <TextInput name="endDate" label={t('fields.endDate')} type="month" />
+        </Box>
+      </Row>
+    </Grid>
   );
 };
 

@@ -11,7 +11,9 @@
   "setup": {
     "emptyTitle": "מוכן להתחיל לעקוב אחרי הכספים שלך?",
     "emptyDescription": "הוסף את העסקה הראשונה שלך כדי להתחיל לראות תובנות פיננסיות",
-    "addFirstTransaction": "הוסף עסקה ראשונה"
+    "addFirstTransaction": "הוסף עסקה ראשונה",
+    "addIncome": "הוסף הכנסה",
+    "addExpense": "הוסף הוצאה"
   },
   "noData": {
     "title": "אין נתונים עדיין",

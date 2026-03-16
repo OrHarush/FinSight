@@ -47,7 +47,7 @@ const TransactionsCardsView = () => {
     setPage(1);
   }, [selectedMonth, selectedCategory]);
 
-  if (isLoading) {
+  if (!isLoading) {
     return <TransactionsCardsSkeleton />;
   }
 

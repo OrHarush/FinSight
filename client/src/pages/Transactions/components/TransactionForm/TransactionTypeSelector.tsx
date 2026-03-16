@@ -6,6 +6,7 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { useTranslation } from 'react-i18next';
 import { SvgIconComponent } from '@mui/icons-material';
 import { TransactionType } from '../../../../../../shared/types/TransactionCommmands';
+import { getToggleButtonGroupStyles, getToggleButtonStyles, getIconStyles } from './styles';
 
 const TRANSACTION_TYPES: { value: TransactionType; icon: SvgIconComponent; color: string }[] = [
   {
@@ -25,6 +26,14 @@ const TRANSACTION_TYPES: { value: TransactionType; icon: SvgIconComponent; color
   },
 ] as const;
 
+function getSelectedType(value: TransactionType | null | undefined) {
+  return TRANSACTION_TYPES.find(type => type.value === value) ?? TRANSACTION_TYPES[0];
+}
+
+function getSelectedTypeIndex(value: TransactionType | null | undefined) {
+  return TRANSACTION_TYPES.findIndex(type => type.value === value);
+}
+
 const TransactionTypeSelector = ({ name = 'type', required = true, disabled = false }) => {
   const { t } = useTranslation('transactions');
   const { control } = useFormContext();
@@ -35,68 +44,38 @@ const TransactionTypeSelector = ({ name = 'type', required = true, disabled = fa
         name={name}
         control={control}
         rules={{ required }}
-        render={({ field }) => (
-          <ToggleButtonGroup
-            {...field}
-            exclusive
-            fullWidth
-            disabled={disabled}
-            sx={{
-              '& .MuiToggleButton-root': {
-                py: { xs: 0.5, sm: 1.5 },
-                textTransform: 'none',
-                fontSize: '0.95rem',
-                fontWeight: 500,
-                border: '1px solid',
-                borderColor: 'divider',
-                '&.Mui-selected': {
-                  fontWeight: 600,
-                },
-                ...TRANSACTION_TYPES.reduce(
-                  (acc, type) => ({
-                    ...acc,
-                    [`&[value="${type.value}"]`]: {
-                      '&:hover': {
-                        bgcolor: `${type.color}14`,
-                      },
-                      '&.Mui-selected': {
-                        bgcolor: `${type.color}1F`,
-                        borderColor: type.color,
-                        color: type.color,
-                        '&:hover': {
-                          bgcolor: `${type.color}29`,
-                        },
-                      },
-                    },
-                  }),
-                  {}
-                ),
-              },
-            }}
-          >
-            {TRANSACTION_TYPES.map(({ value, icon: Icon, color }) => (
-              <ToggleButton
-                key={value}
-                value={value}
-                sx={{
-                  display: 'flex',
-                  flexDirection: { xs: 'column', sm: 'row' },
-                  alignItems: 'center',
-                  gap: { xs: 0, sm: 1 },
-                }}
-              >
-                <Icon
-                  sx={{
-                    mr: 1,
-                    fontSize: 20,
-                    color: field.value === value ? color : 'inherit',
-                  }}
-                />
-                {t(`types.${value.toLowerCase()}`)}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        )}
+        render={({ field }) => {
+          const selectedType = getSelectedType(field.value);
+          const selectedTypeIndex = getSelectedTypeIndex(field.value);
+
+          return (
+            <ToggleButtonGroup
+              value={field.value}
+              exclusive
+              disabled={disabled}
+              onChange={(_, nextValue) => {
+                if (!nextValue) {
+                  return;
+                }
+
+                field.onChange(nextValue);
+              }}
+              sx={getToggleButtonGroupStyles(selectedType.color, selectedTypeIndex)}
+            >
+              {TRANSACTION_TYPES.map(({ value, icon: Icon, color }) => (
+                <ToggleButton
+                  key={value}
+                  value={value}
+                  size="small"
+                  sx={getToggleButtonStyles(field.value === value, color)}
+                >
+                  <Icon sx={getIconStyles()} />
+                  {t(`types.${value.toLowerCase()}`)}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          );
+        }}
       />
     </FormControl>
   );

@@ -5,7 +5,11 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { TransactionFormValues } from '@/types/Transaction';
 import { useCategories } from '@/hooks/entities/useCategories';
 
-const ClassificationSection = () => {
+interface ClassificationSectionProps {
+  isFullWidth?: boolean;
+}
+
+const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionProps) => {
   const { t } = useTranslation('transactions');
   const { control } = useFormContext<TransactionFormValues>();
   const { categories, isLoading } = useCategories();
@@ -16,16 +20,14 @@ const ClassificationSection = () => {
     c => c.type.toLowerCase() === transactionType?.toLowerCase()
   );
 
-  if (transactionType === 'Transfer') {
-    return null;
-  }
+  const gridSize = { xs: 12, sm: isFullWidth ? 12 : 6 };
 
   return !isLoading ? (
-    <Grid size={{ xs: 12, sm: 6 }}>
+    <Grid size={gridSize}>
       <CategoriesSelect filteredCategories={filteredCategories} />
     </Grid>
   ) : (
-    <Grid size={{ xs: 12, sm: 6 }}>
+    <Grid size={gridSize}>
       <InputLabel>{t('fields.category')}</InputLabel>
       <Skeleton variant="rectangular" height={40} sx={{ borderRadius: 1 }} />
     </Grid>

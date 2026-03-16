@@ -12,31 +12,56 @@ import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useEffect } from 'react';
 
-const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+interface CreateTransactionDialogProps extends BaseDialogProps {
+  initialType?: TransactionFormValues['type'];
+}
+
+const getDefaultValues = (
+  initialType: TransactionFormValues['type'],
+  accountId?: string,
+  paymentMethodId?: string
+): TransactionFormValues => {
+  const todayLocal = new Date();
+  todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
+
+  return {
+    date: todayLocal.toISOString().split('T')[0],
+    recurrence: 'None',
+    type: initialType,
+    category: '',
+    account: accountId || '',
+    paymentMethod: paymentMethodId || '',
+    fromAccount: '',
+    toAccount: '',
+    belongToPreviousMonth: false,
+    amount: 0,
+  };
+};
+
+const CreateTransactionDialog = ({
+  isOpen,
+  closeDialog,
+  initialType = 'Expense',
+}: CreateTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const { primaryAccount } = useAccounts();
   const { primaryPaymentMethod } = usePaymentMethods();
-  const isMobile = useIsMobile();
-
-  const todayLocal = new Date();
-  todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
 
   const methods = useForm<TransactionFormValues>({
-    defaultValues: {
-      date: todayLocal.toISOString().split('T')[0],
-      recurrence: 'None',
-      type: 'Expense',
-      category: '',
-      account: primaryAccount?._id || '',
-      paymentMethod: primaryPaymentMethod?._id || '',
-      fromAccount: '',
-      toAccount: '',
-    },
+    defaultValues: getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id),
     mode: 'all',
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    methods.reset(getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id));
+  }, [isOpen, initialType, primaryAccount?._id, primaryPaymentMethod?._id, methods]);
 
   const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
     method: 'post',
@@ -62,7 +87,7 @@ const CreateTransactionDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
         closeDialog={closeDialog}
         title={t('actions.create')}
         onSubmit={submitNewTransaction}
-        maxWidth={isMobile ? 'xs' : 'md'}
+        maxWidth={'xs'}
       >
         <TransactionForm />
       </FormDialog>
