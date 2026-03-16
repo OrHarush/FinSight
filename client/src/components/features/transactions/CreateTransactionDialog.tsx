@@ -22,7 +22,7 @@ const getDefaultValues = (
   initialType: TransactionFormValues['type'],
   accountId?: string,
   paymentMethodId?: string
-): TransactionFormValues => {
+): Partial<TransactionFormValues> => {
   const todayLocal = new Date();
   todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
 
@@ -30,13 +30,8 @@ const getDefaultValues = (
     date: todayLocal.toISOString().split('T')[0],
     recurrence: 'None',
     type: initialType,
-    category: '',
     account: accountId || '',
     paymentMethod: paymentMethodId || '',
-    fromAccount: '',
-    toAccount: '',
-    belongToPreviousMonth: false,
-    amount: 0,
   };
 };
 

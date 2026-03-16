@@ -1,20 +1,27 @@
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import { Card, Typography, Button } from '@mui/material';
+import { Card, Typography, Box } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
-import AddIcon from '@mui/icons-material/Add';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import { useOpen } from '@/hooks/common/useOpen';
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
+import CreateTransactionButton from '@/pages/Overview/SetupPanel/CreateTransactionButton';
 
 const SetupPanel = () => {
   const { t } = useTranslation('overview');
+  const isMobile = useIsMobile();
   const { transactions } = useTransactions();
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedType, setSelectedType] = useState<'Income' | 'Expense'>('Expense');
 
   const hasTransaction = transactions.length > 0;
+
+  if (hasTransaction) {
+    return null;
+  }
 
   const openIncomeDialog = () => {
     setSelectedType('Income');
@@ -26,73 +33,60 @@ const SetupPanel = () => {
     openCreateDialog();
   };
 
-  if (hasTransaction) {
-    return null;
-  }
-
   return (
     <>
-      <Column
-        width="100%"
-        minHeight="60vh"
-        justifyContent="center"
-        alignItems="center"
-        px={{ sm: 3 }}
-      >
+      <Column width="100%" minHeight="60vh" justifyContent="center" alignItems="center">
         <Card
           sx={{
             width: '100%',
-            maxWidth: 680,
-            px: { xs: 0, sm: 4 },
-            py: { xs: 3, sm: 4 },
+            maxWidth: '560px',
+            px: { xs: 3, sm: 5 },
+            py: { xs: 4, sm: 5 },
             borderRadius: 3,
-            boxShadow: '0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
             textAlign: 'center',
           }}
         >
-          <Column height={'100%'} spacing={3} alignItems="center">
+          <Column spacing={3} alignItems="center">
+            <Box
+              sx={{
+                backgroundColor: '#673ab720',
+                borderRadius: '12px',
+                width: 56,
+                minWidth: 56,
+                height: 56,
+                minHeight: 56,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                flexShrink: 0,
+              }}
+            >
+              <CreditCardIcon sx={{ fontSize: 28, color: '#673ab7' }} />
+            </Box>
             <Column spacing={1}>
-              <Typography variant="h4" fontWeight={700} color="primary.main">
-                {t('setup.emptyTitle')}
+              <Typography variant={isMobile ? 'h6' : 'h4'} fontWeight={500}>
+                {t('setup.firstTransactionTitle')}
               </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.75 }}>
-                {t('setup.emptyDescription')}
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ lineHeight: 1.7, whiteSpace: 'pre-line' }}
+              >
+                {t('setup.firstTransactionDescription')}
               </Typography>
             </Column>
-
             <ResponsiveRow width="100%" spacing={2} justifyContent="center" flexWrap="wrap">
-              <Button
-                variant="outlined"
-                color="success"
-                size="large"
-                startIcon={<AddIcon />}
+              <CreateTransactionButton
+                type="Income"
+                label={t('setup.addIncome')}
                 onClick={openIncomeDialog}
-                sx={{
-                  width: '180px',
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                }}
-              >
-                {t('setup.addIncome')}
-              </Button>
-              <Button
-                variant="outlined"
-                color="error"
-                size="large"
-                startIcon={<AddIcon />}
+              />
+              <CreateTransactionButton
+                type="Expense"
+                label={t('setup.addExpense')}
                 onClick={openExpenseDialog}
-                sx={{
-                  width: '180px',
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                }}
-              >
-                {t('setup.addExpense')}
-              </Button>
+              />
             </ResponsiveRow>
           </Column>
         </Card>

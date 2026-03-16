@@ -3,8 +3,9 @@ import {
   createMany as createCategories,
   deleteMany as deleteCategories,
 } from '../repositories/categoryRepository';
-import { deleteMany as deleteAccounts, insert } from '../repositories/accountRepository';
+import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
 import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
+import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import * as accountRepository from '../repositories/accountRepository';
 import mongoose from 'mongoose';
@@ -43,6 +44,8 @@ export const deleteUserCompletely = async (userId: string) => {
       deleteTransactions({ userId: userId }),
       deleteAccounts({ userId: userId }),
       deleteCategories({ userId: userId }),
+      paymentMethodRepository.deleteMany({ userId: userId }),
+      deleteBudgets({ userId: userId }),
     ]);
 
     await deleteUserById(userId);

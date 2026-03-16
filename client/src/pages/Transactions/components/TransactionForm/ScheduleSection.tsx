@@ -16,29 +16,33 @@ const ScheduleSection = ({ isTransfer = false }: ScheduleSectionProps) => {
 
   const recurrence = useWatch({ control, name: 'recurrence' });
 
-  if (recurrence === 'None') {
+  if (recurrence === 'None' && isTransfer) {
     return (
-      <Grid size={{ xs: 12, sm: isTransfer ? 12 : 6 }}>
+      <Grid size={{ xs: 12 }}>
         <TextInput name="date" label={t('fields.date')} type="date" />
       </Grid>
     );
   }
 
-  return (
-    <Grid size={{ xs: 12, sm: 12 }}>
-      <Row spacing={1}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <TextInput name="startDate" label={t('fields.startDate')} type="date" />
-        </Box>
-        <Box>
-          <ArrowForwardIcon sx={{ color: 'text.secondary', mt: '32px' }} />
-        </Box>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <TextInput name="endDate" label={t('fields.endDate')} type="month" />
-        </Box>
-      </Row>
-    </Grid>
-  );
+  if (recurrence !== 'None') {
+    return (
+      <Grid size={{ xs: 12, sm: 12 }}>
+        <Row spacing={1}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <TextInput name="startDate" label={t('fields.startDate')} type="date" />
+          </Box>
+          <Box>
+            <ArrowForwardIcon sx={{ color: 'text.secondary', mt: '32px' }} />
+          </Box>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <TextInput name="endDate" label={t('fields.endDate')} type="month" />
+          </Box>
+        </Row>
+      </Grid>
+    );
+  }
+
+  return null;
 };
 
 export default ScheduleSection;

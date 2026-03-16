@@ -31,7 +31,7 @@ export const queryKeys = {
   categories: () => ['categories'],
   category: (id: string) => ['categories', id],
 
-  budgets: (year?: number, month?: number, categoryId?: string) => [
+  budgets: (year: number, month: number, categoryId: string) => [
     'budgets',
     year,
     month,

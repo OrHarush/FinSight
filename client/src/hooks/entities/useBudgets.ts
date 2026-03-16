@@ -3,7 +3,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
 import { BudgetDto } from '@/types/Budget';
 
-export const useBudgets = (year?: number, month?: number, categoryId?: string) => {
+export const useBudgets = (year: number, month: number, categoryId: string) => {
   const params = new URLSearchParams();
 
   if (year !== undefined) {
@@ -11,7 +11,7 @@ export const useBudgets = (year?: number, month?: number, categoryId?: string) =
   }
 
   if (month !== undefined) {
-    params.append('month', month.toString());
+    params.append('month', (month + 1).toString());
   }
 
   if (categoryId) {
@@ -22,7 +22,7 @@ export const useBudgets = (year?: number, month?: number, categoryId?: string) =
 
   const query = useFetch<BudgetDto[]>({
     url,
-    queryKey: queryKeys.budgets(year, month, categoryId),
+    queryKey: queryKeys.budgets(year, month + 1, categoryId),
     enabled: year !== undefined && month !== undefined,
   });
 

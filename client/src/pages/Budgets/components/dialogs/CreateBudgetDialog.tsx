@@ -42,7 +42,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         await createBudgetForRestOfYear.mutateAsync({
           categoryId: category._id,
           year,
-          month,
+          month: month + 1,
           limit: data.limit,
         });
         alertSuccess(t('messages.budgetSetForYear'));
@@ -50,7 +50,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         await createBudget.mutateAsync({
           categoryId: category._id,
           year,
-          month,
+          month: month + 1,
           limit: data.limit,
         });
         alertSuccess(t('messages.budgetCreated'));

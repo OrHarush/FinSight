@@ -66,14 +66,15 @@ const SidebarButtons = () => {
       icon: SavingsIcon,
       route: ROUTES.BUDGETS_URL,
     },
-    {
-      titleKey: 'chat',
-      icon: SmartToyIcon,
-      route: ROUTES.CHAT_URL,
-      badge: 'NEW',
-    },
+
     ...(isAdmin(user)
       ? [
+          {
+            titleKey: 'chat',
+            icon: SmartToyIcon,
+            route: ROUTES.CHAT_URL,
+            badge: 'NEW',
+          },
           {
             titleKey: 'admin',
             icon: AdminPanelSettingsIcon,

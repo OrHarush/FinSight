@@ -40,17 +40,21 @@ const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?
           label={t('fields.amount')}
           type="number"
           required
+          placeholder={'0'}
           slotProps={{
             input: {
               startAdornment: <InputAdornment position="start">₪</InputAdornment>,
             },
           }}
           sx={{
+            '& .MuiOutlinedInput-root': {
+              height: '48px',
+            },
             '& .MuiOutlinedInput-input': {
               py: 1,
               textAlign: 'center',
               fontWeight: 700,
-              fontSize: { xs: '2rem', sm: '2.5rem' },
+              fontSize: { xs: '2rem' },
             },
             '& .MuiInputAdornment-root': {
               color: 'text.secondary',
@@ -59,7 +63,7 @@ const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?
           }}
         />
       </Box>
-      <Grid container spacing={1.5}>
+      <Grid container spacing={2}>
         {!isTransfer && (
           <>
             <TransactionBaseDetails />

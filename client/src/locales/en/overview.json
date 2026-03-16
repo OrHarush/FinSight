@@ -9,9 +9,8 @@
     "placeholder": "Select account"
   },
   "setup": {
-    "emptyTitle": "Ready to track your finances?",
-    "emptyDescription": "Add your first transaction to start seeing your financial insights",
-    "addFirstTransaction": "Add First Transaction",
+    "firstTransactionTitle": "Add your first transaction",
+    "firstTransactionDescription": "Your account, categories, and payment method are ready.\n Just log a transaction to unlock your dashboard.",
     "addIncome": "Add income",
     "addExpense": "Add expense"
   },

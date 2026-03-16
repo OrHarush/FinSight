@@ -21,7 +21,8 @@ const AdvancedSettingsSection = () => {
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 2,
-          p: 1.25,
+          px: 1.5,
+          py: 1,
         }}
       >
         <Row alignItems="center" justifyContent="space-between">

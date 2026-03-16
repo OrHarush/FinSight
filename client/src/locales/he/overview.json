@@ -9,9 +9,8 @@
     "placeholder": "בחירת חשבון"
   },
   "setup": {
-    "emptyTitle": "מוכן להתחיל לעקוב אחרי הכספים שלך?",
-    "emptyDescription": "הוסף את העסקה הראשונה שלך כדי להתחיל לראות תובנות פיננסיות",
-    "addFirstTransaction": "הוסף עסקה ראשונה",
+    "firstTransactionTitle": "הוסף את העסקה הראשונה שלך",
+    "firstTransactionDescription": "החשבון, הקטגוריות ואמצעי התשלום שלך כבר מוכנים.\n רק צריך להוסיף עסקה כדי לראות את הדשבורד.",
     "addIncome": "הוסף הכנסה",
     "addExpense": "הוסף הוצאה"
   },
