@@ -3,7 +3,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
 import { BudgetDto } from '@/types/Budget';
 
-export const useBudgets = (year: number, month: number, categoryId: string) => {
+export const useBudgets = (year: number, month: number, categoryId?: string) => {
   const params = new URLSearchParams();
 
   if (year !== undefined) {

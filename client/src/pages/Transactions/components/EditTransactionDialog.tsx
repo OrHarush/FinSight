@@ -10,7 +10,6 @@ import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -23,7 +22,6 @@ const EditTransactionDialog = ({
 }: EditTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
-  const isMobile = useIsMobile();
 
   const methods = useForm<TransactionFormValues>({
     defaultValues: {
@@ -67,7 +65,7 @@ const EditTransactionDialog = ({
         title={t('actions.edit')}
         onSubmit={update}
         isUpdateForm
-        maxWidth={isMobile ? 'xs' : 'md'}
+        maxWidth={'xs'}
       >
         <TransactionForm disableTypeSelector />
       </FormDialog>

@@ -1,75 +1,86 @@
 import { useTranslation } from 'react-i18next';
-import { calculateBudgetRunway, calculateFinancialHealth } from '@/utils/financialHealth';
+import { analyzeFinancialHealth, FinancialSnapshot, InsightKey } from '@/utils/financialHealth';
 import { HealthIndicator } from '@/utils/healthIndicatorUtils';
 
 interface UseFinancialHealthIndicatorsParams {
   income: number;
-  expenses: number;
+  fixedExpenses: number;
+  variableExpenses: number;
   hasMonthData: boolean;
+}
+
+interface FinancialHealthIndicatorsResult {
+  indicators: HealthIndicator[];
+  insightKey: InsightKey;
 }
 
 export const useFinancialHealthIndicators = ({
   income,
-  expenses,
+  fixedExpenses,
+  variableExpenses,
   hasMonthData,
-}: UseFinancialHealthIndicatorsParams): HealthIndicator[] => {
+}: UseFinancialHealthIndicatorsParams): FinancialHealthIndicatorsResult => {
   const { t } = useTranslation('overview');
   const today = new Date();
-  const indicators: HealthIndicator[] = [];
 
   if (!hasMonthData) {
-    indicators.push({
-      title: t('financialStatusCard.title'),
-      value: t('noData.title'),
-      description: t('noData.detail'),
-      status: 'noData',
-    });
-    return indicators;
+    return {
+      indicators: [
+        {
+          title: t('financialStatusCard.title'),
+          value: t('noData.title'),
+          description: t('noData.detail'),
+          status: 'noData',
+        },
+      ],
+      insightKey: 'balanced',
+    };
   }
 
-  const { status } = calculateFinancialHealth(income, expenses, today);
-  indicators.push({
+  const snap: FinancialSnapshot = {
+    income,
+    fixedExpenses,
+    variableExpenses,
+    dayOfMonth: today.getDate(),
+    totalDaysInMonth: new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(),
+  };
+
+  const { dailyVariableBurn, dailyAllowance, runwayDays, healthStatus, insightKey } =
+    analyzeFinancialHealth(snap);
+
+  const statusIndicator: HealthIndicator = {
     title: t('financialStatusCard.title'),
-    value: t(`financialStatusCard.status.${status}`),
-    status,
-  });
+    value: t(`financialStatusCard.status.${healthStatus}`),
+    status: healthStatus,
+  };
 
   if (income <= 0) {
-    return indicators;
+    return { indicators: [statusIndicator], insightKey };
   }
 
-  const day = today.getDate();
-  const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-
-  const runway = calculateBudgetRunway({
-    income,
-    expenses,
-    dayOfMonth: day,
-    totalDaysInMonth: totalDays,
-  });
-
-  indicators.push({
+  const runwayIndicator: HealthIndicator = {
     title: t('budgetRunwayCard.title'),
     value:
-      runway.status === 'critical'
-        ? t('budgetRunwayCard.noRunway')
-        : runway.status === 'warning'
-          ? t('budgetRunwayCard.daysLeft', { count: runway.daysLeft })
-          : t('budgetRunwayCard.onTrack'),
-    status: runway.status,
-  });
+      runwayDays === null
+        ? t('budgetRunwayCard.onTrack')
+        : runwayDays <= 0
+          ? t('budgetRunwayCard.noRunway')
+          : t('budgetRunwayCard.daysLeft', { count: runwayDays }),
+    status:
+      runwayDays === null
+        ? 'ok'
+        : runwayDays <= 3
+          ? 'critical'
+          : runwayDays <= 7
+            ? 'warning'
+            : 'ok',
+  };
 
-  const remainingDays = Math.max(totalDays - day, 1);
-  const dailyLimit = (income - expenses) / remainingDays;
-  const currentDailyBurn = expenses / day;
-
-  indicators.push({
+  const dailyIndicator: HealthIndicator = {
     title: t('dailySpendCard.title'),
-    value: t('dailySpendCard.valuePerDay', {
-      amount: Math.round(dailyLimit),
-    }),
-    status: currentDailyBurn > dailyLimit ? 'warning' : 'ok',
-  });
+    value: t('dailySpendCard.valuePerDay', { amount: Math.max(Math.round(dailyAllowance), 0) }),
+    status: dailyVariableBurn > dailyAllowance * 1.2 ? 'warning' : 'ok',
+  };
 
-  return indicators;
+  return { indicators: [statusIndicator, runwayIndicator, dailyIndicator], insightKey };
 };

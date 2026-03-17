@@ -14,11 +14,11 @@ const CategoriesTypeSection = ({
   categories,
   selectCategory,
 }: CategoriesTypeSectionProps) => (
-  <Grid size={{ xs: 12, md: 6 }} >
+  <Grid size={{ xs: 12, md: 6 }}>
     <Typography variant="h6" gutterBottom color={'textSecondary'}>
       {title}
     </Typography>
-    <ScrollableColumn spacing={2} flex={1} minHeight={0}>
+    <ScrollableColumn spacing={2} flex={1} minHeight={0} sx={{ py: 1 }}>
       <Grid container spacing={2}>
         {categories.map(category => (
           <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />
@@ -29,5 +29,3 @@ const CategoriesTypeSection = ({
 );
 
 export default CategoriesTypeSection;
-
-

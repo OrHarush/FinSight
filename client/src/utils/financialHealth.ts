@@ -1,125 +1,71 @@
-import { SvgIconComponent } from '@mui/icons-material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+export type InsightKey = 'excellent' | 'good' | 'balanced' | 'overspent';
+export type HealthStatus = 'ok' | 'warning' | 'critical' | 'noData';
 
-export type FinancialHealthStatus = 'noData' | 'ok' | 'warning' | 'critical';
-
-export const HEALTH_SEVERITY_ORDER: FinancialHealthStatus[] = [
-  'noData',
-  'ok',
-  'warning',
-  'critical',
-];
-
-export interface FinancialHealthResult {
-  ratio: number;
-  status: FinancialHealthStatus;
-}
-
-export interface BudgetRunwayResult {
-  status: FinancialHealthStatus;
-  daysLeft?: number;
-}
-
-export function calculateFinancialHealth(
-  income: number,
-  expensesSoFar: number,
-  today: Date
-): FinancialHealthResult {
-  if (income <= 0 && expensesSoFar > 0) {
-    return { ratio: 1, status: 'critical' };
-  }
-
-  const day = today.getDate();
-  const totalDays = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-
-  const rawExpected = income * (day / totalDays);
-  const minExpected = income * 0.05;
-  const expectedExpenses = Math.max(rawExpected, minExpected);
-
-  const ratio = expensesSoFar / expectedExpenses;
-  const remainingBudget = income - expensesSoFar;
-
-  if (remainingBudget < 0) {
-    return { ratio, status: 'critical' };
-  }
-
-  if (ratio <= 1.05) {
-    return { ratio, status: 'ok' };
-  }
-
-  if (ratio <= 1.5) {
-    return { ratio, status: 'warning' };
-  }
-
-  return { ratio, status: 'critical' };
-}
-
-export function calculateBudgetRunway(params: {
+export interface FinancialSnapshot {
   income: number;
-  expenses: number;
+  fixedExpenses: number;
+  variableExpenses: number;
   dayOfMonth: number;
   totalDaysInMonth: number;
-}): BudgetRunwayResult {
-  const { income, expenses, dayOfMonth, totalDaysInMonth } = params;
-  const BUFFER_RATIO = 0.5;
-
-  if (income <= 0) {
-    return { status: 'noData' };
-  }
-
-  const remainingBudget = income - expenses;
-
-  if (remainingBudget <= 0) {
-    return {
-      status: 'critical',
-      daysLeft: 0,
-    };
-  }
-
-  const safeDay = Math.max(dayOfMonth, 1);
-  const dailyBurn = expenses / safeDay;
-
-  if (dailyBurn <= 0) {
-    return {
-      status: 'ok',
-      daysLeft: Infinity,
-    };
-  }
-
-  const rawDaysLeft = remainingBudget / dailyBurn;
-  const remainingDaysInMonth = Math.max(totalDaysInMonth - dayOfMonth, 1);
-
-  if (rawDaysLeft < remainingDaysInMonth * BUFFER_RATIO) {
-    return {
-      status: 'warning',
-      daysLeft: Math.ceil(rawDaysLeft),
-    };
-  }
-
-  return {
-    status: 'ok',
-    daysLeft: Math.ceil(rawDaysLeft),
-  };
 }
 
-export const HEALTH_UI: Record<FinancialHealthStatus, { color: string; Icon: SvgIconComponent }> = {
-  noData: {
-    color: '#64748b',
-    Icon: HelpOutlineIcon,
-  },
-  ok: {
-    color: '#22c55e',
-    Icon: CheckCircleOutlineIcon,
-  },
-  warning: {
-    color: '#f59e0b',
-    Icon: WarningAmberIcon,
-  },
-  critical: {
-    color: '#ef4444',
-    Icon: ErrorOutlineIcon,
-  },
-};
+export interface FinancialAnalysis {
+  availableBudget: number;
+  spentExpenses: number;
+  remainingBudget: number;
+  dailyVariableBurn: number;
+  dailyAllowance: number;
+  daysLeft: number;
+  runwayDays: number | null;
+  insightKey: InsightKey;
+  healthStatus: HealthStatus;
+}
+
+export function analyzeFinancialHealth(snap: FinancialSnapshot): FinancialAnalysis {
+  const { income, fixedExpenses, variableExpenses, dayOfMonth, totalDaysInMonth } = snap;
+
+  const daysElapsed = Math.max(dayOfMonth, 1);
+  const daysLeft = Math.max(totalDaysInMonth - dayOfMonth, 1);
+
+  const availableBudget = Math.max(income - fixedExpenses, 0);
+  const spentExpenses = variableExpenses;
+  const remainingBudget = availableBudget - spentExpenses;
+
+  const dailyVariableBurn = spentExpenses / daysElapsed;
+  const dailyAllowance = remainingBudget / daysLeft;
+
+  const runwayDays = dailyVariableBurn > 0 ? Math.floor(remainingBudget / dailyVariableBurn) : null;
+
+  const insightKey = ((): InsightKey => {
+    if (remainingBudget <= 0) return 'overspent';
+    const projectedEndBalance = remainingBudget - dailyVariableBurn * daysLeft;
+    if (
+      projectedEndBalance >= 0 &&
+      remainingBudget / (remainingBudget + dailyVariableBurn * daysLeft || 1) >= 0.3
+    )
+      return 'excellent';
+    if (projectedEndBalance >= 0) return 'good';
+    if (projectedEndBalance >= -(dailyVariableBurn * daysLeft * 0.1)) return 'balanced';
+    return 'overspent';
+  })();
+
+  const healthStatus = ((): HealthStatus => {
+    if (income === 0) return 'noData';
+    if (insightKey === 'overspent') return 'critical';
+    if (insightKey === 'balanced') return 'warning';
+    if (dailyVariableBurn > dailyAllowance * 1.5) return 'warning';
+    return 'ok';
+  })();
+
+  return {
+    availableBudget,
+    spentExpenses,
+    remainingBudget,
+    dailyVariableBurn,
+    dailyAllowance,
+    daysLeft,
+    runwayDays,
+    insightKey,
+    healthStatus,
+  };
+}
