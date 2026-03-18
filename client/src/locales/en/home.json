@@ -1,19 +1,92 @@
 {
   "headline": {
-    "line1": "Stop tracking.",
-    "line2": "Start",
-    "highlight": "understanding"
+    "line1": "Start tracking.",
+    "line2": "This time it",
+    "highlight": "sticks"
   },
-
-  "subtitle": "FinSight gives you an honest picture of your finances.",
-  "subtitle2": "See where your money goes, how today affects tomorrow, and whether you're really on track—without the stress.",
-  "cta": "Start Now for Free",
-
+  "subtitle": "Finally understand what’s actually happening with your money.",
+  "subtitle2": "Where it goes, how fast it disappears, and whether you’re really in control, without spreadsheets or guesswork.",
+  "cta": "Start Free",
+  "ctaBottom": "Create Free Account",
+  "trustBadges": {
+    "free": "Free forever",
+    "noCard": "No credit card",
+    "setup": "2 min setup"
+  },
   "principles": {
-    "clearInsights": "Clear Insights",
-    "smartDecisions": "Smart Decisions",
-    "peaceOfMind": "Peace of Mind"
+    "clearInsights": "Clarity",
+    "smartDecisions": "Better decisions",
+    "peaceOfMind": "Less stress"
   },
-
-  "footer": "No credit card required • Takes less than 2 minutes"
+  "navLogin": "Log in",
+  "footer": "No credit card, takes under 2 minutes",
+  "footerContact": "Contact: finsight.dev@gmail.com",
+  "howItWorks": {
+    "sectionTitle": "Like Excel, just easier to keep up with",
+    "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. FinSight gives you the same control, in a way that’s simpler to stick with.",
+    "step1": {
+      "title": "Add a transaction in seconds",
+      "description": "Enter an amount and category, and you're done. Everything else is already set up."
+    },
+    "step2": {
+      "title": "Everything is ready to go",
+      "description": "Accounts, categories, and payment methods are already there. Change anything whenever you want."
+    },
+    "step3": {
+      "title": "See the full picture instantly",
+      "description": "Your dashboard updates right away, what came in, what went out, and where your money is going."
+    }
+  },
+  "features": {
+    "sectionTitle": "Everything you need. Nothing extra.",
+    "sectionSubtitle": "For people who want to understand their money, not manage another system.",
+    "dashboard": {
+      "title": "Clear dashboard",
+      "description": "See your month at a glance, income, expenses, and where your money is going."
+    },
+    "transactions": {
+      "title": "Transaction tracking",
+      "description": "Quickly add income and expenses. Filter by date, category, or account."
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Organize your money in a way that matches how you actually think about it."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "description": "Track multiple accounts, bank, cash, or anything else."
+    },
+    "payments": {
+      "title": "Payment methods",
+      "description": "Not just how much you paid, but how you paid."
+    },
+    "budgets": {
+      "title": "Budgets",
+      "description": "Set a budget for each category and see in real time if you’re staying on track."
+    }
+  },
+  "bottomCta": {
+    "title": "Still using Excel?",
+    "subtitle": "There’s a much easier way to understand where your money goes.",
+    "feature1": "Works in web and mobile, no install needed",
+    "feature2": "No payment or credit card required",
+    "feature3": "Your data is safe and secure"
+  },
+  "processAnimation": {
+    "stage0Title": "Setup ready",
+    "stage1Title": "New transaction",
+    "stage2Title": "Dashboard",
+    "accountLabel": "Account",
+    "paymentLabel": "Payment",
+    "categoriesLabel": "Categories",
+    "accountValue": "Cal Bank",
+    "paymentValue": "Credit Card",
+    "categoriesValue": "8 types",
+    "transactionName": "Coffee Shop",
+    "transactionCategory": "🍔 Food",
+    "transactionAdded": "Added",
+    "incomeLabel": "Income",
+    "expensesLabel": "Expenses",
+    "balanceLabel": "Balance"
+  }
 }

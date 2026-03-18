@@ -45,6 +45,12 @@ export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
     return {
       ...baseTheme,
       direction: isRtl ? 'rtl' : 'ltr',
+      typography: {
+        ...baseTheme.typography,
+        fontFamily: isRtl
+          ? '"Heebo", "Inter", -apple-system, BlinkMacSystemFont, sans-serif'
+          : baseTheme.typography.fontFamily,
+      },
     };
   }, [mode, isRtl]);
 

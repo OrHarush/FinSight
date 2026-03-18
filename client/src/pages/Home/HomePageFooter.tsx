@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { alpha, Typography, useTheme } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { ROUTES } from '@/constants/Routes';
@@ -6,13 +6,34 @@ import { useTranslation } from 'react-i18next';
 
 const HomePageFooter = () => {
   const { t } = useTranslation(['home', 'common']);
+  const theme = useTheme();
 
   return (
-    <Column alignItems="center" sx={{ pb: 4, position: 'relative', zIndex: 1 }}>
-      <Typography variant="caption" sx={{ color: 'text.secondary', textAlign: 'center' }}>
-        {t('footer')}
-      </Typography>
-      <Row spacing={2}>
+    <Column
+      alignItems="center"
+      spacing={1.5}
+      sx={{
+        pb: 5,
+        pt: 3,
+        position: 'relative',
+        zIndex: 1,
+        borderTop: `1px solid ${alpha(theme.palette.divider, 0.06)}`,
+      }}
+    >
+      <Row spacing={3} flexWrap="wrap" justifyContent="center" sx={{ rowGap: 0.5 }}>
+        <Typography
+          component="a"
+          href={`mailto:finsight.dev@gmail.com`}
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            textDecoration: 'none',
+            '&:hover': { color: 'text.primary' },
+            transition: 'color 0.2s',
+          }}
+        >
+          {t('footerContact')}
+        </Typography>
         <Typography
           component="a"
           href={ROUTES.PRIVACY_POLICY_URL}
@@ -22,7 +43,8 @@ const HomePageFooter = () => {
           sx={{
             color: 'text.secondary',
             textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' },
+            '&:hover': { color: 'text.primary' },
+            transition: 'color 0.2s',
           }}
         >
           {t('common:legal.privacyPolicy')}
@@ -36,12 +58,17 @@ const HomePageFooter = () => {
           sx={{
             color: 'text.secondary',
             textDecoration: 'none',
-            '&:hover': { textDecoration: 'underline' },
+            '&:hover': { color: 'text.primary' },
+            transition: 'color 0.2s',
           }}
         >
           {t('common:legal.termsOfService')}
         </Typography>
       </Row>
+
+      <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.72rem' }}>
+        © {new Date().getFullYear()} FinSight. All rights reserved.
+      </Typography>
     </Column>
   );
 };
