@@ -1,27 +1,21 @@
 import { CategoryDto, CategoryFormValues } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
-import { PRESET_COLORS, PresetColor } from '../../../shared/types/colors';
+import { PresetColor } from '../../../shared/types/colors';
 import { CreateCategoryCommand } from '../../../shared/types/CategoryCommands';
 import i18n, { TFunction } from 'i18next';
 
-export function mapCategoryFormToCommand(values: CategoryFormValues): CreateCategoryCommand {
-  if (!PRESET_COLORS.includes(values.color as PresetColor)) {
-    throw new Error(`Invalid category color: ${values.color}`);
-  }
+export const mapCategoryFormToCommand = (values: CategoryFormValues): CreateCategoryCommand => ({
+  name: values.name.trim(),
+  type: values.type,
+  icon: values.icon,
+  color: (values.color as PresetColor) || '#9ca3af',
+});
 
-  return {
-    name: values.name.trim(),
-    type: values.type,
-    icon: values.icon,
-    color: values.color as PresetColor,
-  };
-}
-
-export function getTopSpendingCategories(
+export const getTopSpendingCategories = (
   transactions: TransactionDto[],
   categories: CategoryDto[],
   limit = 5
-) {
+) => {
   const perCategory = new Map<string, number>();
 
   for (const tx of transactions) {
@@ -42,12 +36,12 @@ export function getTopSpendingCategories(
     }))
     .sort((a, b) => b.amount - a.amount)
     .slice(0, limit);
-}
+};
 
-export function getCategoryDisplayName(
+export const getCategoryDisplayName = (
   category: Pick<CategoryDto, 'name' | 'key'>,
   t: TFunction<'categories'>
-): string {
+) => {
   if (!category.key) {
     return category.name;
   }
@@ -59,4 +53,4 @@ export function getCategoryDisplayName(
   }
 
   return t(`defaults.${category.key}`);
-}
+};

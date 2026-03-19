@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
-import { useEffect } from 'react';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
@@ -49,14 +48,6 @@ const CreateTransactionDialog = ({
     defaultValues: getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id),
     mode: 'all',
   });
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    methods.reset(getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id));
-  }, [isOpen, initialType, primaryAccount?._id, primaryPaymentMethod?._id, methods]);
 
   const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
     method: 'post',

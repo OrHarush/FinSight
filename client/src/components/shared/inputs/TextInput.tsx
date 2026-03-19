@@ -1,5 +1,5 @@
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
-import { RegisterOptions, useFormContext } from 'react-hook-form';
+import { RegisterOptions, useFormContext, useController } from 'react-hook-form';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
 
@@ -28,10 +28,7 @@ const TextInput = ({
   ...rest
 }: TextInputProps) => {
   const { t } = useTranslation('common');
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   let baseRules: RegisterOptions;
 
@@ -46,7 +43,7 @@ const TextInput = ({
         min: { value: min, message: t('validation.min', { field: label, value: min }) },
       }),
       ...(max !== undefined && {
-        max: { value: max, message: t('validation.max', { field: label, value: min }) },
+        max: { value: max, message: t('validation.max', { field: label, value: max }) },
       }),
     };
   } else if (type === 'date') {
@@ -64,28 +61,29 @@ const TextInput = ({
           typeof required === 'string' ? required : t('validation.required', { field: label }),
       }),
       ...(minLength !== undefined && {
-        minLength: { value: minLength, message: t('validation.min', { field: label, value: min }) },
+        minLength: {
+          value: minLength,
+          message: t('validation.min', { field: label, value: minLength }),
+        },
       }),
       ...(maxLength !== undefined && {
-        maxLength: { value: maxLength, message: t('validation.max', { field: label, value: min }) },
+        maxLength: {
+          value: maxLength,
+          message: t('validation.max', { field: label, value: maxLength }),
+        },
       }),
     };
   }
 
   const finalRules = { ...baseRules, ...rules };
-
-  const fieldError = errors[name]?.message as string | undefined;
+  const { field, fieldState } = useController({ name, control, rules: finalRules });
+  const fieldError = fieldState.error?.message;
 
   return (
-    <Column
-      spacing={0.5}
-      sx={{
-        minWidth: fullWidth ? 0.5 : undefined,
-      }}
-    >
+    <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>
       {label && <InputLabel>{label}</InputLabel>}
       <TextField
-        {...register(name, finalRules)}
+        {...field}
         fullWidth
         helperText={fieldError}
         type={type}

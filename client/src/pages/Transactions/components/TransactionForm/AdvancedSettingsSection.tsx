@@ -1,6 +1,4 @@
 import { Box, Collapse, Grid, IconButton, Typography } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Row from '@/components/shared/layout/containers/Row';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +6,8 @@ import AccountSection from '@/pages/Transactions/components/TransactionForm/Acco
 import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
 import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
+import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
+import ArrowDropUpSharpIcon from '@mui/icons-material/ArrowDropUpSharp';
 
 const AdvancedSettingsSection = () => {
   const { t } = useTranslation('transactions');
@@ -21,24 +21,21 @@ const AdvancedSettingsSection = () => {
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: 2,
-          px: 1.5,
+          mt: 1,
+          px: 0.5,
           py: 1,
+          cursor: 'pointer',
         }}
+        onClick={() => setIsExpanded(prev => !prev)}
       >
         <Row alignItems="center" justifyContent="space-between">
           <Typography variant="body2" color="text.secondary">
             {t('fields.advancedSettings')}
           </Typography>
-          <IconButton
-            size="small"
-            onClick={() => {
-              setIsExpanded(prev => !prev);
-            }}
-          >
-            {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          <IconButton size="small" sx={{ width: 24, height: 24, minWidth: 24, minHeight: 24 }}>
+            {isExpanded ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
           </IconButton>
         </Row>
-
         <Collapse in={isExpanded}>
           <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid', borderColor: 'divider' }}>
             <Grid container spacing={1.5}>
