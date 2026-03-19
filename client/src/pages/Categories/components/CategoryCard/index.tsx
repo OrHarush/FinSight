@@ -69,13 +69,14 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
         <CardContent sx={{ height: '100%', padding: '8px !important' }}>
           <Column height={'100%'} spacing={2} justifyContent={'center'}>
             <Row alignItems="center" justifyContent="space-between">
-              <Row alignItems="center" spacing={2}>
+              <Row alignItems="center" spacing={2} sx={{ minWidth: 0, overflow: 'hidden' }}>
                 <Box
                   sx={{
                     backgroundColor: `${category.color}20`,
                     borderRadius: '12px',
                     width: 40,
                     height: 40,
+                    flexShrink: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -83,7 +84,9 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                 >
                   <IconComponent sx={{ color: category.color, fontSize: 20 }} />
                 </Box>
-                <Typography fontWeight={500}>{getCategoryDisplayName(category, t)}</Typography>
+                <Typography fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {getCategoryDisplayName(category, t)}
+                </Typography>
               </Row>
               <IconButton onClick={handleDelete} size="medium" color="error">
                 <DeleteIcon fontSize="small" />

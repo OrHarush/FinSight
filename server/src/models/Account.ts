@@ -15,7 +15,7 @@ export interface IAccount {
 
 const AccountSchema: Schema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true, maxlength: 40 },
     balance: { type: Number, required: true, default: 0 },
     institution: { type: String },
     accountNumber: { type: String },

@@ -12,7 +12,7 @@ const CategoryForm = () => {
     <Column spacing={3}>
       <Column spacing={1.5}>
         <CategoryPreview />
-        <TextInput name="name" label={t('fields.name')} required />
+        <TextInput name="name" label={t('fields.name')} required maxLength={30} />
       </Column>
       <Box
         sx={{

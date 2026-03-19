@@ -22,6 +22,10 @@ export const create = async (accountDetails: CreateAccountCommand, userId: strin
     throw ApiError.badRequest('Account name is required');
   }
 
+  if (accountDetails.name.length > 40) {
+    throw ApiError.badRequest('Account name must not exceed 40 characters');
+  }
+
   if (accountDetails.balance === undefined) {
     throw ApiError.badRequest('Balance is required');
   }
@@ -50,6 +54,10 @@ export const update = async (
 
   if (!existing) {
     throw ApiError.notFound('Account not found');
+  }
+
+  if (updatedAccountDetails.name && updatedAccountDetails.name.length > 40) {
+    throw ApiError.badRequest('Account name must not exceed 40 characters');
   }
 
   const isBalanceProvided = typeof updatedAccountDetails.balance === 'number';

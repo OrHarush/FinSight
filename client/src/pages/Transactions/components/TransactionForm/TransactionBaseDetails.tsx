@@ -20,7 +20,7 @@ const TransactionBaseDetails = () => {
   return (
     <>
       <Grid size={{ xs: 12, sm: 6 }}>
-        <TextInput name="name" label={t('fields.name')} required />
+        <TextInput name="name" label={t('fields.name')} required maxLength={50} />
       </Grid>
       {!isRecurring && (
         <Grid size={{ xs: 12, sm: isTransfer ? 12 : 6 }}>

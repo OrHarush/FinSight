@@ -12,7 +12,7 @@ export interface IPaymentMethod {
 
 const PaymentMethodSchema: Schema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true, maxlength: 30 },
     type: {
       type: String,
       enum: ['Credit', 'Debit', 'BankTransfer', 'PayPal', 'Other'],

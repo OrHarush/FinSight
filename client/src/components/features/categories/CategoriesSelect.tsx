@@ -32,9 +32,11 @@ const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
           label: category.name,
           value: category._id,
           design: (
-            <Row spacing={1}>
-              <IconComponent sx={{ color: category.color }} />
-              <Typography>{getCategoryDisplayName(category, tCategories)}</Typography>
+            <Row spacing={1} sx={{ minWidth: 0, overflow: 'hidden' }}>
+              <IconComponent sx={{ color: category.color, flexShrink: 0 }} />
+              <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {getCategoryDisplayName(category, tCategories)}
+              </Typography>
             </Row>
           ),
         };

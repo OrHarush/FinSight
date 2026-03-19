@@ -13,9 +13,11 @@ const AccountMenuItem = ({ account }: AccountMenuItemProps) => {
 
   return (
     <Row alignItems="center" justifyContent={'space-between'} width={'100%'}>
-      <Row spacing={1}>
-        <AccountIcon />
-        <Typography>{account.name}</Typography>
+      <Row spacing={1} sx={{ minWidth: 0, overflow: 'hidden' }}>
+        <AccountIcon sx={{ flexShrink: 0 }} />
+        <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {account.name}
+        </Typography>
       </Row>
       {account.isPrimary && (
         <Chip

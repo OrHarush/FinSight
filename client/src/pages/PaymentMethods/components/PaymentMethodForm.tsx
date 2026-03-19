@@ -13,7 +13,7 @@ const PaymentMethodForm = () => {
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12 }}>
-        <TextInput name="name" label={t('fields.name')} required />
+        <TextInput name="name" label={t('fields.name')} required maxLength={30} />
       </Grid>
       <Grid size={{ xs: 12 }}>
         <RHFSelect

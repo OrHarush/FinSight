@@ -20,7 +20,7 @@ export interface ITransaction {
 
 const TransactionSchema: Schema = new Schema(
   {
-    name: { type: String },
+    name: { type: String, maxlength: 50 },
     type: {
       type: String,
       enum: ['Income', 'Expense', 'Transfer'],

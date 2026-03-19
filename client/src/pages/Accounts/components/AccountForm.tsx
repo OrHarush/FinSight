@@ -15,7 +15,7 @@ const AccountForm = () => {
       <Row spacing={2} alignItems="center">
         <AccountIconPicker />
         <Box flex={1}>
-          <TextInput name="name" label={t('fields.name')} required />
+          <TextInput name="name" label={t('fields.name')} required maxLength={40} />
         </Box>
       </Row>
       <Row spacing={2}>

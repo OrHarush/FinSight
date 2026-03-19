@@ -18,7 +18,7 @@ const CategorySchema: Schema = new Schema(
       enum: DEFAULT_CATEGORY_KEYS,
       required: false,
     },
-    name: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true, maxlength: 30 },
     type: { type: String, enum: ['Income', 'Expense'], required: true },
     color: { type: String },
     icon: { type: String },

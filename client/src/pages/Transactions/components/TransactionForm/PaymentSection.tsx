@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
 
@@ -16,6 +16,11 @@ const PaymentSection = () => {
         options={paymentMethods.map(paymentMethod => ({
           label: paymentMethod.name,
           value: paymentMethod._id,
+          design: (
+            <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
+              {paymentMethod.name}
+            </Typography>
+          ),
         }))}
       />
     </Grid>

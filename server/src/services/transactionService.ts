@@ -100,6 +100,10 @@ export const countAll = async (userId: string): Promise<number> =>
 export const create = async (data: CreateTransactionCommand, userId: string) => {
   if (!data.type) throw ApiError.badRequest('Transaction type is required');
 
+  if (data.name && data.name.length > 50) {
+    throw ApiError.badRequest('Transaction description must not exceed 50 characters');
+  }
+
   if (data.type === 'Transfer') {
     if (!data.fromAccountId || !data.toAccountId) {
       throw ApiError.badRequest('Transfer requires both fromAccount and toAccount');
@@ -165,6 +169,10 @@ export const update = async (id: string, data: Partial<ITransaction>, userId: st
 
   if (!existing) {
     throw ApiError.notFound('Transaction not found');
+  }
+
+  if (data.name && data.name.length > 50) {
+    throw ApiError.badRequest('Transaction description must not exceed 50 characters');
   }
 
   const updated = await transactionRepository.updateById(id, data, userId);

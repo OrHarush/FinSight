@@ -26,6 +26,10 @@ export const create = async (details: CreatePaymentMethodCommand, userId: string
     throw ApiError.badRequest('Payment method name is required');
   }
 
+  if (details.name.length > 30) {
+    throw ApiError.badRequest('Payment method name must not exceed 30 characters');
+  }
+
   if (!details.type) {
     throw ApiError.badRequest('Payment method type is required');
   }
@@ -55,6 +59,10 @@ export const update = async (
 
   if (!existing) {
     throw ApiError.notFound('Payment method not found');
+  }
+
+  if (updatedDetails.name && updatedDetails.name.length > 30) {
+    throw ApiError.badRequest('Payment method name must not exceed 30 characters');
   }
 
   if (updatedDetails.type === 'Credit') {
