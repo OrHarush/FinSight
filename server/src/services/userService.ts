@@ -1,4 +1,4 @@
-import { deleteUserById, findById } from '../repositories/userRepository';
+import { deleteUserById, findById, updatePreferences as updatePreferencesRepo } from '../repositories/userRepository';
 import {
   createMany as createCategories,
   deleteMany as deleteCategories,
@@ -16,6 +16,9 @@ import {
 } from '../constants/defaultEntities';
 
 export const getCurrentUserById = async (userId: string) => findById(userId);
+
+export const updatePreferences = async (userId: string, displayCurrency: string) =>
+  updatePreferencesRepo(userId, displayCurrency);
 
 export const createDefaultEntitiesForNewUser = async (userId: string) => {
   const categoriesToCreate = DEFAULT_CATEGORIES.map((category) => ({

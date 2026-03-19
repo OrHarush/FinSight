@@ -23,7 +23,7 @@ const HomePageFooter = () => {
       <Row spacing={3} flexWrap="wrap" justifyContent="center" sx={{ rowGap: 0.5 }}>
         <Typography
           component="a"
-          href={`mailto:finsight.dev@gmail.com`}
+          href={'mailto:hello@finsight-app.com'}
           variant="caption"
           sx={{
             color: 'text.secondary',

@@ -8,4 +8,5 @@ export interface UserDto {
   role: UserRole;
   acceptedTermsAt?: string;
   consentVersion?: string;
+  displayCurrency?: string;
 }

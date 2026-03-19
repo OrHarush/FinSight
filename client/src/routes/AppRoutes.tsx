@@ -36,6 +36,8 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
+          <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
+          <Route path={ROUTES.PRIVACY_POLICY_URL} element={<PrivacyPolicyPage />} />
           <Route
             element={
               <RequireGuest>
@@ -45,8 +47,6 @@ const AppRoutes = () => {
           >
             <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
-            <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
-            <Route path={ROUTES.PRIVACY_POLICY_URL} element={<PrivacyPolicyPage />} />
             <Route path="/" element={<Navigate to={ROUTES.HOME_URL} />} />
             <Route path="*" element={<NotFoundPage isAuthenticated={!!user} />} />
           </Route>

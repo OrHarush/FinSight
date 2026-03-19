@@ -48,26 +48,41 @@ const LandingNavbar = () => {
           FinSight
         </Typography>
       </Row>
-      <Row alignItems="center" spacing={0.5}>
-        <LanguageSelect />
-        <IconButton
-          onClick={toggleColorMode}
-          size="small"
+      <Row alignItems="center" spacing={2}>
+        <Row spacing={1}>
+          <LanguageSelect />
+          <IconButton
+            onClick={toggleColorMode}
+            size="small"
+            sx={{
+              borderRadius: '8px',
+              color: 'text.secondary',
+              '&:hover': {
+                color: 'text.primary',
+                backgroundColor: alpha(theme.palette.primary.main, 0.08),
+              },
+            }}
+          >
+            {theme.palette.mode === 'dark' ? (
+              <LightModeIcon fontSize="small" />
+            ) : (
+              <DarkModeIcon fontSize="small" />
+            )}
+          </IconButton>
+        </Row>
+
+        <Button
+          variant="outlined"
+          component="a"
+          href={ROUTES.LOGIN_URL}
           sx={{
-            borderRadius: '8px',
-            color: 'text.secondary',
-            '&:hover': {
-              color: 'text.primary',
-              backgroundColor: alpha(theme.palette.primary.main, 0.08),
-            },
+            borderRadius: '100px',
+            px: 3,
+            ml: 1.5,
           }}
         >
-          {theme.palette.mode === 'dark' ? (
-            <LightModeIcon fontSize="small" />
-          ) : (
-            <DarkModeIcon fontSize="small" />
-          )}
-        </IconButton>
+          {t('navSignUp')}
+        </Button>
         <Button
           variant="contained"
           component="a"
@@ -75,7 +90,6 @@ const LandingNavbar = () => {
           sx={{
             borderRadius: '100px',
             px: 3,
-            ml: 1.5,
           }}
         >
           {t('navLogin')}

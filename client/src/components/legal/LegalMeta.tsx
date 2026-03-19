@@ -14,8 +14,8 @@ const LegalMeta = () => {
         </Typography>
         <Row spacing={1}>
           <Typography fontWeight={600}>{t('legal.contactEmailLabel')}:</Typography>
-          <Link href={`mailto:${t('legal.contactEmail')}`} sx={{ color: 'primary.main' }}>
-            {t('legal.contactEmail')}
+          <Link href={'mailto:hello@finsight-app.com'} sx={{ color: 'primary.main' }}>
+            hello@finsight-app.com
           </Link>
         </Row>
       </Column>

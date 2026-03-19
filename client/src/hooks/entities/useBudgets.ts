@@ -20,6 +20,8 @@ export const useBudgets = (year: number, month: number, categoryId?: string) => 
 
   const url = `${API_ROUTES.BUDGETS}?${params.toString()}`;
 
+  console.log(url);
+
   const query = useFetch<BudgetDto[]>({
     url,
     queryKey: queryKeys.budgets(year, month + 1, categoryId),

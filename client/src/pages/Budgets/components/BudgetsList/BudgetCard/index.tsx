@@ -7,11 +7,13 @@ import { computeBudgetUsagePercentChange } from '@/utils/budgetUtils';
 import BudgetTransactionList from '@/pages/Budgets/components/BudgetsList/BudgetCard/BudgetTransactionList';
 import { useTranslation } from 'react-i18next';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Row from '@/components/shared/layout/containers/Row';
 import Column from '@/components/shared/layout/containers/Column';
 import BudgetProgressRow from '@/components/features/budgets/BudgetProgressRow';
+import { useDeleteBudget } from '@/hooks/entities/useBudgetMutations';
 
 interface BudgetCategoryRowProps {
   category: CategoryDto;
@@ -34,6 +36,7 @@ const BudgetCard = ({
 }: BudgetCategoryRowProps) => {
   const { t } = useTranslation('budgets');
   const [isExpanded, setIsExpanded] = useState(false);
+  const deleteBudget = useDeleteBudget();
 
   const percentage = Math.min((spent / budget.limit) * 100, 100);
   const categoryTransactions = transactions.filter(tx => tx.category?._id === category._id);
@@ -41,17 +44,14 @@ const BudgetCard = ({
     ? computeBudgetUsagePercentChange(spent, budget.limit, prevSpent ?? 0, prevBudget.limit)
     : null;
 
-  const toggleExpanded = () => {
-    if (categoryTransactions.length === 0) {
-      return;
-    }
-
-    setIsExpanded(prev => !prev);
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    deleteBudget.mutate({ budgetId: budget._id });
   };
 
-  const editBudget = (e: React.MouseEvent) => {
+  const handleToggleExpand = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onEditBudget();
+    setIsExpanded(prev => !prev);
   };
 
   return (
@@ -61,56 +61,70 @@ const BudgetCard = ({
         border: '1px solid',
         borderColor: 'divider',
         '&:hover': { borderColor: category.color, boxShadow: 2 },
-        cursor: categoryTransactions.length > 0 ? 'pointer' : 'default',
+        cursor: 'pointer',
       }}
-      onClick={() => {
-        if (categoryTransactions.length > 0) {
-          setIsExpanded(prev => !prev);
-        }
-      }}
+      onClick={onEditBudget}
     >
       <CardContent sx={{ p: { xs: 2, sm: 2.5 }, '&:last-child': { pb: { xs: 2, sm: 2.5 } } }}>
-        <Row spacing={2}>
-          <Column flex={1} spacing={0.5}>
-            <BudgetProgressRow
-              budget={{
-                id: category._id,
-                name: category.name,
-                icon: category.icon,
-                color: category.color,
-                spent,
-                limit: budget.limit,
-                percent: percentage,
-              }}
-              usageChange={usageChange}
-            />
-            <Typography variant="caption" color="text.secondary" sx={{}}>
+        <Column spacing={0.5}>
+          <Row spacing={2}>
+            <Column flex={1} spacing={0.5}>
+              <BudgetProgressRow
+                budget={{
+                  id: category._id,
+                  name: category.name,
+                  icon: category.icon,
+                  color: category.color,
+                  spent,
+                  limit: budget.limit,
+                  percent: percentage,
+                }}
+                usageChange={usageChange}
+                actions={
+                  <Row spacing={0.5}>
+                    <IconButton
+                      size="small"
+                      onClick={e => {
+                        e.stopPropagation();
+                        onEditBudget();
+                      }}
+                      title={t('editBudget')}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={handleDelete}
+                      title={t('deleteBudget')}
+                      color="error"
+                    >
+                      <DeleteOutlineIcon fontSize="small" />
+                    </IconButton>
+                  </Row>
+                }
+              />
+            </Column>
+          </Row>
+          <Row
+            alignItems="center"
+            spacing={0.5}
+            onClick={handleToggleExpand}
+            sx={{ width: 'fit-content' }}
+          >
+            <Typography variant="caption" color="text.secondary">
               {categoryTransactions.length} {t('transactions.title')}
             </Typography>
-          </Column>
-          <Row alignItems="center" justifyContent="center" spacing={1}>
-            <IconButton
-              size="small"
-              onClick={e => {
-                e.stopPropagation();
-                editBudget(e);
-              }}
-              title={t('editBudget')}
-            >
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              size="small"
-              onClick={e => {
-                e.stopPropagation();
-                toggleExpanded();
-              }}
-              disabled={categoryTransactions.length === 0}
-            >
-              {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </IconButton>
+            {categoryTransactions.length > 0 && (
+              <IconButton size="small">
+                {isExpanded ? (
+                  <ExpandLessIcon fontSize="small" />
+                ) : (
+                  <ExpandMoreIcon fontSize="small" />
+                )}
+              </IconButton>
+            )}
           </Row>
-        </Row>
+        </Column>
         <Collapse in={isExpanded}>
           <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
             <BudgetTransactionList transactions={categoryTransactions} />

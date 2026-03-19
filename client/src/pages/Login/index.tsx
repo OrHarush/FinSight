@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import LegalLinks from '@/pages/Login/LegalLinks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { IconButton, Tooltip } from '@mui/material';
+import { Button } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
 
 const LoginPage = () => {
@@ -54,23 +54,25 @@ const LoginPage = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <Tooltip title={t('backToHome', { defaultValue: 'Back to home' })}>
-        <IconButton
-          onClick={() => navigate(ROUTES.HOME_URL)}
-          aria-label="Back to home"
-          sx={{
-            position: 'absolute',
-            top: 12,
-            left: 12,
-            backdropFilter: 'blur(8px)',
-            '&:hover': {
-              backgroundColor: 'rgba(255,255,255,0.16)',
-            },
-          }}
-        >
-          {isRtl ? <ArrowForwardIcon /> : <ArrowBackIcon />}
-        </IconButton>
-      </Tooltip>
+      <Button
+        onClick={() => navigate(ROUTES.HOME_URL)}
+        startIcon={isRtl ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+        sx={{
+          position: 'absolute',
+          top: 12,
+          left: 12,
+          color: 'rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: '100px',
+          px: 2,
+          '&:hover': {
+            backgroundColor: 'rgba(255,255,255,0.12)',
+            color: '#fff',
+          },
+        }}
+      >
+        {t('backToHome')}
+      </Button>
       <Card
         sx={{
           width: isMobile ? '340px' : '420px',

@@ -1,8 +1,16 @@
 import { Response, Request } from 'express';
-import { deleteUserCompletely } from '../services/userService';
+import { deleteUserCompletely, updatePreferences } from '../services/userService';
 import { ApiResponse } from '../utils/ApiResponse';
 import { ApiError } from '../errors/ApiError';
 import { asyncHandler } from '../utils/asyncHandler';
+import { UpdatePreferencesBody } from '../schemas/userSchemas';
+
+export const updatePreferencesController = asyncHandler(async (req: Request, res: Response) => {
+  const { displayCurrency } = req.validatedBody as UpdatePreferencesBody;
+  const user = await updatePreferences(req.userId!, displayCurrency);
+
+  return ApiResponse.ok(res, user);
+});
 
 export const deleteUserController = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;

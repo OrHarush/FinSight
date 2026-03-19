@@ -50,6 +50,7 @@ export const API_ROUTES = {
   BUDGETS: '/api/budgets',
 
   USERS: '/api/users',
+  USERS_PREFERENCES: '/api/users/me/preferences',
 
   ADMIN: '/api/admin',
 

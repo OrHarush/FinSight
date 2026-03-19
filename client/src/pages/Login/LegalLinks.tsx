@@ -17,6 +17,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
       sx={{
         justifyContent: 'center',
         alignItems: 'center',
+        flexWrap: 'nowrap',
       }}
     >
       <Typography
@@ -28,6 +29,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
         sx={{
           color: 'text.primary',
           textDecoration: 'none',
+          whiteSpace: 'nowrap',
           fontSize: variant === 'body2' ? '0.875rem' : '0.75rem',
           transition: 'color 0.2s ease',
           '&:hover': {
@@ -50,6 +52,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
         sx={{
           color: 'text.primary',
           textDecoration: 'none',
+          whiteSpace: 'nowrap',
           fontSize: variant === 'body2' ? '0.875rem' : '0.75rem',
           transition: 'color 0.2s ease',
           '&:hover': {

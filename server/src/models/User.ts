@@ -20,6 +20,7 @@ export interface IUser {
   consentIp?: string;
   consentUserAgent?: string;
   lastLoginAt?: Date;
+  displayCurrency: string;
 }
 
 const ProviderSchema = new Schema<Provider>(
@@ -49,6 +50,7 @@ const UserSchema = new Schema<IUser>(
     consentIp: { type: String },
     consentUserAgent: { type: String },
     lastLoginAt: { type: Date },
+    displayCurrency: { type: String, default: 'ILS' },
   },
   { timestamps: true }
 );

@@ -9,5 +9,41 @@
     "confirm": "Delete Account",
     "success": "Your account has been deleted successfully.",
     "error": "Failed to delete account."
+  },
+  "settingsModal": {
+    "title": "Settings",
+    "general": "General",
+    "currency": "Display Currency",
+    "currencyHelper": "Default currency when creating new accounts",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete Account",
+    "updateSuccess": "Preferences saved.",
+    "updateError": "Failed to save preferences."
+  },
+  "helpModal": {
+    "title": "Help",
+    "contact": "Contact us",
+    "faq": [
+      {
+        "question": "How do I add a transaction?",
+        "answer": "Go to the Transactions page and click the + button in the bottom right corner. Fill in the amount, category, and date, then save."
+      },
+      {
+        "question": "How do I create a budget?",
+        "answer": "Navigate to the Budgets page and click Add Budget. Choose a category, set a monthly limit, and FinSight will track your spending against it."
+      },
+      {
+        "question": "Can I have multiple accounts?",
+        "answer": "Yes! Go to the Accounts page and click Add Account. You can create as many accounts as you need, each with its own currency."
+      },
+      {
+        "question": "What does display currency mean?",
+        "answer": "Your display currency is the default currency pre-selected when you create a new account. Each account can still have its own individual currency."
+      },
+      {
+        "question": "How do I export my data?",
+        "answer": "Data export is coming soon. In the meantime, you can view summaries and trends on the Reports page."
+      }
+    ]
   }
 }

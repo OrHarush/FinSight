@@ -1,5 +1,6 @@
 import { Typography, TypographyProps } from '@mui/material';
 import CountUp from 'react-countup';
+import { useAuth } from '@/providers/AuthProvider';
 
 export interface CurrencyTextProps extends TypographyProps {
   value: number;
@@ -12,29 +13,38 @@ export interface CurrencyTextProps extends TypographyProps {
 
 const CurrencyText = ({
   value,
-  currency = 'ILS',
+  currency,
   locale = 'he-IL',
   hasColor = false,
   hasSign = false,
   isAnimated = false,
   ...typographyProps
 }: CurrencyTextProps) => {
+  const { user } = useAuth();
+  const resolvedCurrency = currency ?? user?.displayCurrency ?? 'ILS';
+
   const formattedCurrency = value
     .toLocaleString(locale, {
       style: 'currency',
-      currency,
+      currency: resolvedCurrency,
       currencyDisplay: 'symbol',
       minimumFractionDigits: 0,
     })
     .replace(/\s+/g, '');
 
-  const color = value >= 0 ? 'success.main' : 'error.main'
+  const color = value >= 0 ? 'success.main' : 'error.main';
+  const suffix = formattedCurrency.replace(/[\d,.\s]/g, '');
 
   return (
-    <Typography component="span" dir="ltr" {...typographyProps} color={hasColor ? color : typographyProps.color}>
-      {(hasSign && value > 0) && '+'}
+    <Typography
+      component="span"
+      dir="ltr"
+      {...typographyProps}
+      color={hasColor ? color : typographyProps.color}
+    >
+      {hasSign && value > 0 && '+'}
       {isAnimated ? (
-        <CountUp end={value} duration={1.5} decimals={0} suffix="₪" />
+        <CountUp end={value} duration={1.5} decimals={0} suffix={suffix} />
       ) : (
         formattedCurrency
       )}

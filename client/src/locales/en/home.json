@@ -19,8 +19,9 @@
     "peaceOfMind": "Less stress"
   },
   "navLogin": "Log in",
+  "navSignUp": "Sign Up",
   "footer": "No credit card, takes under 2 minutes",
-  "footerContact": "Contact: finsight.dev@gmail.com",
+  "footerContact": "Contact: hello@finsight-app.com",
   "howItWorks": {
     "sectionTitle": "Like Excel, just easier to keep up with",
     "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. FinSight gives you the same control, in a way that’s simpler to stick with.",

@@ -1,5 +1,4 @@
 import {
-  alpha,
   Box,
   Card,
   CardContent,
@@ -7,12 +6,19 @@ import {
   Fade,
   Grid,
   Typography,
-  useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { BarChart } from '@mui/x-charts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
 import { useTranslation } from 'react-i18next';
-import { useRef, useState, useEffect } from 'react';
 import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
@@ -28,98 +34,129 @@ interface TopCategoriesContentProps {
   isLoading?: boolean;
 }
 
+interface TooltipPayloadEntry {
+  value: number;
+  payload: { name: string; amount: number; color: string };
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadEntry[];
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  const theme = useTheme();
+
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  const entry = payload[0];
+
+  return (
+    <Box
+      sx={{
+        bgcolor: theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 1,
+        px: 1.5,
+        py: 1,
+      }}
+    >
+      <Typography variant="caption" color="text.secondary" display="block">
+        {entry.payload.name}
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+        ₪{entry.value.toLocaleString()}
+      </Typography>
+    </Box>
+  );
+};
+
 const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const { t } = useTranslation('overview');
   const { t: tCategories } = useTranslation('categories');
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dims, setDims] = useState<{ width: number; height: number } | null>(null);
+  const dataset = [...chartData]
+    .sort((a, b) => b.amount - a.amount)
+    .map(item => ({
+      id: item.id,
+      name: getCategoryDisplayName(item, tCategories),
+      amount: item.amount,
+      color: item.color ?? theme.palette.grey[500],
+    }));
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const observer = new ResizeObserver(entries => {
-      const { width, height } = entries[0].contentRect;
-      if (width > 0 && height > 0) setDims({ width, height });
-    });
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const dataset = chartData.map(d => ({
-    category: getCategoryDisplayName(d, tCategories),
-    spent: d.amount,
-  }));
-
-  const categoryColors: string[] = chartData.map(d =>
-    d.color ? alpha(d.color, 0.5) : alpha(theme.palette.grey[500], 0.7)
-  );
+  const chartHeight = dataset.length * 80 + 48;
 
   return (
     <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
       <Card
         sx={{
+          height: '100%',
           width: '100%',
           p: isMobile ? 1 : 2,
           display: 'flex',
-          flexDirection: 'column',
+          flex: 1,
           minHeight: 0,
-          overflow: 'hidden',
         }}
       >
         <CardContent
           sx={{
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             minHeight: 0,
-            overflow: 'hidden',
             position: 'relative',
             '&:last-child': { pb: 2 },
           }}
         >
-          <Typography variant="h5" color="text.secondary" sx={{ flexShrink: 0, mb: 1 }}>
+          <Typography variant="h5" color="text.secondary" sx={{ mb: 2.5, flexShrink: 0 }}>
             {t('topSpendingCategories.title')}
           </Typography>
           <Box
-            ref={containerRef}
             sx={{
               flex: 1,
-              minHeight: isMobile ? 260 : 0,
-              overflow: 'hidden',
+              minHeight: chartHeight,
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            {dims && (
+            <ResponsiveContainer width="100%" height={'100%'}>
               <BarChart
-                key={`${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}-${dims.width}-${dims.height}`}
-                layout="horizontal"
-                dataset={dataset}
-                width={dims.width}
-                height={dims.height}
-                borderRadius={8}
-                series={[{ dataKey: 'spent' }]}
-                yAxis={[
-                  {
-                    scaleType: 'band',
-                    dataKey: 'category',
-                    colorMap: { type: 'ordinal', colors: categoryColors },
-                    barGapRatio: 0.5,
-                    categoryGapRatio: 0.4,
-                  },
-                ]}
-                xAxis={[
-                  {
-                    valueFormatter: (value: number) => `₪${value.toLocaleString()}`,
-                  },
-                ]}
-              />
-            )}
+                layout="vertical"
+                data={dataset}
+                margin={{ top: 4, right: 20, bottom: 4, left: 8 }}
+                barSize={20}
+              >
+                <CartesianGrid horizontal={false} stroke="rgba(255,255,255,0.06)" />
+                <XAxis
+                  type="number"
+                  tickFormatter={(value: number) => `₪${value.toLocaleString()}`}
+                  tick={{ fill: theme.palette.text.secondary, fontSize: 11 }}
+                  axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                  tickLine={false}
+                />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  width={90}
+                  tick={{ fill: theme.palette.text.secondary, fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} cursor={false} />
+                <Bar dataKey="amount" radius={[0, 4, 4, 0]} activeBar={false}>
+                  {dataset.map(entry => (
+                    <Cell key={entry.id} fill={entry.color} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </Box>
+
           {isLoading && (
             <Fade in={isLoading}>
               <Box

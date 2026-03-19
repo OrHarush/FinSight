@@ -23,6 +23,9 @@ export const deleteUserById = (id: string) => User.findByIdAndDelete(id);
 
 export const countAll = async (): Promise<number> => User.countDocuments();
 
+export const updatePreferences = async (userId: string, displayCurrency: string) =>
+  User.findByIdAndUpdate(userId, { displayCurrency }, { new: true });
+
 interface AcceptTermsRepoInput {
   userId: string | Types.ObjectId;
   locale: string;

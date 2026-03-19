@@ -7,7 +7,7 @@ export const GetBudgetsSchema = z
   })
   .transform((data) => ({
     year: parseInt(data.year, 10),
-    month: parseInt(data.month, 10) - 1,
+    month: parseInt(data.month, 10),
   }));
 
 export type GetBudgetsQuery = z.infer<typeof GetBudgetsSchema>;

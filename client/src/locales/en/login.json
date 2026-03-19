@@ -2,5 +2,6 @@
   "title": "Welcome to FinSight",
   "subtitle": "Your personal finance dashboard",
   "button": "Sign in with Google",
-  "secure_note": "Sign in securely with your Google account"
+  "secure_note": "Sign in securely with your Google account",
+  "backToHome": "Back to home"
 }

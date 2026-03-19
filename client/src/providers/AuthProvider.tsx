@@ -12,6 +12,7 @@ interface AuthContextValue {
   token: string | null;
   loginWithGoogle: (googleToken: string) => Promise<void>;
   logout: () => void;
+  updateUser: (user: UserDto) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -95,8 +96,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('token');
   };
 
+  const updateUser = (updatedUser: UserDto) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isLoadingUser, token, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, isLoadingUser, token, loginWithGoogle, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

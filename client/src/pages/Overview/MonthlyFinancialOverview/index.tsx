@@ -14,8 +14,6 @@ import OverviewMetric from '@/pages/Overview/MonthlyFinancialOverview/OverviewMe
 import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHeadline';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
 
-const formatAmount = (value: number) => `₪${Math.abs(value).toLocaleString()}`;
-
 const MonthlyFinancialOverview = () => {
   const { t } = useTranslation('common');
   const { year, month, account } = useOverviewFilters();
@@ -48,7 +46,7 @@ const MonthlyFinancialOverview = () => {
               <Grid size={{ xs: 12, sm: 6, md: 12, lg: 6 }}>
                 <OverviewMetric
                   icon={TrendingUpIcon}
-                  value={formatAmount(income)}
+                  value={Math.abs(income)}
                   label={t('general.income')}
                   color="success"
                 />
@@ -56,7 +54,7 @@ const MonthlyFinancialOverview = () => {
               <Grid size={{ xs: 12, sm: 6, md: 12, lg: 6 }}>
                 <OverviewMetric
                   icon={TrendingDownIcon}
-                  value={formatAmount(expenses)}
+                  value={Math.abs(expenses)}
                   label={t('general.expenses')}
                   color="error"
                 />

@@ -2,10 +2,11 @@ import { Typography, alpha, useTheme, Box } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { SvgIconComponent } from '@mui/icons-material';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 export interface OverviewMetricProps {
   icon: SvgIconComponent;
-  value: string;
+  value: number;
   label: string;
   color: 'success' | 'error' | 'warning' | 'info';
 }
@@ -29,7 +30,7 @@ const OverviewMetric = ({ icon: Icon, value, label, color }: OverviewMetricProps
         <Icon color={color} />
       </Box>
       <Column>
-        <Typography fontWeight={600}>{value}</Typography>
+        <CurrencyText value={value} fontWeight={600} isAnimated />
         <Typography variant="body2" color="text.secondary">
           {label}
         </Typography>
