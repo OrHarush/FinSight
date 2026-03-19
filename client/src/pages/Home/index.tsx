@@ -5,21 +5,24 @@ import FeaturesSection from '@/pages/Home/FeaturesSection/FeaturesSection';
 import BottomCtaSection from '@/pages/Home/BottomCtaSection';
 import HomePageFooter from '@/pages/Home/HomePageFooter';
 import HowItWorksSection from '@/pages/Home/HowItWorksSection';
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 
 const HomePage = () => (
   <Column
     sx={{
       minHeight: '100vh',
       backgroundColor: 'background.default',
-      overflowX: 'hidden',
+      overflow: 'hidden',
     }}
   >
     <LandingNavbar />
-    <HeroSection />
-    <HowItWorksSection />
-    <FeaturesSection />
-    <BottomCtaSection />
-    <HomePageFooter />
+    <ScrollableColumn>
+      <HeroSection />
+      <HowItWorksSection />
+      <FeaturesSection />
+      <BottomCtaSection />
+      <HomePageFooter />
+    </ScrollableColumn>
   </Column>
 );
 

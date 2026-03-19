@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import { StackOwnProps } from '@mui/material/Stack/Stack';
+import { StackProps } from '@mui/material/Stack/Stack';
 import { Stack } from '@mui/material';
 
-interface ColumnProps extends StackOwnProps {
+interface ColumnProps extends StackProps {
   children: ReactNode;
 }
 

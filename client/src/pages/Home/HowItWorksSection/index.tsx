@@ -70,7 +70,6 @@ const HowItWorksSection = () => {
             {t('howItWorks.sectionTitle')}
           </Typography>
         </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -89,8 +88,6 @@ const HowItWorksSection = () => {
           </Typography>
         </motion.div>
       </Column>
-
-      {/* Animated flow illustration — synced with step highlighting */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
@@ -121,7 +118,6 @@ const HowItWorksSection = () => {
             >
               <ProcessStep {...step} isActive={activeStage === index} />
             </motion.div>
-
             {index < steps.length - 1 && (
               <Box
                 sx={{
@@ -130,7 +126,7 @@ const HowItWorksSection = () => {
                   height: 2,
                   flexShrink: 0,
                   alignSelf: 'flex-start',
-                  mt: 3,
+                  mt: 10,
                   mx: 1,
                   background: `linear-gradient(90deg, ${alpha(theme.palette.primary.main, 0.4)}, ${alpha(theme.palette.secondary.main, 0.4)})`,
                   borderRadius: 1,

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem, useTheme, Typography } from '@mui/material';
+import { SxProps, Theme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import ReactCountryFlag from 'react-country-flag';
 import Row from '@/components/shared/layout/containers/Row';
 
-const LanguageSelect = () => {
+interface LanguageSelectProps {
+  sx?: SxProps<Theme>;
+  menuDirection?: 'up' | 'down';
+}
+
+const LanguageSelect = ({ sx, menuDirection = 'down' }: LanguageSelectProps) => {
   const theme = useTheme();
   const { i18n } = useTranslation('common');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -34,7 +40,7 @@ const LanguageSelect = () => {
 
   return (
     <>
-      <IconButton onClick={handleClick} sx={{ borderRadius: '8px' }}>
+      <IconButton onClick={handleClick} sx={{ borderRadius: '8px', ...sx }}>
         <ReactCountryFlag
           countryCode={currentFlag}
           svg
@@ -49,11 +55,11 @@ const LanguageSelect = () => {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: menuDirection === 'down' ? 'bottom' : 'top',
           horizontal: isRtl ? 'right' : 'left',
         }}
         transformOrigin={{
-          vertical: 'bottom',
+          vertical: menuDirection === 'down' ? 'top' : 'bottom',
           horizontal: isRtl ? 'right' : 'left',
         }}
         sx={{

@@ -18,7 +18,9 @@
     "smartDecisions": "Better decisions",
     "peaceOfMind": "Less stress"
   },
-  "navLogin": "Log in",
+  "alreadyHaveAccount": "Already have an account?",
+  "signIn": "Sign in",
+  "navLogin":"Log in",
   "navSignUp": "Sign Up",
   "footer": "No credit card, takes under 2 minutes",
   "footerContact": "Contact: hello@finsight-app.com",

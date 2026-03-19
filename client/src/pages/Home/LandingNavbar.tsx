@@ -7,10 +7,12 @@ import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { useAppTheme } from '@/providers/AppThemeProvider';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const LandingNavbar = () => {
-  const theme = useTheme();
   const { t } = useTranslation('home');
+  const theme = useTheme();
+  const isMobile = useIsMobile();
   const { toggleColorMode } = useAppTheme();
 
   return (
@@ -34,28 +36,38 @@ const LandingNavbar = () => {
           alt="FinSight"
           style={{ width: 32, height: 32, objectFit: 'contain' }}
         />
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 700,
-            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          FinSight
-        </Typography>
+        {!isMobile && (
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              letterSpacing: '-0.02em',
+            }}
+          >
+            FinSight
+          </Typography>
+        )}
       </Row>
-      <Row alignItems="center" spacing={2}>
-        <Row spacing={1}>
-          <LanguageSelect />
+      <Row alignItems="center" spacing={{ xs: 1, sm: 2 }}>
+        <Row spacing={1} alignItems={'center'}>
+          <LanguageSelect
+            sx={{
+              width: 40,
+              height: 40,
+              backgroundColor: 'transparent',
+            }}
+          />
           <IconButton
             onClick={toggleColorMode}
             size="small"
             sx={{
-              borderRadius: '8px',
+              width: 40,
+              height: 40,
+              backgroundColor: 'transparent',
               color: 'text.secondary',
               '&:hover': {
                 color: 'text.primary',
@@ -70,7 +82,6 @@ const LandingNavbar = () => {
             )}
           </IconButton>
         </Row>
-
         <Button
           variant="outlined"
           component="a"
@@ -78,7 +89,8 @@ const LandingNavbar = () => {
           sx={{
             borderRadius: '100px',
             px: 3,
-            ml: 1.5,
+            ml: { xs: 0, sm: 1.5 },
+            whiteSpace: 'nowrap',
           }}
         >
           {t('navSignUp')}
@@ -90,6 +102,7 @@ const LandingNavbar = () => {
           sx={{
             borderRadius: '100px',
             px: 3,
+            display: { xs: 'none', sm: 'flex' },
           }}
         >
           {t('navLogin')}

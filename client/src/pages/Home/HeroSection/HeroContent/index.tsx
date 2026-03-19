@@ -1,10 +1,11 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Link, useTheme } from '@mui/material';
 import Column from '@/components/shared/layout/containers/Column';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import CtaButton from '@/pages/Home/HeroSection/HeroContent/CtaButton';
 import { useTranslation } from 'react-i18next';
 import TrustBadges from '@/pages/Home/HeroSection/HeroContent/TrustBadges';
+import { ROUTES } from '@/constants/Routes';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -69,6 +70,28 @@ const HeroContent = () => {
       </motion.div>
       <motion.div {...fadeUp(0.2)}>
         <CtaButton />
+      </motion.div>
+      <motion.div {...fadeUp(0.25)}>
+        <Box
+          sx={{
+            display: { xs: 'flex', sm: 'none' },
+            gap: 0.5,
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="body2" color="text.secondary">
+            {t('alreadyHaveAccount')}
+          </Typography>
+          <Link
+            component="a"
+            href={ROUTES.LOGIN_URL}
+            variant="body2"
+            underline="hover"
+            sx={{ color: 'primary.main', fontWeight: 500 }}
+          >
+            {t('signIn')}
+          </Link>
+        </Box>
       </motion.div>
       <motion.div {...fadeUp(0.35)}>
         <TrustBadges />

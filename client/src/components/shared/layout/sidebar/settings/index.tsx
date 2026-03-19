@@ -9,18 +9,16 @@ import { useIsMobile } from '@/hooks/common/useIsMobile';
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { useOpen } from '@/hooks/common/useOpen';
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
-
 const Settings = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
-
   const isMobile = useIsMobile();
 
   return (
     <>
-      <Column paddingTop={2} justifyContent={'flex-end'} >
+      <Column paddingTop={2} justifyContent={'flex-end'}>
         <Column>
           {isMobile && (
-            <ListItem sx={{pt: 0}}>
+            <ListItem sx={{ pt: 0 }}>
               <ListItemButton
                 onClick={openFeedbackDialog}
                 sx={{
@@ -42,7 +40,7 @@ const Settings = () => {
             alignItems="center"
           >
             <ThemeToggle />
-            <LanguageSelect />
+            <LanguageSelect menuDirection={'up'} />
           </Row>
         </Column>
 

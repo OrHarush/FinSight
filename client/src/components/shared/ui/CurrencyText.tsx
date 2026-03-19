@@ -33,7 +33,7 @@ const CurrencyText = ({
     .replace(/\s+/g, '');
 
   const color = value >= 0 ? 'success.main' : 'error.main';
-  const suffix = formattedCurrency.replace(/[\d,.\s]/g, '');
+  const suffix = formattedCurrency.replace(/[\d,.\s\-\u200f\u200e\u202a-\u202e]/g, '').trim();
 
   return (
     <Typography

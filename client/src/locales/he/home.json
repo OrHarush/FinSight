@@ -18,7 +18,9 @@
     "smartDecisions": "מקבלים החלטות טובות יותר",
     "peaceOfMind": "פחות לחץ"
   },
-  "navLogin": "התחברות",
+  "alreadyHaveAccount": "כבר יש לך חשבון?",
+  "signIn": "התחבר",
+  "navLogin":"התחברות",
   "navSignUp": "הרשמה",
   "footer": "בלי כרטיס אשראי, פחות מ-2 דקות",
   "footerContact": "צור קשר: hello@finsight-app.com",
