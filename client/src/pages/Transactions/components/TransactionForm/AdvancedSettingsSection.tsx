@@ -27,7 +27,7 @@ const AdvancedSettingsSection = () => {
       >
         <Row alignItems="center" justifyContent="space-between">
           <Typography variant="body2" color="text.secondary">
-            {t('fields.advancedSettings', { defaultValue: 'Advanced settings' })}
+            {t('fields.advancedSettings')}
           </Typography>
           <IconButton
             size="small"

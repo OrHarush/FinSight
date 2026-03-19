@@ -5,7 +5,7 @@ import Row from '@/components/shared/layout/containers/Row';
 
 interface EditAndDeleteButtonsProps {
   onEdit?: () => void;
-  onDelete?: () => void;
+  onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   isEditDisabled?: boolean;
   isDeleteDisabled?: boolean;
   requireConfirmation?: boolean;

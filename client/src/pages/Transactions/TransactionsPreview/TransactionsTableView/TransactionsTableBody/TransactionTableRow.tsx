@@ -8,12 +8,15 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Row from '@/components/shared/layout/containers/Row';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/dateUtils';
+import { getCategoryDisplayName } from '@/utils/categoryUtils';
+import { useTranslation } from 'react-i18next';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
 }
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
+  const { t } = useTranslation('categories');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -66,9 +69,9 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
       </TableCell>
       <TableCell align="left">
         <CategoryChip
-          name={transaction?.category?.name || 'Uncategorized'}
-          color={transaction?.category?.color || '#c8c8c8'}
-          icon={transaction?.category?.icon}
+          name={getCategoryDisplayName(transaction?.category, t)}
+          color={transaction.category.color || '#c8c8c8'}
+          icon={transaction.category.icon}
         />
       </TableCell>
       <TableCell align="left">{transaction.account?.name}</TableCell>

@@ -23,7 +23,8 @@
     "recurrence": "חזרתיות",
     "startDate": "תאריך התחלה",
     "endDate": "תאריך סיום",
-    "countTowardPreviousMonth": "לשייך לחודש הקודם?"
+    "countTowardPreviousMonth": "לשייך לחודש הקודם?",
+    "advancedSettings": "הגדרות נוספות"
   },
   "types": {
     "income": "הכנסה",

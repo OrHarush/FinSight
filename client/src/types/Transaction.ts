@@ -35,8 +35,8 @@ export interface TransactionDto {
   startDate?: string;
   endDate?: string;
   belongToPreviousMonth?: boolean;
-  category?: CategoryDto;
-  paymentMethod?: PaymentMethodDto;
+  category: CategoryDto;
+  paymentMethod: PaymentMethodDto;
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;

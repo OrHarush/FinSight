@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import { ElementType } from 'react';
+import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface CategorySelectProps {
   selectedCategory: string;
@@ -90,7 +91,9 @@ const CategorySelect = ({ selectedCategory, setSelectedCategory }: CategorySelec
                   },
                 }}
               />
-              <Typography sx={{ fontWeight: 500 }}>{category.name}</Typography>
+              <Typography sx={{ fontWeight: 500 }}>
+                {getCategoryDisplayName(category, t)}
+              </Typography>
             </Row>
           </MenuItem>
         );

@@ -23,7 +23,8 @@
     "recurrence": "Recurrence",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "countTowardPreviousMonth": "Count toward previous month?"
+    "countTowardPreviousMonth": "Count toward previous month?",
+    "advancedSettings": "Advanced Settings"
   },
   "types": {
     "income": "Income",
