@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { ElementType } from 'react';
+
 import { categoryIconMap } from '@/constants/categoryIconMap';
 
 interface CategoryIconFrameProps {

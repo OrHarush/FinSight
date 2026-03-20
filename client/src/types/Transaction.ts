@@ -1,28 +1,13 @@
+import type { TransactionType } from '@finsight/shared';
+
 import { AccountDto } from '@/types/Account';
 import { CategoryDto } from '@/types/Category';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { TransactionType } from '../../../shared/types/TransactionCommmands';
 
 export interface TransactionPageFormValues {
   searchValue: string;
   category: string;
   paymentMethod: string;
-}
-
-export interface TransactionFormValues {
-  name?: string;
-  amount: number;
-  date?: string;
-  startDate?: string;
-  endDate?: string;
-  recurrence: 'None' | 'Monthly' | 'Yearly';
-  belongToPreviousMonth: boolean;
-  type: TransactionType;
-  category?: string;
-  paymentMethod?: string;
-  account?: string;
-  fromAccount?: string;
-  toAccount?: string;
 }
 
 export interface TransactionDto {
@@ -40,6 +25,8 @@ export interface TransactionDto {
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface TransactionSummaryDto {

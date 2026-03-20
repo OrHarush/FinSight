@@ -1,9 +1,10 @@
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import CurrencyText from '@/components/shared/ui/CurrencyText';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 interface TransactionsTotalsProps {
   totalIncome: number;

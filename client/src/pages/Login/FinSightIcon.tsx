@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+
 import finSightIcon from '@/assets/finSightIconNoText.webp';
 
 const FinSightIcon = () => (

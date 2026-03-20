@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { InsightKey } from '@/utils/financialHealth';
+
 import Column from '@/components/shared/layout/containers/Column';
+import { InsightKey } from '@/utils/financialHealth';
 
 interface MonthlyInsightProps {
   insightKey: InsightKey;

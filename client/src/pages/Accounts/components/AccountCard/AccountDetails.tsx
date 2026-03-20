@@ -1,9 +1,10 @@
-import Row from '@/components/shared/layout/containers/Row';
 import { Typography } from '@mui/material';
-import CurrencyText from '@/components/shared/ui/CurrencyText';
-import Column from '@/components/shared/layout/containers/Column';
-import { AccountDto } from '@/types/Account';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
+import { AccountDto } from '@/types/Account';
 
 interface AccountDetailsProps {
   account: AccountDto;

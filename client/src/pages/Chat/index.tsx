@@ -1,10 +1,12 @@
-import { useState } from 'react';
 import { Paper, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
+
+import Column from '@/components/shared/layout/containers/Column';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import ChatHeader from '@/pages/Chat/ChatHeader';
 import ChatInput from '@/pages/Chat/ChatInput';
 import { ChatMessage } from '@/types/Chat';
-import Column from '@/components/shared/layout/containers/Column';
+
 import ChatPageContent from './ChatPageContent';
 
 const Chat = () => {

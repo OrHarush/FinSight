@@ -1,12 +1,13 @@
-import { useState, KeyboardEvent } from 'react';
-import Row from '@/components/shared/layout/containers/Row';
-import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { ChatMessage } from '@/types/Chat';
+import { IconButton, TextField } from '@mui/material';
+import { KeyboardEvent,useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import api from '@/api/axios';
+import Row from '@/components/shared/layout/containers/Row';
 import { API_ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { useTranslation } from 'react-i18next';
+import { ChatMessage } from '@/types/Chat';
 
 interface ChatInputProps {
   messages: ChatMessage[];

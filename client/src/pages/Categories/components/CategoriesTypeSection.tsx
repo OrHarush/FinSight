@@ -1,6 +1,7 @@
-import CategoryCard from '@/pages/Categories/components/CategoryCard';
-import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import { Grid, Typography } from '@mui/material';
+
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
+import CategoryCard from '@/pages/Categories/components/CategoryCard';
 import { CategoryDto } from '@/types/Category';
 
 interface CategoriesTypeSectionProps {

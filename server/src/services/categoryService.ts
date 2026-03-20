@@ -1,6 +1,7 @@
-import * as categoryRepository from '../repositories/categoryRepository';
-import { CreateCategoryCommand, UpdateCategoryCommand } from '@shared/types/CategoryCommands';
+import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
+
 import { ApiError } from '../errors/ApiError';
+import * as categoryRepository from '../repositories/categoryRepository';
 
 export const findAll = async (userId: string) => categoryRepository.findMany(userId);
 
@@ -14,23 +15,14 @@ export const getCategoryById = async (id: string, userId: string) => {
   return category;
 };
 
-export const create = async (categoryDetails: CreateCategoryCommand, userId: string) => {
-  if (categoryDetails.name && categoryDetails.name.length > 30) {
-    throw ApiError.badRequest('Category name must not exceed 30 characters');
-  }
-
-  return categoryRepository.create(categoryDetails, userId);
-};
+export const create = async (categoryDetails: CreateCategoryDTO, userId: string) =>
+  categoryRepository.create(categoryDetails, userId);
 
 export const update = async (
   id: string,
-  updatedCategoryDetails: UpdateCategoryCommand,
+  updatedCategoryDetails: UpdateCategoryDTO,
   userId: string
 ) => {
-  if (updatedCategoryDetails.name && updatedCategoryDetails.name.length > 30) {
-    throw ApiError.badRequest('Category name must not exceed 30 characters');
-  }
-
   const updated = await categoryRepository.updateById(id, updatedCategoryDetails, userId);
 
   if (!updated) {

@@ -1,7 +1,8 @@
-import Row from '@/components/shared/layout/containers/Row';
 import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
 
 interface PageHeaderProps {
   entityName?: string;

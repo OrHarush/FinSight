@@ -1,8 +1,10 @@
+import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
+
 import * as accountService from '../services/accountService';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponse } from '../utils/ApiResponse';
 import * as balanceService from '../services/balanceService';
+import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 export const getAccounts = asyncHandler(async (req: Request, res: Response) => {
   const accounts = await accountService.findAll(req.userId);
@@ -31,13 +33,13 @@ export const getAccountBalanceCurve = asyncHandler(async (req: Request, res: Res
 });
 
 export const createAccount = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.create(req.body, req.userId);
+  const account = await accountService.create(req.validatedBody as CreateAccountDTO, req.userId);
 
   return ApiResponse.created(res, account);
 });
 
 export const updateAccount = asyncHandler(async (req: Request, res: Response) => {
-  const updated = await accountService.update(req.params.id, req.body, req.userId);
+  const updated = await accountService.update(req.params.id, req.validatedBody as UpdateAccountDTO, req.userId);
 
   return ApiResponse.ok(res, updated);
 });

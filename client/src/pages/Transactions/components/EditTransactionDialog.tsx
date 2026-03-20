@@ -1,15 +1,18 @@
-import { FormProvider, useForm } from 'react-hook-form';
-import FormDialog from '@/components/dialogs/FormDialog';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { ExpandedTransactionDto, TransactionDto, TransactionFormValues } from '@/types/Transaction';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
-import { UpdateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { TransactionFormSchema, TransactionFormValues, UpdateTransactionDTO } from '@finsight/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import FormDialog from '@/components/dialogs/FormDialog';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { ExpandedTransactionDto, TransactionDto } from '@/types/Transaction';
+import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -24,6 +27,7 @@ const EditTransactionDialog = ({
   const { alertSuccess, alertError } = useSnackbar();
 
   const methods = useForm<TransactionFormValues>({
+    resolver: zodResolver(TransactionFormSchema),
     defaultValues: {
       name: transaction.name,
       amount: transaction.amount,
@@ -40,7 +44,7 @@ const EditTransactionDialog = ({
     mode: 'all',
   });
 
-  const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionCommand>({
+  const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionDTO>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction?.originalId ?? transaction._id}`,
     queryKeysToInvalidate: [queryKeys.allTransactions()],
@@ -48,7 +52,7 @@ const EditTransactionDialog = ({
 
   const update = async (data: TransactionFormValues) => {
     try {
-      await updateTransaction.mutateAsync({ ...data });
+      await updateTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
       alertSuccess(t('messages.updateSuccess'));
       closeDialog();
     } catch (err) {

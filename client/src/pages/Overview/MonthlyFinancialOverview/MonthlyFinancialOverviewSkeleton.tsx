@@ -1,7 +1,8 @@
 import { Card, Grid, Skeleton, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { useTranslation } from 'react-i18next';
 import IncomeUsageMeterSkeleton from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeterSkeleton';
 
 const MonthlyFinancialOverviewSkeleton = () => {

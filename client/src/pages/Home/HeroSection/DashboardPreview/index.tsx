@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import TransactionFloatingCard from '@/pages/Home/HeroSection/DashboardPreview/TransactionFloatingCard';
-import HealthScore from '@/pages/Home/HeroSection/DashboardPreview/HealthScore';
+
 import DashboardSummary from '@/pages/Home/HeroSection/DashboardPreview/DashboardSummary';
+import HealthScore from '@/pages/Home/HeroSection/DashboardPreview/HealthScore';
+import TransactionFloatingCard from '@/pages/Home/HeroSection/DashboardPreview/TransactionFloatingCard';
 
 const DashboardPreview = () => (
   <Box

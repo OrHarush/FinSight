@@ -1,13 +1,14 @@
 import { Box, Chip, Typography } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import creditCardChip from '@/assets/creditCardChip.webp';
-import { PaymentMethodDto } from '@/types/PaymentMethod';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import PaymentMethodCardMenu from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardMenu';
-import PaymentMethodCardContainer from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardContainer';
 import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';
+import PaymentMethodCardContainer from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardContainer';
+import PaymentMethodCardMenu from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardMenu';
+import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 interface PaymentMethodCardProps {
   paymentMethod: PaymentMethodDto;

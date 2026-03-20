@@ -1,23 +1,24 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Request, Response } from 'express';
-import transactionRoutes from './routes/transactionRoutes';
-import accountRoutes from './routes/accountRoutes';
-import categoryRoutes from './routes/categoryRoutes';
-import budgetRoutes from './routes/budgetRoutes';
-import paymentMethodRoutes from './routes/paymentMethodsRoutes';
-import authRoutes from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
-import feedbackRoutes from './routes/feedbackRoutes';
-import adminRoutes from './routes/adminRoutes';
-import chatRoutes from './routes/chatRoutes';
+import helmet from 'helmet';
+
+import { authLimiter } from './config/rateLimiters';
+import { corsConfig } from './config/security';
+import { mcpMiddleware } from './mcp/mcpServer';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
-import { mcpMiddleware } from './mcp/mcpServer';
-import { authLimiter } from './config/rateLimiters';
 import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
-import helmet from 'helmet';
-import { corsConfig } from './config/security';
+import accountRoutes from './routes/accountRoutes';
+import adminRoutes from './routes/adminRoutes';
+import authRoutes from './routes/authRoutes';
+import budgetRoutes from './routes/budgetRoutes';
+import categoryRoutes from './routes/categoryRoutes';
+import chatRoutes from './routes/chatRoutes';
+import feedbackRoutes from './routes/feedbackRoutes';
+import paymentMethodRoutes from './routes/paymentMethodsRoutes';
+import transactionRoutes from './routes/transactionRoutes';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 app.set('trust proxy', 1);

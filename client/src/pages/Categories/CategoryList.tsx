@@ -1,8 +1,9 @@
 import { Grid } from '@mui/material';
-import { CategoryDto } from '@/types/Category';
 import { useTranslation } from 'react-i18next';
-import CategoriesTypeSection from '@/pages/Categories/components/CategoriesTypeSection';
+
 import { useCategories } from '@/hooks/entities/useCategories';
+import CategoriesTypeSection from '@/pages/Categories/components/CategoriesTypeSection';
+import { CategoryDto } from '@/types/Category';
 
 interface CategoryListProps {
   selectCategory: (category: CategoryDto) => void;

@@ -1,8 +1,9 @@
 import { Grid } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionFormValues } from '@/types/Transaction';
+import { useTranslation } from 'react-i18next';
+
 import TextInput from '@/components/shared/inputs/TextInput';
+import { TransactionFormValues } from '@finsight/shared';
 
 const TransactionBaseDetails = () => {
   const { t } = useTranslation('transactions');

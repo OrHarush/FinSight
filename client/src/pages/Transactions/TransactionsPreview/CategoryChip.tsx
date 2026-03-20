@@ -1,7 +1,8 @@
-import { Chip } from '@mui/material';
 import CategoryIcon from '@mui/icons-material/Category';
-import { categoryIconMap } from '@/constants/categoryIconMap';
+import { Chip } from '@mui/material';
 import { ElementType } from 'react';
+
+import { categoryIconMap } from '@/constants/categoryIconMap';
 
 interface CategoryValueProps {
   name: string;

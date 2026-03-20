@@ -1,10 +1,10 @@
 import { alpha, Box, useTheme } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
+
 import homePage from '@/assets/homePage.jpg';
-import HeroContent from '@/pages/Home/HeroSection/HeroContent';
-import DashboardPreview from '@/pages/Home/HeroSection/DashboardPreview';
+import Column from '@/components/shared/layout/containers/Column';
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
+import DashboardPreview from '@/pages/Home/HeroSection/DashboardPreview';
+import HeroContent from '@/pages/Home/HeroSection/HeroContent';
 
 const HeroSection = () => {
   const theme = useTheme();

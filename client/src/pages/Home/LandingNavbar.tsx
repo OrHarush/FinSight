@@ -1,13 +1,14 @@
-import { alpha, Button, IconButton, Typography, useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import Row from '@/components/shared/layout/containers/Row';
-import { ROUTES } from '@/constants/Routes';
-import finSightIcon from '@/assets/finSightIconNoText.webp';
-import LanguageSelect from '@/components/shared/ui/LanguageSelect';
-import { useAppTheme } from '@/providers/AppThemeProvider';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { alpha, Button, IconButton, Typography, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
+import finSightIcon from '@/assets/finSightIconNoText.webp';
+import Row from '@/components/shared/layout/containers/Row';
+import LanguageSelect from '@/components/shared/ui/LanguageSelect';
+import { ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const LandingNavbar = () => {
   const { t } = useTranslation('home');

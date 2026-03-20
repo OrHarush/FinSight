@@ -1,29 +1,30 @@
-import { useState } from 'react';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  DialogContent,
-  DialogActions,
+  Box,
   Button,
-  Typography,
-  Select,
-  MenuItem,
+  DialogActions,
+  DialogContent,
+  Divider,
   FormControl,
   FormHelperText,
-  Divider,
-  Box,
+  MenuItem,
+  Select,
+  Typography,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
-import { useAuth } from '@/providers/AuthProvider';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
 import { CURRENCIES } from '@/constants/currencies';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
 import { useOpen } from '@/hooks/common/useOpen';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { UserDto } from '@/types/User';
 

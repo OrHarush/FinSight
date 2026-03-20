@@ -1,15 +1,16 @@
-import Paper from '@mui/material/Paper';
-import { ExpandedTransactionDto } from '@/types/Transaction';
-import { Typography } from '@mui/material';
-import CurrencyText from '@/components/shared/ui/CurrencyText';
-import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import { categoryIconMap } from '@/constants/categoryIconMap';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 import SwipeableCard from '@/components/shared/ui/SwipeableCard';
-import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import { categoryIconMap } from '@/constants/categoryIconMap';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/dateUtils';
+import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;

@@ -1,15 +1,16 @@
-import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import PageLayout from '@/components/shared/layout/page/PageLayout';
+import { Button } from '@mui/material';
 import { useState } from 'react';
-import { AccountDto } from '@/types/Account';
-import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
-import AccountsDialogManager from '@/pages/Accounts/AccountsDialogManager';
-import { useOpen } from '@/hooks/common/useOpen';
-import PageHeader from '@/components/shared/layout/page/PageHeader';
-import ActionFab from '@/components/shared/ui/ActionFab';
 import { useTranslation } from 'react-i18next';
+
+import PageHeader from '@/components/shared/layout/page/PageHeader';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
+import ActionFab from '@/components/shared/ui/ActionFab';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useOpen } from '@/hooks/common/useOpen';
+import AccountsDialogManager from '@/pages/Accounts/AccountsDialogManager';
+import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
+import { AccountDto } from '@/types/Account';
 
 const Accounts = () => {
   const { t } = useTranslation('accounts');

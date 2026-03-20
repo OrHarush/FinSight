@@ -1,15 +1,16 @@
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CategoryIcon from '@mui/icons-material/Category';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DonutLargeIcon from '@mui/icons-material/DonutLarge';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { Grid, Typography, useTheme } from '@mui/material';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
 import FeatureCard from '@/pages/Home/FeaturesSection/FeatureCard';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import CategoryIcon from '@mui/icons-material/Category';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 
 const FeaturesSection = () => {
   const { t } = useTranslation('home');

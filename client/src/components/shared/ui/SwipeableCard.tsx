@@ -1,6 +1,6 @@
-import { Box, IconButton, Typography } from '@mui/material';
-import { motion, useMotionValue, useTransform, useAnimation, PanInfo } from 'framer-motion';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, IconButton, Typography } from '@mui/material';
+import { motion, PanInfo,useAnimation, useMotionValue, useTransform } from 'framer-motion';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 

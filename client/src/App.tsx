@@ -1,9 +1,10 @@
 import { CssBaseline } from '@mui/material';
-import AppProviders from '@/providers/AppProviders';
-import AppRoutes from '@/routes/AppRoutes';
+
 import { ErrorBoundary } from '@/components/shared/feedback/ErrorBoundary';
 import { useOnlineStatus } from '@/hooks/common/useOnlineStatus';
 import OfflinePage from '@/pages/OfflinePage';
+import AppProviders from '@/providers/AppProviders';
+import AppRoutes from '@/routes/AppRoutes';
 
 const App = () => {
   const isOnline = useOnlineStatus();

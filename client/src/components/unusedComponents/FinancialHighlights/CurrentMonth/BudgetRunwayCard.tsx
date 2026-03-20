@@ -1,7 +1,8 @@
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useTranslation } from 'react-i18next';
+
 import { CurrentMonthCardProps } from '@/components/unusedComponents/FinancialHighlights/CurrentMonth/types';
 import FinanceOverviewCard from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCard';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const BudgetRunwayCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMonthCardProps) => {
   const { t } = useTranslation('overview');

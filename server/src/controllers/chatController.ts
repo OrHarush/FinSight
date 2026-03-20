@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import * as chatService from '../services/chatService';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponse } from '../utils/ApiResponse';
+
 import { ApiError } from '../errors/ApiError';
+import * as chatService from '../services/chatService';
+import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 interface ChatRequest {
   message: string;

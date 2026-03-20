@@ -1,15 +1,7 @@
-import { CategoryDto, CategoryFormValues } from '@/types/Category';
-import { TransactionDto } from '@/types/Transaction';
-import { PresetColor } from '../../../shared/types/colors';
-import { CreateCategoryCommand } from '../../../shared/types/CategoryCommands';
 import i18n, { TFunction } from 'i18next';
 
-export const mapCategoryFormToCommand = (values: CategoryFormValues): CreateCategoryCommand => ({
-  name: values.name.trim(),
-  type: values.type,
-  icon: values.icon,
-  color: (values.color as PresetColor) || '#9ca3af',
-});
+import { CategoryDto } from '@/types/Category';
+import { TransactionDto } from '@/types/Transaction';
 
 export const getTopSpendingCategories = (
   transactions: TransactionDto[],

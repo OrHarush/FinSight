@@ -1,5 +1,5 @@
-import * as userRepository from '../repositories/userRepository';
 import * as userActivityRepository from '../repositories/userActivityRepository';
+import * as userRepository from '../repositories/userRepository';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 

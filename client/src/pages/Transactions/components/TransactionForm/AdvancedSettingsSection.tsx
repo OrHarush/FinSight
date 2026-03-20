@@ -1,13 +1,14 @@
+import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
+import ArrowDropUpSharpIcon from '@mui/icons-material/ArrowDropUpSharp';
 import { Box, Collapse, Grid, IconButton, Typography } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
 import AccountSection from '@/pages/Transactions/components/TransactionForm/AccountSection';
 import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
 import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
-import ArrowDropDownSharpIcon from '@mui/icons-material/ArrowDropDownSharp';
-import ArrowDropUpSharpIcon from '@mui/icons-material/ArrowDropUpSharp';
 
 const AdvancedSettingsSection = () => {
   const { t } = useTranslation('transactions');

@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material';
+
 import { commonTheme } from '@/theme/commonTheme';
 
 export const darkTheme = createTheme({

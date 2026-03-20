@@ -1,8 +1,9 @@
+import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
+import mongoose from 'mongoose';
+
+import { ApiError } from '../errors/ApiError';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
-import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
-import mongoose from 'mongoose';
-import { ApiError } from '../errors/ApiError';
 
 export const findAll = async (userId: string) => accountRepository.findMany(userId);
 
@@ -17,19 +18,7 @@ export const getAccountById = async (id: string, userId: string) => {
   return account;
 };
 
-export const create = async (accountDetails: CreateAccountCommand, userId: string) => {
-  if (!accountDetails.name) {
-    throw ApiError.badRequest('Account name is required');
-  }
-
-  if (accountDetails.name.length > 40) {
-    throw ApiError.badRequest('Account name must not exceed 40 characters');
-  }
-
-  if (accountDetails.balance === undefined) {
-    throw ApiError.badRequest('Balance is required');
-  }
-
+export const create = async (accountDetails: CreateAccountDTO, userId: string) => {
   const numOfAccounts = await accountRepository.countByUser(userId);
 
   if (numOfAccounts === 0) {
@@ -43,7 +32,7 @@ export const create = async (accountDetails: CreateAccountCommand, userId: strin
 
 export const update = async (
   id: string,
-  updatedAccountDetails: UpdateAccountCommand,
+  updatedAccountDetails: UpdateAccountDTO,
   userId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -54,10 +43,6 @@ export const update = async (
 
   if (!existing) {
     throw ApiError.notFound('Account not found');
-  }
-
-  if (updatedAccountDetails.name && updatedAccountDetails.name.length > 40) {
-    throw ApiError.badRequest('Account name must not exceed 40 characters');
   }
 
   const isBalanceProvided = typeof updatedAccountDetails.balance === 'number';

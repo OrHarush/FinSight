@@ -1,7 +1,8 @@
-import Column from '@/components/shared/layout/containers/Column';
 import { alpha, useTheme } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
 import Typography from '@mui/material/Typography';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const MetricCard = ({
   icon,

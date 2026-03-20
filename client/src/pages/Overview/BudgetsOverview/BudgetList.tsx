@@ -1,5 +1,5 @@
-import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import BudgetProgressRow from '@/components/features/budgets/BudgetProgressRow';
+import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import { BudgetCategoryItem } from '@/utils/budgetUtils';
 
 interface BudgetListProps {

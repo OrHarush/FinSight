@@ -1,20 +1,21 @@
+import LoginIcon from '@mui/icons-material/Login';
 import {
+  Avatar,
   Box,
-  Typography,
-  Paper,
+  Divider,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar,
-  Divider,
+  Paper,
   Skeleton,
+  Typography,
 } from '@mui/material';
-import LoginIcon from '@mui/icons-material/Login';
 import dayjs from 'dayjs';
-import { useFetch } from '@/hooks/common/useFetch';
-import { API_ROUTES } from '@/constants/Routes';
+
 import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useFetch } from '@/hooks/common/useFetch';
 import { LoginEventDto } from '@/types/Admin';
 
 const UserActivityList = () => {

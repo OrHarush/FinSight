@@ -1,6 +1,7 @@
 import { Skeleton } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
+
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const RecentTransactionSkeleton = () => (
   <Row height={'44px'} justifyContent="space-between" alignItems="center">

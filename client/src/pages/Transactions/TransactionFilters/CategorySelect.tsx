@@ -1,12 +1,13 @@
-import { MenuItem, Select, Typography, useTheme } from '@mui/material';
-import { useCategories } from '@/hooks/entities/useCategories';
-import Row from '@/components/shared/layout/containers/Row';
 import CategoryIcon from '@mui/icons-material/Category';
-import { useTranslation } from 'react-i18next';
-import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
-import { categoryIconMap } from '@/constants/categoryIconMap';
+import { MenuItem, Select, Typography, useTheme } from '@mui/material';
 import { ElementType } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
+import { categoryIconMap } from '@/constants/categoryIconMap';
+import { useCategories } from '@/hooks/entities/useCategories';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
+import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
 
 interface CategorySelectProps {
   selectedCategory: string;

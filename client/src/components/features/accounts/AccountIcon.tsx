@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { Box } from '@mui/material';
+
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 
 interface AccountIconProps {

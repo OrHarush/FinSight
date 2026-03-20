@@ -1,8 +1,10 @@
+import { CreateTransactionDTO, UpdateTransactionDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
-import * as transactionService from '../services/transactionService';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponse } from '../utils/ApiResponse';
+
 import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
+import * as transactionService from '../services/transactionService';
+import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
   const result = await transactionService.findAll(
@@ -38,13 +40,13 @@ export const getTransactionCount = asyncHandler(async (req: Request, res: Respon
 });
 
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const transaction = await transactionService.create(req.body, req.userId);
+  const transaction = await transactionService.create(req.validatedBody as CreateTransactionDTO, req.userId);
 
   return ApiResponse.created(res, transaction);
 });
 
 export const updateTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const updatedTransaction = await transactionService.update(req.params.id, req.body, req.userId);
+  const updatedTransaction = await transactionService.update(req.params.id, req.validatedBody as UpdateTransactionDTO, req.userId);
 
   return ApiResponse.ok(res, updatedTransaction);
 });

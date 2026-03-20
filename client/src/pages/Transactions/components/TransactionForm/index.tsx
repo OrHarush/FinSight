@@ -1,18 +1,19 @@
-import Column from '@/components/shared/layout/containers/Column';
 import { Box, Grid, InputAdornment } from '@mui/material';
-import TransactionTypeSelector from '@/pages/Transactions/components/TransactionForm/TransactionTypeSelector';
-import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+
+import TextInput from '@/components/shared/inputs/TextInput';
+import Column from '@/components/shared/layout/containers/Column';
 import AccountSection from '@/pages/Transactions/components/TransactionForm/AccountSection';
+import AdvancedSettingsSection from '@/pages/Transactions/components/TransactionForm/AdvancedSettingsSection';
 import ClassificationSection from '@/pages/Transactions/components/TransactionForm/ClassificationSection';
+import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
+import PreviousMonthCheckboxRow from '@/pages/Transactions/components/TransactionForm/PreviousMonthCheckboxRow';
+import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 import TransactionBaseDetails from '@/pages/Transactions/components/TransactionForm/TransactionBaseDetails';
-import TextInput from '@/components/shared/inputs/TextInput';
-import { useTranslation } from 'react-i18next';
-import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
-import AdvancedSettingsSection from '@/pages/Transactions/components/TransactionForm/AdvancedSettingsSection';
-import PreviousMonthCheckboxRow from '@/pages/Transactions/components/TransactionForm/PreviousMonthCheckboxRow';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionFormValues } from '@/types/Transaction';
+import TransactionTypeSelector from '@/pages/Transactions/components/TransactionForm/TransactionTypeSelector';
+import { TransactionFormValues } from '@finsight/shared';
 
 const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?: boolean }) => {
   const { t } = useTranslation('transactions');
@@ -39,7 +40,6 @@ const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?
           name="amount"
           label={t('fields.amount')}
           type="number"
-          required
           placeholder={'0'}
           slotProps={{
             input: {

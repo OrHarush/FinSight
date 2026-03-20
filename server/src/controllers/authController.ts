@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import { acceptTermsService, loginOrRegister, updateLastUserLogin } from '../services/authService';
-import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
+
+import { ApiError } from '../errors/ApiError';
+import { acceptTermsService, loginOrRegister, updateLastUserLogin } from '../services/authService';
 import { getCurrentUserById } from '../services/userService';
 import { ApiResponse } from '../utils/ApiResponse';
-import { ApiError } from '../errors/ApiError';
 import { asyncHandler } from '../utils/asyncHandler';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
@@ -27,7 +28,6 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
 
   return ApiResponse.ok(res, user);
 });
-
 
 export const googleLogin = async (req: Request, res: Response) => {
   try {
@@ -82,7 +82,6 @@ export const googleLogin = async (req: Request, res: Response) => {
       showTerms,
     });
   } catch (err) {
-    console.error('Google login error:', err);
     res.status(500).json({ error: 'Login failed', details: err });
   }
 };

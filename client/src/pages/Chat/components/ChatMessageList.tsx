@@ -1,8 +1,9 @@
-import { ChatMessage } from '@/types/Chat';
-import ChatMessageBubble from '@/pages/Chat/components/ChatMessageBubble';
-import ChatLoadingSkeleton from '@/pages/Chat/components/ChatLoadingSkeleton';
 import { useEffect, useRef } from 'react';
+
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
+import ChatLoadingSkeleton from '@/pages/Chat/components/ChatLoadingSkeleton';
+import ChatMessageBubble from '@/pages/Chat/components/ChatMessageBubble';
+import { ChatMessage } from '@/types/Chat';
 
 interface ChatMessageListProps {
   messages: ChatMessage[];

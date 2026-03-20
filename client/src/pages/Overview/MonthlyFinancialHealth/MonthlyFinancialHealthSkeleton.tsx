@@ -1,4 +1,5 @@
-import { Skeleton, Grid } from '@mui/material';
+import { Grid,Skeleton } from '@mui/material';
+
 import MonthlyFinancialHealthCard from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthCard';
 
 const MonthlyFinancialHealthSkeleton = () => (

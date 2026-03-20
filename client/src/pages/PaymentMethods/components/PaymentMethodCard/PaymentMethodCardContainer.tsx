@@ -1,8 +1,9 @@
-import paypalBg from '@/assets/paypal.png';
-import bankBg from '@/assets/bankBackground.webp';
 import { Card } from '@mui/material';
-import { PaymentMethodDto } from '@/types/PaymentMethod';
 import { ReactNode } from 'react';
+
+import bankBg from '@/assets/bankBackground.webp';
+import paypalBg from '@/assets/paypal.png';
+import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 interface PaymentMethodCardContainerProps {
   paymentMethod: PaymentMethodDto;

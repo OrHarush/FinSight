@@ -1,5 +1,6 @@
-import UserActivityEvent from '../models/UserActivityEvent';
 import { Types } from 'mongoose';
+
+import UserActivityEvent from '../models/UserActivityEvent';
 
 export const countDistinctUsersSince = async (since: Date): Promise<number> => {
   const result = await UserActivityEvent.aggregate([

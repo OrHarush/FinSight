@@ -1,14 +1,16 @@
-import { ExpandedTransactionDto, TransactionFormValues } from '@/types/Transaction';
-import { CreateTransactionCommand } from '../../../shared/types/TransactionCommmands';
+import { CreateTransactionDTO, TransactionFormValues } from '@finsight/shared';
+
+import { ExpandedTransactionDto } from '@/types/Transaction';
 
 export const mapTransactionFormValuesToPayload = (
   data: TransactionFormValues
-): CreateTransactionCommand => {
+): CreateTransactionDTO => {
   const base = {
     amount: Number(data.amount),
     date: data.date ? new Date(data.date).toISOString() : undefined,
     recurrence: data.recurrence,
     type: data.type,
+    belongToPreviousMonth: data.belongToPreviousMonth,
     paymentMethodId: data.paymentMethod,
     endDate: data.endDate ? new Date(data.endDate).toISOString() : undefined,
     startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,

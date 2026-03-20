@@ -1,7 +1,9 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useTranslation } from 'react-i18next';
-import FinanceOverviewCard from '../FinanceOverviewCard';
+
 import { CurrentMonthCardProps } from '@/components/unusedComponents/FinancialHighlights/CurrentMonth/types';
+
+import FinanceOverviewCard from '../FinanceOverviewCard';
 
 const DailySpendCard = ({ income, expenses, isLoading, hasMonthData }: CurrentMonthCardProps) => {
   const { t } = useTranslation('overview');

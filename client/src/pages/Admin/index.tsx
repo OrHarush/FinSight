@@ -1,14 +1,15 @@
-import { Box, Typography, Grid } from '@mui/material';
-import TrendingUp from '@mui/icons-material/TrendingUp';
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import PeopleIcon from '@mui/icons-material/People';
-import { KpiOverviewDto } from '@/types/Admin';
-import { useFetch } from '@/hooks/common/useFetch';
-import { API_ROUTES } from '@/constants/Routes';
+import TrendingUp from '@mui/icons-material/TrendingUp';
+import { Box, Grid,Typography } from '@mui/material';
+
 import { queryKeys } from '@/constants/queryKeys';
-import KpiSkeleton from '@/pages/Admin/KpiSkeleton';
+import { API_ROUTES } from '@/constants/Routes';
+import { useFetch } from '@/hooks/common/useFetch';
 import KpiCard from '@/pages/Admin/KpiCard';
+import KpiSkeleton from '@/pages/Admin/KpiSkeleton';
 import UserActivityList from '@/pages/Admin/UserActivityList';
+import { KpiOverviewDto } from '@/types/Admin';
 
 export const AdminKpiDashboard = () => {
   const { data: kpiOverview, isLoading: isLoadingKpis } = useFetch<KpiOverviewDto>({

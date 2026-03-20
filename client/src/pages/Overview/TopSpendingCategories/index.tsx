@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
+
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
-import { getTopSpendingCategories } from '@/utils/categoryUtils';
 import EmptyCategoriesChart from '@/pages/Overview/TopSpendingCategories/EmptyCategoriesChart';
 import TopCategoriesChart from '@/pages/Overview/TopSpendingCategories/TopCategoriesChart';
+import { getTopSpendingCategories } from '@/utils/categoryUtils';
 
 const MAX_ITEMS = 5;
 

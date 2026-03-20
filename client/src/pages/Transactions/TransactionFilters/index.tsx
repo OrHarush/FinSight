@@ -1,16 +1,17 @@
-import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
-import { IconButton, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import CategorySelect from '@/pages/Transactions/TransactionFilters/CategorySelect';
-import Row from '@/components/shared/layout/containers/Row';
+import { IconButton, InputAdornment } from '@mui/material';
 import { ClearIcon } from '@mui/x-date-pickers';
-import DateSelector from '@/components/shared/ui/DateSelector';
-import { useTranslation } from 'react-i18next';
 import { useForm, useWatch } from 'react-hook-form';
-import { TransactionPageFormValues } from '@/types/Transaction';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { useTranslation } from 'react-i18next';
+
 import TextInput from '@/components/shared/inputs/TextInput';
+import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
+import Row from '@/components/shared/layout/containers/Row';
+import DateSelector from '@/components/shared/ui/DateSelector';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
+import CategorySelect from '@/pages/Transactions/TransactionFilters/CategorySelect';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { TransactionPageFormValues } from '@/types/Transaction';
 
 const TransactionsFilters = () => {
   const { t } = useTranslation('common');

@@ -1,7 +1,8 @@
-import Column from '@/components/shared/layout/containers/Column';
-import { Typography } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
 
 const ChatEmpty = () => {
   const { t } = useTranslation('chat');

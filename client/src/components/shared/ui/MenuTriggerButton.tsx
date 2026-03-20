@@ -1,5 +1,5 @@
-import { IconButton, IconButtonProps } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IconButton, IconButtonProps } from '@mui/material';
 
 interface MenuTriggerButtonProps extends Omit<IconButtonProps, 'onClick' | 'children'> {
   openMenu: (event: React.MouseEvent<HTMLButtonElement>) => void;

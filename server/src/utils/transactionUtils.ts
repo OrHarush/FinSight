@@ -1,8 +1,9 @@
 import dayjs, { Dayjs } from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
+
 import { ITransactionPopulated } from '../types/Transaction';
 
 dayjs.extend(utc);
@@ -130,7 +131,7 @@ export const expandTransactions = (
   from: Date,
   to: Date
 ): ITransactionPopulated[] =>
-  transactions.flatMap((tx) => expandRecurring(tx, from, to)).flatMap((tx) => expandTransfer(tx));
+  transactions.flatMap(tx => expandRecurring(tx, from, to)).flatMap(tx => expandTransfer(tx));
 
 export const buildTransactionQuery = (
   userId: string,
@@ -198,7 +199,7 @@ export const filterTransactionsByDateRange = (
   from?: Date,
   to?: Date
 ) =>
-  transactions.filter((tx) => {
+  transactions.filter(tx => {
     const txDate = dayjs(tx.date);
 
     if (from && txDate.isBefore(from, 'day')) {
@@ -246,7 +247,7 @@ export function getEffectiveMonth(tx: ITransactionPopulated) {
 
   const pm = tx.paymentMethod;
 
-  if (pm && pm.type === 'Credit' && typeof pm.billingDay === 'number') {
+  if (pm && pm.type === 'Credit Card' && typeof pm.billingDay === 'number') {
     const billingDay = pm.billingDay;
 
     if (date.date() < billingDay) {
@@ -275,7 +276,7 @@ export function getEffectiveBalanceDate(tx: ITransactionPopulated): Date {
   const date = dayjs.utc(tx.date);
   const pm = tx.paymentMethod;
 
-  if (pm?.type === 'Credit' && typeof pm.billingDay === 'number') {
+  if (pm?.type === 'Credit Card' && typeof pm.billingDay === 'number') {
     const billingDay = pm.billingDay;
 
     if (date.date() < billingDay) {

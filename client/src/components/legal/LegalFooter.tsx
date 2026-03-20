@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import Row from '@/components/shared/layout/containers/Row';
 
 const LegalFooter = () => {

@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types } from 'mongoose';
+
 import { DEFAULT_CATEGORY_KEYS, DefaultCategoryKey } from '../../../shared/types/defaultCategories';
 
 export interface ICategory {

@@ -1,14 +1,16 @@
+import { FormProvider, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { FormProvider, useForm } from 'react-hook-form';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
-import FeedbackForm from './FeedbackForm';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { CreateFeedbackCommand } from '../../../../../shared/types/FeedbackCommands';
 import { useAuth } from '@/providers/AuthProvider';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+
+import { CreateFeedbackCommand } from '../../../../../shared/types/FeedbackCommands';
+import FeedbackForm from './FeedbackForm';
 
 export interface FeedbackFormValues {
   message: string;

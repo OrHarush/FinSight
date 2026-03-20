@@ -1,7 +1,8 @@
-import { Chip, Grid } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Chip, Grid } from '@mui/material';
 import { ElementType } from 'react';
+
 import { CategoryDto } from '@/types/Category';
 
 interface ChatCategoryPillsProps {

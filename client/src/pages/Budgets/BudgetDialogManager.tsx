@@ -1,7 +1,7 @@
-import { CategoryDto } from '@/types/Category';
-import { BudgetDto } from '@/types/Budget';
 import CreateBudgetDialog from '@/pages/Budgets/components/dialogs/CreateBudgetDialog';
 import EditBudgetDialog from '@/pages/Budgets/components/dialogs/EditBudgetDialog';
+import { BudgetDto } from '@/types/Budget';
+import { CategoryDto } from '@/types/Category';
 
 interface BudgetDialogManagerProps {
   selectedCategory: CategoryDto | null;

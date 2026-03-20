@@ -1,13 +1,14 @@
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Divider, Drawer, IconButton, SwipeableDrawer, useTheme } from '@mui/material';
 import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
-import Settings from '@/components/shared/layout/sidebar/settings';
-import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+
 import Column from '@/components/shared/layout/containers/Column';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
+import Settings from '@/components/shared/layout/sidebar/settings';
+import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
+import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const Sidebar = () => {
   const theme = useTheme();

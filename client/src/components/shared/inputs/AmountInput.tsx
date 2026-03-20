@@ -1,5 +1,6 @@
 import { RegisterOptions } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
 import TextInput from '@/components/shared/inputs/TextInput';
 
 const AMOUNT_REGEX = /^\d+(\.\d{1,2})?$/;

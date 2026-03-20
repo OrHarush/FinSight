@@ -1,6 +1,7 @@
+import { CreateFeedbackCommand } from '@finsight/shared';
+
 import { ApiError } from '../errors/ApiError';
 import * as emailService from './emailService';
-import { CreateFeedbackCommand } from '@shared/types/FeedbackCommands';
 
 export const submit = async (feedback: CreateFeedbackCommand, userId?: string) => {
   if (!feedback?.message || !feedback.message.trim()) {

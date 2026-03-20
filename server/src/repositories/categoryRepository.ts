@@ -1,6 +1,7 @@
-import Category, { ICategory } from '../models/Category';
+import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
-import { CreateCategoryCommand, UpdateCategoryCommand } from '@shared/types/CategoryCommands';
+
+import Category, { ICategory } from '../models/Category';
 
 export const findMany = async (userId: string) =>
   Category.find({ userId: new Types.ObjectId(userId) })
@@ -11,17 +12,17 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   Category.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const create = async (categoryDetails: CreateCategoryCommand, userId: string) => {
+export const create = async (categoryDetails: CreateCategoryDTO, userId: string) => {
   const category = new Category({ ...categoryDetails, userId: new Types.ObjectId(userId) });
 
   return category.save();
 };
 
-export const createMany = (categories: CreateCategoryCommand[]) => Category.insertMany(categories);
+export const createMany = (categories: CreateCategoryDTO[]) => Category.insertMany(categories);
 
 export const updateById = async (
   id: string,
-  updatedCategoryDetails: UpdateCategoryCommand,
+  updatedCategoryDetails: UpdateCategoryDTO,
   userId: string
 ) =>
   Category.findOneAndUpdate(

@@ -1,10 +1,11 @@
-import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Typography from '@mui/material/Typography';
 import { alpha, Box, useTheme } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 type ProcessAnimationProps = {
   activeStage: number;

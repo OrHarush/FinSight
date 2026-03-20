@@ -1,8 +1,8 @@
-import { Card, CardContent, Grid, Tabs, Tab } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
+import { Card, CardContent, Grid, Tab,Tabs } from '@mui/material';
+import { SyntheticEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const OverviewCharts = () => {
   const { t } = useTranslation('overview');

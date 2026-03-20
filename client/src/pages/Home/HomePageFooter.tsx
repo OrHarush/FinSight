@@ -1,8 +1,9 @@
 import { alpha, Typography, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { ROUTES } from '@/constants/Routes';
-import { useTranslation } from 'react-i18next';
 
 const HomePageFooter = () => {
   const { t } = useTranslation(['home', 'common']);

@@ -1,7 +1,8 @@
-import Row from '@/components/shared/layout/containers/Row';
-import { Avatar, Typography } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Avatar, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
 
 const ChatHeader = () => {
   const { t } = useTranslation('chat');

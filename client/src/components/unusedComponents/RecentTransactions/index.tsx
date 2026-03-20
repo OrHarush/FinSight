@@ -1,10 +1,11 @@
-import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '@/constants/Routes';
-import RecentTransactionsContent from '@/components/unusedComponents/RecentTransactions/RecentTransactionsContent';
+import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import Column from '@/components/shared/layout/containers/Column';
+import RecentTransactionsContent from '@/components/unusedComponents/RecentTransactions/RecentTransactionsContent';
+import { ROUTES } from '@/constants/Routes';
 
 const RecentTransactions = () => {
   const { t } = useTranslation('dashboard');

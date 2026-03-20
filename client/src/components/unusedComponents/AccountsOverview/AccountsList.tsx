@@ -1,11 +1,12 @@
-import Row from '@/components/shared/layout/containers/Row';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+
 import AccountIcon from '@/components/features/accounts/AccountIcon';
 import Column from '@/components/shared/layout/containers/Column';
-import { Typography } from '@mui/material';
+import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useAccounts } from '@/hooks/entities/useAccounts';
-import Box from '@mui/material/Box';
 
 const AccountsList = () => {
   const { accounts } = useAccounts();

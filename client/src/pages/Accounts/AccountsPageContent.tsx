@@ -1,11 +1,12 @@
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Grid } from '@mui/material';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import EntityError from '@/components/entities/EntityError';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 import AccountCard from '@/pages/Accounts/components/AccountCard';
 import AccountCardSkeleton from '@/pages/Accounts/components/AccountCardsSkeleton/AccountCardSkeleton';
-import { useAccounts } from '@/hooks/entities/useAccounts';
 import { AccountDto } from '@/types/Account';
-import EntityError from '@/components/entities/EntityError';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import EntityEmpty from '@/components/entities/EntityEmpty';
 
 interface AccountContentPageProps {
   selectAccount: (account: AccountDto) => void;

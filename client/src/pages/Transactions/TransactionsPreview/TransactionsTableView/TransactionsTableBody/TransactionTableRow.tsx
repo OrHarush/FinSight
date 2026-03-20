@@ -1,15 +1,16 @@
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { IconButton, TableCell, TableRow } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
-import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import { getTransactionDisplayDate } from '@/utils/transactionUtils';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Row from '@/components/shared/layout/containers/Row';
+import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { isToday } from '@/utils/dateUtils';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
-import { useTranslation } from 'react-i18next';
+import { isToday } from '@/utils/dateUtils';
+import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;

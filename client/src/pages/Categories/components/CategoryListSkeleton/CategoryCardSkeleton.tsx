@@ -1,6 +1,7 @@
-import { Box, Card, CardContent, Grid, IconButton, Skeleton } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Card, CardContent, Grid, IconButton, Skeleton } from '@mui/material';
+
+import Row from '@/components/shared/layout/containers/Row';
 
 const CategoryCardSkeleton = () => (
   <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center' }}>

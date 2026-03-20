@@ -1,12 +1,13 @@
-import Column from '@/components/shared/layout/containers/Column';
-import { alpha, LinearProgress, useTheme } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import Typography from '@mui/material/Typography';
-import MetricCard from '@/pages/Home/HeroSection/DashboardPreview/MetricCard';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { alpha, LinearProgress, useTheme } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import MetricCard from '@/pages/Home/HeroSection/DashboardPreview/MetricCard';
 
 const DashboardSummary = () => {
   const theme = useTheme();

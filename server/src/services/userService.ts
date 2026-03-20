@@ -1,19 +1,20 @@
-import { deleteUserById, findById, updatePreferences as updatePreferencesRepo } from '../repositories/userRepository';
+import mongoose from 'mongoose';
+
+import {
+  DEFAULT_ACCOUNT,
+  DEFAULT_CATEGORIES,
+  DEFAULT_PAYMENT_METHODS,
+} from '../constants/defaultEntities';
+import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
+import * as accountRepository from '../repositories/accountRepository';
+import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
 import {
   createMany as createCategories,
   deleteMany as deleteCategories,
 } from '../repositories/categoryRepository';
-import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
-import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
-import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
-import * as accountRepository from '../repositories/accountRepository';
-import mongoose from 'mongoose';
-import {
-  DEFAULT_CATEGORIES,
-  DEFAULT_PAYMENT_METHODS,
-  DEFAULT_ACCOUNT,
-} from '../constants/defaultEntities';
+import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
+import { deleteUserById, findById, updatePreferences as updatePreferencesRepo } from '../repositories/userRepository';
 
 export const getCurrentUserById = async (userId: string) => findById(userId);
 

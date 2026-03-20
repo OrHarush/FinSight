@@ -1,11 +1,12 @@
-import Transaction, { ITransaction } from '../models/Transaction';
-import { Types } from 'mongoose';
-import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
-import { ITransactionPopulated } from '../types/Transaction';
-import { GetTransactionsOptions } from '../schemas/transactionSchemas';
-import { buildTransactionQuery } from '../utils/transactionUtils';
+import { CreateTransactionDTO } from '@finsight/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Types } from 'mongoose';
+
+import Transaction, { ITransaction } from '../models/Transaction';
+import { GetTransactionsOptions } from '../schemas/transactionSchemas';
+import { ITransactionPopulated } from '../types/Transaction';
+import { buildTransactionQuery } from '../utils/transactionUtils';
 
 dayjs.extend(utc);
 
@@ -37,7 +38,7 @@ export const findById = async (id: string, userId: string) =>
 export const countByUser = async (userId: string): Promise<number> =>
   Transaction.countDocuments({ userId });
 
-export const insert = async (data: CreateTransactionCommand, userId: string) => {
+export const insert = async (data: CreateTransactionDTO, userId: string) => {
   const transaction = new Transaction({
     name: data.name,
     amount: data.amount,

@@ -1,7 +1,8 @@
 import { ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/providers/AuthProvider';
+
 import { ROUTES } from '@/constants/Routes';
+import { useAuth } from '@/providers/AuthProvider';
 import { isAdmin } from '@/utils/envUtils';
 
 interface GuardProps {

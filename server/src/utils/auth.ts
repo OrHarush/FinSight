@@ -1,4 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
+
 import { UserRole } from '../../../shared/types/Role';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;

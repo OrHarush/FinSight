@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import axiosInstance from '@/api/axios';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
-import axiosInstance from '@/api/axios';
 import { BudgetDto } from '@/types/Budget';
 
 interface CreateBudgetInput {
@@ -81,7 +82,7 @@ export const useCreateBudgetForRestOfYear = () => {
   return useMutation({
     mutationFn: async (input: CreateBudgetInput) => {
       const currentMonth = input.month;
-      const endMonth = 11;
+      const endMonth = 12;
 
       const promises = [];
 

@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
 import { useTheme } from '@mui/material';
 import { StackOwnProps } from '@mui/material/Stack/Stack';
+import { ReactNode } from 'react';
+
 import Column from '@/components/shared/layout/containers/Column';
 import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
 

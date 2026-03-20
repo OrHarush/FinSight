@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { Box, IconButton, InputLabel, Popover, TextField } from '@mui/material';
-import { Controller, useFormContext } from 'react-hook-form';
 import CheckIcon from '@mui/icons-material/Check';
+import { Box, IconButton, InputLabel, Popover, TextField } from '@mui/material';
+import { useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
-import { PRESET_COLORS, PresetColor } from '../../../../shared/types/colors';
 import { getContrastColor } from '@/utils/colorUtils';
+
+import { PRESET_COLORS, PresetColor } from '../../../../shared/types/colors';
 
 interface ColorPickerFieldProps {
   name?: string;

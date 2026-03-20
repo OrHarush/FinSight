@@ -21,7 +21,26 @@
     "max": "{{field}} חייב להיות לכל היותר {{value}}",
     "minLength": "{{field}} חייב להכיל לפחות {{value}} תווים",
     "maxLength": "{{field}} יכול להכיל עד {{value}} תווים",
-    "maxTwoDecimals": "ניתן להזין עד שתי ספרות אחרי הנקודה"
+    "maxTwoDecimals": "ניתן להזין עד שתי ספרות אחרי הנקודה",
+    "nameTooLong": "השם ארוך מדי",
+    "invalidNumber": "חייב להיות מספר",
+    "amountZero": "הסכום לא יכול להיות אפס",
+    "amountOutOfRange": "הסכום מחוץ לטווח",
+    "mustBePositive": "חייב להיות גדול מאפס",
+    "invalidId": "בחירה לא תקינה",
+    "digitsOnly": "ספרות בלבד",
+    "exactlyFourDigits": "חייב להיות 4 ספרות בדיוק",
+    "billingDayRange": "חייב להיות בין 1 ל-31",
+    "startDateRequired": "תאריך התחלה נדרש",
+    "endDateAfterStart": "תאריך סיום חייב להיות אחרי תאריך ההתחלה",
+    "dateRequired": "תאריך נדרש",
+    "transferSameAccount": "חשבון מקור ויעד חייבים להיות שונים",
+    "transferRequiresAccounts": "העברה דורשת שני חשבונות",
+    "categoryRequired": "קטגוריה נדרשת",
+    "accountRequired": "חשבון נדרש",
+    "accountNumberInvalid": "מספר חשבון חייב להכיל ספרות בלבד",
+    "accountNumberTooLong": "מספר חשבון לא יכול לעלות על 20 ספרות",
+    "startMonthBeforeEnd": "חודש התחלה חייב להיות לפני חודש הסיום"
   },
   "entities": {
     "empty": {

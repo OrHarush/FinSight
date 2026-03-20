@@ -1,17 +1,11 @@
-export interface PaymentMethodFormValues {
-  name: string;
-  type: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
-  billingDay?: number;
-  last4?: string;
-  isPrimary: boolean;
-}
+import type { PaymentMethodType } from '@finsight/shared';
 
 export interface PaymentMethodDto {
   _id: string;
   name: string;
-  type: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
+  type: PaymentMethodType;
   billingDay?: number;
-  last4?: string;
+  lastFourDigits?: string;
   isPrimary: boolean;
   createdAt: string;
   updatedAt: string;

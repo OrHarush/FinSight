@@ -1,61 +1,58 @@
-import { useTranslation } from 'react-i18next';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { PaymentMethodFormValues } from '@/types/PaymentMethod';
 import { Grid } from '@mui/material';
-import TextInput from '@/components/shared/inputs/TextInput';
+import { useFormContext, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import TextInput from '@/components/shared/inputs/TextInput';
+import { CreatePaymentMethodDTO } from '@finsight/shared';
 
 const PaymentMethodForm = () => {
   const { t } = useTranslation('paymentMethods');
-  const { control } = useFormContext<PaymentMethodFormValues>();
+  const { control } = useFormContext<CreatePaymentMethodDTO>();
   const paymentType = useWatch({ control, name: 'type' });
 
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12 }}>
-        <TextInput name="name" label={t('fields.name')} required maxLength={30} />
+        <TextInput name="name" label={t('fields.name')} />
       </Grid>
       <Grid size={{ xs: 12 }}>
         <RHFSelect
           name="type"
           label={t('fields.type')}
-          required
           options={[
-            { value: 'Credit', label: t('types.credit') },
+            { value: 'Credit Card', label: t('types.creditCard') },
             { value: 'Debit', label: t('types.debit') },
-            { value: 'BankTransfer', label: t('types.bankTransfer') },
             { value: 'PayPal', label: t('types.paypal') },
-            { value: 'Other', label: t('types.other') },
+            { value: 'Bit', label: t('types.bit') },
+            { value: 'PayBox', label: t('types.paybox') },
+            { value: 'Cash', label: t('types.cash') },
           ]}
         />
       </Grid>
       <Grid size={{ xs: 6, sm: 5 }}>
-        {(paymentType === 'Credit' || paymentType === 'Debit') && (
+        {(paymentType === 'Credit Card' || paymentType === 'Debit') && (
           <TextInput
-            name="last4"
-            label={t('fields.last4')}
+            name="lastFourDigits"
+            label={t('fields.lastFourDigits')}
             type="text"
-            maxLength={4}
-            rules={{
-              pattern: {
-                value: /^\d{4}$/,
-                message: t('validation.last4Format'),
+            slotProps={{
+              htmlInput: {
+                maxLength: 4,
+                inputMode: 'numeric',
               },
             }}
           />
         )}
       </Grid>
       <Grid size={{ xs: 12, sm: 7 }}>
-        {paymentType === 'Credit' && (
+        {paymentType === 'Credit Card' && (
           <TextInput
             name="billingDay"
             label={t('fields.billingDay')}
             type="number"
             placeholder={t('fields.billingDayPlaceholder')}
             helperText={t('fields.billingDayHelper')}
-            min={1}
-            max={31}
-            required
           />
         )}
       </Grid>

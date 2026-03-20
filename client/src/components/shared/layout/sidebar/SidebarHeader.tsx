@@ -1,6 +1,7 @@
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-import finSightIcon from '@/assets/finSightIconNoText.webp';
 import { useNavigate } from 'react-router-dom';
+
+import finSightIcon from '@/assets/finSightIconNoText.webp';
 import { ROUTES } from '@/constants/Routes';
 
 const SidebarHeader = () => {

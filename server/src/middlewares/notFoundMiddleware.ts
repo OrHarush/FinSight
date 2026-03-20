@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction,Request, Response } from 'express';
 
 export const notFoundMiddleware = (_req: Request, res: Response, _next: NextFunction) => {
   res.status(404).json({ success: false, error: 'Not Found' });

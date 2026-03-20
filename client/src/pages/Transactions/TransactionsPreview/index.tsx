@@ -1,4 +1,5 @@
 import { useMediaQuery, useTheme } from '@mui/material';
+
 import TransactionsCardsView from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView';
 import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/TransactionsTableView';
 

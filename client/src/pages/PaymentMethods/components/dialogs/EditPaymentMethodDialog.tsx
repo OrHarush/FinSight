@@ -1,14 +1,16 @@
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO, UpdatePaymentMethodSchema } from '@finsight/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, Resolver, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
-import FormDialog from '@/components/dialogs/FormDialog';
+
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
-import { PaymentMethodDto, PaymentMethodFormValues } from '@/types/PaymentMethod';
-import { UpdatePaymentMethodCommand } from '../../../../../../shared/types/PaymentMethodCommands';
+import FormDialog from '@/components/dialogs/FormDialog';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useApiMutation } from '@/hooks/useApiMutation';
 import PaymentMethodForm from '@/pages/PaymentMethods/components/PaymentMethodForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 interface EditPaymentMethodDialogProps extends BaseDialogProps {
   paymentMethod: PaymentMethodDto;
@@ -22,24 +24,25 @@ const EditPaymentMethodDialog = ({
   const { t } = useTranslation('paymentMethods');
   const { alertSuccess, alertError } = useSnackbar();
 
-  const methods = useForm<PaymentMethodFormValues>({
+  const methods = useForm<CreatePaymentMethodDTO>({
+    resolver: zodResolver(UpdatePaymentMethodSchema) as Resolver<CreatePaymentMethodDTO>,
     defaultValues: {
       name: paymentMethod.name,
       billingDay: paymentMethod.billingDay,
       type: paymentMethod.type,
-      last4: paymentMethod.last4,
+      lastFourDigits: paymentMethod.lastFourDigits,
       isPrimary: paymentMethod.isPrimary,
     },
     mode: 'all',
   });
 
-  const updatePaymentMethod = useApiMutation<PaymentMethodDto, UpdatePaymentMethodCommand>({
+  const updatePaymentMethod = useApiMutation<PaymentMethodDto, UpdatePaymentMethodDTO>({
     method: 'put',
     url: `${API_ROUTES.PAYMENT_METHODS}/${paymentMethod._id}`,
     queryKeysToInvalidate: [queryKeys.paymentMethods()],
   });
 
-  const update = async (data: PaymentMethodFormValues) => {
+  const update = async (data: CreatePaymentMethodDTO) => {
     try {
       await updatePaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));

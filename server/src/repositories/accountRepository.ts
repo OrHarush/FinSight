@@ -1,6 +1,7 @@
-import Account, { IAccount } from '../models/Account';
+import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
-import { CreateAccountCommand, UpdateAccountCommand } from '@shared/types/AccountCommands';
+
+import Account, { IAccount } from '../models/Account';
 
 export const findMany = async (userId: string) =>
   Account.find({ userId: new Types.ObjectId(userId) })
@@ -10,7 +11,7 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   Account.findById({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const insert = async (accountDetails: CreateAccountCommand, userId: string) => {
+export const insert = async (accountDetails: CreateAccountDTO, userId: string) => {
   const account = new Account({ ...accountDetails, userId: new Types.ObjectId(userId) });
 
   return account.save();
@@ -18,7 +19,7 @@ export const insert = async (accountDetails: CreateAccountCommand, userId: strin
 
 export const updateById = async (
   id: string,
-  updatedAccountDetails: UpdateAccountCommand,
+  updatedAccountDetails: UpdateAccountDTO,
   userId: string
 ) =>
   Account.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, updatedAccountDetails, {

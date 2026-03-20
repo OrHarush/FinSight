@@ -1,5 +1,6 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 interface IncomeUsageMeterProps {

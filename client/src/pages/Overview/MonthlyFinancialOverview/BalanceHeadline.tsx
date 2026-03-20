@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
+
 import Column from '@/components/shared/layout/containers/Column';
-import CurrencyText from '@/components/shared/ui/CurrencyText';
 import Row from '@/components/shared/layout/containers/Row';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 export interface BalanceHeadlineProps {
   balance: number;

@@ -1,6 +1,7 @@
-import EntityPlaceholderContainer from '@/components/entities/EntityPlaceholderContainer';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Button, Typography } from '@mui/material';
+
+import EntityPlaceholderContainer from '@/components/entities/EntityPlaceholderContainer';
 import { EntityName } from '@/constants/entities';
 
 interface EntityErrorProps {

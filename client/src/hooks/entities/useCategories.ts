@@ -1,8 +1,8 @@
-import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useFetch } from '@/hooks/common/useFetch';
 import { useAuth } from '@/providers/AuthProvider';
 import { CategoryDto } from '@/types/Category';
-import { useFetch } from '@/hooks/common/useFetch';
 
 export const useCategories = () => {
   const { user } = useAuth();

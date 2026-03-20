@@ -1,9 +1,7 @@
-import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
-import {
-  CreatePaymentMethodCommand,
-  UpdatePaymentMethodCommand,
-} from '@shared/types/PaymentMethodCommands';
+
+import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
 
 export const findMany = async (userId: string) =>
   PaymentMethod.find({ userId: new Types.ObjectId(userId) })
@@ -14,7 +12,7 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   PaymentMethod.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const create = async (details: CreatePaymentMethodCommand, userId: string) => {
+export const create = async (details: CreatePaymentMethodDTO, userId: string) => {
   const method = new PaymentMethod({
     ...details,
     userId: new Types.ObjectId(userId),
@@ -23,12 +21,12 @@ export const create = async (details: CreatePaymentMethodCommand, userId: string
   return method.save();
 };
 
-export const createMany = (methods: (CreatePaymentMethodCommand & { userId: string })[]) =>
+export const createMany = (methods: (CreatePaymentMethodDTO & { userId: string })[]) =>
   PaymentMethod.insertMany(methods);
 
 export const updateById = async (
   id: string,
-  updatedDetails: UpdatePaymentMethodCommand,
+  updatedDetails: UpdatePaymentMethodDTO,
   userId: string
 ) =>
   PaymentMethod.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, updatedDetails, {

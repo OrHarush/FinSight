@@ -1,19 +1,20 @@
-import { Router } from 'express';
 import {
-  getBudgets,
-  getBudgetById,
+  CreateBudgetBulkSchema,
+  CreateBudgetSchema,
+  GetBudgetsSchema,
+  UpdateBudgetSchema,
+} from '@finsight/shared';
+import { Router } from 'express';
+
+import {
   createBudget,
   createBudgetBulk,
-  updateBudget,
   deleteBudget,
+  getBudgetById,
+  getBudgets,
+  updateBudget,
 } from '../controllers/budgetController';
 import { validateBody, validateQuery } from '../middlewares/validate';
-import {
-  GetBudgetsSchema,
-  CreateBudgetSchema,
-  CreateBudgetBulkSchema,
-  UpdateBudgetSchema,
-} from '../schemas/budgetSchemas';
 
 const router = Router();
 

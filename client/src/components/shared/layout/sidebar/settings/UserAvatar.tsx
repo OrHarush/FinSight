@@ -1,7 +1,8 @@
 import { Avatar, Box, IconButton, Typography } from '@mui/material';
-import { useAuth } from '@/providers/AuthProvider';
 import { useState } from 'react';
+
 import UserMenu from '@/components/shared/layout/sidebar/settings/UserMenu';
+import { useAuth } from '@/providers/AuthProvider';
 
 const UserAvatar = () => {
   const { user } = useAuth();

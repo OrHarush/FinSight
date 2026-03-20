@@ -1,9 +1,10 @@
-import Row from '@/components/shared/layout/containers/Row';
-import { TransactionFormValues } from '@/types/Transaction';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { TransactionFormValues } from '@finsight/shared';
 
 const PreviousMonthCheckboxRow = () => {
   const { t } = useTranslation('transactions');

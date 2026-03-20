@@ -1,7 +1,7 @@
+import { IAccount } from '../models/Account';
+import { ICategory } from '../models/Category';
 import { IPaymentMethod } from '../models/PaymentMethod';
 import { ITransaction } from '../models/Transaction';
-import { ICategory } from '../models/Category';
-import { IAccount } from '../models/Account';
 
 export interface ITransactionPopulated
   extends Omit<

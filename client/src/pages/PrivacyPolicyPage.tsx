@@ -1,11 +1,12 @@
-import { Typography, Divider } from '@mui/material';
+import { Divider,Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import Column from '@/components/shared/layout/containers/Column';
-import LegalSection from '@/components/legal/LegalSection';
+
 import LegalBulletList from '@/components/legal/LegalBulletList';
 import LegalFooter from '@/components/legal/LegalFooter';
-import LegalMeta from '@/components/legal/LegalMeta';
 import LegalHeader from '@/components/legal/LegalHeader';
+import LegalMeta from '@/components/legal/LegalMeta';
+import LegalSection from '@/components/legal/LegalSection';
+import Column from '@/components/shared/layout/containers/Column';
 
 export const PrivacyPolicyPage = () => {
   const { t } = useTranslation(['privacyPolicy', 'common']);

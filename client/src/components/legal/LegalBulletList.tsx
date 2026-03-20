@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 

@@ -1,7 +1,9 @@
-import { Response, Request } from 'express';
+import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
+import { Request,Response } from 'express';
+
 import * as categoryService from '../services/categoryService';
-import { asyncHandler } from '../utils/asyncHandler';
 import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 export const getCategories = asyncHandler(async (req: Request, res: Response) => {
   const categories = await categoryService.findAll(req.userId);
@@ -16,13 +18,13 @@ export const getCategoryById = asyncHandler(async (req: Request, res: Response) 
 });
 
 export const createCategory = asyncHandler(async (req: Request, res: Response) => {
-  const category = await categoryService.create(req.body, req.userId);
+  const category = await categoryService.create(req.validatedBody as CreateCategoryDTO, req.userId);
 
   return ApiResponse.created(res, category);
 });
 
 export const updateCategory = asyncHandler(async (req: Request, res: Response) => {
-  const updated = await categoryService.update(req.params.id, req.body, req.userId);
+  const updated = await categoryService.update(req.params.id, req.validatedBody as UpdateCategoryDTO, req.userId);
 
   return ApiResponse.ok(res, updated);
 });

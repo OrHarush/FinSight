@@ -1,16 +1,17 @@
-import { Card, CardContent, Typography, Box, Grid, IconButton } from '@mui/material';
+import CategoryIcon from '@mui/icons-material/Category';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Card, CardContent, Grid, IconButton,Typography } from '@mui/material';
+import { ElementType } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
-import CategoryIcon from '@mui/icons-material/Category';
-import { ElementType } from 'react';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import Column from '@/components/shared/layout/containers/Column';
 import { CategoryDto } from '@/types/Category';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useTranslation } from 'react-i18next';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface CategoryCardProps {

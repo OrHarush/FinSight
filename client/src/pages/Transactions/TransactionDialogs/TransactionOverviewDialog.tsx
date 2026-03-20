@@ -1,28 +1,29 @@
 import {
+  AccountBalance,
+  CalendarMonth,
+  Close as CloseIcon,
+  Repeat,
+  SwapHoriz,
+  TrendingDown,
+  TrendingUp,
+} from '@mui/icons-material';
+import {
+  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   IconButton,
   Typography,
-  Divider,
-  Chip,
 } from '@mui/material';
-import {
-  Close as CloseIcon,
-  CalendarMonth,
-  AccountBalance,
-  Repeat,
-  TrendingUp,
-  TrendingDown,
-  SwapHoriz,
-} from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
-import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
-import { useTranslation } from 'react-i18next';
 
 interface TransactionDetailsModalProps {
   open: boolean;

@@ -1,9 +1,10 @@
-import { Response, Request } from 'express';
+import { Request,Response } from 'express';
+
+import { ApiError } from '../errors/ApiError';
+import { UpdatePreferencesBody } from '../schemas/userSchemas';
 import { deleteUserCompletely, updatePreferences } from '../services/userService';
 import { ApiResponse } from '../utils/ApiResponse';
-import { ApiError } from '../errors/ApiError';
 import { asyncHandler } from '../utils/asyncHandler';
-import { UpdatePreferencesBody } from '../schemas/userSchemas';
 
 export const updatePreferencesController = asyncHandler(async (req: Request, res: Response) => {
   const { displayCurrency } = req.validatedBody as UpdatePreferencesBody;

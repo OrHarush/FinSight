@@ -1,16 +1,17 @@
 import { alpha, Typography, useTheme } from '@mui/material';
+import { useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
+
 import CategoryIconFrame from '@/components/features/categories/CategoryIconFrame';
 import Row from '@/components/shared/layout/containers/Row';
-import { useState } from 'react';
-import CategoryStylePopover from '@/pages/Categories/components/CategoryForm/CategoryStylePopover';
 import { categoryIcons } from '@/constants/CategoryIcons';
-import { useFormContext, useWatch } from 'react-hook-form';
-import { CategoryFormValues } from '@/types/Category';
+import CategoryStylePopover from '@/pages/Categories/components/CategoryForm/CategoryStylePopover';
+import { CreateCategoryDTO } from '@finsight/shared';
 
 const CategoryPreview = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const { control } = useFormContext<CategoryFormValues>();
+  const { control } = useFormContext<CreateCategoryDTO>();
 
   const name = useWatch({ control, name: 'name' });
   const icon = useWatch({ control, name: 'icon' });

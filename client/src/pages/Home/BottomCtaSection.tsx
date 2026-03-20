@@ -1,14 +1,14 @@
+import DevicesIcon from '@mui/icons-material/Devices';
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import MoneyOffIcon from '@mui/icons-material/MoneyOff';
 import { alpha, Typography, useTheme } from '@mui/material';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import CtaButton from '@/pages/Home/HeroSection/HeroContent/CtaButton';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import DevicesIcon from '@mui/icons-material/Devices';
-import MoneyOffIcon from '@mui/icons-material/MoneyOff';
-import GppGoodIcon from '@mui/icons-material/GppGood';
 
 const TrustItem = ({ icon, text }: { icon: React.ReactNode; text: string }) => {
   const theme = useTheme();
@@ -33,7 +33,6 @@ const TrustItem = ({ icon, text }: { icon: React.ReactNode; text: string }) => {
 
 const BottomCtaSection = () => {
   const { t } = useTranslation('home');
-  const theme = useTheme();
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px 0px' });
 

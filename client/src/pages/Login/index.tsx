@@ -1,18 +1,20 @@
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useAuth } from '@/providers/AuthProvider';
-import vaultImage from '@/assets/loginVault.webp';
-import loginMobileImage from '@/assets/mobileLoginBackground.webp';
-import { ROUTES } from '@/constants/Routes';
-import { Navigate, useNavigate } from 'react-router-dom';
-import FinSightIcon from '@/pages/Login/FinSightIcon';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { useTranslation } from 'react-i18next';
-import LegalLinks from '@/pages/Login/LegalLinks';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Button } from '@mui/material';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { useTranslation } from 'react-i18next';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+import login from '@/assets/login.webp';
+import vaultImage from '@/assets/loginVault.webp';
+import loginMobileImage from '@/assets/mobileLoginBackground.webp';
 import Column from '@/components/shared/layout/containers/Column';
+import { ROUTES } from '@/constants/Routes';
+import FinSightIcon from '@/pages/Login/FinSightIcon';
+import LegalLinks from '@/pages/Login/LegalLinks';
+import { useAuth } from '@/providers/AuthProvider';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 
 const LoginPage = () => {
   const { t, i18n } = useTranslation('login');
@@ -46,8 +48,8 @@ const LoginPage = () => {
       height="100%"
       sx={{
         backgroundImage: {
-          xs: `url(${loginMobileImage})`,
-          md: `url(${vaultImage})`,
+          xs: `url(${login})`,
+          md: `url(${login})`,
         },
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -76,7 +78,7 @@ const LoginPage = () => {
       <Card
         sx={{
           width: isMobile ? '340px' : '420px',
-          height: isMobile ? '400px' : '440px',
+          height: 'auto',
           textAlign: 'center',
           borderRadius: 6,
           boxShadow: '0px 20px 60px rgba(0,0,0,0.6)',
@@ -86,7 +88,7 @@ const LoginPage = () => {
         }}
       >
         <CardContent sx={{ py: 5, height: '100%' }}>
-          <Column height="100%" justifyContent={'space-between'}>
+          <Column height="100%" justifyContent={'space-between'} spacing={3}>
             <Column>
               <FinSightIcon />
               <Typography

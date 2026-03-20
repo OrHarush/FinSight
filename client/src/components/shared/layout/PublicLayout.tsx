@@ -1,7 +1,8 @@
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 
 const PublicLayout = () => (

@@ -1,5 +1,6 @@
-import HealthIndicatorCell from '@/pages/Overview/MonthlyFinancialHealth/HealthIndicatorCell';
 import { Grid } from '@mui/material';
+
+import HealthIndicatorCell from '@/pages/Overview/MonthlyFinancialHealth/HealthIndicatorCell';
 import { HealthIndicator } from '@/utils/healthIndicatorUtils';
 
 interface HealthIndicatorsGridProps {

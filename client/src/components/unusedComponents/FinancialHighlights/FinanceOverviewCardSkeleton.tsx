@@ -1,5 +1,6 @@
-import Column from '@/components/shared/layout/containers/Column';
 import { Skeleton } from '@mui/material';
+
+import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
 const FinanceOverviewCardSkeleton = () => (

@@ -1,13 +1,14 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import { AccountDto } from '@/types/Account';
-import AccountIcon from '@/components/features/accounts/AccountIcon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import AccountIcon from '@/components/features/accounts/AccountIcon';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';
-import AccountDetails from '@/pages/Accounts/components/AccountCard/AccountDetails';
 import AccountCardMenu from '@/pages/Accounts/components/AccountCard/AccountCardMenu';
+import AccountDetails from '@/pages/Accounts/components/AccountCard/AccountDetails';
+import { AccountDto } from '@/types/Account';
 
 interface AccountCardProps {
   account: AccountDto;

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import TypeToggleField from '@/components/shared/inputs/TypeToggleField';
 
 interface CategoryTypeToggleProps {

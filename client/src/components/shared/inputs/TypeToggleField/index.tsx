@@ -1,11 +1,12 @@
-import { FormControl, FormHelperText, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { TransactionType } from '@finsight/shared';
+import { SvgIconComponent } from '@mui/icons-material';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import { SvgIconComponent } from '@mui/icons-material';
+import { FormControl, FormHelperText, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { TransactionType } from '../../../../../../shared/types/TransactionCommmands';
+
 import {
   getIconStyles,
   getToggleButtonGroupStyles,

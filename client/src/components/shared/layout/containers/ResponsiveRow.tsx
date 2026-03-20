@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
 import { Stack, useMediaQuery, useTheme } from '@mui/material';
 import { StackOwnProps } from '@mui/material/Stack/Stack';
+import { ReactNode } from 'react';
 
 interface ResponsiveRowProps extends StackOwnProps {
   children: ReactNode;

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { getKpiOverview, getLoginEvents } from '../controllers/adminController';
 import { requireAdmin } from '../middlewares/requireAdmin';
 

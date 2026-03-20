@@ -1,18 +1,19 @@
+import { SvgIconComponent } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
+  DialogTitle,
   Grid,
+  IconButton,
   Pagination,
   TextField,
-  IconButton,
 } from '@mui/material';
-import { useState, ChangeEvent } from 'react';
-import { SvgIconComponent } from '@mui/icons-material';
+import { ChangeEvent,useState } from 'react';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import IconOption from '@/components/shared/ui/IconPicker/IconOption';
-import CloseIcon from '@mui/icons-material/Close';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 
 const iconsPerPage = 30;
 

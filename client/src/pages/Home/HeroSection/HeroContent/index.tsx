@@ -1,11 +1,12 @@
 import { Box, Link, useTheme } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
-import CtaButton from '@/pages/Home/HeroSection/HeroContent/CtaButton';
 import { useTranslation } from 'react-i18next';
-import TrustBadges from '@/pages/Home/HeroSection/HeroContent/TrustBadges';
+
+import Column from '@/components/shared/layout/containers/Column';
 import { ROUTES } from '@/constants/Routes';
+import CtaButton from '@/pages/Home/HeroSection/HeroContent/CtaButton';
+import TrustBadges from '@/pages/Home/HeroSection/HeroContent/TrustBadges';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },

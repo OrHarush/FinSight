@@ -1,6 +1,6 @@
-import { ChatMessage } from '@/types/Chat';
 import ChatEmpty from '@/pages/Chat/components/ChatEmpty';
 import ChatMessageList from '@/pages/Chat/components/ChatMessageList';
+import { ChatMessage } from '@/types/Chat';
 
 interface ChatPageContentProps {
   messages: ChatMessage[];

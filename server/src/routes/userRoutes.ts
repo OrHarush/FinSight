@@ -1,4 +1,5 @@
 import express from 'express';
+
 import { deleteUserController, updatePreferencesController } from '../controllers/userController';
 import { validateBody } from '../middlewares/validate';
 import { UpdatePreferencesSchema } from '../schemas/userSchemas';

@@ -1,17 +1,19 @@
-import FormDialog from '@/components/dialogs/FormDialog';
+import { CreateTransactionDTO, TransactionFormSchema, TransactionFormValues } from '@finsight/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import { TransactionDto, TransactionFormValues } from '@/types/Transaction';
-import { API_ROUTES } from '@/constants/Routes';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { queryKeys } from '@/constants/queryKeys';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
-import { CreateTransactionCommand } from '../../../../../shared/types/TransactionCommmands';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import FormDialog from '@/components/dialogs/FormDialog';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { TransactionDto } from '@/types/Transaction';
+import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
@@ -45,11 +47,12 @@ const CreateTransactionDialog = ({
   const { primaryPaymentMethod } = usePaymentMethods();
 
   const methods = useForm<TransactionFormValues>({
+    resolver: zodResolver(TransactionFormSchema),
     defaultValues: getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id),
     mode: 'all',
   });
 
-  const createTransaction = useApiMutation<TransactionDto, CreateTransactionCommand>({
+  const createTransaction = useApiMutation<TransactionDto, CreateTransactionDTO>({
     method: 'post',
     url: API_ROUTES.TRANSACTIONS,
     queryKeysToInvalidate: [queryKeys.allTransactions()],

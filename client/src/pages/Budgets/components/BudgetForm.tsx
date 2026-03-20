@@ -1,11 +1,12 @@
-import Column from '@/components/shared/layout/containers/Column';
-import TextInput from '@/components/shared/inputs/TextInput';
-import { FormControlLabel, Checkbox } from '@mui/material';
+import { Checkbox,FormControlLabel } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from '@/hooks/entities/useCategories';
+
 import CategoriesSelect from '@/components/features/categories/CategoriesSelect';
-import { BudgetFormValues } from '@/types/Budget';
+import TextInput from '@/components/shared/inputs/TextInput';
+import Column from '@/components/shared/layout/containers/Column';
+import { useCategories } from '@/hooks/entities/useCategories';
+import { BudgetFormValues } from '@finsight/shared';
 
 interface BudgetFormProps {
   showCategorySelect?: boolean;
@@ -23,7 +24,7 @@ const BudgetForm = ({ showCategorySelect = false, isEditing = false }: BudgetFor
   return (
     <Column spacing={2}>
       {showCategorySelect && <CategoriesSelect filteredCategories={expenseCategories} />}
-      <TextInput name="limit" label={t('dialog.limitLabel')} type="number" required min={0.01} />
+      <TextInput name="limit" label={t('dialog.limitLabel')} type="number" />
       {!isEditing && (
         <FormControlLabel
           control={<Checkbox checked={!!applyToRestOfYear} {...register('applyToRestOfYear')} />}

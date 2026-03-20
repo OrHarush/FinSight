@@ -1,9 +1,10 @@
-import RecentTransactionList from '@/components/unusedComponents/RecentTransactions/RecentTransactionList';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import EntityError from '@/components/entities/EntityError';
+import RecentTransactionList from '@/components/unusedComponents/RecentTransactions/RecentTransactionList';
 import RecentTransactionSkeleton from '@/components/unusedComponents/RecentTransactions/RecentTransactionSkeleton';
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import EntityEmpty from '@/components/entities/EntityEmpty';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 
 const RecentTransactionsContent = () => {
   const { transactions, isLoading, error, refetch } = useTransactions();

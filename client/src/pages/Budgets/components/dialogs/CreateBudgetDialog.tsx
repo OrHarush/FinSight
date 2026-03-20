@@ -1,12 +1,15 @@
+import { BudgetFormSchema } from '@finsight/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import FormDialog from '@/components/dialogs/FormDialog';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from '@/hooks/entities/useCategories';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import FormDialog from '@/components/dialogs/FormDialog';
 import { useCreateBudget, useCreateBudgetForRestOfYear } from '@/hooks/entities/useBudgetMutations';
-import { BudgetFormValues } from '@/types/Budget';
+import { useCategories } from '@/hooks/entities/useCategories';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { BudgetFormValues } from '@finsight/shared';
 
 interface CreateBudgetDialogProps extends BaseDialogProps {
   year: number;
@@ -22,6 +25,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
   const createBudgetForRestOfYear = useCreateBudgetForRestOfYear();
 
   const methods = useForm<BudgetFormValues>({
+    resolver: zodResolver(BudgetFormSchema),
     defaultValues: {
       category: '',
       limit: 0,
@@ -42,7 +46,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         await createBudgetForRestOfYear.mutateAsync({
           categoryId: category._id,
           year,
-          month,
+          month: month + 1,
           limit: data.limit,
         });
         alertSuccess(t('messages.budgetSetForYear'));
@@ -50,7 +54,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         await createBudget.mutateAsync({
           categoryId: category._id,
           year,
-          month,
+          month: month + 1,
           limit: data.limit,
         });
         alertSuccess(t('messages.budgetCreated'));

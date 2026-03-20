@@ -1,8 +1,10 @@
-import { TableBody, TableCell, TableRow } from '@mui/material';
-import TransactionTableRow from './TransactionTableRow';
-import EntityEmpty from '@/components/entities/EntityEmpty';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { TableBody, TableCell, TableRow } from '@mui/material';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import { ExpandedTransactionDto } from '@/types/Transaction';
+
+import TransactionTableRow from './TransactionTableRow';
 
 interface TransactionTableBodyProps {
   transactions: ExpandedTransactionDto[];

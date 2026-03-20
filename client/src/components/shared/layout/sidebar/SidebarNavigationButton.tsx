@@ -1,5 +1,5 @@
-import { Box, Chip, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
+import { Box, Chip, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export interface SidebarButtonConfig {

@@ -1,16 +1,17 @@
-import {
-  DialogContent,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-  Divider,
-} from '@mui/material';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  DialogContent,
+  Divider,
+  Typography,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import Column from '@/components/shared/layout/containers/Column';
 

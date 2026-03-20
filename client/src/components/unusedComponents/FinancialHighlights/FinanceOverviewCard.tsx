@@ -1,9 +1,10 @@
-import { Card, CardContent, Typography, Box, Grid, useTheme } from '@mui/material';
+import { SvgIconComponent } from '@mui/icons-material';
+import { Box, Card, CardContent, Grid, Typography, useTheme } from '@mui/material';
+import { ReactNode } from 'react';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { SvgIconComponent } from '@mui/icons-material';
 import FinanceOverviewCardSkeleton from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCardSkeleton';
-import { ReactNode } from 'react';
 
 interface FinanceOverviewCardProps {
   headerTitle: string;

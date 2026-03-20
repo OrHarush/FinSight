@@ -8,20 +8,22 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from 'recharts';
-import { useTranslation } from 'react-i18next';
-import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
+
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { getCategoryDisplayName } from '@/utils/categoryUtils';
+
+import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
 
 interface TopCategoriesContentProps {
   chartData: {

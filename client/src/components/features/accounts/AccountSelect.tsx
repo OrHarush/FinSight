@@ -1,6 +1,6 @@
-import { useAccounts } from '@/hooks/entities/useAccounts';
 import AccountMenuItem from '@/components/features/accounts/AccountMenuItem';
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import { useAccounts } from '@/hooks/entities/useAccounts';
 
 interface AccountSelectProps {
   name?: string;

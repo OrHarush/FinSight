@@ -1,3 +1,4 @@
+import { SvgIconComponent } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Dialog,
@@ -8,11 +9,11 @@ import {
   Slide,
   Typography,
 } from '@mui/material';
-import { ReactNode, forwardRef } from 'react';
-import { SvgIconComponent } from '@mui/icons-material';
+import { TransitionProps } from '@mui/material/transitions';
+import { forwardRef,ReactNode } from 'react';
+
 import Row from '@/components/shared/layout/containers/Row';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { TransitionProps } from '@mui/material/transitions';
 
 export interface BaseDialogProps {
   isOpen: boolean;

@@ -1,6 +1,7 @@
 import { Paper, Skeleton } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
+
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const AccountOverviewCardSkeleton = () => (
   <Paper

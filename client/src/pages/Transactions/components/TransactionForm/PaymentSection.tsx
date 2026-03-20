@@ -1,7 +1,8 @@
-import { useTranslation } from 'react-i18next';
 import { Grid, Typography } from '@mui/material';
-import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
+import { useTranslation } from 'react-i18next';
+
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
 const PaymentSection = () => {
   const { t } = useTranslation('transactions');

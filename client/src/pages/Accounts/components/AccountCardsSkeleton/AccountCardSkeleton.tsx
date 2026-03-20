@@ -1,6 +1,7 @@
 import { Card, CardContent, Skeleton } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
+
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 
 const AccountCardSkeleton = () => (

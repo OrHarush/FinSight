@@ -1,5 +1,5 @@
-import { CategoryDto } from '@/types/Category';
 import { AccountDto } from '@/types/Account';
+import { CategoryDto } from '@/types/Category';
 
 export type MessageRole = 'user' | 'assistant';
 

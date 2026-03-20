@@ -1,5 +1,6 @@
 import express from 'express';
-import { acceptTerms, me, googleLogin } from '../controllers/authController';
+
+import { acceptTerms, googleLogin,me } from '../controllers/authController';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
 const router = express.Router();

@@ -1,11 +1,12 @@
+import { PAYMENT_METHOD_TYPES, PaymentMethodType } from '@finsight/shared';
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IPaymentMethod {
   _id: string;
   name: string;
-  type: 'Credit' | 'Debit' | 'BankTransfer' | 'PayPal' | 'Other';
+  type: PaymentMethodType;
   billingDay: number | null;
-  last4?: string;
+  lastFourDigits?: string;
   isPrimary: boolean;
   userId: Types.ObjectId;
 }
@@ -15,9 +16,9 @@ const PaymentMethodSchema: Schema = new Schema(
     name: { type: String, required: true, trim: true, maxlength: 30 },
     type: {
       type: String,
-      enum: ['Credit', 'Debit', 'BankTransfer', 'PayPal', 'Other'],
+      enum: PAYMENT_METHOD_TYPES,
       required: true,
-      default: 'Credit',
+      default: 'Credit Card',
     },
     billingDay: {
       type: Number,
@@ -25,7 +26,7 @@ const PaymentMethodSchema: Schema = new Schema(
       max: 31,
       default: null,
     },
-    last4: {
+    lastFourDigits: {
       type: String,
       minlength: 4,
       maxlength: 4,

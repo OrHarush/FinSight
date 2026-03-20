@@ -1,18 +1,19 @@
-import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
+import { Button, DialogContent, Typography } from '@mui/material';
+import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import DeletionConfirmationDialog from '@/components/dialogs/deletion/DeletionConfirmationDialog';
+import FinSightDialog from '@/components/dialogs/FinSightDialog';
+import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES, ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
-import { useNavigate } from 'react-router-dom';
-import { Button, DialogContent, Typography } from '@mui/material';
-import { API_ROUTES, ROUTES } from '@/constants/Routes';
-import FinSightDialog from '@/components/dialogs/FinSightDialog';
-import { Trans, useTranslation } from 'react-i18next';
-import DeletionConfirmationDialog from '@/components/dialogs/deletion/DeletionConfirmationDialog';
 import { useApiMutation } from '@/hooks/useApiMutation';
-import { queryKeys } from '@/constants/queryKeys';
-import { useSnackbar } from '@/providers/SnackbarProvider';
+import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
 import TransactionOverviewDialog from '@/pages/Transactions/TransactionDialogs/TransactionOverviewDialog';
-import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;

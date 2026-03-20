@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { PaymentMethodDto } from '@/types/PaymentMethod';
+
+import ActionMenu, { ActionMenuItem } from '@/components/shared/ui/ActionMenu';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
-import ActionMenu, { ActionMenuItem } from '@/components/shared/ui/ActionMenu';
+import { PaymentMethodDto } from '@/types/PaymentMethod';
 
 interface PaymentMethodCardMenuProps {
   paymentMethod: PaymentMethodDto;

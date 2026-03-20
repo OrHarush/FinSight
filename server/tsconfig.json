@@ -7,9 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
+    "paths": {}
   },
   "include": ["src", "../shared"],
   "exclude": ["../client", "node_modules"]

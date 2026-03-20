@@ -1,13 +1,14 @@
-import { Request, Response } from 'express';
-import * as budgetService from '../services/budgetService';
-import { asyncHandler } from '../utils/asyncHandler';
-import { ApiResponse } from '../utils/ApiResponse';
 import {
+  CreateBudgetBulkDTO,
+  CreateBudgetDTO,
   GetBudgetsQuery,
-  CreateBudgetBody,
-  CreateBudgetBulkBody,
-  UpdateBudgetBody,
-} from '../schemas/budgetSchemas';
+  UpdateBudgetDTO,
+} from '@finsight/shared';
+import { Request, Response } from 'express';
+
+import * as budgetService from '../services/budgetService';
+import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 export const getBudgets = asyncHandler(async (req: Request, res: Response) => {
   const budgets = await budgetService.findAll(req.userId, req.validatedQuery as GetBudgetsQuery);
@@ -22,14 +23,14 @@ export const getBudgetById = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const createBudget = asyncHandler(async (req: Request, res: Response) => {
-  const budget = await budgetService.create(req.validatedBody as CreateBudgetBody, req.userId);
+  const budget = await budgetService.create(req.validatedBody as CreateBudgetDTO, req.userId);
 
   return ApiResponse.created(res, budget);
 });
 
 export const createBudgetBulk = asyncHandler(async (req: Request, res: Response) => {
   const budgets = await budgetService.createBulk(
-    req.validatedBody as CreateBudgetBulkBody,
+    req.validatedBody as CreateBudgetBulkDTO,
     req.userId
   );
 
@@ -39,7 +40,7 @@ export const createBudgetBulk = asyncHandler(async (req: Request, res: Response)
 export const updateBudget = asyncHandler(async (req: Request, res: Response) => {
   const updatedBudget = await budgetService.update(
     req.params.id,
-    req.validatedBody as UpdateBudgetBody,
+    req.validatedBody as UpdateBudgetDTO,
     req.userId
   );
 

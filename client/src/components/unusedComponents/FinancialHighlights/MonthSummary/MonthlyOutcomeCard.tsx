@@ -1,9 +1,10 @@
+import { SvgIconComponent } from '@mui/icons-material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'react-i18next';
+
 import FinanceOverviewCard from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCard';
-import { SvgIconComponent } from '@mui/icons-material';
 
 interface MonthlyOutcomeCardProps {
   income: number;

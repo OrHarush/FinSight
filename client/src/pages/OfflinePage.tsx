@@ -1,7 +1,8 @@
-import Column from '@/components/shared/layout/containers/Column';
-import { Button, Typography, Box, CssBaseline } from '@mui/material';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
+import { Box, Button, CssBaseline,Typography } from '@mui/material';
 import { keyframes } from '@mui/system';
+
+import Column from '@/components/shared/layout/containers/Column';
 
 const pulse = keyframes`
   0%, 100% {

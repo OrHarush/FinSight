@@ -1,9 +1,10 @@
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { alpha, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Row from '@/components/shared/layout/containers/Row';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Column from '@/components/shared/layout/containers/Column';
 import { motion } from 'framer-motion';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const TransactionFloatingCard = () => {
   const theme = useTheme();

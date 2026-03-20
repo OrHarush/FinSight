@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Box, Grid, IconButton } from '@mui/material';
+import { useEffect, useState } from 'react';
+
 import { categoryIconMap } from '@/constants/categoryIconMap';
 
 const ICONS_PER_PAGE = 18;

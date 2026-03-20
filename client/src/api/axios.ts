@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { queryClient } from '@/queryClient';
 
 const api = axios.create({

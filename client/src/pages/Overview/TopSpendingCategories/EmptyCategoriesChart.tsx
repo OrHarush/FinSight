@@ -1,8 +1,9 @@
-import { Card, Grid, Typography } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
-import EntityEmpty from '@/components/entities/EntityEmpty';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Card, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import Column from '@/components/shared/layout/containers/Column';
 
 const EmptyCategoriesChart = () => {
   const { t } = useTranslation('overview');

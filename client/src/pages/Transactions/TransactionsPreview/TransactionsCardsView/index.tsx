@@ -1,17 +1,18 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Pagination } from '@mui/material';
-import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
-import { useTransactions } from '@/hooks/entities/useTransactions';
-import EntityError from '@/components/entities/EntityError';
-import EntityEmpty from '@/components/entities/EntityEmpty';
-import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { Box, Pagination } from '@mui/material';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionPageFormValues } from '@/types/Transaction';
-import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
+import EntityError from '@/components/entities/EntityError';
 import Column from '@/components/shared/layout/containers/Column';
-import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
+import { useTransactions } from '@/hooks/entities/useTransactions';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
+import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
+import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
+import { TransactionPageFormValues } from '@/types/Transaction';
 
 const TransactionsCardsView = () => {
   const [page, setPage] = useState(1);

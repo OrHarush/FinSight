@@ -1,12 +1,13 @@
 import { Chip, LinearProgress, Typography, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import CategoryIconFrame from '@/components/features/categories/CategoryIconFrame';
+
 import BudgetChangeBadge from '@/components/features/budgets/BudgetChangeBadge';
-import { getBudgetProgressColor } from '@/utils/colorUtils';
-import { BudgetCategoryItem } from '@/utils/budgetUtils';
+import CategoryIconFrame from '@/components/features/categories/CategoryIconFrame';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
+import { BudgetCategoryItem } from '@/utils/budgetUtils';
+import { getBudgetProgressColor } from '@/utils/colorUtils';
 
 interface BudgetProgressRowProps {
   budget: BudgetCategoryItem;

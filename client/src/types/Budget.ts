@@ -1,9 +1,3 @@
-export interface BudgetFormValues {
-  category: string;
-  limit: number;
-  applyToRestOfYear: boolean;
-}
-
 export interface BudgetDto {
   _id: string;
   userId: string;

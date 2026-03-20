@@ -1,10 +1,11 @@
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, Grid } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionFormValues } from '@/types/Transaction';
+import { useTranslation } from 'react-i18next';
+
 import TextInput from '@/components/shared/inputs/TextInput';
 import Row from '@/components/shared/layout/containers/Row';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { TransactionFormValues } from '@finsight/shared';
 
 interface ScheduleSectionProps {
   isTransfer?: boolean;

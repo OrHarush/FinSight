@@ -1,17 +1,18 @@
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
-  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Link,
+  Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { useAuth } from '@/providers/AuthProvider';
+
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
+import { useAuth } from '@/providers/AuthProvider';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 
 interface TermsDialogProps {
   open: boolean;

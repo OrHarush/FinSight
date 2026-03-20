@@ -1,7 +1,8 @@
 import { CircularProgress, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
 import finSightIcon from '@/assets/finSightIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
-import { useTranslation } from 'react-i18next';
 
 const LoadingScreen = () => {
   const { t } = useTranslation('common');

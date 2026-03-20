@@ -1,9 +1,10 @@
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { alpha, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { motion } from 'framer-motion';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const HealthScore = () => {
   const theme = useTheme();

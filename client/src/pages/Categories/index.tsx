@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Button } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOpen } from '@/hooks/common/useOpen';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { CategoryDto } from '@/types/Category';
-import PageLayout from '@/components/shared/layout/page/PageLayout';
+
 import PageHeader from '@/components/shared/layout/page/PageHeader';
+import PageLayout from '@/components/shared/layout/page/PageLayout';
 import ActionFab from '@/components/shared/ui/ActionFab';
-import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useOpen } from '@/hooks/common/useOpen';
 import CategoriesDialogManager from '@/pages/Categories/CategoriesDialogManager';
+import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
+import { CategoryDto } from '@/types/Category';
 
 const Categories = () => {
   const { t } = useTranslation('categories');

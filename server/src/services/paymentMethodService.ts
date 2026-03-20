@@ -1,10 +1,8 @@
-import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
-import {
-  CreatePaymentMethodCommand,
-  UpdatePaymentMethodCommand,
-} from '@shared/types/PaymentMethodCommands';
-import { ApiError } from '../errors/ApiError';
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
 import mongoose from 'mongoose';
+
+import { ApiError } from '../errors/ApiError';
+import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 
 export const findAll = async (userId: string) => paymentMethodRepository.findMany(userId);
 
@@ -21,34 +19,12 @@ export const getById = async (id: string, userId: string) => {
   return method;
 };
 
-export const create = async (details: CreatePaymentMethodCommand, userId: string) => {
-  if (!details.name) {
-    throw ApiError.badRequest('Payment method name is required');
-  }
-
-  if (details.name.length > 30) {
-    throw ApiError.badRequest('Payment method name must not exceed 30 characters');
-  }
-
-  if (!details.type) {
-    throw ApiError.badRequest('Payment method type is required');
-  }
-
-  if (details.type === 'Credit') {
-    if (!details.billingDay) {
-      throw ApiError.badRequest('Credit card requires billingDay');
-    }
-    if (details.billingDay < 1 || details.billingDay > 31) {
-      throw ApiError.badRequest('billingDay must be between 1 and 31');
-    }
-  }
-
-  return paymentMethodRepository.create(details, userId);
-};
+export const create = async (details: CreatePaymentMethodDTO, userId: string) =>
+  paymentMethodRepository.create(details, userId);
 
 export const update = async (
   id: string,
-  updatedDetails: UpdatePaymentMethodCommand,
+  updatedDetails: UpdatePaymentMethodDTO,
   userId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -59,19 +35,6 @@ export const update = async (
 
   if (!existing) {
     throw ApiError.notFound('Payment method not found');
-  }
-
-  if (updatedDetails.name && updatedDetails.name.length > 30) {
-    throw ApiError.badRequest('Payment method name must not exceed 30 characters');
-  }
-
-  if (updatedDetails.type === 'Credit') {
-    if (
-      updatedDetails.billingDay &&
-      (updatedDetails.billingDay < 1 || updatedDetails.billingDay > 31)
-    ) {
-      throw ApiError.badRequest('billingDay must be between 1 and 31');
-    }
   }
 
   const updated = await paymentMethodRepository.updateById(id, updatedDetails, userId);

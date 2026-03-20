@@ -1,16 +1,17 @@
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HomeIcon from '@mui/icons-material/Home';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import SchoolIcon from '@mui/icons-material/School';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { alpha, Box, Chip, LinearProgress, Paper, Typography, useTheme } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { JSX, useEffect, useState } from 'react';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import HomeIcon from '@mui/icons-material/Home';
-import SchoolIcon from '@mui/icons-material/School';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface MiniPreviewProps {
   type: 'dashboard' | 'transactions' | 'budgets' | 'quickAdd' | 'categoryGallery' | null;

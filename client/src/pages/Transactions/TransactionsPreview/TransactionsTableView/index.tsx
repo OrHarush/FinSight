@@ -1,16 +1,17 @@
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
-import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
-import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useTransactions } from '@/hooks/entities/useTransactions';
-import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
-import EntityError from '@/components/entities/EntityError';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionPageFormValues } from '@/types/Transaction';
-import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
-import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { useTranslation } from 'react-i18next';
+
+import EntityError from '@/components/entities/EntityError';
 import Column from '@/components/shared/layout/containers/Column';
+import { useTransactions } from '@/hooks/entities/useTransactions';
+import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
+import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
+import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
+import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
+import { TransactionPageFormValues } from '@/types/Transaction';
 
 const TransactionsTableView = () => {
   const { t } = useTranslation('transactions');

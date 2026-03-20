@@ -1,7 +1,9 @@
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
+
 import * as paymentMethodService from '../services/paymentMethodService';
-import { asyncHandler } from '../utils/asyncHandler';
 import { ApiResponse } from '../utils/ApiResponse';
+import { asyncHandler } from '../utils/asyncHandler';
 
 export const getPaymentMethods = asyncHandler(async (req: Request, res: Response) => {
   const methods = await paymentMethodService.findAll(req.userId);
@@ -16,13 +18,13 @@ export const getPaymentMethodById = asyncHandler(async (req: Request, res: Respo
 });
 
 export const createPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.create(req.body, req.userId);
+  const method = await paymentMethodService.create(req.validatedBody as CreatePaymentMethodDTO, req.userId);
 
   return ApiResponse.created(res, method);
 });
 
 export const updatePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const updated = await paymentMethodService.update(req.params.id, req.body, req.userId);
+  const updated = await paymentMethodService.update(req.params.id, req.validatedBody as UpdatePaymentMethodDTO, req.userId);
 
   return ApiResponse.ok(res, updated);
 });

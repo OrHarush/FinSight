@@ -1,9 +1,10 @@
-import { Card, CardContent, Chip, Typography, Grid } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
-import AccountIcon from '@/components/features/accounts/AccountIcon';
-import { AccountDto } from '@/types/Account';
+import { Card, CardContent, Chip, Grid,Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import AccountIcon from '@/components/features/accounts/AccountIcon';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import { AccountDto } from '@/types/Account';
 
 interface ChatAccountCardsProps {
   accounts: AccountDto[];

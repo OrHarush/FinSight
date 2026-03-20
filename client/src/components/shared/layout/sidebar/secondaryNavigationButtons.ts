@@ -1,8 +1,9 @@
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SavingsIcon from '@mui/icons-material/Savings';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
-import { ROUTES } from '@/constants/Routes';
+
 import { SidebarButtonConfig } from '@/components/shared/layout/sidebar/SidebarNavigationButton';
+import { ROUTES } from '@/constants/Routes';
 
 const getAdminSecondaryNavigation = (): SidebarButtonConfig[] => [
     {

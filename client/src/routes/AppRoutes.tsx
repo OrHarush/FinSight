@@ -1,25 +1,26 @@
 import { Suspense } from 'react';
-import { useAuth } from '@/providers/AuthProvider';
-import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { ROUTES } from '@/constants/Routes';
-import Overview from '@/pages/Overview';
-import { Transactions } from '@/pages/Transactions';
-import Categories from '@/pages/Categories';
-import Accounts from '@/pages/Accounts';
-import LoginPage from '@/pages/Login';
-import TermsOfServicePage from '@/pages/TermsOfServicePage';
-import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import NotFoundPage from '@/pages/NotFoundPage';
-import PaymentMethods from '@/pages/PaymentMethods';
-import HomePage from '@/pages/Home';
-import Column from '@/components/shared/layout/containers/Column';
-import { AdminKpiDashboard } from '@/pages/Admin';
-import PublicLayout from '@/components/shared/layout/PublicLayout';
+
+import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout';
-import { RequireAuth, RequireAdmin, RequireGuest } from '@/routes/guards/ProtectedRoute';
+import Column from '@/components/shared/layout/containers/Column';
+import PublicLayout from '@/components/shared/layout/PublicLayout';
+import { ROUTES } from '@/constants/Routes';
+import Accounts from '@/pages/Accounts';
+import { AdminKpiDashboard } from '@/pages/Admin';
 import Budgets from '@/pages/Budgets';
+import Categories from '@/pages/Categories';
 import Chat from '@/pages/Chat';
+import HomePage from '@/pages/Home';
+import LoginPage from '@/pages/Login';
+import NotFoundPage from '@/pages/NotFoundPage';
+import Overview from '@/pages/Overview';
+import PaymentMethods from '@/pages/PaymentMethods';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import { Transactions } from '@/pages/Transactions';
+import { useAuth } from '@/providers/AuthProvider';
+import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();

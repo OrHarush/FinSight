@@ -1,7 +1,8 @@
-import Column from '@/components/shared/layout/containers/Column';
 import { Box, Typography } from '@mui/material';
-import CurrencyText from '@/components/shared/ui/CurrencyText';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
+import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 interface NoBudgetProps {
   totalCategorySpending: number;

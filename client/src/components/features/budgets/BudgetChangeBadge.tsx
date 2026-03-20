@@ -1,6 +1,6 @@
-import { Chip, Tooltip, useTheme } from '@mui/material';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { Chip, Tooltip, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface BudgetChangeBadgeProps {

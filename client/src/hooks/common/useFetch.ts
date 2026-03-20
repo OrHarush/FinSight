@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { useEffect } from 'react';
+
 import api from '@/api/axios';
 
 export interface PaginationMeta {

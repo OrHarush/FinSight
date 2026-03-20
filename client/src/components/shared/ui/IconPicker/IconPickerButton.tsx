@@ -1,9 +1,10 @@
+import CategoryIcon from '@mui/icons-material/Category';
+import { Box, InputAdornment, InputLabel, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Box, InputAdornment, InputLabel, TextField } from '@mui/material';
-import CategoryIcon from '@mui/icons-material/Category';
-import IconPickerDialog from '@/components/shared/ui/IconPicker/IconPickerDialog';
+
 import Column from '@/components/shared/layout/containers/Column';
+import IconPickerDialog from '@/components/shared/ui/IconPicker/IconPickerDialog';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 
 interface IconPickerFieldProps {

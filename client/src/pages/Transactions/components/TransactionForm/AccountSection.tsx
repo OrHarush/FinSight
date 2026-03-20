@@ -1,10 +1,11 @@
-import { useTranslation } from 'react-i18next';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Box, Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { TransactionFormValues } from '@/types/Transaction';
+import { useTranslation } from 'react-i18next';
+
 import AccountSelect from '@/components/features/accounts/AccountSelect';
 import Row from '@/components/shared/layout/containers/Row';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { TransactionFormValues } from '@finsight/shared';
 
 const AccountsSection = () => {
   const { t } = useTranslation('transactions');

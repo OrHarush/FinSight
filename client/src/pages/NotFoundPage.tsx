@@ -1,9 +1,10 @@
+import ArrowBack from '@mui/icons-material/ArrowBack';
+import Home from '@mui/icons-material/Home';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 import notFoundIllustration from '@/assets/emptyVault.webp';
 import { ROUTES } from '@/constants/Routes';
-import Home from '@mui/icons-material/Home';
-import ArrowBack from '@mui/icons-material/ArrowBack';
 
 interface NotFoundPageProps {
   isAuthenticated?: boolean;

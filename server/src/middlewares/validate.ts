@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction,Request, Response } from 'express';
 import { ZodType } from 'zod';
+
 import { ApiError } from '../errors/ApiError';
 
 export const validateQuery =

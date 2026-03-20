@@ -1,6 +1,7 @@
 import { alpha, useTheme } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
 import Typography from '@mui/material/Typography';
+
+import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
 interface ProcessStepProps {

@@ -1,18 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
-import {
-  Fab,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography,
-  Chip,
-  IconButton,
-} from '@mui/material';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Row from '@/components/shared/layout/containers/Row';
+import {
+  Chip,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Fab,
+  IconButton,
+  Typography,
+} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 interface ConsoleLog {
   id: number;
@@ -21,11 +22,10 @@ interface ConsoleLog {
   timestamp: string;
 }
 
-// Capture logs before component mounts
 const capturedLogs: ConsoleLog[] = [];
 let logId = 0;
 
-const addLogToBuffer = (type: ConsoleLog['type'], args: any[]) => {
+const addLogToBuffer = (type: ConsoleLog['type'], args: unknown[]) => {
   const message = args
     .map(arg => {
       if (typeof arg === 'object') {
@@ -47,28 +47,27 @@ const addLogToBuffer = (type: ConsoleLog['type'], args: any[]) => {
   });
 };
 
-// Override console methods immediately
 const originalLog = console.log;
 const originalError = console.error;
 const originalWarn = console.warn;
 const originalInfo = console.info;
 
-console.log = (...args: any[]) => {
+console.log = (...args: unknown[]) => {
   originalLog(...args);
   addLogToBuffer('log', args);
 };
 
-console.error = (...args: any[]) => {
+console.error = (...args: unknown[]) => {
   originalError(...args);
   addLogToBuffer('error', args);
 };
 
-console.warn = (...args: any[]) => {
+console.warn = (...args: unknown[]) => {
   originalWarn(...args);
   addLogToBuffer('warn', args);
 };
 
-console.info = (...args: any[]) => {
+console.info = (...args: unknown[]) => {
   originalInfo(...args);
   addLogToBuffer('info', args);
 };
@@ -79,7 +78,7 @@ const MobileConsole = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const addLog = (type: ConsoleLog['type'], args: any[]) => {
+    const addLog = (type: ConsoleLog['type'], args: unknown[]) => {
       const message = args
         .map(arg => {
           if (typeof arg === 'object') {
@@ -109,22 +108,22 @@ const MobileConsole = () => {
     const originalWarn = console.warn;
     const originalInfo = console.info;
 
-    console.log = (...args: any[]) => {
+    console.log = (...args: unknown[]) => {
       originalLog(...args);
       addLog('log', args);
     };
 
-    console.error = (...args: any[]) => {
+    console.error = (...args: unknown[]) => {
       originalError(...args);
       addLog('error', args);
     };
 
-    console.warn = (...args: any[]) => {
+    console.warn = (...args: unknown[]) => {
       originalWarn(...args);
       addLog('warn', args);
     };
 
-    console.info = (...args: any[]) => {
+    console.info = (...args: unknown[]) => {
       originalInfo(...args);
       addLog('info', args);
     };

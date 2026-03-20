@@ -1,10 +1,11 @@
-import React from 'react';
-import { useAppTheme } from '@/providers/AppThemeProvider';
-import { ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import Row from '@/components/shared/layout/containers/Row';
+import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const ThemeToggle = () => {
   const { t } = useTranslation('sidebar');

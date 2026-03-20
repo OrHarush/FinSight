@@ -1,4 +1,3 @@
-import Row from '@/components/shared/layout/containers/Row';
 import {
   Button,
   Card,
@@ -8,11 +7,13 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { ROUTES } from '@/constants/Routes';
-import Column from '@/components/shared/layout/containers/Column';
-import { useNavigate } from 'react-router-dom';
-import AccountsOverviewContent from '@/components/unusedComponents/AccountsOverview/AccountsOverviewContent';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import AccountsOverviewContent from '@/components/unusedComponents/AccountsOverview/AccountsOverviewContent';
+import { ROUTES } from '@/constants/Routes';
 
 const AccountsOverview = () => {
   const { t } = useTranslation('dashboard');

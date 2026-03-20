@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
 import { ReactNode } from 'react';
+
+import Column from '@/components/shared/layout/containers/Column';
 
 interface LegalSectionProps {
   title: string;

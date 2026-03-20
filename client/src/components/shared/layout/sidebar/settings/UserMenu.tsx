@@ -1,12 +1,13 @@
-import { Typography, Menu, MenuItem, Divider, ListItemIcon } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { useAuth } from '@/providers/AuthProvider';
+import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Divider, ListItemIcon,Menu, MenuItem, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useOpen } from '@/hooks/common/useOpen';
-import SettingsModal from '@/components/features/users/SettingsModal';
+
 import HelpModal from '@/components/features/users/HelpModal';
+import SettingsModal from '@/components/features/users/SettingsModal';
+import { useOpen } from '@/hooks/common/useOpen';
+import { useAuth } from '@/providers/AuthProvider';
 
 interface UserMenuProps {
   anchorEl: HTMLElement | null;

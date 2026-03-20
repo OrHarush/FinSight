@@ -1,12 +1,14 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import FormDialog from '@/components/dialogs/FormDialog';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 import { useTranslation } from 'react-i18next';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import FormDialog from '@/components/dialogs/FormDialog';
 import { useUpdateBudget } from '@/hooks/entities/useBudgetMutations';
-import { BudgetDto, BudgetFormValues } from '@/types/Budget';
-import { CategoryDto } from '@/types/Category';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { BudgetFormValues } from '@finsight/shared';
+import { BudgetDto } from '@/types/Budget';
+import { CategoryDto } from '@/types/Category';
 
 interface EditBudgetDialogProps extends BaseDialogProps {
   category: CategoryDto;

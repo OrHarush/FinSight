@@ -1,7 +1,8 @@
-import { ReactNode } from 'react';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { ReactNode } from 'react';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 interface ChatMessageLayoutProps {
   avatar: ReactNode;

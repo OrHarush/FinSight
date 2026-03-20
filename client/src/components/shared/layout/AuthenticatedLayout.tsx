@@ -1,12 +1,13 @@
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
+import { Fab } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+
+import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import Sidebar from '@/components/shared/layout/sidebar';
-import { Outlet } from 'react-router-dom';
-import { useOpen } from '@/hooks/common/useOpen';
-import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
-import { Fab } from '@mui/material';
-import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useOpen } from '@/hooks/common/useOpen';
 
 const AuthenticatedLayout = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();

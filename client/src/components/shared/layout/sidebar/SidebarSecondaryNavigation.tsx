@@ -1,7 +1,8 @@
+import { useTranslation } from 'react-i18next';
+
 import SidebarNavigationButton, {
   SidebarButtonConfig,
 } from '@/components/shared/layout/sidebar/SidebarNavigationButton';
-import { useTranslation } from 'react-i18next';
 
 interface SidebarSecondaryNavigationProps {
   secondaryNavigation: SidebarButtonConfig[];

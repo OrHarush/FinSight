@@ -1,11 +1,12 @@
-import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
 import { Box, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import TextInput from '@/components/shared/inputs/TextInput';
-import AccountIconPicker from '@/pages/Accounts/components/AccountIconPicker';
+
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import TextInput from '@/components/shared/inputs/TextInput';
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { CURRENCIES } from '@/constants/currencies';
+import AccountIconPicker from '@/pages/Accounts/components/AccountIconPicker';
 
 const AccountForm = () => {
   const { t } = useTranslation('accounts');
@@ -15,12 +16,12 @@ const AccountForm = () => {
       <Row spacing={2} alignItems="center">
         <AccountIconPicker />
         <Box flex={1}>
-          <TextInput name="name" label={t('fields.name')} required maxLength={40} />
+          <TextInput name="name" label={t('fields.name')} />
         </Box>
       </Row>
       <Row spacing={2}>
         <Box flex={1}>
-          <TextInput name="balance" label={t('fields.balance')} type="number" required />
+          <TextInput name="balance" label={t('fields.balance')} type="number" />
         </Box>
         <Box flex={1}>
           <RHFSelect
@@ -38,15 +39,9 @@ const AccountForm = () => {
           <TextInput
             name="accountNumber"
             label={t('fields.accountNumber')}
-            rules={{
-              pattern: {
-                value: /^\d{4}$/,
-                message: t('validation.accountNumberFormat'),
-              },
-            }}
             slotProps={{
               htmlInput: {
-                maxLength: 4,
+                maxLength: 20,
                 inputMode: 'numeric',
               },
             }}

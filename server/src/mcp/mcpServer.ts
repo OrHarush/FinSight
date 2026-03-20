@@ -1,20 +1,21 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import * as transactionService from '../services/transactionService';
+
+import { GetTransactionsOptions } from '../schemas/transactionSchemas';
 import * as accountService from '../services/accountService';
+import * as budgetService from '../services/budgetService';
 import * as categoryService from '../services/categoryService';
 import * as paymentMethodService from '../services/paymentMethodService';
-import * as budgetService from '../services/budgetService';
-import { GetTransactionsOptions } from '../schemas/transactionSchemas';
+import * as transactionService from '../services/transactionService';
+import { verifyAndExtractBearerToken } from '../utils/auth';
 import {
-  TransactionQuerySchema,
-  TransactionSummaryQuerySchema,
   AccountQuerySchema,
+  BudgetQuerySchema,
   CategoryQuerySchema,
   PaymentMethodQuerySchema,
-  BudgetQuerySchema,
+  TransactionQuerySchema,
+  TransactionSummaryQuerySchema,
 } from './mcpSchemas';
-import { verifyAndExtractBearerToken } from '../utils/auth';
 
 const authErrorResponse = {
   content: [{ type: 'text' as const, text: 'Unauthorized: missing or invalid token' }],

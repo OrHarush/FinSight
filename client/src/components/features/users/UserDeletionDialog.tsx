@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { DialogContent, DialogActions, Button, TextField, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import { Button, DialogActions, DialogContent, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 
 interface UserDeletionDialogProps extends BaseDialogProps {
   onConfirm: () => void;

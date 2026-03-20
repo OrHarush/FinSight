@@ -1,18 +1,19 @@
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Card, Grid } from '@mui/material';
-import { useFetch } from '@/hooks/common/useFetch';
-import { TransactionSummaryDto } from '@/types/Transaction';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
 import { useTranslation } from 'react-i18next';
-import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
-import OverviewMetric from '@/pages/Overview/MonthlyFinancialOverview/OverviewMetric';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useFetch } from '@/hooks/common/useFetch';
 import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHeadline';
+import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
+import OverviewMetric from '@/pages/Overview/MonthlyFinancialOverview/OverviewMetric';
+import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
+import { TransactionSummaryDto } from '@/types/Transaction';
 
 const MonthlyFinancialOverview = () => {
   const { t } = useTranslation('common');

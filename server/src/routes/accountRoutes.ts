@@ -1,15 +1,18 @@
+import { CreateAccountSchema, UpdateAccountSchema } from '@finsight/shared';
 import { Router } from 'express';
+
 import {
-  getAccounts,
   createAccount,
-  getAccountById,
   deleteAccount,
-  updateAccount,
-  setPrimaryAccount,
-  getLinkedTransactionsCount,
   getAccountBalanceCurve,
+  getAccountById,
+  getAccounts,
+  getLinkedTransactionsCount,
+  setPrimaryAccount,
   syncAccountBalance,
+  updateAccount,
 } from '../controllers/accountController';
+import { validateBody } from '../middlewares/validate';
 
 const router = Router();
 
@@ -18,8 +21,8 @@ router.get('/:id', getAccountById);
 router.get('/:id/linked-transactions', getLinkedTransactionsCount);
 router.get('/:id/balance-curve', getAccountBalanceCurve);
 router.post('/:id/sync-balance', syncAccountBalance);
-router.post('/', createAccount);
-router.put('/:id', updateAccount);
+router.post('/', validateBody(CreateAccountSchema), createAccount);
+router.put('/:id', validateBody(UpdateAccountSchema), updateAccount);
 router.patch('/:id/primary', setPrimaryAccount);
 router.delete('/:id', deleteAccount);
 

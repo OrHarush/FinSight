@@ -1,14 +1,15 @@
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import UserAvatar from '@/components/shared/layout/sidebar/settings/UserAvatar';
+
+import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import ThemeToggle from '@/components/shared/layout/sidebar/settings/ThemeToggle';
+import UserAvatar from '@/components/shared/layout/sidebar/settings/UserAvatar';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
-import LegalLinks from '@/pages/Login/LegalLinks';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { useOpen } from '@/hooks/common/useOpen';
-import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
+import LegalLinks from '@/pages/Login/LegalLinks';
 const Settings = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
   const isMobile = useIsMobile();

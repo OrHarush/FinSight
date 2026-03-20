@@ -1,6 +1,6 @@
-import { useFetch } from '@/hooks/useFetch';
-import { API_ROUTES } from '@/constants/Routes';
 import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useFetch } from '@/hooks/useFetch';
 
 export interface BalancePoint {
   date: string;

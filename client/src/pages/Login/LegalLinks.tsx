@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { ROUTES } from '@/constants/Routes';
+
 import Row from '@/components/shared/layout/containers/Row';
+import { ROUTES } from '@/constants/Routes';
 
 interface LegalLinksProps {
   variant?: 'body2' | 'caption';

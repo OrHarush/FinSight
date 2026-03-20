@@ -1,20 +1,22 @@
 import { Grid } from '@mui/material';
-import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
+import { useMemo } from 'react';
+
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
 import { useAccounts } from '@/hooks/entities/useAccounts';
-import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useCategories } from '@/hooks/entities/useCategories';
+import { useTransactions } from '@/hooks/entities/useTransactions';
+import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
-import { API_ROUTES } from '@/constants/Routes';
-import { queryKeys } from '@/constants/queryKeys';
-import FinancialStatusCard from './CurrentMonth/FinancialStatusCard';
-import DailySpendCard from './CurrentMonth/DailySpendCard';
+import { getTopSpendingCategories } from '@/utils/categoryUtils';
+
 import BudgetRunwayCard from './CurrentMonth/BudgetRunwayCard';
+import DailySpendCard from './CurrentMonth/DailySpendCard';
+import FinancialStatusCard from './CurrentMonth/FinancialStatusCard';
+import BiggestOverspendCard from './MonthSummary/BiggestOverspendCard';
 import MonthlyOutcomeCard from './MonthSummary/MonthlyOutcomeCard';
 import NetResultCard from './MonthSummary/NetResultCard';
-import BiggestOverspendCard from './MonthSummary/BiggestOverspendCard';
-import { useMemo } from 'react';
-import { getTopSpendingCategories } from '@/utils/categoryUtils';
 
 const FinancialHighlights = () => {
   const { year, month, account } = useOverviewFilters();

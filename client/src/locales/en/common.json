@@ -21,7 +21,26 @@
     "max": "{{field}} must be at most {{value}}",
     "minLength": "{{field}} must be at least {{value}} characters",
     "maxLength": "{{field}} must be at most {{value}} characters",
-    "maxTwoDecimals": "Up to 2 decimal places are allowed"
+    "maxTwoDecimals": "Up to 2 decimal places are allowed",
+    "nameTooLong": "Name is too long",
+    "invalidNumber": "Must be a number",
+    "amountZero": "Amount cannot be zero",
+    "amountOutOfRange": "Amount out of range",
+    "mustBePositive": "Must be greater than zero",
+    "invalidId": "Invalid selection",
+    "digitsOnly": "Digits only",
+    "exactlyFourDigits": "Must be exactly 4 digits",
+    "billingDayRange": "Must be between 1 and 31",
+    "startDateRequired": "Start date is required",
+    "endDateAfterStart": "End date must be after start date",
+    "dateRequired": "Date is required",
+    "transferSameAccount": "From and to accounts must be different",
+    "transferRequiresAccounts": "Transfer requires both accounts",
+    "categoryRequired": "Category is required",
+    "accountRequired": "Account is required",
+    "accountNumberInvalid": "Account number must be digits only",
+    "accountNumberTooLong": "Account number must be at most 20 digits",
+    "startMonthBeforeEnd": "Start month must be before end month"
   },
   "entities": {
     "empty": {

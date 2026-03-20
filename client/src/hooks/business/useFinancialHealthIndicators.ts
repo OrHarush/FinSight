@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+
 import { analyzeFinancialHealth, FinancialSnapshot, InsightKey } from '@/utils/financialHealth';
 import { HealthIndicator } from '@/utils/healthIndicatorUtils';
 

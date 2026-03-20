@@ -1,13 +1,3 @@
-export interface AccountFormValues {
-  name: string;
-  balance: number;
-  institution?: string;
-  accountNumber?: string;
-  icon?: string;
-  currency?: string;
-  isPrimary?: boolean;
-}
-
 export interface AccountDto {
   _id: string;
   name: string;

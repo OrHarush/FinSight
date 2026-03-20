@@ -1,8 +1,9 @@
-import EntityPlaceholderContainer from '@/components/entities/EntityPlaceholderContainer';
-import { Typography } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
-import { EntityName } from '@/constants/entities';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
+import EntityPlaceholderContainer from '@/components/entities/EntityPlaceholderContainer';
+import { EntityName } from '@/constants/entities';
 
 interface NoEntityProps {
   entityName: EntityName;

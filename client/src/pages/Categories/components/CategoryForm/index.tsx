@@ -1,8 +1,9 @@
-import Column from '@/components/shared/layout/containers/Column';
 import { Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import CategoryPreview from '@/pages/Categories/components/CategoryForm/CategoryPreview';
+
 import TextInput from '@/components/shared/inputs/TextInput';
+import Column from '@/components/shared/layout/containers/Column';
+import CategoryPreview from '@/pages/Categories/components/CategoryForm/CategoryPreview';
 import CategoryTypeToggle from '@/pages/Categories/components/CategoryForm/CategoryTypeToggle';
 
 const CategoryForm = () => {
@@ -12,7 +13,7 @@ const CategoryForm = () => {
     <Column spacing={3}>
       <Column spacing={1.5}>
         <CategoryPreview />
-        <TextInput name="name" label={t('fields.name')} required maxLength={30} />
+        <TextInput name="name" label={t('fields.name')} />
       </Column>
       <Box
         sx={{

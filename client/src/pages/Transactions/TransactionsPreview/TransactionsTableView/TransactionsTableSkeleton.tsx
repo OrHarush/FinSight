@@ -8,10 +8,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
-import Row from '@/components/shared/layout/containers/Row';
 import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 
 const TransactionsTableSkeleton = () => {
   const { t } = useTranslation('transactions');

@@ -1,13 +1,14 @@
+import SavingsIcon from '@mui/icons-material/Savings';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import EntityError from '@/components/entities/EntityError';
+import { useBudgets } from '@/hooks/entities/useBudgets';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useTransactions } from '@/hooks/entities/useTransactions';
-import { useBudgets } from '@/hooks/entities/useBudgets';
-import BudgetsSkeleton from '@/pages/Budgets/components/BudgetsSkeleton';
 import BudgetsList from '@/pages/Budgets/components/BudgetsList';
-import { CategoryDto } from '@/types/Category';
-import SavingsIcon from '@mui/icons-material/Savings';
+import BudgetsSkeleton from '@/pages/Budgets/components/BudgetsSkeleton';
 import { BudgetDto } from '@/types/Budget';
-import EntityEmpty from '@/components/entities/EntityEmpty';
+import { CategoryDto } from '@/types/Category';
 
 interface BudgetsPageContentProps {
   year: number;

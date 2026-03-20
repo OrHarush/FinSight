@@ -1,10 +1,12 @@
+import CategoryIcon from '@mui/icons-material/Category';
+
+import EntityEmpty from '@/components/entities/EntityEmpty';
 import EntityError from '@/components/entities/EntityError';
 import { useCategories } from '@/hooks/entities/useCategories';
-import EntityEmpty from '@/components/entities/EntityEmpty';
-import CategoryList from './CategoryList';
-import CategoryIcon from '@mui/icons-material/Category';
-import { CategoryDto } from '@/types/Category';
 import CategoryListSkeleton from '@/pages/Categories/components/CategoryListSkeleton';
+import { CategoryDto } from '@/types/Category';
+
+import CategoryList from './CategoryList';
 
 interface CategoriesPageContentProps {
   selectCategory: (category: CategoryDto) => void;

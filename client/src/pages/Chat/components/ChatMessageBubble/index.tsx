@@ -1,13 +1,14 @@
-import { ChatMessage } from '@/types/Chat';
-import { Paper, Typography, Avatar, useTheme, useMediaQuery } from '@mui/material';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
-import { useAuth } from '@/providers/AuthProvider';
+import { Avatar, Paper, Typography, useMediaQuery,useTheme } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import ChatCategoryPills from '@/pages/Chat/components/ChatMessageBubble/ChatCategoryPills';
+
 import ChatAccountCards from '@/pages/Chat/components/ChatMessageBubble/ChatAccountCards';
-import ModelBadge from '@/pages/Chat/components/ChatMessageBubble/ModelBadge';
+import ChatCategoryPills from '@/pages/Chat/components/ChatMessageBubble/ChatCategoryPills';
 import ChatMessageLayout from '@/pages/Chat/components/ChatMessageBubble/ChatMessageLayout';
+import ModelBadge from '@/pages/Chat/components/ChatMessageBubble/ModelBadge';
+import { useAuth } from '@/providers/AuthProvider';
+import { ChatMessage } from '@/types/Chat';
 
 interface ChatMessageBubbleProps {
   message: ChatMessage;

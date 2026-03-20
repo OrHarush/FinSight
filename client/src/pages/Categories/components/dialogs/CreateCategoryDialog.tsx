@@ -1,32 +1,35 @@
-import FormDialog from '@/components/dialogs/FormDialog';
-import { API_ROUTES } from '@/constants/Routes';
-import { CategoryDto, CategoryFormValues } from '@/types/Category';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { useSnackbar } from '@/providers/SnackbarProvider';
-import { queryKeys } from '@/constants/queryKeys';
-import CategoryForm from '@/pages/Categories/components/CategoryForm';
+import { CreateCategoryDTO, CreateCategorySchema } from '@finsight/shared';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import { CreateCategoryCommand } from '../../../../../../shared/types/CategoryCommands';
-import { mapCategoryFormToCommand } from '@/utils/categoryUtils';
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
+
+import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import FormDialog from '@/components/dialogs/FormDialog';
+import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import CategoryForm from '@/pages/Categories/components/CategoryForm';
+import { useSnackbar } from '@/providers/SnackbarProvider';
+import { CategoryDto } from '@/types/Category';
 
 const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  const methods = useForm<CategoryFormValues>({
+  const methods = useForm<CreateCategoryDTO>({
+    resolver: zodResolver(CreateCategorySchema),
+    defaultValues: { color: '#9ca3af' },
     mode: 'all',
   });
 
-  const createCategory = useApiMutation<CategoryDto, CreateCategoryCommand>({
+  const createCategory = useApiMutation<CategoryDto, CreateCategoryDTO>({
     method: 'post',
     url: API_ROUTES.CATEGORIES,
     queryKeysToInvalidate: [queryKeys.categories()],
   });
 
-  const submitNewCategory = async (data: CategoryFormValues) => {
+  const submitNewCategory = async (data: CreateCategoryDTO) => {
     try {
-      await createCategory.mutateAsync(mapCategoryFormToCommand(data));
+      await createCategory.mutateAsync(data);
       alertSuccess(t('messages.createSuccess'));
     } catch (err) {
       alertError(t('messages.createError'));

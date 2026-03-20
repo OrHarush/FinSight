@@ -1,9 +1,10 @@
 import { Breakpoint, Button, DialogActions, DialogContent } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
 import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import { useTranslation } from 'react-i18next';
+
+import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import Column from '@/components/shared/layout/containers/Column';
 
 interface FormDialogProps<T extends FieldValues> extends BaseDialogProps {
   title: string;

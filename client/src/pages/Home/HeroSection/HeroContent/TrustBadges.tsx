@@ -1,7 +1,8 @@
-import { alpha, Typography, useTheme } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { alpha, Typography, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+
 import Row from '@/components/shared/layout/containers/Row';
 
 const containerVariants = {

@@ -1,8 +1,9 @@
-import Row from '@/components/shared/layout/containers/Row';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { Chip, Typography } from '@mui/material';
-import { AccountDto } from '@/types/Account';
+
+import Row from '@/components/shared/layout/containers/Row';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
+import { AccountDto } from '@/types/Account';
 
 interface AccountMenuItemProps {
   account: AccountDto;

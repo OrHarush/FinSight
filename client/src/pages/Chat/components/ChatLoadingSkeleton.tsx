@@ -1,8 +1,9 @@
-import { Paper, Avatar, Box, keyframes } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Avatar, Box, keyframes,Paper } from '@mui/material';
 import { useMediaQuery, useTheme } from '@mui/material';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 
 const dotPulse = keyframes`
   0% { opacity: 0.3; }

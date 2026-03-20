@@ -1,8 +1,9 @@
+import { SvgIconComponent } from '@mui/icons-material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useTranslation } from 'react-i18next';
+
 import FinanceOverviewCard from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCard';
-import { SvgIconComponent } from '@mui/icons-material';
 
 interface NetResultCardProps {
   income: number;

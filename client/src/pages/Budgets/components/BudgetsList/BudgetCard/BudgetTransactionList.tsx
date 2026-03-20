@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import Row from '@/components/shared/layout/containers/Row';
-import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { TransactionDto } from '@/types/Transaction';
 
 interface BudgetTransactionListProps {

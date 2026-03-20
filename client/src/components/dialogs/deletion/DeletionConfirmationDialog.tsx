@@ -1,7 +1,8 @@
-import { DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
-import { ReactNode } from 'react';
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+import { Box,Button, DialogActions, DialogContent, Typography } from '@mui/material';
+import { ReactNode } from 'react';
+
+import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 

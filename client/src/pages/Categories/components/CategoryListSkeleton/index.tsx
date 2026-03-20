@@ -1,5 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import CategoryCardSkeleton from './CategoryCardSkeleton';
 
 const CategoryListSkeleton = () => {

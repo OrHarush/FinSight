@@ -1,8 +1,6 @@
-import { CreateCategoryCommand } from '@shared/types/CategoryCommands';
-import { CreatePaymentMethodCommand } from '@shared/types/PaymentMethodCommands';
-import { CreateAccountCommand } from '@shared/types/AccountCommands';
+import { CreateAccountDTO, CreateCategoryDTO, CreatePaymentMethodDTO } from '@finsight/shared';
 
-export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
+export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
   // Income
   {
     key: 'salary',
@@ -71,24 +69,24 @@ export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
   },
 ];
 
-export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodCommand[] = [
+export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodDTO[] = [
   {
     name: 'Credit Card',
-    type: 'Credit',
+    type: 'Credit Card',
     billingDay: 1,
     isPrimary: true,
   },
   {
-    name: 'Bank Transfer',
-    type: 'BankTransfer',
+    name: 'Cash',
+    type: 'Cash',
     isPrimary: false,
   },
 ];
 
-export const DEFAULT_ACCOUNT: CreateAccountCommand = {
+export const DEFAULT_ACCOUNT: CreateAccountDTO = {
   name: 'Bank Balance',
   balance: 0,
   institution: 'Main Bank',
-  accountNumber: '',
+  accountNumber: undefined,
   isPrimary: true,
 };

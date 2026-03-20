@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+
 import AccountCardSkeleton from '@/pages/Accounts/AccountCardsSkeleton/AccountCardSkeleton';
 
 const AccountCardsSkeleton = () => (

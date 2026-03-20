@@ -1,7 +1,10 @@
-import * as transactionRepository from '../repositories/transactionRepository';
-import { ITransaction } from '../models/Transaction';
+import { CreateTransactionDTO, UpdateTransactionDTO } from '@finsight/shared';
+import mongoose from 'mongoose';
+
+import { ApiError } from '../errors/ApiError';
 import Category from '../models/Category';
-import { CreateTransactionCommand } from '@shared/types/TransactionCommmands';
+import * as transactionRepository from '../repositories/transactionRepository';
+import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../types/Transaction';
 import {
   expandRecurring,
@@ -12,9 +15,6 @@ import {
   summarizeSingleMonth,
   summarizeWholeYear,
 } from '../utils/transactionUtils';
-import { ApiError } from '../errors/ApiError';
-import mongoose from 'mongoose';
-import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 
 type TxWithEffective = ITransactionPopulated & {
   effectiveYear: number;
@@ -97,54 +97,18 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
 export const countAll = async (userId: string): Promise<number> =>
   transactionRepository.countByUser(userId);
 
-export const create = async (data: CreateTransactionCommand, userId: string) => {
-  if (!data.type) throw ApiError.badRequest('Transaction type is required');
-
-  if (data.name && data.name.length > 50) {
-    throw ApiError.badRequest('Transaction description must not exceed 50 characters');
-  }
-
-  if (data.type === 'Transfer') {
-    if (!data.fromAccountId || !data.toAccountId) {
-      throw ApiError.badRequest('Transfer requires both fromAccount and toAccount');
-    }
-
-    if (String(data.fromAccountId) === String(data.toAccountId)) {
-      throw ApiError.badRequest(
-        'Transfer cannot use the same account for fromAccount and toAccount'
-      );
-    }
-
-    if (data.categoryId) {
-      throw ApiError.badRequest('Transfer should not have a category');
-    }
-  }
-
-  if (data.type === 'Expense' || data.type === 'Income') {
-    if (!data.accountId) throw ApiError.badRequest('Income/Expense requires an account');
-    if (!data.categoryId) throw ApiError.badRequest('Income/Expense requires a category');
-
-    if (!mongoose.Types.ObjectId.isValid(data.categoryId)) {
-      throw ApiError.badRequest('Invalid category ID');
-    }
-
+export const create = async (data: CreateTransactionDTO, userId: string) => {
+  if ((data.type === 'Expense' || data.type === 'Income') && data.categoryId) {
     const category = await Category.findOne({ _id: data.categoryId, userId });
-    if (!category) throw ApiError.badRequest('Invalid category for this user');
+
+    if (!category) {
+      throw ApiError.badRequest('Invalid category for this user');
+    }
 
     if (category.type !== data.type) {
       throw ApiError.badRequest(
         `Category type mismatch: category is ${category.type} but transaction is ${data.type}`
       );
-    }
-  }
-
-  if (data.recurrence !== 'None') {
-    if (!data.startDate) {
-      throw ApiError.badRequest('Recurring transactions require startDate');
-    }
-
-    if (data.endDate && new Date(data.startDate) > new Date(data.endDate)) {
-      throw ApiError.badRequest('startDate cannot be after endDate');
     }
   }
 
@@ -160,7 +124,7 @@ export const create = async (data: CreateTransactionCommand, userId: string) => 
   return transactionRepository.insert(data, userId);
 };
 
-export const update = async (id: string, data: Partial<ITransaction>, userId: string) => {
+export const update = async (id: string, data: UpdateTransactionDTO, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid transaction ID');
   }
@@ -169,10 +133,6 @@ export const update = async (id: string, data: Partial<ITransaction>, userId: st
 
   if (!existing) {
     throw ApiError.notFound('Transaction not found');
-  }
-
-  if (data.name && data.name.length > 50) {
-    throw ApiError.badRequest('Transaction description must not exceed 50 characters');
   }
 
   const updated = await transactionRepository.updateById(id, data, userId);

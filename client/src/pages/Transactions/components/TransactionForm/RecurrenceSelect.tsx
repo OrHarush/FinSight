@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
 
 const RecurrenceSelect = () => {

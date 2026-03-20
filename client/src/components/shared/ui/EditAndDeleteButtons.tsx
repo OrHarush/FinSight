@@ -1,6 +1,7 @@
-import { IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from '@mui/material';
+
 import Row from '@/components/shared/layout/containers/Row';
 
 interface EditAndDeleteButtonsProps {
@@ -20,11 +21,7 @@ const EditAndDeleteButtons = ({
   onDelete,
   isEditDisabled = false,
   isDeleteDisabled = false,
-  requireConfirmation = true,
   entityType = 'item',
-  entityName,
-  confirmationMessage,
-  disabledReason,
 }: EditAndDeleteButtonsProps) => (
   <>
     <Row>

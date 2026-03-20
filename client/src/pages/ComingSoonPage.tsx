@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
-import Column from '@/components/shared/layout/containers/Column';
-import logo from '@/assets/finSightIcon.webp';
 import { useTranslation } from 'react-i18next';
+
+import logo from '@/assets/finSightIcon.webp';
+import Column from '@/components/shared/layout/containers/Column';
 
 const ComingSoonPage = () => {
   const { t } = useTranslation('common');

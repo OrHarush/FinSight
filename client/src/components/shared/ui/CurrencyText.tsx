@@ -1,5 +1,6 @@
 import { Typography, TypographyProps } from '@mui/material';
 import CountUp from 'react-countup';
+
 import { useAuth } from '@/providers/AuthProvider';
 
 export interface CurrencyTextProps extends TypographyProps {

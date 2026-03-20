@@ -1,8 +1,10 @@
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import { useTranslation } from 'react-i18next';
-import FinanceOverviewCard from '../FinanceOverviewCard';
-import { calculateFinancialHealth, HEALTH_UI } from '@/utils/financialHealth';
+
 import { CurrentMonthCardProps } from '@/components/unusedComponents/FinancialHighlights/CurrentMonth/types';
+import { calculateFinancialHealth, HEALTH_UI } from '@/utils/financialHealth';
+
+import FinanceOverviewCard from '../FinanceOverviewCard';
 
 const FinancialStatusCard = ({
   income,

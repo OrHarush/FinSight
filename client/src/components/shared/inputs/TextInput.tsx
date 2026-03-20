@@ -1,7 +1,8 @@
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
-import { RegisterOptions, useFormContext, useController } from 'react-hook-form';
-import Column from '@/components/shared/layout/containers/Column';
+import { RegisterOptions, useController,useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
 
 interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
   name: string;
@@ -77,7 +78,7 @@ const TextInput = ({
 
   const finalRules = { ...baseRules, ...rules };
   const { field, fieldState } = useController({ name, control, rules: finalRules });
-  const fieldError = fieldState.error?.message;
+  const fieldError = fieldState.error?.message ? t(fieldState.error.message) : undefined;
 
   return (
     <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>

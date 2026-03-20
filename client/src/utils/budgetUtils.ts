@@ -1,6 +1,6 @@
+import { BudgetDto } from '@/types/Budget';
 import { CategoryDto } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
-import { BudgetDto } from '@/types/Budget';
 
 export interface BudgetCategoryItem {
   id: string;

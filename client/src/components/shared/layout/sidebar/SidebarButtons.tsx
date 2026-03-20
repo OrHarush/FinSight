@@ -1,31 +1,32 @@
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import CategoryIcon from '@mui/icons-material/Category';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import {
+  Box,
+  Collapse,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Box,
-  Collapse,
 } from '@mui/material';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ROUTES } from '@/constants/Routes';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import CategoryIcon from '@mui/icons-material/Category';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '@/providers/AuthProvider';
-import { isAdmin } from '@/utils/envUtils';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { useLocation } from 'react-router-dom';
+
+import { buildSecondaryNavigationButtons } from '@/components/shared/layout/sidebar/secondaryNavigationButtons';
 import SidebarNavigationButton, {
   SidebarButtonConfig,
 } from '@/components/shared/layout/sidebar/SidebarNavigationButton';
 import SidebarSecondaryNavigation from '@/components/shared/layout/sidebar/SidebarSecondaryNavigation';
-import { buildSecondaryNavigationButtons } from '@/components/shared/layout/sidebar/secondaryNavigationButtons';
+import { ROUTES } from '@/constants/Routes';
+import { useAuth } from '@/providers/AuthProvider';
+import { isAdmin } from '@/utils/envUtils';
 
 const SidebarButtons = () => {
   const { t } = useTranslation('sidebar');

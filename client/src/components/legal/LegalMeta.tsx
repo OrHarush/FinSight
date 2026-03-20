@@ -1,5 +1,6 @@
-import { Typography, Link } from '@mui/material';
+import { Link,Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 

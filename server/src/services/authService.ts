@@ -1,14 +1,14 @@
+import { IUser } from '../models/User';
 import {
-  findByProvider,
-  findByEmail,
+  acceptTerms,
   createUser,
+  findByEmail,
+  findByProvider,
   saveUser,
   updateLastLogin,
-  acceptTerms,
 } from '../repositories/userRepository';
-import { IUser } from '../models/User';
+import { recordLoginEvent } from './adminService';
 import { createDefaultEntitiesForNewUser } from './userService';
-import { recordLoginEvent } from './kpiService';
 
 interface AuthPayload {
   provider: string;

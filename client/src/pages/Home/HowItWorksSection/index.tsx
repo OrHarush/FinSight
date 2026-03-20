@@ -1,14 +1,15 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useTranslation } from 'react-i18next';
-import { alpha, Box, useTheme } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
-import TuneIcon from '@mui/icons-material/Tune';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import Column from '@/components/shared/layout/containers/Column';
+import TuneIcon from '@mui/icons-material/Tune';
+import { alpha, Box, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import ProcessAnimation from '@/pages/Home/HowItWorksSection/ProcessAnimation';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import ProcessAnimation from '@/pages/Home/HowItWorksSection/ProcessAnimation';
 import ProcessStep from '@/pages/Home/HowItWorksSection/ProcessStep';
 
 const HowItWorksSection = () => {

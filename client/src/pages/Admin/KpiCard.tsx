@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
 const KpiCard = ({
   label,

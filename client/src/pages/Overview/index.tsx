@@ -1,17 +1,18 @@
-import OverviewHeader from '@/pages/Overview/OverviewHeader';
 import { Grid } from '@mui/material';
+
+import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
+import Column from '@/components/shared/layout/containers/Column';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
+import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
-import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
-import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
+import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
-import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
+import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
+import OverviewHeader from '@/pages/Overview/OverviewHeader';
+import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
-import Column from '@/components/shared/layout/containers/Column';
 
 const Overview = () => {
   const { accounts, isLoading: loadingAccounts } = useAccounts();

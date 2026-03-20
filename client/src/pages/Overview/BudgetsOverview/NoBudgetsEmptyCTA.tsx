@@ -1,8 +1,9 @@
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Column from '@/components/shared/layout/containers/Column';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
+import Column from '@/components/shared/layout/containers/Column';
 import { ROUTES } from '@/constants/Routes';
 
 const NoBudgetsEmptyCTA = () => {

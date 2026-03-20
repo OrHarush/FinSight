@@ -1,11 +1,12 @@
-import Row from '@/components/shared/layout/containers/Row';
-import CallReceivedIcon from '@mui/icons-material/CallReceived';
-import CallMadeIcon from '@mui/icons-material/CallMade';
-import Column from '@/components/shared/layout/containers/Column';
-import { Typography, Box } from '@mui/material';
-import { TransactionDto } from '@/types/Transaction';
 import * as Icons from '@mui/icons-material';
+import CallMadeIcon from '@mui/icons-material/CallMade';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import { Box,Typography } from '@mui/material';
+
+import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
+import { TransactionDto } from '@/types/Transaction';
 
 interface TransactionOverviewProps {
   transaction: TransactionDto;

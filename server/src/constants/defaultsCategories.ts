@@ -1,6 +1,6 @@
-import { CreateCategoryCommand } from '@shared/types/CategoryCommands';
+import { CreateCategoryDTO } from '@finsight/shared';
 
-export const DEFAULT_CATEGORIES: CreateCategoryCommand[] = [
+export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
   // Income
   {
     key: 'salary',

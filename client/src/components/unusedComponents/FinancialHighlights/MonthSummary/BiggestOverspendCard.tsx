@@ -1,9 +1,10 @@
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { useTranslation } from 'react-i18next';
-import FinanceOverviewCard from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCard';
-import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { SvgIconComponent } from '@mui/icons-material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { useTranslation } from 'react-i18next';
+
+import FinanceOverviewCard from '@/components/unusedComponents/FinancialHighlights/FinanceOverviewCard';
 
 interface BiggestOverspendCardProps {
   categoryName?: string;
