@@ -2,13 +2,17 @@ import { Box } from '@mui/material';
 
 import finSightIcon from '@/assets/finSightIconNoText.webp';
 
-const FinSightIcon = () => (
+interface FinSightIconProps {
+  size?: number;
+}
+
+const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
   <Box
     sx={{
-      width: 100,
-      height: 100,
+      width: size,
+      height: size,
       margin: '0 auto 24px',
-      borderRadius: '24px',
+      borderRadius: `${size * 0.24}px`,
       background:
         'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 255, 0.95) 100%)',
       backdropFilter: 'blur(10px)',
@@ -35,8 +39,8 @@ const FinSightIcon = () => (
     <img
       src={finSightIcon}
       alt="App Logo"
-      width={60}
-      height={60}
+      width={size * 0.6}
+      height={size * 0.6}
       style={{
         filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15))',
         position: 'relative',
