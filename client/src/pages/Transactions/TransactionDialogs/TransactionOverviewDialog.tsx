@@ -1,12 +1,10 @@
-import {
-  AccountBalance,
-  CalendarMonth,
-  Close as CloseIcon,
-  Repeat,
-  SwapHoriz,
-  TrendingDown,
-  TrendingUp,
-} from '@mui/icons-material';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CloseIcon from '@mui/icons-material/Close';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import {
   Chip,
   Dialog,
@@ -43,9 +41,9 @@ const TransactionOverviewDialog = ({
   }
 
   const getTransactionIcon = () => {
-    if (transaction.type === 'Transfer') return <SwapHoriz sx={{ fontSize: 32 }} />;
-    if (transaction.type === 'Expense') return <TrendingDown sx={{ fontSize: 32 }} />;
-    return <TrendingUp sx={{ fontSize: 32 }} />;
+    if (transaction.type === 'Transfer') return <SwapHorizIcon sx={{ fontSize: 32 }} />;
+    if (transaction.type === 'Expense') return <TrendingDownIcon sx={{ fontSize: 32 }} />;
+    return <TrendingUpIcon sx={{ fontSize: 32 }} />;
   };
 
   const getTransactionColor = () => {
@@ -119,7 +117,7 @@ const TransactionOverviewDialog = ({
                     {t('fields.fromAccount')}
                   </Typography>
                   <Row spacing={1} alignItems="center">
-                    <AccountBalance sx={{ fontSize: 18, color: 'text.secondary' }} />
+                    <AccountBalanceIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                     <Typography variant="body1">
                       {transaction.fromAccount?.name || 'N/A'}
                     </Typography>
@@ -130,7 +128,7 @@ const TransactionOverviewDialog = ({
                     {t('fields.toAccount')}
                   </Typography>
                   <Row spacing={1} alignItems="center">
-                    <AccountBalance sx={{ fontSize: 18, color: 'text.secondary' }} />
+                    <AccountBalanceIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                     <Typography variant="body1">{transaction.toAccount?.name || 'N/A'}</Typography>
                   </Row>
                 </Row>
@@ -141,7 +139,7 @@ const TransactionOverviewDialog = ({
                   {t('fields.account')}
                 </Typography>
                 <Row spacing={1} alignItems="center">
-                  <AccountBalance sx={{ fontSize: 18, color: 'text.secondary' }} />
+                  <AccountBalanceIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                   <Typography variant="body1">{transaction.account?.name || 'N/A'}</Typography>
                 </Row>
               </Row>
@@ -151,7 +149,7 @@ const TransactionOverviewDialog = ({
                 {t('fields.date')}
               </Typography>
               <Row spacing={1} alignItems="center">
-                <CalendarMonth sx={{ fontSize: 18, color: 'text.secondary' }} />
+                <CalendarMonthIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                 <Typography variant="body1">{displayDate}</Typography>
               </Row>
             </Row>
@@ -163,7 +161,7 @@ const TransactionOverviewDialog = ({
                   {t('fields.recurrence')}
                 </Typography>
                 <Row spacing={1} alignItems="center">
-                  <Repeat sx={{ fontSize: 18, color: 'text.secondary' }} />
+                  <RepeatIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
                   <Chip label={transaction.recurrence} size="small" variant="outlined" />
                 </Row>
               </Row>
