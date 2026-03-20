@@ -1,5 +1,5 @@
 import { InputLabel, TextField, TextFieldProps } from '@mui/material';
-import { RegisterOptions, useController,useFormContext } from 'react-hook-form';
+import { RegisterOptions, useController, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -35,7 +35,6 @@ const TextInput = ({
 
   if (type === 'number') {
     baseRules = {
-      valueAsNumber: true,
       ...(required && {
         required:
           typeof required === 'string' ? required : t('validation.required', { field: label }),
@@ -49,7 +48,6 @@ const TextInput = ({
     };
   } else if (type === 'date') {
     baseRules = {
-      valueAsDate: true,
       ...(required && {
         required:
           typeof required === 'string' ? required : t('validation.required', { field: label }),
@@ -80,12 +78,31 @@ const TextInput = ({
   const { field, fieldState } = useController({ name, control, rules: finalRules });
   const fieldError = fieldState.error?.message ? t(fieldState.error.message) : undefined;
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === 'number') {
+      const rawValue = event.target.value;
+
+      field.onChange(rawValue === '' ? undefined : Number(rawValue));
+      return;
+    }
+
+    if (type === 'date') {
+      field.onChange(event.target.value === '' ? undefined : event.target.value);
+      return;
+    }
+
+    field.onChange(event);
+  };
+
   return (
     <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>
       {label && <InputLabel>{label}</InputLabel>}
+
       <TextField
         {...field}
-        fullWidth
+        value={field.value ?? ''}
+        onChange={handleChange}
+        fullWidth={fullWidth}
         helperText={fieldError}
         type={type}
         slotProps={{
