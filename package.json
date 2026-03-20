@@ -1,5 +1,8 @@
 {
   "name": "finsight",
   "private": true,
-  "workspaces": ["client", "server", "shared"]
+  "workspaces": ["client", "server", "shared"],
+  "dependencies": {
+    "zod": "3.25.76"
+  }
 }

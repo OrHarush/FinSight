@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx tsc:*)",
       "Bash(timeout 8 npx ts-node --transpile-only src/server.ts)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(node -e \":*)"
     ]
   }
 }
