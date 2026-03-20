@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npx tsc:*)",
-      "Bash(timeout 8 npx ts-node --transpile-only src/server.ts)"
+      "Bash(timeout 8 npx ts-node --transpile-only src/server.ts)",
+      "Bash(npm install:*)"
     ]
   }
 }
