@@ -1,3 +1,4 @@
+import { CreateBudgetBulkDTO, CreateBudgetDTO } from '@finsight/shared/schemas/budget';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '@/api/axios';
@@ -5,27 +6,16 @@ import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { BudgetDto } from '@/types/Budget';
 
-interface CreateBudgetInput {
-  categoryId: string;
-  year: number;
-  month: number;
-  limit: number;
-}
+import { UpdateBudgetDTO } from '../../../../shared';
 
-interface UpdateBudgetInput {
-  budgetId: string;
-  limit: number;
-}
-
-interface DeleteBudgetInput {
-  budgetId: string;
-}
+type UpdateBudgetInput = UpdateBudgetDTO & { budgetId: string };
+type DeleteBudgetInput = { budgetId: string };
 
 export const useCreateBudget = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (input: CreateBudgetInput) => {
+    mutationFn: async (input: CreateBudgetDTO) => {
       const response = await axiosInstance.post<{ success: boolean; data: BudgetDto }>(
         API_ROUTES.BUDGETS,
         input
@@ -36,6 +26,25 @@ export const useCreateBudget = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.budgets(variables.year, variables.month),
+      });
+    },
+  });
+};
+
+export const useCreateBudgetBulk = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input: CreateBudgetBulkDTO) => {
+      const response = await axiosInstance.post<{ success: boolean; data: BudgetDto[] }>(
+        `${API_ROUTES.BUDGETS}/bulk`,
+        input
+      );
+      return response.data.data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgets(variables.year),
       });
     },
   });
@@ -72,36 +81,6 @@ export const useDeleteBudget = () => {
     },
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: queryKeys.budgets(data.year, data.month) });
-    },
-  });
-};
-
-export const useCreateBudgetForRestOfYear = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (input: CreateBudgetInput) => {
-      const currentMonth = input.month;
-      const endMonth = 12;
-
-      const promises = [];
-
-      for (let month = currentMonth; month <= endMonth; month++) {
-        promises.push(
-          axiosInstance.post(API_ROUTES.BUDGETS, {
-            categoryId: input.categoryId,
-            year: input.year,
-            month,
-            limit: input.limit,
-          })
-        );
-      }
-
-      await Promise.all(promises);
-      return input;
-    },
-    onSuccess: variables => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.budgets(variables.year) });
     },
   });
 };

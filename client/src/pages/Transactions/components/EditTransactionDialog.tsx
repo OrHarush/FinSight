@@ -1,4 +1,8 @@
-import { TransactionFormSchema, TransactionFormValues, UpdateTransactionDTO } from '@finsight/shared';
+import {
+  TransactionFormSchema,
+  TransactionFormValues,
+  UpdateTransactionDTO,
+} from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -12,7 +16,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto, TransactionDto } from '@/types/Transaction';
-import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
+import { mapToUpdatePayload } from '@/utils/transactionUtils';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -52,7 +56,7 @@ const EditTransactionDialog = ({
 
   const update = async (data: TransactionFormValues) => {
     try {
-      await updateTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
+      await updateTransaction.mutateAsync(mapToUpdatePayload(data));
       alertSuccess(t('messages.updateSuccess'));
       closeDialog();
     } catch (err) {

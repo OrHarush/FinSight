@@ -27,7 +27,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
     queryKeysToInvalidate: [queryKeys.categories()],
   });
 
-  const submitNewCategory = async (data: CreateCategoryDTO) => {
+  const createNewCategory = async (data: CreateCategoryDTO) => {
     try {
       await createCategory.mutateAsync(data);
       alertSuccess(t('messages.createSuccess'));
@@ -43,7 +43,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={t('actions.create')}
-        onSubmit={submitNewCategory}
+        onSubmit={createNewCategory}
       >
         <CategoryForm />
       </FormDialog>

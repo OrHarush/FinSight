@@ -1,15 +1,15 @@
-import { NextFunction,Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ZodType } from 'zod';
 
 import { ApiError } from '../errors/ApiError';
 
 export const validateQuery =
-  <T>(schema: ZodType<T>) =>
+  <Output, Input = Output>(schema: ZodType<Output, any, Input>) =>
   (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.query);
 
     if (!result.success) {
-      throw ApiError.badRequest(result.error.issues.map((i) => i.message).join(', '));
+      throw ApiError.badRequest(result.error.issues.map(i => i.message).join(', '));
     }
 
     req.validatedQuery = result.data;
@@ -17,12 +17,12 @@ export const validateQuery =
   };
 
 export const validateBody =
-  <T>(schema: ZodType<T>) =>
+  <Output, Input = Output>(schema: ZodType<Output, any, Input>) =>
   (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      throw ApiError.badRequest(result.error.issues.map((i) => i.message).join(', '));
+      throw ApiError.badRequest(result.error.issues.map(i => i.message).join(', '));
     }
 
     req.validatedBody = result.data;

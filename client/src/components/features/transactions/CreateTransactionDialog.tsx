@@ -1,4 +1,8 @@
-import { CreateTransactionDTO, TransactionFormSchema, TransactionFormValues } from '@finsight/shared';
+import {
+  CreateTransactionDTO,
+  TransactionFormSchema,
+  TransactionFormValues,
+} from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +17,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { TransactionDto } from '@/types/Transaction';
-import { mapTransactionFormValuesToPayload } from '@/utils/transactionUtils';
+import { mapToCreatePayload } from '@/utils/transactionUtils';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
@@ -58,9 +62,9 @@ const CreateTransactionDialog = ({
     queryKeysToInvalidate: [queryKeys.allTransactions()],
   });
 
-  const submitNewTransaction = async (data: TransactionFormValues) => {
+  const createNewTransaction = async (data: TransactionFormValues) => {
     try {
-      await createTransaction.mutateAsync(mapTransactionFormValuesToPayload(data));
+      await createTransaction.mutateAsync(mapToCreatePayload(data));
       alertSuccess(t('messages.createSuccess'));
       closeDialog();
     } catch (err) {
@@ -75,7 +79,7 @@ const CreateTransactionDialog = ({
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={t('actions.create')}
-        onSubmit={submitNewTransaction}
+        onSubmit={createNewTransaction}
         maxWidth={'xs'}
       >
         <TransactionForm />

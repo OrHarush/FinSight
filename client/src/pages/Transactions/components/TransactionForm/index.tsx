@@ -1,3 +1,4 @@
+import { TransactionFormValues } from '@finsight/shared';
 import { Box, Grid, InputAdornment } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,6 @@ import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/Re
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 import TransactionBaseDetails from '@/pages/Transactions/components/TransactionForm/TransactionBaseDetails';
 import TransactionTypeSelector from '@/pages/Transactions/components/TransactionForm/TransactionTypeSelector';
-import { TransactionFormValues } from '@finsight/shared';
 
 const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?: boolean }) => {
   const { t } = useTranslation('transactions');

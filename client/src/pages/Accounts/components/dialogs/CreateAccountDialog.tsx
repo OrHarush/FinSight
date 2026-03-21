@@ -28,7 +28,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
     queryKeysToInvalidate: [queryKeys.accounts()],
   });
 
-  const submitNewAccount = async (data: CreateAccountDTO) => {
+  const createNewAccount = async (data: CreateAccountDTO) => {
     try {
       await createAccount.mutateAsync(data);
       alertSuccess(t('messages.createSuccess'));
@@ -44,7 +44,7 @@ const CreateAccountDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={t('actions.create')}
-        onSubmit={submitNewAccount}
+        onSubmit={createNewAccount}
       >
         <AccountForm />
       </FormDialog>

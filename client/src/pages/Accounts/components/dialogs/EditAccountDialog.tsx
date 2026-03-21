@@ -1,4 +1,4 @@
-import { CreateAccountDTO, UpdateAccountDTO, UpdateAccountSchema } from '@finsight/shared';
+import { UpdateAccountDTO, UpdateAccountSchema } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
   const { t } = useTranslation('accounts');
   const { alertSuccess, alertError } = useSnackbar();
 
-  const methods = useForm<CreateAccountDTO>({
+  const methods = useForm<UpdateAccountDTO>({
     resolver: zodResolver(UpdateAccountSchema),
     defaultValues: {
       name: account.name,
@@ -39,7 +39,7 @@ const EditAccountDialog = ({ isOpen, closeDialog, account }: EditAccountDialogPr
     queryKeysToInvalidate: [queryKeys.accounts()],
   });
 
-  const update = async (data: CreateAccountDTO) => {
+  const update = async (data: UpdateAccountDTO) => {
     try {
       await updateAccount.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));

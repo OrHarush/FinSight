@@ -1,6 +1,6 @@
-import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO, UpdatePaymentMethodSchema } from '@finsight/shared';
+import { UpdatePaymentMethodDTO, UpdatePaymentMethodSchema } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, Resolver, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
@@ -24,8 +24,8 @@ const EditPaymentMethodDialog = ({
   const { t } = useTranslation('paymentMethods');
   const { alertSuccess, alertError } = useSnackbar();
 
-  const methods = useForm<CreatePaymentMethodDTO>({
-    resolver: zodResolver(UpdatePaymentMethodSchema) as Resolver<CreatePaymentMethodDTO>,
+  const methods = useForm<UpdatePaymentMethodDTO>({
+    resolver: zodResolver(UpdatePaymentMethodSchema),
     defaultValues: {
       name: paymentMethod.name,
       billingDay: paymentMethod.billingDay,
@@ -42,7 +42,7 @@ const EditPaymentMethodDialog = ({
     queryKeysToInvalidate: [queryKeys.paymentMethods()],
   });
 
-  const update = async (data: CreatePaymentMethodDTO) => {
+  const update = async (data: UpdatePaymentMethodDTO) => {
     try {
       await updatePaymentMethod.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));

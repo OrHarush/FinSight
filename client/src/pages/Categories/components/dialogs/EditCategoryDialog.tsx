@@ -1,4 +1,4 @@
-import { CreateCategoryDTO, UpdateCategoryDTO, UpdateCategorySchema } from '@finsight/shared';
+import { UpdateCategoryDTO, UpdateCategorySchema } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ interface EditCategoryDialogProps extends BaseDialogProps {
 const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
-  const methods = useForm<CreateCategoryDTO>({
+  const methods = useForm<UpdateCategoryDTO>({
     resolver: zodResolver(UpdateCategorySchema),
     defaultValues: {
       name: getCategoryDisplayName(category, t),
@@ -37,7 +37,7 @@ const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialo
     queryKeysToInvalidate: [queryKeys.categories()],
   });
 
-  const update = async (data: CreateCategoryDTO) => {
+  const update = async (data: UpdateCategoryDTO) => {
     try {
       await updateCategory.mutateAsync(data);
       alertSuccess(t('messages.updateSuccess'));

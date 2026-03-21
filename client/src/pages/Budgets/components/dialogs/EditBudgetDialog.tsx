@@ -1,3 +1,4 @@
+import { BudgetFormValues } from '@finsight/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,6 @@ import FormDialog from '@/components/dialogs/FormDialog';
 import { useUpdateBudget } from '@/hooks/entities/useBudgetMutations';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { BudgetFormValues } from '@finsight/shared';
 import { BudgetDto } from '@/types/Budget';
 import { CategoryDto } from '@/types/Category';
 
@@ -29,7 +29,7 @@ const EditBudgetDialog = ({ isOpen, closeDialog, category, budget }: EditBudgetD
     mode: 'all',
   });
 
-  const submitUpdate = async (data: BudgetFormValues) => {
+  const update = async (data: BudgetFormValues) => {
     try {
       await updateBudget.mutateAsync({ budgetId: budget._id, limit: data.limit });
       alertSuccess(t('messages.budgetUpdated'));
@@ -44,7 +44,7 @@ const EditBudgetDialog = ({ isOpen, closeDialog, category, budget }: EditBudgetD
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={`${t('dialog.editTitle')} - ${category.name}`}
-        onSubmit={submitUpdate}
+        onSubmit={update}
         isUpdateForm
       >
         <BudgetForm isEditing />

@@ -1,15 +1,15 @@
 import { BudgetFormSchema } from '@finsight/shared';
+import { BudgetFormValues } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
-import { useCreateBudget, useCreateBudgetForRestOfYear } from '@/hooks/entities/useBudgetMutations';
+import { useCreateBudget, useCreateBudgetBulk } from '@/hooks/entities/useBudgetMutations';
 import { useCategories } from '@/hooks/entities/useCategories';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { BudgetFormValues } from '@finsight/shared';
 
 interface CreateBudgetDialogProps extends BaseDialogProps {
   year: number;
@@ -20,21 +20,15 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
   const { t } = useTranslation('budgets');
   const { alertSuccess, alertError } = useSnackbar();
   const { categories } = useCategories();
-
   const createBudget = useCreateBudget();
-  const createBudgetForRestOfYear = useCreateBudgetForRestOfYear();
+  const createBudgetForRestOfYear = useCreateBudgetBulk();
 
   const methods = useForm<BudgetFormValues>({
     resolver: zodResolver(BudgetFormSchema),
-    defaultValues: {
-      category: '',
-      limit: 0,
-      applyToRestOfYear: false,
-    },
     mode: 'all',
   });
 
-  const submitCreate = async (data: BudgetFormValues) => {
+  const createNewBudget = async (data: BudgetFormValues) => {
     const category = categories.find(c => c._id === data.category);
 
     if (!category) {
@@ -46,7 +40,8 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         await createBudgetForRestOfYear.mutateAsync({
           categoryId: category._id,
           year,
-          month: month + 1,
+          startMonth: month + 1,
+          endMonth: 12,
           limit: data.limit,
         });
         alertSuccess(t('messages.budgetSetForYear'));
@@ -70,7 +65,7 @@ const CreateBudgetDialog = ({ isOpen, closeDialog, year, month }: CreateBudgetDi
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={t('createBudget')}
-        onSubmit={submitCreate}
+        onSubmit={createNewBudget}
       >
         <BudgetForm showCategorySelect />
       </FormDialog>
