@@ -4,7 +4,9 @@
       "Bash(npx tsc:*)",
       "Bash(timeout 8 npx ts-node --transpile-only src/server.ts)",
       "Bash(npm install:*)",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const p=require\\(''./node_modules/zod/package.json''\\);console.log\\(JSON.stringify\\(Object.keys\\(p.exports||{}\\).filter\\(k=>k.includes\\(''v4''||''v3''\\)\\),null,2\\)\\)\")",
+      "Bash(node -e \"const r=require\\(''''./node_modules/zod/package.json''''\\);console.log\\(JSON.stringify\\(r.exports[''''.''''],null,2\\)\\)\")"
     ]
   }
 }
