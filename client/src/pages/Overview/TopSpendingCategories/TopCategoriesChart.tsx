@@ -1,3 +1,4 @@
+import { DefaultCategoryKey } from '@finsight/shared';
 import {
   Box,
   Card,
@@ -22,8 +23,6 @@ import {
 
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
-
-import { DefaultCategoryKey } from '../../../../../shared/types/defaultCategories';
 
 interface TopCategoriesContentProps {
   chartData: {

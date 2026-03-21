@@ -1,3 +1,4 @@
+import { CreateFeedbackCommand } from '@finsight/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -9,7 +10,6 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
-import { CreateFeedbackCommand } from '../../../../../shared/types/FeedbackCommands';
 import FeedbackForm from './FeedbackForm';
 
 export interface FeedbackFormValues {

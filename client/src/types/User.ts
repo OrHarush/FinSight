@@ -1,4 +1,4 @@
-import { UserRole } from '../../shared/types/Role';
+import { UserRole } from '@finsight/shared';
 
 export interface UserDto {
   _id: string;

@@ -1,12 +1,10 @@
-import { CreateBudgetBulkDTO, CreateBudgetDTO } from '@finsight/shared/schemas/budget';
+import { CreateBudgetBulkDTO, CreateBudgetDTO, UpdateBudgetDTO } from '@finsight/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '@/api/axios';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { BudgetDto } from '@/types/Budget';
-
-import { UpdateBudgetDTO } from '../../../../shared';
 
 type UpdateBudgetInput = UpdateBudgetDTO & { budgetId: string };
 type DeleteBudgetInput = { budgetId: string };

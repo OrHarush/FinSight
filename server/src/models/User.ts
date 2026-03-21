@@ -1,6 +1,5 @@
+import { USER_ROLES, UserRole } from '@finsight/shared';
 import mongoose, { Schema } from 'mongoose';
-
-import { USER_ROLES, UserRole } from '../../../shared/types/Role';
 
 interface Provider {
   provider: string;

@@ -1,6 +1,5 @@
+import { UserRole } from '@finsight/shared';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-
-import { UserRole } from '../../../shared/types/Role';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_ISSUER = process.env.JWT_ISSUER as string;
