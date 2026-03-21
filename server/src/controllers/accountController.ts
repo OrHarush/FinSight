@@ -13,7 +13,7 @@ export const getAccounts = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getAccountById = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.getAccountById(req.params.id, req.userId);
+  const account = await accountService.getAccountById(req.params.id as string, req.userId);
 
   return ApiResponse.ok(res, account);
 });
@@ -24,7 +24,7 @@ export const getAccountBalanceCurve = asyncHandler(async (req: Request, res: Res
 
   const data = await balanceService.calculateAccountBalanceCurve(
     req.userId,
-    accountId,
+    accountId as string,
     from as string | undefined,
     to as string | undefined
   );
@@ -39,31 +39,38 @@ export const createAccount = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const updateAccount = asyncHandler(async (req: Request, res: Response) => {
-  const updated = await accountService.update(req.params.id, req.validatedBody as UpdateAccountDTO, req.userId);
+  const updated = await accountService.update(
+    req.params.id as string,
+    req.validatedBody as UpdateAccountDTO,
+    req.userId
+  );
 
   return ApiResponse.ok(res, updated);
 });
 
 export const setPrimaryAccount = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.setPrimary(req.params.id, req.userId);
+  const account = await accountService.setPrimary(req.params.id as string, req.userId);
 
   return ApiResponse.ok(res, account);
 });
 
 export const syncAccountBalance = asyncHandler(async (req: Request, res: Response) => {
-  const result = await balanceService.syncAccountBalance(req.userId, req.params.id);
+  const result = await balanceService.syncAccountBalance(req.userId, req.params.id as string);
 
   return ApiResponse.ok(res, result);
 });
 
 export const deleteAccount = asyncHandler(async (req: Request, res: Response) => {
-  await accountService.deleteAccount(req.params.id, req.userId);
+  await accountService.deleteAccount(req.params.id as string, req.userId);
 
   return ApiResponse.deleted(res, 'Account deleted');
 });
 
 export const getLinkedTransactionsCount = asyncHandler(async (req: Request, res: Response) => {
-  const count = await accountService.getLinkedTransactionsCount(req.userId, req.params.id);
+  const count = await accountService.getLinkedTransactionsCount(
+    req.userId,
+    req.params.id as string
+  );
 
   return ApiResponse.ok(res, { count });
 });

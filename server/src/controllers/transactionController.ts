@@ -19,7 +19,10 @@ export const getTransactions = asyncHandler(async (req: Request, res: Response) 
 });
 
 export const getTransactionById = asyncHandler(async (req: Request, res: Response) => {
-  const transaction = await transactionService.getTransactionById(req.params.id, req.userId);
+  const transaction = await transactionService.getTransactionById(
+    req.params.id as string,
+    req.userId
+  );
 
   return ApiResponse.ok(res, transaction);
 });
@@ -40,19 +43,26 @@ export const getTransactionCount = asyncHandler(async (req: Request, res: Respon
 });
 
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const transaction = await transactionService.create(req.validatedBody as CreateTransactionDTO, req.userId);
+  const transaction = await transactionService.create(
+    req.validatedBody as CreateTransactionDTO,
+    req.userId
+  );
 
   return ApiResponse.created(res, transaction);
 });
 
 export const updateTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const updatedTransaction = await transactionService.update(req.params.id, req.validatedBody as UpdateTransactionDTO, req.userId);
+  const updatedTransaction = await transactionService.update(
+    req.params.id as string,
+    req.validatedBody as UpdateTransactionDTO,
+    req.userId
+  );
 
   return ApiResponse.ok(res, updatedTransaction);
 });
 
 export const deleteTransaction = asyncHandler(async (req: Request, res: Response) => {
-  await transactionService.deleteTransaction(req.params.id, req.userId);
+  await transactionService.deleteTransaction(req.params.id as string, req.userId);
 
   return ApiResponse.deleted(res, 'Transaction deleted successfully');
 });

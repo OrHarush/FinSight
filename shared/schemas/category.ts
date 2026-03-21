@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { DEFAULT_CATEGORY_KEYS } from '../types/defaultCategories';
 import { nameSchema } from './common';
 
 export const CreateCategorySchema = z.object({
@@ -7,7 +8,7 @@ export const CreateCategorySchema = z.object({
   type: z.enum(['Income', 'Expense']),
   icon: z.string().optional(),
   color: z.string().optional(),
-  key: z.string().optional(),
+  key: z.enum(DEFAULT_CATEGORY_KEYS).optional(),
 });
 
 export type CreateCategoryDTO = z.infer<typeof CreateCategorySchema>;

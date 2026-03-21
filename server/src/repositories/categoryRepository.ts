@@ -1,4 +1,3 @@
-import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
 
 import Category, { ICategory } from '../models/Category';
@@ -12,27 +11,20 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   Category.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const create = async (categoryDetails: CreateCategoryDTO, userId: string) => {
-  const category = new Category({ ...categoryDetails, userId: new Types.ObjectId(userId) });
+export const insert = async (data: Omit<ICategory, '_id'>) => {
+  const category = new Category(data);
 
   return category.save();
 };
 
-export const createMany = (categories: CreateCategoryDTO[]) => Category.insertMany(categories);
+export const insertMany = (categories: Omit<ICategory, '_id'>[]) =>
+  Category.insertMany(categories);
 
-export const updateById = async (
-  id: string,
-  updatedCategoryDetails: UpdateCategoryDTO,
-  userId: string
-) =>
-  Category.findOneAndUpdate(
-    { _id: id, userId: new Types.ObjectId(userId) },
-    updatedCategoryDetails,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+export const updateById = async (id: string, data: Partial<ICategory>, userId: string) =>
+  Category.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
+    new: true,
+    runValidators: true,
+  });
 
 export const remove = async (id: string, userId: string) =>
   Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });

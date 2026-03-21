@@ -1,4 +1,3 @@
-import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
 
 import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
@@ -12,24 +11,17 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   PaymentMethod.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const create = async (details: CreatePaymentMethodDTO, userId: string) => {
-  const method = new PaymentMethod({
-    ...details,
-    userId: new Types.ObjectId(userId),
-  });
+export const insert = async (data: Omit<IPaymentMethod, '_id'>) => {
+  const method = new PaymentMethod(data);
 
   return method.save();
 };
 
-export const createMany = (methods: (CreatePaymentMethodDTO & { userId: string })[]) =>
+export const insertMany = (methods: Omit<IPaymentMethod, '_id'>[]) =>
   PaymentMethod.insertMany(methods);
 
-export const updateById = async (
-  id: string,
-  updatedDetails: UpdatePaymentMethodDTO,
-  userId: string
-) =>
-  PaymentMethod.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, updatedDetails, {
+export const updateById = async (id: string, data: Partial<IPaymentMethod>, userId: string) =>
+  PaymentMethod.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
     new: true,
     runValidators: true,
   });
@@ -39,9 +31,6 @@ export const unsetPrimaryForUser = async (userId: string) => {
 };
 
 export const remove = async (id: string, userId: string) =>
-  PaymentMethod.findOneAndDelete({
-    _id: id,
-    userId: new Types.ObjectId(userId),
-  });
+  PaymentMethod.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
 
 export const deleteMany = (filter: object) => PaymentMethod.deleteMany(filter);

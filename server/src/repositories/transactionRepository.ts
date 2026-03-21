@@ -37,7 +37,7 @@ export const findById = async (id: string, userId: string) =>
 export const countByUser = async (userId: string): Promise<number> =>
   Transaction.countDocuments({ userId });
 
-export const insert = async (data: ITransaction) => {
+export const insert = async (data: Omit<ITransaction, '_id'>) => {
   const transaction = new Transaction(data);
 
   return transaction.save();

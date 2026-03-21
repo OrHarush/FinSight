@@ -1,8 +1,9 @@
 import { CreateTransactionDTO, UpdateTransactionDTO } from '@finsight/shared';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
 import Category from '../models/Category';
+import { ITransaction } from '../models/Transaction';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../types/Transaction';
@@ -34,7 +35,7 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
     to ?? new Date()
   );
 
-  const txWithEffectiveMonth = expandedTransactions.map((tx) => {
+  const txWithEffectiveMonth = expandedTransactions.map(tx => {
     const { year, month } = getEffectiveMonth(tx);
 
     return { ...tx, effectiveYear: year, effectiveMonth: month };
@@ -44,13 +45,13 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
 
   if (targetYear != null && targetMonth != null) {
     filtered = (filtered as TxWithEffective[]).filter(
-      (tx) => tx.effectiveYear === targetYear && tx.effectiveMonth === targetMonth
+      tx => tx.effectiveYear === targetYear && tx.effectiveMonth === targetMonth
     );
   }
 
   if (search) {
     const term = search.trim().toLowerCase();
-    filtered = filtered.filter((t) => t.name.toLowerCase().includes(term));
+    filtered = filtered.filter(t => t.name?.toLowerCase().includes(term));
   }
 
   return sortAndPaginate(filtered, sort, page, limit);
@@ -62,6 +63,7 @@ export const getTransactionById = async (id: string, userId: string) => {
   }
 
   const transaction = await transactionRepository.findById(id, userId);
+
   if (!transaction) {
     throw ApiError.notFound('Transaction not found');
   }
@@ -85,7 +87,7 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
     to: endDate,
   });
 
-  const expandedTransactions = transactions.flatMap((tx) => expandRecurring(tx, fromDate, endDate));
+  const expandedTransactions = transactions.flatMap(tx => expandRecurring(tx, fromDate, endDate));
 
   if (month !== undefined) {
     return summarizeSingleMonth(expandedTransactions, year, month, accountId);
@@ -112,16 +114,37 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     }
   }
 
+  let dateValue: Date | undefined;
+
   if (data.recurrence === 'None' && data.date) {
     const dateOnly = new Date(data.date);
     const now = new Date();
 
     dateOnly.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
-
-    data.date = dateOnly.toISOString();
+    dateValue = dateOnly;
+  } else if (data.date) {
+    dateValue = new Date(data.date);
   }
 
-  return transactionRepository.insert(data, userId);
+  const mapped: Omit<ITransaction, '_id'> = {
+    name: data.name ?? '',
+    description: data.description,
+    type: data.type,
+    amount: data.amount,
+    recurrence: data.recurrence,
+    belongToPreviousMonth: data.belongToPreviousMonth ?? false,
+    date: dateValue,
+    startDate: data.startDate ? new Date(data.startDate) : undefined,
+    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
+    paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
+    account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
+    fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
+    toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
+    userId: new Types.ObjectId(userId),
+  };
+
+  return transactionRepository.insert(mapped);
 };
 
 export const update = async (id: string, data: UpdateTransactionDTO, userId: string) => {
@@ -135,7 +158,26 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     throw ApiError.notFound('Transaction not found');
   }
 
-  const updated = await transactionRepository.updateById(id, data, userId);
+  const mapped: Partial<ITransaction> = {};
+
+  if (data.name !== undefined) mapped.name = data.name;
+  if (data.description !== undefined) mapped.description = data.description;
+  if (data.type !== undefined) mapped.type = data.type;
+  if (data.amount !== undefined) mapped.amount = data.amount;
+  if (data.recurrence !== undefined) mapped.recurrence = data.recurrence;
+  if (data.belongToPreviousMonth !== undefined)
+    mapped.belongToPreviousMonth = data.belongToPreviousMonth;
+  if (data.date !== undefined) mapped.date = new Date(data.date);
+  if (data.startDate !== undefined) mapped.startDate = new Date(data.startDate);
+  if (data.endDate !== undefined) mapped.endDate = new Date(data.endDate);
+  if (data.categoryId !== undefined) mapped.category = new Types.ObjectId(data.categoryId);
+  if (data.paymentMethodId !== undefined)
+    mapped.paymentMethod = new Types.ObjectId(data.paymentMethodId);
+  if (data.accountId !== undefined) mapped.account = new Types.ObjectId(data.accountId);
+  if (data.fromAccountId !== undefined) mapped.fromAccount = new Types.ObjectId(data.fromAccountId);
+  if (data.toAccountId !== undefined) mapped.toAccount = new Types.ObjectId(data.toAccountId);
+
+  const updated = await transactionRepository.updateById(id, mapped, userId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating transaction');

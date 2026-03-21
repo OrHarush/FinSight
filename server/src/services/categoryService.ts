@@ -1,6 +1,8 @@
 import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
+import { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
+import { ICategory } from '../models/Category';
 import * as categoryRepository from '../repositories/categoryRepository';
 
 export const findAll = async (userId: string) => categoryRepository.findMany(userId);
@@ -15,15 +17,32 @@ export const getCategoryById = async (id: string, userId: string) => {
   return category;
 };
 
-export const create = async (categoryDetails: CreateCategoryDTO, userId: string) =>
-  categoryRepository.create(categoryDetails, userId);
+export const create = async (categoryDetails: CreateCategoryDTO, userId: string) => {
+  const mapped: Omit<ICategory, '_id'> = {
+    key: categoryDetails.key,
+    name: categoryDetails.name,
+    type: categoryDetails.type,
+    color: categoryDetails.color ?? '#9ca3af',
+    icon: categoryDetails.icon ?? '',
+    userId: new Types.ObjectId(userId),
+  };
+
+  return categoryRepository.insert(mapped);
+};
 
 export const update = async (
   id: string,
   updatedCategoryDetails: UpdateCategoryDTO,
   userId: string
 ) => {
-  const updated = await categoryRepository.updateById(id, updatedCategoryDetails, userId);
+  const mapped: Partial<ICategory> = {};
+
+  if (updatedCategoryDetails.name !== undefined) mapped.name = updatedCategoryDetails.name;
+  if (updatedCategoryDetails.type !== undefined) mapped.type = updatedCategoryDetails.type;
+  if (updatedCategoryDetails.color !== undefined) mapped.color = updatedCategoryDetails.color;
+  if (updatedCategoryDetails.icon !== undefined) mapped.icon = updatedCategoryDetails.icon;
+
+  const updated = await categoryRepository.updateById(id, mapped, userId);
 
   if (!updated) {
     throw ApiError.notFound('Category not found');

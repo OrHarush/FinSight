@@ -1,6 +1,8 @@
+import {
+  DEFAULT_CATEGORY_KEYS,
+  DefaultCategoryKey,
+} from '@finsight/shared/types/defaultCategories';
 import mongoose, { Schema, Types } from 'mongoose';
-
-import { DEFAULT_CATEGORY_KEYS, DefaultCategoryKey } from '../../../shared/types/defaultCategories';
 
 export interface ICategory {
   _id: string;

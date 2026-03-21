@@ -1,7 +1,8 @@
 import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
+import { IPaymentMethod } from '../models/PaymentMethod';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 
 export const findAll = async (userId: string) => paymentMethodRepository.findMany(userId);
@@ -12,6 +13,7 @@ export const getById = async (id: string, userId: string) => {
   }
 
   const method = await paymentMethodRepository.findById(id, userId);
+
   if (!method) {
     throw ApiError.notFound('Payment method not found');
   }
@@ -19,8 +21,18 @@ export const getById = async (id: string, userId: string) => {
   return method;
 };
 
-export const create = async (details: CreatePaymentMethodDTO, userId: string) =>
-  paymentMethodRepository.create(details, userId);
+export const create = async (details: CreatePaymentMethodDTO, userId: string) => {
+  const mapped: Omit<IPaymentMethod, '_id'> = {
+    name: details.name,
+    type: details.type,
+    billingDay: details.billingDay ?? null,
+    lastFourDigits: details.lastFourDigits,
+    isPrimary: details.isPrimary ?? false,
+    userId: new Types.ObjectId(userId),
+  };
+
+  return paymentMethodRepository.insert(mapped);
+};
 
 export const update = async (
   id: string,
@@ -37,7 +49,15 @@ export const update = async (
     throw ApiError.notFound('Payment method not found');
   }
 
-  const updated = await paymentMethodRepository.updateById(id, updatedDetails, userId);
+  const mapped: Partial<IPaymentMethod> = {};
+
+  if (updatedDetails.name !== undefined) mapped.name = updatedDetails.name;
+  if (updatedDetails.type !== undefined) mapped.type = updatedDetails.type;
+  if (updatedDetails.billingDay !== undefined) mapped.billingDay = updatedDetails.billingDay ?? null;
+  if (updatedDetails.lastFourDigits !== undefined) mapped.lastFourDigits = updatedDetails.lastFourDigits;
+  if (updatedDetails.isPrimary !== undefined) mapped.isPrimary = updatedDetails.isPrimary;
+
+  const updated = await paymentMethodRepository.updateById(id, mapped, userId);
 
   if (!updated) {
     throw ApiError.internal('Failed to update payment method');

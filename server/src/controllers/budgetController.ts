@@ -17,7 +17,7 @@ export const getBudgets = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getBudgetById = asyncHandler(async (req: Request, res: Response) => {
-  const budget = await budgetService.getBudgetById(req.params.id, req.userId);
+  const budget = await budgetService.getBudgetById(req.params.id as string, req.userId);
 
   return ApiResponse.ok(res, budget);
 });
@@ -39,7 +39,7 @@ export const createBudgetBulk = asyncHandler(async (req: Request, res: Response)
 
 export const updateBudget = asyncHandler(async (req: Request, res: Response) => {
   const updatedBudget = await budgetService.update(
-    req.params.id,
+    req.params.id as string,
     req.validatedBody as UpdateBudgetDTO,
     req.userId
   );
@@ -48,7 +48,7 @@ export const updateBudget = asyncHandler(async (req: Request, res: Response) => 
 });
 
 export const deleteBudget = asyncHandler(async (req: Request, res: Response) => {
-  await budgetService.deleteBudget(req.params.id, req.userId);
+  await budgetService.deleteBudget(req.params.id as string, req.userId);
 
   return ApiResponse.deleted(res, 'Budgets deleted successfully');
 });

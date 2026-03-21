@@ -4,9 +4,10 @@ import {
   GetBudgetsQuery,
   UpdateBudgetDTO,
 } from '@finsight/shared';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
+import { IBudget } from '../models/Budget';
 import * as budgetRepository from '../repositories/budgetRepository';
 
 export const findAll = async (userId: string, options: GetBudgetsQuery) =>
@@ -43,11 +44,19 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
     );
   }
 
-  return budgetRepository.insert({ ...data, month: dbMonth }, userId);
+  const mapped: Omit<IBudget, '_id'> = {
+    userId: new Types.ObjectId(userId),
+    categoryId: new Types.ObjectId(data.categoryId),
+    year: data.year,
+    month: dbMonth,
+    limit: data.limit,
+  };
+
+  return budgetRepository.insert(mapped);
 };
 
 export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
-  const budgets: Array<{ categoryId: string; year: number; month: number; limit: number; userId: string }> = [];
+  const budgets: Omit<IBudget, '_id'>[] = [];
 
   // startMonth/endMonth are 1-based; convert to 0-based for DB
   for (let month1based = data.startMonth; month1based <= data.endMonth; month1based++) {
@@ -62,11 +71,11 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
 
     if (!existing) {
       budgets.push({
-        categoryId: data.categoryId,
+        userId: new Types.ObjectId(userId),
+        categoryId: new Types.ObjectId(data.categoryId),
         year: data.year,
         month: dbMonth,
         limit: data.limit,
-        userId,
       });
     }
   }
@@ -89,7 +98,11 @@ export const update = async (id: string, data: UpdateBudgetDTO, userId: string) 
     throw ApiError.notFound('Budgets not found');
   }
 
-  const updated = await budgetRepository.updateById(id, data, userId);
+  const mapped: Partial<IBudget> = {};
+
+  if (data.limit !== undefined) mapped.limit = data.limit;
+
+  const updated = await budgetRepository.updateById(id, mapped, userId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating budget');

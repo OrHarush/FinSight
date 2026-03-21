@@ -1,15 +1,22 @@
-import { GetBudgetsQuery, UpdateBudgetDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
 
 import Budget, { IBudget } from '../models/Budget';
 
-export const findMany = async (userId: string, options: GetBudgetsQuery) => {
-  const { year, month } = options;
+interface BudgetFilter {
+  year?: number;
+  month?: number;
+}
 
-  const query: any = { userId: new Types.ObjectId(userId) };
+export const findMany = async (userId: string, filter: BudgetFilter) => {
+  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
 
-  if (year !== undefined) query.year = year;
-  if (month !== undefined) query.month = month;
+  if (filter.year !== undefined) {
+    query.year = filter.year;
+  }
+
+  if (filter.month !== undefined) {
+    query.month = filter.month;
+  }
 
   return Budget.find(query).sort({ year: -1, month: -1, createdAt: -1 }).lean<IBudget[]>().exec();
 };
@@ -34,36 +41,15 @@ export const findByMonthYearCategory = async (
     .lean<IBudget>()
     .exec();
 
-export const insert = async (
-  data: { categoryId: string; year: number; month: number; limit: number },
-  userId: string
-) => {
-  const budget = new Budget({
-    userId: new Types.ObjectId(userId),
-    categoryId: new Types.ObjectId(data.categoryId),
-    year: data.year,
-    month: data.month,
-    limit: data.limit,
-  });
+export const insert = async (data: Omit<IBudget, '_id'>) => {
+  const budget = new Budget(data);
 
   return budget.save();
 };
 
-export const insertMany = async (
-  budgets: Array<{ categoryId: string; year: number; month: number; limit: number; userId: string }>
-) => {
-  const formatted = budgets.map(b => ({
-    userId: new Types.ObjectId(b.userId),
-    categoryId: new Types.ObjectId(b.categoryId),
-    year: b.year,
-    month: b.month,
-    limit: b.limit,
-  }));
+export const insertMany = (budgets: Omit<IBudget, '_id'>[]) => Budget.insertMany(budgets);
 
-  return Budget.insertMany(formatted);
-};
-
-export const updateById = async (id: string, data: UpdateBudgetDTO, userId: string) =>
+export const updateById = async (id: string, data: Partial<IBudget>, userId: string) =>
   Budget.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
     new: true,
     runValidators: true,

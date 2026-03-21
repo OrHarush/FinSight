@@ -2,7 +2,7 @@ import mongoose, { Schema, Types } from 'mongoose';
 
 export interface ITransaction {
   _id: string;
-  name: string;
+  name?: string;
   description?: string;
   type: 'Income' | 'Expense' | 'Transfer';
   amount: number;
