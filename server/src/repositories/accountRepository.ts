@@ -1,4 +1,3 @@
-import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
 import { Types } from 'mongoose';
 
 import Account, { IAccount } from '../models/Account';
@@ -9,23 +8,22 @@ export const findMany = async (userId: string) =>
     .exec();
 
 export const findById = async (id: string, userId: string) =>
-  Account.findById({ _id: id, userId: new Types.ObjectId(userId) });
+  Account.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+    .lean<IAccount>()
+    .exec();
 
-export const insert = async (accountDetails: CreateAccountDTO, userId: string) => {
-  const account = new Account({ ...accountDetails, userId: new Types.ObjectId(userId) });
-
+export const insert = async (data: Omit<IAccount, '_id'>) => {
+  const account = new Account(data);
   return account.save();
 };
 
-export const updateById = async (
-  id: string,
-  updatedAccountDetails: UpdateAccountDTO,
-  userId: string
-) =>
-  Account.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, updatedAccountDetails, {
+export const updateById = async (id: string, data: Partial<IAccount>, userId: string) =>
+  Account.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
     new: true,
     runValidators: true,
-  });
+  })
+    .lean<IAccount>()
+    .exec();
 
 export const findAnother = async (userId: string) =>
   Account.findOne({ userId: new Types.ObjectId(userId) })
@@ -36,10 +34,12 @@ export const countByUser = async (userId: string) =>
   Account.countDocuments({ userId: new Types.ObjectId(userId) });
 
 export const remove = async (id: string, userId: string) =>
-  Account.findByIdAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
+  Account.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+    .lean<IAccount>()
+    .exec();
 
 export const unsetPrimary = async (userId: string, excludeId?: string) => {
-  const query: any = { userId: new Types.ObjectId(userId) };
+  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
   if (excludeId) {
     query._id = { $ne: new Types.ObjectId(excludeId) };
   }

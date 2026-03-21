@@ -1,4 +1,3 @@
-import { CreateTransactionDTO } from '@finsight/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
@@ -38,22 +37,8 @@ export const findById = async (id: string, userId: string) =>
 export const countByUser = async (userId: string): Promise<number> =>
   Transaction.countDocuments({ userId });
 
-export const insert = async (data: CreateTransactionDTO, userId: string) => {
-  const transaction = new Transaction({
-    name: data.name,
-    amount: data.amount,
-    type: data.type,
-    recurrence: data.recurrence,
-    date: data.date ? new Date(data.date) : undefined,
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
-    startDate: data.startDate ? new Date(data.startDate) : undefined,
-    userId: new Types.ObjectId(userId),
-    category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
-    paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
-    account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
-    fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
-    toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
-  });
+export const insert = async (data: ITransaction) => {
+  const transaction = new Transaction(data);
 
   return transaction.save();
 };

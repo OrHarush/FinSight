@@ -1,7 +1,8 @@
 import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
+import { IAccount } from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 
@@ -13,28 +14,36 @@ export const getAccountById = async (id: string, userId: string) => {
   }
 
   const account = await accountRepository.findById(id, userId);
-  if (!account) throw ApiError.notFound('Account not found');
+
+  if (!account) {
+    throw ApiError.notFound('Account not found');
+  }
 
   return account;
 };
 
-export const create = async (accountDetails: CreateAccountDTO, userId: string) => {
+export const create = async (data: CreateAccountDTO, userId: string) => {
   const numOfAccounts = await accountRepository.countByUser(userId);
 
-  if (numOfAccounts === 0) {
-    accountDetails.isPrimary = true;
-  } else if (accountDetails.isPrimary) {
+  const mapped: Omit<IAccount, '_id'> = {
+    name: data.name,
+    balance: data.balance,
+    institution: data.institution,
+    accountNumber: data.accountNumber,
+    icon: data.icon,
+    currency: data.currency ?? 'ILS',
+    isPrimary: numOfAccounts === 0 ? true : (data.isPrimary ?? false),
+    userId: new Types.ObjectId(userId),
+  };
+
+  if (mapped.isPrimary && numOfAccounts > 0) {
     await accountRepository.unsetPrimary(userId);
   }
 
-  return accountRepository.insert(accountDetails, userId);
+  return accountRepository.insert(mapped);
 };
 
-export const update = async (
-  id: string,
-  updatedAccountDetails: UpdateAccountDTO,
-  userId: string
-) => {
+export const update = async (id: string, data: UpdateAccountDTO, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
@@ -45,14 +54,13 @@ export const update = async (
     throw ApiError.notFound('Account not found');
   }
 
-  const isBalanceProvided = typeof updatedAccountDetails.balance === 'number';
-  const balanceChanged = isBalanceProvided && updatedAccountDetails.balance !== existing.balance;
+  const mapped: Partial<IAccount> = { ...data };
 
-  if (balanceChanged) {
-    (updatedAccountDetails as any).lastSynced = new Date();
+  if (typeof data.balance === 'number' && data.balance !== existing.balance) {
+    mapped.lastSynced = new Date();
   }
 
-  return accountRepository.updateById(id, updatedAccountDetails, userId);
+  return accountRepository.updateById(id, mapped, userId);
 };
 
 export const setPrimary = async (id: string, userId: string) => {
@@ -77,6 +85,7 @@ export const deleteAccount = async (id: string, userId: string) => {
   }
 
   const account = await accountRepository.findById(id, userId);
+
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
