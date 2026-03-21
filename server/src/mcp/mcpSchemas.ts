@@ -10,12 +10,12 @@ export const TransactionQuerySchema = z.object({
     .describe('Max transactions per page. Omit for all results.'),
   from: z
     .string()
-    .pipe(z.iso.datetime())
+    .datetime()
     .optional()
     .describe('Start date filter (ISO 8601). Example: "2026-01-01T00:00:00.000Z"'),
   to: z
     .string()
-    .pipe(z.iso.datetime())
+    .datetime()
     .optional()
     .describe('End date filter (ISO 8601). Example: "2026-01-31T23:59:59.999Z"'),
   targetYear: z
