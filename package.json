@@ -2,6 +2,9 @@
   "name": "finsight",
   "private": true,
   "workspaces": ["client", "server", "shared"],
+  "scripts": {
+    "build:server": "npm run build -w shared && npm run build -w server"
+  },
   "dependencies": {
     "zod": "3.25.76"
   }
