@@ -26,6 +26,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      '@finsight/shared': resolve(__dirname, '../shared/index.ts'),
     },
   },
   server: {
