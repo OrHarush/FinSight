@@ -7,7 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "paths": {}
+    "paths": { "@finsight/shared": ["../shared/src/index.ts"] }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
