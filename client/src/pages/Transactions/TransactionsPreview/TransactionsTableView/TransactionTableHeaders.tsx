@@ -11,7 +11,7 @@ const TransactionTableHeaders = () => {
         <TableCell sx={{ width: '10%' }}>{t('table.amount')}</TableCell>
         <TableCell sx={{ width: '20%' }}>{t('table.category')}</TableCell>
         <TableCell sx={{ width: '20%' }}>{t('table.account')}</TableCell>
-        <TableCell sx={{ width: '15%' }}>{t('table.recurrence')}</TableCell>
+        <TableCell sx={{ width: '15%' }}>{t('table.paymentMethod')}</TableCell>
         <TableCell sx={{ width: '15%' }}>{t('table.date')}</TableCell>
         <TableCell sx={{ width: '5%' }} align="center">
           {t('table.actions')}

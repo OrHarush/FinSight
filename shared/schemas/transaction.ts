@@ -69,6 +69,9 @@ export const CreateTransactionSchema = BaseTransactionSchema.superRefine((data, 
   }
 
   if (data.type === 'Income' || data.type === 'Expense') {
+    if (!data.name || data.name.trim() === '') {
+      ctx.addIssue({ path: ['name'], code: 'custom', message: 'validation.required' });
+    }
     if (!data.accountId) {
       ctx.addIssue({ path: ['accountId'], code: 'custom', message: 'validation.accountRequired' });
     }
@@ -155,6 +158,9 @@ export const TransactionFormSchema = BaseTransactionFormSchema.superRefine((data
   }
 
   if (data.type === 'Income' || data.type === 'Expense') {
+    if (!data.name || data.name.trim() === '') {
+      ctx.addIssue({ path: ['name'], code: 'custom', message: 'validation.required' });
+    }
     if (!data.account) {
       ctx.addIssue({ path: ['account'], code: 'custom', message: 'validation.accountRequired' });
     }

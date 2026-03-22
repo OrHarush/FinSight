@@ -47,7 +47,7 @@
     "amount": "סכום",
     "category": "קטגוריה",
     "account": "חשבון",
-    "recurrence": "חזרתיות",
+    "paymentMethod": "אמצעי תשלום",
     "date": "תאריך",
     "actions": "פעולות",
     "rowsPerPage": "שורות בעמוד:",

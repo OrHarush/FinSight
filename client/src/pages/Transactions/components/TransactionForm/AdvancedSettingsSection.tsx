@@ -42,7 +42,7 @@ const AdvancedSettingsSection = () => {
         </Row>
         <Collapse in={isExpanded}>
           <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid', borderColor: 'divider' }}>
-            <Grid container spacing={1.5}>
+            <Grid container spacing={1.5} padding={0.5}>
               <AccountSection />
               <PaymentSection />
               <RecurrenceSelect />

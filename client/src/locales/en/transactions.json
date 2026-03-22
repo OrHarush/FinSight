@@ -47,7 +47,7 @@
     "amount": "Amount",
     "category": "Category",
     "account": "Account",
-    "recurrence": "Recurrence",
+    "paymentMethod": "Payment Method",
     "date": "Date",
     "actions": "Actions",
     "rowsPerPage": "Rows per page:",

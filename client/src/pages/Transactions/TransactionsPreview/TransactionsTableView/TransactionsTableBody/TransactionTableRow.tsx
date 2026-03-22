@@ -1,15 +1,18 @@
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { IconButton, TableCell, TableRow } from '@mui/material';
+import { Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
+import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { getCategoryDisplayName } from '@/utils/categoryUtils';
 import { isToday } from '@/utils/dateUtils';
+import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
 
 interface TransactionTableRowProps {
@@ -17,7 +20,7 @@ interface TransactionTableRowProps {
 }
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
-  const { t } = useTranslation('categories');
+  const { t } = useTranslation(['categories', 'transactions', 'paymentMethods']);
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,6 +40,9 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   };
 
   const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
+  const AccountIconComponent =
+    (transaction.account?.icon && bankAccountIconMap[transaction.account.icon]) ||
+    AccountBalanceIcon;
 
   return (
     <TableRow
@@ -53,7 +59,22 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
         transition: 'background-color 0.2s ease',
       }}
     >
-      <TableCell>{transaction.type === 'Transfer' ? 'Transfer' : transaction.name}</TableCell>
+      <TableCell>
+        <Row alignItems="center" spacing={1}>
+          <Typography variant="body2" noWrap>
+            {transaction.type === 'Transfer' ? 'Transfer' : transaction.name}
+          </Typography>
+          {transaction.recurrence && transaction.recurrence !== 'None' && (
+            <Chip
+              label={t(`transactions:recurrence.${transaction.recurrence.toLowerCase()}`)}
+              size="small"
+              variant="outlined"
+              color="primary"
+              sx={{ fontSize: '0.65rem', height: 18, flexShrink: 0 }}
+            />
+          )}
+        </Row>
+      </TableCell>
       <TableCell align="left">
         <CurrencyText
           value={transaction.amount}
@@ -75,8 +96,22 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
           icon={transaction.category.icon}
         />
       </TableCell>
-      <TableCell align="left">{transaction.account?.name}</TableCell>
-      <TableCell align="left">{transaction.recurrence}</TableCell>
+      <TableCell align="left">
+        <Row alignItems="center" spacing={1}>
+          <AccountIconComponent sx={{ fontSize: 18, color: 'primary.main', flexShrink: 0 }} />
+          <Typography variant="body2" noWrap>
+            {transaction.account?.name}
+          </Typography>
+        </Row>
+      </TableCell>
+      <TableCell align="left">
+        <Typography variant="body2" noWrap>
+          {transaction.paymentMethod?.name ||
+            (transaction.paymentMethod?.type
+              ? t(`paymentMethods:types.${PAYMENT_TYPE_LOCALE_KEY[transaction.paymentMethod.type]}`)
+              : '—')}
+        </Typography>
+      </TableCell>
       <TableCell align="left">
         {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString('en-GB')}
       </TableCell>
