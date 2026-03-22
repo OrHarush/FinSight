@@ -18,10 +18,17 @@
     "creditCard": "כרטיס אשראי",
     "debit": "דביט",
     "bankTransfer": "העברה בנקאית",
+    "checks": "ציקים",
+    "standingOrder": "הוראת קבע",
     "paypal": "פייפאל",
     "bit": "ביט",
     "paybox": "פייבוקס",
     "cash": "מזומן"
+  },
+  "typeGroups": {
+    "banking": "בנקאי",
+    "credit": "אשראי",
+    "digitalAndCash": "דיגיטלי ומזומן"
   },
   "details": {
     "primary": "ראשי"

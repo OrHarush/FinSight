@@ -1,56 +1,54 @@
 import { Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
+import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
 
-const TYPE_LOCALE_KEY: Record<string, string> = {
-  'Credit Card': 'creditCard',
-  Debit: 'debit',
-  'Bank Transfer': 'bankTransfer',
-  PayPal: 'paypal',
-  Bit: 'bit',
-  PayBox: 'paybox',
-  Cash: 'cash',
+const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto, t: (key: string) => string) => {
+  if (paymentMethod.name) {
+    return paymentMethod.name;
+  }
+
+  const localeKey = PAYMENT_TYPE_LOCALE_KEY[paymentMethod.type];
+
+  return localeKey ? t(`paymentMethods:types.${localeKey}`) : paymentMethod.type;
 };
 
 const PaymentSection = () => {
   const { t } = useTranslation(['transactions', 'paymentMethods']);
   const { paymentMethods } = usePaymentMethods();
 
-  const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto) => {
-    if (paymentMethod.name) {
-      return paymentMethod.name;
-    }
-
-    const localeKey = TYPE_LOCALE_KEY[paymentMethod.type];
-
-    return localeKey ? t(`paymentMethods:types.${localeKey}`) : paymentMethod.type;
-  };
+  const instanceGroups = PAYMENT_TYPE_GROUPS.map(group => ({
+    groupLabel: t(group.labelKey),
+    options: paymentMethods
+      .filter(pm => group.types.includes(pm.type))
+      .map(pm => ({
+        label: getPaymentMethodLabel(pm, t),
+        value: pm._id,
+        design: (
+          <Typography
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
+            }}
+          >
+            {getPaymentMethodLabel(pm, t)}
+          </Typography>
+        ),
+      })),
+  })).filter(group => group.options.length > 0);
 
   return (
     <Grid size={{ xs: 12, sm: 6 }}>
-      <RHFSelect
+      <RHFGroupedSelect
         name={'paymentMethod'}
         label={t('transactions:fields.paymentMethod')}
         required
-        options={paymentMethods.map(paymentMethod => ({
-          label: getPaymentMethodLabel(paymentMethod),
-          value: paymentMethod._id,
-          design: (
-            <Typography
-              sx={{
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                maxWidth: '100%',
-              }}
-            >
-              {getPaymentMethodLabel(paymentMethod)}
-            </Typography>
-          ),
-        }))}
+        groups={instanceGroups}
       />
     </Grid>
   );

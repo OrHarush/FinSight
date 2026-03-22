@@ -18,10 +18,17 @@
     "creditCard": "Credit Card",
     "debit": "Debit",
     "bankTransfer": "Bank Transfer",
+    "checks": "Checks",
+    "standingOrder": "Standing Order",
     "paypal": "PayPal",
     "bit": "Bit",
     "paybox": "PayBox",
     "cash": "Cash"
+  },
+  "typeGroups": {
+    "banking": "Banking",
+    "credit": "Credit",
+    "digitalAndCash": "Digital & Cash"
   },
   "details": {
     "primary": "Primary"

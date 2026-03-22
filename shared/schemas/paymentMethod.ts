@@ -4,6 +4,8 @@ export const PAYMENT_METHOD_TYPES = [
   'Credit Card',
   'Debit',
   'Bank Transfer',
+  'Checks',
+  'Standing Order',
   'PayPal',
   'Bit',
   'PayBox',
@@ -12,7 +14,7 @@ export const PAYMENT_METHOD_TYPES = [
 
 export type PaymentMethodType = (typeof PAYMENT_METHOD_TYPES)[number];
 
-export const TYPES_REQUIRING_NAME: PaymentMethodType[] = ['Credit Card', 'Debit', 'Bank Transfer'];
+export const TYPES_REQUIRING_NAME: PaymentMethodType[] = ['Credit Card', 'Debit', 'Bank Transfer', 'Checks', 'Standing Order'];
 
 const CARD_TYPES: PaymentMethodType[] = ['Credit Card', 'Debit'];
 

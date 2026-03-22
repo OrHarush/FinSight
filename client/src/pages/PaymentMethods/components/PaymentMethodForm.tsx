@@ -4,8 +4,9 @@ import { Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import RHFSelect from '@/components/shared/inputs/RHFSelect';
+import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import TextInput from '@/components/shared/inputs/TextInput';
+import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
 
 const PaymentMethodForm = () => {
   const { t } = useTranslation(['paymentMethods', 'common']);
@@ -17,27 +18,23 @@ const PaymentMethodForm = () => {
     ? t('paymentMethods:fields.name')
     : `${t('paymentMethods:fields.name')} (${t('common:fields.optional')})`;
 
+  const typeGroups = PAYMENT_TYPE_GROUPS.map(group => ({
+    groupLabel: t(group.labelKey),
+    options: group.types.map(type => ({
+      value: type,
+      label: t(`paymentMethods:types.${PAYMENT_TYPE_LOCALE_KEY[type]}`),
+    })),
+  }));
+
   return (
     <Grid container spacing={2}>
       <Grid size={{ xs: 12 }}>
-        <RHFSelect
-          name="type"
-          label={t('paymentMethods:fields.type')}
-          options={[
-            { value: 'Credit Card', label: t('paymentMethods:types.creditCard') },
-            { value: 'Debit', label: t('paymentMethods:types.debit') },
-            { value: 'Bank Transfer', label: t('paymentMethods:types.bankTransfer') },
-            { value: 'PayPal', label: t('paymentMethods:types.paypal') },
-            { value: 'Bit', label: t('paymentMethods:types.bit') },
-            { value: 'PayBox', label: t('paymentMethods:types.paybox') },
-            { value: 'Cash', label: t('paymentMethods:types.cash') },
-          ]}
-        />
+        <RHFGroupedSelect name="type" label={t('paymentMethods:fields.type')} groups={typeGroups} />
       </Grid>
       <Grid size={{ xs: 12 }}>
         <TextInput name="name" label={nameLabel} />
       </Grid>
-      <Grid size={{ xs: 6, sm: 5 }}>
+      <Grid size={{ xs: 12, sm: 5 }}>
         {(paymentType === 'Credit Card' || paymentType === 'Debit') && (
           <TextInput
             name="lastFourDigits"

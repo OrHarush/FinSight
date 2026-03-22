@@ -23,17 +23,20 @@ const AdvancedSettingsSection = () => {
           borderColor: 'divider',
           borderRadius: 2,
           mt: 1,
-          px: 0.5,
+          paddingRight: 0.75,
+          paddingLeft: 1.5,
           py: 1,
-          cursor: 'pointer',
         }}
-        onClick={() => setIsExpanded(prev => !prev)}
       >
         <Row alignItems="center" justifyContent="space-between">
           <Typography variant="body2" color="text.secondary">
             {t('fields.advancedSettings')}
           </Typography>
-          <IconButton size="small" sx={{ width: 24, height: 24, minWidth: 24, minHeight: 24 }}>
+          <IconButton
+            onClick={() => setIsExpanded(prev => !prev)}
+            size="small"
+            sx={{ width: 24, height: 24, minWidth: 24, minHeight: 24 }}
+          >
             {isExpanded ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
           </IconButton>
         </Row>
