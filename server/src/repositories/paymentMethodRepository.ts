@@ -30,6 +30,15 @@ export const unsetPrimaryForUser = async (userId: string) => {
   await PaymentMethod.updateMany({ userId, isPrimary: true }, { $set: { isPrimary: false } });
 };
 
+export const countByUser = async (userId: string): Promise<number> =>
+  PaymentMethod.countDocuments({ userId: new Types.ObjectId(userId) });
+
+export const findAnother = async (userId: string, excludeId: string) =>
+  PaymentMethod.findOne({
+    userId: new Types.ObjectId(userId),
+    _id: { $ne: new Types.ObjectId(excludeId) },
+  });
+
 export const remove = async (id: string, userId: string) =>
   PaymentMethod.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
 

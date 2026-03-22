@@ -79,7 +79,7 @@ export const setPrimary = async (id: string, userId: string) => {
   return accountRepository.updateById(id, { isPrimary: true }, userId);
 };
 
-export const deleteAccount = async (id: string, userId: string) => {
+export const deleteAccount = async (id: string, userId: string, replacementId?: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
@@ -90,6 +90,32 @@ export const deleteAccount = async (id: string, userId: string) => {
     throw ApiError.notFound('Account not found');
   }
 
+  const totalCount = await accountRepository.countByUser(userId);
+
+  if (totalCount <= 1) {
+    throw ApiError.badRequest('Cannot delete the only account');
+  }
+
+  const txCount = await transactionRepository.countByAccountId(userId, id);
+
+  if (txCount > 0) {
+    if (replacementId) {
+      if (!mongoose.Types.ObjectId.isValid(replacementId)) {
+        throw ApiError.badRequest('Invalid replacement account ID');
+      }
+
+      await transactionRepository.reassignAccount(userId, id, replacementId);
+    } else if (totalCount === 2) {
+      const other = await accountRepository.findAnother(userId, id);
+
+      if (other) {
+        await transactionRepository.reassignAccount(userId, id, other._id.toString());
+      }
+    } else {
+      throw ApiError.badRequest('Replacement account is required when transactions exist');
+    }
+  }
+
   const deletedAccount = await accountRepository.remove(id, userId);
 
   if (!deletedAccount) {
@@ -98,6 +124,7 @@ export const deleteAccount = async (id: string, userId: string) => {
 
   if (deletedAccount.isPrimary) {
     const newPrimary = await accountRepository.findAnother(userId);
+
     if (newPrimary) {
       await accountRepository.updateById(newPrimary._id.toString(), { isPrimary: true }, userId);
     }

@@ -1,3 +1,4 @@
+import StarIcon from '@mui/icons-material/Star';
 import { Box, Chip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +21,7 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const isCardPayment = paymentMethod.type === 'Credit' || paymentMethod.type === 'Debit';
+  const isCardPayment = paymentMethod.type === 'Credit Card' || paymentMethod.type === 'Debit';
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -44,9 +45,19 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
         justifyContent={'space-between'}
       >
         <Row justifyContent="space-between" alignItems="center">
-          <Typography variant="h6" fontWeight={600}>
-            {paymentMethod.name}
-          </Typography>
+          <Column spacing={0.25}>
+            <Typography variant="h6" fontWeight={600}>
+              {paymentMethod.name}
+            </Typography>
+            {paymentMethod.isPrimary && (
+              <Row spacing={0.5} alignItems="center">
+                <StarIcon sx={{ fontSize: 14, color: 'primary.main' }} />
+                <Typography variant="caption" color="primary" fontWeight={600}>
+                  {t('details.primary')}
+                </Typography>
+              </Row>
+            )}
+          </Column>
           <Row spacing={1} alignItems="center">
             <Chip
               label={paymentMethod.type}
@@ -61,11 +72,11 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
           <>
             <img src={creditCardChip} alt="Credit Card Chip" width={64} />
             <Typography variant="h5" letterSpacing={3} fontWeight={500}>
-              •••• •••• •••• {paymentMethod.last4 ?? '0000'}
+              •••• •••• •••• {paymentMethod.lastFourDigits ?? '0000'}
             </Typography>
           </>
         )}
-        {paymentMethod.type === 'Credit' && paymentMethod.billingDay && (
+        {paymentMethod.type === 'Credit Card' && paymentMethod.billingDay && (
           <Typography alignSelf="center">
             {`${t('fields.billingDay')}: ${paymentMethod.billingDay.toString().padStart(2, '0')}`}
           </Typography>

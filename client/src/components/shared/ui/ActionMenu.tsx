@@ -1,10 +1,11 @@
-import { Menu, MenuItem, MenuProps } from '@mui/material';
+import { Menu, MenuItem, MenuProps, Tooltip } from '@mui/material';
 
 export interface ActionMenuItem {
   label: string;
   onClick: () => void;
   color?: 'default' | 'error';
   disabled?: boolean;
+  tooltip?: string;
 }
 
 interface ActionMenuProps extends Omit<MenuProps, 'open'> {
@@ -14,8 +15,9 @@ interface ActionMenuProps extends Omit<MenuProps, 'open'> {
 }
 
 const ActionMenu = ({ open, onClose, items, ...menuProps }: ActionMenuProps) => (
-    <Menu open={open} onClose={onClose} {...menuProps}>
-      {items.map((item, index) => (
+  <Menu open={open} onClose={onClose} {...menuProps}>
+    {items.map((item, index) => {
+      const menuItem = (
         <MenuItem
           key={index}
           disabled={item.disabled}
@@ -27,8 +29,19 @@ const ActionMenu = ({ open, onClose, items, ...menuProps }: ActionMenuProps) => 
         >
           {item.label}
         </MenuItem>
-      ))}
-    </Menu>
-  );
+      );
+
+      if (item.disabled && item.tooltip) {
+        return (
+          <Tooltip key={index} title={item.tooltip} placement="left" arrow>
+            <span>{menuItem}</span>
+          </Tooltip>
+        );
+      }
+
+      return menuItem;
+    })}
+  </Menu>
+);
 
 export default ActionMenu;

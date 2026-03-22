@@ -69,3 +69,21 @@ export const countByAccountId = async (userId: string, accountId: string) =>
     userId: new Types.ObjectId(userId),
     account: new Types.ObjectId(accountId),
   });
+
+export const countByPaymentMethodId = async (userId: string, paymentMethodId: string): Promise<number> =>
+  Transaction.countDocuments({
+    userId: new Types.ObjectId(userId),
+    paymentMethod: new Types.ObjectId(paymentMethodId),
+  });
+
+export const reassignPaymentMethod = async (userId: string, oldId: string, newId: string) =>
+  Transaction.updateMany(
+    { userId: new Types.ObjectId(userId), paymentMethod: new Types.ObjectId(oldId) },
+    { $set: { paymentMethod: new Types.ObjectId(newId) } }
+  );
+
+export const reassignAccount = async (userId: string, oldId: string, newId: string) =>
+  Transaction.updateMany(
+    { userId: new Types.ObjectId(userId), account: new Types.ObjectId(oldId) },
+    { $set: { account: new Types.ObjectId(newId) } }
+  );

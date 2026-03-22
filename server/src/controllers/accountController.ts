@@ -61,7 +61,7 @@ export const syncAccountBalance = asyncHandler(async (req: Request, res: Respons
 });
 
 export const deleteAccount = asyncHandler(async (req: Request, res: Response) => {
-  await accountService.deleteAccount(req.params.id as string, req.userId);
+  await accountService.deleteAccount(req.params.id as string, req.userId, req.body.replacementId as string | undefined);
 
   return ApiResponse.deleted(res, 'Account deleted');
 });

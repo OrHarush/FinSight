@@ -89,7 +89,7 @@ pages/Chat/
 └── components/
     ├── ChatHeader.tsx
     ├── ChatInput.tsx              # Handles message sending
-    ├── index.tsx
+    ├── BudgetCard.tsx
     ├── ChatMessageLayout.tsx
     ├── ChatCategoryPills.tsx
     ├── ChatAccountCards.tsx

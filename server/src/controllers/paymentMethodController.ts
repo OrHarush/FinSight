@@ -36,7 +36,7 @@ export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Re
 });
 
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  await paymentMethodService.deleteById(req.params.id, req.userId);
+  await paymentMethodService.deleteById(req.params.id, req.userId, req.body.replacementId as string | undefined);
 
   return ApiResponse.deleted(res, 'Payment method deleted successfully');
 });

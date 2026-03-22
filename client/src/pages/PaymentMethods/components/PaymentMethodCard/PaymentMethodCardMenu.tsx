@@ -1,8 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
+import DeleteWithReassignDialog from '@/components/dialogs/deletion/DeleteWithReassignDialog';
 import ActionMenu, { ActionMenuItem } from '@/components/shared/ui/ActionMenu';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { useOpen } from '@/hooks/common/useOpen';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
@@ -22,6 +25,14 @@ const PaymentMethodCardMenu = ({
 }: PaymentMethodCardMenuProps) => {
   const { t } = useTranslation(['paymentMethods', 'common']);
   const { alertSuccess, alertError } = useSnackbar();
+  const { paymentMethods } = usePaymentMethods();
+  const [isDeleteDialogOpen, openDeleteDialog, closeDeleteDialog] = useOpen();
+
+  const isOnlyMethod = paymentMethods.length <= 1;
+
+  const replacementOptions = paymentMethods
+    .filter(paymentMethod => paymentMethod._id !== paymentMethod._id)
+    .map(paymentMetho => ({ id: paymentMetho._id, label: paymentMetho.name }));
 
   const setPrimaryPaymentMethod = useApiMutation<void, { id: string }>({
     method: 'patch',
@@ -33,12 +44,15 @@ const PaymentMethodCardMenu = ({
     },
   });
 
-  const deletePaymentMethod = useApiMutation<void, { id: string }>({
+  const deletePaymentMethod = useApiMutation<void, { id: string; replacementId?: string | null }>({
     method: 'delete',
     buildUrl: ({ id }) => `${API_ROUTES.PAYMENT_METHODS}/${id}`,
     queryKeysToInvalidate: [queryKeys.paymentMethods()],
     options: {
-      onSuccess: () => alertSuccess(t('messages.deleteSuccess')),
+      onSuccess: () => {
+        closeDeleteDialog();
+        alertSuccess(t('messages.deleteSuccess'));
+      },
       onError: () => alertError(t('messages.deleteError')),
     },
   });
@@ -50,12 +64,30 @@ const PaymentMethodCardMenu = ({
     },
     {
       label: t('actions.delete'),
-      onClick: () => deletePaymentMethod.mutate({ id: paymentMethod._id }),
+      onClick: () => openDeleteDialog(),
       color: 'error',
+      disabled: isOnlyMethod,
+      tooltip: isOnlyMethod ? t('cannotDeleteLast') : undefined,
     },
   ].filter(Boolean) as ActionMenuItem[];
 
-  return <ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} items={menuItems} />;
+  return (
+    <>
+      <ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} items={menuItems} />
+      <DeleteWithReassignDialog
+        isOpen={isDeleteDialogOpen}
+        closeDialog={closeDeleteDialog}
+        onConfirm={replacementId =>
+          deletePaymentMethod.mutate({ id: paymentMethod._id, replacementId })
+        }
+        itemName={paymentMethod.name}
+        itemType="paymentMethod"
+        itemId={paymentMethod._id}
+        replacementOptions={replacementOptions}
+        isLoading={deletePaymentMethod.isPending}
+      />
+    </>
+  );
 };
 
 export default PaymentMethodCardMenu;

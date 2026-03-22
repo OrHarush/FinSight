@@ -25,10 +25,15 @@ export const updateById = async (id: string, data: Partial<IAccount>, userId: st
     .lean<IAccount>()
     .exec();
 
-export const findAnother = async (userId: string) =>
-  Account.findOne({ userId: new Types.ObjectId(userId) })
-    .lean<IAccount>()
-    .exec();
+export const findAnother = async (userId: string, excludeId?: string) => {
+  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
+
+  if (excludeId) {
+    query._id = { $ne: new Types.ObjectId(excludeId) };
+  }
+
+  return Account.findOne(query).lean<IAccount>().exec();
+};
 
 export const countByUser = async (userId: string) =>
   Account.countDocuments({ userId: new Types.ObjectId(userId) });
