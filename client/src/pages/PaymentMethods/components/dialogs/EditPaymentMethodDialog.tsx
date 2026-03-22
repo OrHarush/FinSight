@@ -27,10 +27,10 @@ const EditPaymentMethodDialog = ({
   const methods = useForm<UpdatePaymentMethodDTO>({
     resolver: zodResolver(UpdatePaymentMethodSchema),
     defaultValues: {
-      name: paymentMethod.name,
-      billingDay: paymentMethod.billingDay,
+      name: paymentMethod.name ?? '',
+      billingDay: paymentMethod.billingDay ?? undefined,
       type: paymentMethod.type,
-      lastFourDigits: paymentMethod.lastFourDigits,
+      lastFourDigits: paymentMethod.lastFourDigits ?? '',
       isPrimary: paymentMethod.isPrimary,
     },
     mode: 'all',

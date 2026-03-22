@@ -3,7 +3,7 @@ import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IPaymentMethod {
   _id: string;
-  name: string;
+  name?: string;
   type: PaymentMethodType;
   billingDay: number | null;
   lastFourDigits?: string;
@@ -13,7 +13,7 @@ export interface IPaymentMethod {
 
 const PaymentMethodSchema: Schema = new Schema(
   {
-    name: { type: String, required: true, trim: true, maxlength: 30 },
+    name: { type: String, trim: true, maxlength: 30 },
     type: {
       type: String,
       enum: PAYMENT_METHOD_TYPES,
@@ -45,7 +45,7 @@ const PaymentMethodSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-PaymentMethodSchema.index({ name: 1, userId: 1 }, { unique: true });
+PaymentMethodSchema.index({ name: 1, type: 1, userId: 1 }, { unique: true, sparse: true });
 
 export default mongoose.model<IPaymentMethod>(
   'PaymentMethod',
