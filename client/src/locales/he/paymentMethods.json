@@ -26,8 +26,8 @@
     "cash": "מזומן"
   },
   "typeGroups": {
+    "cards": "כרטיסים",
     "banking": "בנקאי",
-    "credit": "אשראי",
     "digitalAndCash": "דיגיטלי ומזומן"
   },
   "details": {

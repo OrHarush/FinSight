@@ -19,7 +19,7 @@ const CategoriesTypeSection = ({
     <Typography variant="h6" gutterBottom color={'textSecondary'}>
       {title}
     </Typography>
-    <ScrollableColumn spacing={2} flex={1} minHeight={0} sx={{ py: 1 }}>
+    <ScrollableColumn spacing={2} flex={1} minHeight={0} sx={{ pr: 0 }}>
       <Grid container spacing={2}>
         {categories.map(category => (
           <CategoryCard key={category._id} category={category} selectCategory={selectCategory} />

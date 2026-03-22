@@ -1,13 +1,7 @@
-import StarIcon from '@mui/icons-material/Star';
-import { Box, Chip, Typography } from '@mui/material';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import creditCardChip from '@/assets/creditCardChip.webp';
-import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
-import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';
-import PaymentMethodCardContainer from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardContainer';
+import CreditCardVariant from '@/pages/PaymentMethods/components/PaymentMethodCard/CreditCardVariant';
+import FlatCardVariant from '@/pages/PaymentMethods/components/PaymentMethodCard/FlatCardVariant';
 import PaymentMethodCardMenu from '@/pages/PaymentMethods/components/PaymentMethodCard/PaymentMethodCardMenu';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 
@@ -16,12 +10,11 @@ interface PaymentMethodCardProps {
   selectPaymentMethod: (paymentMethod: PaymentMethodDto) => void;
 }
 
+const CREDIT_CARD_TYPES = ['Credit Card', 'Debit'] as const;
+
 const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethodCardProps) => {
-  const { t } = useTranslation('paymentMethods');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  const isCardPayment = paymentMethod.type === 'Credit Card' || paymentMethod.type === 'Debit';
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -33,66 +26,21 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
     setAnchorEl(null);
   };
 
+  const isCreditCardVariant = (CREDIT_CARD_TYPES as readonly string[]).includes(paymentMethod.type);
+
   return (
-    <PaymentMethodCardContainer
-      paymentMethod={paymentMethod}
-      selectPaymentMethod={selectPaymentMethod}
-    >
-      <Column
-        padding={2}
-        spacing={2}
-        sx={{ height: '100%', position: 'relative', zIndex: 1 }}
-        justifyContent={'space-between'}
-      >
-        <Row justifyContent="space-between" alignItems="center">
-          <Column spacing={0.25}>
-            <Typography variant="h6" fontWeight={600}>
-              {paymentMethod.name}
-            </Typography>
-            {paymentMethod.isPrimary && (
-              <Row spacing={0.5} alignItems="center">
-                <StarIcon sx={{ fontSize: 14, color: 'primary.main' }} />
-                <Typography variant="caption" color="primary" fontWeight={600}>
-                  {t('details.primary')}
-                </Typography>
-              </Row>
-            )}
-          </Column>
-          <Row spacing={1} alignItems="center">
-            <Chip
-              label={paymentMethod.type}
-              size="small"
-              variant="outlined"
-              sx={{ height: 28, fontSize: '1rem', fontWeight: 500 }}
-            />
-            <MenuTriggerButton openMenu={handleMenuOpen} />
-          </Row>
-        </Row>
-        {isCardPayment && (
-          <>
-            <img src={creditCardChip} alt="Credit Card Chip" width={64} />
-            <Typography variant="h5" letterSpacing={3} fontWeight={500}>
-              •••• •••• •••• {paymentMethod.lastFourDigits ?? '0000'}
-            </Typography>
-          </>
-        )}
-        {paymentMethod.type === 'Credit Card' && paymentMethod.billingDay && (
-          <Typography alignSelf="center">
-            {`${t('fields.billingDay')}: ${paymentMethod.billingDay.toString().padStart(2, '0')}`}
-          </Typography>
-        )}
-      </Column>
-      {isCardPayment && (
-        <Box
-          sx={{
-            position: 'absolute',
-            width: 180,
-            height: 180,
-            borderRadius: '50%',
-            backgroundColor: 'rgba(255,255,255,0.15)',
-            top: -60,
-            right: -60,
-          }}
+    <>
+      {isCreditCardVariant ? (
+        <CreditCardVariant
+          paymentMethod={paymentMethod}
+          onCardClick={() => selectPaymentMethod(paymentMethod)}
+          onMenuOpen={handleMenuOpen}
+        />
+      ) : (
+        <FlatCardVariant
+          paymentMethod={paymentMethod}
+          onCardClick={() => selectPaymentMethod(paymentMethod)}
+          onMenuOpen={handleMenuOpen}
         />
       )}
       <PaymentMethodCardMenu
@@ -101,7 +49,7 @@ const PaymentMethodCard = ({ paymentMethod, selectPaymentMethod }: PaymentMethod
         handleMenuClose={handleMenuClose}
         anchorEl={anchorEl}
       />
-    </PaymentMethodCardContainer>
+    </>
   );
 };
 

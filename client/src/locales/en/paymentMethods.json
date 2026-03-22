@@ -26,8 +26,8 @@
     "cash": "Cash"
   },
   "typeGroups": {
+    "cards": "Cards",
     "banking": "Banking",
-    "credit": "Credit",
     "digitalAndCash": "Digital & Cash"
   },
   "details": {

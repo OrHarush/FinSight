@@ -19,12 +19,12 @@ export interface PaymentTypeGroup {
 
 export const PAYMENT_TYPE_GROUPS: PaymentTypeGroup[] = [
   {
-    labelKey: 'paymentMethods:typeGroups.banking',
-    types: ['Bank Transfer', 'Debit', 'Checks', 'Standing Order'],
+    labelKey: 'paymentMethods:typeGroups.cards',
+    types: ['Credit Card', 'Debit'],
   },
   {
-    labelKey: 'paymentMethods:typeGroups.credit',
-    types: ['Credit Card'],
+    labelKey: 'paymentMethods:typeGroups.banking',
+    types: ['Bank Transfer', 'Checks', 'Standing Order'],
   },
   {
     labelKey: 'paymentMethods:typeGroups.digitalAndCash',
