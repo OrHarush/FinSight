@@ -1,9 +1,10 @@
+import { TransactionFormValues } from '@finsight/shared';
 import { Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { RHFDatePicker } from '@/components/shared/inputs/RHFDatePicker';
 import TextInput from '@/components/shared/inputs/TextInput';
-import { TransactionFormValues } from '@finsight/shared';
 
 const TransactionBaseDetails = () => {
   const { t } = useTranslation('transactions');
@@ -25,7 +26,7 @@ const TransactionBaseDetails = () => {
       </Grid>
       {!isRecurring && (
         <Grid size={{ xs: 12, sm: isTransfer ? 12 : 6 }}>
-          <TextInput name="date" label={t('fields.date')} type="date" />
+          <RHFDatePicker name="date" label={t('fields.date')} views={['day', 'month', 'year']} />
         </Grid>
       )}
     </>

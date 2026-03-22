@@ -1,5 +1,9 @@
+import 'dayjs/locale/he';
+import 'dayjs/locale/en';
+
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { heIL } from '@mui/x-date-pickers/locales';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -22,7 +26,15 @@ const AppProviders = ({ children }: AppProvidersProps) => (
   <QueryClientProvider client={queryClient}>
     <GoogleOAuthProvider clientId={clientId}>
       <AuthProvider>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
+        <LocalizationProvider
+          dateAdapter={AdapterDayjs}
+          adapterLocale={i18n.language}
+          localeText={
+            i18n.language === 'he'
+              ? heIL.components.MuiLocalizationProvider.defaultProps.localeText
+              : undefined
+          }
+        >
           <AppThemeProvider>
             <SnackbarProvider>{children}</SnackbarProvider>
             <ReactQueryDevtools initialIsOpen={false} />

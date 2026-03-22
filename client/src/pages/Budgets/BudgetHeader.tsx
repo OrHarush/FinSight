@@ -18,7 +18,7 @@ const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps)
   const { t } = useTranslation('budgets');
   const isMobile = useIsMobile();
 
-  const changeDate = (newDate: Dayjs | null) => {
+  const changeDate = (newDate: Dayjs) => {
     if (newDate) {
       onDateChange(newDate.startOf('month'));
     }
