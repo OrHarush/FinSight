@@ -23,6 +23,7 @@ const PaymentMethodForm = () => {
           options={[
             { value: 'Credit Card', label: t('types.creditCard') },
             { value: 'Debit', label: t('types.debit') },
+            { value: 'Bank Transfer', label: t('types.bankTransfer') },
             { value: 'PayPal', label: t('types.paypal') },
             { value: 'Bit', label: t('types.bit') },
             { value: 'PayBox', label: t('types.paybox') },
