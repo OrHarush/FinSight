@@ -194,7 +194,7 @@ See: `services/chatService.ts` → `systemInstruction` variable
 ChatInput.tsx
 ├── ChatHeader.tsx
 ├── ChatMessageList.tsx
-│   └── index.tsx
+│   └── BudgetCard.tsx
 │       ├── ReactMarkdown (for type=text)
 │       ├── ChatCategoryPills.tsx (for type=categories)
 │       └── ChatAccountCards.tsx (for type=accounts)
@@ -204,7 +204,7 @@ ChatInput.tsx
 
 **Key Rendering Logic:**
 
-`index.tsx` checks `message.parsed.type`:
+`BudgetCard.tsx` checks `message.parsed.type`:
 - **"text"** → Renders markdown content in message bubble
 - **"categories"** → Renders `ChatCategoryPills` (MUI Grid: xs: 6, sm: 4, md: 3)
 - **"accounts"** → Renders `ChatAccountCards` (MUI Grid: xs: 12, sm: 6)
@@ -228,7 +228,7 @@ ChatInput.tsx
 **Client:** `pages/Chat/`
 - `ChatInput.tsx` — Orchestrates state, sends messages, captures `parsed` response
 - `ChatMessageList.tsx` — Scrollable message container
-- `index.tsx` — Renders messages based on `parsed.type` (text/categories/accounts)
+- `BudgetCard.tsx` — Renders messages based on `parsed.type` (text/categories/accounts)
 - `ChatInput.tsx` — Text input + send button
 - `ChatCategoryPills.tsx` — Grid of category icon pills (xs: 6, sm: 4, md: 3)
 - `ChatAccountCards.tsx` — Grid of account cards (xs: 12, sm: 6)
@@ -349,7 +349,7 @@ See: `services/chatService.ts` → error handling in `catch` block
 **To change response format:**
 1. Update `ParsedChatResponse` type in `types/Chat.ts`
 2. Update `chatService.ts` response parsing logic
-3. Update `index.tsx` rendering logic
+3. Update `BudgetCard.tsx` rendering logic
 4. Update this doc: Response Examples section
 
 **To add a new breakpoint behavior:**

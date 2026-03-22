@@ -76,7 +76,9 @@ const TextInput = ({
 
   const finalRules = { ...baseRules, ...rules };
   const { field, fieldState } = useController({ name, control, rules: finalRules });
-  const fieldError = fieldState.error?.message ? t(fieldState.error.message, { field: label }) : undefined;
+  const fieldError = fieldState.error?.message
+    ? t(fieldState.error.message, { field: label })
+    : undefined;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'number') {
@@ -97,7 +99,6 @@ const TextInput = ({
   return (
     <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>
       {label && <InputLabel>{label}</InputLabel>}
-
       <TextField
         {...field}
         value={field.value ?? ''}
