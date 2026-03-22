@@ -84,6 +84,9 @@
     "title": "Coming Soon",
     "subtitle": "We’re working hard to bring you something amazing. Stay tuned for updates!"
   },
+  "fields": {
+    "optional": "optional"
+  },
   "feedback": {
     "title": "Send feedback",
     "fields": {

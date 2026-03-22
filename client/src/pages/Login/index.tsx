@@ -17,12 +17,12 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 
 const LoginPage = () => {
   const { t, i18n } = useTranslation('login');
+  const isRtl = i18n.language === 'he';
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const { alertError } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isRtl = i18n.language === 'he';
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {

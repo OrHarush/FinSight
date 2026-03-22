@@ -1,6 +1,7 @@
 import { MenuItem, TextFieldProps } from '@mui/material';
 import { ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/shared/inputs/TextInput';
 
@@ -19,6 +20,7 @@ interface ControlledSelectProps extends Omit<TextFieldProps, 'name' | 'required'
 
 const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelectProps) => {
   const { control } = useFormContext();
+  const { t } = useTranslation('common');
 
   return (
     <Controller
@@ -32,7 +34,7 @@ const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelec
           name={name}
           required={required}
           error={!!fieldState.error}
-          helperText={fieldState.error?.message}
+          helperText={fieldState.error?.message ? t(fieldState.error.message, { field: label }) : undefined}
           {...props}
           sx={{
             ...(props.fullWidth && { flex: 1, minWidth: 0 }),

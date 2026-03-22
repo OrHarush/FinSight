@@ -76,7 +76,7 @@ const TextInput = ({
 
   const finalRules = { ...baseRules, ...rules };
   const { field, fieldState } = useController({ name, control, rules: finalRules });
-  const fieldError = fieldState.error?.message ? t(fieldState.error.message) : undefined;
+  const fieldError = fieldState.error?.message ? t(fieldState.error.message, { field: label }) : undefined;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'number') {

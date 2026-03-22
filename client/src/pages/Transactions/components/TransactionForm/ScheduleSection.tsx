@@ -1,11 +1,13 @@
+import { TransactionFormValues } from '@finsight/shared';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, Grid } from '@mui/material';
+import i18n from 'i18next';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/shared/inputs/TextInput';
 import Row from '@/components/shared/layout/containers/Row';
-import { TransactionFormValues } from '@finsight/shared';
 
 interface ScheduleSectionProps {
   isTransfer?: boolean;
@@ -13,6 +15,7 @@ interface ScheduleSectionProps {
 
 const ScheduleSection = ({ isTransfer = false }: ScheduleSectionProps) => {
   const { t } = useTranslation('transactions');
+  const isRtl = i18n.language === 'he';
   const { control } = useFormContext<TransactionFormValues>();
 
   const recurrence = useWatch({ control, name: 'recurrence' });
@@ -33,7 +36,13 @@ const ScheduleSection = ({ isTransfer = false }: ScheduleSectionProps) => {
             <TextInput name="startDate" label={t('fields.startDate')} type="date" />
           </Box>
           <Box>
-            <ArrowForwardIcon sx={{ color: 'text.secondary', mt: '32px' }} />
+            <Box>
+              {isRtl ? (
+                <ArrowBackIcon sx={{ color: 'text.secondary', mt: '32px' }} />
+              ) : (
+                <ArrowForwardIcon sx={{ color: 'text.secondary', mt: '32px' }} />
+              )}
+            </Box>
           </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <TextInput name="endDate" label={t('fields.endDate')} type="month" />

@@ -16,7 +16,7 @@ const PaymentMethodCardContainer = ({
   selectPaymentMethod,
   children,
 }: PaymentMethodCardContainerProps) => {
-  const isCardPayment = paymentMethod.type === 'Credit' || paymentMethod.type === 'Debit';
+  const isCardPayment = paymentMethod.type === 'Credit Card' || paymentMethod.type === 'Debit';
 
   return (
     <Card
@@ -29,7 +29,9 @@ const PaymentMethodCardContainer = ({
         aspectRatio: '343 / 216',
 
         borderRadius: 3,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+        boxShadow: paymentMethod.isPrimary
+          ? '0 4px 20px rgba(0,0,0,0.25), 0 0 0 2px rgba(124, 58, 237, 0.35)'
+          : '0 4px 20px rgba(0,0,0,0.25)',
         border: paymentMethod.isPrimary ? '2px solid' : '1px solid',
         borderColor: paymentMethod.isPrimary ? 'primary.main' : 'divider',
         ...(!isCardPayment && {
