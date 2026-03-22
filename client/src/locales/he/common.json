@@ -70,6 +70,16 @@
     "contactEmailLabel": "דוא״ל",
     "footer": "© 2025 FinSight. כל הזכויות שמורות."
   },
+  "deleteDialog": {
+    "title": "מחיקת {{name}}?",
+    "loadingTransactions": "בודק עסקאות מקושרות...",
+    "noTransactions": "אין עסקאות מקושרות לפריט זה.",
+    "transactionsPreview": "העסקאות הבאות יועברו:",
+    "andMore": "ועוד {{count}} עסקאות נוספות",
+    "moveTransactionsTo": "העבר עסקאות אל:",
+    "transactionsWillBeMovedTo": "העסקאות יועברו אל {{name}}.",
+    "confirm": "מחק"
+  },
   "comingSoon": {
     "title": "בקרוב",
     "subtitle": "אנחנו עובדים קשה כדי להביא לך משהו מדהים. הישאר מעודכן!"

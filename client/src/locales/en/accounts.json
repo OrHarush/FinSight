@@ -21,6 +21,7 @@
     "asOfDate": "Updated at",
     "noDataYet": "No data yet"
   },
+  "cannotDeleteLast": "Cannot delete the only account",
   "actions": {
     "create": "Add Account",
     "edit": "Edit Account",

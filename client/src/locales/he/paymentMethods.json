@@ -10,15 +10,21 @@
     "billingDayPlaceholder": "1–31 בחודש",
     "billingDayHelper": "החיוב מתבצע ביום זה בכל חודש",
     "last4": "4 ספרות אחרונות",
+    "lastFourDigits": "4 ספרות אחרונות",
     "type": "סוג אמצעי תשלום",
     "isPrimary": "אמצעי תשלום ראשי"
   },
   "types": {
-    "credit": "כרטיס אשראי",
+    "creditCard": "כרטיס אשראי",
     "debit": "דביט",
     "bankTransfer": "העברה בנקאית",
     "paypal": "פייפאל",
-    "other": "אחר"
+    "bit": "ביט",
+    "paybox": "פייבוקס",
+    "cash": "מזומן"
+  },
+  "details": {
+    "primary": "ראשי"
   },
   "actions": {
     "create": "הוסף אמצעי תשלום",
@@ -26,6 +32,7 @@
     "delete": "מחיקת אמצעי תשלום",
     "setPrimary": "הגדר כאמצעי ראשי"
   },
+  "cannotDeleteLast": "לא ניתן למחוק את אמצעי התשלום היחיד",
   "messages": {
     "createSuccess": "אמצעי התשלום נוצרה בהצלחה",
     "createError": "יצירת אמצעי התשלום נכשלה",

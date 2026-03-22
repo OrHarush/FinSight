@@ -10,15 +10,21 @@
     "billingDayPlaceholder": "1–31 of the month",
     "billingDayHelper": "Charged on this day every month",
     "last4": "Last 4 Digits",
+    "lastFourDigits": "Last 4 Digits",
     "type": "Type",
     "isPrimary": "Primary Payment Method"
   },
   "types": {
-    "credit": "Credit Card",
-    "debit": "Debit Card",
+    "creditCard": "Credit Card",
+    "debit": "Debit",
     "bankTransfer": "Bank Transfer",
     "paypal": "PayPal",
-    "other": "Other"
+    "bit": "Bit",
+    "paybox": "PayBox",
+    "cash": "Cash"
+  },
+  "details": {
+    "primary": "Primary"
   },
   "actions": {
     "create": "Add payment method",
@@ -26,6 +32,7 @@
     "delete": "Delete Payment Method",
     "setPrimary": "Set as primary"
   },
+  "cannotDeleteLast": "Cannot delete the only payment method",
   "messages": {
     "createSuccess": "Payment method created successfully",
     "createError": "Failed to create payment method",

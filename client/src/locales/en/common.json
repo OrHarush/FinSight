@@ -70,6 +70,16 @@
     "contactEmailLabel": "Email",
     "footer": "© 2025 FinSight. All rights reserved."
   },
+  "deleteDialog": {
+    "title": "Delete {{name}}?",
+    "loadingTransactions": "Checking related transactions...",
+    "noTransactions": "No transactions are linked to this item.",
+    "transactionsPreview": "The following transactions will be reassigned:",
+    "andMore": "and {{count}} more transactions",
+    "moveTransactionsTo": "Move transactions to:",
+    "transactionsWillBeMovedTo": "Transactions will be moved to {{name}}.",
+    "confirm": "Delete"
+  },
   "comingSoon": {
     "title": "Coming Soon",
     "subtitle": "We’re working hard to bring you something amazing. Stay tuned for updates!"
