@@ -37,7 +37,6 @@ const FlatCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: FlatCardVar
             </Typography>
             {paymentMethod.isPrimary && <PrimaryBadge />}
           </Row>
-
           {hasName ? (
             <Typography variant="caption" color="text.secondary" noWrap>
               {typeLabel}

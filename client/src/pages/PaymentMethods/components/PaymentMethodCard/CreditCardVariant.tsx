@@ -29,27 +29,18 @@ const CreditCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: CreditCar
               <Chip
                 label={t(`types.${typeKey}`)}
                 size="small"
-                sx={{
-                  height: 20,
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  backgroundColor: 'rgba(255,255,255,0.13)',
-                  color: 'rgba(255,255,255,0.88)',
-                  border: '1px solid rgba(255,255,255,0.18)',
-                  '& .MuiChip-label': { px: 0.875 },
-                }}
+                variant="outlined"
+                sx={{ height: 18, fontSize: '0.6rem', fontWeight: 500, alignSelf: 'flex-start' }}
               />
+
               {paymentMethod.isPrimary && <PrimaryBadge />}
             </Row>
             <Column>
-              <Typography
-                noWrap
-                sx={{ fontSize: '1rem', fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}
-              >
+              <Typography noWrap sx={{ fontSize: '1rem', fontWeight: 700 }}>
                 {paymentMethod.name}
               </Typography>
               {paymentMethod.billingDay && (
-                <Typography sx={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>
+                <Typography color="text.secondary" sx={{ fontSize: '0.8rem' }}>
                   {t('fields.billingDay')}: {String(paymentMethod.billingDay).padStart(2, '0')}
                 </Typography>
               )}
@@ -60,9 +51,9 @@ const CreditCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: CreditCar
         <Row justifyContent="space-between" alignItems="center">
           <Typography
             dir="ltr"
+            color="text.secondary"
             sx={{
               fontSize: '0.72rem',
-              color: 'rgba(255,255,255,0.72)',
               letterSpacing: 1.5,
               fontFamily: 'monospace',
             }}
