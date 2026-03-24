@@ -1,6 +1,7 @@
 import CategoryIcon from '@mui/icons-material/Category';
-import { Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -18,6 +19,7 @@ interface TransactionCardViewProps {
 }
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
+  const { t } = useTranslation('transactions');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const IconComponent =
     (transaction.category?.icon && categoryIconMap[transaction.category?.icon]) || CategoryIcon;
@@ -69,17 +71,28 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
         </Column>
         <Row width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
           <Column>
-            <Typography
-              variant="body2"
-              fontWeight={500}
-              sx={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {isTransfer ? 'Transfer' : transaction.name}
-            </Typography>
+            <Row alignItems={'center'} spacing={1}>
+              <Typography
+                variant="body2"
+                fontWeight={500}
+                sx={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {isTransfer ? 'Transfer' : transaction.name}
+              </Typography>
+              {transaction.recurrence && transaction.recurrence !== 'None' && (
+                <Chip
+                  label={t(`recurrence.${transaction.recurrence.toLowerCase()}`)}
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  sx={{ fontSize: '0.65rem', height: 18, flexShrink: 0 }}
+                />
+              )}
+            </Row>
             <Typography variant="caption" color="text.secondary">
               {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString()}
             </Typography>
