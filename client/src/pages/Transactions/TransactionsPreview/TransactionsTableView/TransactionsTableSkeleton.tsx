@@ -29,65 +29,73 @@ const TransactionsTableSkeleton = () => {
           <Skeleton variant="rectangular" height={24} width={70} sx={{ borderRadius: 2 }} />
         </Row>
       </Row>
-      <Paper sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
-      <TableContainer sx={{ flex: 1, minHeight: 0 }}>
-        <Table
-          sx={{
-            borderCollapse: 'separate',
-            borderSpacing: 0,
-            '& th': {
-              backgroundColor: 'background.paper',
-              fontWeight: 600,
-              color: 'text.primary',
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-            },
-            '& td': {
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-            },
-          }}
-          aria-label="transactions table"
-        >
-          <TransactionTableHeaders />
-          <TableBody>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <Skeleton variant="text" width="60%" height={24} />
-                </TableCell>
-                <TableCell align="left">
-                  <Skeleton variant="text" width="80px" height={24} />
-                </TableCell>
-                <TableCell align="left">
-                  <Skeleton
-                    variant="rounded"
-                    width={150}
-                    height={36}
-                    sx={{ borderRadius: '24px' }}
-                  />
-                </TableCell>
-                <TableCell align="left">
-                  <Skeleton variant="text" width="70%" height={24} />
-                </TableCell>
-                <TableCell align="left">
-                  <Skeleton variant="text" width="60px" height={24} />
-                </TableCell>
-                <TableCell align="left">
-                  <Skeleton variant="text" width="90px" height={24} />
-                </TableCell>
-                <TableCell align="center">
-                  <Row spacing={1} justifyContent="center">
-                    <Skeleton variant="circular" width={32} height={32} />
-                    <Skeleton variant="circular" width={32} height={32} />
-                  </Row>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Skeleton variant="rectangular" height={52} sx={{ borderTop: '1px solid', borderColor: 'divider' }} />
+      <Paper
+        sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}
+      >
+        <TableContainer sx={{ flex: 1, minHeight: 0 }}>
+          <Table
+            stickyHeader
+            aria-label="transactions table"
+            sx={{
+              borderCollapse: 'separate',
+              borderSpacing: 0,
+              '& th': {
+                backgroundColor: 'background.paper',
+                fontWeight: 600,
+                color: 'text.primary',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+              '& td': {
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+            }}
+          >
+            <TransactionTableHeaders order="desc" orderBy="date" onSort={() => {}} />
+            <TableBody>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <Skeleton variant="text" width="50%" height={24} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Skeleton variant="text" width="60px" height={24} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Skeleton
+                      variant="rounded"
+                      width={150}
+                      height={36}
+                      sx={{ borderRadius: '8px' }}
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Skeleton variant="text" width="70px" height={24} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Skeleton variant="text" width="60px" height={24} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Skeleton variant="text" width="80px" height={24} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Row spacing={1} justifyContent="center">
+                      <Skeleton variant="circular" width={30} height={30} />
+                      <Skeleton variant="circular" width={30} height={30} />
+                      <Skeleton variant="circular" width={30} height={30} />
+                    </Row>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Skeleton
+          variant="rectangular"
+          height={52}
+          sx={{ borderTop: '1px solid', borderColor: 'divider' }}
+        />
       </Paper>
     </Column>
   );

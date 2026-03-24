@@ -1,13 +1,18 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 import { ExpandedTransactionDto } from '@/types/Transaction';
 
 type TransactionAction = undefined | 'edit' | 'delete';
 
 interface SelectedTransactionContextValue {
-  selectedCategory: string;
-  setSelectedCategory: (selectedCategory: string) => void;
+  selectedCategoryIds: string[];
+  setSelectedCategoryIds: (ids: string[]) => void;
+  selectedAccountIds: string[];
+  setSelectedAccountIds: (ids: string[]) => void;
+  selectedPaymentMethodIds: string[];
+  setSelectedPaymentMethodIds: (ids: string[]) => void;
+  resetFilters: () => void;
   selectedMonth: Dayjs;
   setSelectedMonth: (selectedMonth: Dayjs) => void;
   selectedTransaction?: ExpandedTransactionDto;
@@ -22,17 +27,30 @@ const SelectedTransactionContext = createContext<SelectedTransactionContextValue
 
 export const TransactionPageDataProvider = ({ children }: { children: ReactNode }) => {
   const [selectedMonth, setSelectedMonth] = useState<Dayjs>(dayjs());
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+  const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
+  const [selectedPaymentMethodIds, setSelectedPaymentMethodIds] = useState<string[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
   const [transactionAction, setTransactionAction] = useState<TransactionAction>();
+
+  const resetFilters = useCallback(() => {
+    setSelectedCategoryIds([]);
+    setSelectedAccountIds([]);
+    setSelectedPaymentMethodIds([]);
+  }, []);
 
   return (
     <SelectedTransactionContext.Provider
       value={{
         selectedMonth,
         setSelectedMonth,
-        selectedCategory,
-        setSelectedCategory,
+        selectedCategoryIds,
+        setSelectedCategoryIds,
+        selectedAccountIds,
+        setSelectedAccountIds,
+        selectedPaymentMethodIds,
+        setSelectedPaymentMethodIds,
+        resetFilters,
         selectedTransaction,
         setSelectedTransaction,
         transactionAction,

@@ -31,6 +31,19 @@ export const mapToCreatePayload = (data: TransactionFormValues): CreateTransacti
 export const mapToUpdatePayload = (data: TransactionFormValues): UpdateTransactionDTO =>
   buildTransactionPayload(data);
 
+export const getFilterChipLabel = (
+  count: number,
+  allLabel: string,
+  t: (key: string, options?: { count: number }) => string,
+  pluralKey: string,
+): string => {
+  if (count === 0) {
+    return allLabel;
+  }
+
+  return t(pluralKey, { count });
+};
+
 export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => {
   if (tx.date) {
     return tx.date;

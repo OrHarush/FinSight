@@ -16,7 +16,8 @@ import { TransactionPageFormValues } from '@/types/Transaction';
 
 const TransactionsCardsView = () => {
   const [page, setPage] = useState(1);
-  const { selectedMonth, selectedCategory } = useTransactionPageData();
+  const { selectedMonth, selectedCategoryIds, selectedAccountIds, selectedPaymentMethodIds } =
+    useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
@@ -25,7 +26,9 @@ const TransactionsCardsView = () => {
     selectedMonth.year(),
     selectedMonth.month(),
     searchValue,
-    selectedCategory,
+    selectedCategoryIds,
+    selectedAccountIds,
+    selectedPaymentMethodIds,
     page,
     20
   );
@@ -46,7 +49,7 @@ const TransactionsCardsView = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [selectedMonth, selectedCategory]);
+  }, [selectedMonth, selectedCategoryIds, selectedAccountIds, selectedPaymentMethodIds]);
 
   if (isLoading) {
     return <TransactionsCardsSkeleton />;

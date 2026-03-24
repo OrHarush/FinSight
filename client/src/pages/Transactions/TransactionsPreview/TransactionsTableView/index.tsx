@@ -45,16 +45,19 @@ const TransactionsTableView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [order, setOrder] = useState<SortOrder>('desc');
   const [orderBy, setOrderBy] = useState<SortableColumn>('date');
-  const { selectedMonth, selectedCategory } = useTransactionPageData();
+  const { selectedMonth, selectedCategoryIds, selectedAccountIds, selectedPaymentMethodIds } =
+    useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
 
   const { transactions, pagination, isLoading, error, refetch } = useTransactions(
     selectedMonth.year(),
-    selectedMonth?.month(),
+    selectedMonth.month(),
     searchValue,
-    selectedCategory ?? undefined,
+    selectedCategoryIds,
+    selectedAccountIds,
+    selectedPaymentMethodIds,
     page + 1,
     rowsPerPage
   );
@@ -105,7 +108,13 @@ const TransactionsTableView = () => {
 
   useEffect(() => {
     setPage(0);
-  }, [selectedMonth, selectedCategory, searchValue]);
+  }, [
+    selectedMonth,
+    selectedCategoryIds,
+    selectedAccountIds,
+    selectedPaymentMethodIds,
+    searchValue,
+  ]);
 
   if (isLoading) {
     return <TransactionsTableSkeleton />;

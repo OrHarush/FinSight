@@ -1,6 +1,6 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Card, CardContent, Grid, IconButton,Typography } from '@mui/material';
+import { Box, Card, CardContent, Grid, IconButton, Typography } from '@mui/material';
 import { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -9,10 +9,10 @@ import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { CategoryDto } from '@/types/Category';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface CategoryCardProps {
   category: CategoryDto;
@@ -22,8 +22,10 @@ interface CategoryCardProps {
 const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
+  const getCategoryName = useCategoryName();
 
-  const IconComponent: ElementType = (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
+  const IconComponent: ElementType =
+    (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
   const deleteCategory = useApiMutation<void, void>({
     method: 'delete',
@@ -85,8 +87,11 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                 >
                   <IconComponent sx={{ color: category.color, fontSize: 20 }} />
                 </Box>
-                <Typography fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {getCategoryDisplayName(category, t)}
+                <Typography
+                  fontWeight={500}
+                  sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                >
+                  {getCategoryName(category)}
                 </Typography>
               </Row>
               <IconButton onClick={handleDelete} size="medium" color="error">

@@ -137,9 +137,9 @@ export const buildTransactionQuery = (
   userId: string,
   from?: Date,
   to?: Date,
-  categoryId?: string,
-  paymentMethodId?: string,
-  accountId?: string
+  categoryIds?: string[],
+  paymentMethodIds?: string[],
+  accountIds?: string[]
 ) => {
   const userObjId = new Types.ObjectId(userId);
 
@@ -175,19 +175,19 @@ export const buildTransactionQuery = (
     query.$or = [nonRecurring, recurring];
   }
 
-  if (categoryId) {
-    query.category = new Types.ObjectId(categoryId);
+  if (categoryIds?.length) {
+    query.category = { $in: categoryIds.map(id => new Types.ObjectId(id)) };
   }
 
-  if (paymentMethodId) {
-    query.paymentMethod = new Types.ObjectId(paymentMethodId);
+  if (paymentMethodIds?.length) {
+    query.paymentMethod = { $in: paymentMethodIds.map(id => new Types.ObjectId(id)) };
   }
 
-  if (accountId) {
-    const accId = new Types.ObjectId(accountId);
+  if (accountIds?.length) {
+    const accIds = accountIds.map(id => new Types.ObjectId(id));
     query.$and = query.$and || [];
     query.$and.push({
-      $or: [{ account: accId }, { fromAccount: accId }, { toAccount: accId }],
+      $or: [{ account: { $in: accIds } }, { fromAccount: { $in: accIds } }, { toAccount: { $in: accIds } }],
     });
   }
 

@@ -7,11 +7,11 @@ import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import CategoryForm from '@/pages/Categories/components/CategoryForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { CategoryDto } from '@/types/Category';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface EditCategoryDialogProps extends BaseDialogProps {
   category: CategoryDto;
@@ -20,10 +20,12 @@ interface EditCategoryDialogProps extends BaseDialogProps {
 const EditCategoryDialog = ({ isOpen, closeDialog, category }: EditCategoryDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
+  const getCategoryName = useCategoryName();
+
   const methods = useForm<UpdateCategoryDTO>({
     resolver: zodResolver(UpdateCategorySchema),
     defaultValues: {
-      name: getCategoryDisplayName(category, t),
+      name: getCategoryName(category),
       type: category.type,
       color: category.color,
       icon: category.icon,

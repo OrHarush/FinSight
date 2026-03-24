@@ -5,9 +5,15 @@ export const GetTransactionsSchema = z
     page: z.string().regex(/^\d+$/, 'page must be a number').optional().default('1'),
     limit: z.string().regex(/^\d+$/, 'limit must be a number').optional(),
     sort: z.enum(['asc', 'desc']).optional().default('desc'),
-    categoryId: z.string().optional(),
-    paymentMethodId: z.string().optional(),
-    accountId: z.string().optional(),
+    categoryIds: z.string().optional().transform(v => (v ? v.split(',').filter(Boolean) : undefined)),
+    paymentMethodIds: z
+      .string()
+      .optional()
+      .transform(v => (v ? v.split(',').filter(Boolean) : undefined)),
+    accountIds: z
+      .string()
+      .optional()
+      .transform(v => (v ? v.split(',').filter(Boolean) : undefined)),
     year: z
       .string()
       .regex(/^\d{4}$/, 'year must be a 4-digit number')
@@ -36,9 +42,9 @@ export const GetTransactionsSchema = z
       page,
       limit,
       sort: (data.sort || 'desc') as 'asc' | 'desc',
-      categoryId: data.categoryId,
-      paymentMethodId: data.paymentMethodId,
-      accountId: data.accountId,
+      categoryIds: data.categoryIds,
+      paymentMethodIds: data.paymentMethodIds,
+      accountIds: data.accountIds,
       from,
       to,
       targetYear: year,
@@ -50,8 +56,11 @@ export const GetTransactionsSchema = z
 
 export type GetTransactionsQuery = z.infer<typeof GetTransactionsSchema>;
 
-// Partial version for internal callers (chat, MCP) that build options programmatically
-export type GetTransactionsOptions = Partial<GetTransactionsQuery>;
+// Partial version for internal callers (chat, MCP) that build options programmatically.
+// Retains singular accountId for backward-compat with the summary endpoint internal call.
+export type GetTransactionsOptions = Partial<GetTransactionsQuery> & {
+  accountId?: string;
+};
 
 export const GetTransactionSummarySchema = z
   .object({

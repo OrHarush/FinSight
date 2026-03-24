@@ -63,6 +63,18 @@
     "delete": "Delete Transaction",
     "import": "Import CSV"
   },
+  "filters": {
+    "allCategories": "Categories",
+    "selectedCategories_one": "{{count}} Category",
+    "selectedCategories_other": "{{count}} Categories",
+    "allAccounts": "Accounts",
+    "selectedAccounts_one": "{{count}} Account",
+    "selectedAccounts_other": "{{count}} Accounts",
+    "allPaymentMethods": "Payment",
+    "selectedPaymentMethods_one": "{{count}} Payment Method",
+    "selectedPaymentMethods_other": "{{count}} Payment Methods",
+    "reset": "Clear filters"
+  },
   "messages": {
     "createSuccess": "Transaction created successfully",
     "createError": "Failed to create transaction",

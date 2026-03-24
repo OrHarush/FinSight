@@ -10,9 +10,10 @@ import { buildTransactionQuery } from '../utils/transactionUtils';
 dayjs.extend(utc);
 
 export const findMany = async (userId: string, options: GetTransactionsOptions) => {
-  const { from, to, categoryId, paymentMethodId, accountId } = options;
+  const { from, to, categoryIds, paymentMethodIds, accountIds, accountId } = options;
+  const resolvedAccountIds = accountIds ?? (accountId ? [accountId] : undefined);
 
-  const query = buildTransactionQuery(userId, from, to, categoryId, paymentMethodId, accountId);
+  const query = buildTransactionQuery(userId, from, to, categoryIds, paymentMethodIds, resolvedAccountIds);
 
   return await Transaction.find(query)
     .populate('category')

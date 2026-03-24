@@ -63,6 +63,24 @@
     "delete": "מחק עסקה",
     "import": "ייבא CSV"
   },
+  "filters": {
+    "allCategories": "קטגוריות",
+    "selectedCategories_one": "קטגוריה אחת",
+    "selectedCategories_two": "{{count}} קטגוריות",
+    "selectedCategories_many": "{{count}} קטגוריות",
+    "selectedCategories_other": "{{count}} קטגוריות",
+    "allAccounts": "חשבונות",
+    "selectedAccounts_one": "חשבון אחד",
+    "selectedAccounts_two": "{{count}} חשבונות",
+    "selectedAccounts_many": "{{count}} חשבונות",
+    "selectedAccounts_other": "{{count}} חשבונות",
+    "allPaymentMethods": "תשלום",
+    "selectedPaymentMethods_one": "אמצעי תשלום אחד",
+    "selectedPaymentMethods_two": "{{count}} אמצעי תשלום",
+    "selectedPaymentMethods_many": "{{count}} אמצעי תשלום",
+    "selectedPaymentMethods_other": "{{count}} אמצעי תשלום",
+    "reset": "נקה סינון"
+  },
   "messages": {
     "createSuccess": "העסקה נוצרה בהצלחה",
     "createError": "יצירת העסקה נכשלה",

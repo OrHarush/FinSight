@@ -7,8 +7,8 @@ import RHFSelect from '@/components/shared/inputs/RHFSelect';
 import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import { useCategories } from '@/hooks/entities/useCategories';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import { CategoryDto } from '@/types/Category';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
 
 interface CategoriesSelectProps {
   filteredCategories?: CategoryDto[];
@@ -16,8 +16,8 @@ interface CategoriesSelectProps {
 
 const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
   const { t } = useTranslation('transactions');
-  const { t: tCategories } = useTranslation('categories');
   const { categories } = useCategories();
+  const getCategoryName = useCategoryName();
 
   const categoriesToDisplay = filteredCategories || categories;
 
@@ -27,7 +27,8 @@ const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
       label={t('fields.category')}
       required
       options={categoriesToDisplay.map(category => {
-        const IconComponent: ElementType = (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
+        const IconComponent: ElementType =
+          (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
         return {
           label: category.name,
@@ -35,8 +36,10 @@ const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
           design: (
             <Row spacing={1} sx={{ minWidth: 0, overflow: 'hidden' }}>
               <IconComponent sx={{ color: category.color, flexShrink: 0 }} />
-              <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {getCategoryDisplayName(category, tCategories)}
+              <Typography
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+              >
+                {getCategoryName(category)}
               </Typography>
             </Row>
           ),

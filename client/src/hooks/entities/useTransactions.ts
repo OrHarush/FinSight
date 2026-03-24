@@ -8,7 +8,9 @@ export const useTransactions = (
   year?: number,
   month?: number,
   search?: string,
-  categoryId?: string,
+  categoryIds?: string[],
+  accountIds?: string[],
+  paymentMethodIds?: string[],
   page: number = 1,
   limit?: number
 ) => {
@@ -24,8 +26,16 @@ export const useTransactions = (
     page: page.toString(),
   });
 
-  if (categoryId) {
-    params.append('categoryId', categoryId);
+  if (categoryIds?.length) {
+    params.append('categoryIds', categoryIds.join(','));
+  }
+
+  if (accountIds?.length) {
+    params.append('accountIds', accountIds.join(','));
+  }
+
+  if (paymentMethodIds?.length) {
+    params.append('paymentMethodIds', paymentMethodIds.join(','));
   }
 
   if (limit !== undefined) {
@@ -51,7 +61,9 @@ export const useTransactions = (
     queryKey: queryKeys.transactions({
       year: selectedYear,
       month: selectedMonth,
-      categoryId,
+      categoryIds,
+      accountIds,
+      paymentMethodIds,
       page,
       limit,
       search,

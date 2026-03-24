@@ -3,8 +3,9 @@ export const queryKeys = {
   transactions: (filters?: {
     year?: number;
     month?: number;
-    categoryId?: string;
-    accountId?: string;
+    categoryIds?: string[];
+    accountIds?: string[];
+    paymentMethodIds?: string[];
     page?: number;
     limit?: number;
     search?: string;

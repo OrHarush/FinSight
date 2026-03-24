@@ -22,7 +22,7 @@ import {
 } from 'recharts';
 
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 
 interface TopCategoriesContentProps {
   chartData: {
@@ -78,13 +78,13 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
   const theme = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslation('overview');
-  const { t: tCategories } = useTranslation('categories');
+  const getCategoryName = useCategoryName();
 
   const dataset = [...chartData]
     .sort((a, b) => b.amount - a.amount)
     .map(item => ({
       id: item.id,
-      name: getCategoryDisplayName(item, tCategories),
+      name: getCategoryName(item as any),
       amount: item.amount,
       color: item.color ?? theme.palette.grey[500],
     }));

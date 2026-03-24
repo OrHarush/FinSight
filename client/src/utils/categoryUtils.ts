@@ -39,7 +39,7 @@ export const getCategoryDisplayName = (
   }
 
   const defaultName = i18n.getFixedT('en', 'categories')(`defaults.${category.key}`);
-
+  console.log(defaultName);
   if (category.name !== defaultName) {
     return category.name;
   }

@@ -7,11 +7,11 @@ import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { getCategoryDisplayName } from '@/utils/categoryUtils';
 import { isToday } from '@/utils/dateUtils';
 import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
 import { getTransactionDisplayDate } from '@/utils/transactionUtils';
@@ -23,6 +23,7 @@ interface TransactionTableRowProps {
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { t } = useTranslation('paymentMethods');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
+  const getCategoryName = useCategoryName();
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -84,7 +85,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
       </TableCell>
       <TableCell align="left">
         <CategoryChip
-          name={getCategoryDisplayName(transaction?.category, t)}
+          name={getCategoryName(transaction?.category)}
           color={transaction.category.color || '#c8c8c8'}
           icon={transaction.category.icon}
         />
