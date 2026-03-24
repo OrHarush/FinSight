@@ -1,13 +1,13 @@
 import CategoryIcon from '@mui/icons-material/Category';
-import { Chip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import SwipeableCard from '@/components/shared/ui/SwipeableCard';
 import { categoryIconMap } from '@/constants/categoryIconMap';
+import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getCardStyles } from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/styles';
 import { ExpandedTransactionDto } from '@/types/Transaction';
@@ -19,7 +19,6 @@ interface TransactionCardViewProps {
 }
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
-  const { t } = useTranslation('transactions');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const IconComponent =
     (transaction.category?.icon && categoryIconMap[transaction.category?.icon]) || CategoryIcon;
@@ -83,15 +82,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
               >
                 {isTransfer ? 'Transfer' : transaction.name}
               </Typography>
-              {transaction.recurrence && transaction.recurrence !== 'None' && (
-                <Chip
-                  label={t(`recurrence.${transaction.recurrence.toLowerCase()}`)}
-                  size="small"
-                  variant="outlined"
-                  color="primary"
-                  sx={{ fontSize: '0.65rem', height: 18, flexShrink: 0 }}
-                />
-              )}
+              <RecurrenceBadge transaction={transaction} />
             </Row>
             <Typography variant="caption" color="text.secondary">
               {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString()}
