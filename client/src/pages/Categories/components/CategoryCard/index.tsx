@@ -57,13 +57,11 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
           borderRadius: '12px',
           paddingX: 2,
           paddingY: 1,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
           border: '1px solid',
           borderColor: 'divider',
           cursor: 'pointer',
           transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
             transform: 'translateY(-2px)',
             borderColor: 'primary.main',
           },

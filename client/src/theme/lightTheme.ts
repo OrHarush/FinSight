@@ -40,7 +40,7 @@ export const lightTheme = createTheme({
       paper: '#ffffff',
     },
     text: {
-      primary: '#424d6a',
+      primary: '#3b455c',
       secondary: '#64748b',
       disabled: '#94a3b8',
     },

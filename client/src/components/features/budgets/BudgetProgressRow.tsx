@@ -18,6 +18,9 @@ interface BudgetProgressRowProps {
 const BudgetProgressRow = ({ budget, usageChange = null, actions }: BudgetProgressRowProps) => {
   const theme = useTheme();
 
+  const backgroundColor =
+    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+
   return (
     <Column spacing={0.5}>
       <Row spacing={2} flex={1}>
@@ -44,7 +47,7 @@ const BudgetProgressRow = ({ budget, usageChange = null, actions }: BudgetProgre
             flex: 1,
             height: 10,
             borderRadius: 3,
-            bgcolor: 'rgba(255,255,255,0.08)',
+            backgroundColor,
             '& .MuiLinearProgress-bar': {
               backgroundColor: getBudgetProgressColor(budget.percent, theme),
               borderRadius: 3,
