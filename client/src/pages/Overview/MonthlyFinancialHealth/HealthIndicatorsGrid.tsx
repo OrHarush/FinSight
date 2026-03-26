@@ -11,7 +11,7 @@ interface HealthIndicatorsGridProps {
 const HealthIndicatorsGrid = ({ indicators, isNoDataState }: HealthIndicatorsGridProps) => (
   <>
     {indicators.map((indicator, idx) => (
-      <Grid key={idx} size={{ xs: isNoDataState ? 12 : 4 }} textAlign="center">
+      <Grid key={idx} size={{ xs: 12, sm: isNoDataState ? 12 : 4 }} textAlign="center">
         <HealthIndicatorCell
           title={indicator.title}
           value={indicator.value}

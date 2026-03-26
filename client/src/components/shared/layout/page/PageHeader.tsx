@@ -24,11 +24,7 @@ const PageHeader = ({ entityName, title, children }: PageHeaderProps) => {
       direction={isMobile ? 'column' : 'row'}
       spacing={2}
     >
-      <Typography
-        variant={isMobile ? 'h5' : 'h4'}
-        fontWeight={700}
-        sx={{ width: isMobile ? '100%' : 'auto' }}
-      >
+      <Typography variant={'h5'} fontWeight={700} sx={{ width: isMobile ? '100%' : 'auto' }}>
         {title || t('pageTitle')}
       </Typography>
       {children && (

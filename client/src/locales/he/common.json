@@ -1,10 +1,6 @@
 {
   "loading": "טוען את FinSight...",
-  "general": {
-    "balance": "יתרה",
-    "income": "הכנסות",
-    "expenses": "הוצאות"
-  },
+
   "buttons": {
     "create": "צור",
     "update": "עדכן",

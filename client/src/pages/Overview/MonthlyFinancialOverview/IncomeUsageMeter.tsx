@@ -1,24 +1,17 @@
-import { Box, LinearProgress, Typography } from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-
-import CurrencyText from '@/components/shared/ui/CurrencyText';
 
 interface IncomeUsageMeterProps {
   income: number;
   expenses: number;
-  net: number;
 }
 
-const IncomeUsageMeter = ({ income, expenses, net }: IncomeUsageMeterProps) => {
+const IncomeUsageMeter = ({ income, expenses }: IncomeUsageMeterProps) => {
   const { t } = useTranslation('overview');
   const usage = income > 0 ? Math.min((expenses / income) * 100, 100) : 0;
 
   return (
-    <Box sx={{ minWidth: '120px' }}>
-      <CurrencyText value={net} variant="h5" fontWeight={700} hasColor hasSign/>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        {t('incomeUsageMeter.netThisMonth')}
-      </Typography>
+    <>
       <LinearProgress
         variant="determinate"
         value={usage}
@@ -36,7 +29,7 @@ const IncomeUsageMeter = ({ income, expenses, net }: IncomeUsageMeterProps) => {
       <Typography variant="caption" color="text.secondary">
         {t('incomeUsageMeter.percentSpent', { percent: usage.toFixed(0) })}
       </Typography>
-    </Box>
+    </>
   );
 };
 

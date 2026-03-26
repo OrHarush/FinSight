@@ -10,9 +10,9 @@ export interface BalanceHeadlineProps {
 }
 
 const BalanceHeadline = ({ balance, label }: BalanceHeadlineProps) => (
-  <Column>
+  <Column alignItems="center" minWidth={'120px'}>
     <Row>
-      <CurrencyText value={balance} variant="h4" fontWeight={700} isAnimated/>
+      <CurrencyText value={balance} variant={'h5'} fontWeight={700} isAnimated />
     </Row>
     <Typography variant="body2" color="text.secondary">
       {label}

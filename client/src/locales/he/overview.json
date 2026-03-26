@@ -1,6 +1,14 @@
 {
   "pageTitle": "לוח בקרה פיננסי",
 
+  "general": {
+    "balance": "יתרה",
+    "income": "הכנסות",
+    "expenses": "הוצאות",
+    "net": "נטו",
+    "projectedBalance": "יתרה צפויה"
+  },
+
   "dateSelector": {
     "placeholder": "בחירת חודש"
   },

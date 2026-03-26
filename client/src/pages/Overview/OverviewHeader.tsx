@@ -33,7 +33,6 @@ const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
     <PageHeader entityName={'overview'}>
       <ResponsiveRow spacing={2} alignItems="center">
         <DateSelector value={date} onChange={setDate} />
-
         <TextField
           select
           value={account?._id || 'noAccounts'}

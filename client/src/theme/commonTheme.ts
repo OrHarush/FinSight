@@ -140,8 +140,8 @@ export const commonTheme: ThemeOptions = {
   },
   typography: {
     fontFamily: [
+      '"Nunito"',
       '"Inter"',
-      '"Heebo"',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',

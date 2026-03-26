@@ -37,7 +37,7 @@ export const darkTheme = createTheme({
       paper: '#151b24',
     },
     text: {
-      primary: '#f8fafc',
+      primary: '#cfcfcf',
       secondary: '#94a3b8',
       disabled: '#475569',
     },
