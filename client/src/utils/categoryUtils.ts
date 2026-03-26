@@ -31,15 +31,19 @@ export const getTopSpendingCategories = (
 };
 
 export const getCategoryDisplayName = (
-  category: Pick<CategoryDto, 'name' | 'key'>,
+  category: Pick<CategoryDto, 'name' | 'key'> | null | undefined,
   t: TFunction<'categories'>
 ) => {
+  if (!category) {
+    return t('uncategorized');
+  }
+
   if (!category.key) {
     return category.name;
   }
 
   const defaultName = i18n.getFixedT('en', 'categories')(`defaults.${category.key}`);
-  console.log(defaultName);
+
   if (category.name !== defaultName) {
     return category.name;
   }

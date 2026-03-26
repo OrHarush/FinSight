@@ -6,38 +6,13 @@ import { useTranslation } from 'react-i18next';
 import EntityError from '@/components/entities/EntityError';
 import Column from '@/components/shared/layout/containers/Column';
 import { useTransactions } from '@/hooks/entities/useTransactions';
+import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
-import {
-  SortableColumn,
-  SortOrder,
-} from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/types';
-import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
-import { ExpandedTransactionDto, TransactionPageFormValues } from '@/types/Transaction';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
-
-const getSortValue = (tx: ExpandedTransactionDto, column: SortableColumn): string | number => {
-  switch (column) {
-    case 'name':
-      return tx.name?.toLowerCase() ?? '';
-    case 'amount':
-      return tx.amount;
-    case 'category':
-      return tx.category?.name?.toLowerCase() ?? '';
-    case 'account':
-      return tx.account?.name?.toLowerCase() ?? '';
-    case 'paymentMethod':
-      return (
-        tx.paymentMethod?.name ||
-        PAYMENT_TYPE_LOCALE_KEY[tx.paymentMethod?.type] ||
-        ''
-      ).toLowerCase();
-    case 'date':
-      return tx.date ?? tx.startDate ?? '';
-  }
-};
+import { SortableColumn, SortOrder, TransactionPageFormValues } from '@/types/Transaction';
+import { compareTransactions } from '@/utils/transactionUtils';
 
 const TransactionsTableView = () => {
   const { t } = useTranslation('transactions');
@@ -76,21 +51,7 @@ const TransactionsTableView = () => {
   );
 
   const sortedTransactions = useMemo(
-    () =>
-      [...transactions].sort((a, b) => {
-        const aVal = getSortValue(a, orderBy);
-        const bVal = getSortValue(b, orderBy);
-
-        if (aVal < bVal) {
-          return order === 'asc' ? -1 : 1;
-        }
-
-        if (aVal > bVal) {
-          return order === 'asc' ? 1 : -1;
-        }
-
-        return 0;
-      }),
+    () => [...transactions].sort((a, b) => compareTransactions(a, b, order, orderBy)),
     [transactions, order, orderBy]
   );
 

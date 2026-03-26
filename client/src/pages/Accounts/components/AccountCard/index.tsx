@@ -17,27 +17,8 @@ interface AccountCardProps {
 
 const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
   const { t } = useTranslation('accounts');
-  // const [isTransferDialogOpen, openTransferDialog, closeTransferDialog] = useOpen(false);
-  // const [linkedCount, setLinkedCount] = useState<number>(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  // const handleDeleteRequest = async () => {
-  //   try {
-  //     const res = await fetch(`${API_ROUTES.ACCOUNTS}/${account._id}/linked-transactions`);
-  //     const data = await res.json();
-  //
-  //     if (data.success && data.count > 0) {
-  //       setLinkedCount(data.count);
-  //       openTransferDialog();
-  //     } else {
-  //       deleteAccount.mutate();
-  //     }
-  //   } catch (err) {
-  //     console.error('Error checking linked transactions', err);
-  //     deleteAccount.mutate();
-  //   }
-  // };
 
   const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -84,15 +65,6 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
                   )}
                 </Column>
               </Row>
-              {/*<EditAndDeleteButtons*/}
-              {/*  entityType="account"*/}
-              {/*  entityName={account.name}*/}
-              {/*  onEdit={() => selectAccount(account)}*/}
-              {/*  onDelete={handleDeleteRequest}*/}
-              {/*  disabledReason={*/}
-              {/*    account.isPrimary ? 'Primary accounts cannot be deleted.' : undefined*/}
-              {/*  }*/}
-              {/*/>*/}
               <MenuTriggerButton openMenu={handleMenuOpen} />
             </Row>
             <AccountDetails account={account} />
@@ -105,15 +77,6 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
         handleMenuClose={handleMenuClose}
         anchorEl={anchorEl}
       />
-      {/*{isTransferDialogOpen && (*/}
-      {/*  <ReassignTransactionsDialog*/}
-      {/*    open={true}*/}
-      {/*    onClose={closeTransferDialog}*/}
-      {/*    entityType="account"*/}
-      {/*    count={linkedCount}*/}
-      {/*    accountId={account._id}*/}
-      {/*  />*/}
-      {/*)}*/}
     </>
   );
 };

@@ -8,10 +8,10 @@ import EntityError from '@/components/entities/EntityError';
 import Column from '@/components/shared/layout/containers/Column';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import { useTransactions } from '@/hooks/entities/useTransactions';
+import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
-import TransactionsTotals from '@/pages/Transactions/TransactionsPreview/TransactionsTotals';
 import { TransactionPageFormValues } from '@/types/Transaction';
 
 const TransactionsCardsView = () => {

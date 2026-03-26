@@ -1,4 +1,5 @@
-import { Checkbox,FormControlLabel } from '@mui/material';
+import { BudgetFormValues } from '@finsight/shared';
+import { Checkbox, FormControlLabel } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,6 @@ import CategoriesSelect from '@/components/features/categories/CategoriesSelect'
 import TextInput from '@/components/shared/inputs/TextInput';
 import Column from '@/components/shared/layout/containers/Column';
 import { useCategories } from '@/hooks/entities/useCategories';
-import { BudgetFormValues } from '@finsight/shared';
 
 interface BudgetFormProps {
   showCategorySelect?: boolean;

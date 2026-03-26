@@ -31,8 +31,8 @@ const PaymentMethodCardMenu = ({
   const isOnlyMethod = paymentMethods.length <= 1;
 
   const replacementOptions = paymentMethods
-    .filter(paymentMethod => paymentMethod._id !== paymentMethod._id)
-    .map(paymentMetho => ({ id: paymentMetho._id, label: paymentMetho.name }));
+    .filter(pm => pm._id !== paymentMethod._id)
+    .map(pm => ({ id: pm._id, label: pm.name }));
 
   const setPrimaryPaymentMethod = useApiMutation<void, { id: string }>({
     method: 'patch',

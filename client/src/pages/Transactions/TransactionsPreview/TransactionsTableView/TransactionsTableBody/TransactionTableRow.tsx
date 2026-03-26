@@ -86,8 +86,8 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
       <TableCell align="left">
         <CategoryChip
           name={getCategoryName(transaction?.category)}
-          color={transaction.category.color || '#c8c8c8'}
-          icon={transaction.category.icon}
+          color={transaction.category?.color || '#c8c8c8'}
+          icon={transaction.category?.icon}
         />
       </TableCell>
       <TableCell align="left">

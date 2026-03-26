@@ -27,7 +27,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   const IconComponent: ElementType =
     (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
-  const deleteCategory = useApiMutation<void, void>({
+  const deleteExistingCategory = useApiMutation<void, void>({
     method: 'delete',
     url: `${API_ROUTES.CATEGORIES}/${category._id}`,
     queryKeysToInvalidate: [queryKeys.categories()],
@@ -42,9 +42,9 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
     },
   });
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const deleteCategory = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    deleteCategory.mutate();
+    deleteExistingCategory.mutate();
   };
 
   return (
@@ -94,7 +94,7 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                   {getCategoryName(category)}
                 </Typography>
               </Row>
-              <IconButton onClick={handleDelete} size="medium" color="error">
+              <IconButton onClick={deleteCategory} size="medium" color="error">
                 <DeleteIcon fontSize="small" />
               </IconButton>
             </Row>

@@ -1,12 +1,11 @@
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import MultiSelectChip, {
-  MultiSelectChipItem,
-} from '@/components/shared/inputs/MultiSelectChip';
+import MultiSelectChip from '@/components/shared/inputs/MultiSelectChip';
+import { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip/MultiSelectChipList';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
-import { getFilterChipLabel } from '@/utils/transactionUtils';
 
 interface PaymentMethodFilterProps {
   selectedIds: string[];
@@ -48,7 +47,12 @@ const PaymentMethodFilter = ({ selectedIds, onChange }: PaymentMethodFilterProps
 
   return (
     <MultiSelectChip
-      label={getFilterChipLabel(selectedIds.length, t('filters.allPaymentMethods'), t, 'filters.selectedPaymentMethods')}
+      label={
+        selectedIds.length === 0
+          ? t('filters.allPaymentMethods')
+          : t('filters.selectedPaymentMethods', { count: selectedIds.length })
+      }
+      icon={<CreditCardIcon />}
       selectedIds={selectedIds}
       onChange={onChange}
       items={items}

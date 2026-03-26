@@ -24,10 +24,17 @@ Backend: Node.js + Express + MongoDB — layered architecture: Routes → Contro
 ## React Component Patterns
 - For loading states: always use skeleton components. Never mix loading logic into the actual component.
 - Never create 2 components in the same file. Each component must be in its own file, even if it's small.
-- If a component styles is too long, export it to a separate `styles.ts` file in the same folder.
+- If a component's styles grow complex, move them to a `styles.ts` file in the same folder. Export factory functions named `get[Component]Style` (e.g. `getChipStyle`, `getCardStyle`).
 
 ## Naming Conventions
 Functions describe **what they do**, never who calls them.
+```ts
+// BAD
+handleOpen, handleClose, handleToggle, handleClick, handleSubmit
+
+// GOOD
+openChipMenu, closeChipMenu, toggleSidebar, submitBudgetForm
+```
 
 ---
 ## UI / Layout Rules

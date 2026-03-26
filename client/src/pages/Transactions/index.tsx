@@ -21,9 +21,7 @@ export const Transactions = () => {
           <Column height={'100%'} minHeight={0} spacing={2}>
             <TransactionsHeader openCreateTransaction={openCreateDialog} />
             <TransactionsFilters />
-            <Column flex={1} minHeight={0}>
-              <TransactionsPreview />
-            </Column>
+            <TransactionsPreview />
           </Column>
           <ActionFab onClick={openCreateDialog} />
           <TransactionDialogs

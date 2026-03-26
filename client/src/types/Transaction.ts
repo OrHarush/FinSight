@@ -37,3 +37,7 @@ export interface TransactionSummaryDto {
 export interface ExpandedTransactionDto extends TransactionDto {
   originalId?: string;
 }
+
+export type SortOrder = 'asc' | 'desc';
+
+export type SortableColumn = 'name' | 'amount' | 'category' | 'account' | 'paymentMethod' | 'date';

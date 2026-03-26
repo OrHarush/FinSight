@@ -4,7 +4,13 @@ import {
   UpdateTransactionDTO,
 } from '@finsight/shared';
 
-import { ExpandedTransactionDto } from '@/types/Transaction';
+import {
+  ExpandedTransactionDto,
+  SortableColumn,
+  SortOrder,
+  TransactionDto,
+} from '@/types/Transaction';
+import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
 
 const buildTransactionPayload = (data: TransactionFormValues) => {
   const base = {
@@ -31,23 +37,51 @@ export const mapToCreatePayload = (data: TransactionFormValues): CreateTransacti
 export const mapToUpdatePayload = (data: TransactionFormValues): UpdateTransactionDTO =>
   buildTransactionPayload(data);
 
-export const getFilterChipLabel = (
-  count: number,
-  allLabel: string,
-  t: (key: string, options?: { count: number }) => string,
-  pluralKey: string,
-): string => {
-  if (count === 0) {
-    return allLabel;
-  }
-
-  return t(pluralKey, { count });
-};
-
 export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => {
   if (tx.date) {
     return tx.date;
   }
 
   return tx!.startDate!;
+};
+
+const getSortValue = (tx: ExpandedTransactionDto, column: SortableColumn): string | number => {
+  switch (column) {
+    case 'name':
+      return tx.name?.toLowerCase() ?? '';
+    case 'amount':
+      return tx.amount;
+    case 'category':
+      return tx.category?.name?.toLowerCase() ?? '';
+    case 'account':
+      return tx.account?.name?.toLowerCase() ?? '';
+    case 'paymentMethod':
+      return (
+        tx.paymentMethod?.name ||
+        PAYMENT_TYPE_LOCALE_KEY[tx.paymentMethod?.type] ||
+        ''
+      ).toLowerCase();
+    case 'date':
+      return tx.date ?? tx.startDate ?? '';
+  }
+};
+
+export const compareTransactions = (
+  a: TransactionDto,
+  b: TransactionDto,
+  order: SortOrder,
+  orderBy: SortableColumn
+): number => {
+  const aVal = getSortValue(a, orderBy);
+  const bVal = getSortValue(b, orderBy);
+
+  if (aVal < bVal) {
+    return order === 'asc' ? -1 : 1;
+  }
+
+  if (aVal > bVal) {
+    return order === 'asc' ? 1 : -1;
+  }
+
+  return 0;
 };

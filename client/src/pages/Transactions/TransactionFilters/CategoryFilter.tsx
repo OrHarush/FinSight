@@ -3,12 +3,12 @@ import { Typography } from '@mui/material';
 import { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import MultiSelectChip, { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip';
+import MultiSelectChip from '@/components/shared/inputs/MultiSelectChip';
+import { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip/MultiSelectChipList';
 import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
-import { getFilterChipLabel } from '@/utils/transactionUtils';
 
 interface CategoryFilterProps {
   selectedIds: string[];
@@ -16,11 +16,11 @@ interface CategoryFilterProps {
 }
 
 const CategoryFilter = ({ selectedIds, onChange }: CategoryFilterProps) => {
-  const { t: tTx } = useTranslation('transactions');
+  const { t } = useTranslation('transactions');
   const { categories } = useCategories();
   const getCategoryName = useCategoryName();
 
-  const items: MultiSelectChipItem[] = categories.map(cat => {
+  const categoryOptions: MultiSelectChipItem[] = categories.map(cat => {
     const IconComponent: ElementType = (cat.icon && categoryIconMap[cat.icon]) || CategoryIcon;
 
     return {
@@ -36,15 +36,15 @@ const CategoryFilter = ({ selectedIds, onChange }: CategoryFilterProps) => {
 
   return (
     <MultiSelectChip
-      label={getFilterChipLabel(
-        selectedIds.length,
-        tTx('filters.allCategories'),
-        tTx,
-        'filters.selectedCategories'
-      )}
+      label={
+        selectedIds.length === 0
+          ? t('filters.allCategories')
+          : t('filters.selectedCategories', { count: selectedIds.length })
+      }
+      icon={<CategoryIcon />}
       selectedIds={selectedIds}
       onChange={onChange}
-      items={items}
+      items={categoryOptions}
     />
   );
 };

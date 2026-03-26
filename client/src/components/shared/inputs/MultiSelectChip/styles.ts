@@ -1,6 +1,6 @@
 import { alpha, Theme } from '@mui/material';
 
-export const getActiveChipSx = (isActive: boolean, theme: Theme) => ({
+export const getActiveChipStyle = (isActive: boolean, theme: Theme) => ({
   cursor: 'pointer',
   height: '40px',
   borderRadius: '8px',
@@ -8,14 +8,12 @@ export const getActiveChipSx = (isActive: boolean, theme: Theme) => ({
   color: isActive ? theme.palette.primary.main : theme.palette.text.primary,
   bgcolor: isActive ? alpha(theme.palette.primary.main, 0.12) : 'transparent',
   '&:hover': {
-    bgcolor: isActive
-      ? alpha(theme.palette.primary.main, 0.18)
-      : theme.palette.action.hover,
+    bgcolor: isActive ? alpha(theme.palette.primary.main, 0.18) : theme.palette.action.hover,
     borderColor: theme.palette.primary.main,
   },
 });
 
-export const getPopoverPaperSx = (theme: Theme) => ({
+export const getPopoverPaperStyle = (theme: Theme) => ({
   bgcolor: 'background.paper',
   backgroundImage: 'none',
   border: '1px solid',
@@ -31,8 +29,7 @@ export const getPopoverPaperSx = (theme: Theme) => ({
   '&::-webkit-scrollbar': { width: '8px' },
   '&::-webkit-scrollbar-track': { background: 'transparent' },
   '&::-webkit-scrollbar-thumb': {
-    background:
-      theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
+    background: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
     borderRadius: '4px',
   },
 });
