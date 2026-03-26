@@ -8,8 +8,8 @@ import { useOpen } from '@/hooks/common/useOpen';
 import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
-import OverviewHeader from '@/pages/Overview/OverviewHeader';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
+import OverviewHeader from '@/pages/Overview/OverviewHeader';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
 
 const OverviewDashboard = () => {

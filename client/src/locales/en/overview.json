@@ -61,7 +61,7 @@
     "daysLeft_other": "{{count}} days left",
     "runwayDetail": "Money runs out by {{date}} at current pace",
     "onTrack": "You're on track",
-    "enoughForMonth": "You have enough budget to finish this month at your current pace",
+    "enoughForMonth": "On track to finish the month",
     "noRunway": "No runway left",
     "noRunwayDetail": "Spending pace exceeds your income"
   },

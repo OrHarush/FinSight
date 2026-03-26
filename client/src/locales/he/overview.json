@@ -62,7 +62,7 @@
     "daysLeft_other": "נותרו {{count}} ימים",
     "runwayDetail": "הכסף ייגמר עד {{date}} בקצב הנוכחי",
     "onTrack": "אתה במסלול תקין",
-    "enoughForMonth": "התקציב הנוכחי מספיק עד סוף החודש בקצב ההוצאות הנוכחי",
+    "enoughForMonth": "בקצב מספיק לסיום החודש",
     "noRunway": "לא נותר טווח תקציב",
     "noRunwayDetail": "קצב ההוצאות גבוה מההכנסה"
   },

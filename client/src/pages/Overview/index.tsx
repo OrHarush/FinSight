@@ -3,8 +3,8 @@ import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
 import OverviewDashboard from '@/pages/Overview/OverviewDashboard';
+import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
 import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
 
 const Overview = () => {

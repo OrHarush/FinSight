@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Button, MenuItem, Stack, TextField } from '@mui/material';
+import { Button, MenuItem, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 

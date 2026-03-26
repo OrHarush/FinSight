@@ -46,7 +46,7 @@ export const useFinancialHealthIndicators = ({
     totalDaysInMonth: new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(),
   };
 
-  const { dailyVariableBurn, dailyAllowance, runwayDays, healthStatus, insightKey } =
+  const { dailyVariableBurn, dailyAllowance, runwayDays, daysLeft, healthStatus, insightKey } =
     analyzeFinancialHealth(snap);
 
   const statusIndicator: HealthIndicator = {
@@ -66,15 +66,21 @@ export const useFinancialHealthIndicators = ({
         ? t('budgetRunwayCard.onTrack')
         : runwayDays <= 0
           ? t('budgetRunwayCard.noRunway')
-          : t('budgetRunwayCard.daysLeft', { count: runwayDays }),
+          : runwayDays >= daysLeft
+            ? t('budgetRunwayCard.enoughForMonth')
+            : t('budgetRunwayCard.daysLeft', { count: runwayDays }),
     status:
       runwayDays === null
         ? 'ok'
-        : runwayDays <= 3
+        : runwayDays <= 0
           ? 'critical'
-          : runwayDays <= 7
-            ? 'warning'
-            : 'ok',
+          : runwayDays >= daysLeft
+            ? 'ok'
+            : runwayDays <= 3
+              ? 'critical'
+              : runwayDays <= 7
+                ? 'warning'
+                : 'ok',
   };
 
   const dailyIndicator: HealthIndicator = {

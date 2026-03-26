@@ -1,10 +1,7 @@
 import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import {
-  SortableColumn,
-  SortOrder,
-} from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/types';
+import { SortableColumn, SortOrder } from '@/types/Transaction';
 
 interface TransactionTableHeadersProps {
   order: SortOrder;
@@ -33,8 +30,8 @@ const TransactionTableHeaders = ({ order, orderBy, onSort }: TransactionTableHea
         {getSortedTableCell('name', t('table.name'), '15%')}
         {getSortedTableCell('amount', t('table.amount'), '10%')}
         {getSortedTableCell('category', t('table.category'), '20%')}
-        {getSortedTableCell('account', t('table.account'), '20%')}
-        {getSortedTableCell('paymentMethod', t('table.paymentMethod'), '15%')}
+        {getSortedTableCell('account', t('table.account'), '15%')}
+        {getSortedTableCell('paymentMethod', t('table.paymentMethod'), '20%')}
         {getSortedTableCell('date', t('table.date'), '15%')}
         <TableCell sx={{ width: '5%' }} align="center">
           {t('table.actions')}
