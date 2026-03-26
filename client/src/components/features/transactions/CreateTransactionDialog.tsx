@@ -21,6 +21,7 @@ import { mapToCreatePayload } from '@/utils/transactionUtils';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
+  initialAccountId?: string;
 }
 
 const getDefaultValues = (
@@ -44,6 +45,7 @@ const CreateTransactionDialog = ({
   isOpen,
   closeDialog,
   initialType = 'Expense',
+  initialAccountId,
 }: CreateTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
@@ -52,7 +54,11 @@ const CreateTransactionDialog = ({
 
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
-    defaultValues: getDefaultValues(initialType, primaryAccount?._id, primaryPaymentMethod?._id),
+    defaultValues: getDefaultValues(
+      initialType,
+      initialAccountId ?? primaryAccount?._id,
+      primaryPaymentMethod?._id
+    ),
     mode: 'all',
   });
 

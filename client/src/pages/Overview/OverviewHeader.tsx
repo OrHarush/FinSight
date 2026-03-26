@@ -1,15 +1,23 @@
-import { MenuItem, Stack, TextField, useMediaQuery, useTheme } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Button, MenuItem, Stack, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AccountMenuItem from '@/components/features/accounts/AccountMenuItem';
+import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
 import DateSelector from '@/components/shared/ui/DateSelector';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 
-const OverviewHeader = () => {
+interface OverviewHeaderProps {
+  openCreateTransaction: () => void;
+}
+
+const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
   const { t } = useTranslation('overview');
+  const isMobile = useIsMobile();
   const { accounts } = useAccounts();
   const { date, setDate, account, setAccount } = useOverviewFilters();
 
@@ -21,13 +29,11 @@ const OverviewHeader = () => {
     }
   };
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <PageHeader entityName={'overview'}>
-      <Stack spacing={2} alignItems="center" direction={isMobile ? 'column' : 'row'}>
+      <ResponsiveRow spacing={2} alignItems="center">
         <DateSelector value={date} onChange={setDate} />
+
         <TextField
           select
           value={account?._id || 'noAccounts'}
@@ -57,7 +63,12 @@ const OverviewHeader = () => {
             </MenuItem>
           ))}
         </TextField>
-      </Stack>
+        {!isMobile && (
+          <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
+            {t('actions.create', { ns: 'transactions' })}
+          </Button>
+        )}
+      </ResponsiveRow>
     </PageHeader>
   );
 };

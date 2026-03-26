@@ -1,18 +1,11 @@
-import { Grid } from '@mui/material';
-
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
-import Column from '@/components/shared/layout/containers/Column';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
-import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
-import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
 import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
-import OverviewHeader from '@/pages/Overview/OverviewHeader';
+import OverviewDashboard from '@/pages/Overview/OverviewDashboard';
 import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
-import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
 
 const Overview = () => {
   const { accounts, isLoading: loadingAccounts } = useAccounts();
@@ -37,26 +30,7 @@ const Overview = () => {
     <PageLayout>
       {isSetupComplete ? (
         <OverviewFiltersProvider>
-          <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
-            <OverviewHeader />
-            <Column height={'100%'} minHeight={0} spacing={4} sx={{ flex: 1 }}>
-              <Grid container spacing={4} size={{ xs: 12 }}>
-                <MonthlyFinancialOverview />
-                <MonthlyFinancialHealth />
-              </Grid>
-
-              <Grid
-                container
-                size={{ xs: 12 }}
-                spacing={4}
-                alignItems={'stretch'}
-                sx={{ flex: 1, minHeight: 0 }}
-              >
-                <BudgetsOverview />
-                <TopSpendingCategories />
-              </Grid>
-            </Column>
-          </Column>
+          <OverviewDashboard />
         </OverviewFiltersProvider>
       ) : (
         <SetupPanel />
