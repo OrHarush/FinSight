@@ -45,12 +45,20 @@ const TransactionsFilters = () => {
       <DateSelector value={selectedMonth} onChange={setSelectedMonth} />
       <TransactionSearchInput />
       {isMobile ? (
-        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
               gap: 1,
               flex: 1,
+              justifyContent: hasActiveFilters ? 'flex-start' : 'center',
               overflowX: 'auto',
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
