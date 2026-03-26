@@ -92,7 +92,7 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
   const chartHeight = dataset.length * 80 + 48;
 
   return (
-    <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
+    <Grid size={{ xs: 12, lg: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
       <Card
         sx={{
           height: '100%',
@@ -157,7 +157,6 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
               </BarChart>
             </ResponsiveContainer>
           </Box>
-
           {isLoading && (
             <Fade in={isLoading}>
               <Box

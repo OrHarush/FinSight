@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid,Typography } from '@mui/material';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -29,7 +29,7 @@ const BudgetsOverview = () => {
   }
 
   return (
-    <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
+    <Grid size={{ xs: 12, lg: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
       <Card sx={{ height: '100%', p: isMobile ? 1 : 2, display: 'flex', flex: 1, minHeight: 0 }}>
         <CardContent
           sx={{

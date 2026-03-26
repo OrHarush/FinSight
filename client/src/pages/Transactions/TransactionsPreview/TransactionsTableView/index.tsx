@@ -86,7 +86,7 @@ const TransactionsTableView = () => {
   }
 
   return (
-    <Column height={'100%'} spacing={2}>
+    <Column spacing={2} flex={1} minHeight={0}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
       <Paper
         sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}

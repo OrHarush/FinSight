@@ -7,7 +7,7 @@ import Row from '@/components/shared/layout/containers/Row';
 
 const TransactionCardSkeleton = () => (
   <Column spacing={1}>
-    <Row spacing={2} alignItems="center">
+    <Row spacing={2} alignItems="center" justifyContent={'center'}>
       <Row spacing={1} alignItems="center">
         <ArrowDownwardIcon fontSize="small" color="error" />
         <Skeleton variant="rectangular" height={20} width={60} sx={{ borderRadius: 2 }} />

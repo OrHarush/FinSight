@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, LinearProgress, Skeleton,Typography } from '@mui/material';
+import { Card, CardContent, Grid, LinearProgress, Skeleton, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -8,7 +8,7 @@ const CategoriesBudgetSkeleton = () => {
   const { t } = useTranslation('overview');
 
   return (
-    <Grid size={{ xs: 12, md: 6 }}>
+    <Grid size={{ xs: 12, lg: 6 }}>
       <Card sx={{ height: '100%', p: 2 }}>
         <CardContent sx={{ height: '100%' }}>
           <Column spacing={2}>
