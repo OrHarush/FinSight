@@ -27,9 +27,15 @@
     "title": "No data yet",
     "detail": "Add transactions for this month to unlock insights"
   },
+  "buildingPattern": {
+    "title": "Spending Pattern",
+    "value": "Building your pattern",
+    "description_one": "Track transactions for {{count}} more day to unlock your spending insights.",
+    "description_other": "Track transactions for {{count}} more days to unlock your spending insights."
+  },
   "noIncome": {
-    "title": "No income recorded",
-    "detail": "This month has expenses but no income. Budget health cannot be evaluated."
+    "title": "No income this month",
+    "detail": "Add an income transaction to see how your budget is holding up this month."
   },
   "monthlyInsight": {
     "excellent": {
@@ -41,8 +47,12 @@
       "message": "Expenses are well balanced relative to income"
     },
     "balanced": {
-      "title": "Balanced month",
-      "message": "Close to your monthly break-even point"
+      "title": "Tight but on track",
+      "message": "Very little budget left — you're close to your break-even point"
+    },
+    "atRisk": {
+      "title": "Spending too fast",
+      "message": "At this pace you'll exceed your remaining budget before month-end"
     },
     "overspent": {
       "title": "Overspending",
@@ -71,6 +81,8 @@
     "runwayDetail": "Money runs out by {{date}} at current pace",
     "onTrack": "You're on track",
     "enoughForMonth": "On track to finish the month",
+    "enoughForMonthDesc": "Projected to stay within budget",
+    "atBurnRate": "At current burn rate",
     "noRunway": "No runway left",
     "noRunwayDetail": "Spending pace exceeds your income"
   },
@@ -78,12 +90,26 @@
   "dailySpendCard": {
     "title": "Required Daily Spend",
     "valuePerDay": "{{amount}} ₪ / day",
+    "toUseRemainingBudget": "To use remaining budget by month end",
+    "toStayWithinBudget": "To stay within budget this month",
     "gap": "Reduce daily spending by {{gap}}₪ ({{current}}₪ → {{target}}₪)",
     "capacity": {
       "title": "Daily Spend Capacity",
       "belowKeepsOnTrack": "Staying below this keeps you on track",
       "exceedingOverspends": "Exceeding this will exceed monthly income"
     }
+  },
+
+  "overBudgetCard": {
+    "title": "Over Budget",
+    "amount": "{{amount}} ₪ over",
+    "description": "Expenses have exceeded available budget"
+  },
+
+  "projectedOverspendCard": {
+    "title": "Projected Overspend",
+    "amount": "{{amount}} ₪ over by month-end",
+    "description": "At your current spending pace"
   },
 
   "monthSummary": {

@@ -33,7 +33,6 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
     req.validatedQuery as GetTransactionSummaryQuery
   );
 
-  console.log(summary);
   return ApiResponse.ok(res, summary);
 });
 

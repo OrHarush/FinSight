@@ -1,25 +1,20 @@
 import { Grid } from '@mui/material';
 
+import { HealthTile } from '@/hooks/business/useFinancialHealthIndicators';
 import HealthIndicatorCell from '@/pages/Overview/MonthlyFinancialHealth/HealthIndicatorCell';
-import { HealthIndicator } from '@/utils/healthIndicatorUtils';
 
 interface HealthIndicatorsGridProps {
-  indicators: HealthIndicator[];
-  isNoDataState: boolean;
+  tiles: HealthTile[];
 }
 
-const HealthIndicatorsGrid = ({ indicators, isNoDataState }: HealthIndicatorsGridProps) => (
-  <>
-    {indicators.map((indicator, idx) => (
-      <Grid key={idx} size={{ xs: 12, sm: isNoDataState ? 12 : 4 }} textAlign="center">
-        <HealthIndicatorCell
-          title={indicator.title}
-          value={indicator.value}
-          description={indicator.description}
-        />
+const HealthIndicatorsGrid = ({ tiles }: HealthIndicatorsGridProps) => (
+  <Grid container spacing={1.5} sx={{ width: '100%' }}>
+    {tiles.map((tile, idx) => (
+      <Grid key={idx} size={{ xs: tiles.length === 1 ? 12 : 6 }}>
+        <HealthIndicatorCell tile={tile} />
       </Grid>
     ))}
-  </>
+  </Grid>
 );
 
 export default HealthIndicatorsGrid;

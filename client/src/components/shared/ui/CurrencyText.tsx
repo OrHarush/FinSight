@@ -38,9 +38,6 @@ const CurrencyText = ({
   const suffix = formattedCurrency.replace(/[\d,.\s\-\u200f\u200e\u202a-\u202e]/g, '').trim();
   const decimalPlaces = Number.isInteger(value) ? 0 : 2;
 
-  console.log(value);
-  console.log(formattedCurrency);
-
   return (
     <Typography
       component="span"

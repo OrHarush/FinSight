@@ -8,6 +8,7 @@ import User from '../src/models/User';
 
 const DRY_RUN = process.env.DRY_RUN === 'true';
 const USER_EMAIL = process.env.USER_EMAIL;
+const EXCLUDE_EMAILS = process.env.EXCLUDE_EMAILS?.split(',').map(e => e.trim()) ?? [];
 
 async function run() {
   if (!process.env.MONGO_URI) {
@@ -23,13 +24,14 @@ async function run() {
 
   if (USER_EMAIL) {
     const user = await User.findOne({ email: USER_EMAIL });
-
-    if (!user) {
-      throw new Error(`User not found: ${USER_EMAIL}`);
-    }
-
+    if (!user) throw new Error(`User not found: ${USER_EMAIL}`);
     console.log(`Filtering by userId: ${user._id} (${USER_EMAIL})`);
     userIdFilter = { userId: user._id };
+  } else if (EXCLUDE_EMAILS.length) {
+    const excludedUsers = await User.find({ email: { $in: EXCLUDE_EMAILS } });
+    const excludedIds = excludedUsers.map(u => u._id);
+    console.log(`Excluding ${excludedIds.length} users: ${EXCLUDE_EMAILS.join(', ')}`);
+    userIdFilter = { userId: { $nin: excludedIds } };
   } else {
     console.log('Migrating all users');
   }

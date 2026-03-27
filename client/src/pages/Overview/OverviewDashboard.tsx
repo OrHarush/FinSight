@@ -30,7 +30,6 @@ const OverviewDashboard = () => {
           <MonthlyFinancialOverview />
           <MonthlyFinancialHealth />
         </Grid>
-
         <Grid
           container
           size={{ xs: 12 }}

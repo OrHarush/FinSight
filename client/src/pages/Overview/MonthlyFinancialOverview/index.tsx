@@ -44,7 +44,7 @@ const MonthlyFinancialOverview = () => {
   return (
     <Grid size={{ xs: 12, md: 6, lg: 5 }}>
       <Card sx={{ p: 3, height: '100%' }}>
-        <Column spacing={4}>
+        <Column height={'100%'} justifyContent={'center'} spacing={4}>
           <Row spacing={1} alignItems="center" justifyContent="space-evenly">
             <BalanceHeadline balance={account.balance} label={t('general.balance')} />
             <Divider orientation="vertical" flexItem sx={{ mx: 2, borderColor: 'divider' }} />

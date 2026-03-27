@@ -11,7 +11,8 @@ interface MonthlyInsightProps {
 const colorMap: Record<InsightKey, string> = {
   excellent: 'success.main',
   good: 'success.main',
-  balanced: 'warning.main',
+  balanced: 'info.main',
+  atRisk: 'warning.main',
   overspent: 'error.main',
 };
 

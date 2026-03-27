@@ -43,7 +43,7 @@ const BudgetsOverview = () => {
           }}
         >
           <Column height={'100%'} spacing={2} sx={{ flex: 1, minHeight: 0 }}>
-            <Typography variant="h5" color="text.secondary" gutterBottom>
+            <Typography variant="h5" color="text.primary" align={isMobile ? 'center' : undefined}>
               {t('budgetWatch.title')}
             </Typography>
             {sortedBudgets.length === 0 ? (

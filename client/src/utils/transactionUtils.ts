@@ -85,3 +85,46 @@ export const compareTransactions = (
 
   return 0;
 };
+
+export const splitExpenses = (
+  transactions: TransactionDto[],
+  accountId: string,
+): { fixedExpenses: number; variableExpenses: number } => {
+  let fixedExpenses = 0;
+  let variableExpenses = 0;
+
+  for (const tx of transactions) {
+    if (tx.account?._id !== accountId) {
+      continue;
+    }
+
+    if (tx.type !== 'Expense') {
+      continue;
+    }
+
+    const abs = Math.abs(tx.amount);
+
+    if (tx.recurrence && tx.recurrence !== 'None') {
+      fixedExpenses += abs;
+    } else {
+      variableExpenses += abs;
+    }
+  }
+
+  return { fixedExpenses, variableExpenses };
+};
+
+export const countUniqueSpendingDays = (transactions: TransactionDto[], accountId: string): number => {
+  const days = new Set<string>();
+
+  for (const tx of transactions) {
+    if (tx.account?._id !== accountId) continue;
+    if (tx.type !== 'Expense') continue;
+    if (tx.recurrence && tx.recurrence !== 'None') continue;
+    if (!tx.date) continue;
+
+    days.add(new Date(tx.date).toISOString().slice(0, 10));
+  }
+
+  return days.size;
+};

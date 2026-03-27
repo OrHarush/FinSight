@@ -89,7 +89,7 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
       color: item.color ?? theme.palette.grey[500],
     }));
 
-  const chartHeight = dataset.length * 80 + 48;
+  const chartHeight = dataset.length * 40 + 48;
 
   return (
     <Grid size={{ xs: 12, lg: 6 }} sx={{ display: 'flex', minHeight: 0 }}>
@@ -114,7 +114,12 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
             '&:last-child': { pb: 2 },
           }}
         >
-          <Typography variant="h5" color="text.secondary" sx={{ mb: 2.5, flexShrink: 0 }}>
+          <Typography
+            variant="h5"
+            color="text.primary"
+            align={isMobile ? 'center' : undefined}
+            sx={{ mb: 2.5, flexShrink: 0 }}
+          >
             {t('topSpendingCategories.title')}
           </Typography>
           <Box
@@ -125,7 +130,7 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
               alignItems: 'center',
             }}
           >
-            <ResponsiveContainer width="100%" height={'100%'}>
+            <ResponsiveContainer width="100%" height={'100%'} style={{ direction: 'ltr' }}>
               <BarChart
                 layout="vertical"
                 data={dataset}

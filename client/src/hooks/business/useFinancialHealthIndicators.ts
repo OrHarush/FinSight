@@ -1,18 +1,31 @@
 import { useTranslation } from 'react-i18next';
 
-import { analyzeFinancialHealth, FinancialSnapshot, InsightKey } from '@/utils/financialHealth';
-import { HealthIndicator } from '@/utils/healthIndicatorUtils';
+import {
+  analyzeFinancialHealth,
+  FinancialSnapshot,
+  HealthStatus,
+  InsightKey,
+} from '@/utils/financialHealth';
+
+export interface HealthTile {
+  label: string;
+  value: string;
+  description: string;
+  danger?: boolean;
+}
+
+export type HealthCardVariant =
+  | { type: 'noData' }
+  | { type: 'noIncome' }
+  | { type: 'building'; uniqueSpendingDays: number; daysUntilReady: number }
+  | { type: 'full'; insightKey: InsightKey; healthStatus: HealthStatus; tiles: HealthTile[] };
 
 interface UseFinancialHealthIndicatorsParams {
   income: number;
   fixedExpenses: number;
   variableExpenses: number;
   hasMonthData: boolean;
-}
-
-interface FinancialHealthIndicatorsResult {
-  indicators: HealthIndicator[];
-  insightKey: InsightKey;
+  uniqueSpendingDays: number;
 }
 
 export const useFinancialHealthIndicators = ({
@@ -20,22 +33,23 @@ export const useFinancialHealthIndicators = ({
   fixedExpenses,
   variableExpenses,
   hasMonthData,
-}: UseFinancialHealthIndicatorsParams): FinancialHealthIndicatorsResult => {
+  uniqueSpendingDays,
+}: UseFinancialHealthIndicatorsParams): HealthCardVariant => {
   const { t } = useTranslation('overview');
   const today = new Date();
 
   if (!hasMonthData) {
-    return {
-      indicators: [
-        {
-          title: t('financialStatusCard.title'),
-          value: t('noData.title'),
-          description: t('noData.detail'),
-          status: 'noData',
-        },
-      ],
-      insightKey: 'balanced',
-    };
+    return { type: 'noData' };
+  }
+
+  const daysUntilReady = 7 - uniqueSpendingDays;
+
+  if (daysUntilReady > 0) {
+    return { type: 'building', uniqueSpendingDays, daysUntilReady };
+  }
+
+  if (income <= 0) {
+    return { type: 'noIncome' };
   }
 
   const snap: FinancialSnapshot = {
@@ -46,48 +60,65 @@ export const useFinancialHealthIndicators = ({
     totalDaysInMonth: new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate(),
   };
 
-  const { dailyVariableBurn, dailyAllowance, runwayDays, daysLeft, healthStatus, insightKey } =
-    analyzeFinancialHealth(snap);
+  const {
+    dailyAllowance,
+    runwayDays,
+    daysLeft,
+    remainingBudget,
+    projectedEndBalance,
+    healthStatus,
+    insightKey,
+  } = analyzeFinancialHealth(snap);
 
-  const statusIndicator: HealthIndicator = {
-    title: t('financialStatusCard.title'),
-    value: t(`financialStatusCard.status.${healthStatus}`),
-    status: healthStatus,
-  };
+  const isCritical = healthStatus === 'critical';
 
-  if (income <= 0) {
-    return { indicators: [statusIndicator], insightKey };
+  if (isCritical) {
+    const overBudgetTile: HealthTile = {
+      label: t('overBudgetCard.title'),
+      value: t('overBudgetCard.amount', { amount: Math.abs(Math.round(remainingBudget)) }),
+      description: t('overBudgetCard.description'),
+      danger: true,
+    };
+
+    return { type: 'full', insightKey, healthStatus, tiles: [overBudgetTile] };
   }
 
-  const runwayIndicator: HealthIndicator = {
-    title: t('budgetRunwayCard.title'),
+  if (insightKey === 'atRisk') {
+    const projectedOverspendTile: HealthTile = {
+      label: t('projectedOverspendCard.title'),
+      value: t('projectedOverspendCard.amount', { amount: Math.abs(Math.round(projectedEndBalance)) }),
+      description: t('projectedOverspendCard.description'),
+      danger: true,
+    };
+
+    const dailyAllowanceTile: HealthTile = {
+      label: t('dailySpendCard.title'),
+      value: t('dailySpendCard.valuePerDay', { amount: Math.max(Math.round(dailyAllowance), 0) }),
+      description: t('dailySpendCard.toStayWithinBudget'),
+    };
+
+    return { type: 'full', insightKey, healthStatus, tiles: [projectedOverspendTile, dailyAllowanceTile] };
+  }
+
+  const runwayTile: HealthTile = {
+    label: t('budgetRunwayCard.title'),
     value:
       runwayDays === null
         ? t('budgetRunwayCard.onTrack')
-        : runwayDays <= 0
-          ? t('budgetRunwayCard.noRunway')
-          : runwayDays >= daysLeft
-            ? t('budgetRunwayCard.enoughForMonth')
-            : t('budgetRunwayCard.daysLeft', { count: runwayDays }),
-    status:
-      runwayDays === null
-        ? 'ok'
-        : runwayDays <= 0
-          ? 'critical'
-          : runwayDays >= daysLeft
-            ? 'ok'
-            : runwayDays <= 3
-              ? 'critical'
-              : runwayDays <= 7
-                ? 'warning'
-                : 'ok',
+        : runwayDays >= daysLeft
+          ? t('budgetRunwayCard.enoughForMonth')
+          : t('budgetRunwayCard.daysLeft', { count: runwayDays }),
+    description:
+      runwayDays === null || runwayDays >= daysLeft
+        ? t('budgetRunwayCard.enoughForMonthDesc')
+        : t('budgetRunwayCard.atBurnRate'),
   };
 
-  const dailyIndicator: HealthIndicator = {
-    title: t('dailySpendCard.title'),
+  const dailySpendTile: HealthTile = {
+    label: t('dailySpendCard.title'),
     value: t('dailySpendCard.valuePerDay', { amount: Math.max(Math.round(dailyAllowance), 0) }),
-    status: dailyVariableBurn > dailyAllowance * 1.2 ? 'warning' : 'ok',
+    description: t('dailySpendCard.toUseRemainingBudget'),
   };
 
-  return { indicators: [statusIndicator, runwayIndicator, dailyIndicator], insightKey };
+  return { type: 'full', insightKey, healthStatus, tiles: [runwayTile, dailySpendTile] };
 };

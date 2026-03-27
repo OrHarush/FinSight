@@ -1,4 +1,4 @@
-export type InsightKey = 'excellent' | 'good' | 'balanced' | 'overspent';
+export type InsightKey = 'excellent' | 'good' | 'balanced' | 'atRisk' | 'overspent';
 export type HealthStatus = 'ok' | 'warning' | 'critical' | 'noData';
 
 export interface FinancialSnapshot {
@@ -13,6 +13,7 @@ export interface FinancialAnalysis {
   availableBudget: number;
   spentExpenses: number;
   remainingBudget: number;
+  projectedEndBalance: number;
   dailyVariableBurn: number;
   dailyAllowance: number;
   daysLeft: number;
@@ -21,7 +22,7 @@ export interface FinancialAnalysis {
   healthStatus: HealthStatus;
 }
 
-export function analyzeFinancialHealth(snap: FinancialSnapshot): FinancialAnalysis {
+export const analyzeFinancialHealth = (snap: FinancialSnapshot): FinancialAnalysis => {
   const { income, fixedExpenses, variableExpenses, dayOfMonth, totalDaysInMonth } = snap;
 
   const daysElapsed = Math.max(dayOfMonth, 1);
@@ -36,24 +37,35 @@ export function analyzeFinancialHealth(snap: FinancialSnapshot): FinancialAnalys
 
   const runwayDays = dailyVariableBurn > 0 ? Math.floor(remainingBudget / dailyVariableBurn) : null;
 
+  const projectedEndBalance = remainingBudget - dailyVariableBurn * daysLeft;
+
   const insightKey = ((): InsightKey => {
-    if (remainingBudget <= 0) return 'overspent';
-    const projectedEndBalance = remainingBudget - dailyVariableBurn * daysLeft;
-    if (
-      projectedEndBalance >= 0 &&
-      remainingBudget / (remainingBudget + dailyVariableBurn * daysLeft || 1) >= 0.3
-    )
+    if (remainingBudget <= 0) {
+      return 'overspent';
+    }
+
+    if (projectedEndBalance < 0) {
+      return 'atRisk';
+    }
+
+    const bufferRatio = remainingBudget / (remainingBudget + dailyVariableBurn * daysLeft || 1);
+
+    if (bufferRatio >= 0.3) {
       return 'excellent';
-    if (projectedEndBalance >= 0) return 'good';
-    if (projectedEndBalance >= -(dailyVariableBurn * daysLeft * 0.1)) return 'balanced';
-    return 'overspent';
+    }
+
+    if (bufferRatio >= 0.1) {
+      return 'good';
+    }
+
+    return 'balanced';
   })();
 
   const healthStatus = ((): HealthStatus => {
     if (income === 0) return 'noData';
     if (insightKey === 'overspent') return 'critical';
+    if (insightKey === 'atRisk') return 'warning';
     if (insightKey === 'balanced') return 'warning';
-    if (dailyVariableBurn > dailyAllowance * 1.5) return 'warning';
     return 'ok';
   })();
 
@@ -61,6 +73,7 @@ export function analyzeFinancialHealth(snap: FinancialSnapshot): FinancialAnalys
     availableBudget,
     spentExpenses,
     remainingBudget,
+    projectedEndBalance,
     dailyVariableBurn,
     dailyAllowance,
     daysLeft,
@@ -68,4 +81,4 @@ export function analyzeFinancialHealth(snap: FinancialSnapshot): FinancialAnalys
     insightKey,
     healthStatus,
   };
-}
+};
