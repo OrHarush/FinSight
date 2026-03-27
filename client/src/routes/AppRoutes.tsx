@@ -6,6 +6,7 @@ import AuthenticatedLayout from '@/components/shared/layout/AuthenticatedLayout'
 import Column from '@/components/shared/layout/containers/Column';
 import PublicLayout from '@/components/shared/layout/PublicLayout';
 import { ROUTES } from '@/constants/Routes';
+import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
 import { AdminKpiDashboard } from '@/pages/Admin';
 import Budgets from '@/pages/Budgets';
@@ -24,8 +25,9 @@ import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/Protect
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
+  const showLoading = useMinLoadingDuration(isLoadingUser, 1500);
 
-  if (isLoadingUser) {
+  if (showLoading) {
     return (
       <Column height={'100vh'}>
         <LoadingScreen />

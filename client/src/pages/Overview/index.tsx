@@ -1,9 +1,9 @@
-import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import { useHasAnyTransaction } from '@/hooks/business/useHasAnyTransaction';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import OverviewDashboard from '@/pages/Overview/OverviewDashboard';
+import OverviewDashboardSkeleton from '@/pages/Overview/OverviewDashboardSkeleton';
 import { OverviewFiltersProvider } from '@/pages/Overview/OverviewFiltersProvider';
 import SetupPanel from '@/pages/Overview/SetupPanel/SetupPanel';
 
@@ -21,7 +21,7 @@ const Overview = () => {
   if (isLoading) {
     return (
       <PageLayout>
-        <LoadingScreen />
+        <OverviewDashboardSkeleton />
       </PageLayout>
     );
   }
