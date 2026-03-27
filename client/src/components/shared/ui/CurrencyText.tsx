@@ -29,12 +29,14 @@ const CurrencyText = ({
       style: 'currency',
       currency: resolvedCurrency,
       currencyDisplay: 'symbol',
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
     })
     .replace(/\s+/g, '');
 
   const color = value >= 0 ? 'success.main' : 'error.main';
   const suffix = formattedCurrency.replace(/[\d,.\s\-\u200f\u200e\u202a-\u202e]/g, '').trim();
+  const decimalPlaces = Number.isInteger(value) ? 0 : 2;
 
   console.log(value);
   console.log(formattedCurrency);
@@ -48,7 +50,7 @@ const CurrencyText = ({
     >
       {hasSign && value > 0 && '+'}
       {isAnimated ? (
-        <CountUp end={value} duration={1.5} decimals={0} suffix={suffix} />
+        <CountUp end={value} duration={1.5} decimals={decimalPlaces} suffix={suffix} />
       ) : (
         formattedCurrency
       )}

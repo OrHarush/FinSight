@@ -1,4 +1,4 @@
-import { CreateTransactionDTO, UpdateTransactionDTO } from '@finsight/shared';
+import { CreateTransactionDTO, UpdateTransactionDTO, fromCents, toCents } from '@finsight/shared';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
@@ -54,7 +54,12 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
     filtered = filtered.filter(t => t.name?.toLowerCase().includes(term));
   }
 
-  return sortAndPaginate(filtered, sort, page, limit);
+  const result = sortAndPaginate(filtered, sort, page, limit);
+
+  return {
+    ...result,
+    data: result.data.map(tx => ({ ...tx, amount: fromCents(tx.amount) })),
+  };
 };
 
 export const getTransactionById = async (id: string, userId: string) => {
@@ -68,7 +73,7 @@ export const getTransactionById = async (id: string, userId: string) => {
     throw ApiError.notFound('Transaction not found');
   }
 
-  return transaction;
+  return { ...transaction, amount: fromCents(transaction.amount) };
 };
 
 export const getTransactionSummary = async (userId: string, query: GetTransactionSummaryQuery) => {
@@ -90,10 +95,19 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
   const expandedTransactions = transactions.flatMap(tx => expandRecurring(tx, fromDate, endDate));
 
   if (month !== undefined) {
-    return summarizeSingleMonth(expandedTransactions, year, month, accountId);
+    const result = summarizeSingleMonth(expandedTransactions, year, month, accountId);
+
+    return {
+      monthlyIncome: fromCents(result.monthlyIncome),
+      monthlyExpenses: fromCents(result.monthlyExpenses),
+    };
   }
 
-  return summarizeWholeYear(expandedTransactions, year, accountId);
+  return summarizeWholeYear(expandedTransactions, year, accountId).map(bucket => ({
+    ...bucket,
+    monthlyIncome: fromCents(bucket.monthlyIncome),
+    monthlyExpenses: fromCents(bucket.monthlyExpenses),
+  }));
 };
 
 export const countAll = async (userId: string): Promise<number> =>
@@ -130,7 +144,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     name: data.name ?? '',
     description: data.description,
     type: data.type,
-    amount: data.amount,
+    amount: toCents(data.amount),
     recurrence: data.recurrence,
     belongToPreviousMonth: data.belongToPreviousMonth ?? false,
     date: dateValue,
@@ -144,7 +158,11 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     userId: new Types.ObjectId(userId),
   };
 
-  return transactionRepository.insert(mapped);
+  const created = await transactionRepository.insert(mapped);
+
+  created.amount = fromCents(created.amount);
+
+  return created;
 };
 
 export const update = async (id: string, data: UpdateTransactionDTO, userId: string) => {
@@ -163,7 +181,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   if (data.name !== undefined) mapped.name = data.name;
   if (data.description !== undefined) mapped.description = data.description;
   if (data.type !== undefined) mapped.type = data.type;
-  if (data.amount !== undefined) mapped.amount = data.amount;
+  if (data.amount !== undefined) mapped.amount = toCents(data.amount);
   if (data.recurrence !== undefined) mapped.recurrence = data.recurrence;
   if (data.belongToPreviousMonth !== undefined)
     mapped.belongToPreviousMonth = data.belongToPreviousMonth;
@@ -183,7 +201,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     throw ApiError.internal('Unexpected error updating transaction');
   }
 
-  return updated;
+  return { ...updated, amount: fromCents(updated.amount) };
 };
 
 export const deleteTransaction = async (id: string, userId: string) => {
@@ -203,5 +221,5 @@ export const deleteTransaction = async (id: string, userId: string) => {
     throw ApiError.internal('Unexpected error deleting transaction');
   }
 
-  return deleted;
+  return { ...deleted, amount: fromCents(deleted.amount) };
 };

@@ -1,4 +1,4 @@
-import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
+import { CreateAccountDTO, UpdateAccountDTO, fromCents, toCents } from '@finsight/shared';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
@@ -6,7 +6,11 @@ import { IAccount } from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 
-export const findAll = async (userId: string) => accountRepository.findMany(userId);
+export const findAll = async (userId: string) => {
+  const accounts = await accountRepository.findMany(userId);
+
+  return accounts.map(a => ({ ...a, balance: fromCents(a.balance) }));
+};
 
 export const getAccountById = async (id: string, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -19,7 +23,7 @@ export const getAccountById = async (id: string, userId: string) => {
     throw ApiError.notFound('Account not found');
   }
 
-  return account;
+  return { ...account, balance: fromCents(account.balance) };
 };
 
 export const create = async (data: CreateAccountDTO, userId: string) => {
@@ -27,7 +31,7 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
 
   const mapped: Omit<IAccount, '_id'> = {
     name: data.name,
-    balance: data.balance,
+    balance: toCents(data.balance),
     institution: data.institution,
     accountNumber: data.accountNumber,
     icon: data.icon,
@@ -40,7 +44,11 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
     await accountRepository.unsetPrimary(userId);
   }
 
-  return accountRepository.insert(mapped);
+  const created = await accountRepository.insert(mapped);
+
+  created.balance = fromCents(created.balance);
+
+  return created;
 };
 
 export const update = async (id: string, data: UpdateAccountDTO, userId: string) => {
@@ -56,11 +64,21 @@ export const update = async (id: string, data: UpdateAccountDTO, userId: string)
 
   const mapped: Partial<IAccount> = { ...data };
 
-  if (typeof data.balance === 'number' && data.balance !== existing.balance) {
-    mapped.lastSynced = new Date();
+  if (typeof data.balance === 'number') {
+    mapped.balance = toCents(data.balance);
+
+    if (mapped.balance !== existing.balance) {
+      mapped.lastSynced = new Date();
+    }
   }
 
-  return accountRepository.updateById(id, mapped, userId);
+  const updated = await accountRepository.updateById(id, mapped, userId);
+
+  if (!updated) {
+    throw ApiError.internal('Unexpected error updating account');
+  }
+
+  return { ...updated, balance: fromCents(updated.balance) };
 };
 
 export const setPrimary = async (id: string, userId: string) => {
@@ -76,7 +94,13 @@ export const setPrimary = async (id: string, userId: string) => {
 
   await accountRepository.unsetPrimary(userId, id);
 
-  return accountRepository.updateById(id, { isPrimary: true }, userId);
+  const updated = await accountRepository.updateById(id, { isPrimary: true }, userId);
+
+  if (!updated) {
+    throw ApiError.internal('Unexpected error setting primary account');
+  }
+
+  return { ...updated, balance: fromCents(updated.balance) };
 };
 
 export const deleteAccount = async (id: string, userId: string, replacementId?: string) => {

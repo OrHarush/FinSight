@@ -12,8 +12,8 @@ import { deleteMany as deleteAccounts } from '../repositories/accountRepository'
 import * as accountRepository from '../repositories/accountRepository';
 import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
 import {
-  insertMany as createCategories,
   deleteMany as deleteCategories,
+  insertMany as createCategories,
 } from '../repositories/categoryRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
@@ -29,7 +29,7 @@ export const updatePreferences = async (userId: string, displayCurrency: string)
   updatePreferencesRepo(userId, displayCurrency);
 
 export const createDefaultEntitiesForNewUser = async (userId: string) => {
-  const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map((dto) => ({
+  const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map(dto => ({
     key: dto.key,
     name: dto.name,
     type: dto.type,
@@ -39,7 +39,7 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
   }));
 
   const paymentMethodsToCreate: Omit<IPaymentMethod, '_id'>[] = DEFAULT_PAYMENT_METHODS.map(
-    (dto) => ({
+    dto => ({
       name: dto.name,
       type: dto.type,
       billingDay: dto.billingDay ?? null,

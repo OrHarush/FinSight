@@ -3,6 +3,8 @@ import {
   CreateBudgetDTO,
   GetBudgetsQuery,
   UpdateBudgetDTO,
+  fromCents,
+  toCents,
 } from '@finsight/shared';
 import mongoose, { Types } from 'mongoose';
 
@@ -10,8 +12,11 @@ import { ApiError } from '../errors/ApiError';
 import { IBudget } from '../models/Budget';
 import * as budgetRepository from '../repositories/budgetRepository';
 
-export const findAll = async (userId: string, options: GetBudgetsQuery) =>
-  budgetRepository.findMany(userId, options);
+export const findAll = async (userId: string, options: GetBudgetsQuery) => {
+  const budgets = await budgetRepository.findMany(userId, options);
+
+  return budgets.map(b => ({ ...b, limit: fromCents(b.limit) }));
+};
 
 export const getBudgetById = async (id: string, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -24,7 +29,7 @@ export const getBudgetById = async (id: string, userId: string) => {
     throw ApiError.notFound('Budgets not found');
   }
 
-  return budget;
+  return { ...budget, limit: fromCents(budget.limit) };
 };
 
 export const create = async (data: CreateBudgetDTO, userId: string) => {
@@ -49,10 +54,14 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
     categoryId: new Types.ObjectId(data.categoryId),
     year: data.year,
     month: dbMonth,
-    limit: data.limit,
+    limit: toCents(data.limit),
   };
 
-  return budgetRepository.insert(mapped);
+  const created = await budgetRepository.insert(mapped);
+
+  created.limit = fromCents(created.limit);
+
+  return created;
 };
 
 export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
@@ -75,7 +84,7 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
         categoryId: new Types.ObjectId(data.categoryId),
         year: data.year,
         month: dbMonth,
-        limit: data.limit,
+        limit: toCents(data.limit),
       });
     }
   }
@@ -84,7 +93,13 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
     throw ApiError.badRequest('No new budgets to create - all already exist');
   }
 
-  return budgetRepository.insertMany(budgets);
+  const created = await budgetRepository.insertMany(budgets);
+
+  return created.map(b => {
+    b.limit = fromCents(b.limit);
+
+    return b;
+  });
 };
 
 export const update = async (id: string, data: UpdateBudgetDTO, userId: string) => {
@@ -100,7 +115,7 @@ export const update = async (id: string, data: UpdateBudgetDTO, userId: string) 
 
   const mapped: Partial<IBudget> = {};
 
-  if (data.limit !== undefined) mapped.limit = data.limit;
+  if (data.limit !== undefined) mapped.limit = toCents(data.limit);
 
   const updated = await budgetRepository.updateById(id, mapped, userId);
 
@@ -108,7 +123,7 @@ export const update = async (id: string, data: UpdateBudgetDTO, userId: string) 
     throw ApiError.internal('Unexpected error updating budget');
   }
 
-  return updated;
+  return { ...updated, limit: fromCents(updated.limit) };
 };
 
 export const deleteBudget = async (id: string, userId: string) => {
@@ -128,5 +143,5 @@ export const deleteBudget = async (id: string, userId: string) => {
     throw ApiError.internal('Unexpected error deleting budget');
   }
 
-  return deleted;
+  return { ...deleted, limit: fromCents(deleted.limit) };
 };

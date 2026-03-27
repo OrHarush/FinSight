@@ -8,3 +8,4 @@ export * from './types/colors';
 export * from './types/defaultCategories';
 export * from './types/FeedbackCommands';
 export * from './types/Role';
+export * from './utils/money';
