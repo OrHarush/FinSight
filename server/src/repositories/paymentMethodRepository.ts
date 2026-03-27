@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
 
@@ -42,4 +42,5 @@ export const findAnother = async (userId: string, excludeId: string) =>
 export const remove = async (id: string, userId: string) =>
   PaymentMethod.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const deleteMany = (filter: object) => PaymentMethod.deleteMany(filter);
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  PaymentMethod.deleteMany(filter).session(session ?? null);

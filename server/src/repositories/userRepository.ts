@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import User, { IUser } from '../models/User';
 
@@ -20,7 +20,8 @@ export const saveUser = async (user: any): Promise<IUser> => user.save();
 export const updateLastLogin = async (userId: string) =>
   User.findByIdAndUpdate(userId, { lastLoginAt: new Date() }, { new: true });
 
-export const deleteUserById = (id: string) => User.findByIdAndDelete(id);
+export const deleteUserById = (id: string, session?: ClientSession) =>
+  User.findByIdAndDelete(id).session(session ?? null);
 
 export const countAll = async (): Promise<number> => User.countDocuments();
 

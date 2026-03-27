@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import Transaction, { ITransaction } from '../models/Transaction';
 import { GetTransactionsOptions } from '../schemas/transactionSchemas';
@@ -63,7 +63,8 @@ export const remove = async (id: string, userId: string) =>
     .lean<ITransactionPopulated>()
     .exec();
 
-export const deleteMany = (filter: object) => Transaction.deleteMany(filter);
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  Transaction.deleteMany(filter).session(session ?? null);
 
 export const countByAccountId = async (userId: string, accountId: string) =>
   Transaction.countDocuments({

@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import Account, { IAccount } from '../models/Account';
 
@@ -51,4 +51,5 @@ export const unsetPrimary = async (userId: string, excludeId?: string) => {
   return Account.updateMany(query, { $set: { isPrimary: false } });
 };
 
-export const deleteMany = (filter: object) => Account.deleteMany(filter);
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  Account.deleteMany(filter).session(session ?? null);

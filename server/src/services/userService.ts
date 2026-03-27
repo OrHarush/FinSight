@@ -72,15 +72,12 @@ export const deleteUserCompletely = async (userId: string) => {
   session.startTransaction();
 
   try {
-    await Promise.all([
-      deleteTransactions({ userId: userId }),
-      deleteAccounts({ userId: userId }),
-      deleteCategories({ userId: userId }),
-      paymentMethodRepository.deleteMany({ userId: userId }),
-      deleteBudgets({ userId: userId }),
-    ]);
-
-    await deleteUserById(userId);
+    await deleteTransactions({ userId: userId }, session);
+    await deleteAccounts({ userId: userId }, session);
+    await deleteCategories({ userId: userId }, session);
+    await paymentMethodRepository.deleteMany({ userId: userId }, session);
+    await deleteBudgets({ userId: userId }, session);
+    await deleteUserById(userId, session);
 
     await session.commitTransaction();
     await session.endSession();

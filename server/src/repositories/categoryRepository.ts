@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import Category, { ICategory } from '../models/Category';
 
@@ -29,4 +29,5 @@ export const updateById = async (id: string, data: Partial<ICategory>, userId: s
 export const remove = async (id: string, userId: string) =>
   Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const deleteMany = (filter: object) => Category.deleteMany(filter);
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  Category.deleteMany(filter).session(session ?? null);

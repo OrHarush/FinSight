@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import Budget, { IBudget } from '../models/Budget';
 
@@ -62,4 +62,5 @@ export const remove = async (id: string, userId: string) =>
     .lean<IBudget>()
     .exec();
 
-export const deleteMany = (filter: object) => Budget.deleteMany(filter);
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  Budget.deleteMany(filter).session(session ?? null);
