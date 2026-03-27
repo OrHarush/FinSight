@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { createContext, ReactNode,useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
@@ -60,8 +60,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('user', JSON.stringify(data));
       setIsLoadingUser(false);
     },
-    onError: () => {
-      logout();
+    onError: error => {
+      if (error?.status === 401 || error?.status === 404) {
+        logout();
+      }
       setIsLoadingUser(false);
     },
   });
@@ -103,7 +105,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoadingUser, token, loginWithGoogle, logout, updateUser }}>
+    <AuthContext.Provider
+      value={{ user, isLoadingUser, token, loginWithGoogle, logout, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

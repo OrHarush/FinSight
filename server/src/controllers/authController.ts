@@ -86,66 +86,6 @@ export const googleLogin = async (req: Request, res: Response) => {
   }
 };
 
-// export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
-//   const { token } = req.body;
-//
-//   if (!token) {
-//     throw ApiError.badRequest('Google token is required');
-//   }
-//
-//   const ticket = await googleClient.verifyIdToken({
-//     idToken: token,
-//     audience: process.env.GOOGLE_CLIENT_ID,
-//   });
-//
-//   const payload = ticket.getPayload();
-//
-//   if (!payload) {
-//     throw ApiError.unauthorized('Invalid Google token');
-//   }
-//
-//   const { email, name, picture, sub } = payload;
-//
-//   const user = await loginOrRegister({
-//     provider: 'google',
-//     providerId: sub!,
-//     email: email!,
-//     name: name || '',
-//     picture,
-//   });
-//
-//   await updateLastUserLogin(user._id);
-//
-//   const appToken = jwt.sign(
-//     {
-//       userId: user._id.toString(),
-//       role: user.role,
-//     },
-//     JWT_SECRET,
-//     {
-//       algorithm: 'HS256',
-//       expiresIn: '7d',
-//       issuer: JWT_ISSUER,
-//       audience: JWT_AUDIENCE,
-//       subject: user._id.toString(),
-//     }
-//   );
-//
-//   const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
-//
-//   console.log({
-//     token: appToken,
-//     user,
-//     showTerms,
-//   });
-//
-//   return ApiResponse.ok(res, {
-//     token: appToken,
-//     user,
-//     showTerms,
-//   });
-// });
-
 export const acceptTerms = asyncHandler(async (req: Request, res: Response) => {
   if (!req.userId) {
     throw ApiError.unauthorized('Unauthorized');
