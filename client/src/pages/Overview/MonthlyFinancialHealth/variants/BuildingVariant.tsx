@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-
 const TOTAL_PIPS = 7;
 
 interface BuildingVariantProps {
@@ -15,18 +14,20 @@ const BuildingVariant = ({ uniqueSpendingDays, daysUntilReady }: BuildingVariant
   const { t } = useTranslation('overview');
 
   return (
-    <Column spacing={2} height="100%" justifyContent="center">
-      <Column spacing={0.25}>
-        <Typography variant="h5" color="text.secondary">
-          {t('buildingPattern.title')}
-        </Typography>
-        <Typography variant="subtitle1" color="text.disabled">
-          {t('buildingPattern.value')}
-        </Typography>
+    <Column spacing={4} height="100%">
+      <Column spacing={1}>
+        <Column spacing={0.25}>
+          <Typography variant="h5" color="text.secondary">
+            {t('buildingPattern.title')}
+          </Typography>
+          <Typography variant="subtitle1" color="text.disabled">
+            {t('buildingPattern.value')}
+          </Typography>
+        </Column>
+        <Divider />
       </Column>
-      <Divider />
-      <Column spacing={1.5}>
-        <Row spacing={0.75}>
+      <Column height={'100%'} spacing={1.5} justifyContent={'center'}>
+        <Row spacing={1} width={'100%'}>
           {Array.from({ length: TOTAL_PIPS }, (_, i) => (
             <Box
               key={i}

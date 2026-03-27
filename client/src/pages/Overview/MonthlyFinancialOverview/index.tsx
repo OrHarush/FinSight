@@ -1,7 +1,7 @@
 import SavingsIcon from '@mui/icons-material/Savings';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import { Card, Divider, Grid } from '@mui/material';
+import { Card, Divider, Grid, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -9,7 +9,6 @@ import Row from '@/components/shared/layout/containers/Row';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
 import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHeadline';
 import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
@@ -20,7 +19,9 @@ import { TransactionSummaryDto } from '@/types/Transaction';
 const MonthlyFinancialOverview = () => {
   const { t } = useTranslation('overview');
   const { year, month, account } = useOverviewFilters();
-  const isMobile = useIsMobile();
+  const theme = useTheme();
+
+  const isNotPC = useMediaQuery(theme.breakpoints.down('lg'));
 
   const { data, isLoading } = useFetch<TransactionSummaryDto>({
     url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id),
@@ -64,7 +65,7 @@ const MonthlyFinancialOverview = () => {
                 label={t('general.expenses')}
                 color="error"
               />
-              {!isMobile && (
+              {!isNotPC && (
                 <OverviewMetric
                   icon={SavingsIcon}
                   value={net}

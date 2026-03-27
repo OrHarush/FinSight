@@ -28,10 +28,10 @@
     "detail": "Add transactions for this month to unlock insights"
   },
   "buildingPattern": {
-    "title": "Spending Pattern",
-    "value": "Building your pattern",
-    "description_one": "Track transactions for {{count}} more day to unlock your spending insights.",
-    "description_other": "Track transactions for {{count}} more days to unlock your spending insights."
+    "title": "Spending Insights",
+    "value": "Analyzing your spending",
+    "description_one": "Not enough data yet. Add transactions on {{count}} more distinct day to build accurate insights.",
+    "description_other": "Not enough data yet. Add transactions on {{count}} more distinct days to build accurate insights."
   },
   "noIncome": {
     "title": "No income this month",
