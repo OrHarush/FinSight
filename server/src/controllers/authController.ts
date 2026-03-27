@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { acceptTermsService, googleLoginService } from '../services/authService';
+import { acceptTermsService, devLoginService, googleLoginService } from '../services/authService';
 import { getCurrentUserById } from '../services/userService';
 import { ApiResponse } from '../utils/ApiResponse';
 import { asyncHandler } from '../utils/asyncHandler';
@@ -13,6 +13,12 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
 
 export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
   const result = await googleLoginService(req.body.token);
+
+  return res.json(result);
+});
+
+export const devLogin = asyncHandler(async (_req: Request, res: Response) => {
+  const result = await devLoginService();
 
   return res.json(result);
 });

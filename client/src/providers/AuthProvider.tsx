@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
+import api from '@/api/axios';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
@@ -49,6 +50,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setIsLoadingUser(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.env.VITE_DEV_AUTH_BYPASS !== 'true') {
+      return;
+    }
+
+    if (localStorage.getItem('token')) {
+      return;
+    }
+
+    api
+      .post<{ token: string; user: UserDto }>(API_ROUTES.AUTH.DEV_LOGIN)
+      .then(({ data }) => {
+        setUser(data.user);
+        setToken(data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', data.token);
+      })
+      .catch(() => setIsLoadingUser(false));
   }, []);
 
   useFetch<UserDto>({

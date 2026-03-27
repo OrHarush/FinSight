@@ -92,6 +92,36 @@ export const acceptTermsService = async ({ userId, locale, ip, userAgent }: Acce
     version: CURRENT_TERMS_VERSION,
   });
 
+export const devLoginService = async () => {
+  const email = process.env.DEV_AUTH_BYPASS_EMAIL;
+
+  if (!email) {
+    throw ApiError.badRequest('DEV_AUTH_BYPASS_EMAIL is not set');
+  }
+
+  const user = await findByEmail(email);
+
+  if (!user) {
+    throw ApiError.notFound(`Dev bypass user not found: ${email}`);
+  }
+
+  const token = jwt.sign(
+    { userId: user._id.toString(), role: user.role },
+    JWT_SECRET,
+    {
+      algorithm: 'HS256',
+      expiresIn: '7d',
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
+      subject: user._id.toString(),
+    }
+  );
+
+  const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
+
+  return { token, user, showTerms };
+};
+
 export const googleLoginService = async (googleToken: string) => {
   if (!googleToken) {
     throw ApiError.badRequest('Google token is required');

@@ -29,12 +29,15 @@ const CurrencyText = ({
       style: 'currency',
       currency: resolvedCurrency,
       currencyDisplay: 'symbol',
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
     })
     .replace(/\s+/g, '');
 
   const color = value >= 0 ? 'success.main' : 'error.main';
   const suffix = formattedCurrency.replace(/[\d,.\s\-\u200f\u200e\u202a-\u202e]/g, '').trim();
+
+  console.log(value);
+  console.log(formattedCurrency);
 
   return (
     <Typography

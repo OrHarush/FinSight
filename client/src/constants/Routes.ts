@@ -20,6 +20,7 @@ export const API_ROUTES = {
     GOOGLE_LOGIN: '/api/auth/google-login',
     ACCEPT_TERMS: '/api/auth/accept-terms',
     ME: '/api/auth/me',
+    DEV_LOGIN: '/api/auth/dev-login',
   },
 
   FEEDBACK: '/api/feedback',
