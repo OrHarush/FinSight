@@ -28,15 +28,16 @@ const AdvancedSettingsSection = () => {
           py: 1,
         }}
       >
-        <Row alignItems="center" justifyContent="space-between">
+        <Row
+          alignItems="center"
+          justifyContent="space-between"
+          onClick={() => setIsExpanded(prev => !prev)}
+          sx={{ cursor: 'pointer' }}
+        >
           <Typography variant="body2" color="text.secondary">
             {t('fields.advancedSettings')}
           </Typography>
-          <IconButton
-            onClick={() => setIsExpanded(prev => !prev)}
-            size="small"
-            sx={{ width: 24, height: 24, minWidth: 24, minHeight: 24 }}
-          >
+          <IconButton size="small" sx={{ width: 24, height: 24, minWidth: 24, minHeight: 24 }}>
             {isExpanded ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
           </IconButton>
         </Row>
