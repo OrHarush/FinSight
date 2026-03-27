@@ -1,3 +1,7 @@
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
+
+import { ApiError } from '../errors/ApiError';
 import { IUser } from '../models/User';
 import {
   acceptTerms,
@@ -9,6 +13,12 @@ import {
 } from '../repositories/userRepository';
 import { recordLoginEvent } from './adminService';
 import { createDefaultEntitiesForNewUser } from './userService';
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_ISSUER = process.env.JWT_ISSUER as string;
+const JWT_AUDIENCE = process.env.JWT_AUDIENCE as string;
 
 interface AuthPayload {
   provider: string;
@@ -81,3 +91,48 @@ export const acceptTermsService = async ({ userId, locale, ip, userAgent }: Acce
     userAgent,
     version: CURRENT_TERMS_VERSION,
   });
+
+export const googleLoginService = async (googleToken: string) => {
+  if (!googleToken) {
+    throw ApiError.badRequest('Google token is required');
+  }
+
+  const ticket = await googleClient.verifyIdToken({
+    idToken: googleToken,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+
+  const payload = ticket.getPayload();
+
+  if (!payload) {
+    throw ApiError.unauthorized('Invalid Google token');
+  }
+
+  const { email, name, picture, sub } = payload;
+
+  const user = await loginOrRegister({
+    provider: 'google',
+    providerId: sub!,
+    email: email!,
+    name: name || '',
+    picture,
+  });
+
+  await updateLastUserLogin(user._id);
+
+  const token = jwt.sign(
+    { userId: user._id.toString(), role: user.role },
+    JWT_SECRET,
+    {
+      algorithm: 'HS256',
+      expiresIn: '7d',
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
+      subject: user._id.toString(),
+    }
+  );
+
+  const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
+
+  return { token, user, showTerms };
+};
