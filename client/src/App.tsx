@@ -1,6 +1,7 @@
 import { CssBaseline } from '@mui/material';
 
 import InstallPromptDialog from '@/components/InstallPromptDialog';
+import IosInstallGuideDialog from '@/components/IosInstallGuideDialog';
 import { ErrorBoundary } from '@/components/shared/feedback/ErrorBoundary';
 import { useOnlineStatus } from '@/hooks/common/useOnlineStatus';
 import OfflinePage from '@/pages/OfflinePage';
@@ -23,6 +24,7 @@ const App = () => {
       <AppProviders>
         <CssBaseline />
         <InstallPromptDialog />
+        <IosInstallGuideDialog />
         {/*<MobileConsole />*/}
         <AppRoutes />
       </AppProviders>

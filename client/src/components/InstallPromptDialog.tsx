@@ -1,80 +1,129 @@
-import GetAppIcon from '@mui/icons-material/GetApp';
+import BoltIcon from '@mui/icons-material/Bolt';
+import CloseIcon from '@mui/icons-material/Close';
+import DownloadIcon from '@mui/icons-material/Download';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import WifiOffIcon from '@mui/icons-material/WifiOff';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import finSightIconNoText from '@/assets/finSightIconNoText.webp';
+import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useInstallPrompt } from '@/hooks/useInstallPrompt';
 
 const InstallPromptDialog = () => {
   const { t } = useTranslation('common');
-  const { canShow, install } = useInstallPrompt();
-  const [isDismissed, setIsDismissed] = useState(false);
-
-  const isOpen = canShow && !isDismissed;
-
-  const dismissDialog = () => {
-    setIsDismissed(true);
-  };
+  const { canShow, install, dismiss } = useInstallPrompt();
 
   const handleInstall = async () => {
     await install();
-    setIsDismissed(true);
   };
-
-  if (!isOpen) {
-    return null;
-  }
 
   return (
     <Dialog
-      open={isOpen}
-      onClose={dismissDialog}
+      open={canShow}
+      onClose={dismiss}
       maxWidth="xs"
       fullWidth
       slotProps={{
         backdrop: {
           sx: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            backdropFilter: 'blur(1px)',
+            backgroundColor: 'rgba(0, 0, 0, 0.55)',
+            backdropFilter: 'blur(2px)',
           },
         },
       }}
       sx={{
         '& .MuiDialog-paper': {
-          borderRadius: '12px',
-          paddingY: 1,
-          paddingX: 1,
+          borderRadius: '16px',
+          p: 0,
+          overflow: 'hidden',
+          width: '400px',
+          maxWidth: '400px',
         },
       }}
     >
-      <DialogTitle>
-        <Row spacing={1} alignItems="center">
-          <GetAppIcon sx={{ fontSize: 26, color: 'primary.main' }} />
-          <Typography variant="h6" fontWeight={600} fontSize="1.1rem">
+      <IconButton
+        onClick={dismiss}
+        size="small"
+        sx={theme => ({
+          position: 'absolute',
+          right: 10,
+          top: 10,
+          color: theme.palette.grey[500],
+          zIndex: 1,
+        })}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+      <DialogTitle sx={{ pb: 1, pt: 2.5, px: 2.5, textAlign: 'center' }}>
+        <Column spacing={1} alignItems="center">
+          <Box
+            sx={{
+              width: 56,
+              height: 56,
+              borderRadius: '14px',
+              background: 'linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 14px rgba(124, 58, 237, 0.45)',
+            }}
+          >
+            <Box
+              component="img"
+              src={finSightIconNoText}
+              alt="FinSight"
+              sx={{ width: 36, height: 36, objectFit: 'contain' }}
+            />
+          </Box>
+          <Typography variant="h6" fontWeight={700} fontSize="1.05rem" lineHeight={1.2}>
             {t('installPrompt.title')}
           </Typography>
-        </Row>
+        </Column>
       </DialogTitle>
-
-      <DialogContent>
-        <Typography variant="body2" color="text.secondary">
-          {t('installPrompt.body')}
-        </Typography>
+      <DialogContent sx={{ px: 3, pt: 0.5, pb: 1, display: 'flex', justifyContent: 'center' }}>
+        <Column spacing={1.25} sx={{ width: 'fit-content' }}>
+          <Row spacing={1.5} alignItems="center">
+            <BoltIcon sx={{ fontSize: 20, color: 'primary.main', flexShrink: 0 }} />
+            <Typography variant="body2" color="text.secondary">
+              {t('installPrompt.reasons.speed')}
+            </Typography>
+          </Row>
+          <Row spacing={1.5} alignItems="center">
+            <PhoneAndroidIcon sx={{ fontSize: 20, color: 'primary.main', flexShrink: 0 }} />
+            <Typography variant="body2" color="text.secondary">
+              {t('installPrompt.reasons.accessibility')}
+            </Typography>
+          </Row>
+          <Row spacing={1.5} alignItems="center">
+            <WifiOffIcon sx={{ fontSize: 20, color: 'text.disabled', flexShrink: 0 }} />
+            <Typography variant="body2" color="text.disabled" sx={{ flexShrink: 1 }}>
+              {t('installPrompt.reasons.offline')}
+            </Typography>
+          </Row>
+        </Column>
       </DialogContent>
-
-      <DialogActions sx={{ px: 2, pb: 1 }}>
-        <Button onClick={dismissDialog} color="inherit">
+      <DialogActions sx={{ px: 2.5, pb: 2.5, pt: 1, gap: 1, justifyContent: 'center' }}>
+        <Button onClick={dismiss} color="inherit" size="small" sx={{ borderRadius: '8px' }}>
           {t('installPrompt.later')}
         </Button>
-        <Button onClick={handleInstall} variant="contained" startIcon={<GetAppIcon />}>
+        <Button
+          onClick={handleInstall}
+          variant="contained"
+          size="small"
+          startIcon={<DownloadIcon />}
+          sx={{ borderRadius: '8px' }}
+        >
           {t('installPrompt.install')}
         </Button>
       </DialogActions>

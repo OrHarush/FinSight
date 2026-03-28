@@ -82,11 +82,40 @@
   "fields": {
     "optional": "optional"
   },
+  "iosInstallGuide": {
+    "title": "Add FinSight to home screen",
+    "subtitle": "4 quick steps",
+    "steps": {
+      "step1": {
+        "title": "Tap the Share button",
+        "subtitle": "Square with arrow, bottom of Safari"
+      },
+      "step2": {
+        "title": "Scroll down in the menu",
+        "subtitle": "Swipe up on the share sheet"
+      },
+      "step3": {
+        "title": "Tap \"Add to Home Screen\"",
+        "subtitle": "You may need to scroll"
+      },
+      "step4": {
+        "title": "Tap \"Add\" to confirm",
+        "subtitle": "FinSight appears on home screen"
+      }
+    },
+    "tip": "Once added, open FinSight directly from your home screen like a regular app",
+    "dismiss": "Got it",
+    "action": "Start now"
+  },
   "installPrompt": {
-    "title": "Install App",
-    "body": "Install FinSight on your home screen for quick access and a full app experience.",
-    "later": "Later",
-    "install": "Install"
+    "title": "Install FinSight",
+    "later": "Maybe later",
+    "install": "Install",
+    "reasons": {
+      "speed": "Instant access from your home screen",
+      "accessibility": "Faster loading, app-like experience",
+      "offline": "Works offline, access your data anytime (Coming soon)"
+    }
   },
   "feedback": {
     "title": "Send feedback",
