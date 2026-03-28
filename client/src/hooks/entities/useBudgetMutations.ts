@@ -7,7 +7,7 @@ import { API_ROUTES } from '@/constants/Routes';
 import { BudgetDto } from '@/types/Budget';
 
 type UpdateBudgetInput = UpdateBudgetDTO & { budgetId: string };
-type DeleteBudgetInput = { budgetId: string };
+type DeleteBudgetInput = { budgetId: string; year: number };
 
 export const useCreateBudget = () => {
   const queryClient = useQueryClient();
@@ -61,7 +61,7 @@ export const useUpdateBudget = () => {
       return response.data.data;
     },
     onSuccess: data => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.budgets(data.year, data.month) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.budgets(data.year) });
     },
   });
 };
@@ -71,14 +71,10 @@ export const useDeleteBudget = () => {
 
   return useMutation({
     mutationFn: async ({ budgetId }: DeleteBudgetInput) => {
-      const response = await axiosInstance.delete<{ success: boolean; data: BudgetDto }>(
-        `${API_ROUTES.BUDGETS}/${budgetId}`
-      );
-
-      return response.data.data;
+      await axiosInstance.delete(`${API_ROUTES.BUDGETS}/${budgetId}`);
     },
-    onSuccess: data => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.budgets(data.year, data.month) });
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.budgets(variables.year) });
     },
   });
 };

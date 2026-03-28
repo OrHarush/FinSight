@@ -12,7 +12,9 @@
     "budgetUpdated": "התקציב עודכן בהצלחה",
     "budgetCreated": "התקציב נוצר בהצלחה",
     "budgetSetForYear": "התקציב הוגדר לשאר השנה",
-    "budgetSaveFailed": "נכשל בשמירת התקציב"
+    "budgetSaveFailed": "נכשל בשמירת התקציב",
+    "budgetDeleted": "התקציב נמחק בהצלחה",
+    "budgetDeleteFailed": "נכשל במחיקת התקציב"
   },
   "categories": {
     "title": "קטגוריות",

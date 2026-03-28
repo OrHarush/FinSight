@@ -11,6 +11,8 @@ import TransactionPreviewList from '@/components/features/transactions/Transacti
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useDeleteBudget } from '@/hooks/entities/useBudgetMutations';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 import { BudgetDto } from '@/types/Budget';
 import { CategoryDto } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
@@ -36,6 +38,8 @@ const BudgetCard = ({
   onEditBudget,
 }: BudgetCategoryRowProps) => {
   const { t } = useTranslation('budgets');
+  const { alertSuccess, alertError } = useSnackbar();
+  const getCategoryName = useCategoryName();
   const [isExpanded, setIsExpanded] = useState(false);
   const deleteBudget = useDeleteBudget();
 
@@ -47,7 +51,13 @@ const BudgetCard = ({
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    deleteBudget.mutate({ budgetId: budget._id });
+    deleteBudget.mutate(
+      { budgetId: budget._id, year: budget.year },
+      {
+        onSuccess: () => alertSuccess(t('messages.budgetDeleted')),
+        onError: () => alertError(t('messages.budgetDeleteFailed')),
+      }
+    );
   };
 
   const handleToggleExpand = (e: React.MouseEvent) => {
@@ -73,7 +83,7 @@ const BudgetCard = ({
               <BudgetProgressRow
                 budget={{
                   id: category._id,
-                  name: category.name,
+                  name: getCategoryName(category),
                   icon: category.icon,
                   color: category.color,
                   spent,

@@ -12,7 +12,9 @@
     "budgetUpdated": "Budget updated successfully",
     "budgetCreated": "Budget created successfully",
     "budgetSetForYear": "Budget set for the rest of the year",
-    "budgetSaveFailed": "Failed to save budget"
+    "budgetSaveFailed": "Failed to save budget",
+    "budgetDeleted": "Budget deleted successfully",
+    "budgetDeleteFailed": "Failed to delete budget"
   },
   "categories": {
     "title": "Categories",

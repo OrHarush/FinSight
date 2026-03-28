@@ -32,12 +32,19 @@ export const queryKeys = {
   categories: () => ['categories'],
   category: (id: string) => ['categories', id],
 
-  budgets: (year: number, month?: number, categoryId?: string) => [
-    'budgets',
-    year,
-    month,
-    categoryId,
-  ],
+  budgets: (year: number, month?: number, categoryId?: string) => {
+    const key: (string | number)[] = ['budgets', year];
+
+    if (month !== undefined) {
+      key.push(month);
+    }
+
+    if (categoryId !== undefined) {
+      key.push(categoryId);
+    }
+
+    return key;
+  },
   budget: (id: string) => ['budgets', id],
 
   paymentMethods: () => ['paymentMethods'],
