@@ -5,7 +5,7 @@ import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import EmptyCategoriesChart from '@/pages/Overview/TopSpendingCategories/EmptyCategoriesChart';
 import TopCategoriesChart from '@/pages/Overview/TopSpendingCategories/TopCategoriesChart';
-import { getTopSpendingCategories } from '@/utils/categoryUtils';
+import { getTopSpendingCategories } from '@/utils/entities/category';
 
 const MAX_ITEMS = 5;
 

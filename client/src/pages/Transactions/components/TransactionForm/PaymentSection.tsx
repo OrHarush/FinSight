@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto, t: (key: string) => string) => {
   if (paymentMethod.name) {

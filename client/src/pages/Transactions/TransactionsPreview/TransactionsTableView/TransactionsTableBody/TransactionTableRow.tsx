@@ -12,9 +12,9 @@ import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { isToday } from '@/utils/dateUtils';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
-import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import { isToday } from '@/utils/date';
+import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getTransactionDisplayDate } from '@/utils/entities/transaction';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;

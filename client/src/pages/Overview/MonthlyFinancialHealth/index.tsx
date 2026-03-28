@@ -12,7 +12,7 @@ import NoDataVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/NoDa
 import NoIncomeVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/NoIncomeVariant';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
-import { countUniqueSpendingDays, splitExpenses } from '@/utils/transactionUtils';
+import { countUniqueSpendingDays, splitExpenses } from '@/utils/entities/transaction';
 
 const MonthlyFinancialHealth = () => {
   const { year, month, account } = useOverviewFilters();

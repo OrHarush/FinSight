@@ -181,11 +181,11 @@ const submitCreate = async (data: BudgetFormValues) => {
 **Transaction** follows the same pattern — `TransactionFormSchema` uses
 `category`, `account`, `fromAccount`, `toAccount`; the API schema uses
 `categoryId`, `accountId`, `fromAccountId`, `toAccountId`.
-`mapTransactionFormValuesToPayload()` in `client/src/utils/transactionUtils.ts`
+`mapTransactionFormValuesToPayload()` in `client/src/utils/transaction.ts`
 handles the transform.
 
 **PaymentMethod** uses `PaymentMethodFormSchema` (aliased from `CreatePaymentMethodSchema`)
-for both create and edit dialogs. The mapper in `client/src/utils/paymentMethodUtils.ts`
+for both create and edit dialogs. The mapper in `client/src/utils/paymentMethod.ts`
 strips fields that are not applicable to the selected type (e.g. `billingDay` when type
 is not Credit Card) before sending to the API.
 

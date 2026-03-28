@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import MultiSelectChip from '@/components/shared/inputs/MultiSelectChip';
 import { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip/MultiSelectChipList';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 interface PaymentMethodFilterProps {
   selectedIds: string[];

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import { ROUTES } from '@/constants/Routes';
 import { useAuth } from '@/providers/AuthProvider';
-import { isAdmin } from '@/utils/envUtils';
+import { isAdmin } from '@/utils/env';
 
 interface GuardProps {
   children: ReactElement;

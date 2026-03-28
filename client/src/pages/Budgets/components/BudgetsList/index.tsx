@@ -6,7 +6,7 @@ import { useTransactions } from '@/hooks/entities/useTransactions';
 import BudgetCard from '@/pages/Budgets/components/BudgetsList/BudgetCard';
 import { BudgetDto } from '@/types/Budget';
 import { CategoryDto } from '@/types/Category';
-import { calculateCategorySpent,computePreviousMonth } from '@/utils/budgetUtils';
+import { calculateCategorySpent, computePreviousMonth } from '@/utils/entities/budget';
 
 interface BudgetsListProps {
   year: number;

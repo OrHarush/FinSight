@@ -12,7 +12,7 @@ import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/Trans
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
 import { SortableColumn, SortOrder, TransactionPageFormValues } from '@/types/Transaction';
-import { compareTransactions } from '@/utils/transactionUtils';
+import { compareTransactions } from '@/utils/entities/transaction';
 
 const TransactionsTableView = () => {
   const { t } = useTranslation('transactions');

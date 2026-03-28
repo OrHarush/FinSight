@@ -11,8 +11,8 @@ import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getCardStyles } from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/styles';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { isToday } from '@/utils/dateUtils';
-import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import { isToday } from '@/utils/date';
+import { getTransactionDisplayDate } from '@/utils/entities/transaction';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;

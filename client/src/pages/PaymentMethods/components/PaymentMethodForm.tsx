@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import TextInput from '@/components/shared/inputs/TextInput';
-import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 const PaymentMethodForm = () => {
   const { t } = useTranslation(['paymentMethods', 'common']);

@@ -10,7 +10,7 @@ import {
   SortOrder,
   TransactionDto,
 } from '@/types/Transaction';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 const buildTransactionPayload = (data: TransactionFormValues) => {
   const base = {
@@ -88,7 +88,7 @@ export const compareTransactions = (
 
 export const splitExpenses = (
   transactions: TransactionDto[],
-  accountId: string,
+  accountId: string
 ): { fixedExpenses: number; variableExpenses: number } => {
   let fixedExpenses = 0;
   let variableExpenses = 0;
@@ -114,7 +114,10 @@ export const splitExpenses = (
   return { fixedExpenses, variableExpenses };
 };
 
-export const countUniqueSpendingDays = (transactions: TransactionDto[], accountId: string): number => {
+export const countUniqueSpendingDays = (
+  transactions: TransactionDto[],
+  accountId: string
+): number => {
   const days = new Set<string>();
 
   for (const tx of transactions) {

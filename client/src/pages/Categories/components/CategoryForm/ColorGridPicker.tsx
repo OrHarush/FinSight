@@ -2,7 +2,7 @@ import { PRESET_COLORS } from '@finsight/shared';
 import CheckIcon from '@mui/icons-material/Check';
 import { Grid, IconButton } from '@mui/material';
 
-import { getContrastColor } from '@/utils/colorUtils';
+import { getContrastColor } from '@/utils/color';
 
 interface ColorGridPickerProps {
   value?: string;

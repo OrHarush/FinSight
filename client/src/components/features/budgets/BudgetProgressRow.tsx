@@ -6,8 +6,8 @@ import CategoryIconFrame from '@/components/features/categories/CategoryIconFram
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
-import { BudgetCategoryItem } from '@/utils/budgetUtils';
-import { getBudgetProgressColor } from '@/utils/colorUtils';
+import { getBudgetProgressColor } from '@/utils/color';
+import { BudgetCategoryItem } from '@/utils/entities/budget';
 
 interface BudgetProgressRowProps {
   budget: BudgetCategoryItem;

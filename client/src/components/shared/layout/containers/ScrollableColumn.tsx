@@ -3,7 +3,7 @@ import { StackOwnProps } from '@mui/material/Stack/Stack';
 import { ReactNode } from 'react';
 
 import Column from '@/components/shared/layout/containers/Column';
-import { getCustomScrollbarStyles } from '@/utils/scrollbarStyles';
+import { getCustomScrollbarStyles } from '@/components/shared/layout/containers/scrollbarStyles';
 
 interface ScrollableColumnProps extends StackOwnProps {
   children: ReactNode;

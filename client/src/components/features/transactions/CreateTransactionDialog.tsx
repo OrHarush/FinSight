@@ -17,7 +17,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { TransactionDto } from '@/types/Transaction';
-import { mapToCreatePayload } from '@/utils/transactionUtils';
+import { mapToCreatePayload } from '@/utils/entities/transaction';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];

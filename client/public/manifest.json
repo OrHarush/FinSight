@@ -10,9 +10,30 @@
   "icons": [
     {
       "src": "/maskable_icon.png",
-      "sizes": "512x512",
+      "sizes": "902x902",
       "type": "image/png",
-      "purpose": "any maskable any"
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable_icon.png",
+      "sizes": "902x902",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/desktop-dashboard.png",
+      "sizes": "1901x900",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Analyze your spending with FinSight"
+    },
+    {
+      "src": "/mobile-hero.png",
+      "sizes": "358x747",
+      "type": "image/png",
+      "label": "Track your money on the go"
     }
   ]
 }

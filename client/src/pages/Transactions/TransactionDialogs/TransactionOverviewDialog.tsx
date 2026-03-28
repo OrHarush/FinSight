@@ -21,7 +21,7 @@ import Row from '@/components/shared/layout/containers/Row';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
-import { getTransactionDisplayDate } from '@/utils/transactionUtils';
+import { getTransactionDisplayDate } from '@/utils/entities/transaction';
 
 interface TransactionDetailsModalProps {
   open: boolean;

@@ -9,7 +9,7 @@ import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import PaymentMethodCard from '@/pages/PaymentMethods/components/PaymentMethodCard';
 import PaymentMethodsSkeleton from '@/pages/PaymentMethods/components/PaymentMethodsSkeleton';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_GROUPS } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_GROUPS } from '@/utils/entities/paymentMethod';
 
 interface PaymentMethodsPageContentProps {
   selectPaymentMethod: (paymentMethod: PaymentMethodDto) => void;

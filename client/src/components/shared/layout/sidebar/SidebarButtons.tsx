@@ -26,7 +26,7 @@ import SidebarNavigationButton, {
 import SidebarSecondaryNavigation from '@/components/shared/layout/sidebar/SidebarSecondaryNavigation';
 import { ROUTES } from '@/constants/Routes';
 import { useAuth } from '@/providers/AuthProvider';
-import { isAdmin } from '@/utils/envUtils';
+import { isAdmin } from '@/utils/env';
 
 const SidebarButtons = () => {
   const { t } = useTranslation('sidebar');

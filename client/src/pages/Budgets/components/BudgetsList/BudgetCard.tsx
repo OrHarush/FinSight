@@ -14,7 +14,7 @@ import { useDeleteBudget } from '@/hooks/entities/useBudgetMutations';
 import { BudgetDto } from '@/types/Budget';
 import { CategoryDto } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
-import { computeBudgetUsagePercentChange } from '@/utils/budgetUtils';
+import { computeBudgetUsagePercentChange } from '@/utils/entities/budget';
 
 interface BudgetCategoryRowProps {
   category: CategoryDto;

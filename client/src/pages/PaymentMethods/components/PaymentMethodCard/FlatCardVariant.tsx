@@ -8,7 +8,7 @@ import FlatCardTypeIcon from '@/pages/PaymentMethods/components/PaymentMethodCar
 import PrimaryBadge from '@/pages/PaymentMethods/components/PaymentMethodCard/PrimaryBadge';
 import { getCardStyle } from '@/pages/PaymentMethods/components/PaymentMethodCard/styles';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/paymentMethodUtils';
+import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 interface FlatCardVariantProps {
   paymentMethod: PaymentMethodDto;

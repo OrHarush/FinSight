@@ -16,7 +16,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto, TransactionDto } from '@/types/Transaction';
-import { mapToUpdatePayload } from '@/utils/transactionUtils';
+import { mapToUpdatePayload } from '@/utils/entities/transaction';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
