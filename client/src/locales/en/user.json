@@ -26,7 +26,8 @@
     "faq": [
       {
         "question": "How do I add a transaction?",
-        "answer": "Go to the Transactions page and click the + button in the bottom right corner. Fill in the amount, category, and date, then save."
+        "answerMobile": "Tap the + button at the bottom of the Dashboard or Transactions page. It's always visible on both screens.",
+        "answerDesktop": "Click the Create Transaction button on the Dashboard or on the Transactions page. Fill in the amount, category, and date, then save."
       },
       {
         "question": "How do I create a budget?",
@@ -42,7 +43,7 @@
       },
       {
         "question": "How do I export my data?",
-        "answer": "Data export is coming soon. In the meantime, you can view summaries and trends on the Reports page."
+        "answer": "Data export is coming soon. In the meantime, you can view your transactions on the Transactions page and summaries on the Dashboard."
       }
     ]
   }

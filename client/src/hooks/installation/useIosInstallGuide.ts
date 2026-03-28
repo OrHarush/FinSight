@@ -1,12 +1,9 @@
 import { useCallback, useState } from 'react';
 
+import { isIosDevice, isRunningStandalone } from '@/utils/device';
+
 const DISMISSED_KEY = 'finsight_ios_guide_dismissed_at';
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
-
-const isIosDevice = (): boolean => /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-const isRunningStandalone = (): boolean =>
-  (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
 
 const wasRecentlyDismissed = (): boolean => {
   const raw = localStorage.getItem(DISMISSED_KEY);

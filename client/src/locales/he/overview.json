@@ -157,6 +157,6 @@
   "budgetWatch": {
     "title": "תקציבים",
     "noBudgets": "עדיין לא הוגדרו תקציבים",
-    "addBudgetCTA": "הוסף תקציב"
+    "addBudgetCTA": "הגדר תקציב"
   }
 }

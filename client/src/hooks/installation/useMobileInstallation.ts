@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const isMobileDevice = (): boolean =>
-  /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+import { isMobileDevice, isRunningStandalone } from '@/utils/device';
 
 const DISMISSED_KEY = 'finsight_install_dismissed_at';
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
@@ -35,9 +34,7 @@ interface UseInstallPromptResult {
 
 export const useMobileInstallation = (): UseInstallPromptResult => {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(
-    () => (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-  );
+  const [isInstalled, setIsInstalled] = useState(() => isRunningStandalone());
   const [isDismissed, setIsDismissed] = useState(() => wasRecentlyDismissed());
 
   useEffect(() => {
@@ -81,11 +78,6 @@ export const useMobileInstallation = (): UseInstallPromptResult => {
     localStorage.setItem(DISMISSED_KEY, String(Date.now()));
     setIsDismissed(true);
   }, []);
-
-  console.log(promptEvent);
-  console.log(isDismissed);
-  console.log(isInstalled);
-  console.log(isMobileDevice());
 
   return {
     canShow: promptEvent !== null && !isInstalled && !isDismissed && isMobileDevice(),

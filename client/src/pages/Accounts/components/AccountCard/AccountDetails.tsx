@@ -19,7 +19,7 @@ const AccountDetails = ({ account }: AccountDetailsProps) => {
         <Typography variant="body2" color="text.secondary">
           {t('details.openingBalance')}:
         </Typography>
-        <CurrencyText fontWeight={600} value={account.balance} />
+        <CurrencyText fontWeight={600} value={account.balance} currency={account.currency} />
       </Row>
       <Row justifyContent="space-between">
         <Typography variant="body2" color="text.secondary">

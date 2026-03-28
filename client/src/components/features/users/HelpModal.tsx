@@ -14,15 +14,27 @@ import { useTranslation } from 'react-i18next';
 
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import Column from '@/components/shared/layout/containers/Column';
+import { isMobileDevice } from '@/utils/device';
 
 const CONTACT_EMAIL = 'hello@finsight-app.com';
 
 const HelpModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');
+  const isMobile = isMobileDevice();
   const faqItems = t('helpModal.faq', { returnObjects: true }) as Array<{
     question: string;
-    answer: string;
+    answer?: string;
+    answerMobile?: string;
+    answerDesktop?: string;
   }>;
+
+  const resolveAnswer = (item: (typeof faqItems)[number]) => {
+    if (item.answerMobile && item.answerDesktop) {
+      return isMobile ? item.answerMobile : item.answerDesktop;
+    }
+
+    return item.answer ?? '';
+  };
 
   return (
     <FinSightDialog
@@ -53,14 +65,12 @@ const HelpModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="body2" color="text.secondary">
-                  {item.answer}
+                  {resolveAnswer(item)}
                 </Typography>
               </AccordionDetails>
             </Accordion>
           ))}
-
           <Divider />
-
           <Button
             variant="text"
             startIcon={<EmailOutlinedIcon />}

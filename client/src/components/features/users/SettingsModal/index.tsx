@@ -1,7 +1,5 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
-  Box,
   Button,
   DialogActions,
   DialogContent,
@@ -16,6 +14,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import DangerZone from '@/components/features/users/SettingsModal/DangerZone';
 import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -38,9 +37,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const [isDeletionDialogOpen, openDeletionDialog, closeDeletionDialog] = useOpen();
 
-  const [selectedCurrency, setSelectedCurrency] = useState(
-    user?.displayCurrency ?? 'ILS'
-  );
+  const [selectedCurrency, setSelectedCurrency] = useState(user?.displayCurrency ?? 'ILS');
 
   const updatePreferences = useApiMutation<UserDto, UpdatePreferencesDto>({
     method: 'patch',
@@ -107,7 +104,14 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
         <DialogContent sx={{ py: 1 }}>
           <Column spacing={3} sx={{ pt: 1 }}>
             <Column spacing={1.5}>
-              <Typography variant="subtitle2" fontWeight={600} color="text.secondary" textTransform="uppercase" fontSize="0.7rem" letterSpacing={0.8}>
+              <Typography
+                variant="subtitle2"
+                fontWeight={600}
+                color="text.secondary"
+                textTransform="uppercase"
+                fontSize="0.7rem"
+                letterSpacing={0.8}
+              >
                 {t('settingsModal.general')}
               </Typography>
               <FormControl fullWidth size="small">
@@ -127,43 +131,8 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                 <FormHelperText>{t('settingsModal.currencyHelper')}</FormHelperText>
               </FormControl>
             </Column>
-
             <Divider />
-
-            <Column spacing={1.5}>
-              <Typography variant="subtitle2" fontWeight={600} color="error.main" textTransform="uppercase" fontSize="0.7rem" letterSpacing={0.8}>
-                {t('settingsModal.dangerZone')}
-              </Typography>
-              <Box
-                sx={{
-                  border: '1px solid',
-                  borderColor: 'error.main',
-                  borderRadius: 1,
-                  p: 2,
-                }}
-              >
-                <Row alignItems="center" justifyContent="space-between" spacing={2}>
-                  <Column spacing={0.5}>
-                    <Typography variant="body2" fontWeight={600}>
-                      {t('settingsModal.deleteAccount')}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {t('deleteDialog.description')}
-                    </Typography>
-                  </Column>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                    startIcon={<DeleteOutlineIcon />}
-                    onClick={openDeletionDialog}
-                    sx={{ flexShrink: 0 }}
-                  >
-                    {t('settingsModal.deleteAccount')}
-                  </Button>
-                </Row>
-              </Box>
-            </Column>
+            <DangerZone openDeletionDialog={openDeletionDialog} />
           </Column>
         </DialogContent>
         <DialogActions>

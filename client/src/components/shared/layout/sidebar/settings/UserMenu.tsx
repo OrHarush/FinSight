@@ -1,7 +1,7 @@
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Divider, ListItemIcon,Menu, MenuItem, Typography } from '@mui/material';
+import { Divider, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import HelpModal from '@/components/features/users/HelpModal';
@@ -95,13 +95,9 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
         </MenuItem>
       </Menu>
 
-      {isSettingsOpen && (
-        <SettingsModal isOpen={isSettingsOpen} closeDialog={closeSettings} />
-      )}
+      {isSettingsOpen && <SettingsModal isOpen={isSettingsOpen} closeDialog={closeSettings} />}
 
-      {isHelpOpen && (
-        <HelpModal isOpen={isHelpOpen} closeDialog={closeHelp} />
-      )}
+      {isHelpOpen && <HelpModal isOpen={isHelpOpen} closeDialog={closeHelp} />}
     </>
   );
 };
