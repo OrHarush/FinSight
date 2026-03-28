@@ -83,6 +83,12 @@
   "fields": {
     "optional": "אופציונלי"
   },
+  "installPrompt": {
+    "title": "התקן את האפליקציה",
+    "body": "התקן את FinSight על המסך הראשי שלך לגישה מהירה וחוויה מלאה.",
+    "later": "אחר כך",
+    "install": "התקן"
+  },
   "feedback": {
     "title": "שליחת משוב",
     "fields": {

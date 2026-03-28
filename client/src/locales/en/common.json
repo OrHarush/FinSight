@@ -82,6 +82,12 @@
   "fields": {
     "optional": "optional"
   },
+  "installPrompt": {
+    "title": "Install App",
+    "body": "Install FinSight on your home screen for quick access and a full app experience.",
+    "later": "Later",
+    "install": "Install"
+  },
   "feedback": {
     "title": "Send feedback",
     "fields": {

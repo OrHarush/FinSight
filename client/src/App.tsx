@@ -1,5 +1,6 @@
 import { CssBaseline } from '@mui/material';
 
+import InstallPromptDialog from '@/components/InstallPromptDialog';
 import { ErrorBoundary } from '@/components/shared/feedback/ErrorBoundary';
 import { useOnlineStatus } from '@/hooks/common/useOnlineStatus';
 import OfflinePage from '@/pages/OfflinePage';
@@ -21,6 +22,7 @@ const App = () => {
     <ErrorBoundary>
       <AppProviders>
         <CssBaseline />
+        <InstallPromptDialog />
         {/*<MobileConsole />*/}
         <AppRoutes />
       </AppProviders>
