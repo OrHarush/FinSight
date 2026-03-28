@@ -1,0 +1,17 @@
+{
+  "title": "Product Health",
+  "subtitle": "Internal usage metrics",
+  "kpi": {
+    "dau": "DAU",
+    "dauHint": "Users who logged in today",
+    "totalUsers": "Total Users",
+    "totalUsersHint": "Registered users in the system",
+    "activeLast7d": "Active (7d)",
+    "activeLast7dHint": "Unique users active in the last 7 days"
+  },
+  "activity": {
+    "title": "Recent Login Activity",
+    "empty": "No recent login activity",
+    "login": "Login"
+  }
+}

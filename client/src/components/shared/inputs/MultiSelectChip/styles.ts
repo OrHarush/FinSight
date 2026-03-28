@@ -1,9 +1,10 @@
 import { alpha, Theme } from '@mui/material';
 
-export const getActiveChipStyle = (isActive: boolean, theme: Theme) => ({
+export const getActiveChipStyle = (isMobile: boolean, isActive: boolean, theme: Theme) => ({
   cursor: 'pointer',
   height: '40px',
   borderRadius: '8px',
+  padding: isMobile ? 0 : '8px',
   borderColor: isActive ? theme.palette.primary.main : theme.palette.divider,
   color: isActive ? theme.palette.primary.main : theme.palette.text.primary,
   bgcolor: isActive ? alpha(theme.palette.primary.main, 0.12) : 'transparent',

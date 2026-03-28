@@ -12,8 +12,8 @@ const EXCLUDED_EMAILS = [
 
 export interface KpiOverview {
   dau: number;
-  avgLogins30d: number;
-  activeLast7dPercent: number;
+  totalUsers: number;
+  activeLast7d: number;
 }
 
 export const getKpiOverview = async (): Promise<KpiOverview> => {
@@ -23,22 +23,17 @@ export const getKpiOverview = async (): Promise<KpiOverview> => {
   startOfToday.setHours(0, 0, 0, 0);
 
   const since7d = new Date(now - 7 * DAY_MS);
-  const since30d = new Date(now - 30 * DAY_MS);
 
-  const [dau, avgLogins30d, activeUserIds, totalUsers] = await Promise.all([
+  const [dau, activeUserIds, totalUsers] = await Promise.all([
     userActivityRepository.countDistinctUsersSince(startOfToday),
-    userActivityRepository.avgLoginsPerUserSince(since30d),
     userActivityRepository.findDistinctActiveUserIdsSince(since7d),
     userRepository.countAll(),
   ]);
 
-  const activeLast7dPercent =
-    totalUsers === 0 ? 0 : Math.round((activeUserIds.length / totalUsers) * 100);
-
   return {
     dau,
-    avgLogins30d: Math.round(avgLogins30d * 100) / 100,
-    activeLast7dPercent,
+    totalUsers,
+    activeLast7d: activeUserIds.length,
   };
 };
 
@@ -46,17 +41,19 @@ export interface LoginEventDto {
   userId: string;
   username: string;
   occurredAt: Date;
+  picture?: string;
 }
 
 export const getLoginEvents = async (days: number): Promise<LoginEventDto[]> => {
   const since = new Date(Date.now() - days * DAY_MS);
 
-  const events = await userActivityRepository.findLoginEventsSince(since);
+  const events = await userActivityRepository.findLoginEventsWithPictureSince(since);
 
   return events.map((e) => ({
     userId: e.userId.toString(),
     username: e.userName,
     occurredAt: e.occurredAt,
+    picture: e.picture,
   }));
 };
 

@@ -2,7 +2,6 @@ import { Button, DialogContent, Typography } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import DeletionConfirmationDialog from '@/components/dialogs/deletion/DeletionConfirmationDialog';
 import FinSightDialog from '@/components/dialogs/FinSightDialog';
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import { queryKeys } from '@/constants/queryKeys';
@@ -11,8 +10,9 @@ import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
-import TransactionOverviewDialog from '@/pages/Transactions/TransactionDialogs/TransactionOverviewDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import DeleteTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteTransactionDialog';
+import TransactionOverviewDialog from '@/pages/Transactions/TransactionsDialogs/TransactionOverviewDialog';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
 interface TransactionDialogsProps {
@@ -108,7 +108,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
         />
       )}
       {!!selectedTransaction && transactionAction == 'delete' && (
-        <DeletionConfirmationDialog
+        <DeleteTransactionDialog
           isOpen={!!selectedTransaction}
           closeDialog={resetSelectedTransaction}
           onConfirm={() => {
@@ -118,7 +118,6 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
               });
             }
           }}
-          entityType="transaction"
         />
       )}
       {!!selectedTransaction && !transactionAction && (

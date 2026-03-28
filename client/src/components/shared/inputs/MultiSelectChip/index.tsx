@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MultiSelectChipList, {
   MultiSelectChipItem,
 } from '@/components/shared/inputs/MultiSelectChip/MultiSelectChipList';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 import { getActiveChipStyle, getPopoverPaperStyle } from './styles';
 
@@ -18,6 +19,7 @@ interface MultiSelectChipProps {
 const MultiSelectChip = ({ label, selectedIds, onChange, items, icon }: MultiSelectChipProps) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const isMobile = useIsMobile();
   const isActive = selectedIds.length > 0;
 
   const chipLabel = label;
@@ -45,7 +47,7 @@ const MultiSelectChip = ({ label, selectedIds, onChange, items, icon }: MultiSel
         icon={icon}
         variant="outlined"
         onClick={openChipMenu}
-        sx={getActiveChipStyle(isActive, theme)}
+        sx={getActiveChipStyle(isMobile, isActive, theme)}
       />
       <Popover
         open={Boolean(anchorEl)}

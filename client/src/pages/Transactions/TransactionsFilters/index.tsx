@@ -3,10 +3,10 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import Row from '@/components/shared/layout/containers/Row';
 import DateSelector from '@/components/shared/ui/DateSelector';
-import ClearFiltersChip from '@/pages/Transactions/TransactionFilters/ClearFiltersChip ';
-import TransactionFilterChips from '@/pages/Transactions/TransactionFilters/TransactionFilterChips';
-import TransactionSearchInput from '@/pages/Transactions/TransactionFilters/TransactionSearchInput';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import ClearFiltersChip from '@/pages/Transactions/TransactionsFilters/ClearFiltersChip ';
+import TransactionFilterChips from '@/pages/Transactions/TransactionsFilters/TransactionFilterChips';
+import TransactionSearchInput from '@/pages/Transactions/TransactionsFilters/TransactionSearchInput';
 
 const TransactionsFilters = () => {
   const theme = useTheme();

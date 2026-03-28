@@ -13,8 +13,8 @@ interface TransactionTableBodyProps {
 const TransactionTableBody = ({ transactions }: TransactionTableBodyProps) => (
   <TableBody>
     {transactions.length === 0 ? (
-      <TableRow>
-        <TableCell colSpan={7} align="center">
+      <TableRow sx={{ height: '100%' }}>
+        <TableCell colSpan={7} align="center" sx={{ verticalAlign: 'middle', border: 0 }}>
           <EntityEmpty entityName="transactions" icon={ReceiptLongIcon} />
         </TableCell>
       </TableRow>

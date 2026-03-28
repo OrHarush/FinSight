@@ -1,11 +1,12 @@
 export interface KpiOverviewDto {
   dau: number;
-  avgLogins30d: number;
-  activeLast7dPercent: number;
+  totalUsers: number;
+  activeLast7d: number;
 }
 
 export interface LoginEventDto {
   userId: string;
   username: string;
   occurredAt: string;
+  picture?: string;
 }

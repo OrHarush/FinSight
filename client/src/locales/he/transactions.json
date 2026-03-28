@@ -81,6 +81,10 @@
     "selectedPaymentMethods_other": "{{count}} אמצעי תשלום",
     "reset": "נקה סינון"
   },
+  "deleteDialog": {
+    "body": "האם אתה בטוח שברצונך למחוק את העסקה הזו?",
+    "irreversible": "לא ניתן לבטל פעולה זו."
+  },
   "messages": {
     "createSuccess": "העסקה נוצרה בהצלחה",
     "createError": "יצירת העסקה נכשלה",

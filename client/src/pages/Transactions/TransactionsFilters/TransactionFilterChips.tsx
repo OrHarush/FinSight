@@ -1,7 +1,7 @@
 import Row from '@/components/shared/layout/containers/Row';
-import AccountFilter from '@/pages/Transactions/TransactionFilters/AccountFilter';
-import CategoryFilter from '@/pages/Transactions/TransactionFilters/CategoryFilter';
-import PaymentMethodFilter from '@/pages/Transactions/TransactionFilters/PaymentMethodFilter';
+import AccountFilter from '@/pages/Transactions/TransactionsFilters/AccountFilter';
+import CategoryFilter from '@/pages/Transactions/TransactionsFilters/CategoryFilter';
+import PaymentMethodFilter from '@/pages/Transactions/TransactionsFilters/PaymentMethodFilter';
 
 interface TransactionFilterChipsProps {
   selectedCategoryIds: string[];

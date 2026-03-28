@@ -96,6 +96,7 @@ const TransactionsTableView = () => {
             stickyHeader
             aria-label="transactions table"
             sx={{
+              height: '100%',
               borderCollapse: 'separate',
               borderSpacing: 0,
               '& th': {

@@ -92,11 +92,13 @@ const SetupPanel = () => {
           </Column>
         </Card>
       </Column>
-      <CreateTransactionDialog
-        isOpen={isCreateDialogOpen}
-        closeDialog={closeCreateDialog}
-        initialType={selectedType}
-      />
+      {isCreateDialogOpen && (
+        <CreateTransactionDialog
+          isOpen={isCreateDialogOpen}
+          closeDialog={closeCreateDialog}
+          initialType={selectedType}
+        />
+      )}
     </>
   );
 };

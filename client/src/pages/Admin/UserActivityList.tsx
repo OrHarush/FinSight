@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
@@ -19,6 +20,8 @@ import { useFetch } from '@/hooks/common/useFetch';
 import { LoginEventDto } from '@/types/Admin';
 
 const UserActivityList = () => {
+  const { t } = useTranslation('admin');
+
   const { data, isLoading } = useFetch<LoginEventDto[]>({
     url: `${API_ROUTES.ADMIN}/activity`,
     queryKey: queryKeys.activity(),
@@ -27,7 +30,7 @@ const UserActivityList = () => {
   return (
     <Box sx={{ mt: 4 }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-        Recent Login Activity
+        {t('activity.title')}
       </Typography>
 
       <Paper variant="outlined" sx={{ borderRadius: 3 }}>
@@ -40,7 +43,7 @@ const UserActivityList = () => {
         ) : !data || data.length === 0 ? (
           <Box sx={{ p: 3 }}>
             <Typography variant="body2" color="text.secondary">
-              No recent login activity
+              {t('activity.empty')}
             </Typography>
           </Box>
         ) : (
@@ -50,6 +53,7 @@ const UserActivityList = () => {
                 <ListItem sx={{ px: 3, py: 1.5 }}>
                   <ListItemAvatar>
                     <Avatar
+                      src={event.picture}
                       sx={{
                         bgcolor: 'primary.soft',
                         color: 'primary.main',
@@ -68,7 +72,7 @@ const UserActivityList = () => {
                     secondary={
                       <Box sx={{ display: 'flex', gap: 1 }}>
                         <Typography variant="caption" color="text.secondary">
-                          Login
+                          {t('activity.login')}
                         </Typography>
                         <Typography variant="caption" color="text.disabled">
                           ·

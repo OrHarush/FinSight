@@ -4,9 +4,9 @@ import Column from '@/components/shared/layout/containers/Column';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import ActionFab from '@/components/shared/ui/ActionFab';
 import { useOpen } from '@/hooks/common/useOpen';
-import TransactionDialogs from '@/pages/Transactions/TransactionDialogs';
-import TransactionsFilters from '@/pages/Transactions/TransactionFilters';
 import { TransactionPageDataProvider } from '@/pages/Transactions/TransactionPageDataProvider';
+import TransactionDialogs from '@/pages/Transactions/TransactionsDialogs';
+import TransactionsFilters from '@/pages/Transactions/TransactionsFilters';
 import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 

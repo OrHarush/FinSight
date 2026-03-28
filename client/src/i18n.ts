@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
+import enAdmin from '@/locales/en/admin.json';
 import enAccounts from '@/locales/en/accounts.json';
 import enBudgets from '@/locales/en/budgets.json';
 import enCategories from '@/locales/en/categories.json';
@@ -17,6 +18,7 @@ import enSidebar from '@/locales/en/sidebar.json';
 import enTermsOfService from '@/locales/en/termsOfService.json';
 import enTransactions from '@/locales/en/transactions.json';
 import enUser from '@/locales/en/user.json';
+import heAdmin from '@/locales/he/admin.json';
 import heAccounts from '@/locales/he/accounts.json';
 import heBudgets from '@/locales/he/budgets.json';
 import heCategories from '@/locales/he/categories.json';
@@ -38,6 +40,7 @@ i18n
   .init({
     resources: {
       en: {
+        admin: enAdmin,
         common: enCommon,
         home: enHome,
         login: enLogin,
@@ -54,6 +57,7 @@ i18n
         chat: enChat,
       },
       he: {
+        admin: heAdmin,
         common: heCommon,
         home: heHome,
         login: heLogin,

@@ -75,6 +75,10 @@
     "selectedPaymentMethods_other": "{{count}} Payment Methods",
     "reset": "Clear filters"
   },
+  "deleteDialog": {
+    "body": "Are you sure you want to delete this transaction?",
+    "irreversible": "This action cannot be undone."
+  },
   "messages": {
     "createSuccess": "Transaction created successfully",
     "createError": "Failed to create transaction",
