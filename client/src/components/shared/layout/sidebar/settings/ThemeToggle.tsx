@@ -1,22 +1,34 @@
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material';
+import { IconButton, ToggleButton, ToggleButtonGroup, useTheme } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
+import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
 import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const ThemeToggle = () => {
   const { t } = useTranslation('sidebar');
   const { toggleColorMode } = useAppTheme();
   const theme = useTheme();
+  const { expanded } = useSidebar();
 
   const handleThemeChange = (event: React.MouseEvent<HTMLElement>, newMode: string | null) => {
     if (newMode !== null && newMode !== theme.palette.mode) {
       toggleColorMode();
     }
   };
+
+  if (!expanded) {
+    const isDark = theme.palette.mode === 'dark';
+
+    return (
+      <IconButton onClick={toggleColorMode} size="small">
+        {isDark ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
+      </IconButton>
+    );
+  }
 
   return (
     <ToggleButtonGroup

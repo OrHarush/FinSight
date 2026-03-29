@@ -2,10 +2,12 @@ import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import UserMenu from '@/components/shared/layout/sidebar/settings/UserMenu';
+import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
 import { useAuth } from '@/providers/AuthProvider';
 
 const UserAvatar = () => {
   const { user } = useAuth();
+  const { expanded } = useSidebar();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   if (!user) {
@@ -36,7 +38,7 @@ const UserAvatar = () => {
         <IconButton size="small" sx={{ p: 0 }}>
           <Avatar src={user.picture} alt={user.name} sx={{ border: '2px solid #9c88ff' }} />
         </IconButton>
-        <Typography>{user.name}</Typography>
+        {expanded && <Typography>{user.name}</Typography>}
       </Box>
       <UserMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
     </>

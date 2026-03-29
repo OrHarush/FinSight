@@ -1,5 +1,7 @@
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { Fab } from '@mui/material';
+import { useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Outlet } from 'react-router-dom';
 
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
@@ -9,9 +11,25 @@ import Sidebar from '@/components/shared/layout/sidebar';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useOpen } from '@/hooks/common/useOpen';
 
+export const useCurrentBreakpoint = () => {
+  const theme = useTheme();
+  const xl = useMediaQuery(theme.breakpoints.up('xl'));
+  const lg = useMediaQuery(theme.breakpoints.up('lg'));
+  const md = useMediaQuery(theme.breakpoints.up('md'));
+  const sm = useMediaQuery(theme.breakpoints.up('sm'));
+
+  if (xl) return 'xl';
+  if (lg) return 'lg';
+  if (md) return 'md';
+  if (sm) return 'sm';
+  return 'xs';
+};
+
 const AuthenticatedLayout = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
   const isMobile = useIsMobile();
+  const current = useCurrentBreakpoint();
+  console.log(current);
 
   return (
     <Row height={'100dvh'} width={'100%'} overflow={'hidden'}>
