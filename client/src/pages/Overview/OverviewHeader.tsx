@@ -63,7 +63,12 @@ const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
           ))}
         </TextField>
         {!isMobile && (
-          <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
+          <Button
+            variant={'contained'}
+            onClick={openCreateTransaction}
+            startIcon={<AddIcon />}
+            sx={{ width: '180px' }}
+          >
             {t('actions.create', { ns: 'transactions' })}
           </Button>
         )}

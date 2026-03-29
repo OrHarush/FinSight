@@ -32,7 +32,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
 
   if (isMobile) {
     return (
-      <Row width="220px" alignItems="center" justifyContent="space-between" spacing={1} dir={'ltr'}>
+      <Row width="220px" alignItems="center" justifyContent="space-between" dir={'ltr'}>
         <IconButton onClick={handlePrevMonth} size="small" color="primary">
           <ArrowBackIosNewIcon fontSize="small" />
         </IconButton>
