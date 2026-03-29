@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Button, MenuItem, TextField } from '@mui/material';
+import { Button, MenuItem, TextField, useMediaQuery, useTheme } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +7,6 @@ import AccountMenuItem from '@/components/features/accounts/AccountMenuItem';
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import PageHeader from '@/components/shared/layout/page/PageHeader';
 import DateSelector from '@/components/shared/ui/DateSelector';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 
@@ -17,7 +16,8 @@ interface OverviewHeaderProps {
 
 const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
   const { t } = useTranslation('overview');
-  const isMobile = useIsMobile();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { accounts } = useAccounts();
   const { date, setDate, account, setAccount } = useOverviewFilters();
 
@@ -30,7 +30,7 @@ const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
   };
 
   return (
-    <PageHeader entityName={'overview'}>
+    <PageHeader entityName={'overview'} breakPoint={'md'}>
       <ResponsiveRow spacing={2} alignItems="center">
         <DateSelector value={date} onChange={setDate} />
         <TextField
@@ -67,7 +67,7 @@ const OverviewHeader = ({ openCreateTransaction }: OverviewHeaderProps) => {
             variant={'contained'}
             onClick={openCreateTransaction}
             startIcon={<AddIcon />}
-            sx={{ width: '180px' }}
+            sx={{ width: '100%', minWidth: '140px', maxWidth: '180px' }}
           >
             {t('actions.create', { ns: 'transactions' })}
           </Button>

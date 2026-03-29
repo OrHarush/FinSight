@@ -18,7 +18,12 @@ const TransactionsHeader = ({ openCreateTransaction }: TransactionHeaderProps) =
     <PageHeader entityName={'transactions'}>
       {!isMobile && (
         <Row spacing={1} justifyItems={'flex-end'} alignItems={'flex-end'}>
-          <Button variant={'contained'} onClick={openCreateTransaction} startIcon={<AddIcon />}>
+          <Button
+            variant={'contained'}
+            onClick={openCreateTransaction}
+            startIcon={<AddIcon />}
+            sx={{ width: '180px' }}
+          >
             {t('actions.create')}
           </Button>
         </Row>

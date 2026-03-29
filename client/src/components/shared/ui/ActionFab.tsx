@@ -1,5 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Fab, SpeedDial, SpeedDialAction, SpeedDialIcon, useMediaQuery } from '@mui/material';
+import {
+  Breakpoint,
+  Fab,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  useMediaQuery,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { ReactNode } from 'react';
 
@@ -12,11 +19,12 @@ interface FabAction {
 interface ActionFabProps {
   actions?: FabAction[];
   onClick?: () => void;
+  breakpoint?: Breakpoint;
 }
 
-const ActionFab = ({ actions, onClick }: ActionFabProps) => {
+const ActionFab = ({ actions, onClick, breakpoint = 'sm' }: ActionFabProps) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down(breakpoint));
 
   if (!isMobile) {
     return null;

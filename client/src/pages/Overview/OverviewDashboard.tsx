@@ -41,7 +41,7 @@ const OverviewDashboard = () => {
           <TopSpendingCategories />
         </Grid>
       </Column>
-      <ActionFab onClick={openCreateTransaction} />
+      <ActionFab onClick={openCreateTransaction} breakpoint={'lg'} />
       {isCreateDialogOpen && (
         <CreateTransactionDialog
           isOpen={isCreateDialogOpen}
