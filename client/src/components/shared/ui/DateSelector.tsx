@@ -54,7 +54,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
       format="MMMM YYYY"
       slotProps={{
         textField: {
-          sx: { width: 185, height: 40 },
+          sx: { width: 185, minWidth: 160, height: 40 },
           size: 'small',
         },
       }}

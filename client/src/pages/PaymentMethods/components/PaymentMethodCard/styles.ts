@@ -5,6 +5,8 @@ export const CARD_HEIGHT = 120;
 export const getCardStyle = (isPrimary: boolean): SxProps<Theme> => ({
   height: CARD_HEIGHT,
   width: '100%',
+  minWidth: '200px',
+  maxWidth: '280px',
   overflow: 'hidden',
   borderRadius: 3,
   cursor: 'pointer',

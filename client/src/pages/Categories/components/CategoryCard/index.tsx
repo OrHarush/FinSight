@@ -48,11 +48,15 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
   };
 
   return (
-    <Grid size={{ xs: 12, sm: 6 }} sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Grid
+      size={{ xs: 12, sm: 6, md: 12, lg: 6 }}
+      sx={{ display: 'flex', justifyContent: 'center' }}
+    >
       <Card
         onClick={() => selectCategory(category)}
         sx={{
           width: '280px',
+          minWidth: '200px',
           height: '80px',
           borderRadius: '12px',
           paddingX: 2,

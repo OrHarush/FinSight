@@ -35,8 +35,9 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
       <Card
         onClick={() => selectAccount(account)}
         sx={{
-          minWidth: '300px',
           width: '100%',
+          minWidth: '240px',
+          maxWidth: '400px',
           height: '240px',
           borderRadius: 3,
           boxShadow: '0 4px 20px rgba(0,0,0,0.25)',

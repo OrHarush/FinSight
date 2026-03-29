@@ -6,7 +6,7 @@ interface MonthlyFinancialHealthCardProps {
 }
 
 const MonthlyFinancialHealthCard = ({ children }: MonthlyFinancialHealthCardProps) => (
-  <Grid size={{ xs: 12, md: 6, lg: 7 }}>
+  <Grid size={{ xs: 12, md: 6, xl: 7 }}>
     <Card sx={{ p: 3, height: '100%', width: '100%', minHeight: '241px' }}>{children}</Card>
   </Grid>
 );

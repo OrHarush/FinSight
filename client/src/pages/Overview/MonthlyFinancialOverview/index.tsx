@@ -43,7 +43,7 @@ const MonthlyFinancialOverview = () => {
   const projected = account.balance + net;
 
   return (
-    <Grid size={{ xs: 12, md: 6, lg: 5 }}>
+    <Grid size={{ xs: 12, md: 6, xl: 5 }}>
       <Card sx={{ p: 3, height: '100%' }}>
         <Column height={'100%'} justifyContent={'center'} spacing={4}>
           <Row spacing={1} alignItems="center" justifyContent="space-evenly">

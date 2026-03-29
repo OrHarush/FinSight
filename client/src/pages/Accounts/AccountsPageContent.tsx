@@ -42,7 +42,7 @@ const AccountsPageContent = ({ selectAccount }: AccountContentPageProps) => {
   return (
     <Grid container spacing={3}>
       {accounts?.map(account => (
-        <Grid key={account._id} size={{ xs: 12, sm: 6, md: 4 }}>
+        <Grid key={account._id} size={{ xs: 12, sm: 6, md: 6, lg: 4 }}>
           <AccountCard account={account} selectAccount={selectAccount} />
         </Grid>
       ))}
