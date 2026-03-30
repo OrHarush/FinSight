@@ -3,18 +3,15 @@ import { Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@
 
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
 import ThemeToggle from '@/components/shared/layout/sidebar/settings/ThemeToggle';
 import UserAvatar from '@/components/shared/layout/sidebar/settings/UserAvatar';
 import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useOpen } from '@/hooks/common/useOpen';
 import LegalLinks from '@/pages/Login/LegalLinks';
 
 const Settings = () => {
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
-  const isMobile = useIsMobile();
   const { expanded } = useSidebar();
 
   if (!expanded) {
@@ -36,31 +33,20 @@ const Settings = () => {
     <>
       <Column paddingTop={2} justifyContent={'flex-end'}>
         <Column>
-          {isMobile && (
-            <ListItem sx={{ pt: 0 }}>
-              <ListItemButton
-                onClick={openFeedbackDialog}
-                sx={{
-                  borderRadius: 1,
-                  color: 'text.secondary',
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>
-                  <FeedbackOutlinedIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary="Send feedback" />
-              </ListItemButton>
-            </ListItem>
-          )}
-          <Row
-            spacing={1}
-            sx={{ padding: '0px 16px 16px 16px' }}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <ThemeToggle />
-            <LanguageSelect menuDirection={'up'} />
-          </Row>
+          <ListItem sx={{ pt: 0 }}>
+            <ListItemButton
+              onClick={openFeedbackDialog}
+              sx={{
+                borderRadius: '12px',
+                color: 'text.secondary',
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>
+                <FeedbackOutlinedIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Send feedback" />
+            </ListItemButton>
+          </ListItem>
         </Column>
         <Divider />
         <Column padding={2} spacing={2}>

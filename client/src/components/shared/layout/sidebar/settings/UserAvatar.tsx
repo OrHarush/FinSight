@@ -25,13 +25,13 @@ const UserAvatar = () => {
         sx={{
           cursor: 'pointer',
           p: 1,
-          borderRadius: 2,
+          borderRadius: '12px',
           transition: 'background-color 0.2s ease',
           display: 'flex',
           alignItems: 'center',
           gap: 1.5,
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.06)',
+            backgroundColor: 'action.selected',
           },
         }}
       >

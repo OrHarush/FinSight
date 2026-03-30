@@ -19,14 +19,16 @@ interface FabAction {
 interface ActionFabProps {
   actions?: FabAction[];
   onClick?: () => void;
-  breakpoint?: Breakpoint;
+  showBelow?: Breakpoint;
 }
 
-const ActionFab = ({ actions, onClick, breakpoint = 'sm' }: ActionFabProps) => {
+const ActionFab = ({ actions, onClick, showBelow }: ActionFabProps) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down(breakpoint));
+  const isBelowBreakpoint = useMediaQuery(theme.breakpoints.down(showBelow || 'xs'));
+  const isVisible = showBelow ? isBelowBreakpoint : true;
+  console.log(isVisible);
 
-  if (!isMobile) {
+  if (!isVisible) {
     return null;
   }
 

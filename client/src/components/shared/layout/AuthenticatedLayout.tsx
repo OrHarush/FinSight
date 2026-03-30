@@ -1,15 +1,13 @@
-import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
-import { Fab } from '@mui/material';
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import NavBar from '@/components/shared/layout/NavBar';
+import { PageHeaderProvider } from '@/components/shared/layout/PageHeaderContext';
 import Sidebar from '@/components/shared/layout/sidebar';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { useOpen } from '@/hooks/common/useOpen';
 
 export const useCurrentBreakpoint = () => {
   const theme = useTheme();
@@ -26,36 +24,35 @@ export const useCurrentBreakpoint = () => {
 };
 
 const AuthenticatedLayout = () => {
-  const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
-  const isMobile = useIsMobile();
-  const current = useCurrentBreakpoint();
-  console.log(current);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+
+  const openMobile = () => setMobileOpen(true);
+  const closeMobile = () => setMobileOpen(false);
+  const toggleSidebar = () => setSidebarExpanded(prev => !prev);
 
   return (
-    <Row height={'100dvh'} width={'100%'} overflow={'hidden'}>
-      <Sidebar />
-      <Column padding={'16px'} width={'100%'} minWidth={0} minHeight={0} overflow={'auto'}>
-        {!isMobile && (
-          <Fab
-            color="primary"
-            aria-label={'main-action'}
-            onClick={openFeedbackDialog}
-            sx={{
-              position: 'fixed',
-              bottom: 24,
-              right: 24,
-              zIndex: 1200,
-            }}
-          >
-            <FeedbackOutlinedIcon />
-          </Fab>
-        )}
-        <Outlet />
-        {isFeedbackDialogOpen && (
-          <FeedbackDialog isOpen={isFeedbackDialogOpen} closeDialog={closeFeedbackDialog} />
-        )}
-      </Column>
-    </Row>
+    <PageHeaderProvider>
+      <Row height={'100dvh'} width={'100%'} overflow={'hidden'}>
+        <Sidebar
+          mobileOpen={mobileOpen}
+          onMobileOpen={openMobile}
+          onMobileClose={closeMobile}
+          sidebarExpanded={sidebarExpanded}
+          onToggleSidebar={toggleSidebar}
+        />
+        <Column width={'100%'} minWidth={0} minHeight={0} overflow={'auto'}>
+          <NavBar
+            onMobileOpen={openMobile}
+            sidebarExpanded={sidebarExpanded}
+            onToggleSidebar={toggleSidebar}
+          />
+          <Column height={'100%'} minHeight={0} overflow={'auto'} padding={'16px'}>
+            <Outlet />
+          </Column>
+        </Column>
+      </Row>
+    </PageHeaderProvider>
   );
 };
 

@@ -12,6 +12,7 @@ import {
   primaryNavigation,
 } from '@/components/shared/layout/sidebar/SidebarButtons/sidebarButtonUtils';
 import SidebarNavigationButton from '@/components/shared/layout/sidebar/SidebarButtons/SidebarNavigationButton';
+import { SidebarButtonsStyles } from '@/components/shared/layout/sidebar/SidebarButtons/styles';
 import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
 import { useAuth } from '@/providers/AuthProvider';
 import { isAdmin } from '@/utils/env';
@@ -39,22 +40,7 @@ const SidebarButtons = () => {
 
   return (
     <Box sx={{ position: 'relative' }}>
-      <Box
-        sx={{
-          position: 'absolute',
-          left: '8px',
-          right: '8px',
-          height: '44px',
-          borderRadius: '12px',
-          backgroundColor: 'action.selected',
-          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: `translateY(${activeIndex * 52 + 12}px)`,
-          zIndex: 0,
-          opacity: activeIndex >= 0 ? 1 : 0,
-          pointerEvents: 'none',
-        }}
-      />
-
+      <Box sx={SidebarButtonsStyles(activeIndex)} />
       <List sx={{ position: 'relative', zIndex: 1 }}>
         {primaryNavigation.map(button => (
           <SidebarNavigationButton

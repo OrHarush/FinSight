@@ -45,7 +45,7 @@ const Budgets = () => {
         onSetBudget={selectBudget}
         onCreateBudget={openCreateDialog}
       />
-      <ActionFab onClick={openCreateDialog} />
+      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <BudgetDialogManager
         selectedCategory={selectedCategory}
         selectedBudget={selectedBudget}

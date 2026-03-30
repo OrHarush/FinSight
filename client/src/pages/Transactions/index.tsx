@@ -19,11 +19,11 @@ export const Transactions = () => {
       <TransactionPageDataProvider>
         <FormProvider {...methods}>
           <Column height={'100%'} minHeight={0} spacing={2}>
-            <TransactionsHeader openCreateTransaction={openCreateDialog} />
-            <TransactionsFilters />
+            <TransactionsHeader />
+            <TransactionsFilters onCreateTransaction={openCreateDialog} />
             <TransactionsPreview />
           </Column>
-          <ActionFab onClick={openCreateDialog} />
+          <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
           <TransactionDialogs
             isCreateDialogOpen={isCreateDialogOpen}
             closeCreateDialog={closeCreateDialog}

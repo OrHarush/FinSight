@@ -32,7 +32,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
 
   if (isMobile) {
     return (
-      <Row width="220px" alignItems="center" justifyContent="space-between" dir={'ltr'}>
+      <Row width="160px" alignItems="center" justifyContent="space-between" dir={'ltr'}>
         <IconButton onClick={handlePrevMonth} size="small" color="primary">
           <ArrowBackIosNewIcon fontSize="small" />
         </IconButton>
@@ -54,7 +54,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
       format="MMMM YYYY"
       slotProps={{
         textField: {
-          sx: { width: 185, minWidth: 160, height: 40 },
+          sx: { width: 140, height: 40 },
           size: 'small',
         },
       }}

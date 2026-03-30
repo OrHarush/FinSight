@@ -24,7 +24,7 @@ const OverviewDashboard = () => {
 
   return (
     <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
-      <OverviewHeader openCreateTransaction={openCreateTransaction} />
+      <OverviewHeader />
       <Column height={'100%'} minHeight={0} spacing={4} sx={{ flex: 1 }}>
         <Grid container spacing={4} size={{ xs: 12 }}>
           <MonthlyFinancialOverview />
@@ -41,7 +41,7 @@ const OverviewDashboard = () => {
           <TopSpendingCategories />
         </Grid>
       </Column>
-      <ActionFab onClick={openCreateTransaction} breakpoint={'lg'} />
+      <ActionFab onClick={openCreateTransaction} />
       {isCreateDialogOpen && (
         <CreateTransactionDialog
           isOpen={isCreateDialogOpen}

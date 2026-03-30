@@ -4,12 +4,10 @@ import Column from '@/components/shared/layout/containers/Column';
 import CategoriesBudgetSkeleton from '@/pages/Overview/BudgetsOverview/CategoryBudgetSkeleton';
 import MonthlyFinancialHealthSkeleton from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthSkeleton';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
-import OverviewHeaderSkeleton from '@/pages/Overview/OverviewDashboardSkeleton/OverviewHeaderSkeleton';
 import TopCategoriesChartSkeleton from '@/pages/Overview/TopSpendingCategories/TopCategoriesChartSkeleton';
 
 const OverviewDashboardSkeleton = () => (
   <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
-    <OverviewHeaderSkeleton />
     <Column height={'100%'} minHeight={0} spacing={4} sx={{ flex: 1 }}>
       <Grid container spacing={4} size={{ xs: 12 }}>
         <MonthlyFinancialOverviewSkeleton />

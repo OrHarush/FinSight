@@ -3,8 +3,9 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import PageHeader from '@/components/shared/layout/page/PageHeader';
+import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
+import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 import ActionFab from '@/components/shared/ui/ActionFab';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useOpen } from '@/hooks/common/useOpen';
@@ -15,6 +16,8 @@ import { PaymentMethodDto } from '@/types/PaymentMethod';
 const PaymentMethodsPage = () => {
   const { t } = useTranslation('paymentMethods');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
+
+  usePageHeader(t('pageTitle'));
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodDto>();
   const isMobile = useIsMobile();
 
@@ -28,15 +31,15 @@ const PaymentMethodsPage = () => {
 
   return (
     <PageLayout>
-      <PageHeader entityName={'paymentMethods'}>
-        {!isMobile && (
+      {!isMobile && (
+        <Row justifyContent="flex-end">
           <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
             {t('actions.create')}
           </Button>
-        )}
-      </PageHeader>
+        </Row>
+      )}
       <PaymentMethodsPageContent selectPaymentMethod={handleSelectPaymentMethod} />
-      <ActionFab onClick={openCreateDialog} />
+      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <PaymentMethodsDialogManager
         isCreateOpen={isCreateDialogOpen}
         selectedPaymentMethod={selectedPaymentMethod}

@@ -1,5 +1,3 @@
-import { Divider } from '@mui/material';
-
 import Column from '@/components/shared/layout/containers/Column';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import DesktopSidebar from '@/components/shared/layout/sidebar/DesktopSidebar';
@@ -9,26 +7,46 @@ import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 
-const Sidebar = () => {
+interface SidebarProps {
+  mobileOpen: boolean;
+  onMobileOpen: () => void;
+  onMobileClose: () => void;
+  sidebarExpanded: boolean;
+  onToggleSidebar: () => void;
+}
+
+const Sidebar = ({
+  mobileOpen,
+  onMobileOpen,
+  onMobileClose,
+  sidebarExpanded,
+  onToggleSidebar,
+}: SidebarProps) => {
   const isMobile = useIsMobile();
 
   const content = (
     <Column height={'100%'}>
-      <SidebarHeader />
-      <Divider />
+      <SidebarHeader onMobileClose={onMobileClose} />
       <ScrollableColumn spacing={2} flex={1} minHeight={0}>
         <SidebarButtons />
       </ScrollableColumn>
-      <Divider />
       <Settings />
     </Column>
   );
 
   if (isMobile) {
-    return <MobileSidebar>{content}</MobileSidebar>;
+    return (
+      <MobileSidebar open={mobileOpen} onOpen={onMobileOpen} onClose={onMobileClose}>
+        {content}
+      </MobileSidebar>
+    );
   }
 
-  return <DesktopSidebar>{content}</DesktopSidebar>;
+  return (
+    <DesktopSidebar expanded={sidebarExpanded} toggleExpanded={onToggleSidebar}>
+      {content}
+    </DesktopSidebar>
+  );
 };
 
 export default Sidebar;

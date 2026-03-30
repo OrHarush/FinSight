@@ -13,7 +13,8 @@ const MonthlyFinancialOverviewSkeleton = () => {
   return (
     <Grid size={{ xs: 12, md: 6, lg: 5 }}>
       <Card sx={{ p: 3, height: '100%' }}>
-        <Column spacing={4}>
+        <Column spacing={2}>
+          <Skeleton variant="rectangular" sx={{ borderRadius: '8px' }} width={180} height={40} />
           <Row spacing={1} alignItems="center" justifyContent="space-evenly" height={'52px'}>
             <Column alignItems={'center'} minWidth={'120px'}>
               <Skeleton variant="text" width={100} height={40} />

@@ -1,11 +1,11 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 import { Dayjs } from 'dayjs';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
-import PageHeader from '@/components/shared/layout/page/PageHeader';
-import DateSelector from '@/components/shared/ui/DateSelector';
+import { useNavBarDate, usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 interface BudgetHeaderProps {
@@ -18,23 +18,29 @@ const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps)
   const { t } = useTranslation('budgets');
   const isMobile = useIsMobile();
 
-  const changeDate = (newDate: Dayjs) => {
-    if (newDate) {
-      onDateChange(newDate.startOf('month'));
-    }
-  };
+  usePageHeader(t('pageTitle'), true);
+
+  const changeDate = useCallback(
+    (newDate: Dayjs) => {
+      if (newDate) {
+        onDateChange(newDate.startOf('month'));
+      }
+    },
+    [onDateChange]
+  );
+
+  useNavBarDate(date, changeDate);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
-    <PageHeader entityName={'budgets'}>
-      <Row spacing={2}>
-        <DateSelector value={date} onChange={changeDate} />
-        {!isMobile && (
-          <Button variant="contained" startIcon={<AddIcon />} onClick={onCreateBudget}>
-            {t('createBudget')}
-          </Button>
-        )}
-      </Row>
-    </PageHeader>
+    <Row justifyContent="flex-end">
+      <Button variant="contained" startIcon={<AddIcon />} onClick={onCreateBudget}>
+        {t('createBudget')}
+      </Button>
+    </Row>
   );
 };
 

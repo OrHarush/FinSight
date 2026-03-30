@@ -1,5 +1,4 @@
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,24 +8,22 @@ import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
 import SidebarLogo from '@/components/shared/layout/sidebar/SidebarHeader/SidebarLogo';
 import { ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-const SidebarHeader = () => {
+
+interface SidebarHeaderProps {
+  onMobileClose: () => void;
+}
+
+const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
   const theme = useTheme();
-  const isMobileBreakpointMd = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobileBreakpointMd = useMediaQuery(theme.breakpoints.down('sm'));
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const { expanded, toggleExpanded } = useSidebar();
-  const isRtl = theme.direction === 'rtl';
-
-  const CollapseIcon = isRtl ? KeyboardDoubleArrowRightIcon : KeyboardDoubleArrowLeftIcon;
-  const ExpandIcon = isRtl ? KeyboardDoubleArrowLeftIcon : KeyboardDoubleArrowRightIcon;
+  const { expanded } = useSidebar();
 
   if (!isMobile && !expanded) {
     return (
       <Column alignItems="center" padding={1} spacing={1}>
         <SidebarLogo size={40} />
-        <IconButton onClick={toggleExpanded} size="small">
-          <ExpandIcon fontSize="small" />
-        </IconButton>
       </Column>
     );
   }
@@ -34,13 +31,14 @@ const SidebarHeader = () => {
   return (
     <Row
       alignItems="center"
+      height={'88px'}
       spacing={isMobileBreakpointMd ? 1 : 2}
       padding={2}
-      marginLeft={isMobileBreakpointMd ? '32px' : 0}
       justifyContent="space-between"
+      sx={{ border: '1px solid', borderColor: theme.palette.divider }}
     >
       <Row alignItems="center" spacing={isMobileBreakpointMd ? 1 : 2}>
-        <SidebarLogo size={50} />
+        <SidebarLogo size={32} />
         <Typography
           variant="h5"
           fontWeight={700}
@@ -56,9 +54,9 @@ const SidebarHeader = () => {
           FinSight
         </Typography>
       </Row>
-      {!isMobile && (
-        <IconButton onClick={toggleExpanded} size="small">
-          <CollapseIcon fontSize="small" />
+      {isMobile && (
+        <IconButton onClick={onMobileClose} size="small">
+          <CloseIcon fontSize="small" />
         </IconButton>
       )}
     </Row>
