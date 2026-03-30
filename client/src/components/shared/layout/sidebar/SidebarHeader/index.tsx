@@ -31,7 +31,7 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
   return (
     <Row
       alignItems="center"
-      height={'88px'}
+      height={'64px'}
       spacing={isMobileBreakpointMd ? 1 : 2}
       padding={2}
       justifyContent="space-between"
