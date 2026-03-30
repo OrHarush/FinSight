@@ -1,5 +1,6 @@
 import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
@@ -11,6 +12,7 @@ import { useOpen } from '@/hooks/common/useOpen';
 import LegalLinks from '@/pages/Login/LegalLinks';
 
 const Settings = () => {
+  const { t } = useTranslation('common');
   const [isFeedbackDialogOpen, openFeedbackDialog, closeFeedbackDialog] = useOpen();
   const { expanded } = useSidebar();
 
@@ -44,7 +46,7 @@ const Settings = () => {
               <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>
                 <FeedbackOutlinedIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Send feedback" />
+              <ListItemText primary={t('feedback.title')} />
             </ListItemButton>
           </ListItem>
         </Column>
