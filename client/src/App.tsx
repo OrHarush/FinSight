@@ -14,13 +14,15 @@ const isMaintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === 'true';
 const App = () => {
   const isOnline = useOnlineStatus();
 
-  if (isMaintenanceMode) {
-    return (
-      <AppProviders>
-        <MaintenancePage />
-      </AppProviders>
-    );
-  }
+  return(<MaintenancePage />);
+
+  // if (isMaintenanceMode) {
+  //   return (
+  //     <AppProviders>
+  //       <MaintenancePage />
+  //     </AppProviders>
+  //   );
+  // }
 
   if (!isOnline) {
     return (
