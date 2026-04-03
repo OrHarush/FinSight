@@ -31,6 +31,18 @@ const AppRoutes = () => {
     return (
       <Column height={'100vh'}>
         <LoadingScreen />
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 8,
+            left: 8,
+            color: 'white',
+            fontSize: 11,
+            zIndex: 9999,
+          }}
+        >
+          isLoadingUser: {String(isLoadingUser)} | token: {String(!!localStorage.getItem('token'))}
+        </div>
       </Column>
     );
   }
