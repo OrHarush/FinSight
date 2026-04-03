@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIconNoText from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useIosInstallGuide } from '@/hooks/installation/useIosInstallGuide';
@@ -77,24 +77,19 @@ const IosInstallGuideDialog = () => {
         <DialogTitle sx={{ pb: 0, pt: 3, px: 3, textAlign: 'center' }}>
           <Column spacing={1.5} alignItems="center">
             <Box
+              component="img"
+              src={finSightIcon}
+              alt="FinSight"
               sx={{
                 width: 64,
                 height: 64,
                 borderRadius: '16px',
-                backgroundColor: ICON_BG,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: '0 6px 20px rgba(0,0,0,0.35)',
               }}
-            >
-              <Box
-                component="img"
-                src={finSightIconNoText}
-                alt="FinSight"
-                sx={{ width: 42, height: 42, objectFit: 'contain' }}
-              />
-            </Box>
+            />
             <Column spacing={0.5} alignItems="center">
               <Typography variant="h6" fontWeight={700} fontSize="1.1rem" lineHeight={1.2}>
                 {t('iosInstallGuide.title')}

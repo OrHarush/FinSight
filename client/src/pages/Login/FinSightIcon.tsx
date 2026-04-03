@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import finSightIcon from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 
 interface FinSightIconProps {
   size?: number;

@@ -3,7 +3,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import { alpha, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIcon from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import Row from '@/components/shared/layout/containers/Row';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';

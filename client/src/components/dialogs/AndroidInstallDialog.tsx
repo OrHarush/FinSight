@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIconNoText from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useMobileInstallation } from '@/hooks/installation/useMobileInstallation';
@@ -73,23 +73,11 @@ const AndroidInstallDialog = () => {
           <DialogTitle sx={{ pb: 0, pt: 2, px: 2.5, textAlign: 'center', flexShrink: 0 }}>
             <Column spacing={1} alignItems="center">
               <Box
-                sx={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: '14px',
-                  background: '#0c0d2c',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box
-                  component="img"
-                  src={finSightIconNoText}
-                  alt="FinSight"
-                  sx={{ width: 36, height: 36, objectFit: 'contain' }}
-                />
-              </Box>
+                component="img"
+                src={finSightIcon}
+                alt="FinSight"
+                sx={{ width: 56, height: 56, objectFit: 'contain' }}
+              />
               <Typography variant="h6" fontWeight={700} fontSize="1.05rem" lineHeight={1.2}>
                 {t('installPrompt.title')}
               </Typography>

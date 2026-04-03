@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import finSightIcon from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import { ROUTES } from '@/constants/Routes';
 
 interface SidebarLogoProps {

@@ -1,6 +1,6 @@
 import { Box, CssBaseline, Typography } from '@mui/material';
 
-import finSightIcon from '@/assets/finSightIconNoText.webp';
+import finSightIcon from '@/assets/finSightIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 
 const HEBREW_MESSAGE =
@@ -66,10 +66,7 @@ const MaintenancePage = () => (
         }}
       />
 
-      <Typography
-        variant="body2"
-        sx={{ color: 'rgba(255, 255, 255, 0.4)', fontStyle: 'italic' }}
-      >
+      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.4)', fontStyle: 'italic' }}>
         {ENGLISH_MESSAGE}
       </Typography>
     </Column>
