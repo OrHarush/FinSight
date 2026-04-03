@@ -1,5 +1,6 @@
 import {
   CreateRecurringTemplateSchema,
+  DeactivateFromSchema,
   SplitRecurringTemplateSchema,
   UpdateRecurringTemplateSchema,
 } from '@finsight/shared';
@@ -8,6 +9,7 @@ import { Router } from 'express';
 import {
   createTemplate,
   createTemplateWithTransactions,
+  deactivateFrom,
   deleteTemplate,
   getTemplateById,
   getTemplates,
@@ -26,6 +28,7 @@ router.post(
   createTemplateWithTransactions,
 );
 router.post('/', validateBody(CreateRecurringTemplateSchema), createTemplate);
+router.post('/:id/deactivate-from', validateBody(DeactivateFromSchema), deactivateFrom);
 router.put('/:id/split', validateBody(SplitRecurringTemplateSchema), splitTemplate);
 router.put('/:id', validateBody(UpdateRecurringTemplateSchema), updateTemplate);
 router.delete('/:id', deleteTemplate);

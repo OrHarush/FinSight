@@ -18,6 +18,7 @@ export interface TransactionDto {
   date?: string;
   frequency?: 'Monthly' | 'Yearly';
   templateId?: string;
+  isVirtual?: boolean;
   belongToPreviousMonth?: boolean;
   category: CategoryDto;
   paymentMethod: PaymentMethodDto;

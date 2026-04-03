@@ -10,7 +10,15 @@ import PaymentSection from '@/pages/Transactions/components/TransactionForm/Paym
 import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 
-const AdvancedSettingsSection = () => {
+interface AdvancedSettingsSectionProps {
+  hideRecurrence: boolean;
+  isTransfer?: boolean;
+}
+
+const AdvancedSettingsSection = ({
+  hideRecurrence = false,
+  isTransfer = false,
+}: AdvancedSettingsSectionProps) => {
   const { t } = useTranslation('transactions');
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -44,10 +52,10 @@ const AdvancedSettingsSection = () => {
         <Collapse in={isExpanded}>
           <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid', borderColor: 'divider' }}>
             <Grid container spacing={1.5} padding={0.5}>
-              <AccountSection />
+              {!isTransfer && <AccountSection />}
               <PaymentSection />
-              <RecurrenceSelect />
-              <ScheduleSection />
+              {!hideRecurrence && <RecurrenceSelect />}
+              {!hideRecurrence && <ScheduleSection />}
             </Grid>
           </Box>
         </Collapse>

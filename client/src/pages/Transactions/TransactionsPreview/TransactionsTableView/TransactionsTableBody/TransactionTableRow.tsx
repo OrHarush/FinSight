@@ -4,6 +4,7 @@ import { IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
@@ -22,16 +23,29 @@ interface TransactionTableRowProps {
 
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { t } = useTranslation('paymentMethods');
+  const { t: tTx } = useTranslation('transactions');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const getCategoryName = useCategoryName();
+  const { alertError } = useSnackbar();
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
+    if (transaction.isVirtual) {
+      alertError(tTx('messages.cannotEditVirtual'));
+      return;
+    }
+
     setTransactionAction('delete');
     setSelectedTransaction(transaction);
   };
 
   const handleTransactionSelect = () => {
+    if (transaction.isVirtual) {
+      alertError(tTx('messages.cannotEditVirtual'));
+      return;
+    }
+
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
   };

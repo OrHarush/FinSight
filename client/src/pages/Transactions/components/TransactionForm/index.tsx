@@ -11,21 +11,24 @@ import DayDateSelector from '@/components/shared/ui/DayDateSelector';
 import AccountSection from '@/pages/Transactions/components/TransactionForm/AccountSection';
 import AdvancedSettingsSection from '@/pages/Transactions/components/TransactionForm/AdvancedSettingsSection';
 import ClassificationSection from '@/pages/Transactions/components/TransactionForm/ClassificationSection';
-import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
 import PreviousMonthCheckboxRow from '@/pages/Transactions/components/TransactionForm/PreviousMonthCheckboxRow';
-import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
-import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 import TransactionBaseDetails from '@/pages/Transactions/components/TransactionForm/TransactionBaseDetails';
 import TransactionTypeSelector from '@/pages/Transactions/components/TransactionForm/TransactionTypeSelector';
 
-const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?: boolean }) => {
+const TransactionForm = ({
+  disableTypeSelector = false,
+  hideRecurrence = false,
+}: {
+  disableTypeSelector?: boolean;
+  hideRecurrence?: boolean;
+}) => {
   const { t } = useTranslation('transactions');
   const { control, setValue } = useFormContext<TransactionFormValues>();
   const recurrence = useWatch({ control, name: 'recurrence' });
   const transactionType = useWatch({ control, name: 'type' });
   const date = useWatch({ control, name: 'date' });
 
-  const isRecurring = recurrence !== 'None';
+  const isRecurring = !hideRecurrence && recurrence !== 'None';
   const isTransfer = transactionType === 'Transfer';
 
   const selectedDate = date && dayjs(date).isValid() ? dayjs(date) : dayjs();
@@ -33,16 +36,18 @@ const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?
   return (
     <Column spacing={2} height="auto">
       <Row justifyContent={'center'}>
-        <DayDateSelector
-          value={selectedDate}
-          onChange={newDate =>
-            setValue('date', newDate.startOf('day').toISOString(), {
-              shouldDirty: true,
-              shouldTouch: true,
-              shouldValidate: true,
-            })
-          }
-        />
+        {!isRecurring && (
+          <DayDateSelector
+            value={selectedDate}
+            onChange={newDate =>
+              setValue('date', newDate.startOf('day').toISOString(), {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true,
+              })
+            }
+          />
+        )}
       </Row>
       <TransactionTypeSelector disabled={disableTypeSelector} />
       <Box
@@ -85,16 +90,17 @@ const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?
         {!isTransfer && (
           <>
             <TransactionBaseDetails />
-            <ClassificationSection isFullWidth={!isRecurring} />
-            <AdvancedSettingsSection />
+            <ClassificationSection />
+            <AdvancedSettingsSection hideRecurrence={hideRecurrence} />
           </>
         )}
         {isTransfer && (
           <>
             <AccountSection />
-            <PaymentSection />
-            <RecurrenceSelect />
-            <ScheduleSection isTransfer />
+            {/*{!hideRecurrence && <ScheduleSection />}*/}
+            <AdvancedSettingsSection hideRecurrence={hideRecurrence} isTransfer={isTransfer} />
+            {/*<PaymentSection />*/}
+            {/*{!hideRecurrence && <RecurrenceSelect />}*/}
           </>
         )}
       </Grid>

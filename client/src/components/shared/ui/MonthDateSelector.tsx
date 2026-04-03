@@ -54,7 +54,7 @@ const MonthDateSelector = ({ value, onChange }: DateSelectorProps) => {
       format="MMMM YYYY"
       slotProps={{
         textField: {
-          sx: { width: 150, height: 40 },
+          sx: { width: 160, height: 40 },
           size: 'small',
         },
       }}

@@ -5,16 +5,17 @@ import {
   UpdateTransactionDTO,
 } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
-import FormDialog from '@/components/dialogs/FormDialog';
+import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
-import RecurringEditChoiceDialog from '@/pages/Transactions/components/RecurringEditChoiceDialog';
+import EditRecurringTransactionDialog from '@/pages/Transactions/components/EditRecurringTransactionDialog';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto, TransactionDto } from '@/types/Transaction';
@@ -30,6 +31,7 @@ const EditTransactionDialog = ({
   closeDialog,
 }: EditTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
+  const { t: tCommon } = useTranslation('common');
   const { alertSuccess, alertError } = useSnackbar();
   const [pendingData, setPendingData] = useState<TransactionFormValues | null>(null);
 
@@ -39,6 +41,7 @@ const EditTransactionDialog = ({
       name: transaction.name,
       amount: transaction.amount,
       date: transaction.date ? transaction.date.split('T')[0] : undefined,
+      recurrence: 'None',
       belongToPreviousMonth: transaction.belongToPreviousMonth,
       type: transaction.type,
       paymentMethod: transaction?.paymentMethod?._id,
@@ -66,58 +69,70 @@ const EditTransactionDialog = ({
       return;
     }
 
-    await performThisOnly(data);
+    await editSingleOccurrence(data);
   };
 
-  const performThisOnly = async (data: TransactionFormValues) => {
+  const editSingleOccurrence = async (data: TransactionFormValues) => {
     try {
       await updateTransaction.mutateAsync(mapToUpdatePayload(data));
       alertSuccess(t('messages.updateSuccess'));
+      methods.reset();
       closeDialog();
     } catch (err) {
       alertError(t('messages.updateError'));
-      console.error(err);
     }
   };
 
-  const performThisAndFuture = async (data: TransactionFormValues) => {
+  const editThisAndFutureOccurrences = async (data: TransactionFormValues) => {
     if (!transaction.templateId || !transaction.date) {
       return;
     }
 
     try {
-      await splitTemplate.mutateAsync(
-        mapToTemplateChangesPayload(data, transaction.date),
-      );
+      await splitTemplate.mutateAsync(mapToTemplateChangesPayload(data, transaction.date));
       alertSuccess(t('messages.updateSuccess'));
+      methods.reset();
       closeDialog();
     } catch (err) {
       alertError(t('messages.updateError'));
-      console.error(err);
     }
   };
 
   return (
     <>
       <FormProvider {...methods}>
-        <FormDialog
+        <FinSightDialog
           isOpen={isOpen}
-          closeDialog={closeDialog}
+          closeDialog={() => {
+            methods.reset();
+            closeDialog();
+          }}
           title={t('actions.edit')}
-          onSubmit={submitEdit}
-          isUpdateForm
-          maxWidth={'xs'}
+          maxWidth="xs"
         >
-          <TransactionForm disableTypeSelector />
-        </FormDialog>
+          <form onSubmit={methods.handleSubmit(submitEdit)} noValidate>
+            <DialogContent sx={{ pt: 1 }}>
+              <Column spacing={2}>
+                <TransactionForm disableTypeSelector hideRecurrence />
+              </Column>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={closeDialog} variant="outlined">
+                {tCommon('buttons.cancel')}
+              </Button>
+              <Button type="submit" variant="contained">
+                {tCommon('buttons.update')}
+              </Button>
+            </DialogActions>
+          </form>
+        </FinSightDialog>
       </FormProvider>
-
       {pendingData && (
-        <RecurringEditChoiceDialog
+        <EditRecurringTransactionDialog
           isOpen={pendingData !== null}
           closeDialog={() => setPendingData(null)}
-          onThisOnly={() => performThisOnly(pendingData)}
-          onThisAndFuture={() => performThisAndFuture(pendingData)}
+          editSingleOccurrence={() => editSingleOccurrence(pendingData)}
+          editThisAndFutureOccurrences={() => editThisAndFutureOccurrences(pendingData)}
         />
       )}
     </>

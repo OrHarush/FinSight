@@ -1,9 +1,11 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import SwipeableCard from '@/components/shared/ui/SwipeableCard';
 import { categoryIconMap } from '@/constants/categoryIconMap';
@@ -20,6 +22,8 @@ interface TransactionCardViewProps {
 
 const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
+  const { alertError } = useSnackbar();
+  const { t: tTx } = useTranslation('transactions');
   const IconComponent =
     (transaction.category?.icon && categoryIconMap[transaction.category?.icon]) || CategoryIcon;
 
@@ -35,11 +39,21 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
       : 'success.main';
 
   const setTransactionToEdit = () => {
+    if (transaction.isVirtual) {
+      alertError(tTx('messages.cannotEditVirtual'));
+      return;
+    }
+
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
   };
 
   const setTransactionToDelete = () => {
+    if (transaction.isVirtual) {
+      alertError(tTx('messages.cannotEditVirtual'));
+      return;
+    }
+
     setSelectedTransaction(transaction);
     setTransactionAction('delete');
   };

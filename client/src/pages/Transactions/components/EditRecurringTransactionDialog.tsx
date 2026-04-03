@@ -5,15 +5,15 @@ import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDi
 import Column from '@/components/shared/layout/containers/Column';
 
 interface RecurringEditChoiceDialogProps extends BaseDialogProps {
-  onThisOnly: () => void;
-  onThisAndFuture: () => void;
+  editSingleOccurrence: () => void;
+  editThisAndFutureOccurrences: () => void;
 }
 
-const RecurringEditChoiceDialog = ({
+const EditRecurringTransactionDialog = ({
   isOpen,
   closeDialog,
-  onThisOnly,
-  onThisAndFuture,
+  editSingleOccurrence,
+  editThisAndFutureOccurrences,
 }: RecurringEditChoiceDialogProps) => {
   const { t } = useTranslation('transactions');
 
@@ -25,7 +25,7 @@ const RecurringEditChoiceDialog = ({
             variant="outlined"
             fullWidth
             onClick={() => {
-              onThisOnly();
+              editSingleOccurrence();
               closeDialog();
             }}
           >
@@ -35,7 +35,7 @@ const RecurringEditChoiceDialog = ({
             variant="contained"
             fullWidth
             onClick={() => {
-              onThisAndFuture();
+              editThisAndFutureOccurrences();
               closeDialog();
             }}
           >
@@ -48,4 +48,4 @@ const RecurringEditChoiceDialog = ({
   );
 };
 
-export default RecurringEditChoiceDialog;
+export default EditRecurringTransactionDialog;

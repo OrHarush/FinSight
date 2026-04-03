@@ -1,5 +1,6 @@
 import {
   CreateRecurringTemplateDTO,
+  DeactivateFromDTO,
   SplitRecurringTemplateDTO,
   fromCents,
   toCents,
@@ -207,6 +208,39 @@ export const createWithTransactions = async (dto: CreateRecurringTemplateDTO, us
   }));
 
   return { template, transactions };
+};
+
+export const deactivateFrom = async (
+  templateId: string,
+  dto: DeactivateFromDTO,
+  userId: string,
+) => {
+  if (!mongoose.Types.ObjectId.isValid(templateId)) {
+    throw ApiError.badRequest('Invalid recurring template ID');
+  }
+
+  const existing = await recurringTemplateRepository.findById(templateId, userId);
+
+  if (!existing) {
+    throw ApiError.notFound('Recurring template not found');
+  }
+
+  const fromPoint = dayjs.utc(dto.fromDate).startOf('month');
+  const startMonth = dayjs.utc(existing.startDate).startOf('month');
+  const isDeletingFromStart = fromPoint.isSame(startMonth, 'month');
+
+  if (isDeletingFromStart) {
+    await recurringTemplateRepository.updateById(templateId, { isActive: false }, userId);
+    await transactionRepository.deleteByTemplateIdFromDate(templateId, existing.startDate);
+  } else {
+    const endOfPrevMonth = fromPoint.subtract(1, 'day').toDate();
+    await recurringTemplateRepository.updateById(templateId, { endDate: endOfPrevMonth }, userId);
+    await transactionRepository.deleteByTemplateIdFromDate(templateId, fromPoint.toDate());
+  }
+
+  const updated = await recurringTemplateRepository.findById(templateId, userId);
+
+  return updated ? { ...updated, amount: fromCents(updated.amount) } : null;
 };
 
 export const splitTemplate = async (

@@ -6,18 +6,18 @@ import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDi
 import Row from '@/components/shared/layout/containers/Row';
 
 interface DeleteTransactionDialogProps extends BaseDialogProps {
-  onConfirm: () => void;
+  confirmDeletion: () => void;
 }
 
 const DeleteTransactionDialog = ({
   isOpen,
   closeDialog,
-  onConfirm,
+  confirmDeletion,
 }: DeleteTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
 
   const confirmAndClose = () => {
-    onConfirm();
+    confirmDeletion();
     closeDialog();
   };
 
@@ -37,18 +37,12 @@ const DeleteTransactionDialog = ({
           {t('deleteDialog.irreversible')}
         </Box>
       </DialogContent>
-
       <DialogActions sx={{ px: 3, pb: 2, pt: 1 }}>
         <Row spacing={1.5} justifyContent="flex-end" sx={{ width: '100%' }}>
           <Button onClick={closeDialog} variant="outlined" sx={{ minWidth: 90 }}>
             {t('common:buttons.cancel')}
           </Button>
-          <Button
-            onClick={confirmAndClose}
-            color="error"
-            variant="contained"
-            sx={{ minWidth: 90 }}
-          >
+          <Button onClick={confirmAndClose} color="error" variant="contained" sx={{ minWidth: 90 }}>
             {t('common:deleteDialog.confirm')}
           </Button>
         </Row>

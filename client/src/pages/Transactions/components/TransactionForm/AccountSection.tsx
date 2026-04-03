@@ -1,14 +1,17 @@
+import { TransactionFormValues } from '@finsight/shared';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Box, Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import AccountSelect from '@/components/features/accounts/AccountSelect';
-import Row from '@/components/shared/layout/containers/Row';
-import { TransactionFormValues } from '@finsight/shared';
+import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 const AccountsSection = () => {
   const { t } = useTranslation('transactions');
+  const isMobile = useIsMobile();
+
   const { control } = useFormContext<TransactionFormValues>();
   const transactionType = useWatch({ control, name: 'type' });
 
@@ -22,17 +25,19 @@ const AccountsSection = () => {
 
   return (
     <Grid size={{ xs: 12 }}>
-      <Row spacing={1}>
-        <Box sx={{ flex: 1 }}>
+      <ResponsiveRow spacing={1}>
+        <Box sx={{ flex: 1, width: '100%' }}>
           <AccountSelect name="fromAccount" label={t('fields.fromAccount')} />
         </Box>
-        <Box>
-          <SwapHorizIcon sx={{ color: 'text.secondary', marginTop: '32px' }} />
-        </Box>
-        <Box sx={{ flex: 1 }}>
+        {!isMobile && (
+          <Box>
+            <SwapHorizIcon sx={{ color: 'text.secondary', marginTop: '32px' }} />
+          </Box>
+        )}
+        <Box sx={{ flex: 1, width: '100%' }}>
           <AccountSelect name="toAccount" label={t('fields.toAccount')} />
         </Box>
-      </Row>
+      </ResponsiveRow>
     </Grid>
   );
 };

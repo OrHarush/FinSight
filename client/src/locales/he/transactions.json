@@ -91,7 +91,14 @@
     "updateSuccess": "העסקה עודכנה בהצלחה",
     "updateError": "עדכון העסקה נכשל",
     "deleteSuccess": "העסקה נמחקה בהצלחה",
-    "deleteError": "מחיקת העסקה נכשלה"
+    "deleteError": "מחיקת העסקה נכשלה",
+    "cannotEditVirtual": "עסקה זו טרם התרחשה ולא ניתן לערוך אותה"
+  },
+  "deleteRecurring": {
+    "title": "מחיקת עסקה חוזרת",
+    "thisOnly": "עסקה זו בלבד",
+    "thisAndFuture": "עסקה זו וכל העסקאות הבאות",
+    "warning": "פעולה זו אינה ניתנת לביטול"
   },
   "editRecurring": {
     "title": "עריכת עסקה חוזרת",

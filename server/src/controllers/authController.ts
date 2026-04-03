@@ -8,8 +8,7 @@ import { asyncHandler } from '../utils/asyncHandler';
 
 export const me = asyncHandler(async (req: Request, res: Response) => {
   const user = await getCurrentUserById(req.userId);
-  console.log('Here');
-  console.log(user);
+
   if (!user) {
     throw ApiError.notFound('User not found');
   }

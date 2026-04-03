@@ -85,7 +85,14 @@
     "updateSuccess": "Transaction updated successfully",
     "updateError": "Failed to update transaction",
     "deleteSuccess": "Transaction deleted successfully",
-    "deleteError": "Failed to delete transaction"
+    "deleteError": "Failed to delete transaction",
+    "cannotEditVirtual": "This transaction hasn't occurred yet and cannot be edited"
+  },
+  "deleteRecurring": {
+    "title": "Delete Recurring Transaction",
+    "thisOnly": "This transaction only",
+    "thisAndFuture": "This and future transactions",
+    "warning": "This action cannot be undone"
   },
   "editRecurring": {
     "title": "Edit Recurring Transaction",

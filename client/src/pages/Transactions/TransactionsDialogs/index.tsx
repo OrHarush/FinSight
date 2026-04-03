@@ -1,17 +1,16 @@
-import { Button, DialogContent, Typography } from '@mui/material';
-import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import FinSightDialog from '@/components/dialogs/FinSightDialog';
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import { queryKeys } from '@/constants/queryKeys';
-import { API_ROUTES, ROUTES } from '@/constants/Routes';
+import { API_ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import DeleteRecurringTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteRecurringTransactionDialog';
 import DeleteTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteTransactionDialog';
+import RequireSetupDialog from '@/pages/Transactions/TransactionsDialogs/RequireSetupDialog';
 import TransactionOverviewDialog from '@/pages/Transactions/TransactionsDialogs/TransactionOverviewDialog';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
@@ -26,9 +25,15 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
     useTransactionPageData();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
-  const navigate = useNavigate();
   const { alertSuccess, alertError } = useSnackbar();
 
+  const hasSelectedTransaction = !!selectedTransaction;
+  const isEditOpen = hasSelectedTransaction && transactionAction === 'edit';
+  const isDeleteOpen = hasSelectedTransaction && transactionAction === 'delete';
+  const isRecurringTransaction = !!selectedTransaction?.templateId;
+  const isSingleDeleteOpen = isDeleteOpen && !isRecurringTransaction;
+  const isRecurringDeleteOpen = isDeleteOpen && isRecurringTransaction;
+  const isOverviewOpen = hasSelectedTransaction && !transactionAction;
   const needsSetup = !accounts?.length || !categories?.length;
 
   const resetSelectedTransaction = () => {
@@ -44,54 +49,33 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
       onSuccess: () => {
         alertSuccess(t('messages.deleteSuccess'));
       },
-      onError: err => {
+      onError: () => {
         alertError(t('messages.deleteError'));
-        console.error('❌ Failed to delete transaction', err);
+      },
+    },
+  });
+
+  const deactivateFrom = useApiMutation<void, { fromDate: string }>({
+    method: 'post',
+    buildUrl: () =>
+      API_ROUTES.RECURRING_TEMPLATES_DEACTIVATE_FROM(selectedTransaction?.templateId ?? ''),
+    queryKeysToInvalidate: [queryKeys.transactions()],
+    options: {
+      onSuccess: () => {
+        alertSuccess(t('messages.deleteSuccess'));
+      },
+      onError: () => {
+        alertError(t('messages.deleteError'));
       },
     },
   });
 
   if (needsSetup) {
     return (
-      <FinSightDialog
-        title={t('setupDialog.title')}
-        isOpen={isCreateDialogOpen}
-        closeDialog={closeCreateDialog}
-      >
-        <DialogContent
-          sx={{
-            p: 4,
-            pt: 0,
-          }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            <Trans
-              ns="transactions"
-              i18nKey="setupDialog.message"
-              components={{
-                account: (
-                  <Button
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    sx={{ p: 0, height: '100%', minWidth: 'unset' }}
-                    onClick={() => navigate(ROUTES.ACCOUNTS_URL)}
-                  />
-                ),
-                category: (
-                  <Button
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    sx={{ p: 0, height: '100%', minWidth: 'unset' }}
-                    onClick={() => navigate(ROUTES.CATEGORIES_URL)}
-                  />
-                ),
-              }}
-            />
-          </Typography>
-        </DialogContent>
-      </FinSightDialog>
+      <RequireSetupDialog
+        isCreateDialogOpen={isCreateDialogOpen}
+        closeCreateDialog={closeCreateDialog}
+      />
     );
   }
 
@@ -100,27 +84,41 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
       {isCreateDialogOpen && (
         <CreateTransactionDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}
-      {!!selectedTransaction && transactionAction == 'edit' && (
+      {isEditOpen && selectedTransaction && (
         <EditTransactionDialog
           isOpen={!!selectedTransaction}
           closeDialog={resetSelectedTransaction}
           transaction={selectedTransaction}
         />
       )}
-      {!!selectedTransaction && transactionAction == 'delete' && (
+      {isSingleDeleteOpen && selectedTransaction && (
         <DeleteTransactionDialog
           isOpen={!!selectedTransaction}
           closeDialog={resetSelectedTransaction}
-          onConfirm={() => {
-            if (selectedTransaction) {
-              deleteTransaction.mutate({
-                id: selectedTransaction.originalId ?? selectedTransaction._id,
-              });
+          confirmDeletion={() => {
+            deleteTransaction.mutate({
+              id: selectedTransaction.originalId ?? selectedTransaction._id,
+            });
+          }}
+        />
+      )}
+      {isRecurringDeleteOpen && selectedTransaction && (
+        <DeleteRecurringTransactionDialog
+          isOpen={!!selectedTransaction}
+          closeDialog={resetSelectedTransaction}
+          deleteSingleOccurrence={() => {
+            deleteTransaction.mutate({
+              id: selectedTransaction.originalId ?? selectedTransaction._id,
+            });
+          }}
+          deleteThisAndFutureOccurrences={() => {
+            if (selectedTransaction.date) {
+              deactivateFrom.mutate({ fromDate: selectedTransaction.date });
             }
           }}
         />
       )}
-      {!!selectedTransaction && !transactionAction && (
+      {isOverviewOpen && selectedTransaction && (
         <TransactionOverviewDialog
           open={!!selectedTransaction}
           onClose={() => setSelectedTransaction(undefined)}

@@ -44,6 +44,12 @@ export const UpdateRecurringTemplateSchema = BaseRecurringTemplateSchema.partial
 
 export type UpdateRecurringTemplateDTO = z.infer<typeof UpdateRecurringTemplateSchema>;
 
+export const DeactivateFromSchema = z.object({
+  fromDate: z.string().min(1),
+});
+
+export type DeactivateFromDTO = z.infer<typeof DeactivateFromSchema>;
+
 export const SplitRecurringTemplateSchema = BaseRecurringTemplateSchema.partial()
   .extend({ fromDate: z.string().min(1) })
   .superRefine((data, ctx) => {

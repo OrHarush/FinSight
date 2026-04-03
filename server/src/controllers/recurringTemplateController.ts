@@ -1,5 +1,6 @@
 import {
   CreateRecurringTemplateDTO,
+  DeactivateFromDTO,
   SplitRecurringTemplateDTO,
   UpdateRecurringTemplateDTO,
 } from '@finsight/shared';
@@ -56,6 +57,16 @@ export const createTemplateWithTransactions = asyncHandler(
     return ApiResponse.created(res, result);
   },
 );
+
+export const deactivateFrom = asyncHandler(async (req: Request, res: Response) => {
+  const result = await recurringTemplateService.deactivateFrom(
+    req.params.id as string,
+    req.validatedBody as DeactivateFromDTO,
+    req.userId,
+  );
+
+  return ApiResponse.ok(res, result);
+});
 
 export const splitTemplate = asyncHandler(async (req: Request, res: Response) => {
   const result = await recurringTemplateService.splitTemplate(
