@@ -41,7 +41,7 @@ const AppRoutes = () => {
             zIndex: 9999,
           }}
         >
-          isLoadingUser: {String(isLoadingUser)} | token: {String(!!localStorage.getItem('token'))}
+          isLoadingUser: {String(isLoadingUser)} | token: {String(localStorage.getItem('token'))}
         </div>
       </Column>
     );
