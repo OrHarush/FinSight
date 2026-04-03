@@ -1,14 +1,17 @@
 import { CreateTransactionDTO, UpdateTransactionDTO, fromCents, toCents } from '@finsight/shared';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
 import Category from '../models/Category';
 import { ITransaction } from '../models/Transaction';
+import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
+import { IRecurringTemplatePopulated } from '../types/RecurringTemplate';
 import { ITransactionPopulated } from '../types/Transaction';
 import {
-  expandRecurring,
   expandTransactions,
   filterTransactionsByDateRange,
   getEffectiveMonth,
@@ -16,10 +19,107 @@ import {
   summarizeSingleMonth,
   summarizeWholeYear,
 } from '../utils/transactionUtils';
+import { clampedDate } from '../utils/recurringUtils';
+
+dayjs.extend(utc);
 
 type TxWithEffective = ITransactionPopulated & {
   effectiveYear: number;
   effectiveMonth: number;
+};
+
+const buildVirtualTransactions = (
+  templates: IRecurringTemplatePopulated[],
+  realTransactions: ITransactionPopulated[],
+  from: Date,
+  to: Date,
+): ITransactionPopulated[] => {
+  const virtuals: ITransactionPopulated[] = [];
+  const fromMonth = dayjs.utc(from).startOf('month');
+  const toMonth = dayjs.utc(to).startOf('month');
+
+  for (const template of templates) {
+    const templateStartMonth = dayjs.utc(template.startDate).startOf('month');
+    const templateEndMonth = template.endDate
+      ? dayjs.utc(template.endDate).startOf('month')
+      : null;
+    const lastGeneratedMonth = template.lastGeneratedDate
+      ? dayjs.utc(template.lastGeneratedDate).startOf('month')
+      : null;
+
+    const yearlyMonth = dayjs.utc(template.startDate).month();
+    let current = fromMonth.isBefore(templateStartMonth) ? templateStartMonth : fromMonth;
+
+    while (!current.isAfter(toMonth)) {
+      if (templateEndMonth && current.isAfter(templateEndMonth)) {
+        break;
+      }
+
+      if (lastGeneratedMonth && !current.isAfter(lastGeneratedMonth)) {
+        current = current.add(1, 'month');
+        continue;
+      }
+
+      if (template.frequency === 'Yearly' && current.month() !== yearlyMonth) {
+        current = current.add(1, 'month');
+        continue;
+      }
+
+      const year = current.year();
+      const month = current.month();
+      const templateIdStr = template._id as string;
+
+      const realExists = realTransactions.some(tx => {
+        if (!tx.templateId) {
+          return false;
+        }
+
+        if (tx.templateId.toString() !== templateIdStr) {
+          return false;
+        }
+
+        const txDate = tx.date;
+
+        if (!txDate) {
+          return false;
+        }
+
+        const txDay = dayjs.utc(txDate);
+
+        return txDay.year() === year && txDay.month() === month;
+      });
+
+      if (!realExists) {
+        const virtualId = `virtual-${templateIdStr}-${year}-${month}`;
+        const date = clampedDate(year, month, template.dayOfMonth);
+
+        const virtual: ITransactionPopulated = {
+          _id: virtualId,
+          name: template.name,
+          description: template.description,
+          type: template.type,
+          amount: template.amount,
+          date,
+          frequency: template.frequency,
+          belongToPreviousMonth: template.belongToPreviousMonth ?? false,
+          category: template.category,
+          paymentMethod: template.paymentMethod,
+          account: template.account,
+          fromAccount: template.fromAccount,
+          toAccount: template.toAccount,
+          userId: template.userId,
+          templateId: new Types.ObjectId(templateIdStr),
+          isVirtual: true,
+        };
+
+        virtuals.push(virtual);
+      }
+
+      current = current.add(1, 'month');
+    }
+  }
+
+  return virtuals;
 };
 
 // options is GetTransactionsQuery when called from HTTP controller (fully validated)
@@ -29,11 +129,18 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
 
   const transactions = await transactionRepository.findMany(userId, options);
 
-  const expandedTransactions = expandTransactions(
-    transactions,
-    from ?? new Date(0),
-    to ?? new Date()
-  );
+  if (from && to) {
+    const templates = await recurringTemplateRepository.findActiveForDateRangePopulated(
+      userId,
+      from,
+      to,
+    );
+    const virtuals = buildVirtualTransactions(templates, transactions, from, to);
+
+    transactions.push(...virtuals);
+  }
+
+  const expandedTransactions = expandTransactions(transactions);
 
   const txWithEffectiveMonth = expandedTransactions.map(tx => {
     const { year, month } = getEffectiveMonth(tx);
@@ -92,7 +199,7 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
     to: endDate,
   });
 
-  const expandedTransactions = transactions.flatMap(tx => expandRecurring(tx, fromDate, endDate));
+  const expandedTransactions = expandTransactions(transactions);
 
   if (month !== undefined) {
     const result = summarizeSingleMonth(expandedTransactions, year, month, accountId);
@@ -128,28 +235,13 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     }
   }
 
-  let dateValue: Date | undefined;
-
-  if (data.recurrence === 'None' && data.date) {
-    const dateOnly = new Date(data.date);
-    const now = new Date();
-
-    dateOnly.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
-    dateValue = dateOnly;
-  } else if (data.date) {
-    dateValue = new Date(data.date);
-  }
-
   const mapped: Omit<ITransaction, '_id'> = {
     name: data.name ?? '',
     description: data.description,
     type: data.type,
     amount: toCents(data.amount),
-    recurrence: data.recurrence,
     belongToPreviousMonth: data.belongToPreviousMonth ?? false,
-    date: dateValue,
-    startDate: data.startDate ? new Date(data.startDate) : undefined,
-    endDate: data.endDate ? new Date(data.endDate) : undefined,
+    date: data.date ? new Date(data.date) : undefined,
     category: data.categoryId ? new Types.ObjectId(data.categoryId) : undefined,
     paymentMethod: data.paymentMethodId ? new Types.ObjectId(data.paymentMethodId) : undefined,
     account: data.accountId ? new Types.ObjectId(data.accountId) : undefined,
@@ -182,12 +274,9 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   if (data.description !== undefined) mapped.description = data.description;
   if (data.type !== undefined) mapped.type = data.type;
   if (data.amount !== undefined) mapped.amount = toCents(data.amount);
-  if (data.recurrence !== undefined) mapped.recurrence = data.recurrence;
   if (data.belongToPreviousMonth !== undefined)
     mapped.belongToPreviousMonth = data.belongToPreviousMonth;
   if (data.date !== undefined) mapped.date = new Date(data.date);
-  if (data.startDate !== undefined) mapped.startDate = new Date(data.startDate);
-  if (data.endDate !== undefined) mapped.endDate = new Date(data.endDate);
   if (data.categoryId !== undefined) mapped.category = new Types.ObjectId(data.categoryId);
   if (data.paymentMethodId !== undefined)
     mapped.paymentMethod = new Types.ObjectId(data.paymentMethodId);

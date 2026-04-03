@@ -11,6 +11,7 @@ const HomePageFooter = () => {
 
   return (
     <Column
+      component={'section'}
       alignItems="center"
       spacing={1.5}
       sx={{

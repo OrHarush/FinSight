@@ -1,11 +1,11 @@
 import { IAccount } from '../models/Account';
 import { ICategory } from '../models/Category';
 import { IPaymentMethod } from '../models/PaymentMethod';
-import { ITransaction } from '../models/Transaction';
+import { IRecurringTemplate } from '../models/RecurringTemplate';
 
-export interface ITransactionPopulated
+export interface IRecurringTemplatePopulated
   extends Omit<
-    ITransaction,
+    IRecurringTemplate,
     'category' | 'paymentMethod' | 'account' | 'fromAccount' | 'toAccount'
   > {
   category?: ICategory;
@@ -13,5 +13,4 @@ export interface ITransactionPopulated
   account?: IAccount;
   fromAccount?: IAccount;
   toAccount?: IAccount;
-  isVirtual?: boolean;
 }

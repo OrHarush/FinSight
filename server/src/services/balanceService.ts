@@ -27,7 +27,7 @@ export const syncAccountBalance = async (userId: string, accountId: string) => {
     to: now,
   });
 
-  const expanded = expandTransactions(rawTransactions, account.lastSynced ?? new Date(0), now);
+  const expanded = expandTransactions(rawTransactions);
 
   let delta = 0;
 
@@ -96,7 +96,7 @@ export const calculateAccountBalanceCurve = async (
     accountId,
   });
 
-  const transactions = expandTransactions(rawTransactions, start.toDate(), end.toDate());
+  const transactions = expandTransactions(rawTransactions);
 
   const sortedTx = transactions.sort(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -110,7 +110,7 @@ export const calculateAccountBalanceCurve = async (
 
   for (
     let current = start.clone();
-    current.isSameOrBefore(end, 'day');
+    !current.isAfter(end, 'day');
     current = current.add(1, 'day')
   ) {
     while (txIndex < sortedTx.length && dayjs(sortedTx[txIndex].date).isSame(current, 'day')) {

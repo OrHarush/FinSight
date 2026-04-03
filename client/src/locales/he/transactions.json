@@ -92,5 +92,10 @@
     "updateError": "עדכון העסקה נכשל",
     "deleteSuccess": "העסקה נמחקה בהצלחה",
     "deleteError": "מחיקת העסקה נכשלה"
+  },
+  "editRecurring": {
+    "title": "עריכת עסקה חוזרת",
+    "thisOnly": "עסקה זו בלבד",
+    "thisAndFuture": "עסקה זו וכל העסקאות הבאות"
   }
 }

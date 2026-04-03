@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import { forwardRef,ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 
 import Row from '@/components/shared/layout/containers/Row';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
@@ -76,7 +76,7 @@ const FinSightDialog = ({
       onClose={closeDialog}
       onClick={e => e.stopPropagation()}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ p: 1 }}>
         <Row spacing={1} alignItems={'flex-end'}>
           {Icon && <Icon sx={{ fontSize: 28, color: 'error.main' }} />}
           <Typography variant="h6" fontWeight={600} fontSize="1.1rem">

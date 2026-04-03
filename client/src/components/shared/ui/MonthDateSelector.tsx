@@ -13,7 +13,7 @@ interface DateSelectorProps {
   onChange: (newDate: Dayjs) => void;
 }
 
-const DateSelector = ({ value, onChange }: DateSelectorProps) => {
+const MonthDateSelector = ({ value, onChange }: DateSelectorProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const monthLabels = useMonthLabels();
@@ -54,7 +54,7 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
       format="MMMM YYYY"
       slotProps={{
         textField: {
-          sx: { width: 140, height: 40 },
+          sx: { width: 150, height: 40 },
           size: 'small',
         },
       }}
@@ -62,4 +62,4 @@ const DateSelector = ({ value, onChange }: DateSelectorProps) => {
   );
 };
 
-export default DateSelector;
+export default MonthDateSelector;

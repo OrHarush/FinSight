@@ -18,6 +18,7 @@ const LandingNavbar = () => {
 
   return (
     <Row
+      component={'header'}
       justifyContent="space-between"
       alignItems="center"
       sx={{
@@ -53,7 +54,12 @@ const LandingNavbar = () => {
           </Typography>
         )}
       </Row>
-      <Row alignItems="center" spacing={{ xs: 1, sm: 2 }}>
+      <Row
+        alignItems="center"
+        spacing={{ xs: 1, sm: 2 }}
+        component="nav"
+        aria-label="Main navigation"
+      >
         <Row spacing={1} alignItems={'center'}>
           <LanguageSelect
             sx={{

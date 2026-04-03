@@ -1,5 +1,7 @@
 import {
+  CreateRecurringTemplateDTO,
   CreateTransactionDTO,
+  SplitRecurringTemplateDTO,
   TransactionFormValues,
   UpdateTransactionDTO,
 } from '@finsight/shared';
@@ -16,12 +18,9 @@ const buildTransactionPayload = (data: TransactionFormValues) => {
   const base = {
     amount: Number(data.amount),
     date: data.date ? new Date(data.date).toISOString() : undefined,
-    recurrence: data.recurrence,
     type: data.type,
     belongToPreviousMonth: data.belongToPreviousMonth,
     paymentMethodId: data.paymentMethod,
-    endDate: data.endDate ? new Date(data.endDate).toISOString() : undefined,
-    startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
   };
 
   if (data.type === 'Expense' || data.type === 'Income') {
@@ -37,13 +36,47 @@ export const mapToCreatePayload = (data: TransactionFormValues): CreateTransacti
 export const mapToUpdatePayload = (data: TransactionFormValues): UpdateTransactionDTO =>
   buildTransactionPayload(data);
 
-export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => {
-  if (tx.date) {
-    return tx.date;
+export const mapToTemplateChangesPayload = (
+  data: TransactionFormValues,
+  fromDate: string,
+): SplitRecurringTemplateDTO => {
+  const base = {
+    fromDate,
+    amount: Number(data.amount),
+    type: data.type,
+    belongToPreviousMonth: data.belongToPreviousMonth,
+    paymentMethodId: data.paymentMethod,
+  };
+
+  if (data.type === 'Expense' || data.type === 'Income') {
+    return { ...base, name: data.name, categoryId: data.category, accountId: data.account };
   }
 
-  return tx!.startDate!;
+  return { ...base, fromAccountId: data.fromAccount, toAccountId: data.toAccount };
 };
+
+export const mapToRecurringTemplatePayload = (
+  data: TransactionFormValues,
+): CreateRecurringTemplateDTO => {
+  const base = {
+    frequency: data.recurrence as 'Monthly' | 'Yearly',
+    dayOfMonth: new Date(data.startDate!).getDate(),
+    startDate: data.startDate!,
+    endDate: data.endDate,
+    type: data.type,
+    amount: Number(data.amount),
+    belongToPreviousMonth: data.belongToPreviousMonth,
+    paymentMethodId: data.paymentMethod,
+  };
+
+  if (data.type === 'Expense' || data.type === 'Income') {
+    return { ...base, name: data.name, categoryId: data.category, accountId: data.account };
+  }
+
+  return { ...base, fromAccountId: data.fromAccount, toAccountId: data.toAccount };
+};
+
+export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => tx.date ?? '';
 
 const getSortValue = (tx: ExpandedTransactionDto, column: SortableColumn): string | number => {
   switch (column) {
@@ -62,7 +95,7 @@ const getSortValue = (tx: ExpandedTransactionDto, column: SortableColumn): strin
         ''
       ).toLowerCase();
     case 'date':
-      return tx.date ?? tx.startDate ?? '';
+      return tx.date ?? '';
   }
 };
 
@@ -104,7 +137,7 @@ export const splitExpenses = (
 
     const abs = Math.abs(tx.amount);
 
-    if (tx.recurrence && tx.recurrence !== 'None') {
+    if (tx.frequency) {
       fixedExpenses += abs;
     } else {
       variableExpenses += abs;
@@ -123,7 +156,7 @@ export const countUniqueSpendingDays = (
   for (const tx of transactions) {
     if (tx.account?._id !== accountId) continue;
     if (tx.type !== 'Expense') continue;
-    if (tx.recurrence && tx.recurrence !== 'None') continue;
+    if (tx.frequency) continue;
     if (!tx.date) continue;
 
     days.add(new Date(tx.date).toISOString().slice(0, 10));

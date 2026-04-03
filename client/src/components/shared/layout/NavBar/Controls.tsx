@@ -4,8 +4,8 @@ import { alpha, IconButton, useTheme } from '@mui/material';
 
 import Row from '@/components/shared/layout/containers/Row';
 import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderContext';
-import DateSelector from '@/components/shared/ui/DateSelector';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
+import MonthDateSelector from '@/components/shared/ui/MonthDateSelector';
 import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const Controls = () => {
@@ -16,7 +16,7 @@ const Controls = () => {
   return (
     <Row spacing={2} sx={{ marginInlineStart: 'auto' }}>
       {showDateSelector && dateConfig && (
-        <DateSelector value={dateConfig.value} onChange={dateConfig.onChange} />
+        <MonthDateSelector value={dateConfig.value} onChange={dateConfig.onChange} />
       )}
       <Row spacing={1}>
         <LanguageSelect sx={{ width: 40, height: 40, backgroundColor: 'transparent' }} />

@@ -26,7 +26,7 @@ const TransactionBaseDetails = () => {
       </Grid>
       {!isRecurring && (
         <Grid size={{ xs: 12, sm: isTransfer ? 12 : 6 }}>
-          <RHFDatePicker name="date" label={t('fields.date')} views={['day', 'month', 'year']} />
+          <RHFDatePicker name="date" label={t('fields.date')} />
         </Grid>
       )}
     </>

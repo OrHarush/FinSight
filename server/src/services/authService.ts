@@ -12,6 +12,7 @@ import {
   updateLastLogin,
 } from '../repositories/userRepository';
 import { recordLoginEvent } from './adminService';
+import { generatePendingTransactions } from './recurringTemplateService';
 import { createDefaultEntitiesForNewUser } from './userService';
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -105,17 +106,17 @@ export const devLoginService = async () => {
     throw ApiError.notFound(`Dev bypass user not found: ${email}`);
   }
 
-  const token = jwt.sign(
-    { userId: user._id.toString(), role: user.role },
-    JWT_SECRET,
-    {
-      algorithm: 'HS256',
-      expiresIn: '7d',
-      issuer: JWT_ISSUER,
-      audience: JWT_AUDIENCE,
-      subject: user._id.toString(),
-    }
+  generatePendingTransactions(user._id.toString()).catch(err =>
+    console.error('Failed to generate pending transactions on login:', err)
   );
+
+  const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: '7d',
+    issuer: JWT_ISSUER,
+    audience: JWT_AUDIENCE,
+    subject: user._id.toString(),
+  });
 
   const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
 
@@ -150,17 +151,17 @@ export const googleLoginService = async (googleToken: string) => {
 
   await updateLastUserLogin(user._id);
 
-  const token = jwt.sign(
-    { userId: user._id.toString(), role: user.role },
-    JWT_SECRET,
-    {
-      algorithm: 'HS256',
-      expiresIn: '7d',
-      issuer: JWT_ISSUER,
-      audience: JWT_AUDIENCE,
-      subject: user._id.toString(),
-    }
+  generatePendingTransactions(user._id.toString()).catch(err =>
+    console.error('Failed to generate pending transactions on login:', err)
   );
+
+  const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: '7d',
+    issuer: JWT_ISSUER,
+    audience: JWT_AUDIENCE,
+    subject: user._id.toString(),
+  });
 
   const showTerms = !user.acceptedTermsAt || user.consentVersion !== CURRENT_TERMS_VERSION;
 

@@ -9,6 +9,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import login from '@/assets/login.webp';
 import loginMobile from '@/assets/loginMobile.webp';
 import Column from '@/components/shared/layout/containers/Column';
+import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';
 import FinSightIcon from '@/pages/Login/FinSightIcon';
 import LegalLinks from '@/pages/Login/LegalLinks';
@@ -56,6 +57,17 @@ const LoginPage = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: { xs: 16, md: 24 },
+          right: { xs: 16, md: 24 },
+          left: 'auto',
+          zIndex: 10,
+        }}
+      >
+        <LanguageSelect />
+      </Box>
       <Button
         onClick={() => navigate(ROUTES.HOME_URL)}
         startIcon={isRtl ? <ArrowForwardIcon /> : <ArrowBackIcon />}

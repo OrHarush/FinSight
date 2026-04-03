@@ -26,6 +26,8 @@ export const API_ROUTES = {
   FEEDBACK: '/api/feedback',
 
   TRANSACTIONS: '/api/transactions',
+  RECURRING_TEMPLATES_WITH_TRANSACTIONS: '/api/recurring-templates/with-transactions',
+  RECURRING_TEMPLATES_SPLIT: (id: string) => `/api/recurring-templates/${id}/split`,
   TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string) => {
     const params = new URLSearchParams({ year: String(year) });
 

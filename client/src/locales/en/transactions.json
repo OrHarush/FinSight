@@ -86,5 +86,10 @@
     "updateError": "Failed to update transaction",
     "deleteSuccess": "Transaction deleted successfully",
     "deleteError": "Failed to delete transaction"
+  },
+  "editRecurring": {
+    "title": "Edit Recurring Transaction",
+    "thisOnly": "This transaction only",
+    "thisAndFuture": "This and future transactions"
   }
 }

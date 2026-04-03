@@ -1,10 +1,13 @@
 import { TransactionFormValues } from '@finsight/shared';
 import { Box, Grid, InputAdornment } from '@mui/material';
+import dayjs from 'dayjs';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/shared/inputs/TextInput';
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
+import DayDateSelector from '@/components/shared/ui/DayDateSelector';
 import AccountSection from '@/pages/Transactions/components/TransactionForm/AccountSection';
 import AdvancedSettingsSection from '@/pages/Transactions/components/TransactionForm/AdvancedSettingsSection';
 import ClassificationSection from '@/pages/Transactions/components/TransactionForm/ClassificationSection';
@@ -17,15 +20,30 @@ import TransactionTypeSelector from '@/pages/Transactions/components/Transaction
 
 const TransactionForm = ({ disableTypeSelector = false }: { disableTypeSelector?: boolean }) => {
   const { t } = useTranslation('transactions');
-  const { control } = useFormContext<TransactionFormValues>();
+  const { control, setValue } = useFormContext<TransactionFormValues>();
   const recurrence = useWatch({ control, name: 'recurrence' });
   const transactionType = useWatch({ control, name: 'type' });
+  const date = useWatch({ control, name: 'date' });
 
   const isRecurring = recurrence !== 'None';
   const isTransfer = transactionType === 'Transfer';
 
+  const selectedDate = date && dayjs(date).isValid() ? dayjs(date) : dayjs();
+
   return (
     <Column spacing={2} height="auto">
+      <Row justifyContent={'center'}>
+        <DayDateSelector
+          value={selectedDate}
+          onChange={newDate =>
+            setValue('date', newDate.startOf('day').toISOString(), {
+              shouldDirty: true,
+              shouldTouch: true,
+              shouldValidate: true,
+            })
+          }
+        />
+      </Row>
       <TransactionTypeSelector disabled={disableTypeSelector} />
       <Box
         sx={{

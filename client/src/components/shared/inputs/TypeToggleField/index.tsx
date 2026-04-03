@@ -7,11 +7,7 @@ import { FormControl, FormHelperText, ToggleButton, ToggleButtonGroup } from '@m
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import {
-  getIconStyles,
-  getToggleButtonGroupStyles,
-  getToggleButtonStyles,
-} from './styles';
+import { getIconStyles, getToggleButtonGroupStyles, getToggleButtonStyles } from './styles';
 
 interface ToggleTypeOption {
   value: TransactionType;
@@ -132,5 +128,3 @@ const TypeToggleField = ({
 };
 
 export default TypeToggleField;
-
-

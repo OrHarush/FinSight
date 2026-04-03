@@ -1,4 +1,4 @@
-import { CreateAccountDTO, UpdateAccountDTO, fromCents, toCents } from '@finsight/shared';
+import { CreateAccountDTO, fromCents, toCents, UpdateAccountDTO } from '@finsight/shared';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';

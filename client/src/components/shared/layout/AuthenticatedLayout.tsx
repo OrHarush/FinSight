@@ -1,5 +1,3 @@
-import { useTheme } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -8,20 +6,6 @@ import Row from '@/components/shared/layout/containers/Row';
 import NavBar from '@/components/shared/layout/NavBar';
 import { PageHeaderProvider } from '@/components/shared/layout/PageHeaderContext';
 import Sidebar from '@/components/shared/layout/sidebar';
-
-export const useCurrentBreakpoint = () => {
-  const theme = useTheme();
-  const xl = useMediaQuery(theme.breakpoints.up('xl'));
-  const lg = useMediaQuery(theme.breakpoints.up('lg'));
-  const md = useMediaQuery(theme.breakpoints.up('md'));
-  const sm = useMediaQuery(theme.breakpoints.up('sm'));
-
-  if (xl) return 'xl';
-  if (lg) return 'lg';
-  if (md) return 'md';
-  if (sm) return 'sm';
-  return 'xs';
-};
 
 const AuthenticatedLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

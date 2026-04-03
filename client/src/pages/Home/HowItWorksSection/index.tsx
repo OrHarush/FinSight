@@ -50,6 +50,7 @@ const HowItWorksSection = () => {
 
   return (
     <Column
+      component={'section'}
       ref={sectionRef}
       spacing={0}
       sx={{ px: { xs: 2, md: 8 }, py: { xs: 8, md: 12 }, position: 'relative' }}

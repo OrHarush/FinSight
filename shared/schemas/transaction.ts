@@ -7,34 +7,20 @@ const BaseTransactionSchema = z.object({
   description: z.string().max(120, 'validation.nameTooLong').trim().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
   amount: amountSchema,
-  recurrence: z.enum(['None', 'Monthly', 'Yearly']),
+  frequency: z.enum(['Monthly', 'Yearly']).optional(),
   belongToPreviousMonth: z.boolean().optional(),
   date: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
   categoryId: objectIdSchema.optional(),
   accountId: objectIdSchema.optional(),
   fromAccountId: objectIdSchema.optional(),
   toAccountId: objectIdSchema.optional(),
   paymentMethodId: objectIdSchema.optional(),
+  templateId: objectIdSchema.optional(),
 });
 
 export const CreateTransactionSchema = BaseTransactionSchema.superRefine((data, ctx) => {
-  if (data.recurrence === 'None') {
-    if (!data.date) {
-      ctx.addIssue({ path: ['date'], code: 'custom', message: 'validation.dateRequired' });
-    }
-  } else {
-    if (!data.startDate) {
-      ctx.addIssue({
-        path: ['startDate'],
-        code: 'custom',
-        message: 'validation.startDateRequired',
-      });
-    }
-    if (data.startDate && data.endDate && new Date(data.endDate) <= new Date(data.startDate)) {
-      ctx.addIssue({ path: ['endDate'], code: 'custom', message: 'validation.endDateAfterStart' });
-    }
+  if (!data.date) {
+    ctx.addIssue({ path: ['date'], code: 'custom', message: 'validation.dateRequired' });
   }
 
   if (data.type === 'Transfer') {
@@ -89,9 +75,6 @@ export type CreateTransactionDTO = z.infer<typeof CreateTransactionSchema>;
 export type TransactionType = CreateTransactionDTO['type'];
 
 export const UpdateTransactionSchema = BaseTransactionSchema.partial().superRefine((data, ctx) => {
-  if (data.startDate && data.endDate && new Date(data.endDate) <= new Date(data.startDate)) {
-    ctx.addIssue({ path: ['endDate'], code: 'custom', message: 'validation.endDateAfterStart' });
-  }
   if (data.fromAccountId && data.toAccountId && data.fromAccountId === data.toAccountId) {
     ctx.addIssue({
       path: ['toAccountId'],

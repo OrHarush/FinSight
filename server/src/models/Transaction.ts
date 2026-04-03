@@ -7,9 +7,7 @@ export interface ITransaction {
   type: 'Income' | 'Expense' | 'Transfer';
   amount: number;
   date?: Date;
-  recurrence: 'None' | 'Monthly' | 'Yearly';
-  startDate?: Date;
-  endDate?: Date;
+  frequency?: 'Monthly' | 'Yearly';
   belongToPreviousMonth?: boolean;
   category?: Types.ObjectId;
   paymentMethod?: Types.ObjectId;
@@ -17,6 +15,7 @@ export interface ITransaction {
   fromAccount?: Types.ObjectId;
   toAccount?: Types.ObjectId;
   userId: Types.ObjectId;
+  templateId?: Types.ObjectId;
 }
 
 const TransactionSchema: Schema = new Schema(
@@ -30,13 +29,7 @@ const TransactionSchema: Schema = new Schema(
     },
     amount: { type: Number, required: true },
     date: { type: Date },
-    recurrence: {
-      type: String,
-      enum: ['None', 'Monthly', 'Yearly'],
-      default: 'None',
-    },
-    startDate: { type: Date },
-    endDate: { type: Date },
+    frequency: { type: String, enum: ['Monthly', 'Yearly'] },
     belongToPreviousMonth: { type: Boolean, default: false },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     paymentMethod: { type: Schema.Types.ObjectId, ref: 'PaymentMethod' },
@@ -45,6 +38,7 @@ const TransactionSchema: Schema = new Schema(
     toAccount: { type: Schema.Types.ObjectId, ref: 'Account' },
 
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    templateId: { type: Schema.Types.ObjectId, ref: 'RecurringTemplate' },
   },
   { timestamps: true }
 );
@@ -52,5 +46,6 @@ const TransactionSchema: Schema = new Schema(
 TransactionSchema.index({ userId: 1, date: -1 });
 TransactionSchema.index({ userId: 1, category: 1, date: -1 });
 TransactionSchema.index({ userId: 1, account: 1, date: -1 });
+TransactionSchema.index({ templateId: 1, date: -1 });
 
 export default mongoose.model<ITransaction>('Transaction', TransactionSchema);

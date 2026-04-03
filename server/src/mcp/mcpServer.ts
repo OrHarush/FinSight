@@ -45,8 +45,7 @@ mcpServer.registerTool(
     description:
       "Fetch the user's transactions with rich filtering. " +
       'Supports pagination, date ranges, type (Income/Expense/Transfer), ' +
-      'recurrence (None/Monthly/Yearly), category, payment method, and account filters. ' +
-      'Recurring transactions are automatically expanded into individual occurrences. ' +
+      'category, payment method, and account filters. ' +
       'Use targetYear + targetMonth to get transactions effective in a specific month (recommended over raw date ranges for monthly views). ' +
       'Use this tool to list, search, or analyze individual transactions.',
     inputSchema: TransactionQuerySchema,
@@ -79,7 +78,6 @@ mcpServer.registerTool(
       ...allData,
       data: allData.data
         .filter((tx: any) => (args.type ? tx.type === args.type : true))
-        .filter((tx: any) => (args.recurrence ? tx.recurrence === args.recurrence : true))
         .filter((tx: any) =>
           args.fromAccountId ? tx.fromAccount?._id === args.fromAccountId : true
         )

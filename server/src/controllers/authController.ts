@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { ApiError } from '../errors/ApiError';
 import { acceptTermsService, devLoginService, googleLoginService } from '../services/authService';
 import { getCurrentUserById } from '../services/userService';
 import { ApiResponse } from '../utils/ApiResponse';
@@ -9,6 +10,9 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
   const user = await getCurrentUserById(req.userId);
   console.log('Here');
   console.log(user);
+  if (!user) {
+    throw ApiError.notFound('User not found');
+  }
 
   return ApiResponse.ok(res, user);
 });

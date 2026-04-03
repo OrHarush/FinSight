@@ -41,7 +41,7 @@ const baseTools: Tool[] = [
       {
         name: 'getTransactions',
         description:
-          "Fetch the user's transactions with rich filtering. Supports pagination, date ranges, type (Income/Expense/Transfer), recurrence (None/Monthly/Yearly), category, payment method, and account filters.",
+          "Fetch the user's transactions with rich filtering. Supports pagination, date ranges, type (Income/Expense/Transfer), category, payment method, and account filters.",
         parameters: {
           type: SchemaType.OBJECT,
           properties: {
@@ -55,11 +55,6 @@ const baseTools: Tool[] = [
               type: SchemaType.STRING,
               enum: ['Income', 'Expense', 'Transfer'],
               description: 'Transaction type',
-            },
-            recurrence: {
-              type: SchemaType.STRING,
-              enum: ['None', 'Monthly', 'Yearly'],
-              description: 'Recurrence pattern',
             },
             categoryId: { type: SchemaType.STRING, description: 'Filter by category ID' },
             paymentMethodId: {

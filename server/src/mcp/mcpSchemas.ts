@@ -44,12 +44,6 @@ export const TransactionQuerySchema = z.object({
     .describe(
       'Filter by transaction type. Income = money received, Expense = money spent, Transfer = money moved between accounts.'
     ),
-  recurrence: z
-    .enum(['None', 'Monthly', 'Yearly'])
-    .optional()
-    .describe(
-      'Filter by recurrence pattern. None = one-time, Monthly = repeats every month, Yearly = repeats every year.'
-    ),
   categoryId: z
     .string()
     .optional()

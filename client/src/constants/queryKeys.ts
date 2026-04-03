@@ -18,6 +18,7 @@ export const queryKeys = {
     accountId,
   ],
   transactionsCount: () => ['transactions', 'count'],
+  recurringTemplates: () => ['recurringTemplates'],
 
   accounts: () => ['accounts'],
   account: (id: string) => ['accounts', id],

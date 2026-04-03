@@ -66,6 +66,12 @@ export const remove = async (id: string, userId: string) =>
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Transaction.deleteMany(filter).session(session ?? null);
 
+export const deleteByTemplateIdFromDate = (templateId: string, fromDate: Date) =>
+  Transaction.deleteMany({
+    templateId: new Types.ObjectId(templateId),
+    date: { $gte: fromDate },
+  });
+
 export const countByAccountId = async (userId: string, accountId: string) =>
   Transaction.countDocuments({
     userId: new Types.ObjectId(userId),

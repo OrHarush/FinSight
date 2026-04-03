@@ -1,89 +1,10 @@
-import dayjs, { Dayjs } from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
 
 import { ITransactionPopulated } from '../types/Transaction';
 
 dayjs.extend(utc);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isSameOrAfter);
-
-const createRecurringInstance = (
-  tx: ITransactionPopulated,
-  currentDate: Dayjs
-): ITransactionPopulated => {
-  const date = currentDate.toDate();
-
-  return {
-    ...tx,
-    date,
-    _id: `${tx._id}-${date.toISOString()}`,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    originalId: tx._id,
-  };
-};
-
-export const getNextRecurringDate = (
-  current: Dayjs,
-  isMonthlyRecurrence: boolean,
-  dayOfMonth: number
-): Dayjs => {
-  if (isMonthlyRecurrence) {
-    let next = current.add(1, 'month').startOf('month');
-
-    if (dayOfMonth <= next.daysInMonth()) {
-      next = next.date(dayOfMonth);
-    } else {
-      next = next.endOf('month');
-    }
-
-    return next;
-  }
-
-  return current.add(1, 'year').date(dayOfMonth);
-};
-
-export const expandRecurring = (tx: ITransactionPopulated, from: Date, to: Date) => {
-  if (tx.recurrence === 'None') {
-    if (!tx.date) {
-      return [];
-    }
-
-    return tx.date >= from && tx.date <= to ? [tx] : [];
-  }
-
-  const result: ITransactionPopulated[] = [];
-
-  const start = dayjs.utc(tx.startDate);
-  const end = tx.endDate ? dayjs.utc(tx.endDate) : dayjs.utc(to);
-
-  let current = start;
-
-  if (current.isBefore(from, 'day')) {
-    if (tx.recurrence === 'Monthly') {
-      const diffMonths = dayjs.utc(from).diff(current, 'month');
-      current = current.add(diffMonths, 'month');
-    } else {
-      const diffYears = dayjs.utc(from).diff(current, 'year');
-      current = current.add(diffYears, 'year');
-    }
-  }
-
-  const dayOfMonth = start.date();
-
-  while (current.isSameOrBefore(end, 'day') && current.isSameOrBefore(to, 'day')) {
-    if (current.isSameOrAfter(from, 'day')) {
-      result.push(createRecurringInstance(tx, current));
-    }
-
-    current = getNextRecurringDate(current, tx.recurrence === 'Monthly', dayOfMonth);
-  }
-
-  return result;
-};
 
 export const expandTransfer = (tx: ITransactionPopulated) => {
   if (tx.type !== 'Transfer' || !tx.fromAccount || !tx.toAccount) {
@@ -128,10 +49,8 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
 
 export const expandTransactions = (
   transactions: ITransactionPopulated[],
-  from: Date,
-  to: Date
 ): ITransactionPopulated[] =>
-  transactions.flatMap(tx => expandRecurring(tx, from, to)).flatMap(tx => expandTransfer(tx));
+  transactions.flatMap(tx => expandTransfer(tx));
 
 export const buildTransactionQuery = (
   userId: string,
@@ -149,6 +68,7 @@ export const buildTransactionQuery = (
 
   if (from || to) {
     const dateRange: any = {};
+
     if (from) {
       dateRange.$gte = from;
     }
@@ -157,22 +77,7 @@ export const buildTransactionQuery = (
       dateRange.$lte = to;
     }
 
-    const nonRecurring = {
-      recurrence: 'None',
-      date: dateRange,
-    };
-
-    const recurring = {
-      recurrence: { $in: ['Monthly', 'Yearly'] },
-      startDate: { ...(to && { $lte: to }) },
-      $or: [
-        { endDate: { $exists: false } },
-        { endDate: null },
-        ...(from ? [{ endDate: { $gte: from } }] : []),
-      ],
-    };
-
-    query.$or = [nonRecurring, recurring];
+    query.date = dateRange;
   }
 
   if (categoryIds?.length) {

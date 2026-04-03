@@ -3,6 +3,7 @@ export * from './schemas/budget';
 export * from './schemas/category';
 export * from './schemas/common';
 export * from './schemas/paymentMethod';
+export * from './schemas/recurringTemplate';
 export * from './schemas/transaction';
 export * from './types/colors';
 export * from './types/defaultCategories';

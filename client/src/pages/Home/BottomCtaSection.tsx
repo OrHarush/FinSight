@@ -38,6 +38,7 @@ const BottomCtaSection = () => {
 
   return (
     <Column
+      component={'section'}
       ref={sectionRef}
       sx={{
         px: { xs: 2, md: 8 },

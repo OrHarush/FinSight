@@ -11,6 +11,7 @@ const HeroSection = () => {
 
   return (
     <Column
+      component={'section'}
       sx={{
         minHeight: '100dvh',
         position: 'relative',

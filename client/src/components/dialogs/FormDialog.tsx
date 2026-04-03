@@ -40,7 +40,7 @@ const FormDialog = <T extends FieldValues>({
   return (
     <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title} maxWidth={maxWidth}>
       <form onSubmit={handleSubmit(handleFormSubmit)} id="form-dialog" noValidate>
-        <DialogContent>
+        <DialogContent sx={{ pt: 1 }}>
           <Column spacing={2}>{children}</Column>
         </DialogContent>
         <DialogActions>

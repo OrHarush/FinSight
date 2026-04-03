@@ -1,4 +1,5 @@
 import {
+  CreateRecurringTemplateDTO,
   CreateTransactionDTO,
   TransactionFormSchema,
   TransactionFormValues,
@@ -17,7 +18,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { TransactionDto } from '@/types/Transaction';
-import { mapToCreatePayload } from '@/utils/entities/transaction';
+import { mapToCreatePayload, mapToRecurringTemplatePayload } from '@/utils/entities/transaction';
 
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
@@ -68,9 +69,22 @@ const CreateTransactionDialog = ({
     queryKeysToInvalidate: [queryKeys.allTransactions()],
   });
 
+  const createRecurringTemplate = useApiMutation<unknown, CreateRecurringTemplateDTO>({
+    method: 'post',
+    url: API_ROUTES.RECURRING_TEMPLATES_WITH_TRANSACTIONS,
+    queryKeysToInvalidate: [queryKeys.allTransactions()],
+  });
+
   const createNewTransaction = async (data: TransactionFormValues) => {
+    const isRecurring = data.recurrence !== 'None';
+
     try {
-      await createTransaction.mutateAsync(mapToCreatePayload(data));
+      if (isRecurring) {
+        await createRecurringTemplate.mutateAsync(mapToRecurringTemplatePayload(data));
+      } else {
+        await createTransaction.mutateAsync(mapToCreatePayload(data));
+      }
+
       alertSuccess(t('messages.createSuccess'));
       closeDialog();
     } catch (err) {

@@ -49,8 +49,10 @@ export function RHFDatePicker<T extends FieldValues>({
       control={control}
       render={({ field, fieldState }) => {
         const value = field.value ? dayjs(field.value) : null;
+
         const onChange = (date: dayjs.Dayjs | null) =>
           field.onChange(date ? date.format('YYYY-MM-DD') : '');
+
         const shared = sharedPickerProps(
           textFieldProps,
           !!fieldState.error,

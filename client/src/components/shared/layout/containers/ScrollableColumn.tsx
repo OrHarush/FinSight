@@ -1,11 +1,11 @@
 import { useTheme } from '@mui/material';
-import { StackOwnProps } from '@mui/material/Stack/Stack';
+import { StackProps } from '@mui/material/Stack/Stack';
 import { ReactNode } from 'react';
 
 import Column from '@/components/shared/layout/containers/Column';
 import { getCustomScrollbarStyles } from '@/components/shared/layout/containers/scrollbarStyles';
 
-interface ScrollableColumnProps extends StackOwnProps {
+interface ScrollableColumnProps extends StackProps {
   children: ReactNode;
   maxHeight?: number | string;
 }

@@ -16,9 +16,8 @@ export interface TransactionDto {
   type: TransactionType;
   amount: number;
   date?: string;
-  recurrence: 'None' | 'Monthly' | 'Yearly';
-  startDate?: string;
-  endDate?: string;
+  frequency?: 'Monthly' | 'Yearly';
+  templateId?: string;
   belongToPreviousMonth?: boolean;
   category: CategoryDto;
   paymentMethod: PaymentMethodDto;
