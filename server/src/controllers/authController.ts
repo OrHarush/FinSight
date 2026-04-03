@@ -7,6 +7,8 @@ import { asyncHandler } from '../utils/asyncHandler';
 
 export const me = asyncHandler(async (req: Request, res: Response) => {
   const user = await getCurrentUserById(req.userId);
+  console.log('Here');
+  console.log(user);
 
   return ApiResponse.ok(res, user);
 });
