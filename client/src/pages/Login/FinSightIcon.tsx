@@ -13,10 +13,7 @@ const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
       height: size,
       margin: '0 auto 24px',
       borderRadius: `${size * 0.24}px`,
-      background:
-        'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 255, 0.95) 100%)',
       backdropFilter: 'blur(10px)',
-      border: '2px solid rgba(255, 255, 255, 0.5)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -39,8 +36,8 @@ const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
     <img
       src={finSightIcon}
       alt="App Logo"
-      width={size * 0.6}
-      height={size * 0.6}
+      width={size}
+      height={size}
       style={{
         filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15))',
         position: 'relative',
