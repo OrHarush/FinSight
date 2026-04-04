@@ -9,14 +9,14 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/maskable_icon.png",
-      "sizes": "902x902",
+      "src": "/maskable_icon.webp",
+      "sizes": "806x806",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/maskable_icon.png",
-      "sizes": "902x902",
+      "src": "/maskable_icon.webp",
+      "sizes": "806x806",
       "type": "image/png",
       "purpose": "maskable"
     }
