@@ -40,7 +40,7 @@ const TransactionForm = ({
           <DayDateSelector
             value={selectedDate}
             onChange={newDate =>
-              setValue('date', newDate.startOf('day').toISOString(), {
+              setValue('date', newDate.format('YYYY-MM-DD'), {
                 shouldDirty: true,
                 shouldTouch: true,
                 shouldValidate: true,
