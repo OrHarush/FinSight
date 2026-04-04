@@ -61,7 +61,56 @@
     "create": "צור עסקה",
     "edit": "ערוך עסקה",
     "delete": "מחק עסקה",
-    "import": "ייבא CSV"
+    "import": "ייבוא"
+  },
+  "importWizard": {
+    "pageTitle": "ייבוא עסקאות",
+    "steps": {
+      "upload": "העלאת קובץ",
+      "settings": "הגדרות",
+      "categorize": "קטגוריזציה",
+      "confirm": "אישור"
+    },
+    "navigation": {
+      "next": "הבא",
+      "back": "חזור",
+      "confirm": "ייבא"
+    },
+    "upload": {
+      "dropzone": "גרור ושחרר את ייצוא הבנק שלך כאן",
+      "dropzoneActive": "שחרר!",
+      "dropzoneSub": "תומך בקבצי xlsx ו-csv — עד 5 MB",
+      "browse": "בחר קובץ",
+      "previewTitle": "תצוגה מקדימה",
+      "rowCount": "נמצאו {{count}} עסקאות",
+      "dateRange": "טווח תאריכים: {{from}} – {{to}}",
+      "sampleRows": "שורות לדוגמה",
+      "warnings": "אזהרות",
+      "col.date": "תאריך",
+      "col.name": "תיאור",
+      "col.amount": "סכום",
+      "error.unsupported": "סוג קובץ לא נתמך. אנא העלה קובץ xlsx או csv.",
+      "error.noData": "לא נמצאו נתוני עסקאות בקובץ זה.",
+      "error.parse": "לא ניתן לנתח את הקובץ. ודא שמדובר בייצוא בנק תקין.",
+      "error.generic": "משהו השתבש. אנא נסה שוב."
+    },
+    "settings": {
+      "account": "חשבון",
+      "paymentMethod": "אמצעי תשלום",
+      "dateFilterLabel": "סנן לפי טווח תאריכים (אופציונלי)",
+      "from": "מ",
+      "to": "עד"
+    },
+    "categorize": {
+      "progress": "קוטלגו {{categorized}} מתוך {{total}}",
+      "noCategories": "לא נמצאו קטגוריות",
+      "empty": "אין עסקאות לסיווג",
+      "bulkAssign": {
+        "message": "נמצאו {{count}} עסקאות נוספות של \"{{name}}\" — לשייך לאותה קטגוריה?",
+        "confirm": "החל על כולן",
+        "dismiss": "דלג"
+      }
+    }
   },
   "filters": {
     "allCategories": "קטגוריות",

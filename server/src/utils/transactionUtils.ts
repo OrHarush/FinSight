@@ -48,9 +48,8 @@ export const expandTransfer = (tx: ITransactionPopulated) => {
 };
 
 export const expandTransactions = (
-  transactions: ITransactionPopulated[],
-): ITransactionPopulated[] =>
-  transactions.flatMap(tx => expandTransfer(tx));
+  transactions: ITransactionPopulated[]
+): ITransactionPopulated[] => transactions.flatMap(tx => expandTransfer(tx));
 
 export const buildTransactionQuery = (
   userId: string,
@@ -92,7 +91,11 @@ export const buildTransactionQuery = (
     const accIds = accountIds.map(id => new Types.ObjectId(id));
     query.$and = query.$and || [];
     query.$and.push({
-      $or: [{ account: { $in: accIds } }, { fromAccount: { $in: accIds } }, { toAccount: { $in: accIds } }],
+      $or: [
+        { account: { $in: accIds } },
+        { fromAccount: { $in: accIds } },
+        { toAccount: { $in: accIds } },
+      ],
     });
   }
 

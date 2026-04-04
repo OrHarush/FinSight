@@ -19,6 +19,7 @@ Backend: Node.js + Express + MongoDB — layered architecture: Routes → Contro
 - Error handling lives in its own layer — never mix try/catch with happy-path logic.
 - No business logic in controllers or React components.
 - No `any` unless isolated and commented.
+- Don't write any comments unless it's to explain "why" — never "what" or "how". If you need to explain "what", refactor the code to be self-explanatory. If you need to explain "how", extract it to a well-named function.
 ---
 
 ## React Component Patterns

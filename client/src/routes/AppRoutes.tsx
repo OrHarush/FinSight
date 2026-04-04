@@ -19,6 +19,7 @@ import Overview from '@/pages/Overview';
 import PaymentMethods from '@/pages/PaymentMethods';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
@@ -62,6 +63,7 @@ const AppRoutes = () => {
           >
             <Route path={ROUTES.OVERVIEW_URL} element={<Overview />} />
             <Route path={ROUTES.TRANSACTIONS_URL} element={<Transactions />} />
+            <Route path={ROUTES.IMPORT_URL} element={<ImportWizardPage />} />
             <Route path={ROUTES.ACCOUNTS_URL} element={<Accounts />} />
             <Route path={ROUTES.CATEGORIES_URL} element={<Categories />} />
             <Route path={ROUTES.PAYMENT_METHODS_URL} element={<PaymentMethods />} />

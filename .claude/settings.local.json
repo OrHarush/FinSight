@@ -9,7 +9,10 @@
       "Bash(node -e \"const r=require\\(''''./node_modules/zod/package.json''''\\);console.log\\(JSON.stringify\\(r.exports[''''.''''],null,2\\)\\)\")",
       "Bash(node -e \"const {execSync}=require\\(''child_process''\\);try{execSync\\(''npx tsc --noEmit'',{stdio:''pipe'',timeout:60000}\\)}catch\\(e\\){console.log\\(e.stderr.toString\\(\\)\\);}\")",
       "Bash(grep -E \"\\\\.tsx?$\")",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(xargs grep:*)",
+      "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight/client/src -name *Skeleton* -o -name *skeleton*)",
+      "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight -name *.ts -path */finsight/shared*)"
     ]
   }
 }

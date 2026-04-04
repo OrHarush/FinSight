@@ -18,6 +18,7 @@ import categoryRoutes from './routes/categoryRoutes';
 import chatRoutes from './routes/chatRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import paymentMethodRoutes from './routes/paymentMethodsRoutes';
+import importRoutes from './routes/importRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import userRoutes from './routes/userRoutes';
 
@@ -51,6 +52,7 @@ app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/import', importRoutes);
 
 app.post('/mcp', mcpMiddleware);
 

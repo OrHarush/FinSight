@@ -13,6 +13,7 @@ export const ROUTES = {
   ACCOUNTS_URL: '/accounts',
   ADMIN_KPIS_URL: '/admin/kpis',
   CHAT_URL: '/chat',
+  IMPORT_URL: '/transactions/import',
 } as const;
 
 export const API_ROUTES = {
@@ -59,4 +60,7 @@ export const API_ROUTES = {
   ADMIN: '/api/admin',
 
   CHAT: '/api/chat',
+
+  IMPORT_PREVIEW: '/api/import/preview',
+  IMPORT_TRANSACTIONS: '/api/import/transactions',
 };

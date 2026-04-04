@@ -63,6 +63,9 @@ export const remove = async (id: string, userId: string) =>
     .lean<ITransactionPopulated>()
     .exec();
 
+export const insertMany = (data: Omit<ITransaction, '_id'>[]) =>
+  Transaction.insertMany(data, { ordered: false });
+
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Transaction.deleteMany(filter).session(session ?? null);
 

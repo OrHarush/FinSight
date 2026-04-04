@@ -21,6 +21,7 @@ import { useNavBarDate, usePageHeader } from '@/components/shared/layout/PageHea
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHeadline';
 import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
@@ -31,10 +32,11 @@ import { TransactionSummaryDto } from '@/types/Transaction';
 
 const MonthlyFinancialOverview = () => {
   const { t } = useTranslation('overview');
-  const { year, month, account, date, setDate, setAccount } = useOverviewFilters();
   const theme = useTheme();
+  const { year, month, account, date, setDate, setAccount } = useOverviewFilters();
 
   const isNotPC = useMediaQuery(theme.breakpoints.down('lg'));
+  const isMobile = useIsMobile();
 
   const { data, isLoading } = useFetch<TransactionSummaryDto>({
     url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id),
@@ -77,7 +79,8 @@ const MonthlyFinancialOverview = () => {
             value={account?._id || 'noAccounts'}
             onChange={changeAccount}
             sx={{
-              width: 180,
+              alignSelf: isMobile ? 'center' : 'start',
+              width: 200,
               '& .MuiOutlinedInput-root': {
                 height: 40,
                 borderRadius: '8px',

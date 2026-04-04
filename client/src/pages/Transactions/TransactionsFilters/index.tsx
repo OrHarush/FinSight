@@ -1,6 +1,4 @@
-import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import Row from '@/components/shared/layout/containers/Row';
@@ -10,12 +8,7 @@ import ClearFiltersChip from '@/pages/Transactions/TransactionsFilters/ClearFilt
 import TransactionFilterChips from '@/pages/Transactions/TransactionsFilters/TransactionFilterChips';
 import TransactionSearchInput from '@/pages/Transactions/TransactionsFilters/TransactionSearchInput';
 
-interface TransactionsFiltersProps {
-  onCreateTransaction?: () => void;
-}
-
-const TransactionsFilters = ({ onCreateTransaction }: TransactionsFiltersProps) => {
-  const { t } = useTranslation('transactions');
+const TransactionsFilters = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -77,19 +70,9 @@ const TransactionsFilters = ({ onCreateTransaction }: TransactionsFiltersProps) 
           {hasActiveFilters && <ClearFiltersChip onClick={resetFilters} iconOnly />}
         </Box>
       ) : (
-        <Row spacing={1} alignItems={'center'} justifyContent={'space-between'} sx={{ flex: 1 }}>
+        <Row spacing={1} alignItems="center" sx={{ flex: 1 }}>
           {filterChips}
           {hasActiveFilters && <ClearFiltersChip onClick={resetFilters} />}
-          {onCreateTransaction && (
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={onCreateTransaction}
-              sx={{ marginInlineStart: 'auto', width: '180px' }}
-            >
-              {t('actions.create')}
-            </Button>
-          )}
         </Row>
       )}
     </ResponsiveRow>

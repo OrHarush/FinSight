@@ -61,7 +61,56 @@
     "create": "Create Transaction",
     "edit": "Edit Transaction",
     "delete": "Delete Transaction",
-    "import": "Import CSV"
+    "import": "Import"
+  },
+  "importWizard": {
+    "pageTitle": "Import Transactions",
+    "steps": {
+      "upload": "Upload File",
+      "settings": "Settings",
+      "categorize": "Categorize",
+      "confirm": "Confirm"
+    },
+    "navigation": {
+      "next": "Next",
+      "back": "Back",
+      "confirm": "Import"
+    },
+    "upload": {
+      "dropzone": "Drag & drop your bank export here",
+      "dropzoneActive": "Drop it!",
+      "dropzoneSub": "Supports xlsx and csv files — up to 5 MB",
+      "browse": "Browse file",
+      "previewTitle": "Preview",
+      "rowCount": "{{count}} transactions found",
+      "dateRange": "Date range: {{from}} – {{to}}",
+      "sampleRows": "Sample rows",
+      "warnings": "Warnings",
+      "col.date": "Date",
+      "col.name": "Description",
+      "col.amount": "Amount",
+      "error.unsupported": "Unsupported file type. Please upload an xlsx or csv file.",
+      "error.noData": "No transaction data found in this file.",
+      "error.parse": "Could not parse the file. Make sure it's a valid bank export.",
+      "error.generic": "Something went wrong. Please try again."
+    },
+    "settings": {
+      "account": "Account",
+      "paymentMethod": "Payment Method",
+      "dateFilterLabel": "Filter by date range (optional)",
+      "from": "From",
+      "to": "To"
+    },
+    "categorize": {
+      "progress": "{{categorized}} of {{total}} categorized",
+      "noCategories": "No categories found",
+      "empty": "No transactions to categorize",
+      "bulkAssign": {
+        "message": "{{count}} other \"{{name}}\" transaction(s) — assign to same category?",
+        "confirm": "Apply to all",
+        "dismiss": "Skip"
+      }
+    }
   },
   "filters": {
     "allCategories": "Categories",
