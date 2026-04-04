@@ -2,7 +2,7 @@ import * as XLSX from 'xlsx';
 
 import { ApiError } from '../errors/ApiError';
 
-type CellValue = string | number | boolean | Date | null | undefined;
+type CellValue = string | number | boolean | null | undefined;
 type RawRow = CellValue[];
 
 interface ColumnMap {
@@ -25,6 +25,12 @@ export interface ParseResult {
 const DATE_KEYWORDS = ['date', 'תאריך'];
 const AMOUNT_KEYWORDS = ['amount', 'סכום', 'חיוב'];
 const NAME_KEYWORDS = ['description', 'תיאור', 'שם בית עסק', 'merchant'];
+
+const CSV_MIMETYPES = ['text/csv', 'application/csv', 'text/plain'];
+const XLSX_MIMETYPES = [
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+];
+const ALLOWED_MIMETYPES = [...CSV_MIMETYPES, ...XLSX_MIMETYPES];
 
 const cellMatchesGroup = (cell: CellValue, keywords: string[]): boolean => {
   if (cell == null) {
@@ -70,24 +76,25 @@ const detectColumns = (headerRow: RawRow): Partial<ColumnMap> => {
 };
 
 const toIsoDateString = (year: number, month: number, day: number): string | null => {
-  // Use Date.UTC to avoid local-timezone offset shifting the date
   const d = new Date(Date.UTC(year, month - 1, day));
 
   return isNaN(d.getTime()) ? null : d.toISOString().split('T')[0];
 };
 
 const parseDate = (value: CellValue): string | null => {
-  if (value instanceof Date) {
-    if (isNaN(value.getTime())) {
-      return null;
+  // Excel numeric serial (only produced by XLSX xlsx path, never by our CSV path)
+  if (typeof value === 'number' && value > 1000) {
+    const d = new Date(Math.round((value - 25569) * 86400 * 1000));
+
+    if (!isNaN(d.getTime())) {
+      const y = d.getUTCFullYear();
+      const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(d.getUTCDate()).padStart(2, '0');
+
+      return `${y}-${m}-${day}`;
     }
 
-    // Use local getters — SheetJS cellDates:true emits dates in local time
-    const y = value.getFullYear();
-    const m = String(value.getMonth() + 1).padStart(2, '0');
-    const d = String(value.getDate()).padStart(2, '0');
-
-    return `${y}-${m}-${d}`;
+    return null;
   }
 
   if (typeof value === 'string') {
@@ -102,7 +109,7 @@ const parseDate = (value: CellValue): string | null => {
       );
     }
 
-    // DD/MM/YYYY or DD.MM.YYYY (Israeli standard, Amex uses dots + 4-digit year)
+    // DD/MM/YYYY or DD.MM.YYYY (4-digit year)
     const ddmmyyyy = trimmed.match(/^(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})$/);
 
     if (ddmmyyyy) {
@@ -113,11 +120,10 @@ const parseDate = (value: CellValue): string | null => {
       );
     }
 
-    // DD/MM/YY or DD.MM.YY (2-digit year — Amex Israel billing export e.g. "31.12.25")
+    // DD/MM/YY or DD.MM.YY (2-digit year — Israeli bank exports e.g. "31.12.25")
     const ddmmyy = trimmed.match(/^(\d{1,2})[\/.](\d{1,2})[\/.](\d{2})$/);
 
     if (ddmmyy) {
-      // Credit card transactions are always from 2000+
       return toIsoDateString(
         2000 + parseInt(ddmmyy[3], 10),
         parseInt(ddmmyy[2], 10),
@@ -161,12 +167,61 @@ const parseRow = (row: RawRow, colMap: ColumnMap): ParsedRow | null => {
   return { date, name, amount };
 };
 
-const ALLOWED_MIMETYPES = [
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'text/csv',
-  'application/csv',
-  'text/plain',
-];
+// Minimal CSV parser that keeps all values as strings — no type coercion.
+// Handles double-quoted fields and escaped quotes ("").
+const parseCSVLine = (line: string): string[] => {
+  const fields: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+
+    if (inQuotes) {
+      if (ch === '"' && line[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        current += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      fields.push(current.trim());
+      current = '';
+    } else {
+      current += ch;
+    }
+  }
+
+  fields.push(current.trim());
+
+  return fields;
+};
+
+const readCSV = (buffer: Buffer): RawRow[] => {
+  const text = buffer.toString('utf-8').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const lines = text.split('\n');
+
+  return lines
+    .map(line => parseCSVLine(line) as RawRow)
+    .filter(row => row.some(cell => cell !== '' && cell != null));
+};
+
+const readXLSX = (buffer: Buffer): RawRow[] => {
+  // cellDates: false keeps date serials as numbers; we convert them ourselves
+  // to avoid XLSX's locale-dependent date detection
+  const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: false });
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+  return XLSX.utils.sheet_to_json<RawRow>(sheet, {
+    header: 1,
+    defval: null,
+    raw: true,
+  });
+};
 
 export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
   if (!ALLOWED_MIMETYPES.includes(mimetype)) {
@@ -175,13 +230,9 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
     );
   }
 
-  const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: true });
-  const sheetName = workbook.SheetNames[0];
-  const sheet = workbook.Sheets[sheetName];
-  const rawRows = XLSX.utils.sheet_to_json<RawRow>(sheet, {
-    header: 1,
-    defval: null,
-  });
+  const rawRows = CSV_MIMETYPES.includes(mimetype)
+    ? readCSV(buffer)
+    : readXLSX(buffer);
 
   if (rawRows.length === 0) {
     throw ApiError.badRequest('File is empty or could not be read.');

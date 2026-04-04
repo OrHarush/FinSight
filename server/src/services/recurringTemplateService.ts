@@ -1,8 +1,8 @@
 import {
   CreateRecurringTemplateDTO,
   DeactivateFromDTO,
-  SplitRecurringTemplateDTO,
   fromCents,
+  SplitRecurringTemplateDTO,
   toCents,
   UpdateRecurringTemplateDTO,
 } from '@finsight/shared';
@@ -18,7 +18,7 @@ import { IRecurringTemplate } from '../models/RecurringTemplate';
 import { ITransaction } from '../models/Transaction';
 import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
-import { clampedDate } from '../utils/recurringUtils';
+import { clampedDate } from './transactions/buildVirtualTransactions';
 
 dayjs.extend(utc);
 
@@ -213,7 +213,7 @@ export const createWithTransactions = async (dto: CreateRecurringTemplateDTO, us
 export const deactivateFrom = async (
   templateId: string,
   dto: DeactivateFromDTO,
-  userId: string,
+  userId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(templateId)) {
     throw ApiError.badRequest('Invalid recurring template ID');
@@ -246,7 +246,7 @@ export const deactivateFrom = async (
 export const splitTemplate = async (
   templateId: string,
   dto: SplitRecurringTemplateDTO,
-  userId: string,
+  userId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(templateId)) {
     throw ApiError.badRequest('Invalid recurring template ID');
@@ -297,7 +297,7 @@ export const splitTemplate = async (
   await transactionRepository.deleteByTemplateIdFromDate(templateId, splitPoint.toDate());
 
   generatePendingTransactions(userId).catch(err =>
-    console.error('Failed to generate pending transactions after split:', err),
+    console.error('Failed to generate pending transactions after split:', err)
   );
 
   return {

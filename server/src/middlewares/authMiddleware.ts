@@ -1,7 +1,7 @@
-import { NextFunction,Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { ApiError } from '../errors/ApiError';
-import { extractUserDataFromBearerToken } from '../utils/auth';
+import { extractUserDataFromBearerToken } from '../auth/jwt';
 
 export const authMiddleware = (req: Request, _res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;

@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { ImportPreview } from '@/pages/Import/ImportWizardContext';
+import { ImportPreview } from '@/pages/Import/types/importWizard';
 
 interface UploadPreviewProps {
   preview: ImportPreview;
@@ -43,13 +43,11 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
           </Typography>
         )}
       </Row>
-
       {preview.warnings.length > 0 && (
         <Alert severity="warning" icon={<WarningAmberIcon />}>
           {preview.warnings.join(' ')}
         </Alert>
       )}
-
       <Typography variant="caption" color="text.secondary" fontWeight={500}>
         {t('importWizard.upload.sampleRows')}
       </Typography>
@@ -67,10 +65,7 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
               <TableRow key={i}>
                 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.date}</TableCell>
                 <TableCell>{row.name || '—'}</TableCell>
-                <TableCell
-                  align="right"
-                  sx={{ color: row.amount < 0 ? 'error.main' : 'inherit' }}
-                >
+                <TableCell align="right" sx={{ color: row.amount < 0 ? 'error.main' : 'inherit' }}>
                   {row.amount.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,

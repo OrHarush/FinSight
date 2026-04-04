@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
 
-import { IRecurringTemplatePopulated } from '../types/RecurringTemplate';
-import { ITransactionPopulated } from '../types/Transaction';
+import { IRecurringTemplatePopulated } from '../../types/RecurringTemplate';
+import { ITransactionPopulated } from '../../types/Transaction';
 
 dayjs.extend(utc);
 

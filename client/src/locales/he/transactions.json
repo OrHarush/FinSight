@@ -105,6 +105,8 @@
       "progress": "קוטלגו {{categorized}} מתוך {{total}}",
       "noCategories": "לא נמצאו קטגוריות",
       "empty": "אין עסקאות לסיווג",
+      "uncategorized": "ללא קטגוריה",
+      "categorized": "מקוטלגות",
       "bulkAssign": {
         "message": "נמצאו {{count}} עסקאות נוספות של \"{{name}}\" — לשייך לאותה קטגוריה?",
         "confirm": "החל על כולן",

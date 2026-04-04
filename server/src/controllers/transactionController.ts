@@ -1,10 +1,10 @@
 import { CreateTransactionDTO, UpdateTransactionDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
-import * as transactionService from '../services/transactionService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
+import * as transactionService from '../services/transactions/transactionService';
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
   const result = await transactionService.findAll(

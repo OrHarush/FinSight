@@ -1,9 +1,9 @@
 import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as categoryService from '../services/categoryService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getCategories = asyncHandler(async (req: Request, res: Response) => {
   const categories = await categoryService.findAll(req.userId);

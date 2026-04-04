@@ -6,8 +6,8 @@ import * as accountService from '../services/accountService';
 import * as budgetService from '../services/budgetService';
 import * as categoryService from '../services/categoryService';
 import * as paymentMethodService from '../services/paymentMethodService';
-import * as transactionService from '../services/transactionService';
-import { verifyAndExtractBearerToken } from '../utils/auth';
+import * as transactionService from '../services/transactions/transactionService';
+import { verifyAndExtractBearerToken } from '../auth/jwt';
 import {
   AccountQuerySchema,
   BudgetQuerySchema,

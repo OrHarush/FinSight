@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
-import { WizardRow } from '@/pages/Import/ImportWizardContext';
 import CategoryCard from '@/pages/Import/steps/categorize/CategoryCard';
+import { WizardRow } from '@/pages/Import/types/importWizard';
 import { CategoryDto } from '@/types/Category';
 
 interface CategoryPanelProps {
@@ -32,23 +32,20 @@ const CategoryPanel = ({
     .filter(({ r }) => r.selected)
     .map(({ i }) => i);
 
-  const handleClick = (categoryId: string) => {
+  const assignSelected = (categoryId: string) => {
     if (selectedIndices.length > 0) {
       onAssign(categoryId, selectedIndices);
     }
   };
 
-  const handleDrop = (categoryId: string) => {
+  const assignDragged = (categoryId: string) => {
     if (draggingIndices.length > 0) {
       onAssign(categoryId, draggingIndices);
     }
   };
 
   return (
-    <Paper
-      variant="outlined"
-      sx={{ width: 260, flexShrink: 0, borderRadius: 2, overflow: 'auto', p: 1.5 }}
-    >
+    <Paper variant="outlined" sx={{ flex: 1, borderRadius: 2, overflow: 'auto', p: 2 }}>
       <Column spacing={1}>
         {categories.length === 0 ? (
           <Typography variant="body2" color="text.secondary" textAlign="center" py={2}>
@@ -60,12 +57,12 @@ const CategoryPanel = ({
               key={category._id}
               category={category}
               name={getCategoryName(category)}
-              assignedCount={rows.filter(r => r.categoryId === category._id).length}
+              assignedRows={rows.filter(r => r.categoryId === category._id)}
               isOver={overId === category._id}
-              onClick={() => handleClick(category._id)}
+              onAssign={() => assignSelected(category._id)}
               onDragEnter={() => onSetOverId(category._id)}
               onDragLeave={() => onSetOverId(null)}
-              onDrop={() => handleDrop(category._id)}
+              onDrop={() => assignDragged(category._id)}
             />
           ))
         )}

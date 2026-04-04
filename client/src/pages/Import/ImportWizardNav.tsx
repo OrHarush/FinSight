@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { ROUTES } from '@/constants/Routes';
+import { TOTAL_STEPS } from '@/pages/Import/constants/import';
 import { useImportWizard } from '@/pages/Import/ImportWizardContext';
-
-const TOTAL_STEPS = 4;
 
 const ImportWizardNav = () => {
   const { t } = useTranslation('transactions');

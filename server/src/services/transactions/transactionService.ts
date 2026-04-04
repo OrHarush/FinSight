@@ -3,14 +3,16 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import mongoose, { Types } from 'mongoose';
 
-import { ApiError } from '../errors/ApiError';
-import Category from '../models/Category';
-import { ITransaction } from '../models/Transaction';
-import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
-import * as transactionRepository from '../repositories/transactionRepository';
-import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
-import { ITransactionPopulated } from '../types/Transaction';
-import { buildVirtualTransactions } from '../utils/recurringUtils';
+import { ApiError } from '../../errors/ApiError';
+import Category from '../../models/Category';
+import { ITransaction } from '../../models/Transaction';
+import * as recurringTemplateRepository from '../../repositories/recurringTemplateRepository';
+import * as transactionRepository from '../../repositories/transactionRepository';
+import {
+  GetTransactionsOptions,
+  GetTransactionSummaryQuery,
+} from '../../schemas/transactionSchemas';
+import { ITransactionPopulated } from '../../types/Transaction';
 import {
   expandTransactions,
   filterTransactionsByDateRange,
@@ -18,7 +20,8 @@ import {
   sortAndPaginate,
   summarizeSingleMonth,
   summarizeWholeYear,
-} from '../utils/transactionUtils';
+} from '../../utils/transaction';
+import { buildVirtualTransactions } from './buildVirtualTransactions';
 
 dayjs.extend(utc);
 

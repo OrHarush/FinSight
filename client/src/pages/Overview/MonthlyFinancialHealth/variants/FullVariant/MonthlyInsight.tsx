@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
-import { InsightKey } from '@/utils/financialHealth';
+import { InsightKey } from '@/hooks/business/analyzeFinancialHealth';
 
 interface MonthlyInsightProps {
   insightKey: InsightKey;

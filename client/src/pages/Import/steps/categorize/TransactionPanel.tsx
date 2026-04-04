@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   Paper,
   Table,
   TableBody,
@@ -6,12 +7,13 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
-import { WizardRow } from '@/pages/Import/ImportWizardContext';
 import TransactionRow from '@/pages/Import/steps/categorize/TransactionRow';
+import { WizardRow } from '@/pages/Import/types/importWizard';
 import { CategoryDto } from '@/types/Category';
 
 interface TransactionPanelProps {
@@ -19,22 +21,68 @@ interface TransactionPanelProps {
   categories: CategoryDto[];
   draggingIndices: number[];
   onToggleSelected: (index: number) => void;
+  onToggleAll: () => void;
   onDragStart: (index: number) => void;
   onDragEnd: () => void;
+  onRenameRow: (index: number, name: string) => void;
 }
+
+const SectionHeader = ({ label }: { label: string }) => {
+  const theme = useTheme();
+
+  return (
+    <TableRow sx={{ pointerEvents: 'none' }}>
+      <TableCell
+        colSpan={6}
+        sx={{
+          py: 0.75,
+          px: 1.5,
+          bgcolor: theme.palette.background.default,
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          borderTop: `1px solid ${theme.palette.divider}`,
+          position: 'sticky',
+          top: 33,
+          zIndex: 1,
+        }}
+      >
+        <Typography
+          variant="caption"
+          fontWeight={600}
+          color="text.secondary"
+          sx={{ letterSpacing: '0.05em', textTransform: 'uppercase' }}
+        >
+          {label}
+        </Typography>
+      </TableCell>
+    </TableRow>
+  );
+};
 
 const TransactionPanel = ({
   rows,
   categories,
   draggingIndices,
   onToggleSelected,
+  onToggleAll,
   onDragStart,
   onDragEnd,
+  onRenameRow,
 }: TransactionPanelProps) => {
   const { t } = useTranslation('transactions');
 
+  const uncategorized = rows
+    .map((r, i) => ({ row: r, index: i }))
+    .filter(({ row }) => row.categoryId === null);
+
+  const categorized = rows
+    .map((r, i) => ({ row: r, index: i }))
+    .filter(({ row }) => row.categoryId !== null);
+
+  const allSelected = rows.length > 0 && rows.every(r => r.selected);
+  const someSelected = rows.some(r => r.selected);
+
   return (
-    <Paper variant="outlined" sx={{ flex: 1, borderRadius: 2, overflow: 'auto' }}>
+    <Paper variant="outlined" sx={{ width: 600, flexShrink: 0, borderRadius: 2, overflow: 'auto' }}>
       {rows.length === 0 ? (
         <Column alignItems="center" justifyContent="center" height="100%" p={4}>
           <Typography variant="body2" color="text.secondary">
@@ -45,25 +93,60 @@ const TransactionPanel = ({
         <Table size="small" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox" />
-              <TableCell>{t('importWizard.upload.col.date')}</TableCell>
+              <TableCell padding="checkbox" sx={{ width: 36 }}>
+                <Checkbox
+                  size="small"
+                  checked={allSelected}
+                  indeterminate={someSelected && !allSelected}
+                  onChange={onToggleAll}
+                />
+              </TableCell>
+              <TableCell sx={{ width: 20, p: 0 }} />
+              <TableCell sx={{ whiteSpace: 'nowrap', width: 72 }}>
+                {t('importWizard.upload.col.date')}
+              </TableCell>
               <TableCell>{t('importWizard.upload.col.name')}</TableCell>
-              <TableCell align="right">{t('importWizard.upload.col.amount')}</TableCell>
-              <TableCell>{t('fields.category')}</TableCell>
+              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                {t('importWizard.upload.col.amount')}
+              </TableCell>
+              <TableCell sx={{ width: 110 }}>{t('fields.category')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TransactionRow
-                key={index}
-                row={row}
-                categories={categories}
-                isDragging={draggingIndices.includes(index)}
-                onToggleSelected={() => onToggleSelected(index)}
-                onDragStart={() => onDragStart(index)}
-                onDragEnd={onDragEnd}
-              />
-            ))}
+            {uncategorized.length > 0 && (
+              <>
+                <SectionHeader label={t('importWizard.categorize.uncategorized')} />
+                {uncategorized.map(({ row, index }) => (
+                  <TransactionRow
+                    key={index}
+                    row={row}
+                    categories={categories}
+                    isDragging={draggingIndices.includes(index)}
+                    onToggleSelected={() => onToggleSelected(index)}
+                    onDragStart={() => onDragStart(index)}
+                    onDragEnd={onDragEnd}
+                    onRenameRow={(name: string) => onRenameRow(index, name)}
+                  />
+                ))}
+              </>
+            )}
+            {categorized.length > 0 && (
+              <>
+                <SectionHeader label={t('importWizard.categorize.categorized')} />
+                {categorized.map(({ row, index }) => (
+                  <TransactionRow
+                    key={index}
+                    row={row}
+                    categories={categories}
+                    isDragging={draggingIndices.includes(index)}
+                    onToggleSelected={() => onToggleSelected(index)}
+                    onDragStart={() => onDragStart(index)}
+                    onDragEnd={onDragEnd}
+                    onRenameRow={(name: string) => onRenameRow(index, name)}
+                  />
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       )}

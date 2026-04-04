@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI,SchemaType, Tool } from '@google/generative-ai';
+import { GoogleGenerativeAI, SchemaType, Tool } from '@google/generative-ai';
 
 import { ApiError } from '../errors/ApiError';
 import { GetTransactionsOptions, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
@@ -7,7 +7,7 @@ import * as accountService from './accountService';
 import * as budgetService from './budgetService';
 import * as categoryService from './categoryService';
 import * as paymentMethodService from './paymentMethodService';
-import * as transactionService from './transactionService';
+import * as transactionService from './transactions/transactionService';
 
 const apiKey = process.env.GEMINI_API_KEY;
 
@@ -24,7 +24,7 @@ const formatTransactionsAsTable = (transactions: ITransactionPopulated[]): strin
 
   const rows = transactions
     .slice(0, 20) // Limit to 20 rows for readability
-    .map((tx) => {
+    .map(tx => {
       const dateStr = tx.date ? new Date(tx.date).toLocaleDateString() : 'N/A';
       return `| ${dateStr} | ${tx.category?.name || 'N/A'} | ${tx.type} | $${tx.amount.toFixed(2)} | ${tx.account?.name || 'N/A'} |`;
     })
@@ -269,11 +269,11 @@ const executeTool = async (
         const accounts = await accountService.findAll(userId);
         let filtered = accounts as any[];
         if (args.isPrimary) {
-          filtered = filtered.filter((a) => a.isPrimary === args.isPrimary);
+          filtered = filtered.filter(a => a.isPrimary === args.isPrimary);
         }
         if (args.search) {
           const term = (args.search as string).toLowerCase();
-          filtered = filtered.filter((a) => a.name.toLowerCase().includes(term));
+          filtered = filtered.filter(a => a.name.toLowerCase().includes(term));
         }
         result = { accounts: filtered };
         break;
@@ -282,11 +282,11 @@ const executeTool = async (
         const categories = await categoryService.findAll(userId);
         let filtered = categories as any[];
         if (args.type) {
-          filtered = filtered.filter((c) => c.type === args.type);
+          filtered = filtered.filter(c => c.type === args.type);
         }
         if (args.search) {
           const term = (args.search as string).toLowerCase();
-          filtered = filtered.filter((c) => c.name.toLowerCase().includes(term));
+          filtered = filtered.filter(c => c.name.toLowerCase().includes(term));
         }
         result = { categories: filtered };
         break;
@@ -294,14 +294,14 @@ const executeTool = async (
       case 'getPaymentMethods': {
         result = await paymentMethodService.findAll(userId);
         if (args.type) {
-          result = (result as any[]).filter((m) => m.type === args.type);
+          result = (result as any[]).filter(m => m.type === args.type);
         }
         if (args.isPrimary) {
-          result = (result as any[]).filter((m) => m.isPrimary === args.isPrimary);
+          result = (result as any[]).filter(m => m.isPrimary === args.isPrimary);
         }
         if (args.search) {
           const term = (args.search as string).toLowerCase();
-          result = (result as any[]).filter((m) => m.name.toLowerCase().includes(term));
+          result = (result as any[]).filter(m => m.name.toLowerCase().includes(term));
         }
         break;
       }
@@ -442,7 +442,7 @@ When displaying transactions:
 - Use headers (##) to structure longer responses${toolDisclosureInstruction}`;
 
     const messageList: any[] = [
-      ...conversationHistory.map((msg) => ({
+      ...conversationHistory.map(msg => ({
         role: msg.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: msg.content }],
       })),
@@ -453,13 +453,13 @@ When displaying transactions:
     ];
 
     return generateWithFallback(
-      (modelName) =>
+      modelName =>
         genAI.getGenerativeModel({
           model: modelName,
           tools: userTools,
           systemInstruction,
         }),
-      async (model) => {
+      async model => {
         let response = await model.generateContent({ contents: messageList });
 
         let iterations = 0;
@@ -554,13 +554,16 @@ When displaying transactions:
           // Not JSON — fall through to plain text
         }
 
-        const responseData: any = { type: 'text', text: rawText || 'I could not process your request.' };
-        
+        const responseData: any = {
+          type: 'text',
+          text: rawText || 'I could not process your request.',
+        };
+
         // Add tools used for admin users
         if (isAdmin && usedTools.size > 0) {
           responseData.toolsUsed = Array.from(usedTools);
         }
-        
+
         return responseData;
       }
     ).then(({ response, modelUsed }) => ({

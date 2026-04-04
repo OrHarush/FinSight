@@ -6,9 +6,9 @@ import {
 } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as recurringTemplateService from '../services/recurringTemplateService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getTemplates = asyncHandler(async (req: Request, res: Response) => {
   const templates = await recurringTemplateService.getByUser(req.userId);
@@ -47,22 +47,20 @@ export const deleteTemplate = asyncHandler(async (req: Request, res: Response) =
   return ApiResponse.deleted(res, 'Recurring template deleted successfully');
 });
 
-export const createTemplateWithTransactions = asyncHandler(
-  async (req: Request, res: Response) => {
-    const result = await recurringTemplateService.createWithTransactions(
-      req.validatedBody as CreateRecurringTemplateDTO,
-      req.userId,
-    );
+export const createTemplateWithTransactions = asyncHandler(async (req: Request, res: Response) => {
+  const result = await recurringTemplateService.createWithTransactions(
+    req.validatedBody as CreateRecurringTemplateDTO,
+    req.userId
+  );
 
-    return ApiResponse.created(res, result);
-  },
-);
+  return ApiResponse.created(res, result);
+});
 
 export const deactivateFrom = asyncHandler(async (req: Request, res: Response) => {
   const result = await recurringTemplateService.deactivateFrom(
     req.params.id as string,
     req.validatedBody as DeactivateFromDTO,
-    req.userId,
+    req.userId
   );
 
   return ApiResponse.ok(res, result);
@@ -72,7 +70,7 @@ export const splitTemplate = asyncHandler(async (req: Request, res: Response) =>
   const result = await recurringTemplateService.splitTemplate(
     req.params.id as string,
     req.validatedBody as SplitRecurringTemplateDTO,
-    req.userId,
+    req.userId
   );
 
   return ApiResponse.ok(res, result);

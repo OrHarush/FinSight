@@ -105,6 +105,8 @@
       "progress": "{{categorized}} of {{total}} categorized",
       "noCategories": "No categories found",
       "empty": "No transactions to categorize",
+      "uncategorized": "Uncategorized",
+      "categorized": "Categorized",
       "bulkAssign": {
         "message": "{{count}} other \"{{name}}\" transaction(s) — assign to same category?",
         "confirm": "Apply to all",

@@ -5,7 +5,7 @@ import {
   FinancialSnapshot,
   HealthStatus,
   InsightKey,
-} from '@/utils/financialHealth';
+} from '@/hooks/business/analyzeFinancialHealth';
 
 export interface HealthTile {
   label: string;
@@ -86,7 +86,9 @@ export const useFinancialHealthIndicators = ({
   if (insightKey === 'atRisk') {
     const projectedOverspendTile: HealthTile = {
       label: t('projectedOverspendCard.title'),
-      value: t('projectedOverspendCard.amount', { amount: Math.abs(Math.round(projectedEndBalance)) }),
+      value: t('projectedOverspendCard.amount', {
+        amount: Math.abs(Math.round(projectedEndBalance)),
+      }),
       description: t('projectedOverspendCard.description'),
       danger: true,
     };
@@ -97,7 +99,12 @@ export const useFinancialHealthIndicators = ({
       description: t('dailySpendCard.toStayWithinBudget'),
     };
 
-    return { type: 'full', insightKey, healthStatus, tiles: [projectedOverspendTile, dailyAllowanceTile] };
+    return {
+      type: 'full',
+      insightKey,
+      healthStatus,
+      tiles: [projectedOverspendTile, dailyAllowanceTile],
+    };
   }
 
   const runwayTile: HealthTile = {

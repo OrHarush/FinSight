@@ -4,7 +4,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
 const UploadPreviewSkeleton = () => (
-  <Column spacing={2} mt={2}>
+  <Column spacing={1}>
     <Row spacing={2}>
       <Skeleton variant="rounded" width={120} height={20} />
       <Skeleton variant="rounded" width={180} height={20} />

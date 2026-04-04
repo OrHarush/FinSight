@@ -6,38 +6,17 @@ import { useTranslation } from 'react-i18next';
 import api from '@/api/axios';
 import Column from '@/components/shared/layout/containers/Column';
 import { API_ROUTES } from '@/constants/Routes';
-import { ImportPreview, useImportWizard, WizardRow } from '@/pages/Import/ImportWizardContext';
+import { ALLOWED_EXTENSIONS, MAX_FILE_SIZE } from '@/pages/Import/constants/upload';
+import { useImportWizard } from '@/pages/Import/ImportWizardContext';
 import UploadDropzone from '@/pages/Import/steps/upload/UploadDropzone';
 import UploadPreview from '@/pages/Import/steps/upload/UploadPreview';
 import UploadPreviewSkeleton from '@/pages/Import/steps/upload/UploadPreviewSkeleton';
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ALLOWED_EXTENSIONS = ['.xlsx', '.csv'];
-
-const resolveErrorKey = (message: string): string => {
-  if (message.includes('Unsupported file type')) {
-    return 'importWizard.upload.error.unsupported';
-  }
-
-  if (
-    message.includes('No valid rows') ||
-    message.includes('empty') ||
-    message.includes('Could not detect')
-  ) {
-    return 'importWizard.upload.error.noData';
-  }
-
-  if (message.includes('parse') || message.includes('column')) {
-    return 'importWizard.upload.error.parse';
-  }
-
-  return 'importWizard.upload.error.generic';
-};
+import { ImportPreview, WizardRow } from '@/pages/Import/types/importWizard';
+import { resolveErrorKey } from '@/pages/Import/utils/import';
 
 const UploadStep = () => {
   const { t } = useTranslation('transactions');
   const { setFile, setPreview, setRows, setCanProceed, file, preview } = useImportWizard();
-
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
@@ -84,9 +63,7 @@ const UploadStep = () => {
       }
 
       setPreview(result);
-      setRows(
-        result.sample.map((row): WizardRow => ({ ...row, selected: true, categoryId: null }))
-      );
+      setRows(result.rows.map((row): WizardRow => ({ ...row, selected: true, categoryId: null })));
       setCanProceed(true);
     } catch (err: unknown) {
       const msg =

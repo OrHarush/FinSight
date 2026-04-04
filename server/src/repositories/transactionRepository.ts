@@ -5,7 +5,7 @@ import { ClientSession, Types } from 'mongoose';
 import Transaction, { ITransaction } from '../models/Transaction';
 import { GetTransactionsOptions } from '../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../types/Transaction';
-import { buildTransactionQuery } from '../utils/transactionUtils';
+import { buildTransactionQuery } from '../utils/transaction';
 
 dayjs.extend(utc);
 
@@ -13,7 +13,14 @@ export const findMany = async (userId: string, options: GetTransactionsOptions) 
   const { from, to, categoryIds, paymentMethodIds, accountIds, accountId } = options;
   const resolvedAccountIds = accountIds ?? (accountId ? [accountId] : undefined);
 
-  const query = buildTransactionQuery(userId, from, to, categoryIds, paymentMethodIds, resolvedAccountIds);
+  const query = buildTransactionQuery(
+    userId,
+    from,
+    to,
+    categoryIds,
+    paymentMethodIds,
+    resolvedAccountIds
+  );
 
   return await Transaction.find(query)
     .populate('category')
@@ -81,7 +88,10 @@ export const countByAccountId = async (userId: string, accountId: string) =>
     account: new Types.ObjectId(accountId),
   });
 
-export const countByPaymentMethodId = async (userId: string, paymentMethodId: string): Promise<number> =>
+export const countByPaymentMethodId = async (
+  userId: string,
+  paymentMethodId: string
+): Promise<number> =>
   Transaction.countDocuments({
     userId: new Types.ObjectId(userId),
     paymentMethod: new Types.ObjectId(paymentMethodId),

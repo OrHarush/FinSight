@@ -6,9 +6,9 @@ import {
 } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as budgetService from '../services/budgetService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getBudgets = asyncHandler(async (req: Request, res: Response) => {
   const budgets = await budgetService.findAll(req.userId, req.validatedQuery as GetBudgetsQuery);

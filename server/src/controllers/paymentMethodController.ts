@@ -1,9 +1,9 @@
 import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as paymentMethodService from '../services/paymentMethodService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getPaymentMethods = asyncHandler(async (req: Request, res: Response) => {
   const methods = await paymentMethodService.findAll(req.userId);
@@ -18,13 +18,20 @@ export const getPaymentMethodById = asyncHandler(async (req: Request, res: Respo
 });
 
 export const createPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.create(req.validatedBody as CreatePaymentMethodDTO, req.userId);
+  const method = await paymentMethodService.create(
+    req.validatedBody as CreatePaymentMethodDTO,
+    req.userId
+  );
 
   return ApiResponse.created(res, method);
 });
 
 export const updatePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const updated = await paymentMethodService.update(req.params.id, req.validatedBody as UpdatePaymentMethodDTO, req.userId);
+  const updated = await paymentMethodService.update(
+    req.params.id,
+    req.validatedBody as UpdatePaymentMethodDTO,
+    req.userId
+  );
 
   return ApiResponse.ok(res, updated);
 });
@@ -36,7 +43,11 @@ export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Re
 });
 
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  await paymentMethodService.deleteById(req.params.id, req.userId, req.body.replacementId as string | undefined);
+  await paymentMethodService.deleteById(
+    req.params.id,
+    req.userId,
+    req.body.replacementId as string | undefined
+  );
 
   return ApiResponse.deleted(res, 'Payment method deleted successfully');
 });

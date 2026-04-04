@@ -18,12 +18,20 @@ interface BulkAssignState {
 
 const CategorizeStep = () => {
   const { t } = useTranslation('transactions');
-  const { rows, toggleRowSelected, updateRowCategory, setCanProceed } = useImportWizard();
+  const {
+    rows,
+    toggleRowSelected,
+    toggleAllSelected,
+    updateRowCategory,
+    updateRowName,
+    setCanProceed,
+  } = useImportWizard();
   const { categories } = useCategories();
-
   const [draggingIndices, setDraggingIndices] = useState<number[]>([]);
   const [overId, setOverId] = useState<string | null>(null);
   const [bulkAssign, setBulkAssign] = useState<BulkAssignState | null>(null);
+
+  const expenseCategories = categories.filter(c => c.type === 'Expense');
 
   useEffect(() => {
     setCanProceed(true);
@@ -33,7 +41,7 @@ const CategorizeStep = () => {
   const total = rows.length;
   const progress = total > 0 ? (categorizedCount / total) * 100 : 0;
 
-  const handleDragStart = (index: number) => {
+  const startDragging = (index: number) => {
     if (rows[index].selected) {
       setDraggingIndices(rows.map((r, i) => (r.selected ? i : -1)).filter(i => i >= 0));
     } else {
@@ -41,12 +49,12 @@ const CategorizeStep = () => {
     }
   };
 
-  const handleDragEnd = () => {
+  const stopDragging = () => {
     setDraggingIndices([]);
     setOverId(null);
   };
 
-  const handleAssign = (categoryId: string, indices: number[]) => {
+  const assignRows = (categoryId: string, indices: number[]) => {
     indices.forEach(i => updateRowCategory(i, categoryId));
 
     const assignedNames = new Set(indices.map(i => rows[i].name).filter(Boolean));
@@ -87,28 +95,32 @@ const CategorizeStep = () => {
             {Math.round(progress)}%
           </Typography>
         </Row>
-        <LinearProgress variant="determinate" value={progress} sx={{ borderRadius: 1, height: 6 }} />
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          sx={{ borderRadius: 1, height: 6 }}
+        />
       </Column>
-
       <Row flex={1} minHeight={0} spacing={2} alignItems="stretch">
+        <TransactionPanel
+          rows={rows}
+          categories={expenseCategories}
+          draggingIndices={draggingIndices}
+          onToggleSelected={toggleRowSelected}
+          onToggleAll={toggleAllSelected}
+          onDragStart={startDragging}
+          onDragEnd={stopDragging}
+          onRenameRow={updateRowName}
+        />
         <CategoryPanel
-          categories={categories}
+          categories={expenseCategories}
           rows={rows}
           draggingIndices={draggingIndices}
           overId={overId}
           onSetOverId={setOverId}
-          onAssign={handleAssign}
-        />
-        <TransactionPanel
-          rows={rows}
-          categories={categories}
-          draggingIndices={draggingIndices}
-          onToggleSelected={toggleRowSelected}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
+          onAssign={assignRows}
         />
       </Row>
-
       {bulkAssign && (
         <BulkAssignPrompt
           merchantName={bulkAssign.name}

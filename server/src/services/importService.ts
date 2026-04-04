@@ -1,6 +1,6 @@
+import { toCents } from '@finsight/shared';
 import { Types } from 'mongoose';
 
-import { toCents } from '@finsight/shared';
 import { ApiError } from '../errors/ApiError';
 import { ITransaction } from '../models/Transaction';
 import * as accountRepository from '../repositories/accountRepository';
@@ -12,6 +12,7 @@ import { parseFile } from '../utils/fileParser';
 export interface ImportPreview {
   rowCount: number;
   dateRange: { from: string; to: string } | null;
+  rows: Array<{ date: string; name: string; amount: number }>;
   sample: Array<{ date: string; name: string; amount: number }>;
   warnings: string[];
 }
@@ -33,6 +34,7 @@ export const getImportPreview = async (file: Express.Multer.File): Promise<Impor
   return {
     rowCount: rows.length,
     dateRange,
+    rows,
     sample,
     warnings,
   };

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 import Account from '../models/Account';
 import * as transactionRepository from '../repositories/transactionRepository';
-import { expandTransactions, getEffectiveBalanceDate } from '../utils/transactionUtils';
+import { expandTransactions, getEffectiveBalanceDate } from '../utils/transaction';
 
 dayjs.extend(utc);
 
@@ -108,11 +108,7 @@ export const calculateAccountBalanceCurve = async (
   let runningBalance = account.balance;
   let txIndex = 0;
 
-  for (
-    let current = start.clone();
-    !current.isAfter(end, 'day');
-    current = current.add(1, 'day')
-  ) {
+  for (let current = start.clone(); !current.isAfter(end, 'day'); current = current.add(1, 'day')) {
     while (txIndex < sortedTx.length && dayjs(sortedTx[txIndex].date).isSame(current, 'day')) {
       const tx = sortedTx[txIndex];
 

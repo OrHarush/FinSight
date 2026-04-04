@@ -1,10 +1,10 @@
 import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
 import { Request, Response } from 'express';
 
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as accountService from '../services/accountService';
 import * as balanceService from '../services/balanceService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getAccounts = asyncHandler(async (req: Request, res: Response) => {
   const accounts = await accountService.findAll(req.userId);
@@ -61,7 +61,11 @@ export const syncAccountBalance = asyncHandler(async (req: Request, res: Respons
 });
 
 export const deleteAccount = asyncHandler(async (req: Request, res: Response) => {
-  await accountService.deleteAccount(req.params.id as string, req.userId, req.body.replacementId as string | undefined);
+  await accountService.deleteAccount(
+    req.params.id as string,
+    req.userId,
+    req.body.replacementId as string | undefined
+  );
 
   return ApiResponse.deleted(res, 'Account deleted');
 });

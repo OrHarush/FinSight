@@ -1,28 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
-export interface ParsedRow {
-  date: string;
-  name: string;
-  amount: number;
-}
-
-export interface ImportPreview {
-  rowCount: number;
-  dateRange: { from: string; to: string } | null;
-  sample: ParsedRow[];
-  warnings: string[];
-}
-
-export interface WizardRow extends ParsedRow {
-  selected: boolean;
-  categoryId: string | null;
-}
-
-export interface WizardSettings {
-  accountId: string;
-  paymentMethodId: string;
-  dateFilter: { from: string; to: string } | null;
-}
+import { TOTAL_STEPS } from '@/pages/Import/constants/import';
+import { ImportPreview, WizardRow, WizardSettings } from '@/pages/Import/types/importWizard';
 
 interface ImportWizardState {
   activeStep: number;
@@ -36,11 +15,13 @@ interface ImportWizardActions {
   goToNextStep: () => void;
   goToPrevStep: () => void;
   setFile: (file: File | null) => void;
-  setPreview: (preview: ImportPreview) => void;
+  setPreview: (preview: ImportPreview | null) => void;
   setSettings: (settings: Partial<WizardSettings>) => void;
   setRows: (rows: WizardRow[]) => void;
   updateRowCategory: (index: number, categoryId: string | null) => void;
+  updateRowName: (index: number, name: string) => void;
   toggleRowSelected: (index: number) => void;
+  toggleAllSelected: () => void;
   canProceed: boolean;
   setCanProceed: (value: boolean) => void;
 }
@@ -54,8 +35,6 @@ const defaultSettings: WizardSettings = {
   paymentMethodId: '',
   dateFilter: null,
 };
-
-const TOTAL_STEPS = 4;
 
 interface ImportWizardProviderProps {
   children: ReactNode;
@@ -84,15 +63,25 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
   };
 
   const updateRowCategory = (index: number, categoryId: string | null) => {
-    setRows(prev =>
-      prev.map((row, i) => (i === index ? { ...row, categoryId } : row))
-    );
+    setRows(prev => prev.map((row, i) => (i === index ? { ...row, categoryId } : row)));
+  };
+
+  const updateRowName = (index: number, name: string) => {
+    setRows(prev => prev.map((row, i) => (i === index ? { ...row, name } : row)));
   };
 
   const toggleRowSelected = (index: number) => {
     setRows(prev =>
       prev.map((row, i) => (i === index ? { ...row, selected: !row.selected } : row))
     );
+  };
+
+  const toggleAllSelected = () => {
+    setRows(prev => {
+      const allSelected = prev.every(r => r.selected);
+
+      return prev.map(r => ({ ...r, selected: !allSelected }));
+    });
   };
 
   return (
@@ -111,7 +100,9 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         setSettings,
         setRows,
         updateRowCategory,
+        updateRowName,
         toggleRowSelected,
+        toggleAllSelected,
         setCanProceed,
       }}
     >

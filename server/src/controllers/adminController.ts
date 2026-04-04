@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
 import { ApiError } from '../errors/ApiError';
+import { ApiResponse } from '../http/ApiResponse';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import * as adminService from '../services/adminService';
-import { ApiResponse } from '../utils/ApiResponse';
-import { asyncHandler } from '../utils/asyncHandler';
 
 export const getKpiOverview = asyncHandler(async (_req: Request, res: Response) => {
   const overview = await adminService.getKpiOverview();
