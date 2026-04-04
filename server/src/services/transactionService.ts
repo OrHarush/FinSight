@@ -104,6 +104,15 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
     to: endDate,
   });
 
+  const templates = await recurringTemplateRepository.findActiveForDateRangePopulated(
+    userId,
+    fromDate,
+    endDate
+  );
+  const virtualTransactions = buildVirtualTransactions(templates, transactions, fromDate, endDate);
+
+  transactions.push(...virtualTransactions);
+
   const expandedTransactions = expandTransactions(transactions);
 
   if (month !== undefined) {
