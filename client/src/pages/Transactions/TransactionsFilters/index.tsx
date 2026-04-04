@@ -43,7 +43,7 @@ const TransactionsFilters = () => {
   );
 
   return (
-    <ResponsiveRow spacing={1} alignItems="center">
+    <ResponsiveRow width={'100%'} spacing={1} alignItems="center">
       <TransactionSearchInput />
       {isMobile ? (
         <Box

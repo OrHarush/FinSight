@@ -4,6 +4,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
 import ActionFab from '@/components/shared/ui/ActionFab';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useOpen } from '@/hooks/common/useOpen';
 import TransactionActions from '@/pages/Transactions/TransactionActions';
 import { TransactionPageDataProvider } from '@/pages/Transactions/TransactionPageDataProvider';
@@ -13,6 +14,7 @@ import TransactionsHeader from '@/pages/Transactions/TransactionsHeader';
 import TransactionsPreview from '@/pages/Transactions/TransactionsPreview';
 
 export const Transactions = () => {
+  const isMobile = useIsMobile();
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const methods = useForm();
 
@@ -24,7 +26,7 @@ export const Transactions = () => {
             <TransactionsHeader />
             <Row alignItems="center" justifyContent="space-between" spacing={1}>
               <TransactionsFilters />
-              <TransactionActions openCreateDialog={openCreateDialog} />
+              {!isMobile && <TransactionActions openCreateDialog={openCreateDialog} />}
             </Row>
             <TransactionsPreview />
           </Column>
