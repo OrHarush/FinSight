@@ -30,7 +30,7 @@ export const API_ROUTES = {
   RECURRING_TEMPLATES_WITH_TRANSACTIONS: '/api/recurring-templates/with-transactions',
   RECURRING_TEMPLATES_SPLIT: (id: string) => `/api/recurring-templates/${id}/split`,
   RECURRING_TEMPLATES_DEACTIVATE_FROM: (id: string) => `/api/recurring-templates/${id}/deactivate-from`,
-  TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string) => {
+  TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string, from?: string) => {
     const params = new URLSearchParams({ year: String(year) });
 
     if (month !== undefined) {
@@ -41,11 +41,14 @@ export const API_ROUTES = {
       params.append('accountId', accountId);
     }
 
+    if (from) {
+      params.append('from', from);
+    }
+
     return `/api/transactions/summary?${params.toString()}`;
   },
 
   ACCOUNTS: '/api/accounts',
-  ACCOUNT_SYNC_BALANCE: (accountId: string) => `/api/accounts/${accountId}/sync-balance`,
   ACCOUNT_BALANCE_CURVE: (accountId: string) => `/api/accounts/${accountId}/balance-curve`,
 
   CATEGORIES: '/api/categories',

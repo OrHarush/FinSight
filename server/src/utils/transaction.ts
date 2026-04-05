@@ -204,7 +204,8 @@ export const summarizeSingleMonth = (
   txs: ITransactionPopulated[],
   targetYear: number,
   targetMonth: number,
-  accountId?: string
+  accountId?: string,
+  from?: Date
 ) => {
   let monthlyIncome = 0;
   let monthlyExpenses = 0;
@@ -216,11 +217,20 @@ export const summarizeSingleMonth = (
       continue;
     }
 
+    if (from && tx.date) {
+      const effectiveDate = getEffectiveBalanceDate(tx);
+
+      if (effectiveDate <= from) {
+        continue;
+      }
+    }
+
     if (tx.type !== 'Transfer') {
       if (!accountId || tx.account?._id.toString() === accountId) {
         if (tx.category?.type === 'Income') {
           monthlyIncome += tx.amount;
         }
+
         if (tx.category?.type === 'Expense') {
           monthlyExpenses += tx.amount;
         }
@@ -231,6 +241,7 @@ export const summarizeSingleMonth = (
       if (tx.fromAccount?._id.toString() === accountId) {
         monthlyExpenses += tx.amount;
       }
+
       if (tx.toAccount?._id.toString() === accountId) {
         monthlyIncome += tx.amount;
       }

@@ -11,11 +11,12 @@ export const queryKeys = {
     search?: string;
   }) => ['transactions', filters ?? {}],
   transaction: (id: string) => ['transactions', id],
-  transactionSummary: (year: number, month: number, accountId: string) => [
+  transactionSummary: (year: number, month: number, accountId: string, from?: string) => [
     'transactionSummary',
     year,
     month,
     accountId,
+    from,
   ],
   transactionsCount: () => ['transactions', 'count'],
   recurringTemplates: () => ['recurringTemplates'],

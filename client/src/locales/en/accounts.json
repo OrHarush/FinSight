@@ -18,15 +18,13 @@
     "openingBalance": "Opening Balance",
     "institution": "Institution",
     "accountNumber": "Account Number",
-    "asOfDate": "Updated at",
-    "noDataYet": "No data yet"
+    "checkpointFrom": "Anchored from"
   },
   "cannotDeleteLast": "Cannot delete the only account",
   "actions": {
     "create": "Add Account",
     "edit": "Edit Account",
-    "delete": "Delete Account",
-    "recalculateBalance": "Recalculate balance"
+    "delete": "Delete Account"
   },
   "validation": {
     "accountNumberFormat": "Account number must be exactly 4 digits"

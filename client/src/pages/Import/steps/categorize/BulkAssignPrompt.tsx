@@ -20,11 +20,11 @@ const BulkAssignPrompt = ({ merchantName, count, onConfirm, onDismiss }: BulkAss
         })}
         action={
           <>
+            <Button size="small" sx={{ mr: 1 }} onClick={onDismiss}>
+              {t('importWizard.categorize.bulkAssign.dismiss')}
+            </Button>
             <Button size="small" color="primary" variant="contained" onClick={onConfirm}>
               {t('importWizard.categorize.bulkAssign.confirm')}
-            </Button>
-            <Button size="small" sx={{ ml: 1 }} onClick={onDismiss}>
-              {t('importWizard.categorize.bulkAssign.dismiss')}
             </Button>
           </>
         }

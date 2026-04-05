@@ -143,9 +143,13 @@ const CategorizeStep = () => {
           rows={rows}
           categories={expenseCategories}
           onAssign={assignRows}
+          onRenameRow={handleRenameRow}
           bulkAssign={bulkAssign}
           onConfirmBulkAssign={confirmBulkAssign}
           onDismissBulkAssign={() => setBulkAssign(null)}
+          bulkRename={bulkRename}
+          onConfirmBulkRename={confirmBulkRename}
+          onDismissBulkRename={() => setBulkRename(null)}
         />
       ) : (
         <>

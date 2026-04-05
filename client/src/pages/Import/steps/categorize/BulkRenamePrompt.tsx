@@ -28,11 +28,11 @@ const BulkRenamePrompt = ({
         })}
         action={
           <>
+            <Button size="small" sx={{ mr: 1 }} onClick={onDismiss}>
+              {t('importWizard.categorize.bulkRename.dismiss')}
+            </Button>
             <Button size="small" color="primary" variant="contained" onClick={onConfirm}>
               {t('importWizard.categorize.bulkRename.confirm')}
-            </Button>
-            <Button size="small" sx={{ ml: 1 }} onClick={onDismiss}>
-              {t('importWizard.categorize.bulkRename.dismiss')}
             </Button>
           </>
         }

@@ -82,9 +82,9 @@ const TextInput = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'number') {
-      const rawValue = event.target.value;
+      const raw = event.target.value;
 
-      field.onChange(rawValue === '' ? undefined : Number(rawValue));
+      field.onChange(raw === '' ? undefined : Number(raw));
       return;
     }
 

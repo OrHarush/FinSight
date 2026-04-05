@@ -1,27 +1,10 @@
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import {
-  alpha,
-  Checkbox,
-  Chip,
-  InputBase,
-  TableCell,
-  TableRow,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { useState } from 'react';
+import { alpha, Checkbox, Chip, TableCell, TableRow, useTheme } from '@mui/material';
 
+import InlineNameEditor from '@/pages/Import/steps/categorize/InlineNameEditor';
+import useInlineRename from '@/pages/Import/steps/categorize/useInlineRename';
 import { WizardRow } from '@/pages/Import/types/importWizard';
 import { CategoryDto } from '@/types/Category';
-
-const formatDate = (isoDate: string): string => {
-  const [year, month, day] = isoDate.split('-').map(Number);
-
-  return new Date(year, month - 1, day).toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-  });
-};
 
 interface TransactionRowProps {
   row: WizardRow;
@@ -44,8 +27,8 @@ const TransactionRow = ({
 }: TransactionRowProps) => {
   const theme = useTheme();
   const category = categories.find(c => c._id === row.categoryId);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [editedName, setEditedName] = useState(row.name);
+  const { isEditing, editedName, setEditedName, startEdit, commitEdit, handleKeyDown } =
+    useInlineRename(row.name, onRenameRow);
 
   const startDrag = (e: React.DragEvent) => {
     e.stopPropagation();
@@ -74,31 +57,6 @@ const TransactionRow = ({
     setTimeout(() => document.body.removeChild(ghost), 0);
 
     onDragStart();
-  };
-
-  const commitNameEdit = () => {
-    setIsEditingName(false);
-
-    if (editedName.trim() !== row.name) {
-      onRenameRow(editedName.trim());
-    }
-  };
-
-  const handleNameKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      commitNameEdit();
-    }
-
-    if (e.key === 'Escape') {
-      setEditedName(row.name);
-      setIsEditingName(false);
-    }
-  };
-
-  const startNameEdit = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setEditedName(row.name);
-    setIsEditingName(true);
   };
 
   return (
@@ -131,52 +89,23 @@ const TransactionRow = ({
         />
       </TableCell>
       <TableCell sx={{ whiteSpace: 'nowrap', color: 'text.secondary', width: 68 }}>
-        {formatDate(row.date)}
+        {new Date(row.date + 'T00:00:00').toLocaleDateString(undefined, {
+          month: 'short',
+          day: 'numeric',
+        })}
       </TableCell>
       <TableCell>
-        {isEditingName ? (
-          <InputBase
-            value={editedName}
-            onChange={e => setEditedName(e.target.value)}
-            onBlur={commitNameEdit}
-            onKeyDown={handleNameKeyDown}
-            autoFocus
-            inputProps={{ style: { fontSize: '0.875rem', padding: 0 } }}
-            sx={{
-              width: '100%',
-              maxWidth: 180,
-              fontSize: '0.875rem',
-              '& input': {
-                borderBottom: `1px solid ${theme.palette.primary.main}`,
-              },
-            }}
-          />
-        ) : (
-          <Typography
-            variant="body2"
-            noWrap
-            onClick={startNameEdit}
-            sx={{
-              maxWidth: 180,
-              cursor: 'text',
-              '&:hover': {
-                textDecoration: 'underline dotted',
-                textDecorationColor: 'text.disabled',
-              },
-            }}
-          >
-            {row.name || '—'}
-          </Typography>
-        )}
+        <InlineNameEditor
+          name={row.name}
+          isEditing={isEditing}
+          editedName={editedName}
+          onEditedNameChange={setEditedName}
+          onStartEdit={startEdit}
+          onCommitEdit={commitEdit}
+          onKeyDown={handleKeyDown}
+        />
       </TableCell>
-      <TableCell
-        align="right"
-        sx={{
-          whiteSpace: 'nowrap',
-          color: 'error.main',
-          fontWeight: 500,
-        }}
-      >
+      <TableCell align="right" sx={{ whiteSpace: 'nowrap', color: 'error.main', fontWeight: 500 }}>
         {Math.abs(row.amount).toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,

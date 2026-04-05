@@ -21,9 +21,20 @@ import {
   summarizeSingleMonth,
   summarizeWholeYear,
 } from '../../utils/transaction';
+import { syncAccountBalance } from '../balanceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
 
 dayjs.extend(utc);
+
+const syncBalanceFor = (userId: string, accountIds: (string | undefined)[]) => {
+  const unique = [...new Set(accountIds.filter(Boolean))] as string[];
+
+  unique.forEach(id =>
+    syncAccountBalance(userId, id).catch(err =>
+      console.error(`Balance sync failed for account ${id}:`, err)
+    )
+  );
+};
 
 type TxWithEffective = ITransactionPopulated & {
   effectiveYear: number;
@@ -92,7 +103,7 @@ export const getTransactionById = async (id: string, userId: string) => {
 };
 
 export const getTransactionSummary = async (userId: string, query: GetTransactionSummaryQuery) => {
-  const { year, month, accountId } = query;
+  const { year, month, accountId, from } = query;
 
   const fromDate =
     month !== undefined ? new Date(Date.UTC(year, month, 1)) : new Date(Date.UTC(year, 0, 1));
@@ -112,6 +123,7 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
     fromDate,
     endDate
   );
+
   const virtualTransactions = buildVirtualTransactions(templates, transactions, fromDate, endDate);
 
   transactions.push(...virtualTransactions);
@@ -119,7 +131,7 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
   const expandedTransactions = expandTransactions(transactions);
 
   if (month !== undefined) {
-    const result = summarizeSingleMonth(expandedTransactions, year, month, accountId);
+    const result = summarizeSingleMonth(expandedTransactions, year, month, accountId, from);
 
     return {
       monthlyIncome: fromCents(result.monthlyIncome),
@@ -169,6 +181,8 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
 
   const created = await transactionRepository.insert(mapped);
 
+  syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
+
   created.amount = fromCents(created.amount);
 
   return created;
@@ -207,6 +221,15 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     throw ApiError.internal('Unexpected error updating transaction');
   }
 
+  syncBalanceFor(userId, [
+    existing.account?._id.toString(),
+    existing.fromAccount?._id.toString(),
+    existing.toAccount?._id.toString(),
+    data.accountId,
+    data.fromAccountId,
+    data.toAccountId,
+  ]);
+
   return { ...updated, amount: fromCents(updated.amount) };
 };
 
@@ -226,6 +249,12 @@ export const deleteTransaction = async (id: string, userId: string) => {
   if (!deleted) {
     throw ApiError.internal('Unexpected error deleting transaction');
   }
+
+  syncBalanceFor(userId, [
+    existing.account?._id.toString(),
+    existing.fromAccount?._id.toString(),
+    existing.toAccount?._id.toString(),
+  ]);
 
   return { ...deleted, amount: fromCents(deleted.amount) };
 };

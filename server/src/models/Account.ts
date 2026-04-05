@@ -9,7 +9,8 @@ export interface IAccount {
   icon?: string;
   currency?: string;
   isPrimary: boolean;
-  lastSynced?: Date;
+  checkpointBalance: number;
+  checkpointDate?: Date;
   userId: Types.ObjectId;
 }
 
@@ -22,7 +23,8 @@ const AccountSchema: Schema = new Schema(
     icon: { type: String },
     currency: { type: String, default: 'ILS' },
     isPrimary: { type: Boolean, default: false },
-    lastSynced: { type: Date },
+    checkpointBalance: { type: Number, default: 0 },
+    checkpointDate: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

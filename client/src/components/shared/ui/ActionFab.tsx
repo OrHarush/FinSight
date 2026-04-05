@@ -26,7 +26,6 @@ const ActionFab = ({ actions, onClick, showBelow }: ActionFabProps) => {
   const theme = useTheme();
   const isBelowBreakpoint = useMediaQuery(theme.breakpoints.down(showBelow || 'xs'));
   const isVisible = showBelow ? isBelowBreakpoint : true;
-  console.log(isVisible);
 
   if (!isVisible) {
     return null;

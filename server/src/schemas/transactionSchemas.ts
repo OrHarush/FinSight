@@ -70,11 +70,13 @@ export const GetTransactionSummarySchema = z
       .regex(/^(1[0-2]|[1-9])$/, 'month must be between 1 and 12')
       .optional(),
     accountId: z.string().optional(),
+    from: z.string().datetime({ offset: true }).optional(),
   })
   .transform((data) => ({
     year: parseInt(data.year, 10),
     month: data.month ? parseInt(data.month, 10) - 1 : undefined,
     accountId: data.accountId,
+    from: data.from ? new Date(data.from) : undefined,
   }));
 
 export type GetTransactionSummaryQuery = z.infer<typeof GetTransactionSummarySchema>;

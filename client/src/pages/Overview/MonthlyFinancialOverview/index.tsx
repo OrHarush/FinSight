@@ -31,7 +31,7 @@ import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
 
 const MonthlyFinancialOverview = () => {
-  const { t } = useTranslation('overview');
+  const { t, i18n } = useTranslation('overview');
   const theme = useTheme();
   const { year, month, account, date, setDate, setAccount } = useOverviewFilters();
 
@@ -42,6 +42,16 @@ const MonthlyFinancialOverview = () => {
     url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id),
     queryKey: queryKeys.transactionSummary(year, month + 1, account?._id || ''),
     enabled: !!year && month >= 0 && !!account?._id,
+  });
+
+  const checkpointFrom = account?.checkpointDate
+    ? new Date(account.checkpointDate).toISOString()
+    : undefined;
+
+  const { data: futureData, isLoading: isFutureLoading } = useFetch<TransactionSummaryDto>({
+    url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id, checkpointFrom),
+    queryKey: queryKeys.transactionSummary(year, month + 1, account?._id || '', checkpointFrom),
+    enabled: !!year && month >= 0 && !!account?._id && !!checkpointFrom,
   });
 
   const { accounts } = useAccounts();
@@ -57,7 +67,7 @@ const MonthlyFinancialOverview = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isFutureLoading) {
     return <MonthlyFinancialOverviewSkeleton />;
   }
 
@@ -68,7 +78,24 @@ const MonthlyFinancialOverview = () => {
   const income = data?.monthlyIncome ?? 0;
   const expenses = data?.monthlyExpenses ?? 0;
   const net = income - expenses;
-  const projected = account.balance + net;
+
+  const futureIncome = futureData?.monthlyIncome ?? 0;
+  const futureExpenses = futureData?.monthlyExpenses ?? 0;
+  const projected = account.balance + (futureIncome - futureExpenses);
+
+  const checkpointDate = account.checkpointDate;
+  const formattedCheckpointDate = checkpointDate
+    ? new Date(checkpointDate).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' })
+    : null;
+
+  const projectedTooltip = checkpointDate
+    ? t('general.projectedTooltip', {
+        balance: account.balance,
+        futureIncome,
+        futureExpenses,
+        date: formattedCheckpointDate,
+      })
+    : undefined;
 
   return (
     <Grid size={{ xs: 12, md: 6, xl: 5 }}>
@@ -84,7 +111,7 @@ const MonthlyFinancialOverview = () => {
               '& .MuiOutlinedInput-root': {
                 height: 40,
                 borderRadius: '8px',
-                backgroundColor: alpha(theme.palette.background.paper, 0.4), // Subtle depth
+                backgroundColor: alpha(theme.palette.background.paper, 0.4),
               },
             }}
             disabled={accounts?.length === 0}
@@ -100,7 +127,7 @@ const MonthlyFinancialOverview = () => {
                     institution: 'Leumi',
                     isPrimary: false,
                     _id: 'empty account',
-                    lastSynced: new Date(),
+                    checkpointBalance: 0,
                   }}
                 />
               </MenuItem>
@@ -112,9 +139,17 @@ const MonthlyFinancialOverview = () => {
             ))}
           </TextField>
           <Row spacing={1} alignItems="center" justifyContent="space-evenly">
-            <BalanceHeadline balance={account.balance} label={t('general.balance')} />
+            <BalanceHeadline
+              balance={account.balance}
+              label={t('general.balance')}
+              asOfDate={checkpointDate}
+            />
             <Divider orientation="vertical" flexItem sx={{ mx: 2, borderColor: 'divider' }} />
-            <BalanceHeadline balance={projected} label={t('general.projectedBalance')} />
+            <BalanceHeadline
+              balance={projected}
+              label={t('general.projectedBalance')}
+              tooltip={projectedTooltip}
+            />
           </Row>
           <Column spacing={1}>
             <Row spacing={2} justifyContent="space-evenly">

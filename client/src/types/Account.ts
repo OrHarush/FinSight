@@ -7,5 +7,6 @@ export interface AccountDto {
   icon?: string;
   currency?: string;
   isPrimary: boolean;
-  lastSynced?: Date;
+  checkpointBalance: number;
+  checkpointDate?: Date;
 }

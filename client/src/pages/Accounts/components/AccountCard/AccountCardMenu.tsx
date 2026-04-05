@@ -39,12 +39,6 @@ const AccountCardMenu = ({ account, open, handleMenuClose, anchorEl }: AccountCa
     },
   });
 
-  const syncBalance = useApiMutation<{ balance: number; syncedAt: string }, void>({
-    method: 'post',
-    url: API_ROUTES.ACCOUNT_SYNC_BALANCE(account._id),
-    queryKeysToInvalidate: [queryKeys.account(account._id), queryKeys.accounts()],
-  });
-
   const deleteAccount = useApiMutation<void, { id: string; replacementId?: string | null }>({
     method: 'delete',
     buildUrl: ({ id }) => `${API_ROUTES.ACCOUNTS}/${id}`,
@@ -62,10 +56,6 @@ const AccountCardMenu = ({ account, open, handleMenuClose, anchorEl }: AccountCa
     !account.isPrimary && {
       label: t('common:actions.setPrimary'),
       onClick: () => setPrimaryAccount.mutate({ id: account._id }),
-    },
-    {
-      label: t('actions.recalculateBalance'),
-      onClick: () => syncBalance.mutate(),
     },
     {
       label: t('actions.delete'),

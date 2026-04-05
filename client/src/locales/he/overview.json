@@ -6,7 +6,9 @@
     "income": "הכנסות",
     "expenses": "הוצאות",
     "net": "נטו",
-    "projectedBalance": "יתרה צפויה"
+    "projectedBalance": "יתרה צפויה",
+    "asOf": "נכון ל",
+    "projectedTooltip": "יתרה נכון ל{{date}} ({{balance}}) + הכנסות עתידיות ({{futureIncome}}) − הוצאות עתידיות ({{futureExpenses}})"
   },
 
   "dateSelector": {

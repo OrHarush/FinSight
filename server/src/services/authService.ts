@@ -12,6 +12,7 @@ import {
   updateLastLogin,
 } from '../repositories/userRepository';
 import { recordLoginEvent } from './adminService';
+import { syncAllAccountsForUser } from './balanceService';
 import { generatePendingTransactions } from './recurringTemplateService';
 import { createDefaultEntitiesForNewUser } from './userService';
 
@@ -110,6 +111,10 @@ export const devLoginService = async () => {
     console.error('Failed to generate pending transactions on login:', err)
   );
 
+  syncAllAccountsForUser(user._id.toString()).catch(err =>
+    console.error('Failed to sync account balances on login:', err)
+  );
+
   const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {
     algorithm: 'HS256',
     expiresIn: '7d',
@@ -153,6 +158,10 @@ export const googleLoginService = async (googleToken: string) => {
 
   generatePendingTransactions(user._id.toString()).catch(err =>
     console.error('Failed to generate pending transactions on login:', err)
+  );
+
+  syncAllAccountsForUser(user._id.toString()).catch(err =>
+    console.error('Failed to sync account balances on login:', err)
   );
 
   const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {

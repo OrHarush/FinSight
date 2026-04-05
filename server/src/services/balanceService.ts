@@ -1,69 +1,91 @@
+import { toCents } from '@lyra/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import mongoose from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
 import Account from '../models/Account';
+import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { expandTransactions, getEffectiveBalanceDate } from '../utils/transaction';
 
 dayjs.extend(utc);
 
 export const syncAccountBalance = async (userId: string, accountId: string) => {
-  const account = await Account.findOne({
-    _id: accountId,
-    userId,
-  });
+  const account = await Account.findOne({ _id: accountId, userId });
 
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
 
+  const checkpointDate = account.checkpointDate ?? new Date(0);
   const now = new Date();
 
   const rawTransactions = await transactionRepository.findMany(userId, {
     accountId,
-    from: account.lastSynced,
-    to: now,
+    from: checkpointDate,
   });
 
   const expanded = expandTransactions(rawTransactions);
 
-  let delta = 0;
+  let sum = 0;
 
   for (const tx of expanded) {
     const effectiveDate = getEffectiveBalanceDate(tx);
 
-    if (account.lastSynced && (effectiveDate <= account.lastSynced || effectiveDate > now)) {
+    if (effectiveDate <= checkpointDate || effectiveDate > now) {
       continue;
     }
 
     if (tx.type === 'Income') {
-      delta += tx.amount;
+      sum += tx.amount;
     }
+
     if (tx.type === 'Expense') {
-      delta -= tx.amount;
+      sum -= tx.amount;
     }
 
     if (tx.type === 'Transfer') {
       if (tx.fromAccount?._id.toString() === account._id.toString()) {
-        delta -= tx.amount;
+        sum -= tx.amount;
       }
+
       if (tx.toAccount?._id.toString() === account._id.toString()) {
-        delta += tx.amount;
+        sum += tx.amount;
       }
     }
   }
 
-  account.balance += delta;
-  account.lastSynced = now;
+  account.balance = account.checkpointBalance + sum;
 
   await account.save();
 
-  return {
-    balance: account.balance,
-    syncedAt: now,
-  };
+  return { balance: account.balance, syncedAt: now };
+};
+
+export const setBalanceCheckpoint = async (
+  userId: string,
+  accountId: string,
+  balance: number
+) => {
+  const account = await Account.findOne({ _id: accountId, userId });
+
+  if (!account) {
+    throw ApiError.notFound('Account not found');
+  }
+
+  account.checkpointBalance = toCents(balance);
+  account.checkpointDate = new Date();
+
+  await account.save();
+
+  return syncAccountBalance(userId, accountId);
+};
+
+export const syncAllAccountsForUser = async (userId: string) => {
+  const accounts = await accountRepository.findMany(userId);
+
+  await Promise.all(accounts.map(a => syncAccountBalance(userId, a._id.toString())));
 };
 
 export const calculateAccountBalanceCurve = async (

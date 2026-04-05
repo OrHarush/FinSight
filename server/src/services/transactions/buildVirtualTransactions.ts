@@ -15,7 +15,7 @@ export const buildVirtualTransactions = (
 ): ITransactionPopulated[] => {
   const virtualTransactions: ITransactionPopulated[] = [];
   const fromMonth = dayjs.utc(from).startOf('month');
-  const toMonth = dayjs.utc(to).startOf('month');
+  const toMonth = dayjs.utc(to).subtract(1, 'ms').startOf('month');
 
   for (const template of templates) {
     const templateStartMonth = dayjs.utc(template.startDate).startOf('month');

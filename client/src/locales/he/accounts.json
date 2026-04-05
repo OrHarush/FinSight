@@ -18,15 +18,13 @@
     "openingBalance": "יתרת פתיחה",
     "institution": "מוסד פיננסי",
     "accountNumber": "מספר חשבון",
-    "asOfDate": "נכון לתאריך",
-    "noDataYet": "אין נתונים עדיין"
+    "checkpointFrom": "עוגן מ"
   },
   "cannotDeleteLast": "לא ניתן למחוק את החשבון היחיד",
   "actions": {
     "create": "הוסף חשבון",
     "edit": "ערוך חשבון",
-    "delete": "מחק חשבון",
-    "recalculateBalance": "חישוב יתרה"
+    "delete": "מחק חשבון"
   },
   "validation": {
     "accountNumberFormat": "מספר חשבון חייב להכיל בדיוק 4 ספרות"

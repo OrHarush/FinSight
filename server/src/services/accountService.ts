@@ -5,6 +5,7 @@ import { ApiError } from '../errors/ApiError';
 import { IAccount } from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import { setBalanceCheckpoint } from './balanceService';
 
 export const findAll = async (userId: string) => {
   const accounts = await accountRepository.findMany(userId);
@@ -62,15 +63,12 @@ export const update = async (id: string, data: UpdateAccountDTO, userId: string)
     throw ApiError.notFound('Account not found');
   }
 
-  const mapped: Partial<IAccount> = { ...data };
-
   if (typeof data.balance === 'number') {
-    mapped.balance = toCents(data.balance);
-
-    if (mapped.balance !== existing.balance) {
-      mapped.lastSynced = new Date();
-    }
+    await setBalanceCheckpoint(userId, id, data.balance);
   }
+
+  const { balance: _stripped, ...rest } = data as UpdateAccountDTO & { balance?: number };
+  const mapped: Partial<IAccount> = { ...rest };
 
   const updated = await accountRepository.updateById(id, mapped, userId);
 
