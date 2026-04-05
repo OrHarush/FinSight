@@ -34,19 +34,14 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
           color="primary"
           size="small"
         />
-        {preview.dateRange && (
-          <Typography variant="caption" color="text.secondary">
-            {t('importWizard.upload.dateRange', {
-              from: preview.dateRange.from,
-              to: preview.dateRange.to,
-            })}
-          </Typography>
-        )}
       </Row>
-      {preview.warnings.length > 0 && (
-        <Alert severity="warning" icon={<WarningAmberIcon />}>
-          {preview.warnings.join(' ')}
-        </Alert>
+      {preview.dateRange && (
+        <Typography variant="caption" color="text.secondary">
+          {t('importWizard.upload.dateRange', {
+            from: preview.dateRange.from,
+            to: preview.dateRange.to,
+          })}
+        </Typography>
       )}
       <Typography variant="caption" color="text.secondary" fontWeight={500}>
         {t('importWizard.upload.sampleRows')}
@@ -76,6 +71,11 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
           </TableBody>
         </Table>
       </Paper>
+      {preview.warnings.length > 0 && (
+        <Alert severity="warning" icon={<WarningAmberIcon />}>
+          {preview.warnings.join(' ')}
+        </Alert>
+      )}
     </Column>
   );
 };

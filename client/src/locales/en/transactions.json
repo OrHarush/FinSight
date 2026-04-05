@@ -84,6 +84,7 @@
       "previewTitle": "Preview",
       "rowCount": "{{count}} transactions found",
       "dateRange": "Date range: {{from}} – {{to}}",
+      "dateRangeLabel": "Date range",
       "sampleRows": "Sample rows",
       "warnings": "Warnings",
       "col.date": "Date",
@@ -117,7 +118,10 @@
         "confirm": "Rename all",
         "dismiss": "Skip"
       },
-      "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together."
+      "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together.",
+      "deleteSelected": "Delete selected",
+      "deleteSelectedCount": "Delete {{count}} row(s)",
+      "selectedCount": "{{count}} selected"
     },
     "confirm": {
       "summary": "Import Summary",

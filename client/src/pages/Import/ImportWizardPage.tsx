@@ -37,7 +37,7 @@ const ImportWizardContent = () => {
           </Step>
         ))}
       </Stepper>
-      <Column flex={1} minHeight={0} overflow="auto">
+      <Column flex={1} minHeight={0} overflow="auto" sx={{ px: 2, pb: 2 }}>
         <ActiveStep />
       </Column>
       <ImportWizardNav />

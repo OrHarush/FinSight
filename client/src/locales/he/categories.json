@@ -65,10 +65,13 @@
     "freelance": "פרילנס",
     "investments": "השקעות",
     "housing": "דיור",
+    "utilities": "חשבונות",
     "groceries": "מצרכים",
     "transportation": "תחבורה",
-    "utilities": "חשבונות",
     "dining_out": "אוכל בחוץ",
-    "other": "אחר"
+    "entertainment": "בידור",
+    "health": "בריאות",
+    "subscriptions": "מנויים",
+    "insurance": "ביטוח"
   }
 }

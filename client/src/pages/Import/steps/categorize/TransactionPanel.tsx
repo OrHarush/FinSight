@@ -1,5 +1,7 @@
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
+  Button,
   Checkbox,
   Paper,
   Table,
@@ -14,6 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import TransactionRow from '@/pages/Import/steps/categorize/TransactionRow';
 import { WizardRow } from '@/pages/Import/types/importWizard';
 import { CategoryDto } from '@/types/Category';
@@ -27,6 +30,7 @@ interface TransactionPanelProps {
   onDragStart: (index: number) => void;
   onDragEnd: () => void;
   onRenameRow: (index: number, name: string) => void;
+  onDeleteSelected: (indices: number[]) => void;
 }
 
 const SectionHeader = ({ label }: { label: string }) => {
@@ -69,6 +73,7 @@ const TransactionPanel = ({
   onDragStart,
   onDragEnd,
   onRenameRow,
+  onDeleteSelected,
 }: TransactionPanelProps) => {
   const { t } = useTranslation('transactions');
 
@@ -82,6 +87,7 @@ const TransactionPanel = ({
 
   const allSelected = rows.length > 0 && rows.every(r => r.selected);
   const someSelected = rows.some(r => r.selected);
+  const selectedIndices = rows.map((r, i) => (r.selected ? i : -1)).filter(i => i >= 0);
 
   return (
     <Paper variant="outlined" sx={{ width: 600, flexShrink: 0, borderRadius: 2, overflow: 'auto' }}>
@@ -103,19 +109,39 @@ const TransactionPanel = ({
                   onChange={onToggleAll}
                 />
               </TableCell>
-              <TableCell sx={{ width: 24, p: 0, pl: 0.5 }}>
-                <Tooltip title={t('importWizard.categorize.dragInfo')} placement="top" arrow>
-                  <InfoOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', display: 'block' }} />
-                </Tooltip>
-              </TableCell>
-              <TableCell sx={{ whiteSpace: 'nowrap', width: 72 }}>
-                {t('importWizard.upload.col.date')}
-              </TableCell>
-              <TableCell>{t('importWizard.upload.col.name')}</TableCell>
-              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
-                {t('importWizard.upload.col.amount')}
-              </TableCell>
-              <TableCell sx={{ width: 110 }}>{t('fields.category')}</TableCell>
+              {someSelected ? (
+                <TableCell colSpan={5} sx={{ p: 0 }}>
+                  <Row alignItems="center" spacing={1} sx={{ pl: 0.5 }}>
+                    <Typography variant="body2" color="text.secondary">
+                      {t('importWizard.categorize.selectedCount', { count: selectedIndices.length })}
+                    </Typography>
+                    <Button
+                      size="small"
+                      color="error"
+                      startIcon={<DeleteOutlineIcon fontSize="small" />}
+                      onClick={() => onDeleteSelected(selectedIndices)}
+                    >
+                      {t('importWizard.categorize.deleteSelected')}
+                    </Button>
+                  </Row>
+                </TableCell>
+              ) : (
+                <>
+                  <TableCell sx={{ width: 24, p: 0, pl: 0.5 }}>
+                    <Tooltip title={t('importWizard.categorize.dragInfo')} placement="top" arrow>
+                      <InfoOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', display: 'block' }} />
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap', width: 72 }}>
+                    {t('importWizard.upload.col.date')}
+                  </TableCell>
+                  <TableCell>{t('importWizard.upload.col.name')}</TableCell>
+                  <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                    {t('importWizard.upload.col.amount')}
+                  </TableCell>
+                  <TableCell sx={{ width: 110 }}>{t('fields.category')}</TableCell>
+                </>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>

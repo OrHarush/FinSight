@@ -84,6 +84,7 @@
       "previewTitle": "תצוגה מקדימה",
       "rowCount": "נמצאו {{count}} עסקאות",
       "dateRange": "טווח תאריכים: {{from}} – {{to}}",
+      "dateRangeLabel": "טווח תאריכים",
       "sampleRows": "שורות לדוגמה",
       "warnings": "אזהרות",
       "col.date": "תאריך",
@@ -117,7 +118,10 @@
         "confirm": "שנה שם לכולן",
         "dismiss": "דלג"
       },
-      "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת."
+      "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת.",
+      "deleteSelected": "מחק נבחרים",
+      "deleteSelectedCount": "מחק {{count}} שורות",
+      "selectedCount": "{{count}} נבחרו"
     },
     "confirm": {
       "summary": "סיכום ייבוא",

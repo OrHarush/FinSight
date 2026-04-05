@@ -33,6 +33,13 @@ export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
     color: '#673ab7',
   },
   {
+    key: 'utilities',
+    name: 'Utilities',
+    icon: 'Bolt',
+    type: 'Expense',
+    color: '#ffeb3b',
+  },
+  {
     key: 'groceries',
     name: 'Groceries',
     icon: 'ShoppingCart',
@@ -47,13 +54,6 @@ export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
     color: '#03a9f4',
   },
   {
-    key: 'utilities',
-    name: 'Utilities',
-    icon: 'Bolt',
-    type: 'Expense',
-    color: '#ffeb3b',
-  },
-  {
     key: 'dining_out',
     name: 'Dining Out',
     icon: 'Restaurant',
@@ -61,11 +61,32 @@ export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
     color: '#ff5722',
   },
   {
-    key: 'other',
-    name: 'Other',
-    icon: 'MoreHoriz',
+    key: 'entertainment',
+    name: 'Entertainment',
+    icon: 'LocalMovies',
     type: 'Expense',
-    color: '#9e9e9e',
+    color: '#e91e63',
+  },
+  {
+    key: 'health',
+    name: 'Health',
+    icon: 'MedicalServices',
+    type: 'Expense',
+    color: '#f44336',
+  },
+  {
+    key: 'subscriptions',
+    name: 'Subscriptions',
+    icon: 'Subscriptions',
+    type: 'Expense',
+    color: '#9c27b0',
+  },
+  {
+    key: 'insurance',
+    name: 'Insurance',
+    icon: 'HealthAndSafety',
+    type: 'Expense',
+    color: '#795548',
   },
 ];
 

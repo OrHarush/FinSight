@@ -65,10 +65,13 @@
     "freelance": "Freelance",
     "investments": "Investments",
     "housing": "Housing",
+    "utilities": "Utilities",
     "groceries": "Groceries",
     "transportation": "Transportation",
-    "utilities": "Utilities",
     "dining_out": "Dining Out",
-    "other": "Other"
+    "entertainment": "Entertainment",
+    "health": "Health",
+    "subscriptions": "Subscriptions",
+    "insurance": "Insurance"
   }
 }

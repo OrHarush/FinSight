@@ -25,7 +25,7 @@ const ImportWizardNav = () => {
   };
 
   return (
-    <Column spacing={1}>
+    <Column spacing={1} sx={{ pt: 2 }}>
       <Divider />
       <Row justifyContent="space-between" pb={1}>
         <Button variant="outlined" onClick={handleBack}>

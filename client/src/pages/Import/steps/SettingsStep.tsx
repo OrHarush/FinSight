@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -9,7 +9,6 @@ import { buildPaymentMethodGroups } from '@/components/features/paymentMethods/b
 import { RHFDatePicker } from '@/components/shared/inputs/RHFDatePicker';
 import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
@@ -62,21 +61,19 @@ const SettingsStep = () => {
   }, [primaryPaymentMethod, getValues, setValue]);
 
   useEffect(() => {
-    const checkProceed = (values: Partial<SettingsFormValues>) => {
+    const syncSettings = (values: Partial<SettingsFormValues>) => {
       setCanProceed(!!values.accountId && !!values.paymentMethodId);
-    };
-
-    checkProceed(getValues());
-
-    const { unsubscribe } = watch(values => {
-      checkProceed(values);
       setSettings({
         accountId: values.accountId ?? '',
         paymentMethodId: values.paymentMethodId ?? '',
         dateFilter:
           values.dateFrom && values.dateTo ? { from: values.dateFrom, to: values.dateTo } : null,
       });
-    });
+    };
+
+    syncSettings(getValues());
+
+    const { unsubscribe } = watch(syncSettings);
 
     return unsubscribe;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,10 +95,14 @@ const SettingsStep = () => {
             <Typography variant="body2" color="text.secondary">
               {t('importWizard.settings.dateFilterLabel')}
             </Typography>
-            <Row spacing={2}>
-              <RHFDatePicker name="dateFrom" label={t('importWizard.settings.from')} />
-              <RHFDatePicker name="dateTo" label={t('importWizard.settings.to')} />
-            </Row>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <RHFDatePicker name="dateFrom" label={t('importWizard.settings.from')} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <RHFDatePicker name="dateTo" label={t('importWizard.settings.to')} />
+              </Grid>
+            </Grid>
           </Column>
         </Column>
       </Column>

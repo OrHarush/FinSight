@@ -22,6 +22,7 @@ interface ImportWizardActions {
   updateRowName: (index: number, name: string) => void;
   toggleRowSelected: (index: number) => void;
   toggleAllSelected: () => void;
+  deleteRows: (indices: number[]) => void;
   canProceed: boolean;
   setCanProceed: (value: boolean) => void;
 }
@@ -84,6 +85,12 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
     });
   };
 
+  const deleteRows = (indices: number[]) => {
+    const indexSet = new Set(indices);
+
+    setRows(prev => prev.filter((_, i) => !indexSet.has(i)));
+  };
+
   return (
     <ImportWizardContext.Provider
       value={{
@@ -103,6 +110,7 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         updateRowName,
         toggleRowSelected,
         toggleAllSelected,
+        deleteRows,
         setCanProceed,
       }}
     >

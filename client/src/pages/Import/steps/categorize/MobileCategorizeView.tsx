@@ -1,6 +1,10 @@
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Button } from '@mui/material';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import BulkAssignPrompt from '@/pages/Import/steps/categorize/BulkAssignPrompt';
 import BulkRenamePrompt from '@/pages/Import/steps/categorize/BulkRenamePrompt';
 import CategoryBottomSheet from '@/pages/Import/steps/categorize/CategoryBottomSheet';
@@ -25,6 +29,7 @@ interface MobileCategorizeViewProps {
   categories: CategoryDto[];
   onAssign: (categoryId: string, indices: number[]) => void;
   onRenameRow: (index: number, name: string) => void;
+  onDeleteRows: (indices: number[]) => void;
   bulkAssign: BulkAssignState | null;
   onConfirmBulkAssign: () => void;
   onDismissBulkAssign: () => void;
@@ -38,6 +43,7 @@ const MobileCategorizeView = ({
   categories,
   onAssign,
   onRenameRow,
+  onDeleteRows,
   bulkAssign,
   onConfirmBulkAssign,
   onDismissBulkAssign,
@@ -45,7 +51,34 @@ const MobileCategorizeView = ({
   onConfirmBulkRename,
   onDismissBulkRename,
 }: MobileCategorizeViewProps) => {
+  const { t } = useTranslation('transactions');
+  const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
   const [sheetOpenForIndex, setSheetOpenForIndex] = useState<number | null>(null);
+
+  const isSelectionMode = selectedIndices.size > 0;
+
+  const enterSelectionMode = (index: number) => {
+    setSelectedIndices(new Set([index]));
+  };
+
+  const toggleSelect = (index: number) => {
+    setSelectedIndices(prev => {
+      const next = new Set(prev);
+
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+
+      return next;
+    });
+  };
+
+  const deleteSelected = () => {
+    onDeleteRows(Array.from(selectedIndices));
+    setSelectedIndices(new Set());
+  };
 
   const assignCategory = (categoryId: string) => {
     if (sheetOpenForIndex !== null) {
@@ -61,11 +94,28 @@ const MobileCategorizeView = ({
             key={index}
             row={row}
             categories={categories}
-            onChipClick={() => setSheetOpenForIndex(index)}
+            isSelected={selectedIndices.has(index)}
+            isSelectionMode={isSelectionMode}
+            onChipClick={() => !isSelectionMode && setSheetOpenForIndex(index)}
             onRenameRow={name => onRenameRow(index, name)}
+            onLongPress={() => enterSelectionMode(index)}
+            onToggleSelect={() => toggleSelect(index)}
           />
         ))}
       </Column>
+
+      {isSelectionMode && (
+        <Row justifyContent="center" sx={{ pt: 1, pb: 0.5 }}>
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<DeleteOutlineIcon />}
+            onClick={deleteSelected}
+          >
+            {t('importWizard.categorize.deleteSelectedCount', { count: selectedIndices.size })}
+          </Button>
+        </Row>
+      )}
 
       <CategoryBottomSheet
         open={sheetOpenForIndex !== null}

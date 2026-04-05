@@ -1,7 +1,6 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {
-  Alert,
   Button,
   CircularProgress,
   Dialog,
@@ -130,7 +129,7 @@ const ConfirmStep = () => {
 
   return (
     <>
-      <Column flex={1} spacing={3} sx={{ overflowY: 'auto', px: 1 }}>
+      <Column flex={1} spacing={3}>
         <Typography variant="h6" fontWeight={600}>
           {t('importWizard.confirm.summary')}
         </Typography>
@@ -147,10 +146,15 @@ const ConfirmStep = () => {
               </Typography>
               <Typography fontWeight={600}>{categorizedCount}</Typography>
             </Row>
-            <Row justifyContent="space-between">
-              <Typography color="text.secondary">
-                {t('importWizard.confirm.uncategorized')}
-              </Typography>
+            <Row justifyContent="space-between" alignItems="center">
+              <Row spacing={0.5} alignItems="center">
+                <Typography color="text.secondary">
+                  {t('importWizard.confirm.uncategorized')}
+                </Typography>
+                {uncategorizedCount > 0 && (
+                  <WarningAmberIcon sx={{ fontSize: 16, color: 'warning.main' }} />
+                )}
+              </Row>
               <Typography fontWeight={600}>{uncategorizedCount}</Typography>
             </Row>
             {account && (
@@ -175,30 +179,25 @@ const ConfirmStep = () => {
             {dateRange && (
               <>
                 <Divider />
-                <Row>
+                <Column spacing={0.25}>
                   <Typography color="text.secondary">
-                    {t('importWizard.upload.dateRange', {
-                      from: dateRange.from,
-                      to: dateRange.to,
-                    })}
+                    {t('importWizard.upload.dateRangeLabel')}
                   </Typography>
-                </Row>
+                  <Typography fontWeight={600}>
+                    {dateRange.from} – {dateRange.to}
+                  </Typography>
+                </Column>
               </>
             )}
           </Column>
         </Paper>
-        {uncategorizedCount > 0 && (
-          <Alert severity="warning" icon={<WarningAmberIcon />}>
-            {t('importWizard.confirm.uncategorizedWarning', { count: uncategorizedCount })}
-          </Alert>
-        )}
         <Button
           variant="contained"
           size="large"
           disabled={rows.length === 0 || isPending}
           onClick={triggerImport}
           startIcon={isPending ? <CircularProgress size={16} color="inherit" /> : undefined}
-          sx={{ alignSelf: 'flex-start', minWidth: 160 }}
+          sx={{ alignSelf: 'center', minWidth: 160 }}
         >
           {isPending
             ? t('importWizard.confirm.importing')

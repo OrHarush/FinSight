@@ -3,11 +3,14 @@ export const DEFAULT_CATEGORY_KEYS = [
     'freelance',
     'investments',
     'housing',
+    'utilities',
     'groceries',
     'transportation',
-    'utilities',
     'dining_out',
-    'other',
+    'entertainment',
+    'health',
+    'subscriptions',
+    'insurance',
 ] as const;
 
 export type DefaultCategoryKey = typeof DEFAULT_CATEGORY_KEYS[number];

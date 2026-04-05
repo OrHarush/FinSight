@@ -33,6 +33,7 @@ const CategorizeStep = () => {
     toggleAllSelected,
     updateRowCategory,
     updateRowName,
+    deleteRows,
     setCanProceed,
   } = useImportWizard();
   const { categories } = useCategories();
@@ -121,6 +122,12 @@ const CategorizeStep = () => {
     setBulkRename(null);
   };
 
+  const deleteSelectedRows = () => {
+    const indices = rows.map((r, i) => (r.selected ? i : -1)).filter(i => i >= 0);
+
+    deleteRows(indices);
+  };
+
   return (
     <Column flex={1} minHeight={0} height="100%" spacing={2}>
       <Column spacing={0.5}>
@@ -144,6 +151,7 @@ const CategorizeStep = () => {
           categories={expenseCategories}
           onAssign={assignRows}
           onRenameRow={handleRenameRow}
+          onDeleteRows={deleteRows}
           bulkAssign={bulkAssign}
           onConfirmBulkAssign={confirmBulkAssign}
           onDismissBulkAssign={() => setBulkAssign(null)}
@@ -163,6 +171,7 @@ const CategorizeStep = () => {
               onDragStart={startDragging}
               onDragEnd={stopDragging}
               onRenameRow={handleRenameRow}
+              onDeleteSelected={deleteSelectedRows}
             />
             <CategoryPanel
               categories={expenseCategories}
