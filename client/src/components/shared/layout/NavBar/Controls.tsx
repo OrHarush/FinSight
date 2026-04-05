@@ -1,16 +1,10 @@
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import { alpha, IconButton, useTheme } from '@mui/material';
-
 import Row from '@/components/shared/layout/containers/Row';
+import ThemeToggleButton from '@/components/shared/layout/NavBar/ThemeToggleButton';
 import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderContext';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import MonthDateSelector from '@/components/shared/ui/MonthDateSelector';
-import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const Controls = () => {
-  const theme = useTheme();
-  const { toggleColorMode } = useAppTheme();
   const { showDateSelector, dateConfig } = usePageHeaderContext();
 
   return (
@@ -19,27 +13,8 @@ const Controls = () => {
         <MonthDateSelector value={dateConfig.value} onChange={dateConfig.onChange} />
       )}
       <Row spacing={1}>
+        <ThemeToggleButton />
         <LanguageSelect sx={{ width: 40, height: 40, backgroundColor: 'transparent' }} />
-        <IconButton
-          onClick={toggleColorMode}
-          size="small"
-          sx={{
-            width: 40,
-            height: 40,
-            backgroundColor: 'transparent',
-            color: 'text.secondary',
-            '&:hover': {
-              color: 'text.primary',
-              backgroundColor: alpha(theme.palette.primary.main, 0.08),
-            },
-          }}
-        >
-          {theme.palette.mode === 'dark' ? (
-            <LightModeIcon fontSize="small" />
-          ) : (
-            <DarkModeIcon fontSize="small" />
-          )}
-        </IconButton>
       </Row>
     </Row>
   );

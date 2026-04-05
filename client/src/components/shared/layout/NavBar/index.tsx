@@ -1,12 +1,18 @@
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MenuIcon from '@mui/icons-material/Menu';
-import { IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
 import Controls from '@/components/shared/layout/NavBar/Controls';
 import { navBarSx } from '@/components/shared/layout/NavBar/styles';
+import ThemeToggleButton from '@/components/shared/layout/NavBar/ThemeToggleButton';
 import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderContext';
+import LanguageSelect from '@/components/shared/ui/LanguageSelect';
+import MonthDateSelector from '@/components/shared/ui/MonthDateSelector';
+import { ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 interface NavBarProps {
@@ -18,7 +24,8 @@ interface NavBarProps {
 const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const { title } = usePageHeaderContext();
+  const navigate = useNavigate();
+  const { title, showDateSelector, showImportButton, dateConfig } = usePageHeaderContext();
   const isRtl = theme.direction === 'rtl';
 
   const CollapseIcon = isRtl ? KeyboardDoubleArrowRightIcon : KeyboardDoubleArrowLeftIcon;
@@ -27,15 +34,40 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
 
   if (isMobile) {
     return (
-      <Row alignItems="center" sx={navBarSx(theme)}>
-        <IconButton
-          onClick={onMobileOpen}
-          size="medium"
-          sx={{ zIndex: theme => theme.zIndex.drawer + 1 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Controls />
+      <Row
+        alignItems="center"
+        sx={{ ...navBarSx(theme), px: 1, position: 'relative', flexWrap: 'nowrap' }}
+      >
+        <Row spacing={1} alignItems="center">
+          <IconButton
+            onClick={onMobileOpen}
+            size="medium"
+            sx={{ zIndex: theme => theme.zIndex.drawer + 1 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          {showImportButton && (
+            <IconButton size="medium" onClick={() => navigate(ROUTES.IMPORT_URL)}>
+              <FileUploadIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Row>
+        {showDateSelector && dateConfig && (
+          <Box
+            sx={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 0,
+            }}
+          >
+            <MonthDateSelector value={dateConfig.value} onChange={dateConfig.onChange} />
+          </Box>
+        )}
+        <Row spacing={1} alignItems="center" sx={{ marginInlineStart: 'auto' }}>
+          <ThemeToggleButton />
+          <LanguageSelect sx={{ width: 36, height: 36, backgroundColor: 'transparent' }} />
+        </Row>
       </Row>
     );
   }
