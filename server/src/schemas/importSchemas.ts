@@ -6,6 +6,7 @@ const ParsedRowSchema = z.object({
   date: z.string().min(1, 'Row date is required.'),
   name: z.string(),
   amount: z.number(),
+  categoryId: z.string().optional(),
 });
 
 export const ImportTransactionsSchema = z.object({

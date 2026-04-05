@@ -111,6 +111,33 @@
         "message": "{{count}} other \"{{name}}\" transaction(s) — assign to same category?",
         "confirm": "Apply to all",
         "dismiss": "Skip"
+      },
+      "bulkRename": {
+        "message": "{{count}} other \"{{oldName}}\" transaction(s) — rename all to \"{{newName}}\"?",
+        "confirm": "Rename all",
+        "dismiss": "Skip"
+      },
+      "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together."
+    },
+    "confirm": {
+      "summary": "Import Summary",
+      "total": "Total transactions",
+      "categorized": "Categorized",
+      "uncategorized": "Uncategorized",
+      "importing": "Importing…",
+      "uncategorizedWarning": "{{count}} transaction(s) have no category assigned",
+      "dialog": {
+        "title": "Uncategorized Transactions",
+        "body": "{{count}} transaction(s) are not categorized and will be imported without a category. Continue?",
+        "confirm": "Import Anyway",
+        "cancel": "Go Back"
+      },
+      "success": {
+        "title": "Import Complete",
+        "imported": "Imported",
+        "skipped": "Skipped",
+        "failed": "Failed",
+        "goToTransactions": "View Transactions"
       }
     }
   },

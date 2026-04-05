@@ -1,3 +1,4 @@
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
   Checkbox,
   Paper,
@@ -6,6 +7,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -101,7 +103,11 @@ const TransactionPanel = ({
                   onChange={onToggleAll}
                 />
               </TableCell>
-              <TableCell sx={{ width: 20, p: 0 }} />
+              <TableCell sx={{ width: 24, p: 0, pl: 0.5 }}>
+                <Tooltip title={t('importWizard.categorize.dragInfo')} placement="top" arrow>
+                  <InfoOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled', display: 'block' }} />
+                </Tooltip>
+              </TableCell>
               <TableCell sx={{ whiteSpace: 'nowrap', width: 72 }}>
                 {t('importWizard.upload.col.date')}
               </TableCell>

@@ -111,6 +111,33 @@
         "message": "נמצאו {{count}} עסקאות נוספות של \"{{name}}\" — לשייך לאותה קטגוריה?",
         "confirm": "החל על כולן",
         "dismiss": "דלג"
+      },
+      "bulkRename": {
+        "message": "נמצאו {{count}} עסקאות נוספות של \"{{oldName}}\" — לשנות שם לכולן ל-\"{{newName}}\"?",
+        "confirm": "שנה שם לכולן",
+        "dismiss": "דלג"
+      },
+      "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת."
+    },
+    "confirm": {
+      "summary": "סיכום ייבוא",
+      "total": "סך עסקאות",
+      "categorized": "מקוטלגות",
+      "uncategorized": "ללא קטגוריה",
+      "importing": "מייבא…",
+      "uncategorizedWarning": "{{count}} עסקאות ללא קטגוריה",
+      "dialog": {
+        "title": "עסקאות ללא קטגוריה",
+        "body": "{{count}} עסקאות לא שויכו לקטגוריה ויובאו ללא קטגוריה. להמשיך?",
+        "confirm": "ייבא בכל זאת",
+        "cancel": "חזור"
+      },
+      "success": {
+        "title": "הייבוא הושלם",
+        "imported": "יובאו",
+        "skipped": "דולגו",
+        "failed": "נכשלו",
+        "goToTransactions": "צפה בעסקאות"
       }
     }
   },

@@ -63,7 +63,7 @@ const UploadStep = () => {
       }
 
       setPreview(result);
-      setRows(result.rows.map((row): WizardRow => ({ ...row, selected: true, categoryId: null })));
+      setRows(result.rows.map((row): WizardRow => ({ ...row, selected: false, categoryId: null })));
       setCanProceed(true);
     } catch (err: unknown) {
       const msg =

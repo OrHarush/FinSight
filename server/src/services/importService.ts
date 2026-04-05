@@ -93,6 +93,7 @@ export const importTransactions = async (
       date: new Date(row.date),
       account: new Types.ObjectId(dto.accountId),
       ...(dto.paymentMethodId && { paymentMethod: new Types.ObjectId(dto.paymentMethodId) }),
+      ...(row.categoryId && { category: new Types.ObjectId(row.categoryId) }),
       userId: new Types.ObjectId(userId),
     };
   });

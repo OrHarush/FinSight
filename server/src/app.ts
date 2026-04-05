@@ -13,12 +13,12 @@ import accountRoutes from './routes/accountRoutes';
 import adminRoutes from './routes/adminRoutes';
 import authRoutes from './routes/authRoutes';
 import budgetRoutes from './routes/budgetRoutes';
-import recurringTemplateRoutes from './routes/recurringTemplateRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import chatRoutes from './routes/chatRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
-import paymentMethodRoutes from './routes/paymentMethodsRoutes';
 import importRoutes from './routes/importRoutes';
+import paymentMethodRoutes from './routes/paymentMethodsRoutes';
+import recurringTemplateRoutes from './routes/recurringTemplateRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import userRoutes from './routes/userRoutes';
 

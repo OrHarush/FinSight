@@ -4,16 +4,25 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { useIsMobile } from '@/hooks/common/useIsMobile';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useImportWizard } from '@/pages/Import/ImportWizardContext';
 import BulkAssignPrompt from '@/pages/Import/steps/categorize/BulkAssignPrompt';
+import BulkRenamePrompt from '@/pages/Import/steps/categorize/BulkRenamePrompt';
 import CategoryPanel from '@/pages/Import/steps/categorize/CategoryPanel';
+import MobileCategorizeView from '@/pages/Import/steps/categorize/MobileCategorizeView';
 import TransactionPanel from '@/pages/Import/steps/categorize/TransactionPanel';
 
 interface BulkAssignState {
   name: string;
   indices: number[];
   categoryId: string;
+}
+
+interface BulkRenameState {
+  oldName: string;
+  newName: string;
+  indices: number[];
 }
 
 const CategorizeStep = () => {
@@ -27,9 +36,11 @@ const CategorizeStep = () => {
     setCanProceed,
   } = useImportWizard();
   const { categories } = useCategories();
+  const isMobile = useIsMobile();
   const [draggingIndices, setDraggingIndices] = useState<number[]>([]);
   const [overId, setOverId] = useState<string | null>(null);
   const [bulkAssign, setBulkAssign] = useState<BulkAssignState | null>(null);
+  const [bulkRename, setBulkRename] = useState<BulkRenameState | null>(null);
 
   const expenseCategories = categories.filter(c => c.type === 'Expense');
 
@@ -84,6 +95,32 @@ const CategorizeStep = () => {
     setBulkAssign(null);
   };
 
+  const handleRenameRow = (index: number, newName: string) => {
+    const oldName = rows[index].name;
+
+    updateRowName(index, newName);
+
+    if (newName && newName !== oldName) {
+      const matchingOthers = rows
+        .map((r, i) => ({ r, i }))
+        .filter(({ r, i }) => r.name === oldName && i !== index)
+        .map(({ i }) => i);
+
+      if (matchingOthers.length > 0) {
+        setBulkRename({ oldName, newName, indices: matchingOthers });
+      }
+    }
+  };
+
+  const confirmBulkRename = () => {
+    if (!bulkRename) {
+      return;
+    }
+
+    bulkRename.indices.forEach(i => updateRowName(i, bulkRename.newName));
+    setBulkRename(null);
+  };
+
   return (
     <Column flex={1} minHeight={0} height="100%" spacing={2}>
       <Column spacing={0.5}>
@@ -101,33 +138,55 @@ const CategorizeStep = () => {
           sx={{ borderRadius: 1, height: 6 }}
         />
       </Column>
-      <Row flex={1} minHeight={0} spacing={2} alignItems="stretch">
-        <TransactionPanel
+      {isMobile ? (
+        <MobileCategorizeView
           rows={rows}
           categories={expenseCategories}
-          draggingIndices={draggingIndices}
-          onToggleSelected={toggleRowSelected}
-          onToggleAll={toggleAllSelected}
-          onDragStart={startDragging}
-          onDragEnd={stopDragging}
-          onRenameRow={updateRowName}
-        />
-        <CategoryPanel
-          categories={expenseCategories}
-          rows={rows}
-          draggingIndices={draggingIndices}
-          overId={overId}
-          onSetOverId={setOverId}
           onAssign={assignRows}
+          bulkAssign={bulkAssign}
+          onConfirmBulkAssign={confirmBulkAssign}
+          onDismissBulkAssign={() => setBulkAssign(null)}
         />
-      </Row>
-      {bulkAssign && (
-        <BulkAssignPrompt
-          merchantName={bulkAssign.name}
-          count={bulkAssign.indices.length}
-          onConfirm={confirmBulkAssign}
-          onDismiss={() => setBulkAssign(null)}
-        />
+      ) : (
+        <>
+          <Row flex={1} minHeight={0} spacing={2} alignItems="stretch">
+            <TransactionPanel
+              rows={rows}
+              categories={expenseCategories}
+              draggingIndices={draggingIndices}
+              onToggleSelected={toggleRowSelected}
+              onToggleAll={toggleAllSelected}
+              onDragStart={startDragging}
+              onDragEnd={stopDragging}
+              onRenameRow={handleRenameRow}
+            />
+            <CategoryPanel
+              categories={expenseCategories}
+              rows={rows}
+              draggingIndices={draggingIndices}
+              overId={overId}
+              onSetOverId={setOverId}
+              onAssign={assignRows}
+            />
+          </Row>
+          {bulkAssign && (
+            <BulkAssignPrompt
+              merchantName={bulkAssign.name}
+              count={bulkAssign.indices.length}
+              onConfirm={confirmBulkAssign}
+              onDismiss={() => setBulkAssign(null)}
+            />
+          )}
+          {bulkRename && (
+            <BulkRenamePrompt
+              oldName={bulkRename.oldName}
+              newName={bulkRename.newName}
+              count={bulkRename.indices.length}
+              onConfirm={confirmBulkRename}
+              onDismiss={() => setBulkRename(null)}
+            />
+          )}
+        </>
       )}
     </Column>
   );

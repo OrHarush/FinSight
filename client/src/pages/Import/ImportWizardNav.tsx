@@ -31,9 +31,11 @@ const ImportWizardNav = () => {
         <Button variant="outlined" onClick={handleBack}>
           {t('importWizard.navigation.back')}
         </Button>
-        <Button variant="contained" onClick={goToNextStep} disabled={!canProceed}>
-          {isLastStep ? t('importWizard.navigation.confirm') : t('importWizard.navigation.next')}
-        </Button>
+        {!isLastStep && (
+          <Button variant="contained" onClick={goToNextStep} disabled={!canProceed}>
+            {t('importWizard.navigation.next')}
+          </Button>
+        )}
       </Row>
     </Column>
   );
