@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import DangerZone from '@/components/features/users/SettingsModal/DangerZone';
 import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
 import Column from '@/components/shared/layout/containers/Column';
@@ -95,7 +95,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   return (
     <>
-      <FinSightDialog
+      <LyraDialog
         isOpen={isOpen}
         closeDialog={closeDialog}
         title={t('settingsModal.title')}
@@ -142,7 +142,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
             </Button>
           </Row>
         </DialogActions>
-      </FinSightDialog>
+      </LyraDialog>
 
       {isDeletionDialogOpen && (
         <UserDeletionDialog

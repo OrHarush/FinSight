@@ -1,4 +1,4 @@
-import type { TransactionType } from '@finsight/shared';
+import type { TransactionType } from '@lyra/shared';
 
 import { AccountDto } from '@/types/Account';
 import { CategoryDto } from '@/types/Category';

@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { FieldValues, SubmitHandler, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 
 interface FormDialogProps<T extends FieldValues> extends BaseDialogProps {
@@ -38,7 +38,7 @@ const FormDialog = <T extends FieldValues>({
   };
 
   return (
-    <FinSightDialog closeDialog={closeForm} isOpen={isOpen} title={title} maxWidth={maxWidth}>
+    <LyraDialog closeDialog={closeForm} isOpen={isOpen} title={title} maxWidth={maxWidth}>
       <form onSubmit={handleSubmit(handleFormSubmit)} id="form-dialog" noValidate>
         <DialogContent sx={{ pt: 1 }}>
           <Column spacing={2}>{children}</Column>
@@ -52,7 +52,7 @@ const FormDialog = <T extends FieldValues>({
           </Button>
         </DialogActions>
       </form>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

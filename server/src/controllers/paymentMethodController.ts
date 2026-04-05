@@ -1,4 +1,4 @@
-import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@lyra/shared';
 import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';

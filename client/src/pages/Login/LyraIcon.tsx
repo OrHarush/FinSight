@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 
-interface FinSightIconProps {
+interface LyraIconProps {
   size?: number;
 }
 
-const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
+const LyraIcon = ({ size = 100 }: LyraIconProps) => (
   <Box
     sx={{
       width: size,
@@ -34,8 +34,8 @@ const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
     }}
   >
     <img
-      src={finSightIcon}
-      alt="App Logo"
+      src={lyraIcon}
+      alt="Lyra Icon"
       width={size}
       height={size}
       style={{
@@ -47,4 +47,4 @@ const FinSightIcon = ({ size = 100 }: FinSightIconProps) => (
   </Box>
 );
 
-export default FinSightIcon;
+export default LyraIcon;

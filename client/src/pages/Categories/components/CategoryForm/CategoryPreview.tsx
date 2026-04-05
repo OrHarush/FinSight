@@ -1,3 +1,4 @@
+import { CreateCategoryDTO } from '@lyra/shared';
 import { alpha, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -6,7 +7,6 @@ import CategoryIconFrame from '@/components/features/categories/CategoryIconFram
 import Row from '@/components/shared/layout/containers/Row';
 import { categoryIcons } from '@/constants/CategoryIcons';
 import CategoryStylePopover from '@/pages/Categories/components/CategoryForm/CategoryStylePopover';
-import { CreateCategoryDTO } from '@finsight/shared';
 
 const CategoryPreview = () => {
   const theme = useTheme();

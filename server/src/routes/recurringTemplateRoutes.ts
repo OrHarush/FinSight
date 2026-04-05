@@ -3,7 +3,7 @@ import {
   DeactivateFromSchema,
   SplitRecurringTemplateSchema,
   UpdateRecurringTemplateSchema,
-} from '@finsight/shared';
+} from '@lyra/shared';
 import { Router } from 'express';
 
 import {
@@ -25,7 +25,7 @@ router.get('/:id', getTemplateById);
 router.post(
   '/with-transactions',
   validateBody(CreateRecurringTemplateSchema),
-  createTemplateWithTransactions,
+  createTemplateWithTransactions
 );
 router.post('/', validateBody(CreateRecurringTemplateSchema), createTemplate);
 router.post('/:id/deactivate-from', validateBody(DeactivateFromSchema), deactivateFrom);

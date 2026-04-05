@@ -1,4 +1,4 @@
-import { CreatePaymentMethodSchema, UpdatePaymentMethodSchema } from '@finsight/shared';
+import { CreatePaymentMethodSchema, UpdatePaymentMethodSchema } from '@lyra/shared';
 import express from 'express';
 
 import {

@@ -1,4 +1,4 @@
-import { TransactionFormValues } from '@finsight/shared';
+import { TransactionFormValues } from '@lyra/shared';
 import { Box, Grid, InputAdornment } from '@mui/material';
 import dayjs from 'dayjs';
 import { useFormContext, useWatch } from 'react-hook-form';

@@ -1,4 +1,4 @@
-import { CreateFeedbackCommand } from '@finsight/shared';
+import { CreateFeedbackCommand } from '@lyra/shared';
 
 import { ApiError } from '../errors/ApiError';
 import * as emailService from './emailService';

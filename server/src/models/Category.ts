@@ -1,4 +1,4 @@
-import { DEFAULT_CATEGORY_KEYS, DefaultCategoryKey } from '@finsight/shared';
+import { DEFAULT_CATEGORY_KEYS, DefaultCategoryKey } from '@lyra/shared';
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface ICategory {

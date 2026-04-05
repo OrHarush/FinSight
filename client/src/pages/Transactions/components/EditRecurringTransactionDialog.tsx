@@ -1,7 +1,7 @@
 import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 
 interface RecurringEditChoiceDialogProps extends BaseDialogProps {
@@ -18,7 +18,7 @@ const EditRecurringTransactionDialog = ({
   const { t } = useTranslation('transactions');
 
   return (
-    <FinSightDialog isOpen={isOpen} closeDialog={closeDialog} title={t('editRecurring.title')}>
+    <LyraDialog isOpen={isOpen} closeDialog={closeDialog} title={t('editRecurring.title')}>
       <DialogContent>
         <Column spacing={1}>
           <Button
@@ -44,7 +44,7 @@ const EditRecurringTransactionDialog = ({
         </Column>
       </DialogContent>
       <DialogActions />
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

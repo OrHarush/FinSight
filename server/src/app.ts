@@ -57,7 +57,7 @@ app.use('/api/import', importRoutes);
 app.post('/mcp', mcpMiddleware);
 
 app.get('/', (_req: Request, res: Response) => {
-  res.send('FinSight server is running');
+  res.send('Lyra server is running');
 });
 
 app.use(notFoundMiddleware);

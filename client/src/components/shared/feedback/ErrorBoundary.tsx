@@ -1,7 +1,7 @@
-import { Button, CssBaseline,Typography } from '@mui/material';
+import { Button, CssBaseline, Typography } from '@mui/material';
 import { Component, ReactNode } from 'react';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 
 interface Props {
@@ -49,7 +49,7 @@ export class ErrorBoundary extends Component<Props, State> {
           }}
         >
           <CssBaseline />
-          <img src={finSightIcon} alt="App Logo" width={200} height={200} />
+          <img src={lyraIcon} alt="App Logo" width={200} height={200} />
           <Typography
             variant="h5"
             fontWeight={600}

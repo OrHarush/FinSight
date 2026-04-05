@@ -1,16 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   SplitRecurringTemplateDTO,
   TransactionFormSchema,
   TransactionFormValues,
   UpdateTransactionDTO,
-} from '@finsight/shared';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from '@lyra/shared';
 import { Button, DialogActions, DialogContent } from '@mui/material';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
@@ -101,7 +101,7 @@ const EditTransactionDialog = ({
   return (
     <>
       <FormProvider {...methods}>
-        <FinSightDialog
+        <LyraDialog
           isOpen={isOpen}
           closeDialog={() => {
             methods.reset();
@@ -125,7 +125,7 @@ const EditTransactionDialog = ({
               </Button>
             </DialogActions>
           </form>
-        </FinSightDialog>
+        </LyraDialog>
       </FormProvider>
       {pendingData && (
         <EditRecurringTransactionDialog

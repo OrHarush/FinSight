@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "prebuild": "npm run build -w @finsight/shared",
+    "prebuild": "npm run build -w @lyra/shared",
     "build": "swc src --out-dir dist --strip-leading-paths",
     "typecheck": "tsc --noEmit",
     "start": "node dist/server.js",
@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@finsight/shared": "*",
+    "@lyra/shared": "*",
     "@google/generative-ai": "^0.24.1",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "cors": "^2.8.5",

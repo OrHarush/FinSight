@@ -1,4 +1,4 @@
-import { PaymentMethodType } from '@finsight/shared';
+import { PaymentMethodType } from '@lyra/shared';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';

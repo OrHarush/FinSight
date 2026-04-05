@@ -2,7 +2,7 @@
 
 ## Quick Summary
 
-**What:** FinSight chat system that processes natural language questions about finances using Google Gemini API with function calling.
+**What:** Lyra chat system that processes natural language questions about finances using Google Gemini API with function calling.
 
 **How it works:** User message → Client sends to `/api/chat` → Server passes to Gemini → Gemini calls tools as needed → Tools fetch data → Gemini generates response → Client renders as markdown, pills, or cards
 

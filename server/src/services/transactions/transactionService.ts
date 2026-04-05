@@ -1,4 +1,4 @@
-import { CreateTransactionDTO, fromCents, toCents, UpdateTransactionDTO } from '@finsight/shared';
+import { CreateTransactionDTO, fromCents, toCents, UpdateTransactionDTO } from '@lyra/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import mongoose, { Types } from 'mongoose';

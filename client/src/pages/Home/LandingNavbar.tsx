@@ -3,7 +3,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import { alpha, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 import Row from '@/components/shared/layout/containers/Row';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';
@@ -34,8 +34,8 @@ const LandingNavbar = () => {
     >
       <Row alignItems="center" spacing={1}>
         <img
-          src={finSightIcon}
-          alt="FinSight"
+          src={lyraIcon}
+          alt="Lyra Icon"
           style={{ width: 32, height: 32, objectFit: 'contain' }}
         />
         {!isMobile && (
@@ -50,7 +50,7 @@ const LandingNavbar = () => {
               letterSpacing: '-0.02em',
             }}
           >
-            FinSight
+            Lyra
           </Typography>
         )}
       </Row>

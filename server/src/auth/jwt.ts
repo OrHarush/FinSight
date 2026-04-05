@@ -1,4 +1,4 @@
-import { UserRole } from '@finsight/shared';
+import { UserRole } from '@lyra/shared';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;

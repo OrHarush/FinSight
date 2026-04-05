@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { isIosDevice, isRunningStandalone } from '@/utils/device';
 
-const DISMISSED_KEY = 'finsight_ios_guide_dismissed_at';
+const DISMISSED_KEY = 'lyra_ios_guide_dismissed_at';
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 const wasRecentlyDismissed = (): boolean => {

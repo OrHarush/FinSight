@@ -2,7 +2,7 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import { Box, Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Row from '@/components/shared/layout/containers/Row';
 
 interface DeleteTransactionDialogProps extends BaseDialogProps {
@@ -22,7 +22,7 @@ const DeleteTransactionDialog = ({
   };
 
   return (
-    <FinSightDialog
+    <LyraDialog
       isOpen={isOpen}
       closeDialog={closeDialog}
       title={t('actions.delete')}
@@ -47,7 +47,7 @@ const DeleteTransactionDialog = ({
           </Button>
         </Row>
       </DialogActions>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

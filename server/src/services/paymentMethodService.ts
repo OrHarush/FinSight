@@ -1,4 +1,4 @@
-import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@finsight/shared';
+import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@lyra/shared';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';

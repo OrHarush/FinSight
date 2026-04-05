@@ -1,4 +1,4 @@
-import { BudgetFormValues } from '@finsight/shared';
+import { BudgetFormValues } from '@lyra/shared';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

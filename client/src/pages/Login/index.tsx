@@ -11,8 +11,8 @@ import loginMobile from '@/assets/loginMobile.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';
-import FinSightIcon from '@/pages/Login/FinSightIcon';
 import LegalLinks from '@/pages/Login/LegalLinks';
+import LyraIcon from '@/pages/Login/LyraIcon';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
@@ -103,7 +103,7 @@ const LoginPage = () => {
         <CardContent sx={{ py: isMobile ? 3 : 5, height: '100%' }}>
           <Column height="100%" justifyContent="space-between" spacing={isMobile ? 2 : 3}>
             <Column spacing={isMobile ? 0.5 : 1} alignItems={'center'}>
-              <FinSightIcon size={isMobile ? 56 : 80} />
+              <LyraIcon size={isMobile ? 56 : 80} />
               <Typography
                 variant={isMobile ? 'h6' : 'h4'}
                 fontWeight={700}

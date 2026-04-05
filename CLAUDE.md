@@ -1,4 +1,4 @@
-# FinSight — Claude Working Guide
+# Lyra — Claude Working Guide
 
 ## Stack
 Frontend: React + TypeScript (Vite), MUI, TanStack Query, React Hook Form, i18next (EN/HE, RTL), PWA

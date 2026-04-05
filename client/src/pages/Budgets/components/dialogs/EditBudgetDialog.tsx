@@ -1,9 +1,9 @@
-import { BudgetFormValues } from '@finsight/shared';
+import { BudgetFormValues } from '@lyra/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { useUpdateBudget } from '@/hooks/entities/useBudgetMutations';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';

@@ -1,4 +1,4 @@
-import { CreateCategorySchema, UpdateCategorySchema } from '@finsight/shared';
+import { CreateCategorySchema, UpdateCategorySchema } from '@lyra/shared';
 import express from 'express';
 
 import {

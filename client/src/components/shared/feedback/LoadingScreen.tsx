@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIcon from '@/assets/finSightIconNoText.webp';
+import lyraIcon from '@/assets/lyraIconNoBg.webp';
 import Column from '@/components/shared/layout/containers/Column';
 
 import {
@@ -32,7 +32,7 @@ const LoadingScreen = () => {
           <Box sx={getRingStyle(0)} />
           <Box sx={getRingStyle(0.6)} />
           <Box sx={getRingStyle(1.2)} />
-          <Box component="img" src={finSightIcon} alt="FinSight" sx={getIconStyle()} />
+          <Box component="img" src={lyraIcon} alt="Lyra Icon" sx={getIconStyle()} />
         </Box>
 
         <Typography variant="body2" sx={{ mt: 5, ...getSubtitleStyle() }}>

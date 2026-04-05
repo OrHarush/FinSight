@@ -1,6 +1,6 @@
 import { Box, CssBaseline, Typography } from '@mui/material';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 
 const HEBREW_MESSAGE =
@@ -34,7 +34,7 @@ const MaintenancePage = () => (
         border: '1px solid rgba(167, 139, 250, 0.2)',
       }}
     >
-      <img src={finSightIcon} alt="FinSight" width={60} height={60} />
+      <img src={lyraIcon} alt="Lyra Icon" width={60} height={60} />
     </Box>
 
     <Typography
@@ -42,7 +42,7 @@ const MaintenancePage = () => (
       fontWeight={700}
       sx={{ color: '#a78bfa', letterSpacing: 2, textTransform: 'uppercase' }}
     >
-      FinSight
+      Lyra
     </Typography>
 
     <Column alignItems="center" spacing={2} sx={{ maxWidth: 480, textAlign: 'center' }}>

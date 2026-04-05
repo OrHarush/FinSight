@@ -1,11 +1,11 @@
 import {
   CreateBudgetBulkDTO,
   CreateBudgetDTO,
-  GetBudgetsQuery,
-  UpdateBudgetDTO,
   fromCents,
+  GetBudgetsQuery,
   toCents,
-} from '@finsight/shared';
+  UpdateBudgetDTO,
+} from '@lyra/shared';
 import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';

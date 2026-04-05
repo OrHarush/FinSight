@@ -1,6 +1,6 @@
 {
-  "name": "FinSight",
-  "short_name": "FinSight",
+  "name": "Lyra",
+  "short_name": "Lyra",
   "description": "Personal finance tracking app",
   "start_url": "/",
   "display": "standalone",
@@ -69,7 +69,7 @@
       "sizes": "1901x900",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Analyze your spending with FinSight"
+      "label": "Analyze your spending with Lyra"
     },
     {
       "src": "/mobile-hero.png",

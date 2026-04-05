@@ -51,7 +51,7 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
             },
           }}
         >
-          FinSight
+          Lyra
         </Typography>
       </Row>
       {isMobile && (

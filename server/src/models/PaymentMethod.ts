@@ -1,4 +1,4 @@
-import { PAYMENT_METHOD_TYPES, PaymentMethodType } from '@finsight/shared';
+import { PAYMENT_METHOD_TYPES, PaymentMethodType } from '@lyra/shared';
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IPaymentMethod {

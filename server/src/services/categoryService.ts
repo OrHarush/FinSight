@@ -1,4 +1,4 @@
-import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
+import { CreateCategoryDTO, UpdateCategoryDTO } from '@lyra/shared';
 import { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';

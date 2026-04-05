@@ -1,4 +1,4 @@
-import type { PaymentMethodType } from '@finsight/shared';
+import type { PaymentMethodType } from '@lyra/shared';
 
 export interface PaymentMethodDto {
   _id: string;

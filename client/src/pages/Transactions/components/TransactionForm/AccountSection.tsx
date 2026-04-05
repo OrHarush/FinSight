@@ -1,4 +1,4 @@
-import { TransactionFormValues } from '@finsight/shared';
+import { TransactionFormValues } from '@lyra/shared';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Box, Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';

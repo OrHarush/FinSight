@@ -1,4 +1,4 @@
-import { DefaultCategoryKey } from '@finsight/shared';
+import { DefaultCategoryKey } from '@lyra/shared';
 import {
   Box,
   Card,

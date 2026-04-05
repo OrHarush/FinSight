@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://finsight-app.com/home</loc>
+        <loc>https://lyra-il.com/home</loc>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
     <url>
-        <loc>https://finsight-app.com/privacy-policy</loc>
+        <loc>https://lyra-il.com/privacy-policy</loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
 
     <url>
-        <loc>https://finsight-app.com/terms-of-service</loc>
+        <loc>https://lyra-il.com/terms-of-service</loc>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>

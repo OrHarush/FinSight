@@ -1,16 +1,16 @@
-# FinSight
-**FinSight** is a personal finance app built to answer one simple question:
+# Lyra
+**Lyra** is a personal finance app built to answer one simple question:
 
 > **Do I actually know where my money goes?**
 
 Most people don’t lack discipline. They lack clarity.
 
-FinSight helps you build that clarity through **manual tracking with strong visual feedback**, designed for real daily use rather than financial theory or bank-driven automation.
+Lyra helps you build that clarity through **manual tracking with strong visual feedback**, designed for real daily use rather than financial theory or bank-driven automation.
 
 ---
 
-## What FinSight Is
-FinSight is a lightweight, mobile-friendly personal finance tracker that focuses on:
+## What Lyra Is
+Lyra is a lightweight, mobile-friendly personal finance tracker that focuses on:
 
 * Understanding spending patterns
 * Seeing balance changes over time
@@ -40,12 +40,12 @@ By entering transactions yourself:
 * Patterns become obvious faster
 * Financial habits improve naturally
 
-FinSight supports this approach with a UI optimized for **low friction and frequent use**.
+Lyra supports this approach with a UI optimized for **low friction and frequent use**.
 
 ---
 
 ## Current State
-FinSight is a **working MVP** that is used daily and continuously improved based on real usage.
+Lyra is a **working MVP** that is used daily and continuously improved based on real usage.
 
 Current focus areas:
 
@@ -56,7 +56,7 @@ Current focus areas:
 ---
 
 ## Philosophy
-FinSight is intentionally:
+Lyra is intentionally:
 
 * Simple over complex
 * Explicit over automated

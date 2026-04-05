@@ -1,10 +1,10 @@
+import { TransactionFormValues } from '@lyra/shared';
 import { Grid, InputLabel, Skeleton } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import CategoriesSelect from '@/components/features/categories/CategoriesSelect';
 import { useCategories } from '@/hooks/entities/useCategories';
-import { TransactionFormValues } from '@finsight/shared';
 
 interface ClassificationSectionProps {
   isFullWidth?: boolean;

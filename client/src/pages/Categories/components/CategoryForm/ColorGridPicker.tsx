@@ -1,4 +1,4 @@
-import { PRESET_COLORS } from '@finsight/shared';
+import { PRESET_COLORS } from '@lyra/shared';
 import CheckIcon from '@mui/icons-material/Check';
 import { Grid, IconButton } from '@mui/material';
 

@@ -1,4 +1,4 @@
-import { USER_ROLES, UserRole } from '@finsight/shared';
+import { USER_ROLES, UserRole } from '@lyra/shared';
 import mongoose, { Schema } from 'mongoose';
 
 interface Provider {

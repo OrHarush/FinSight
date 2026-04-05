@@ -20,13 +20,13 @@
   },
   "alreadyHaveAccount": "Already have an account?",
   "signIn": "Sign in",
-  "navLogin":"Log in",
+  "navLogin": "Log in",
   "navSignUp": "Sign Up",
   "footer": "No credit card, takes under 2 minutes",
   "footerContact": "Contact: hello@finsight-app.com",
   "howItWorks": {
     "sectionTitle": "Like Excel, just easier to keep up with",
-    "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. FinSight gives you the same control, in a way that’s simpler to stick with.",
+    "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. Lyra gives you the same control, in a way that’s simpler to stick with.",
     "step1": {
       "title": "Add a transaction in seconds",
       "description": "Enter an amount and category, and you're done. Everything else is already set up."

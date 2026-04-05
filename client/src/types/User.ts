@@ -1,4 +1,4 @@
-import { UserRole } from '@finsight/shared';
+import { UserRole } from '@lyra/shared';
 
 export interface UserDto {
   _id: string;

@@ -1,4 +1,4 @@
-import { TransactionFormValues } from '@finsight/shared';
+import { TransactionFormValues } from '@lyra/shared';
 import { Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

@@ -2,7 +2,7 @@ import { Button, DialogContent, Typography } from '@mui/material';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import FinSightDialog from '@/components/dialogs/FinSightDialog';
+import LyraDialog from '@/components/dialogs/LyraDialog';
 import { ROUTES } from '@/constants/Routes';
 
 interface RequireSetupDialogProps {
@@ -15,7 +15,7 @@ const RequireSetupDialog = ({ isCreateDialogOpen, closeCreateDialog }: RequireSe
   const navigate = useNavigate();
 
   return (
-    <FinSightDialog
+    <LyraDialog
       title={t('setupDialog.title')}
       isOpen={isCreateDialogOpen}
       closeDialog={closeCreateDialog}
@@ -53,7 +53,7 @@ const RequireSetupDialog = ({ isCreateDialogOpen, closeCreateDialog }: RequireSe
           />
         </Typography>
       </DialogContent>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

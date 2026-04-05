@@ -3,7 +3,7 @@ import {
   CreateBudgetSchema,
   GetBudgetsSchema,
   UpdateBudgetSchema,
-} from '@finsight/shared';
+} from '@lyra/shared';
 import { Router } from 'express';
 
 import {

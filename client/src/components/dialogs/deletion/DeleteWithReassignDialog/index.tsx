@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DeleteDialogContent from '@/components/dialogs/deletion/DeleteWithReassignDialog/DeleteDialogContent';
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
@@ -83,7 +83,7 @@ const DeleteWithReassignDialog = ({
   };
 
   return (
-    <FinSightDialog
+    <LyraDialog
       isOpen={isOpen}
       closeDialog={closeDialog}
       title={t('deleteDialog.title', { name: itemName })}
@@ -118,7 +118,7 @@ const DeleteWithReassignDialog = ({
           {t('deleteDialog.confirm')}
         </Button>
       </DialogActions>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

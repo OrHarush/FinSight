@@ -3,7 +3,7 @@ import {
   CreateBudgetDTO,
   GetBudgetsQuery,
   UpdateBudgetDTO,
-} from '@finsight/shared';
+} from '@lyra/shared';
 import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';

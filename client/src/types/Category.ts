@@ -1,4 +1,4 @@
-import type { CategoryType, DefaultCategoryKey, PresetColor } from '@finsight/shared';
+import type { CategoryType, DefaultCategoryKey, PresetColor } from '@lyra/shared';
 
 export interface CategoryDto {
   _id: string;

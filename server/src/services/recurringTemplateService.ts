@@ -5,7 +5,7 @@ import {
   SplitRecurringTemplateDTO,
   toCents,
   UpdateRecurringTemplateDTO,
-} from '@finsight/shared';
+} from '@lyra/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import mongoose, { Types } from 'mongoose';

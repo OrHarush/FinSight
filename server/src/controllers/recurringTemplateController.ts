@@ -3,7 +3,7 @@ import {
   DeactivateFromDTO,
   SplitRecurringTemplateDTO,
   UpdateRecurringTemplateDTO,
-} from '@finsight/shared';
+} from '@lyra/shared';
 import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';

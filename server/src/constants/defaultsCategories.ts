@@ -1,4 +1,4 @@
-import { CreateCategoryDTO } from '@finsight/shared';
+import { CreateCategoryDTO } from '@lyra/shared';
 
 export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
   // Income

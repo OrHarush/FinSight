@@ -1,16 +1,16 @@
-# FinSight Architecture
+# Lyra Architecture
 
 ## Monorepo Structure
 
 ```
-FinSight/
+Lyra/
 ├── client/      React + TypeScript (Vite, MUI, TanStack Query, RHF, i18next)
 ├── server/      Node.js + Express + MongoDB
-├── shared/      @finsight/shared — Zod schemas and shared types
+├── shared/      @lyra/shared — Zod schemas and shared types
 └── package.json npm workspaces root
 ```
 
-npm workspaces link `@finsight/shared` into `client/node_modules` and
+npm workspaces link `@lyra/shared` into `client/node_modules` and
 `server/node_modules` so both import it as a normal package.
 
 ### What belongs where
@@ -23,7 +23,7 @@ npm workspaces link `@finsight/shared` into `client/node_modules` and
 
 ---
 
-## Shared Package (`@finsight/shared`)
+## Shared Package (`@lyra/shared`)
 
 ### `shared/schemas/`
 
@@ -60,7 +60,7 @@ These are hand-written because they describe static enumerations, not validated 
 Re-exports everything so consumers import from a single entry point:
 
 ```ts
-import { CreateBudgetDTO, BudgetFormSchema } from '@finsight/shared';
+import { CreateBudgetDTO, BudgetFormSchema } from '@lyra/shared';
 ```
 
 ---

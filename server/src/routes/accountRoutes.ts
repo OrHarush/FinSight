@@ -1,4 +1,4 @@
-import { CreateAccountSchema, UpdateAccountSchema } from '@finsight/shared';
+import { CreateAccountSchema, UpdateAccountSchema } from '@lyra/shared';
 import { Router } from 'express';
 
 import {

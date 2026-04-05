@@ -48,7 +48,7 @@
 
 ### Entity Form & Dialog Conventions:
 - Always use `TextInput` (from `@/components/shared/inputs/TextInput`) instead of raw MUI `TextField`. It integrates with `useFormContext` automatically.
-- Dialogs must extend `BaseDialogProps` from `@/components/dialogs/FinSightDialog`.
+- Dialogs must extend `BaseDialogProps` from `@/components/dialogs/LyraDialog`.
 - Every entity must have a dedicated `EntityForm` component (pure fields, no submit logic).
 - Create and Edit dialogs are separate files: `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`.
 - Both dialogs use `FormProvider` + `useForm` wrapping `FormDialog`, which handles submit/reset/cancel.

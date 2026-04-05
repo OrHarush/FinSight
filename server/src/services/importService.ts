@@ -1,4 +1,4 @@
-import { toCents } from '@finsight/shared';
+import { toCents } from '@lyra/shared';
 import { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';

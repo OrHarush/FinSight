@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useMobileInstallation } from '@/hooks/installation/useMobileInstallation';
@@ -74,8 +74,8 @@ const AndroidInstallDialog = () => {
             <Column spacing={1} alignItems="center">
               <Box
                 component="img"
-                src={finSightIcon}
-                alt="FinSight"
+                src={lyraIcon}
+                alt="Lyra"
                 sx={{ width: 56, height: 56, objectFit: 'contain' }}
               />
               <Typography variant="h6" fontWeight={700} fontSize="1.05rem" lineHeight={1.2}>

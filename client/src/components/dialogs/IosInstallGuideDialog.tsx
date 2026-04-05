@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import finSightIcon from '@/assets/finSightIcon.webp';
+import lyraIcon from '@/assets/lyraIcon.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useIosInstallGuide } from '@/hooks/installation/useIosInstallGuide';
@@ -78,8 +78,8 @@ const IosInstallGuideDialog = () => {
           <Column spacing={1.5} alignItems="center">
             <Box
               component="img"
-              src={finSightIcon}
-              alt="FinSight"
+              src={lyraIcon}
+              alt="Lyra Icon"
               sx={{
                 width: 64,
                 height: 64,

@@ -1,5 +1,5 @@
-import { TYPES_REQUIRING_NAME } from '@finsight/shared';
-import { PaymentMethodType } from '@finsight/shared';
+import { TYPES_REQUIRING_NAME } from '@lyra/shared';
+import { PaymentMethodType } from '@lyra/shared';
 import { Grid } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';

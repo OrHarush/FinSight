@@ -1,4 +1,4 @@
-import { CreateBudgetBulkDTO, CreateBudgetDTO, UpdateBudgetDTO } from '@finsight/shared';
+import { CreateBudgetBulkDTO, CreateBudgetDTO, UpdateBudgetDTO } from '@lyra/shared';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '@/api/axios';

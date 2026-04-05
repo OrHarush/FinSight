@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { isMobileDevice } from '@/utils/device';
 
@@ -37,7 +37,7 @@ const HelpModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   };
 
   return (
-    <FinSightDialog
+    <LyraDialog
       isOpen={isOpen}
       closeDialog={closeDialog}
       title={t('helpModal.title')}
@@ -81,7 +81,7 @@ const HelpModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
           </Button>
         </Column>
       </DialogContent>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

@@ -4,7 +4,7 @@ import {
   SplitRecurringTemplateDTO,
   TransactionFormValues,
   UpdateTransactionDTO,
-} from '@finsight/shared';
+} from '@lyra/shared';
 
 import {
   ExpandedTransactionDto,
@@ -38,7 +38,7 @@ export const mapToUpdatePayload = (data: TransactionFormValues): UpdateTransacti
 
 export const mapToTemplateChangesPayload = (
   data: TransactionFormValues,
-  fromDate: string,
+  fromDate: string
 ): SplitRecurringTemplateDTO => {
   const base = {
     fromDate,
@@ -56,7 +56,7 @@ export const mapToTemplateChangesPayload = (
 };
 
 export const mapToRecurringTemplatePayload = (
-  data: TransactionFormValues,
+  data: TransactionFormValues
 ): CreateRecurringTemplateDTO => {
   const base = {
     frequency: data.recurrence as 'Monthly' | 'Yearly',

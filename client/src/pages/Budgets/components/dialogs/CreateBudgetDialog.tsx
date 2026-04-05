@@ -1,11 +1,11 @@
-import { BudgetFormSchema } from '@finsight/shared';
-import { BudgetFormValues } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { BudgetFormSchema } from '@lyra/shared';
+import { BudgetFormValues } from '@lyra/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { useCreateBudget, useCreateBudgetBulk } from '@/hooks/entities/useBudgetMutations';
 import { useCategories } from '@/hooks/entities/useCategories';
 import BudgetForm from '@/pages/Budgets/components/BudgetForm';

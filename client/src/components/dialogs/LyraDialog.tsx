@@ -20,7 +20,7 @@ export interface BaseDialogProps {
   closeDialog: () => void;
 }
 
-interface FinSightDialogProps extends BaseDialogProps, Omit<DialogProps, 'open' | 'onClose'> {
+interface LyraDialogProps extends BaseDialogProps, Omit<DialogProps, 'open' | 'onClose'> {
   title: string;
   titleIcon?: SvgIconComponent;
   children: ReactNode;
@@ -40,14 +40,14 @@ const FadeTransition = forwardRef(
   )
 );
 
-const FinSightDialog = ({
+const LyraDialog = ({
   isOpen,
   closeDialog,
   title,
   titleIcon: Icon,
   children,
   ...props
-}: FinSightDialogProps) => {
+}: LyraDialogProps) => {
   const isMobile = useIsMobile();
 
   return (
@@ -100,4 +100,4 @@ const FinSightDialog = ({
   );
 };
 
-export default FinSightDialog;
+export default LyraDialog;

@@ -1,4 +1,4 @@
-import { CreateCategoryDTO, UpdateCategoryDTO } from '@finsight/shared';
+import { CreateCategoryDTO, UpdateCategoryDTO } from '@lyra/shared';
 import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';

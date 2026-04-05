@@ -1,4 +1,4 @@
-import { CreateAccountDTO, CreateCategoryDTO, CreatePaymentMethodDTO } from '@finsight/shared';
+import { CreateAccountDTO, CreateCategoryDTO, CreatePaymentMethodDTO } from '@lyra/shared';
 
 export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
   // Income

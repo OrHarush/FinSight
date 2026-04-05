@@ -1,6 +1,6 @@
 # Page Template Guide
 
-This guide covers two page patterns used in FinSight:
+This guide covers two page patterns used in Lyra:
 1. **General Page Template** - For non-CRUD pages (Chat, Reports, etc.)
 2. **Entity Page Template** - For CRUD pages (Categories, Accounts, etc.)
 

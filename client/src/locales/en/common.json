@@ -1,5 +1,5 @@
 {
-  "loading": "Loading FinSight...",
+  "loading": "Loading Lyra...",
   "buttons": {
     "create": "Create",
     "update": "Update",
@@ -63,7 +63,7 @@
     "lastUpdated": "Last updated: December 20, 2025",
     "contactTitle": "Contact Information",
     "contactEmailLabel": "Email",
-    "footer": "© 2025 FinSight. All rights reserved."
+    "footer": "© 2025 Lyra. All rights reserved."
   },
   "deleteDialog": {
     "title": "Delete {{name}}?",
@@ -83,7 +83,7 @@
     "optional": "optional"
   },
   "iosInstallGuide": {
-    "title": "Add FinSight to home screen",
+    "title": "Add Lyra to home screen",
     "subtitle": "4 quick steps",
     "steps": {
       "step1": {
@@ -100,15 +100,15 @@
       },
       "step4": {
         "title": "Tap \"Add\" to confirm",
-        "subtitle": "FinSight appears on home screen"
+        "subtitle": "Lyra appears on home screen"
       }
     },
-    "tip": "Once added, open FinSight directly from your home screen like a regular app",
+    "tip": "Once added, open Lyra directly from your home screen like a regular app",
     "dismiss": "Got it",
     "action": "Start now"
   },
   "installPrompt": {
-    "title": "Install FinSight",
+    "title": "Install Lyra",
     "later": "Maybe later",
     "install": "Install",
     "reasons": {

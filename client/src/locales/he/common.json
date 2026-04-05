@@ -1,5 +1,5 @@
 {
-  "loading": "טוען את FinSight...",
+  "loading": "טוען את Lyra...",
 
   "buttons": {
     "create": "צור",
@@ -64,7 +64,7 @@
     "lastUpdated": "עודכן לאחרונה: 20 בדצמבר 2025",
     "contactTitle": "יצירת קשר",
     "contactEmailLabel": "דוא״ל",
-    "footer": "© 2025 FinSight. כל הזכויות שמורות."
+    "footer": "© 2025 Lyra. כל הזכויות שמורות."
   },
   "deleteDialog": {
     "title": "מחיקת {{name}}?",
@@ -84,7 +84,7 @@
     "optional": "אופציונלי"
   },
   "iosInstallGuide": {
-    "title": "הוסף את FinSight למסך הבית",
+    "title": "הוסף את Lyra למסך הבית",
     "subtitle": "4 שלבים פשוטים",
     "steps": {
       "step1": {
@@ -101,15 +101,15 @@
       },
       "step4": {
         "title": "לחץ \"הוסף\" לאישור",
-        "subtitle": "FinSight יופיע על מסך הבית"
+        "subtitle": "Lyra יופיע על מסך הבית"
       }
     },
-    "tip": "לאחר ההוספה, פתח את FinSight ישירות ממסך הבית כמו אפליקציה רגילה",
+    "tip": "לאחר ההוספה, פתח את Lyra ישירות ממסך הבית כמו אפליקציה רגילה",
     "dismiss": "הבנתי",
     "action": "התחל עכשיו"
   },
   "installPrompt": {
-    "title": "התקן את FinSight",
+    "title": "התקן את Lyra",
     "later": "אולי מאוחר יותר",
     "install": "התקן",
     "reasons": {

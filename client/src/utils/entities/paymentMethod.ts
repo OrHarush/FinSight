@@ -1,4 +1,4 @@
-import { PaymentMethodType } from '@finsight/shared';
+import { PaymentMethodType } from '@lyra/shared';
 
 export const PAYMENT_TYPE_LOCALE_KEY: Record<PaymentMethodType, string> = {
   'Credit Card': 'creditCard',

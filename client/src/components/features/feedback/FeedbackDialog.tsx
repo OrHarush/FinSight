@@ -1,10 +1,10 @@
-import { CreateFeedbackCommand } from '@finsight/shared';
+import { CreateFeedbackCommand } from '@lyra/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';

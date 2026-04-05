@@ -1,4 +1,4 @@
-import { TransactionFormValues } from '@finsight/shared';
+import { TransactionFormValues } from '@lyra/shared';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, Grid } from '@mui/material';

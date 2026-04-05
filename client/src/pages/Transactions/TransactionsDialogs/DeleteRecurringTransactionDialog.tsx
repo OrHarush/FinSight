@@ -2,7 +2,7 @@ import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import { Button, DialogActions, DialogContent, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 
 interface RecurringDeleteChoiceDialogProps extends BaseDialogProps {
@@ -19,7 +19,7 @@ const DeleteRecurringTransactionDialog = ({
   const { t } = useTranslation('transactions');
 
   return (
-    <FinSightDialog
+    <LyraDialog
       isOpen={isOpen}
       closeDialog={closeDialog}
       title={t('deleteRecurring.title')}
@@ -54,7 +54,7 @@ const DeleteRecurringTransactionDialog = ({
         </Column>
       </DialogContent>
       <DialogActions />
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 

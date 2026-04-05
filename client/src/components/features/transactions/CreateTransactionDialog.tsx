@@ -1,15 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CreateRecurringTemplateDTO,
   CreateTransactionDTO,
   TransactionFormSchema,
   TransactionFormValues,
-} from '@finsight/shared';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from '@lyra/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useAccounts } from '@/hooks/entities/useAccounts';

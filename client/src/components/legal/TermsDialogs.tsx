@@ -48,7 +48,7 @@ const TermsDialog = ({ open, onAccepted }: TermsDialogProps) => {
       <DialogTitle>Terms of Use</DialogTitle>
       <DialogContent dividers>
         <Typography variant="body2" mb={2}>
-          By using FinSight, you agree to our{' '}
+          By using Lyra, you agree to our{' '}
           <Link href="/terms" target="_blank">
             Terms of Use
           </Link>{' '}

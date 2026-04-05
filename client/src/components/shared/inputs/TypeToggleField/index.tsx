@@ -1,4 +1,4 @@
-import { TransactionType } from '@finsight/shared';
+import { TransactionType } from '@lyra/shared';
 import { SvgIconComponent } from '@mui/icons-material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';

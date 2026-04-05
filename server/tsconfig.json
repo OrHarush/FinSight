@@ -7,7 +7,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "paths": { "@finsight/shared": ["../shared/src/index.ts"] }
+    "paths": { "@lyra/shared": ["../shared/src/index.ts"] }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

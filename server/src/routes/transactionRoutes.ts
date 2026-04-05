@@ -1,4 +1,4 @@
-import { CreateTransactionSchema, UpdateTransactionSchema } from '@finsight/shared';
+import { CreateTransactionSchema, UpdateTransactionSchema } from '@lyra/shared';
 import { Router } from 'express';
 
 import {

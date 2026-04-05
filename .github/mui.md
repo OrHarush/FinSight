@@ -49,7 +49,7 @@ size={{
 }}
 ```
 
-## Real-World Examples from FinSight
+## Real-World Examples from Lyra
 
 ### Example 1: Category Pills (Chat Component)
 

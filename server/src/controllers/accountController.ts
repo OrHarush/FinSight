@@ -1,4 +1,4 @@
-import { CreateAccountDTO, UpdateAccountDTO } from '@finsight/shared';
+import { CreateAccountDTO, UpdateAccountDTO } from '@lyra/shared';
 import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';

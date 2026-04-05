@@ -27,9 +27,9 @@ Route: ${payload.metadata.route}
 `;
 
   await resend.emails.send({
-    from: 'FinSight <onboarding@resend.dev>',
+    from: 'Lyra <onboarding@resend.dev>',
     to: 'finsight.dev@gmail.com',
-    subject: '[FinSight] New feedback',
+    subject: '[Lyra] New feedback',
     text,
   });
 };

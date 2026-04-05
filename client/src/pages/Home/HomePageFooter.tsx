@@ -69,7 +69,7 @@ const HomePageFooter = () => {
       </Row>
 
       <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.72rem' }}>
-        © {new Date().getFullYear()} FinSight. All rights reserved.
+        © {new Date().getFullYear()} Lyra. All rights reserved.
       </Typography>
     </Column>
   );

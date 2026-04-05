@@ -2,7 +2,7 @@
 
 ## The Rule
 
-**Repositories speak `IEntity` only.** They have no knowledge of DTOs or `@finsight/shared`.
+**Repositories speak `IEntity` only.** They have no knowledge of DTOs or `@lyra/shared`.
 **Services own all mapping.** Every DTO→model conversion (string IDs → ObjectId, string dates → Date, field renames, defaults) happens before calling the repo.
 
 ```
@@ -34,7 +34,7 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
 **Repository** — only accepts `IAccount`, no DTO imports:
 ```ts
 // accountRepository.ts
-import Account, { IAccount } from '../models/Account'; // no @finsight/shared
+import Account, { IAccount } from '../models/Account'; // no @lyra/shared
 
 export const insert = async (data: Omit<IAccount, '_id'>) => {
   return new Account(data).save();

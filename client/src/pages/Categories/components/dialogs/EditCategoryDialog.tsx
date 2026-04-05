@@ -1,10 +1,10 @@
-import { UpdateCategoryDTO, UpdateCategorySchema } from '@finsight/shared';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { UpdateCategoryDTO, UpdateCategorySchema } from '@lyra/shared';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
 import FormDialog from '@/components/dialogs/FormDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';

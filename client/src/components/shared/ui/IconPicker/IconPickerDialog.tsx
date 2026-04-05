@@ -9,9 +9,9 @@ import {
   Pagination,
   TextField,
 } from '@mui/material';
-import { ChangeEvent,useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
-import { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import IconOption from '@/components/shared/ui/IconPicker/IconOption';
 
@@ -23,7 +23,13 @@ interface IconPickerDialogProps extends BaseDialogProps {
   iconMap: Record<string, SvgIconComponent>;
 }
 
-const IconPickerDialog = ({ isOpen, closeDialog, selectIcon, icons, iconMap }: IconPickerDialogProps) => {
+const IconPickerDialog = ({
+  isOpen,
+  closeDialog,
+  selectIcon,
+  icons,
+  iconMap,
+}: IconPickerDialogProps) => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 

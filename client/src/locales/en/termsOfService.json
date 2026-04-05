@@ -4,12 +4,12 @@
   "sections": {
     "acceptance": {
       "title": "1. Acceptance of Terms",
-      "body": "By accessing or using FinSight, you agree to be bound by these Terms of Service. If you do not agree to these terms, you must not use the application."
+      "body": "By accessing or using Lyra, you agree to be bound by these Terms of Service. If you do not agree to these terms, you must not use the application."
     },
 
     "service": {
       "title": "2. Nature of the Service",
-      "body": "FinSight provides financial indicators, summaries, and visualizations based solely on data manually entered by users. The application does not provide financial, investment, tax, or legal advice. Any information displayed is for informational purposes only."
+      "body": "Lyra provides financial indicators, summaries, and visualizations based solely on data manually entered by users. The application does not provide financial, investment, tax, or legal advice. Any information displayed is for informational purposes only."
     },
 
     "account": {
@@ -45,7 +45,7 @@
 
     "liability": {
       "title": "8. Limitation of Liability",
-      "body": "To the fullest extent permitted by law, FinSight shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service."
+      "body": "To the fullest extent permitted by law, Lyra shall not be liable for any indirect, incidental, or consequential damages arising from your use of the service."
     },
 
     "law": {
@@ -60,7 +60,7 @@
 
     "age": {
       "title": "11. Age Requirement",
-      "body": "FinSight is intended for users aged 16 and older."
+      "body": "Lyra is intended for users aged 16 and older."
     }
   }
 }

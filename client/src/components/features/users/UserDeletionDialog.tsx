@@ -3,7 +3,7 @@ import { Button, DialogActions, DialogContent, TextField, Typography } from '@mu
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import FinSightDialog, { BaseDialogProps } from '@/components/dialogs/FinSightDialog';
+import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
@@ -33,7 +33,7 @@ const UserDeletionDialog = ({ isOpen, closeDialog, onConfirm }: UserDeletionDial
   };
 
   return (
-    <FinSightDialog
+    <LyraDialog
       isOpen={isOpen}
       closeDialog={handleClose}
       title={t('deleteDialog.title')}
@@ -78,7 +78,7 @@ const UserDeletionDialog = ({ isOpen, closeDialog, onConfirm }: UserDeletionDial
           </Button>
         </Row>
       </DialogActions>
-    </FinSightDialog>
+    </LyraDialog>
   );
 };
 
