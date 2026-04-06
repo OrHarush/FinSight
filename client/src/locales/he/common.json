@@ -60,11 +60,11 @@
   "legal": {
     "termsOfService": "תנאי שימוש",
     "privacyPolicy": "מדיניות פרטיות",
-    "badge": "מוצר בשלבי פיתוח מוקדמים",
-    "lastUpdated": "עודכן לאחרונה: 20 בדצמבר 2025",
+    "lastUpdated": "עודכן לאחרונה: {{date}}",
     "contactTitle": "יצירת קשר",
     "contactEmailLabel": "דוא״ל",
-    "footer": "© 2025 Lyra. כל הזכויות שמורות."
+    "footer": "© 2026 Lyra. כל הזכויות שמורות.",
+    "accessibility": "הצהרת נגישות"
   },
   "deleteDialog": {
     "title": "מחיקת {{name}}?",

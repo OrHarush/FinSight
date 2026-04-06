@@ -13,20 +13,24 @@ import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
 import Chat from '@/pages/Chat';
 import HomePage from '@/pages/Home';
+import ImportWizardPage from '@/pages/Import/ImportWizardPage';
+import AccessibilityPage from '@/pages/legal/AccessibilityPage';
+import PrivacyPolicyPage from '@/pages/legal/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/legal/TermsOfServicePage';
 import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
 import Overview from '@/pages/Overview';
 import PaymentMethods from '@/pages/PaymentMethods';
-import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import TermsOfServicePage from '@/pages/TermsOfServicePage';
-import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
-  const showLoading = useMinLoadingDuration(isLoadingUser, 1500);
+
+  const hasStoredToken =
+    !!localStorage.getItem('token') || import.meta.env.VITE_DEV_AUTH_BYPASS === 'true';
+  const showLoading = useMinLoadingDuration(isLoadingUser, 1500, hasStoredToken);
 
   if (showLoading) {
     return (
@@ -42,6 +46,7 @@ const AppRoutes = () => {
         <Routes>
           <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
           <Route path={ROUTES.PRIVACY_POLICY_URL} element={<PrivacyPolicyPage />} />
+          <Route path={ROUTES.ACCESSIBILITY_URL} element={<AccessibilityPage />} />
           <Route
             element={
               <RequireGuest>

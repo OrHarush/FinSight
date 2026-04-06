@@ -3,7 +3,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Button } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import login from '@/assets/login.webp';
@@ -11,7 +11,6 @@ import loginMobile from '@/assets/loginMobile.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';
-import LegalLinks from '@/pages/Login/LegalLinks';
 import LyraIcon from '@/pages/Login/LyraIcon';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
@@ -128,7 +127,7 @@ const LoginPage = () => {
                 {t('subtitle')}
               </Typography>
             </Column>
-            <Column spacing={1}>
+            <Column spacing={2}>
               <Box
                 display="flex"
                 justifyContent="center"
@@ -156,13 +155,38 @@ const LoginPage = () => {
                 sx={{
                   display: 'block',
                   color: 'rgba(255, 255, 255, 0.4)',
-                  fontSize: '0.875rem',
+                  fontSize: '0.75rem',
+                  mt: 0.5,
                 }}
               >
-                {t('secure_note')}
+                <Trans
+                  i18nKey="legal_acceptance"
+                  t={t}
+                  components={{
+                    1: (
+                      <a
+                        href={ROUTES.TERMS_OF_SERVICE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'inherit', textDecoration: 'underline' }}
+                      >
+                        Terms
+                      </a>
+                    ),
+                    2: (
+                      <a
+                        href={ROUTES.PRIVACY_POLICY_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'inherit', textDecoration: 'underline' }}
+                      >
+                        Privacy
+                      </a>
+                    ),
+                  }}
+                />
               </Typography>
             </Column>
-            <LegalLinks />
           </Column>
         </CardContent>
       </Card>

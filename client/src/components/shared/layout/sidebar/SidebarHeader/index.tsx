@@ -22,8 +22,8 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
 
   if (!isMobile && !expanded) {
     return (
-      <Column alignItems="center" padding={1} spacing={1}>
-        <SidebarLogo size={32} />
+      <Column alignItems="center" padding={2} spacing={1}>
+        <SidebarLogo size={40} />
       </Column>
     );
   }
@@ -38,7 +38,7 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
       sx={{ borderBottom: '1px solid', borderColor: theme.palette.divider }}
     >
       <Row alignItems="center" spacing={isMobileBreakpointMd ? 1 : 2}>
-        <SidebarLogo size={32} />
+        <SidebarLogo size={40} />
         <Typography
           variant="h5"
           fontWeight={700}

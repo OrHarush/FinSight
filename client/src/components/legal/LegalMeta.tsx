@@ -1,10 +1,15 @@
-import { Link,Typography } from '@mui/material';
+import { Link, Typography } from '@mui/material';
+import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
-const LegalMeta = () => {
+interface LegalMetaProps extends PropsWithChildren {
+  email: string;
+}
+
+const LegalMeta = ({ email, children }: LegalMetaProps) => {
   const { t } = useTranslation('common');
 
   return (
@@ -13,10 +18,11 @@ const LegalMeta = () => {
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
           {t('legal.contactTitle')}
         </Typography>
+        {children}
         <Row spacing={1}>
           <Typography fontWeight={600}>{t('legal.contactEmailLabel')}:</Typography>
-          <Link href={'mailto:hello@finsight-app.com'} sx={{ color: 'primary.main' }}>
-            hello@finsight-app.com
+          <Link href={`mailto:${email}`} sx={{ color: 'primary.main' }}>
+            {email}
           </Link>
         </Row>
       </Column>

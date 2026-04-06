@@ -3,6 +3,7 @@ export const ROUTES = {
   LOGIN_URL: '/login',
   TERMS_OF_SERVICE_URL: '/terms-of-service',
   PRIVACY_POLICY_URL: '/privacy-policy',
+  ACCESSIBILITY_URL: '/accessibility',
   OVERVIEW_URL: '/overview',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',

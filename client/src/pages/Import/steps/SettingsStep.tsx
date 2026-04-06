@@ -96,10 +96,10 @@ const SettingsStep = () => {
               {t('importWizard.settings.dateFilterLabel')}
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <RHFDatePicker name="dateFrom" label={t('importWizard.settings.from')} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <RHFDatePicker name="dateTo" label={t('importWizard.settings.to')} />
               </Grid>
             </Grid>

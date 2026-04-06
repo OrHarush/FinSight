@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
 import Controls from '@/components/shared/layout/NavBar/Controls';
-import { navBarSx } from '@/components/shared/layout/NavBar/styles';
+import NavBarContainer from '@/components/shared/layout/NavBar/NavBarContainer';
 import ThemeToggleButton from '@/components/shared/layout/NavBar/ThemeToggleButton';
 import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderContext';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
@@ -34,10 +34,7 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
 
   if (isMobile) {
     return (
-      <Row
-        alignItems="center"
-        sx={{ ...navBarSx(theme), px: 1, position: 'relative', flexWrap: 'nowrap' }}
-      >
+      <NavBarContainer sx={{ position: 'relative', flexWrap: 'nowrap' }}>
         <Row spacing={1} alignItems="center">
           <IconButton
             onClick={onMobileOpen}
@@ -68,12 +65,12 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
           <ThemeToggleButton />
           <LanguageSelect sx={{ width: 36, height: 36, backgroundColor: 'transparent' }} />
         </Row>
-      </Row>
+      </NavBarContainer>
     );
   }
 
   return (
-    <Row alignItems="center" sx={navBarSx(theme)}>
+    <NavBarContainer>
       <IconButton onClick={onToggleSidebar} size="small">
         <SidebarToggleIcon fontSize="small" />
       </IconButton>
@@ -87,7 +84,7 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
         </Typography>
       )}
       <Controls />
-    </Row>
+    </NavBarContainer>
   );
 };
 

@@ -154,15 +154,14 @@ const TransactionOverviewDialog = ({
               </Row>
             </Row>
 
-            {/* Recurrence */}
-            {transaction.recurrence !== 'None' && (
+            {transaction.frequency && (
               <Row justifyContent="space-between" alignItems="center">
                 <Typography variant="body2" color="text.secondary">
                   {t('fields.recurrence')}
                 </Typography>
                 <Row spacing={1} alignItems="center">
                   <RepeatIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-                  <Chip label={transaction.recurrence} size="small" variant="outlined" />
+                  <Chip label={transaction.frequency} size="small" variant="outlined" />
                 </Row>
               </Row>
             )}

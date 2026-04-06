@@ -1,5 +1,5 @@
-import { alpha } from '@mui/material';
-import { SxProps, Theme } from '@mui/material/styles';
+import { alpha, SxProps } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 
 export const navBarSx = (theme: Theme): SxProps<Theme> => ({
   position: 'sticky',

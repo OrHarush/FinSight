@@ -59,11 +59,11 @@
   "legal": {
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
-    "badge": "Early-stage product",
-    "lastUpdated": "Last updated: December 20, 2025",
+    "lastUpdated": "Last updated: {{date}}",
     "contactTitle": "Contact Information",
     "contactEmailLabel": "Email",
-    "footer": "© 2025 Lyra. All rights reserved."
+    "footer": "© 2026 Lyra. All rights reserved.",
+    "accessibility": "Accessibility"
   },
   "deleteDialog": {
     "title": "Delete {{name}}?",

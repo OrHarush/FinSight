@@ -1,37 +1,20 @@
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import { alpha, Button, IconButton, Typography, useTheme } from '@mui/material';
+import { Button, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import lyraIcon from '@/assets/lyraIcon.webp';
 import Row from '@/components/shared/layout/containers/Row';
-import LanguageSelect from '@/components/shared/ui/LanguageSelect';
+import AppearanceSettings from '@/components/shared/layout/NavBar/AppearanceSettings';
+import NavBarContainer from '@/components/shared/layout/NavBar/NavBarContainer';
 import { ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
-import { useAppTheme } from '@/providers/AppThemeProvider';
 
 const LandingNavbar = () => {
   const { t } = useTranslation('home');
   const theme = useTheme();
   const isMobile = useIsMobile();
-  const { toggleColorMode } = useAppTheme();
 
   return (
-    <Row
-      component={'header'}
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{
-        position: 'sticky',
-        top: 0,
-        zIndex: theme.zIndex.appBar,
-        px: { xs: 2, md: 6 },
-        py: 1.5,
-        backdropFilter: 'blur(20px)',
-        backgroundColor: alpha(theme.palette.background.default, 0.8),
-        borderBottom: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
-      }}
-    >
+    <NavBarContainer sx={{ justifyContent: 'space-between' }}>
       <Row alignItems="center" spacing={1}>
         <img
           src={lyraIcon}
@@ -56,66 +39,28 @@ const LandingNavbar = () => {
       </Row>
       <Row
         alignItems="center"
-        spacing={{ xs: 1, sm: 2 }}
+        spacing={{ xs: 1, sm: 4 }}
         component="nav"
         aria-label="Main navigation"
       >
-        <Row spacing={1} alignItems={'center'}>
-          <LanguageSelect
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'transparent',
-            }}
-          />
-          <IconButton
-            onClick={toggleColorMode}
-            size="small"
-            sx={{
-              width: 40,
-              height: 40,
-              backgroundColor: 'transparent',
-              color: 'text.secondary',
-              '&:hover': {
-                color: 'text.primary',
-                backgroundColor: alpha(theme.palette.primary.main, 0.08),
-              },
-            }}
-          >
-            {theme.palette.mode === 'dark' ? (
-              <LightModeIcon fontSize="small" />
-            ) : (
-              <DarkModeIcon fontSize="small" />
-            )}
-          </IconButton>
-        </Row>
-        <Button
-          variant="outlined"
-          component="a"
-          href={ROUTES.LOGIN_URL}
-          sx={{
-            borderRadius: '100px',
-            px: 3,
-            ml: { xs: 0, sm: 1.5 },
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {t('navSignUp')}
-        </Button>
-        <Button
-          variant="contained"
-          component="a"
-          href={ROUTES.LOGIN_URL}
-          sx={{
-            borderRadius: '100px',
-            px: 3,
-            display: { xs: 'none', sm: 'flex' },
-          }}
-        >
-          {t('navLogin')}
-        </Button>
+        <AppearanceSettings />
+        {!isMobile && (
+          <Row spacing={1}>
+            <Button
+              variant="outlined"
+              component="a"
+              href={ROUTES.LOGIN_URL}
+              sx={{
+                borderRadius: '100px',
+                px: 3,
+              }}
+            >
+              {t('navLogin')}
+            </Button>
+          </Row>
+        )}
       </Row>
-    </Row>
+    </NavBarContainer>
   );
 };
 

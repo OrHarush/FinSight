@@ -1,4 +1,4 @@
-import { Chip,Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -6,9 +6,10 @@ import Row from '@/components/shared/layout/containers/Row';
 
 interface LegalHeaderProps {
   title: string;
+  date: string;
 }
 
-const LegalHeader = ({ title }: LegalHeaderProps) => {
+const LegalHeader = ({ title, date }: LegalHeaderProps) => {
   const { t } = useTranslation('common');
 
   return (
@@ -18,9 +19,8 @@ const LegalHeader = ({ title }: LegalHeaderProps) => {
       </Typography>
       <Row spacing={1} sx={{ alignItems: 'center' }}>
         <Typography variant="body2" color="text.secondary">
-          {t('legal.lastUpdated')}
+          {t('legal.lastUpdated', { date })}
         </Typography>
-        <Chip label={t('legal.badge')} size="small" />
       </Row>
     </Column>
   );

@@ -1,3 +1,4 @@
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -6,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import HelpModal from '@/components/features/users/HelpModal';
 import SettingsModal from '@/components/features/users/SettingsModal';
+import LegalModal from '@/components/legal/LegalModal';
 import { useOpen } from '@/hooks/common/useOpen';
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -19,6 +21,7 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
   const { user, logout } = useAuth();
   const [isSettingsOpen, openSettings, closeSettings] = useOpen();
   const [isHelpOpen, openHelp, closeHelp] = useOpen();
+  const [isAccessibilityOpen, openAccessibility, closeAccessibility] = useOpen();
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -37,6 +40,11 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
   const handleOpenHelp = () => {
     handleCloseMenu();
     openHelp();
+  };
+
+  const handleOpenAccessibility = () => {
+    handleCloseMenu();
+    openAccessibility();
   };
 
   return (
@@ -86,6 +94,12 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
           </ListItemIcon>
           {t('settings.help')}
         </MenuItem>
+        <MenuItem onClick={handleOpenAccessibility}>
+          <ListItemIcon>
+            <AccessibilityNewIcon fontSize="small" />
+          </ListItemIcon>
+          {t('common:legal.accessibility')}
+        </MenuItem>
         <Divider sx={{ my: 1 }} />
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
@@ -94,10 +108,15 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
           {t('actions.logout')}
         </MenuItem>
       </Menu>
-
       {isSettingsOpen && <SettingsModal isOpen={isSettingsOpen} closeDialog={closeSettings} />}
-
       {isHelpOpen && <HelpModal isOpen={isHelpOpen} closeDialog={closeHelp} />}
+      {isAccessibilityOpen && (
+        <LegalModal
+          isOpen={isAccessibilityOpen}
+          onClose={closeAccessibility}
+          type="accessibility"
+        />
+      )}
     </>
   );
 };

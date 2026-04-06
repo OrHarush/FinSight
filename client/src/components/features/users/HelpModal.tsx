@@ -16,7 +16,7 @@ import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { isMobileDevice } from '@/utils/device';
 
-const CONTACT_EMAIL = 'hello@finsight-app.com';
+const CONTACT_EMAIL = 'support@lyra-il.com';
 
 const HelpModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');

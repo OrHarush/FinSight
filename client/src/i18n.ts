@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next';
 
 import enAdmin from '@/locales/en/admin.json';
 import enAccounts from '@/locales/en/accounts.json';
+import enAccessibility from '@/locales/en/accessibility.json';
 import enBudgets from '@/locales/en/budgets.json';
 import enCategories from '@/locales/en/categories.json';
 import enChat from '@/locales/en/chat.json';
@@ -20,6 +21,7 @@ import enTransactions from '@/locales/en/transactions.json';
 import enUser from '@/locales/en/user.json';
 import heAdmin from '@/locales/he/admin.json';
 import heAccounts from '@/locales/he/accounts.json';
+import heAccessibility from '@/locales/he/accessibility.json';
 import heBudgets from '@/locales/he/budgets.json';
 import heCategories from '@/locales/he/categories.json';
 import heChat from '@/locales/he/chat.json';
@@ -41,6 +43,7 @@ i18n
     resources: {
       en: {
         admin: enAdmin,
+        accessibility: enAccessibility,
         common: enCommon,
         home: enHome,
         login: enLogin,
@@ -58,6 +61,7 @@ i18n
       },
       he: {
         admin: heAdmin,
+        accessibility: heAccessibility,
         common: heCommon,
         home: heHome,
         login: heLogin,

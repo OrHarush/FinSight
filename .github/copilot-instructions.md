@@ -1,90 +1,67 @@
-## Clean Code & SOLID:
-- Every function must do ONE thing only. If a function does more than one thing, split it.
-- Side effects must be isolated. Pure logic (calculations, transformations) must never mix
-  with I/O, DB calls, or state mutations in the same function.
-- Error handling belongs in its own function or layer. Never mix happy-path logic
-  with try/catch blocks in the same function body.
-- Single Responsibility: if you need to describe a function with "and", it's wrong.
-- Never suggest inline error handling inside business logic functions.
-- Dependency Inversion: depend on abstractions (interfaces/types), not concrete implementations.
-- When moving files, delete the old file and update all imports to the new path. Do not leave compatibility re-exports behind.
-- Don't create wrapper containers if not needed (for example for Typography), try to add style to component directly,
-- For loading states use skeletons and create separate components for them, don't mix loading state with actual component logic.
-- Use Row and Column components for layout instead of divs, boxes or stacks. They are MUI Stack component with corresponding flex direction.
-- Don't use vh or vw units for font sizes, they are not responsive and can cause accessibility issues. Use % or rem instead.
-- Don't use one line if return. Add curly braces and new lines for better readability, even for simple returns.
-- Before ifs and returns statements add a new line. 
+# Lyra — Claude Working Guide
 
-### React Component Patterns:
-- For orchestration components that handle multiple UI states (loading, error, empty, success):
-  Use early returns with separate components for each state.
-  Keep orchestration components focused solely on state coordination, not rendering logic.
-  Each state should render a dedicated component, not inline JSX.
+## Stack
+Frontend: React + TypeScript (Vite), MUI, TanStack Query, React Hook Form, i18next (EN/HE, RTL), PWA
+Backend: Node.js + Express + MongoDB — layered architecture: Routes → Controllers → Services → Repositories
+---
 
-- **ENTITY PAGES MUST FOLLOW THE STANDARD TEMPLATE** (see ENTITY_PAGE_TEMPLATE.md for full details):
-  
-  #### Mandatory structure:
-  1. **ChatInput.tsx** - Orchestration only (state + handlers + layout, NO data fetching)
-  2. **EntityPageContent.tsx** - State coordinator (loading/error/empty/success with early returns)
-  3. **EntityList.tsx** - Pure rendering (map data to components)
-  4. **EntityDialogManager.tsx** - Dialog manager (conditionally render create/edit dialogs)
-  5. **components/dialogs/** - `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`
-  
-  #### Required naming:
-  - State: `isCreateDialogOpen`, `selectedEntity`
-  - Functions describe what they do — never prefix with `handle` or `on` for internal functions:
-    - `openCreateDialog`, `closeCreateDialog`, `closeEditDialog`, `selectEntity`
-  - Props: `isCreateOpen`, `closeCreateDialog`, `closeEditDialog`
+## Architecture Rules
+- **Controllers**: HTTP only — extract params, call service, return response. No business logic.
+- **Services**: All business logic. Never accept `req`/`res` objects.
+- **Repositories**: All DB access. No query logic in services.
+- **Frontend**: Server state → TanStack Query. Form state → React Hook Form. UI state → `useState` locally.
+- **Dependency direction**: UI → hooks → API client. Never reverse.
+---
 
-### Function Naming:
-- Name functions after what they do, not who calls them.
-- Never prefix internal functions with `handle` or `on`.
-- Correct: `openCreateDialog`, `closeCreateDialog`, `selectEntity`, `submitCreate`
-- Wrong: `handleClose`, `onCloseCreate`, `handleSelectEntity`, `onSave`
-- Always use arrow function component syntax:
-  - Correct: `const MyComponent = (props) => { ... }`
-  - Wrong: `function MyComponent(props) { ... }`
-- Never use `function` declarations for components.
+## Clean Code (project-specific rules)
+- One function does ONE thing. If you need "and" to describe it, split it.
+- Pure logic never mixes with I/O, DB calls, or state mutations.
+- Error handling lives in its own layer — never mix try/catch with happy-path logic.
+- No business logic in controllers or React components.
+- No `any` unless isolated and commented.
+- Don't write any comments unless it's to explain "why" — never "what" or "how". If you need to explain "what", refactor the code to be self-explanatory. If you need to explain "how", extract it to a well-named function.
+---
 
-### Entity Form & Dialog Conventions:
-- Always use `TextInput` (from `@/components/shared/inputs/TextInput`) instead of raw MUI `TextField`. It integrates with `useFormContext` automatically.
-- Dialogs must extend `BaseDialogProps` from `@/components/dialogs/LyraDialog`.
-- Every entity must have a dedicated `EntityForm` component (pure fields, no submit logic).
-- Create and Edit dialogs are separate files: `CreateEntityDialog.tsx` and `EditEntityDialog.tsx`.
-- Both dialogs use `FormProvider` + `useForm` wrapping `FormDialog`, which handles submit/reset/cancel.
-- `EditEntityDialog` receives the entity as a prop and pre-fills `defaultValues`.
-- Place dialogs in `pages/EntityName/components/dialogs/`.
-- Mutation logic lives in the dialog, not in the dialog manager.
-- `EntityDialogManager` is purely conditional rendering — no logic, no hooks.
+## React Component Patterns
+- For loading states: always use skeleton components. Never mix loading logic into the actual component.
+- Never create 2 components in the same file. Each component must be in its own file, even if it's small.
+- If a component's styles grow complex, move them to a `styles.ts` file in the same folder. Export factory functions named `get[Component]Style` (e.g. `getChipStyle`, `getCardStyle`).
 
-## Backend Architecture & Conventions
-### Layered Structure
-- Routes → Controllers → Services → Repositories → DTOs
-- Controllers handle HTTP only: extract params, call service, return response. No business logic.
-- Services own all business logic and domain rules. No req/res objects ever enter a service.
-- Repositories handle all DB access. No query logic in services. 
-- Use /server/controllers/categoriesController as a reference when creating or editing a controller.
-
-### Error Handling
-- Always throw `ApiError` from services and repositories. Never throw plain `Error`.
-- Use static factory methods — never instantiate directly:
-    - `ApiError.badRequest('message')` → 400
-    - `ApiError.notFound('message')` → 404
-    - `ApiError.unauthorized()` → 401
-    - `ApiError.forbidden()` → 403
-    - `ApiError.internal()` → 500
-    - `ApiError.tooManyRequests()` → 429
-- Never wrap service calls in try/catch inside controllers — the global error middleware handles ApiError.
-- Never mix happy-path logic with error handling in the same function.
-
-
-### Response Shape
-- Always use `ApiResponse` static methods — never call `res.status().json()` directly:
-    - `ApiResponse.ok(res, data)` → 200 `{ success: true, data }`
-    - `ApiResponse.created(res, data)` → 201 `{ success: true, data }`
-    - `ApiResponse.deleted(res)` → 200 `{ success: true, message }`
-- Controllers must be one-liners after the service call:
+## Function Declaration Style
+Always use `const` arrow functions — never `function` declarations:
 ```ts
-  const result = await transactionService.create(dto);
-  return ApiResponse.created(res, result);
+// BAD
+function splitExpenses(transactions, accountId) { ... }
+
+// GOOD
+const splitExpenses = (transactions: TransactionDto[], accountId: string) => { ... }
 ```
+
+---
+## Naming Conventions
+Functions describe **what they do**, never who calls them.
+```ts
+// BAD
+handleOpen, handleClose, handleToggle, handleClick, handleSubmit
+
+// GOOD
+openChipMenu, closeChipMenu, toggleSidebar, submitBudgetForm
+```
+
+---
+## UI / Layout Rules
+- Use `Row` and `Column` (MUI Stack wrappers) for layout — not `Box`, `div`, or `Stack` directly. They must include children.
+- Never use `vh`/`vw` for font sizes — use `rem` or `%`.
+- No one-line `if` returns — always use curly braces and newlines.
+- Add a blank line before `if` and `return` statements.
+- Don't wrap components in unnecessary containers — apply `sx` directly.
+- Always use `TextInput` (project shared component) instead of raw MUI `TextField`.
+- All UI must support RTL and long translations — never assume English sizing.
+---
+
+## Backend Error Handling
+Always throw `ApiError` static methods — never `new Error()` or `res.status().json()` directly:
+Always use `ApiResponse` static methods:
+Controllers are one-liners after the service call:
+Never wrap service calls in try/catch inside controllers — global error middleware handles it.
+---

@@ -13,7 +13,7 @@ const PreviousMonthCheckboxRow = () => {
   const paymentMethodId = useWatch({ control, name: 'paymentMethod' });
   const paymentMethod = paymentMethods.find(currentMethod => currentMethod._id === paymentMethodId);
 
-  if (paymentMethod?.type === 'Credit') {
+  if (paymentMethod?.type === 'Credit Card') {
     return null;
   }
 
