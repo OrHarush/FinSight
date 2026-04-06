@@ -2,6 +2,7 @@ import { Theme } from '@mui/material';
 
 export const getCustomScrollbarStyles = (theme: Theme) => ({
   '&::-webkit-scrollbar': {
+    display: { xs: 'none', md: 'block' },
     width: '8px',
   },
   '&::-webkit-scrollbar-track': {

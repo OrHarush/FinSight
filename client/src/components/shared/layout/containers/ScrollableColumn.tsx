@@ -18,8 +18,9 @@ const ScrollableColumn = ({ maxHeight = 'none', children, ...props }: Scrollable
       {...props}
       sx={{
         maxHeight,
-        overflow: 'auto',
-        pr: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        pr: { xs: 0, md: 1 },
         ...getCustomScrollbarStyles(theme),
         ...props.sx,
       }}
