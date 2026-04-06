@@ -75,7 +75,6 @@ const ProcessAnimation = ({ activeStage }: ProcessAnimationProps) => {
           />
         ))}
       </Row>
-
       <Box
         sx={{
           width: '100%',

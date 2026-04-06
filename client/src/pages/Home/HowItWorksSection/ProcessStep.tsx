@@ -16,8 +16,12 @@ const ProcessStep = ({ icon, title, description, accentColor, isActive }: Proces
   const theme = useTheme();
 
   return (
-    <Column spacing={2} alignItems="flex-start" sx={{ flex: 1, minWidth: 0 }}>
-      <Row spacing={2} alignItems={'center'}>
+    <Column
+      spacing={2}
+      alignItems={{ xs: 'center', md: 'flex-start' }}
+      sx={{ flex: 1, minWidth: 0, textAlign: { xs: 'center', md: 'start' } }}
+    >
+      <Row spacing={2} alignItems={'center'} justifyContent={{ xs: 'center', md: 'flex-start' }}>
         <Column
           alignItems="center"
           justifyContent="center"
@@ -42,7 +46,7 @@ const ProcessStep = ({ icon, title, description, accentColor, isActive }: Proces
           {title}
         </Typography>
       </Row>
-      <Column spacing={1}>
+      <Column spacing={1} alignItems={{ xs: 'center', md: 'flex-start' }}>
         <Typography
           variant="body2"
           sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 320 }}
