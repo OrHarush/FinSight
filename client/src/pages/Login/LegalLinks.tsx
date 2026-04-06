@@ -15,7 +15,7 @@ interface LegalLinksProps {
 const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
   const { t } = useTranslation('common');
   const { user } = useAuth();
-  
+
   const shouldOpenModal = !!user;
 
   const [activeModal, setActiveModal] = useState<LegalType | null>(null);
@@ -57,7 +57,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
             },
           }}
         >
-          {t('legal.termsOfService')}
+          {t('LegalPage.termsOfService')}
         </Typography>
         <Typography variant={variant} sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
           •
@@ -82,7 +82,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
             },
           }}
         >
-          {t('legal.privacyPolicy')}
+          {t('LegalPage.privacyPolicy')}
         </Typography>
       </Row>
 

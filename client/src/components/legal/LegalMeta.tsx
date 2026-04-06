@@ -16,11 +16,11 @@ const LegalMeta = ({ email, children }: LegalMetaProps) => {
     <Column spacing={2}>
       <Column spacing={1}>
         <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
-          {t('legal.contactTitle')}
+          {t('LegalPage.contactTitle')}
         </Typography>
         {children}
         <Row spacing={1}>
-          <Typography fontWeight={600}>{t('legal.contactEmailLabel')}:</Typography>
+          <Typography fontWeight={600}>{t('LegalPage.contactEmailLabel')}:</Typography>
           <Link href={`mailto:${email}`} sx={{ color: 'primary.main' }}>
             {email}
           </Link>

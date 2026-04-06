@@ -14,16 +14,14 @@ interface LegalContentRendererProps {
 const AccessibilityContent = () => {
   const { t } = useTranslation(['accessibility', 'common']);
   return (
-    <Column spacing={4} sx={{ flex: 1 }}>
+    <>
       <LegalHeader title={t('title')} date={t('date')} />
       <Divider />
       <Column spacing={3} sx={{ flex: 1 }}>
         <LegalSection title={t('sections.general.title')}>
           {t('sections.general.body')}
         </LegalSection>
-        <LegalSection title={t('sections.status.title')}>
-          {t('sections.status.body')}
-        </LegalSection>
+        <LegalSection title={t('sections.status.title')}>{t('sections.status.body')}</LegalSection>
         <LegalSection title={t('sections.exemptions.title')}>
           {t('sections.exemptions.body')}
         </LegalSection>
@@ -33,7 +31,7 @@ const AccessibilityContent = () => {
           </Typography>
         </LegalMeta>
       </Column>
-    </Column>
+    </>
   );
 };
 
@@ -42,7 +40,7 @@ const PrivacyPolicyContent = () => {
   const getArray = (value: unknown): string[] => (Array.isArray(value) ? value : []);
 
   return (
-    <Column spacing={4} sx={{ flex: 1 }}>
+    <>
       <LegalHeader title={t('title')} date={t('date')} />
       <Divider />
       <Column spacing={3}>
@@ -100,7 +98,7 @@ const PrivacyPolicyContent = () => {
         </LegalSection>
         <LegalMeta email="support@lyra-il.com" />
       </Column>
-    </Column>
+    </>
   );
 };
 
@@ -108,7 +106,7 @@ const TermsOfServiceContent = () => {
   const { t } = useTranslation(['termsOfService']);
 
   return (
-    <Column spacing={4} sx={{ flex: 1 }}>
+    <>
       <LegalHeader title={t('title')} date={t('date')} />
       <Divider />
       <Column spacing={3}>
@@ -143,22 +141,16 @@ const TermsOfServiceContent = () => {
         <LegalSection title={t('sections.age.title')}>{t('sections.age.body')}</LegalSection>
         <LegalMeta email="support@lyra-il.com" />
       </Column>
-    </Column>
+    </>
   );
 };
 
-const LegalContentRenderer = ({ type }: LegalContentRendererProps) => {
-  switch (type) {
-    case 'accessibility':
-      return <AccessibilityContent />;
-    case 'privacyPolicy':
-      return <PrivacyPolicyContent />;
-    case 'termsOfService':
-      return <TermsOfServiceContent />;
-    default:
-      return null;
-  }
-};
+const LegalContentRenderer = ({ type }: LegalContentRendererProps) => (
+  <Column spacing={4} sx={{ flex: 1 }} maxWidth={'900px'}>
+    {type == 'accessibility' && <AccessibilityContent />}
+    {type == 'privacyPolicy' && <PrivacyPolicyContent />}
+    {type == 'termsOfService' && <TermsOfServiceContent />}
+  </Column>
+);
 
 export default LegalContentRenderer;
-

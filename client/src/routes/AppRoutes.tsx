@@ -14,9 +14,7 @@ import Categories from '@/pages/Categories';
 import Chat from '@/pages/Chat';
 import HomePage from '@/pages/Home';
 import ImportWizardPage from '@/pages/Import/ImportWizardPage';
-import AccessibilityPage from '@/pages/legal/AccessibilityPage';
-import PrivacyPolicyPage from '@/pages/legal/PrivacyPolicyPage';
-import TermsOfServicePage from '@/pages/legal/TermsOfServicePage';
+import LegalPage from '@/pages/LegalPage/LegalPage';
 import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
 import Overview from '@/pages/Overview';
@@ -44,9 +42,6 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
-          <Route path={ROUTES.TERMS_OF_SERVICE_URL} element={<TermsOfServicePage />} />
-          <Route path={ROUTES.PRIVACY_POLICY_URL} element={<PrivacyPolicyPage />} />
-          <Route path={ROUTES.ACCESSIBILITY_URL} element={<AccessibilityPage />} />
           <Route
             element={
               <RequireGuest>
@@ -54,6 +49,12 @@ const AppRoutes = () => {
               </RequireGuest>
             }
           >
+            <Route
+              path={ROUTES.TERMS_OF_SERVICE_URL}
+              element={<LegalPage type="termsOfService" />}
+            />
+            <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
+            <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
             <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
             <Route path="/" element={<Navigate to={ROUTES.HOME_URL} />} />
