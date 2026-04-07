@@ -3,6 +3,63 @@ import i18n, { TFunction } from 'i18next';
 import { CategoryDto } from '@/types/Category';
 import { TransactionDto } from '@/types/Transaction';
 
+type PresetCategoryRules = {
+  type: 'Income' | 'Expense';
+  categoryKey?: string;
+  nameTerms: string[];
+};
+
+const PRESET_CATEGORY_CONFIG: Record<string, PresetCategoryRules> = {
+  salary: {
+    type: 'Income',
+    categoryKey: 'salary',
+    nameTerms: ['salary', 'משכורת'],
+  },
+  rent: {
+    type: 'Expense',
+    categoryKey: 'housing',
+    nameTerms: ['rent', 'housing', 'דיור', 'שכירות'],
+  },
+  coffee: {
+    type: 'Expense',
+    categoryKey: 'dining_out',
+    nameTerms: ['dining', 'eating', 'coffee', 'קפה', 'אוכל בחוץ'],
+  },
+  bit: {
+    type: 'Expense',
+    nameTerms: ['other', 'אחר'],
+  },
+};
+
+export const resolvePresetCategory = (
+  presetKey: string,
+  categories: CategoryDto[]
+): string | undefined => {
+  const config = PRESET_CATEGORY_CONFIG[presetKey];
+
+  if (!config) {
+    return undefined;
+  }
+
+  if (config.categoryKey) {
+    const byKey = categories.find(
+      c => c.key === config.categoryKey && c.type === config.type
+    );
+
+    if (byKey) {
+      return byKey._id;
+    }
+  }
+
+  const byName = categories.find(
+    c =>
+      c.type === config.type &&
+      config.nameTerms.some(term => c.name.toLowerCase().includes(term.toLowerCase()))
+  );
+
+  return byName?._id;
+};
+
 export const getTopSpendingCategories = (
   transactions: TransactionDto[],
   categories: CategoryDto[],

@@ -40,7 +40,7 @@ const FLOATING_CARDS: FloatingCardConfig[] = [
 ];
 
 interface Props {
-  onCardClick: (preset: QuickAddPreset) => void;
+  onCardClick: (presetKey: string, base: Omit<QuickAddPreset, 'category'>) => void;
 }
 
 const SetupPanelVisual = ({ onCardClick }: Props) => {
@@ -60,7 +60,7 @@ const SetupPanelVisual = ({ onCardClick }: Props) => {
             amount={t(`setup.floatingCards.${key}.amount`)}
             type={type}
             onClick={() =>
-              onCardClick({ type, name: t(`setup.floatingCards.${key}.label`), amount })
+              onCardClick(key, { type, name: t(`setup.floatingCards.${key}.label`), amount })
             }
           />
         </Box>

@@ -8,10 +8,10 @@ import QuickAddButton from '@/pages/Overview/SetupPanel/QuickAddButton';
 import { QuickAddPreset } from '@/pages/Overview/SetupPanel/types';
 
 interface QuickAddPanelProps {
-  openWithPreset: (preset: QuickAddPreset) => void;
+  openWithKey: (key: string, base: Omit<QuickAddPreset, 'category'>) => void;
 }
 
-const QuickAddPanel = ({ openWithPreset }: QuickAddPanelProps) => {
+const QuickAddPanel = ({ openWithKey }: QuickAddPanelProps) => {
   const { t } = useTranslation('overview');
 
   return (
@@ -29,7 +29,7 @@ const QuickAddPanel = ({ openWithPreset }: QuickAddPanelProps) => {
               label={t(`setup.quickChips.${key}`)}
               amount={t(`setup.floatingCards.${key}.amount`)}
               type={type}
-              onClick={() => openWithPreset({ type, name: t(`setup.quickChips.${key}`), amount })}
+              onClick={() => openWithKey(key, { type, name: t(`setup.quickChips.${key}`), amount })}
             />
           );
         })}
