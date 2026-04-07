@@ -14,6 +14,7 @@ import {
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
+import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
@@ -28,11 +29,10 @@ const UserActivityList = () => {
   });
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Column sx={{ pt: 3 }}>
       <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
         {t('activity.title')}
       </Typography>
-
       <Paper variant="outlined" sx={{ borderRadius: 3 }}>
         {isLoading ? (
           <Box sx={{ p: 2 }}>
@@ -91,7 +91,7 @@ const UserActivityList = () => {
           </List>
         )}
       </Paper>
-    </Box>
+    </Column>
   );
 };
 

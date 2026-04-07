@@ -1,9 +1,10 @@
 import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
 import PeopleIcon from '@mui/icons-material/People';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
@@ -21,16 +22,15 @@ export const AdminKpiDashboard = () => {
   });
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ mb: 4 }}>
+    <Column sx={{ p: 3 }}>
+      <Column sx={{ mb: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
           {t('title')}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {t('subtitle')}
         </Typography>
-      </Box>
-
+      </Column>
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 4 }}>
           {isLoadingKpis || !kpiOverview ? (
@@ -45,7 +45,6 @@ export const AdminKpiDashboard = () => {
             />
           )}
         </Grid>
-
         <Grid size={{ xs: 12, md: 4 }}>
           {isLoadingKpis || !kpiOverview ? (
             <KpiSkeleton />
@@ -59,7 +58,6 @@ export const AdminKpiDashboard = () => {
             />
           )}
         </Grid>
-
         <Grid size={{ xs: 12, md: 4 }}>
           {isLoadingKpis || !kpiOverview ? (
             <KpiSkeleton />
@@ -74,8 +72,7 @@ export const AdminKpiDashboard = () => {
           )}
         </Grid>
       </Grid>
-
       <UserActivityList />
-    </Box>
+    </Column>
   );
 };

@@ -98,7 +98,7 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
           <ListItemIcon>
             <AccessibilityNewIcon fontSize="small" />
           </ListItemIcon>
-          {t('common:LegalPage.accessibility')}
+          {t('common:legal.accessibility')}
         </MenuItem>
         <Divider sx={{ my: 1 }} />
         <MenuItem onClick={handleLogout}>
