@@ -57,7 +57,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
             },
           }}
         >
-          {t('LegalPage.termsOfService')}
+          {t('legal.termsOfService')}
         </Typography>
         <Typography variant={variant} sx={{ color: 'rgba(255, 255, 255, 0.4)' }}>
           •
@@ -82,7 +82,7 @@ const LegalLinks = ({ variant = 'body2', spacing = 1 }: LegalLinksProps) => {
             },
           }}
         >
-          {t('LegalPage.privacyPolicy')}
+          {t('legal.privacyPolicy')}
         </Typography>
       </Row>
 
