@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Button } from '@mui/material';
+import { Button, SxProps, Theme } from '@mui/material';
 
 const CONFIG = {
   Income: {
@@ -18,9 +18,10 @@ interface Props {
   type: 'Income' | 'Expense';
   label: string;
   onClick: () => void;
+  sx?: SxProps<Theme>;
 }
 
-const CreateTransactionButton = ({ type, label, onClick }: Props) => {
+const CreateTransactionButton = ({ type, label, onClick, sx }: Props) => {
   const { bg, hoverBg, color } = CONFIG[type];
 
   return (
@@ -28,17 +29,20 @@ const CreateTransactionButton = ({ type, label, onClick }: Props) => {
       variant="contained"
       startIcon={<AddIcon />}
       onClick={onClick}
-      sx={{
-        width: '160px',
-        bgcolor: bg,
-        color,
-        textTransform: 'none',
-        fontWeight: 500,
-        borderRadius: 2,
-        px: 2.5,
-        boxShadow: 'none',
-        '&:hover': { bgcolor: hoverBg, boxShadow: 'none' },
-      }}
+      sx={[
+        {
+          minWidth: 160,
+          bgcolor: bg,
+          color,
+          textTransform: 'none',
+          fontWeight: 500,
+          borderRadius: 2,
+          px: 2.5,
+          boxShadow: 'none',
+          '&:hover': { bgcolor: hoverBg, boxShadow: 'none' },
+        },
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
     >
       {label}
     </Button>

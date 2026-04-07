@@ -23,12 +23,14 @@ import { mapToCreatePayload, mapToRecurringTemplatePayload } from '@/utils/entit
 interface CreateTransactionDialogProps extends BaseDialogProps {
   initialType?: TransactionFormValues['type'];
   initialAccountId?: string;
+  initialValues?: Partial<TransactionFormValues>;
 }
 
 const getDefaultValues = (
   initialType: TransactionFormValues['type'],
   accountId?: string,
-  paymentMethodId?: string
+  paymentMethodId?: string,
+  initialValues?: Partial<TransactionFormValues>
 ): Partial<TransactionFormValues> => {
   const todayLocal = new Date();
   todayLocal.setMinutes(todayLocal.getMinutes() - todayLocal.getTimezoneOffset());
@@ -39,6 +41,7 @@ const getDefaultValues = (
     type: initialType,
     account: accountId || '',
     paymentMethod: paymentMethodId || '',
+    ...initialValues,
   };
 };
 
@@ -47,6 +50,7 @@ const CreateTransactionDialog = ({
   closeDialog,
   initialType = 'Expense',
   initialAccountId,
+  initialValues,
 }: CreateTransactionDialogProps) => {
   const { t } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
@@ -56,9 +60,10 @@ const CreateTransactionDialog = ({
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
     defaultValues: getDefaultValues(
-      initialType,
+      initialValues?.type ?? initialType,
       initialAccountId ?? primaryAccount?._id,
-      primaryPaymentMethod?._id
+      primaryPaymentMethod?._id,
+      initialValues
     ),
     mode: 'all',
   });

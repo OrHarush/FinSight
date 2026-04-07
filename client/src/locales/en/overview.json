@@ -19,10 +19,25 @@
     "placeholder": "Select account"
   },
   "setup": {
-    "firstTransactionTitle": "Add your first transaction",
-    "firstTransactionDescription": "Your account, categories, and payment method are ready.\n Just log a transaction to unlock your dashboard.",
+    "welcomeBadge": "Welcome to Lyra →",
+    "title": "Start tracking\nyour money",
+    "subtitle": "Add a transaction manually, or import a file from your bank, Lyra will take care of the rest.",
     "addIncome": "Add income",
-    "addExpense": "Add expense"
+    "addExpense": "Add expense",
+    "importBank": "Import from bank",
+    "quickAddLabel": "Quick add",
+    "floatingCards": {
+      "salary": { "label": "Salary", "amount": "8,500" },
+      "coffee": { "label": "Coffee", "amount": "14" },
+      "bit": { "label": "Bit", "amount": "200" },
+      "rent": { "label": "Rent", "amount": "3,500" }
+    },
+    "quickChips": {
+      "salary": "Salary",
+      "coffee": "Coffee",
+      "rent": "Rent",
+      "bit": "Bit"
+    }
   },
 
   "noData": {

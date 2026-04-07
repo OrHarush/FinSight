@@ -19,10 +19,25 @@
     "placeholder": "בחירת חשבון"
   },
   "setup": {
-    "firstTransactionTitle": "הוסף את העסקה הראשונה שלך",
-    "firstTransactionDescription": "החשבון, הקטגוריות ואמצעי התשלום שלך כבר מוכנים.\n רק צריך להוסיף עסקה כדי לראות את הדשבורד.",
-    "addIncome": "הוסף הכנסה",
-    "addExpense": "הוסף הוצאה"
+    "welcomeBadge": "ברוך הבא ללירה →",
+    "title": "מתחילים לעקוב\nאחרי הכסף",
+    "subtitle": "אפשר להוסיף עסקה ידנית, או לייבא קובץ מהבנק, לירה תטפל בשאר.",
+    "addIncome": "הכנסה",
+    "addExpense": "הוצאה",
+    "importBank": "ייבוא מהבנק",
+    "quickAddLabel": "הוספה מהירה",
+    "floatingCards": {
+      "salary": { "label": "משכורת", "amount": "8,500" },
+      "coffee": { "label": "קפה", "amount": "14" },
+      "bit": { "label": "ביט", "amount": "200" },
+      "rent": { "label": "שכירות", "amount": "3,500" }
+    },
+    "quickChips": {
+      "salary": "משכורת",
+      "coffee": "קפה",
+      "rent": "שכירות",
+      "bit": "ביט"
+    }
   },
   "noData": {
     "title": "אין נתונים עדיין",
