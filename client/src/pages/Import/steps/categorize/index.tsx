@@ -1,4 +1,4 @@
-import { LinearProgress, Typography } from '@mui/material';
+import { LinearProgress, Tab, Tabs, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -44,6 +44,10 @@ const CategorizeStep = () => {
   const [bulkRename, setBulkRename] = useState<BulkRenameState | null>(null);
 
   const expenseCategories = categories.filter(c => c.type === 'Expense');
+  const incomeCategories = categories.filter(c => c.type === 'Income');
+  const hasRefunds = rows.some(r => r.amount < 0);
+  const [activeTab, setActiveTab] = useState<'expense' | 'income'>('expense');
+  const visibleCategories = activeTab === 'income' ? incomeCategories : expenseCategories;
 
   useEffect(() => {
     setCanProceed(true);
@@ -96,7 +100,7 @@ const CategorizeStep = () => {
     setBulkAssign(null);
   };
 
-  const handleRenameRow = (index: number, newName: string) => {
+  const renameRow = (index: number, newName: string) => {
     const oldName = rows[index].name;
 
     updateRowName(index, newName);
@@ -149,8 +153,9 @@ const CategorizeStep = () => {
         <MobileCategorizeView
           rows={rows}
           categories={expenseCategories}
+          incomeCategories={incomeCategories}
           onAssign={assignRows}
-          onRenameRow={handleRenameRow}
+          onRenameRow={renameRow}
           onDeleteRows={deleteRows}
           bulkAssign={bulkAssign}
           onConfirmBulkAssign={confirmBulkAssign}
@@ -161,20 +166,27 @@ const CategorizeStep = () => {
         />
       ) : (
         <>
+          {hasRefunds && (
+            <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ mb: -1 }}>
+              <Tab label={t('importWizard.categorize.tabExpenses')} value="expense" />
+              <Tab label={t('importWizard.categorize.tabIncome')} value="income" />
+            </Tabs>
+          )}
           <Row flex={1} minHeight={0} spacing={2} alignItems="stretch">
             <TransactionPanel
               rows={rows}
-              categories={expenseCategories}
+              categories={categories}
+              activeTab={hasRefunds ? activeTab : undefined}
               draggingIndices={draggingIndices}
               onToggleSelected={toggleRowSelected}
               onToggleAll={toggleAllSelected}
               onDragStart={startDragging}
               onDragEnd={stopDragging}
-              onRenameRow={handleRenameRow}
+              onRenameRow={renameRow}
               onDeleteSelected={deleteSelectedRows}
             />
             <CategoryPanel
-              categories={expenseCategories}
+              categories={visibleCategories}
               rows={rows}
               draggingIndices={draggingIndices}
               overId={overId}

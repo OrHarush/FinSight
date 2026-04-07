@@ -1,5 +1,6 @@
 import { alpha, Card, Checkbox, Chip, Typography, useTheme } from '@mui/material';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -9,15 +10,6 @@ import { WizardRow } from '@/pages/Import/types/importWizard';
 import { CategoryDto } from '@/types/Category';
 
 const LONG_PRESS_DELAY = 500;
-
-const formatDate = (isoDate: string): string => {
-  const [year, month, day] = isoDate.split('-').map(Number);
-
-  return new Date(year, month - 1, day).toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-  });
-};
 
 interface MobileTransactionCardProps {
   row: WizardRow;
@@ -41,6 +33,8 @@ const MobileTransactionCard = ({
   onToggleSelect,
 }: MobileTransactionCardProps) => {
   const theme = useTheme();
+  const { t, i18n } = useTranslation('transactions');
+  const isRefund = row.amount < 0;
   const category = categories.find(c => c._id === row.categoryId);
   const { isEditing, editedName, setEditedName, startEdit, commitEdit, handleKeyDown } =
     useInlineRename(row.name, onRenameRow);
@@ -59,7 +53,7 @@ const MobileTransactionCard = ({
     }
   };
 
-  const handleCardClick = () => {
+  const toggleCardSelection = () => {
     if (isSelectionMode) {
       onToggleSelect();
     }
@@ -71,7 +65,7 @@ const MobileTransactionCard = ({
       onPointerDown={startLongPress}
       onPointerUp={cancelLongPress}
       onPointerLeave={cancelLongPress}
-      onClick={handleCardClick}
+      onClick={toggleCardSelection}
       sx={{
         px: 2,
         py: 2,
@@ -109,12 +103,30 @@ const MobileTransactionCard = ({
             onCommitEdit={commitEdit}
             onKeyDown={handleKeyDown}
           />
-          <Typography variant="caption" color="text.disabled">
-            {formatDate(row.date)}
-          </Typography>
+          <Row spacing={0.75} alignItems="center">
+            <Typography variant="caption" color="text.disabled">
+              {new Date(row.date + 'T00:00:00').toLocaleDateString(i18n.language, {
+                month: 'short',
+                day: 'numeric',
+              })}
+            </Typography>
+            {isRefund && (
+              <Chip
+                label={t('importWizard.categorize.refund')}
+                size="small"
+                sx={{
+                  bgcolor: 'transparent',
+                  border: `1.5px solid ${theme.palette.primary.main}`,
+                  color: 'primary.main',
+                  fontSize: '0.6rem',
+                  height: 16,
+                }}
+              />
+            )}
+          </Row>
         </Column>
         <Column alignItems="flex-end" spacing={0.75} flexShrink={0}>
-          <Typography variant="body2" fontWeight={600} color="error.main">
+          <Typography variant="body2" fontWeight={600} color={isRefund ? 'success.main' : 'error.main'}>
             {Math.abs(row.amount).toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

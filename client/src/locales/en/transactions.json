@@ -118,6 +118,9 @@
         "confirm": "Rename all",
         "dismiss": "Skip"
       },
+      "refund": "Refund",
+      "tabExpenses": "Expenses",
+      "tabIncome": "Refunds",
       "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together.",
       "deleteSelected": "Delete selected",
       "deleteSelectedCount": "Delete {{count}} row(s)",

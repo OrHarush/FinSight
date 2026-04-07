@@ -24,6 +24,7 @@ import { CategoryDto } from '@/types/Category';
 interface TransactionPanelProps {
   rows: WizardRow[];
   categories: CategoryDto[];
+  activeTab?: 'expense' | 'income';
   draggingIndices: number[];
   onToggleSelected: (index: number) => void;
   onToggleAll: () => void;
@@ -67,6 +68,7 @@ const SectionHeader = ({ label }: { label: string }) => {
 const TransactionPanel = ({
   rows,
   categories,
+  activeTab,
   draggingIndices,
   onToggleSelected,
   onToggleAll,
@@ -77,13 +79,25 @@ const TransactionPanel = ({
 }: TransactionPanelProps) => {
   const { t } = useTranslation('transactions');
 
+  const tabFilter = (row: WizardRow) => {
+    if (activeTab === 'income') {
+      return row.amount < 0;
+    }
+
+    if (activeTab === 'expense') {
+      return row.amount >= 0;
+    }
+
+    return true;
+  };
+
   const uncategorized = rows
     .map((r, i) => ({ row: r, index: i }))
-    .filter(({ row }) => row.categoryId === null);
+    .filter(({ row }) => row.categoryId === null && tabFilter(row));
 
   const categorized = rows
     .map((r, i) => ({ row: r, index: i }))
-    .filter(({ row }) => row.categoryId !== null);
+    .filter(({ row }) => row.categoryId !== null && tabFilter(row));
 
   const allSelected = rows.length > 0 && rows.every(r => r.selected);
   const someSelected = rows.some(r => r.selected);
@@ -136,7 +150,7 @@ const TransactionPanel = ({
                     {t('importWizard.upload.col.date')}
                   </TableCell>
                   <TableCell>{t('importWizard.upload.col.name')}</TableCell>
-                  <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                  <TableCell style={{ textAlign: 'right' }} sx={{ whiteSpace: 'nowrap' }}>
                     {t('importWizard.upload.col.amount')}
                   </TableCell>
                   <TableCell sx={{ width: 110 }}>{t('fields.category')}</TableCell>

@@ -23,7 +23,7 @@ export interface ParseResult {
 }
 
 const DATE_KEYWORDS = ['date', 'תאריך'];
-const AMOUNT_KEYWORDS = ['amount', 'סכום', 'חיוב'];
+const AMOUNT_KEYWORDS = ['amount', 'סכום חיוב', 'חיוב'];
 const NAME_KEYWORDS = ['description', 'תיאור', 'שם בית עסק', 'merchant'];
 
 const CSV_MIMETYPES = ['text/csv', 'application/csv', 'text/plain'];
@@ -269,7 +269,26 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
 
   const dataRows = rawRows
     .slice(headerRowIndex + 1)
-    .filter(row => !row.every(cell => cell == null || cell === ''));
+    .filter(row => !row.every(cell => cell == null || cell === ''))
+    .filter(row => {
+      const dateCell = row[colMap.dateIdx];
+
+      if (dateCell == null || dateCell === '') {
+        return false;
+      }
+
+      const dateCellStr = String(dateCell);
+
+      if (dateCellStr.length > 12) {
+        return false;
+      }
+
+      if (cellMatchesGroup(dateCell, DATE_KEYWORDS)) {
+        return false;
+      }
+
+      return true;
+    });
 
   let failCount = 0;
   const rows: ParsedRow[] = [];

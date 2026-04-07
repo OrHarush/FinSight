@@ -52,7 +52,7 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
             <TableRow>
               <TableCell>{t('importWizard.upload.col.date')}</TableCell>
               <TableCell>{t('importWizard.upload.col.name')}</TableCell>
-              <TableCell align="right">{t('importWizard.upload.col.amount')}</TableCell>
+              <TableCell style={{ textAlign: 'right' }}>{t('importWizard.upload.col.amount')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -60,7 +60,7 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
               <TableRow key={i}>
                 <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.date}</TableCell>
                 <TableCell>{row.name || '—'}</TableCell>
-                <TableCell align="right" sx={{ color: row.amount < 0 ? 'error.main' : 'inherit' }}>
+                <TableCell style={{ textAlign: 'right' }} sx={{ color: row.amount < 0 ? 'error.main' : 'inherit' }}>
                   {row.amount.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,

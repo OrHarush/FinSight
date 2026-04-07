@@ -118,6 +118,9 @@
         "confirm": "שנה שם לכולן",
         "dismiss": "דלג"
       },
+      "refund": "זיכוי",
+      "tabExpenses": "הוצאות",
+      "tabIncome": "זיכויים",
       "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת.",
       "deleteSelected": "מחק נבחרים",
       "deleteSelectedCount": "מחק {{count}} שורות",

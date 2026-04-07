@@ -44,16 +44,6 @@ Lyra supports this approach with a UI optimized for **low friction and frequent 
 
 ---
 
-## Current State
-Lyra is a **working MVP** that is used daily and continuously improved based on real usage.
-
-Current focus areas:
-
-* Better insights
-* Clearer summaries
-* A smooth mobile experience
-
----
 
 ## Philosophy
 Lyra is intentionally:

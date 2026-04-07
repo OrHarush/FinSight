@@ -1,5 +1,6 @@
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { alpha, Checkbox, Chip, TableCell, TableRow, useTheme } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import InlineNameEditor from '@/pages/Import/steps/categorize/InlineNameEditor';
 import useInlineRename from '@/pages/Import/steps/categorize/useInlineRename';
@@ -26,6 +27,8 @@ const TransactionRow = ({
   onRenameRow,
 }: TransactionRowProps) => {
   const theme = useTheme();
+  const { i18n } = useTranslation('transactions');
+  const isRefund = row.amount < 0;
   const category = categories.find(c => c._id === row.categoryId);
   const { isEditing, editedName, setEditedName, startEdit, commitEdit, handleKeyDown } =
     useInlineRename(row.name, onRenameRow);
@@ -89,7 +92,7 @@ const TransactionRow = ({
         />
       </TableCell>
       <TableCell sx={{ whiteSpace: 'nowrap', color: 'text.secondary', width: 68 }}>
-        {new Date(row.date + 'T00:00:00').toLocaleDateString(undefined, {
+        {new Date(row.date + 'T00:00:00').toLocaleDateString(i18n.language, {
           month: 'short',
           day: 'numeric',
         })}
@@ -105,7 +108,10 @@ const TransactionRow = ({
           onKeyDown={handleKeyDown}
         />
       </TableCell>
-      <TableCell align="right" sx={{ whiteSpace: 'nowrap', color: 'error.main', fontWeight: 500 }}>
+      <TableCell
+        style={{ textAlign: 'right' }}
+        sx={{ whiteSpace: 'nowrap', color: isRefund ? 'success.main' : 'error.main', fontWeight: 500 }}
+      >
         {Math.abs(row.amount).toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,

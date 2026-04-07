@@ -27,6 +27,7 @@ interface BulkRenameState {
 interface MobileCategorizeViewProps {
   rows: WizardRow[];
   categories: CategoryDto[];
+  incomeCategories: CategoryDto[];
   onAssign: (categoryId: string, indices: number[]) => void;
   onRenameRow: (index: number, name: string) => void;
   onDeleteRows: (indices: number[]) => void;
@@ -41,6 +42,7 @@ interface MobileCategorizeViewProps {
 const MobileCategorizeView = ({
   rows,
   categories,
+  incomeCategories,
   onAssign,
   onRenameRow,
   onDeleteRows,
@@ -54,6 +56,12 @@ const MobileCategorizeView = ({
   const { t } = useTranslation('transactions');
   const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
   const [sheetOpenForIndex, setSheetOpenForIndex] = useState<number | null>(null);
+  const [categoriesForSheet, setCategoriesForSheet] = useState<CategoryDto[]>(categories);
+
+  const openSheet = (index: number) => {
+    setCategoriesForSheet(rows[index].amount < 0 ? incomeCategories : categories);
+    setSheetOpenForIndex(index);
+  };
 
   const isSelectionMode = selectedIndices.size > 0;
 
@@ -96,7 +104,7 @@ const MobileCategorizeView = ({
             categories={categories}
             isSelected={selectedIndices.has(index)}
             isSelectionMode={isSelectionMode}
-            onChipClick={() => !isSelectionMode && setSheetOpenForIndex(index)}
+            onChipClick={() => !isSelectionMode && openSheet(index)}
             onRenameRow={name => onRenameRow(index, name)}
             onLongPress={() => enterSelectionMode(index)}
             onToggleSelect={() => toggleSelect(index)}
@@ -119,7 +127,7 @@ const MobileCategorizeView = ({
 
       <CategoryBottomSheet
         open={sheetOpenForIndex !== null}
-        categories={categories}
+        categories={categoriesForSheet}
         onSelect={assignCategory}
         onClose={() => setSheetOpenForIndex(null)}
       />

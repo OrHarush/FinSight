@@ -87,7 +87,7 @@ export const importTransactions = async (
     const isRefund = row.amount < 0;
 
     return {
-      name: row.name.slice(0, 50) || undefined,
+      name: row.name.slice(0, 50) || '',
       type: isRefund ? 'Income' : 'Expense',
       amount: toCents(Math.abs(row.amount)),
       date: new Date(row.date),
