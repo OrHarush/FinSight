@@ -71,13 +71,13 @@ const CreateTransactionDialog = ({
   const createTransaction = useApiMutation<TransactionDto, CreateTransactionDTO>({
     method: 'post',
     url: API_ROUTES.TRANSACTIONS,
-    queryKeysToInvalidate: [queryKeys.allTransactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
   });
 
   const createRecurringTemplate = useApiMutation<unknown, CreateRecurringTemplateDTO>({
     method: 'post',
     url: API_ROUTES.RECURRING_TEMPLATES_WITH_TRANSACTIONS,
-    queryKeysToInvalidate: [queryKeys.allTransactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
   });
 
   const createNewTransaction = async (data: TransactionFormValues) => {

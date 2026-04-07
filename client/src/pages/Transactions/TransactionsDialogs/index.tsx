@@ -44,7 +44,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
   const deleteTransaction = useApiMutation<void, { id: string }>({
     method: 'delete',
     buildUrl: ({ id }) => `${API_ROUTES.TRANSACTIONS}/${id}`,
-    queryKeysToInvalidate: [queryKeys.transactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
     options: {
       onSuccess: () => {
         alertSuccess(t('messages.deleteSuccess'));
@@ -59,7 +59,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
     method: 'post',
     buildUrl: () =>
       API_ROUTES.RECURRING_TEMPLATES_DEACTIVATE_FROM(selectedTransaction?.templateId ?? ''),
-    queryKeysToInvalidate: [queryKeys.transactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
     options: {
       onSuccess: () => {
         alertSuccess(t('messages.deleteSuccess'));
