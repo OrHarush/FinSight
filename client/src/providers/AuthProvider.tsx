@@ -25,6 +25,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const queryClient = useQueryClient();
 
+  const prefetchOverviewQueries = () =>
+    Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.accounts(),
+        queryFn: () => api.get(API_ROUTES.ACCOUNTS).then(r => r.data),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.paymentMethods(),
+        queryFn: () => api.get(API_ROUTES.PAYMENT_METHODS).then(r => r.data),
+      }),
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.transactionsCount(),
+        queryFn: () => api.get(`${API_ROUTES.TRANSACTIONS}/count`).then(r => r.data),
+      }),
+    ]);
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const storedToken = localStorage.getItem('token');
@@ -68,6 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('token', data.token);
+        prefetchOverviewQueries().finally(() => setIsLoadingUser(false));
       })
       .catch(() => setIsLoadingUser(false));
   }, []);
@@ -79,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     onSuccess: data => {
       setUser(data);
       localStorage.setItem('user', JSON.stringify(data));
-      setIsLoadingUser(false);
+      prefetchOverviewQueries().finally(() => setIsLoadingUser(false));
     },
     onError: error => {
       if (error?.status === 401 || error?.status === 404) {
