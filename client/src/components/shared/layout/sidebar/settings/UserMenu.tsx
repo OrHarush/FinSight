@@ -101,8 +101,8 @@ const UserMenu = ({ anchorEl, setAnchorEl }: UserMenuProps) => {
           {t('common:legal.accessibility')}
         </MenuItem>
         <Divider sx={{ my: 1 }} />
-        <MenuItem onClick={handleLogout}>
-          <ListItemIcon>
+        <MenuItem onClick={handleLogout} sx={{ color: 'error.main' }}>
+          <ListItemIcon sx={{ color: 'error.main' }}>
             <LogoutIcon fontSize="small" />
           </ListItemIcon>
           {t('actions.logout')}
