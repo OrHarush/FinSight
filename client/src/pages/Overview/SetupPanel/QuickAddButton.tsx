@@ -24,7 +24,7 @@ const QuickAddButton = ({ label, amount, type, onClick }: Props) => {
         gap: 1,
         px: 1.5,
         py: 0.75,
-        borderRadius: 2,
+        borderRadius: 4,
         bgcolor: 'background.paper',
         border: '1px solid',
         borderColor: 'divider',

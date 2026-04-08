@@ -1,3 +1,4 @@
+import FlashOnIcon from '@mui/icons-material/FlashOn';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -16,9 +17,12 @@ const QuickAddPanel = ({ openWithKey }: QuickAddPanelProps) => {
 
   return (
     <Column spacing={1} alignItems={{ xs: 'center', sm: 'flex-start' }} width="100%">
-      <Typography variant="caption" color="text.disabled" fontWeight={500}>
-        {t('setup.quickAddLabel')}
-      </Typography>
+      <Row spacing={0.5} alignItems={'center'}>
+        <FlashOnIcon sx={{ fontSize: '16px', color: 'text.disabled' }} />
+        <Typography variant="body1" color="text.disabled" fontWeight={500}>
+          {t('setup.quickAddLabel')}
+        </Typography>
+      </Row>
       <Row flexWrap="wrap" gap={1} justifyContent={{ xs: 'center', sm: 'flex-start' }}>
         {QUICK_ADD_KEYS.map(key => {
           const { type, amount } = QUICK_ADD_CONFIG[key];

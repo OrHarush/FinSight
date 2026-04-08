@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useState } from 'react';
 
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
+import LyraPulseIcon from '@/components/shared/feedback/LyraPulseIcon';
 import Column from '@/components/shared/layout/containers/Column';
 import { useOpen } from '@/hooks/common/useOpen';
 import { useCategories } from '@/hooks/entities/useCategories';
@@ -10,7 +11,6 @@ import { resolvePresetCategory } from '@/utils/entities/category';
 import AddTransactionButtons from './AddTransactionButtons';
 import QuickAddPanel from './QuickAddPanel';
 import SetupPanelHeader from './SetupPanelHeader';
-import SetupPanelVisual from './SetupPanelVisual';
 import { QuickAddPreset } from './types';
 
 const SetupPanel = () => {
@@ -50,7 +50,10 @@ const SetupPanel = () => {
             sx={{ display: 'flex', justifyContent: 'center' }}
             order={{ xs: 1, sm: 2 }}
           >
-            <SetupPanelVisual onCardClick={openWithKey} />
+            <LyraPulseIcon
+              size={160}
+              iconSx={{ width: { xs: 68, sm: 84 }, height: { xs: 68, sm: 84 } }}
+            />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }} order={{ xs: 2, sm: 1 }}>
             <Column spacing={3} alignItems={{ xs: 'center', sm: 'flex-start' }}>
