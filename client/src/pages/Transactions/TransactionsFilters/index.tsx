@@ -1,16 +1,16 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import Row from '@/components/shared/layout/containers/Row';
 import { useNavBarDate } from '@/components/shared/layout/PageHeaderContext';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import ClearFiltersChip from '@/pages/Transactions/TransactionsFilters/ClearFiltersChip ';
 import TransactionFilterChips from '@/pages/Transactions/TransactionsFilters/TransactionFilterChips';
 import TransactionSearchInput from '@/pages/Transactions/TransactionsFilters/TransactionSearchInput';
 
 const TransactionsFilters = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallScreen = useIsSmallScreen();
 
   const {
     selectedMonth,
@@ -45,7 +45,7 @@ const TransactionsFilters = () => {
   return (
     <ResponsiveRow width={'100%'} spacing={1} alignItems="center">
       <TransactionSearchInput />
-      {isMobile ? (
+      {isSmallScreen ? (
         <Box
           sx={{
             display: 'flex',

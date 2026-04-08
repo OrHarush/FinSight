@@ -2,7 +2,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
@@ -13,7 +13,6 @@ import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderConte
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import MonthDateSelector from '@/components/shared/ui/MonthDateSelector';
 import { ROUTES } from '@/constants/Routes';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 interface NavBarProps {
   onMobileOpen: () => void;
@@ -23,7 +22,7 @@ interface NavBarProps {
 
 const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps) => {
   const theme = useTheme();
-  const isMobile = useIsMobile();
+  const isHandDevice = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const { title, showDateSelector, showImportButton, dateConfig } = usePageHeaderContext();
   const isRtl = theme.direction === 'rtl';
@@ -32,7 +31,7 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
   const ExpandIcon = isRtl ? KeyboardDoubleArrowLeftIcon : KeyboardDoubleArrowRightIcon;
   const SidebarToggleIcon = sidebarExpanded ? CollapseIcon : ExpandIcon;
 
-  if (isMobile) {
+  if (isHandDevice) {
     return (
       <NavBarContainer sx={{ position: 'relative', flexWrap: 'nowrap' }}>
         <Row spacing={1} alignItems="center">

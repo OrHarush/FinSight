@@ -4,6 +4,9 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
+
+import UploadSuccessCompact from './UploadSuccessCompact';
 
 interface UploadDropzoneProps {
   file: File | null;
@@ -24,6 +27,7 @@ const UploadDropzone = ({
 }: UploadDropzoneProps) => {
   const { t } = useTranslation('transactions');
   const theme = useTheme();
+  const isSmallScreen = useIsSmallScreen();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dropzoneBg = isDragging
@@ -49,6 +53,10 @@ const UploadDropzone = ({
       onProcessFile(picked);
     }
   };
+
+  if (file && !isLoading && isSmallScreen) {
+    return <UploadSuccessCompact file={file} onClear={onClear} />;
+  }
 
   return (
     <Paper
@@ -85,7 +93,9 @@ const UploadDropzone = ({
         <Typography variant="body1" fontWeight={500}>
           {isDragging
             ? t('importWizard.upload.dropzoneActive')
-            : t('importWizard.upload.dropzone')}
+            : isSmallScreen
+              ? t('importWizard.upload.dropzoneMobile')
+              : t('importWizard.upload.dropzone')}
         </Typography>
         <Typography variant="caption" color="text.secondary">
           {t('importWizard.upload.dropzoneSub')}
@@ -103,9 +113,7 @@ const UploadDropzone = ({
             {t('importWizard.upload.browse')}
           </Button>
         )}
-        {file && !isLoading && (
-          <Chip label={file.name} size="small" onDelete={onClear} />
-        )}
+        {file && !isLoading && <Chip label={file.name} size="small" onDelete={onClear} />}
       </Column>
     </Paper>
   );

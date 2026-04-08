@@ -78,9 +78,12 @@
     },
     "upload": {
       "dropzone": "Drag & drop your bank export here",
+      "dropzoneMobile": "Choose a file to import",
       "dropzoneActive": "Drop it!",
       "dropzoneSub": "Supports xlsx and csv files — up to 5 MB",
       "browse": "Browse file",
+      "fileReady": "File ready",
+      "fileReadySize": "{{size}} KB",
       "previewTitle": "Preview",
       "rowCount": "{{count}} transactions found",
       "dateRange": "Date range: {{from}} – {{to}}",

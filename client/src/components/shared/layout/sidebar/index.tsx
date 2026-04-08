@@ -5,7 +5,7 @@ import MobileSidebar from '@/components/shared/layout/sidebar/MobileSidebar';
 import Settings from '@/components/shared/layout/sidebar/settings';
 import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -22,7 +22,7 @@ const Sidebar = ({
   sidebarExpanded,
   onToggleSidebar,
 }: SidebarProps) => {
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
 
   const content = (
     <Column height={'100%'}>
@@ -34,7 +34,7 @@ const Sidebar = ({
     </Column>
   );
 
-  if (isMobile) {
+  if (isSmallScreen) {
     return (
       <MobileSidebar open={mobileOpen} onOpen={onMobileOpen} onClose={onMobileClose}>
         {content}

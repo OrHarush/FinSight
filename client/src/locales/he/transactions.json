@@ -78,9 +78,12 @@
     },
     "upload": {
       "dropzone": "גרור ושחרר את ייצוא הבנק שלך כאן",
+      "dropzoneMobile": "בחרו קובץ לייבוא",
       "dropzoneActive": "שחרר!",
       "dropzoneSub": "תומך בקבצי xlsx ו-csv — עד 5 MB",
       "browse": "בחר קובץ",
+      "fileReady": "קובץ מוכן",
+      "fileReadySize": "{{size}} KB",
       "previewTitle": "תצוגה מקדימה",
       "rowCount": "נמצאו {{count}} עסקאות",
       "dateRange": "טווח תאריכים: {{from}} – {{to}}",
