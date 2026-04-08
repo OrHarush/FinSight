@@ -4,7 +4,7 @@ import { amountSchema, nameSchema, objectIdSchema } from './common';
 
 const BaseTransactionSchema = z.object({
   name: nameSchema(50).optional(),
-  description: z.string().max(120, 'validation.nameTooLong').trim().optional(),
+  note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
   amount: amountSchema,
   frequency: z.enum(['Monthly', 'Yearly']).optional(),
@@ -100,6 +100,7 @@ const BaseTransactionFormSchema = z.object({
   account: objectIdSchema.optional(),
   fromAccount: objectIdSchema.optional(),
   toAccount: objectIdSchema.optional(),
+  note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
 });
 
 export const TransactionFormSchema = BaseTransactionFormSchema.superRefine((data, ctx) => {

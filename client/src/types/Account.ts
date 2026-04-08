@@ -1,3 +1,5 @@
+import type { DefaultAccountKey } from '@lyra/shared';
+
 export interface AccountDto {
   _id: string;
   name: string;
@@ -9,4 +11,5 @@ export interface AccountDto {
   isPrimary: boolean;
   checkpointBalance: number;
   checkpointDate?: Date;
+  key?: DefaultAccountKey;
 }

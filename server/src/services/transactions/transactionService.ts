@@ -166,7 +166,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
 
   const mapped: Omit<ITransaction, '_id'> = {
     name: data.name ?? '',
-    description: data.description,
+    note: data.note,
     type: data.type,
     amount: toCents(data.amount),
     belongToPreviousMonth: data.belongToPreviousMonth ?? false,
@@ -202,7 +202,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   const mapped: Partial<ITransaction> = {};
 
   if (data.name !== undefined) mapped.name = data.name;
-  if (data.description !== undefined) mapped.description = data.description;
+  if (data.note !== undefined) mapped.note = data.note;
   if (data.type !== undefined) mapped.type = data.type;
   if (data.amount !== undefined) mapped.amount = toCents(data.amount);
   if (data.belongToPreviousMonth !== undefined)

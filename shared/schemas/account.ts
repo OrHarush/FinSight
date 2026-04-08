@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { DEFAULT_ACCOUNT_KEYS } from '../types/defaultAccounts';
 import { amountSchema, nameSchema } from './common';
 
 export const CreateAccountSchema = z.object({
@@ -14,6 +15,7 @@ export const CreateAccountSchema = z.object({
   icon: z.string().optional(),
   currency: z.string().optional(),
   isPrimary: z.boolean().optional(),
+  key: z.enum(DEFAULT_ACCOUNT_KEYS).optional(),
 });
 
 export type CreateAccountDTO = z.infer<typeof CreateAccountSchema>;

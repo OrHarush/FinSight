@@ -45,6 +45,7 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
       billingDay: dto.billingDay ?? null,
       lastFourDigits: dto.lastFourDigits,
       isPrimary: dto.isPrimary ?? false,
+      key: dto.key,
       userId: new Types.ObjectId(userId),
     })
   );
@@ -52,11 +53,14 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
   const defaultAccount: Omit<IAccount, '_id'> = {
     name: DEFAULT_ACCOUNT.name,
     balance: DEFAULT_ACCOUNT.balance ?? 0,
+    checkpointBalance: DEFAULT_ACCOUNT.balance ?? 0,
+    checkpointDate: new Date(),
     institution: DEFAULT_ACCOUNT.institution,
     accountNumber: DEFAULT_ACCOUNT.accountNumber,
     icon: DEFAULT_ACCOUNT.icon,
     currency: DEFAULT_ACCOUNT.currency ?? 'ILS',
     isPrimary: true,
+    key: DEFAULT_ACCOUNT.key,
     userId: new Types.ObjectId(userId),
   };
 

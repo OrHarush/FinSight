@@ -25,6 +25,10 @@
     "paybox": "פייבוקס",
     "cash": "מזומן"
   },
+  "defaults": {
+    "credit_card": "כרטיס אשראי",
+    "immediate_debit": "חיוב מיידי"
+  },
   "typeGroups": {
     "cards": "כרטיסים",
     "banking": "בנקאי",

@@ -21,6 +21,7 @@ const buildTransactionPayload = (data: TransactionFormValues) => {
     type: data.type,
     belongToPreviousMonth: data.belongToPreviousMonth,
     paymentMethodId: data.paymentMethod,
+    note: data.note || undefined,
   };
 
   if (data.type === 'Expense' || data.type === 'Income') {
@@ -46,6 +47,7 @@ export const mapToTemplateChangesPayload = (
     type: data.type,
     belongToPreviousMonth: data.belongToPreviousMonth,
     paymentMethodId: data.paymentMethod,
+    note: data.note || undefined,
   };
 
   if (data.type === 'Expense' || data.type === 'Income') {
@@ -67,6 +69,7 @@ export const mapToRecurringTemplatePayload = (
     amount: Number(data.amount),
     belongToPreviousMonth: data.belongToPreviousMonth,
     paymentMethodId: data.paymentMethod,
+    note: data.note || undefined,
   };
 
   if (data.type === 'Expense' || data.type === 'Income') {

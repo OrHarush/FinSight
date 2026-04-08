@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import EditRecurringTransactionDialog from '@/pages/Transactions/components/EditRecurringTransactionDialog';
@@ -34,6 +35,7 @@ const EditTransactionDialog = ({
   const { t: tCommon } = useTranslation('common');
   const { alertSuccess, alertError } = useSnackbar();
   const [pendingData, setPendingData] = useState<TransactionFormValues | null>(null);
+  const isSmallScreen = useIsSmallScreen();
 
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
@@ -47,6 +49,7 @@ const EditTransactionDialog = ({
       paymentMethod: transaction?.paymentMethod?._id,
       category: transaction?.category?._id,
       account: transaction?.account?._id,
+      note: transaction.note,
     },
     mode: 'all',
   });
@@ -108,7 +111,7 @@ const EditTransactionDialog = ({
             closeDialog();
           }}
           title={t('actions.edit')}
-          maxWidth="xs"
+          maxWidth={isSmallScreen ? 'xs' : 'sm'}
         >
           <form onSubmit={methods.handleSubmit(submitEdit)} noValidate>
             <DialogContent sx={{ pt: 1 }}>

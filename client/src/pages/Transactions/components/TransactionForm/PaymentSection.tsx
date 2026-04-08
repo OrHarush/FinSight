@@ -5,14 +5,18 @@ import { buildPaymentMethodGroups } from '@/components/features/paymentMethods/b
 import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
-const PaymentSection = () => {
+interface PaymentSectionProps {
+  smSize?: number;
+}
+
+const PaymentSection = ({ smSize = 6 }: PaymentSectionProps) => {
   const { t } = useTranslation(['transactions', 'paymentMethods']);
   const { paymentMethods } = usePaymentMethods();
 
   const groups = buildPaymentMethodGroups(paymentMethods, t);
 
   return (
-    <Grid size={{ xs: 12, sm: 6 }}>
+    <Grid size={{ xs: 12, sm: smSize }}>
       <RHFGroupedSelect
         name={'paymentMethod'}
         label={t('transactions:fields.paymentMethod')}

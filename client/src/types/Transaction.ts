@@ -13,6 +13,7 @@ export interface TransactionPageFormValues {
 export interface TransactionDto {
   _id: string;
   name: string;
+  note?: string;
   type: TransactionType;
   amount: number;
   date?: string;

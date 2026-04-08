@@ -8,7 +8,7 @@ import FlatCardTypeIcon from '@/pages/PaymentMethods/components/PaymentMethodCar
 import PrimaryBadge from '@/pages/PaymentMethods/components/PaymentMethodCard/PrimaryBadge';
 import { getCardStyle } from '@/pages/PaymentMethods/components/PaymentMethodCard/styles';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getPaymentMethodDisplayName, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 interface FlatCardVariantProps {
   paymentMethod: PaymentMethodDto;
@@ -20,7 +20,8 @@ const FlatCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: FlatCardVar
   const { t } = useTranslation('paymentMethods');
   const typeKey = PAYMENT_TYPE_LOCALE_KEY[paymentMethod.type];
   const typeLabel = t(`types.${typeKey}`);
-  const hasName = !!paymentMethod.name;
+  const displayName = getPaymentMethodDisplayName(paymentMethod, t);
+  const hasName = !!paymentMethod.name || !!paymentMethod.key;
 
   return (
     <Card
@@ -33,7 +34,7 @@ const FlatCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: FlatCardVar
         <Column spacing={0} sx={{ flex: 1, minWidth: 0 }}>
           <Row alignItems="center" spacing={0.75} sx={{ minWidth: 0 }}>
             <Typography variant="body2" fontWeight={700} noWrap>
-              {hasName ? paymentMethod.name : typeLabel}
+              {hasName ? displayName : typeLabel}
             </Typography>
             {paymentMethod.isPrimary && <PrimaryBadge />}
           </Row>

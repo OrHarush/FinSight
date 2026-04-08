@@ -8,7 +8,11 @@ import AccountSelect from '@/components/features/accounts/AccountSelect';
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
 
-const AccountsSection = () => {
+interface AccountsSectionProps {
+  smSize?: number;
+}
+
+const AccountsSection = ({ smSize = 6 }: AccountsSectionProps) => {
   const { t } = useTranslation('transactions');
   const isMobile = useIsMobile();
 
@@ -17,7 +21,7 @@ const AccountsSection = () => {
 
   if (transactionType !== 'Transfer') {
     return (
-      <Grid size={{ xs: 12, sm: 6 }}>
+      <Grid size={{ xs: 12, sm: smSize }}>
         <AccountSelect label={t('fields.account')} />
       </Grid>
     );

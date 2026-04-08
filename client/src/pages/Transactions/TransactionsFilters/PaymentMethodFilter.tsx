@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import MultiSelectChip from '@/components/shared/inputs/MultiSelectChip';
 import { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip/MultiSelectChipList';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
-import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getPaymentMethodDisplayName, PAYMENT_TYPE_GROUPS } from '@/utils/entities/paymentMethod';
 
 interface PaymentMethodFilterProps {
   selectedIds: string[];
@@ -36,7 +36,7 @@ const PaymentMethodFilter = ({ selectedIds, onChange }: PaymentMethodFilterProps
     });
 
     groupMethods.forEach(pm => {
-      const label = pm.name || tPm(`types.${PAYMENT_TYPE_LOCALE_KEY[pm.type]}`);
+      const label = getPaymentMethodDisplayName(pm, tPm);
 
       items.push({
         id: pm._id,

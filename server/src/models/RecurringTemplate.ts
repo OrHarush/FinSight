@@ -8,7 +8,7 @@ export interface IRecurringTemplate {
   startDate: Date;
   endDate?: Date;
   name?: string;
-  description?: string;
+  note?: string;
   type: 'Income' | 'Expense' | 'Transfer';
   amount: number;
   belongToPreviousMonth?: boolean;
@@ -29,7 +29,7 @@ const RecurringTemplateSchema: Schema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date },
     name: { type: String, maxlength: 50 },
-    description: { type: String, maxlength: 120, trim: true },
+    note: { type: String, maxlength: 200, trim: true },
     type: { type: String, enum: ['Income', 'Expense', 'Transfer'], required: true },
     amount: { type: Number, required: true },
     belongToPreviousMonth: { type: Boolean, default: false },

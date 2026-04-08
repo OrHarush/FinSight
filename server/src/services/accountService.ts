@@ -33,6 +33,8 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
   const mapped: Omit<IAccount, '_id'> = {
     name: data.name,
     balance: toCents(data.balance),
+    checkpointBalance: toCents(data.balance),
+    checkpointDate: new Date(),
     institution: data.institution,
     accountNumber: data.accountNumber,
     icon: data.icon,

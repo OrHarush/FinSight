@@ -7,6 +7,7 @@ import { MultiSelectChipItem } from '@/components/shared/inputs/MultiSelectChip/
 import Row from '@/components/shared/layout/containers/Row';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 import { useAccounts } from '@/hooks/entities/useAccounts';
+import { getAccountDisplayName } from '@/utils/entities/account';
 
 interface AccountFilterProps {
   selectedIds: string[];
@@ -15,6 +16,7 @@ interface AccountFilterProps {
 
 const AccountFilter = ({ selectedIds, onChange }: AccountFilterProps) => {
   const { t } = useTranslation('transactions');
+  const { t: tAccounts } = useTranslation('accounts');
   const { accounts } = useAccounts();
 
   const accountsOptions: MultiSelectChipItem[] = accounts.map(account => {
@@ -25,7 +27,7 @@ const AccountFilter = ({ selectedIds, onChange }: AccountFilterProps) => {
       renderRow: () => (
         <Row spacing={1.5} alignItems="center">
           <AccountIcon sx={{ fontSize: '20px', color: 'text.secondary' }} />
-          <Typography variant="body2">{account.name}</Typography>
+          <Typography variant="body2">{getAccountDisplayName(account, tAccounts)}</Typography>
         </Row>
       ),
     };

@@ -1,5 +1,5 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +7,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import BulkAssignPrompt from '@/pages/Import/steps/categorize/BulkAssignPrompt';
 import BulkRenamePrompt from '@/pages/Import/steps/categorize/BulkRenamePrompt';
+import CategorizeTabBar from '@/pages/Import/steps/categorize/CategorizeTabBar';
 import CategoryBottomSheet from '@/pages/Import/steps/categorize/CategoryBottomSheet';
 import MobileTransactionCard from '@/pages/Import/steps/categorize/MobileTransactionCard';
 import { WizardRow } from '@/pages/Import/types/importWizard';
@@ -28,6 +29,9 @@ interface MobileCategorizeViewProps {
   rows: WizardRow[];
   categories: CategoryDto[];
   incomeCategories: CategoryDto[];
+  hasRefunds: boolean;
+  activeTab: 'expense' | 'income';
+  onTabChange: (tab: 'expense' | 'income') => void;
   onAssign: (categoryId: string, indices: number[]) => void;
   onRenameRow: (index: number, name: string) => void;
   onDeleteRows: (indices: number[]) => void;
@@ -43,6 +47,9 @@ const MobileCategorizeView = ({
   rows,
   categories,
   incomeCategories,
+  hasRefunds,
+  activeTab,
+  onTabChange,
   onAssign,
   onRenameRow,
   onDeleteRows,
@@ -94,10 +101,35 @@ const MobileCategorizeView = ({
     }
   };
 
+  const visibleRows = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => {
+      if (!hasRefunds) {
+        return true;
+      }
+
+      return activeTab === 'income' ? row.amount < 0 : row.amount >= 0;
+    });
+
   return (
     <>
       <Column spacing={1.5} sx={{ overflowY: 'auto', flex: 1, pb: 2 }}>
-        {rows.map((row, index) => (
+        {hasRefunds && (
+          <Box
+            sx={{
+              position: 'sticky',
+              top: 0,
+              zIndex: 1,
+              bgcolor: 'background.default',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              mx: -0.5,
+            }}
+          >
+            <CategorizeTabBar value={activeTab} onChange={onTabChange} centered />
+          </Box>
+        )}
+        {visibleRows.map(({ row, index }) => (
           <MobileTransactionCard
             key={index}
             row={row}

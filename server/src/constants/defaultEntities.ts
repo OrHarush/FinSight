@@ -92,20 +92,23 @@ export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
 
 export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodDTO[] = [
   {
+    key: 'credit_card',
     name: 'Credit Card',
     type: 'Credit Card',
     billingDay: 1,
     isPrimary: true,
   },
   {
-    name: 'Cash',
-    type: 'Cash',
+    key: 'immediate_debit',
+    name: 'Immediate Debit',
+    type: 'Bank Transfer',
     isPrimary: false,
   },
 ];
 
 export const DEFAULT_ACCOUNT: CreateAccountDTO = {
-  name: 'Bank Balance',
+  key: 'checking_account',
+  name: 'Checking Account',
   balance: 0,
   institution: 'Main Bank',
   accountNumber: undefined,

@@ -3,17 +3,10 @@ import { TFunction } from 'i18next';
 
 import { SelectOptionGroup } from '@/components/shared/inputs/RHFGroupedSelect';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_GROUPS, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getPaymentMethodDisplayName, PAYMENT_TYPE_GROUPS } from '@/utils/entities/paymentMethod';
 
-const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto, t: TFunction): string => {
-  if (paymentMethod.name) {
-    return paymentMethod.name;
-  }
-
-  const localeKey = PAYMENT_TYPE_LOCALE_KEY[paymentMethod.type];
-
-  return localeKey ? t(`paymentMethods:types.${localeKey}`) : paymentMethod.type;
-};
+const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto, t: TFunction): string =>
+  getPaymentMethodDisplayName(paymentMethod, t as TFunction<'paymentMethods'>);
 
 export const buildPaymentMethodGroups = (
   paymentMethods: PaymentMethodDto[],

@@ -20,6 +20,9 @@
     "accountNumber": "מספר חשבון",
     "checkpointFrom": "עוגן מ"
   },
+  "defaults": {
+    "checking_account": "עובר ושב"
+  },
   "cannotDeleteLast": "לא ניתן למחוק את החשבון היחיד",
   "actions": {
     "create": "הוסף חשבון",

@@ -1,10 +1,10 @@
-import { LinearProgress, Tab, Tabs, Typography } from '@mui/material';
+import { LinearProgress, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useImportWizard } from '@/pages/Import/ImportWizardContext';
 import BulkAssignPrompt from '@/pages/Import/steps/categorize/BulkAssignPrompt';
@@ -37,16 +37,16 @@ const CategorizeStep = () => {
     setCanProceed,
   } = useImportWizard();
   const { categories } = useCategories();
-  const isMobile = useIsMobile();
+  const isMobile = useIsSmallScreen();
   const [draggingIndices, setDraggingIndices] = useState<number[]>([]);
   const [overId, setOverId] = useState<string | null>(null);
   const [bulkAssign, setBulkAssign] = useState<BulkAssignState | null>(null);
   const [bulkRename, setBulkRename] = useState<BulkRenameState | null>(null);
+  const [activeTab, setActiveTab] = useState<'expense' | 'income'>('expense');
 
   const expenseCategories = categories.filter(c => c.type === 'Expense');
   const incomeCategories = categories.filter(c => c.type === 'Income');
   const hasRefunds = rows.some(r => r.amount < 0);
-  const [activeTab, setActiveTab] = useState<'expense' | 'income'>('expense');
   const visibleCategories = activeTab === 'income' ? incomeCategories : expenseCategories;
 
   useEffect(() => {
@@ -149,11 +149,15 @@ const CategorizeStep = () => {
           sx={{ borderRadius: 1, height: 6 }}
         />
       </Column>
+
       {isMobile ? (
         <MobileCategorizeView
           rows={rows}
           categories={expenseCategories}
           incomeCategories={incomeCategories}
+          hasRefunds={hasRefunds}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
           onAssign={assignRows}
           onRenameRow={renameRow}
           onDeleteRows={deleteRows}
@@ -166,17 +170,13 @@ const CategorizeStep = () => {
         />
       ) : (
         <>
-          {hasRefunds && (
-            <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ mb: -1 }}>
-              <Tab label={t('importWizard.categorize.tabExpenses')} value="expense" />
-              <Tab label={t('importWizard.categorize.tabIncome')} value="income" />
-            </Tabs>
-          )}
           <Row flex={1} minHeight={0} spacing={2} alignItems="stretch">
             <TransactionPanel
               rows={rows}
               categories={categories}
               activeTab={hasRefunds ? activeTab : undefined}
+              onTabChange={hasRefunds ? setActiveTab : undefined}
+              hasRefunds={hasRefunds}
               draggingIndices={draggingIndices}
               onToggleSelected={toggleRowSelected}
               onToggleAll={toggleAllSelected}

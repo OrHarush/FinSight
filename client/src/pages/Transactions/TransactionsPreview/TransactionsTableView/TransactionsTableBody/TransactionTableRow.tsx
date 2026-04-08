@@ -10,6 +10,7 @@ import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
+import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
@@ -81,6 +82,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
             {transaction.type === 'Transfer' ? 'Transfer' : transaction.name}
           </Typography>
           <RecurrenceBadge transaction={transaction} />
+          {transaction.note && <TransactionNoteIcon note={transaction.note} />}
         </Row>
       </TableCell>
       <TableCell align="left">

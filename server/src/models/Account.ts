@@ -1,3 +1,4 @@
+import { DefaultAccountKey } from '@lyra/shared';
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IAccount {
@@ -11,6 +12,7 @@ export interface IAccount {
   isPrimary: boolean;
   checkpointBalance: number;
   checkpointDate?: Date;
+  key?: DefaultAccountKey;
   userId: Types.ObjectId;
 }
 
@@ -25,6 +27,7 @@ const AccountSchema: Schema = new Schema(
     isPrimary: { type: Boolean, default: false },
     checkpointBalance: { type: Number, default: 0 },
     checkpointDate: { type: Date },
+    key: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }

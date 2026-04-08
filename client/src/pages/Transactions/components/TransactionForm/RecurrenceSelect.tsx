@@ -3,11 +3,15 @@ import { useTranslation } from 'react-i18next';
 
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
 
-const RecurrenceSelect = () => {
+interface RecurrenceSelectProps {
+  smSize?: number;
+}
+
+const RecurrenceSelect = ({ smSize = 6 }: RecurrenceSelectProps) => {
   const { t } = useTranslation('transactions');
 
   return (
-    <Grid size={{ xs: 12, sm: 6 }}>
+    <Grid size={{ xs: 12, sm: smSize }}>
       <RHFSelect
         name="recurrence"
         label={t('fields.recurrence')}

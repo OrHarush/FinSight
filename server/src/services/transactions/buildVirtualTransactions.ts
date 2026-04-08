@@ -73,7 +73,7 @@ export const buildVirtualTransactions = (
         const virtual: ITransactionPopulated = {
           _id: virtualId,
           name: template.name,
-          description: template.description,
+          note: template.note,
           type: template.type,
           amount: template.amount,
           date,

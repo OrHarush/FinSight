@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { DEFAULT_PAYMENT_METHOD_KEYS } from '../types/defaultPaymentMethods';
+
 export const PAYMENT_METHOD_TYPES = [
   'Credit Card',
   'Debit',
@@ -69,6 +71,7 @@ export const CreatePaymentMethodSchema = z
     lastFourDigits: lastFourDigitsField,
     billingDay: billingDayField,
     isPrimary: z.boolean().optional(),
+    key: z.enum(DEFAULT_PAYMENT_METHOD_KEYS).optional(),
   })
   .superRefine((data, ctx) => addCrossFieldRules(data, ctx));
 

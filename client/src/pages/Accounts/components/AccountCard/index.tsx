@@ -9,6 +9,7 @@ import MenuTriggerButton from '@/components/shared/ui/MenuTriggerButton';
 import AccountCardMenu from '@/pages/Accounts/components/AccountCard/AccountCardMenu';
 import AccountDetails from '@/pages/Accounts/components/AccountCard/AccountDetails';
 import { AccountDto } from '@/types/Account';
+import { getAccountDisplayName } from '@/utils/entities/account';
 
 interface AccountCardProps {
   account: AccountDto;
@@ -58,7 +59,7 @@ const AccountCard = ({ account, selectAccount }: AccountCardProps) => {
               <Row alignItems="center" justifyContent={'space-between'} spacing={2}>
                 <AccountIcon icon={account.icon} />
                 <Column>
-                  <Typography fontWeight={700}>{account.name}</Typography>
+                  <Typography fontWeight={700}>{getAccountDisplayName(account, t)}</Typography>
                   {account.isPrimary && (
                     <Typography variant={'body2'} color={'primary'}>
                       {t('details.primary')}

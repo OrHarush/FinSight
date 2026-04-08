@@ -3,7 +3,7 @@ import mongoose, { Schema, Types } from 'mongoose';
 export interface ITransaction {
   _id: string;
   name?: string;
-  description?: string;
+  note?: string;
   type: 'Income' | 'Expense' | 'Transfer';
   amount: number;
   date?: Date;
@@ -21,7 +21,7 @@ export interface ITransaction {
 const TransactionSchema: Schema = new Schema(
   {
     name: { type: String, maxlength: 50 },
-    description: { type: String, maxlength: 120, trim: true },
+    note: { type: String, maxlength: 200, trim: true },
     type: {
       type: String,
       enum: ['Income', 'Expense', 'Transfer'],

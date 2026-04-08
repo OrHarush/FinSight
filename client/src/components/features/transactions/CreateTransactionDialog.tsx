@@ -8,6 +8,8 @@ import {
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
+
 import FormDialog from '@/components/dialogs/FormDialog';
 import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { queryKeys } from '@/constants/queryKeys';
@@ -56,6 +58,7 @@ const CreateTransactionDialog = ({
   const { alertSuccess, alertError } = useSnackbar();
   const { primaryAccount } = useAccounts();
   const { primaryPaymentMethod } = usePaymentMethods();
+  const isSmallScreen = useIsSmallScreen();
 
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
@@ -105,7 +108,7 @@ const CreateTransactionDialog = ({
         closeDialog={closeDialog}
         title={t('actions.create')}
         onSubmit={createNewTransaction}
-        maxWidth={'xs'}
+        maxWidth={isSmallScreen ? 'xs' : 'sm'}
       >
         <TransactionForm />
       </FormDialog>

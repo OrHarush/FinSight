@@ -20,6 +20,9 @@
     "accountNumber": "Account Number",
     "checkpointFrom": "Anchored from"
   },
+  "defaults": {
+    "checking_account": "Checking Account"
+  },
   "cannotDeleteLast": "Cannot delete the only account",
   "actions": {
     "create": "Add Account",

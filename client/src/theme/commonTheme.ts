@@ -81,9 +81,22 @@ export const commonTheme: ThemeOptions = {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backdropFilter: 'blur(20px)',
-          borderRadius: '8px',
-          fontSize: '0.875rem',
+          backgroundColor: 'rgba(12, 18, 28, 0.94)',
+          backdropFilter: 'blur(24px)',
+          borderRadius: '10px',
+          border: '1px solid rgba(148, 163, 184, 0.12)',
+          fontSize: '0.8rem',
+          fontWeight: 500,
+          lineHeight: 1.5,
+          padding: '8px 12px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.35)',
+          maxWidth: 280,
+        },
+        arrow: {
+          color: 'rgba(12, 18, 28, 0.94)',
+          '&::before': {
+            border: '1px solid rgba(148, 163, 184, 0.12)',
+          },
         },
       },
     },

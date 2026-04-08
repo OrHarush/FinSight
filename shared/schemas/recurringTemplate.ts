@@ -11,7 +11,7 @@ const BaseRecurringTemplateSchema = z.object({
 
   // TX blueprint
   name: nameSchema(50).optional(),
-  description: z.string().max(120, 'validation.nameTooLong').trim().optional(),
+  note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
   amount: amountSchema,
   belongToPreviousMonth: z.boolean().optional(),

@@ -118,7 +118,7 @@ export const create = async (dto: CreateRecurringTemplateDTO, userId: string) =>
     startDate: new Date(dto.startDate),
     endDate: dto.endDate ? new Date(dto.endDate) : undefined,
     name: dto.name,
-    description: dto.description,
+    note: dto.note,
     type: dto.type,
     amount: toCents(dto.amount),
     belongToPreviousMonth: dto.belongToPreviousMonth ?? false,
@@ -158,7 +158,7 @@ export const update = async (id: string, dto: UpdateRecurringTemplateDTO, userId
   if (dto.startDate !== undefined) mapped.startDate = new Date(dto.startDate);
   if (dto.endDate !== undefined) mapped.endDate = new Date(dto.endDate);
   if (dto.name !== undefined) mapped.name = dto.name;
-  if (dto.description !== undefined) mapped.description = dto.description;
+  if (dto.note !== undefined) mapped.note = dto.note;
   if (dto.type !== undefined) mapped.type = dto.type;
   if (dto.amount !== undefined) mapped.amount = toCents(dto.amount);
   if (dto.belongToPreviousMonth !== undefined)
@@ -275,7 +275,7 @@ export const splitTemplate = async (
     startDate: splitPoint.toDate(),
     endDate: changes.endDate ? new Date(changes.endDate) : undefined,
     name: changes.name ?? existing.name,
-    description: changes.description ?? existing.description,
+    note: changes.note ?? existing.note,
     type: effectiveType,
     amount: changes.amount !== undefined ? toCents(changes.amount) : existing.amount,
     belongToPreviousMonth: changes.belongToPreviousMonth ?? existing.belongToPreviousMonth,
@@ -346,7 +346,7 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
 
       const txData: Omit<ITransaction, '_id'> = {
         name: template.name ?? '',
-        description: template.description,
+        note: template.note,
         type: template.type,
         amount: template.amount,
         date: clampedDate(current.year(), current.month(), template.dayOfMonth),

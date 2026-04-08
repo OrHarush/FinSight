@@ -8,7 +8,7 @@ import CardNetworkIcon from '@/pages/PaymentMethods/components/PaymentMethodCard
 import PrimaryBadge from '@/pages/PaymentMethods/components/PaymentMethodCard/PrimaryBadge';
 import { getCardStyle } from '@/pages/PaymentMethods/components/PaymentMethodCard/styles';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getPaymentMethodDisplayName, PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
 
 interface CreditCardVariantProps {
   paymentMethod: PaymentMethodDto;
@@ -19,6 +19,7 @@ interface CreditCardVariantProps {
 const CreditCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: CreditCardVariantProps) => {
   const { t } = useTranslation('paymentMethods');
   const typeKey = PAYMENT_TYPE_LOCALE_KEY[paymentMethod.type];
+  const displayName = getPaymentMethodDisplayName(paymentMethod, t);
 
   return (
     <Card onClick={onCardClick} sx={{ ...getCardStyle(paymentMethod.isPrimary) }}>
@@ -37,7 +38,7 @@ const CreditCardVariant = ({ paymentMethod, onCardClick, onMenuOpen }: CreditCar
             </Row>
             <Column>
               <Typography noWrap sx={{ fontSize: '1rem', fontWeight: 700 }}>
-                {paymentMethod.name}
+                {displayName}
               </Typography>
               {paymentMethod.billingDay && (
                 <Typography color="text.secondary" sx={{ fontSize: '0.8rem' }}>

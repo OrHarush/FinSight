@@ -1,4 +1,4 @@
-import { PAYMENT_METHOD_TYPES, PaymentMethodType } from '@lyra/shared';
+import { DefaultPaymentMethodKey, PAYMENT_METHOD_TYPES, PaymentMethodType } from '@lyra/shared';
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface IPaymentMethod {
@@ -8,6 +8,7 @@ export interface IPaymentMethod {
   billingDay: number | null;
   lastFourDigits?: string;
   isPrimary: boolean;
+  key?: DefaultPaymentMethodKey;
   userId: Types.ObjectId;
 }
 
@@ -36,6 +37,7 @@ const PaymentMethodSchema: Schema = new Schema(
       default: false,
       required: true,
     },
+    key: { type: String },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',

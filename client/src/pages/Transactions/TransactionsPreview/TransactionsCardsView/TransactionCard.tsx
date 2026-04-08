@@ -10,6 +10,7 @@ import CurrencyText from '@/components/shared/ui/CurrencyText';
 import SwipeableCard from '@/components/shared/ui/SwipeableCard';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
+import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import { getCardStyles } from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/styles';
 import { ExpandedTransactionDto } from '@/types/Transaction';
@@ -97,6 +98,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
                 {isTransfer ? 'Transfer' : transaction.name}
               </Typography>
               <RecurrenceBadge transaction={transaction} />
+              {transaction.note && <TransactionNoteIcon note={transaction.note} />}
             </Row>
             <Typography variant="caption" color="text.secondary">
               {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString()}

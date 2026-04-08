@@ -25,6 +25,10 @@
     "paybox": "PayBox",
     "cash": "Cash"
   },
+  "defaults": {
+    "credit_card": "Credit Card",
+    "immediate_debit": "Immediate Debit"
+  },
   "typeGroups": {
     "cards": "Cards",
     "banking": "Banking",
