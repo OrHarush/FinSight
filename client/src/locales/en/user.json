@@ -20,6 +20,14 @@
     "updateSuccess": "Preferences saved.",
     "updateError": "Failed to save preferences."
   },
+  "onboardingModal": {
+    "title": "Your billing day",
+    "description": "We created a Credit Card payment method for you, with billing on the 1st.",
+    "changeButton": "Not the 1st?",
+    "pickDayTitle": "Pick a billing day",
+    "confirmDefault": "Got it",
+    "confirmWithDay": "Set to the {{day}}"
+  },
   "helpModal": {
     "title": "Help",
     "contact": "Contact us",

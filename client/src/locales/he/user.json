@@ -20,6 +20,14 @@
     "updateSuccess": "ההעדפות נשמרו.",
     "updateError": "שמירת ההעדפות נכשלה."
   },
+  "onboardingModal": {
+    "title": "יום החיוב שלך",
+    "description": "יצרנו עבורך כרטיס אשראי, עם חיוב ב-1 לחודש.",
+    "changeButton": "לא ה-1?",
+    "pickDayTitle": "בחר יום חיוב",
+    "confirmDefault": "מעולה",
+    "confirmWithDay": "קבע ליום {{day}}"
+  },
   "helpModal": {
     "title": "עזרה",
     "contact": "צור קשר",

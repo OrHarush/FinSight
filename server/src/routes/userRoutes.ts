@@ -1,12 +1,17 @@
 import express from 'express';
 
-import { deleteUserController, updatePreferencesController } from '../controllers/userController';
+import {
+  completeOnboardingController,
+  deleteUser,
+  updatePreferencesController,
+} from '../controllers/userController';
 import { validateBody } from '../middlewares/validate';
-import { UpdatePreferencesSchema } from '../schemas/userSchemas';
+import { CompleteOnboardingSchema, UpdatePreferencesSchema } from '../schemas/userSchemas';
 
 const router = express.Router();
 
+router.patch('/me', validateBody(CompleteOnboardingSchema), completeOnboardingController);
 router.patch('/me/preferences', validateBody(UpdatePreferencesSchema), updatePreferencesController);
-router.delete('/:userId', deleteUserController);
+router.delete('/:userId', deleteUser);
 
 export default router;

@@ -44,3 +44,6 @@ export const remove = async (id: string, userId: string) =>
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   PaymentMethod.deleteMany(filter).session(session ?? null);
+
+export const findByType = async (userId: string, type: string) =>
+  PaymentMethod.findOne({ userId: new Types.ObjectId(userId), type });

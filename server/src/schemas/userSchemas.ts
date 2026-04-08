@@ -7,3 +7,10 @@ export const UpdatePreferencesSchema = z.object({
 });
 
 export type UpdatePreferencesBody = z.infer<typeof UpdatePreferencesSchema>;
+
+export const CompleteOnboardingSchema = z.object({
+  hasCompletedOnboarding: z.literal(true),
+  billingDay: z.number().int().min(1).max(28).optional(),
+});
+
+export type CompleteOnboardingBody = z.infer<typeof CompleteOnboardingSchema>;

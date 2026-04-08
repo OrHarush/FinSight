@@ -30,7 +30,7 @@ const billingDayField = z
   .number({ invalid_type_error: 'validation.invalidNumber' })
   .int()
   .min(1, 'validation.billingDayRange')
-  .max(31, 'validation.billingDayRange')
+  .max(28, 'validation.billingDayRange')
   .optional();
 
 const nameField = z.string().max(30, 'validation.nameTooLong').trim().optional();

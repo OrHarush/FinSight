@@ -108,7 +108,7 @@ export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodDTO[] = [
 
 export const DEFAULT_ACCOUNT: CreateAccountDTO = {
   key: 'checking_account',
-  name: 'Checking Account',
+  name: 'Checking',
   balance: 0,
   institution: 'Main Bank',
   accountNumber: undefined,

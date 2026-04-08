@@ -3,8 +3,19 @@ import { Request, Response } from 'express';
 import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
-import { UpdatePreferencesBody } from '../schemas/userSchemas';
-import { deleteUserCompletely, updatePreferences } from '../services/userService';
+import { CompleteOnboardingBody, UpdatePreferencesBody } from '../schemas/userSchemas';
+import {
+  completeOnboarding,
+  deleteUserCompletely,
+  updatePreferences,
+} from '../services/userService';
+
+export const completeOnboardingController = asyncHandler(async (req: Request, res: Response) => {
+  const { billingDay } = req.validatedBody as CompleteOnboardingBody;
+  const user = await completeOnboarding(req.userId!, billingDay);
+
+  return ApiResponse.ok(res, user);
+});
 
 export const updatePreferencesController = asyncHandler(async (req: Request, res: Response) => {
   const { displayCurrency } = req.validatedBody as UpdatePreferencesBody;
@@ -13,7 +24,7 @@ export const updatePreferencesController = asyncHandler(async (req: Request, res
   return ApiResponse.ok(res, user);
 });
 
-export const deleteUserController = asyncHandler(async (req: Request, res: Response) => {
+export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   if (userId !== req.userId) {

@@ -21,6 +21,7 @@ export interface IUser {
   consentUserAgent?: string;
   lastLoginAt?: Date;
   displayCurrency: string;
+  hasCompletedOnboarding: boolean;
 }
 
 const ProviderSchema = new Schema<Provider>(
@@ -51,6 +52,7 @@ const UserSchema = new Schema<IUser>(
     consentUserAgent: { type: String },
     lastLoginAt: { type: Date },
     displayCurrency: { type: String, default: 'ILS' },
+    hasCompletedOnboarding: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

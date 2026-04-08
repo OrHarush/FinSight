@@ -20,6 +20,7 @@ import { deleteMany as deleteTransactions } from '../repositories/transactionRep
 import {
   deleteUserById,
   findById,
+  updateOnboarding,
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
 
@@ -69,6 +70,18 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
     paymentMethodRepository.insertMany(paymentMethodsToCreate),
     accountRepository.insert(defaultAccount),
   ]);
+};
+
+export const completeOnboarding = async (userId: string, billingDay?: number) => {
+  if (billingDay !== undefined) {
+    const creditCard = await paymentMethodRepository.findByType(userId, 'Credit Card');
+
+    if (creditCard) {
+      await paymentMethodRepository.updateById(creditCard._id.toString(), { billingDay }, userId);
+    }
+  }
+
+  return updateOnboarding(userId);
 };
 
 export const deleteUserCompletely = async (userId: string) => {

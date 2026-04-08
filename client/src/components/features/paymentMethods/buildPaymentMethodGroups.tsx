@@ -1,12 +1,15 @@
 import { Typography } from '@mui/material';
-import { TFunction } from 'i18next';
+import i18n, { TFunction } from 'i18next';
 
 import { SelectOptionGroup } from '@/components/shared/inputs/RHFGroupedSelect';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 import { getPaymentMethodDisplayName, PAYMENT_TYPE_GROUPS } from '@/utils/entities/paymentMethod';
 
-const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto, t: TFunction): string =>
-  getPaymentMethodDisplayName(paymentMethod, t as TFunction<'paymentMethods'>);
+const getPaymentMethodLabel = (paymentMethod: PaymentMethodDto): string => {
+  const tPm = i18n.getFixedT(i18n.language, 'paymentMethods') as TFunction<'paymentMethods'>;
+
+  return getPaymentMethodDisplayName(paymentMethod, tPm);
+};
 
 export const buildPaymentMethodGroups = (
   paymentMethods: PaymentMethodDto[],
@@ -17,7 +20,7 @@ export const buildPaymentMethodGroups = (
     options: paymentMethods
       .filter(pm => group.types.includes(pm.type))
       .map(pm => {
-        const label = getPaymentMethodLabel(pm, t);
+        const label = getPaymentMethodLabel(pm);
 
         return {
           label,

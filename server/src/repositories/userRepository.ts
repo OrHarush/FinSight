@@ -28,6 +28,9 @@ export const countAll = async (): Promise<number> => User.countDocuments();
 export const updatePreferences = async (userId: string, displayCurrency: string) =>
   User.findByIdAndUpdate(userId, { displayCurrency }, { new: true });
 
+export const updateOnboarding = async (userId: string) =>
+  User.findByIdAndUpdate(userId, { hasCompletedOnboarding: true }, { new: true });
+
 interface AcceptTermsRepoInput {
   userId: string | Types.ObjectId;
   locale: string;

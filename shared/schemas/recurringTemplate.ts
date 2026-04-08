@@ -5,7 +5,7 @@ import { amountSchema, nameSchema, objectIdSchema } from './common';
 const BaseRecurringTemplateSchema = z.object({
   // Recurrence rules
   frequency: z.enum(['Monthly', 'Yearly']),
-  dayOfMonth: z.number().int().min(1).max(31),
+  dayOfMonth: z.number().int().min(1).max(28),
   startDate: z.string(),
   endDate: z.string().optional(),
 

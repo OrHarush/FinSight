@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import BillingDayOnboardingModal from '@/components/features/users/BillingDayOnboardingModal';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import NavBar from '@/components/shared/layout/NavBar';
@@ -17,6 +18,7 @@ const AuthenticatedLayout = () => {
 
   return (
     <PageHeaderProvider>
+      <BillingDayOnboardingModal />
       <Row height={'100dvh'} width={'100%'} overflow={'hidden'}>
         <Sidebar
           mobileOpen={mobileOpen}

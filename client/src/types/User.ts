@@ -9,4 +9,5 @@ export interface UserDto {
   acceptedTermsAt?: string;
   consentVersion?: string;
   displayCurrency?: string;
+  hasCompletedOnboarding?: boolean;
 }
