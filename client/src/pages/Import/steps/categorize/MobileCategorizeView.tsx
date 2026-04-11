@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { useCategories } from '@/hooks/entities/useCategories';
 import BulkAssignPrompt from '@/pages/Import/steps/categorize/BulkAssignPrompt';
 import BulkRenamePrompt from '@/pages/Import/steps/categorize/BulkRenamePrompt';
 import CategorizeTabBar from '@/pages/Import/steps/categorize/CategorizeTabBar';
 import CategoryBottomSheet from '@/pages/Import/steps/categorize/CategoryBottomSheet';
 import MobileTransactionCard from '@/pages/Import/steps/categorize/MobileTransactionCard';
 import { WizardRow } from '@/pages/Import/types/importWizard';
-import { CategoryDto } from '@/types/Category';
 
 interface BulkAssignState {
   name: string;
@@ -27,8 +27,6 @@ interface BulkRenameState {
 
 interface MobileCategorizeViewProps {
   rows: WizardRow[];
-  categories: CategoryDto[];
-  incomeCategories: CategoryDto[];
   hasRefunds: boolean;
   activeTab: 'expense' | 'income';
   onTabChange: (tab: 'expense' | 'income') => void;
@@ -45,8 +43,6 @@ interface MobileCategorizeViewProps {
 
 const MobileCategorizeView = ({
   rows,
-  categories,
-  incomeCategories,
   hasRefunds,
   activeTab,
   onTabChange,
@@ -61,12 +57,13 @@ const MobileCategorizeView = ({
   onDismissBulkRename,
 }: MobileCategorizeViewProps) => {
   const { t } = useTranslation('transactions');
+  const { expenseCategories, incomeCategories } = useCategories();
   const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
   const [sheetOpenForIndex, setSheetOpenForIndex] = useState<number | null>(null);
-  const [categoriesForSheet, setCategoriesForSheet] = useState<CategoryDto[]>(categories);
+  const [categoriesForSheet, setCategoriesForSheet] = useState(expenseCategories);
 
   const openSheet = (index: number) => {
-    setCategoriesForSheet(rows[index].amount < 0 ? incomeCategories : categories);
+    setCategoriesForSheet(rows[index].amount < 0 ? incomeCategories : expenseCategories);
     setSheetOpenForIndex(index);
   };
 
@@ -133,7 +130,7 @@ const MobileCategorizeView = ({
           <MobileTransactionCard
             key={index}
             row={row}
-            categories={categories}
+            categories={row.amount < 0 ? incomeCategories : expenseCategories}
             isSelected={selectedIndices.has(index)}
             isSelectionMode={isSelectionMode}
             onChipClick={() => !isSelectionMode && openSheet(index)}

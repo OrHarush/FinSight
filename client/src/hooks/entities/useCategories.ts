@@ -13,8 +13,12 @@ export const useCategories = () => {
     enabled: !!user,
   });
 
+  const categories = query.data ?? [];
+
   return {
     ...query,
-    categories: query.data ?? [],
+    categories,
+    expenseCategories: categories.filter(c => c.type === 'Expense'),
+    incomeCategories: categories.filter(c => c.type === 'Income'),
   };
 };

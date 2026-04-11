@@ -36,7 +36,7 @@ const CategorizeStep = () => {
     deleteRows,
     setCanProceed,
   } = useImportWizard();
-  const { categories } = useCategories();
+  const { categories, expenseCategories, incomeCategories } = useCategories();
   const isMobile = useIsSmallScreen();
   const [draggingIndices, setDraggingIndices] = useState<number[]>([]);
   const [overId, setOverId] = useState<string | null>(null);
@@ -44,8 +44,6 @@ const CategorizeStep = () => {
   const [bulkRename, setBulkRename] = useState<BulkRenameState | null>(null);
   const [activeTab, setActiveTab] = useState<'expense' | 'income'>('expense');
 
-  const expenseCategories = categories.filter(c => c.type === 'Expense');
-  const incomeCategories = categories.filter(c => c.type === 'Income');
   const hasRefunds = rows.some(r => r.amount < 0);
   const visibleCategories = activeTab === 'income' ? incomeCategories : expenseCategories;
 
@@ -153,8 +151,6 @@ const CategorizeStep = () => {
       {isMobile ? (
         <MobileCategorizeView
           rows={rows}
-          categories={expenseCategories}
-          incomeCategories={incomeCategories}
           hasRefunds={hasRefunds}
           activeTab={activeTab}
           onTabChange={setActiveTab}
