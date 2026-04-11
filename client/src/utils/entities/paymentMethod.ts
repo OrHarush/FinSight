@@ -22,9 +22,13 @@ export interface PaymentTypeGroup {
 }
 
 export const getPaymentMethodDisplayName = (
-  pm: Pick<PaymentMethodDto, 'name' | 'key' | 'type'>,
+  pm: Pick<PaymentMethodDto, 'name' | 'key' | 'type'> | null | undefined,
   t: TFunction<'paymentMethods'>
 ): string => {
+  if (!pm) {
+    return '';
+  }
+
   if (pm.key) {
     const defaultName = i18n.getFixedT('en', 'paymentMethods')(`defaults.${pm.key}`);
 

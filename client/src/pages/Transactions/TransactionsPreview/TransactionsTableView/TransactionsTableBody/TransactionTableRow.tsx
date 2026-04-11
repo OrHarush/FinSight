@@ -15,8 +15,9 @@ import { useTransactionPageData } from '@/pages/Transactions/TransactionPageData
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/date';
-import { PAYMENT_TYPE_LOCALE_KEY } from '@/utils/entities/paymentMethod';
+import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
 import { getTransactionDisplayDate } from '@/utils/entities/transaction';
+import { getAccountDisplayName } from '@/utils/entities/account';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
@@ -25,6 +26,7 @@ interface TransactionTableRowProps {
 const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { t } = useTranslation('paymentMethods');
   const { t: tTx } = useTranslation('transactions');
+  const { t: tAccounts } = useTranslation('accounts');
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const getCategoryName = useCategoryName();
   const { alertError } = useSnackbar();
@@ -110,16 +112,13 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
         <Row alignItems="center" spacing={1}>
           <AccountIconComponent sx={{ fontSize: 18, color: 'primary.main', flexShrink: 0 }} />
           <Typography variant="body2" noWrap>
-            {transaction.account?.name}
+            {getAccountDisplayName(transaction.account, tAccounts)}
           </Typography>
         </Row>
       </TableCell>
       <TableCell align="left">
         <Typography variant="body2" noWrap>
-          {transaction.paymentMethod?.name ||
-            (transaction.paymentMethod?.type
-              ? t(`types.${PAYMENT_TYPE_LOCALE_KEY[transaction.paymentMethod.type]}`)
-              : '—')}
+          {getPaymentMethodDisplayName(transaction.paymentMethod, t)}
         </Typography>
       </TableCell>
       <TableCell align="left">
