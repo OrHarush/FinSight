@@ -16,9 +16,10 @@ interface ControlledSelectProps extends Omit<TextFieldProps, 'name' | 'required'
   label?: string;
   options: ControlledSelectOption[];
   required?: boolean | string;
+  extraItems?: ReactNode;
 }
 
-const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelectProps) => {
+const RHFSelect = ({ name, label, options, required, extraItems, ...props }: ControlledSelectProps) => {
   const { control } = useFormContext();
   const { t } = useTranslation('common');
 
@@ -46,6 +47,7 @@ const RHFSelect = ({ name, label, options, required, ...props }: ControlledSelec
               {option.design ?? option.label}
             </MenuItem>
           ))}
+          {extraItems}
         </TextInput>
       )}
     />

@@ -14,7 +14,8 @@
     "monthlyBudget": "Monthly Budget",
     "icon": "Category Icon",
     "color": "Color",
-    "selectColor": "Select a color"
+    "selectColor": "Select a color",
+    "namePlaceholder": "Category name..."
   },
   "options": {
     "income": "Income",
@@ -49,12 +50,14 @@
   },
   "actions": {
     "create": "Create Category",
+    "createNew": "New Category",
     "edit": "Edit Category",
     "delete": "Delete Category"
   },
   "messages": {
     "createSuccess": "Category created successfully",
     "createError": "Failed to create category",
+    "duplicateName": "A category with this name already exists",
     "updateSuccess": "Category updated successfully",
     "updateError": "Failed to update category",
     "deleteSuccess": "Category deleted successfully",

@@ -14,7 +14,8 @@
     "monthlyBudget": "תקציב חודשי",
     "icon": "אייקון קטגוריה",
     "color": "צבע",
-    "selectColor": "בחר צבע"
+    "selectColor": "בחר צבע",
+    "namePlaceholder": "שם הקטגוריה..."
   },
   "options": {
     "income": "הכנסה",
@@ -49,12 +50,14 @@
   },
   "actions": {
     "create": "צור קטגוריה",
+    "createNew": "קטגוריה חדשה",
     "edit": "ערוך קטגוריה",
     "delete": "מחק קטגוריה"
   },
   "messages": {
     "createSuccess": "הקטגוריה נוצרה בהצלחה",
     "createError": "יצירת הקטגוריה נכשלה",
+    "duplicateName": "קטגוריה עם שם זה כבר קיימת",
     "updateSuccess": "הקטגוריה עודכנה בהצלחה",
     "updateError": "עדכון הקטגוריה נכשל",
     "deleteSuccess": "הקטגוריה נמחקה בהצלחה",

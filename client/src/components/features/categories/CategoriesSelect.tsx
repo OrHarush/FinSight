@@ -1,5 +1,6 @@
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CategoryIcon from '@mui/icons-material/Category';
-import { Typography } from '@mui/material';
+import { Divider, MenuItem, Typography } from '@mui/material';
 import { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,14 +13,16 @@ import { CategoryDto } from '@/types/Category';
 
 interface CategoriesSelectProps {
   filteredCategories?: CategoryDto[];
+  onCreateNew?: () => void;
 }
 
-const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
+const CategoriesSelect = ({ filteredCategories, onCreateNew }: CategoriesSelectProps) => {
   const { t } = useTranslation('transactions');
+  const { t: tCategories } = useTranslation('categories');
   const { categories } = useCategories();
   const getCategoryName = useCategoryName();
 
-  const categoriesToDisplay = filteredCategories || categories;
+  const categoriesToDisplay = [...(filteredCategories || categories)].reverse();
 
   return (
     <RHFSelect
@@ -45,6 +48,17 @@ const CategoriesSelect = ({ filteredCategories }: CategoriesSelectProps) => {
           ),
         };
       })}
+      extraItems={
+        onCreateNew && [
+          <Divider key="create-divider" />,
+          <MenuItem key="create-new" onClick={onCreateNew} sx={{ color: 'primary.main' }}>
+            <Row spacing={1} alignItems="center">
+              <AddCircleOutlineIcon fontSize="small" />
+              <Typography fontWeight={600}>{tCategories('actions.createNew')}</Typography>
+            </Row>
+          </MenuItem>,
+        ]
+      }
     />
   );
 };

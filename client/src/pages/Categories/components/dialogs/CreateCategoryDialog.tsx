@@ -7,21 +7,27 @@ import FormDialog from '@/components/dialogs/FormDialog';
 import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { ApiResponse } from '@/hooks/common/useFetch';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import CategoryForm from '@/pages/Categories/components/CategoryForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { CategoryDto } from '@/types/Category';
 
-const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
+interface CreateCategoryDialogProps extends BaseDialogProps {
+  onCreated?: (category: CategoryDto) => void;
+  categoryType?: 'Expense' | 'Income';
+}
+
+const CreateCategoryDialog = ({ isOpen, closeDialog, onCreated, categoryType }: CreateCategoryDialogProps) => {
   const { t } = useTranslation('categories');
   const { alertSuccess, alertError } = useSnackbar();
   const methods = useForm<CreateCategoryDTO>({
     resolver: zodResolver(CreateCategorySchema),
-    defaultValues: { color: '#9ca3af' },
+    defaultValues: { color: '#9ca3af', ...(categoryType && { type: categoryType }) },
     mode: 'all',
   });
 
-  const createCategory = useApiMutation<CategoryDto, CreateCategoryDTO>({
+  const createCategory = useApiMutation<ApiResponse<CategoryDto>, CreateCategoryDTO>({
     method: 'post',
     url: API_ROUTES.CATEGORIES,
     queryKeysToInvalidate: [queryKeys.categories()],
@@ -29,8 +35,9 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   const createNewCategory = async (data: CreateCategoryDTO) => {
     try {
-      await createCategory.mutateAsync(data);
+      const result = await createCategory.mutateAsync(data);
       alertSuccess(t('messages.createSuccess'));
+      onCreated?.(result.data);
     } catch (err) {
       alertError(t('messages.createError'));
       console.error(err);
@@ -45,7 +52,7 @@ const CreateCategoryDialog = ({ isOpen, closeDialog }: BaseDialogProps) => {
         title={t('actions.create')}
         onSubmit={createNewCategory}
       >
-        <CategoryForm />
+        <CategoryForm hideTypeToggle={!!categoryType} />
       </FormDialog>
     </FormProvider>
   );

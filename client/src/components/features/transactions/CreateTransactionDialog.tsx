@@ -41,6 +41,7 @@ const getDefaultValues = (
     date: todayLocal.toISOString().split('T')[0],
     recurrence: 'None',
     type: initialType,
+    category: '',
     account: accountId || '',
     paymentMethod: paymentMethodId || '',
     ...initialValues,

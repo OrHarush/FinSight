@@ -47,7 +47,7 @@ const EditTransactionDialog = ({
       belongToPreviousMonth: transaction.belongToPreviousMonth,
       type: transaction.type,
       paymentMethod: transaction?.paymentMethod?._id,
-      category: transaction?.category?._id,
+      category: transaction?.category?._id ?? '',
       account: transaction?.account?._id,
       note: transaction.note,
     },

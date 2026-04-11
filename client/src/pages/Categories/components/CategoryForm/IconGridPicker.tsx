@@ -36,6 +36,7 @@ const IconGridPicker = ({ icons, value, onChange }: IconGridPickerProps) => {
           return (
             <Grid key={name} size={1}>
               <IconButton
+                type="button"
                 onClick={() => onChange(name)}
                 sx={{
                   width: 40,
@@ -67,6 +68,7 @@ const IconGridPicker = ({ icons, value, onChange }: IconGridPickerProps) => {
           }}
         >
           <IconButton
+            type="button"
             size="small"
             disabled={page === 0}
             onClick={() => setPage(p => Math.max(0, p - 1))}
@@ -84,6 +86,7 @@ const IconGridPicker = ({ icons, value, onChange }: IconGridPickerProps) => {
             {page + 1} / {totalPages}
           </Box>
           <IconButton
+            type="button"
             size="small"
             disabled={page === totalPages - 1}
             onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}

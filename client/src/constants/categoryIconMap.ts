@@ -250,4 +250,3 @@ export const categoryIconMap: Record<string, ElementType> = {
   WbSunny,
   Nightlight,
 };
-

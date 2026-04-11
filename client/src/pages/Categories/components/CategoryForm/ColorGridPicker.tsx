@@ -17,6 +17,7 @@ const ColorGridPicker = ({ value, onChange }: ColorGridPickerProps) => (
       return (
         <Grid key={color} size={1}>
           <IconButton
+            type="button"
             onClick={() => onChange(color)}
             sx={{
               width: 36,
