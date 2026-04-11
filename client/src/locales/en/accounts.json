@@ -21,7 +21,7 @@
     "checkpointFrom": "Anchored from"
   },
   "defaults": {
-    "checking_account": "Checking Account"
+    "checking_account": "Checking"
   },
   "cannotDeleteLast": "Cannot delete the only account",
   "actions": {
