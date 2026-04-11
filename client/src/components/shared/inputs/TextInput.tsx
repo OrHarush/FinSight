@@ -84,7 +84,7 @@ const TextInput = ({
     if (type === 'number') {
       const raw = event.target.value;
 
-      field.onChange(raw === '' ? undefined : Number(raw));
+      field.onChange(raw === '' ? null : Number(raw));
       return;
     }
 
