@@ -78,6 +78,9 @@ const TransactionForm = ({
           input: {
             startAdornment: <InputAdornment position="start">₪</InputAdornment>,
           },
+          htmlInput: {
+            dir: 'ltr',
+          },
         }}
         sx={amountInputSx}
       />
