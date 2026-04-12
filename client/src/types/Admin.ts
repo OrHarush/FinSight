@@ -3,10 +3,11 @@ export type AnalyticsEventType =
   | 'recurring_created'
   | 'category_customized'
   | 'csv_imported'
-  | 'onboarding_completed';
+  | 'onboarding_completed'
+  | 'user_created'
+  | 'user_deleted';
 
 export interface RecentActivityDto {
-  userId: string;
   userName: string;
   userAvatar: string;
   event: AnalyticsEventType;

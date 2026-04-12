@@ -43,7 +43,9 @@
       "recurring_created": "recurring",
       "csv_imported": "csv import",
       "category_customized": "category",
-      "onboarding_completed": "new user"
+      "onboarding_completed": "onboarded",
+      "user_created": "new user",
+      "user_deleted": "deleted"
     }
   }
 }

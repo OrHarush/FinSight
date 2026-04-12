@@ -11,6 +11,8 @@ const EVENT_BADGE_COLOR: Record<AnalyticsEventType, 'success' | 'info' | 'warnin
   csv_imported: 'warning',
   category_customized: 'secondary',
   onboarding_completed: 'primary',
+  user_created: 'info',
+  user_deleted: 'error',
 };
 
 interface ActivityFeedProps {
@@ -33,7 +35,7 @@ const ActivityFeed = ({ items }: ActivityFeedProps) => {
   return (
     <List disablePadding>
       {items.map((item, index) => (
-        <Box key={`${item.userId}-${item.createdAt}`}>
+        <Box key={`${item.userName}-${item.createdAt}`}>
           <ListItem sx={{ px: 2.5, py: 1.25 }}>
             <ListItemAvatar sx={{ minWidth: 44 }}>
               <Avatar

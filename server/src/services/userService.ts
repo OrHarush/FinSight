@@ -92,6 +92,10 @@ export const completeOnboarding = async (userId: string, billingDay?: number) =>
 };
 
 export const deleteUserCompletely = async (userId: string) => {
+  void analyticsService.track(userId, 'user_deleted').catch(err =>
+    console.error('Failed to track user_deleted:', err)
+  );
+
   const session = await mongoose.startSession();
   session.startTransaction();
 

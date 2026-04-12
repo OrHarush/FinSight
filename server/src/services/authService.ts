@@ -12,6 +12,7 @@ import {
   updateLastLogin,
 } from '../repositories/userRepository';
 import { recordLoginEvent } from './adminService';
+import * as analyticsService from './analyticsService';
 import { syncAllAccountsForUser } from './balanceService';
 import { generatePendingTransactions } from './recurringTemplateService';
 import { createDefaultEntitiesForNewUser } from './userService';
@@ -57,6 +58,10 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
 
   if (isNewUser) {
     await createDefaultEntitiesForNewUser(user._id.toString());
+
+    void analyticsService.track(user._id.toString(), 'user_created').catch(err =>
+      console.error('Failed to track user_created:', err)
+    );
   }
 
   await recordLoginEvent({

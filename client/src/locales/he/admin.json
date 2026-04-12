@@ -43,7 +43,9 @@
       "recurring_created": "הוראת קבע",
       "csv_imported": "ייבוא CSV",
       "category_customized": "קטגוריה",
-      "onboarding_completed": "משתמש חדש"
+      "onboarding_completed": "השלמת הכרות",
+      "user_created": "משתמש חדש",
+      "user_deleted": "נמחק"
     }
   }
 }

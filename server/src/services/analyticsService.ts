@@ -4,13 +4,17 @@ import * as analyticsEventRepository from '../repositories/analyticsEventReposit
 import { isExcludedEmail } from '../utils/excludedEmails';
 
 export const track = async (userId: string, event: AnalyticsEventType) => {
-  const user = await User.findById(userId).select('email').lean();
+  const user = await User.findById(userId).select('email name picture').lean();
 
   if (user && isExcludedEmail(user.email)) {
     return;
   }
 
-  return analyticsEventRepository.insertEvent(userId, event);
+  return analyticsEventRepository.insertEvent(
+    event,
+    user?.name ?? '',
+    user?.picture ?? '',
+  );
 };
 
 export const countByEvent = async (event: AnalyticsEventType, since?: Date) =>

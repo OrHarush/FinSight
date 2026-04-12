@@ -101,7 +101,7 @@ export const getAnalytics = async (): Promise<AnalyticsOverview> => {
     userRepository.countActiveSince(since30d),
     userRepository.countActivated(),
     userRepository.countWithTransactions(),
-    analyticsEventRepository.findRecentWithUser(20),
+    analyticsEventRepository.findRecent(20),
     ...ANALYTICS_EVENT_TYPES.map(event => analyticsEventRepository.countByEvent(event)),
   ]);
 

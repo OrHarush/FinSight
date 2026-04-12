@@ -187,7 +187,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
 
   void (async () => {
-    const user = await User.findById(userId).select('email').lean();
+    const user = await User.findById(userId).select('email name picture').lean();
 
     if (user && isExcludedEmail(user.email)) {
       return;
@@ -198,7 +198,11 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
         $set: { lastActiveAt: new Date() },
         $inc: { totalTransactions: 1 },
       }),
-      analyticsEventRepository.insertEvent(userId, 'transaction_created'),
+      analyticsEventRepository.insertEvent(
+        'transaction_created',
+        user?.name ?? '',
+        user?.picture ?? '',
+      ),
     ]);
   })().catch(err => console.error('Failed to track transaction activity:', err));
 
