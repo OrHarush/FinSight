@@ -54,6 +54,5 @@ export const queryKeys = {
 
   user: () => ['user'],
 
-  kpis: () => ['admin-kpis'],
-  activity: () => ['admin-activity'],
+  adminAnalytics: () => ['admin-analytics'],
 };

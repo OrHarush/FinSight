@@ -22,6 +22,9 @@ export interface IUser {
   lastLoginAt?: Date;
   displayCurrency: string;
   hasCompletedOnboarding: boolean;
+  lastActiveAt?: Date;
+  activatedAt?: Date;
+  totalTransactions: number;
 }
 
 const ProviderSchema = new Schema<Provider>(
@@ -53,6 +56,9 @@ const UserSchema = new Schema<IUser>(
     lastLoginAt: { type: Date },
     displayCurrency: { type: String, default: 'ILS' },
     hasCompletedOnboarding: { type: Boolean, default: false },
+    lastActiveAt: { type: Date },
+    activatedAt: { type: Date },
+    totalTransactions: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
@@ -61,5 +67,7 @@ UserSchema.index(
   { 'providers.provider': 1, 'providers.providerId': 1 },
   { unique: true, sparse: true }
 );
+
+UserSchema.index({ lastActiveAt: -1 });
 
 export default mongoose.model<IUser>('User', UserSchema);

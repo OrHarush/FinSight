@@ -23,6 +23,7 @@ import {
   updateOnboarding,
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
+import * as analyticsService from './analyticsService';
 
 export const getCurrentUserById = async (userId: string) => findById(userId);
 
@@ -81,7 +82,13 @@ export const completeOnboarding = async (userId: string, billingDay?: number) =>
     }
   }
 
-  return updateOnboarding(userId);
+  const result = await updateOnboarding(userId);
+
+  void analyticsService.track(userId, 'onboarding_completed').catch(err =>
+    console.error('Failed to track onboarding_completed:', err)
+  );
+
+  return result;
 };
 
 export const deleteUserCompletely = async (userId: string) => {

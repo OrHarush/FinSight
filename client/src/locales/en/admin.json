@@ -1,17 +1,49 @@
 {
-  "title": "Product Health",
-  "subtitle": "Internal usage metrics",
-  "kpi": {
-    "dau": "DAU",
-    "dauHint": "Users who logged in today",
-    "totalUsers": "Total Users",
-    "totalUsersHint": "Registered users in the system",
-    "activeLast7d": "Active (7d)",
-    "activeLast7dHint": "Unique users active in the last 7 days"
-  },
+  "title": "Product health",
   "activity": {
-    "title": "Recent Login Activity",
-    "empty": "No recent login activity",
-    "login": "Login"
+    "title": "DAU",
+    "sub": "Last 24h",
+    "wau": "WAU",
+    "wauSub": "Last 7 days",
+    "mau": "MAU",
+    "mauSub": "Last 30 days",
+    "total": "Total",
+    "totalSub": "All users"
+  },
+  "users": {
+    "sectionTitle": "Users",
+    "today": "Today",
+    "todaySub": "New today",
+    "thisWeek": "This week",
+    "thisWeekSub": "Last 7 days",
+    "thisMonth": "This month",
+    "thisMonthSub": "Last 30 days",
+    "activated": "Activated",
+    "badge": "+{{count}} vs yesterday"
+  },
+  "funnel": {
+    "title": "Activation funnel",
+    "signedUp": "Signed up",
+    "onboarded": "Onboarded",
+    "firstTx": "First TX",
+    "recurringSet": "Recurring set"
+  },
+  "adoption": {
+    "title": "Feature adoption",
+    "transactions": "Transactions",
+    "recurring": "Recurring",
+    "csvImport": "CSV import",
+    "customCategories": "Custom categories"
+  },
+  "recent": {
+    "title": "Recent activity",
+    "empty": "No recent activity",
+    "event": {
+      "transaction_created": "transaction",
+      "recurring_created": "recurring",
+      "csv_imported": "csv import",
+      "category_customized": "category",
+      "onboarding_completed": "new user"
+    }
   }
 }

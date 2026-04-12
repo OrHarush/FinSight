@@ -6,6 +6,9 @@ import mongoose, { Types } from 'mongoose';
 import { ApiError } from '../../errors/ApiError';
 import Category from '../../models/Category';
 import { ITransaction } from '../../models/Transaction';
+import User from '../../models/User';
+import * as analyticsEventRepository from '../../repositories/analyticsEventRepository';
+import { isExcludedEmail } from '../../utils/excludedEmails';
 import * as recurringTemplateRepository from '../../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../../repositories/transactionRepository';
 import {
@@ -182,6 +185,22 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   const created = await transactionRepository.insert(mapped);
 
   syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
+
+  void (async () => {
+    const user = await User.findById(userId).select('email').lean();
+
+    if (user && isExcludedEmail(user.email)) {
+      return;
+    }
+
+    await Promise.all([
+      User.findByIdAndUpdate(userId, {
+        $set: { lastActiveAt: new Date() },
+        $inc: { totalTransactions: 1 },
+      }),
+      analyticsEventRepository.insertEvent(userId, 'transaction_created'),
+    ]);
+  })().catch(err => console.error('Failed to track transaction activity:', err));
 
   created.amount = fromCents(created.amount);
 

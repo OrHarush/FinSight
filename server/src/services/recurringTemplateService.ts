@@ -18,6 +18,7 @@ import { IRecurringTemplate } from '../models/RecurringTemplate';
 import { ITransaction } from '../models/Transaction';
 import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
 
 dayjs.extend(utc);
@@ -132,6 +133,10 @@ export const create = async (dto: CreateRecurringTemplateDTO, userId: string) =>
   };
 
   const created = await recurringTemplateRepository.insert(mapped);
+
+  void analyticsService.track(userId, 'recurring_created').catch(err =>
+    console.error('Failed to track recurring_created:', err)
+  );
 
   return { ...created.toObject(), amount: fromCents(created.amount) };
 };

@@ -1,17 +1,49 @@
 {
   "title": "בריאות המוצר",
-  "subtitle": "מדדי שימוש פנימיים",
-  "kpi": {
-    "dau": "משתמשים יומיים",
-    "dauHint": "משתמשים שהתחברו היום",
-    "totalUsers": "סה״כ משתמשים",
-    "totalUsersHint": "משתמשים רשומים במערכת",
-    "activeLast7d": "פעילים (7 ימים)",
-    "activeLast7dHint": "משתמשים ייחודיים שהיו פעילים ב-7 ימים האחרונים"
-  },
   "activity": {
-    "title": "פעילות התחברות אחרונה",
-    "empty": "אין פעילות התחברות אחרונה",
-    "login": "התחברות"
+    "title": "יומי",
+    "sub": "24 שעות אחרונות",
+    "wau": "שבועי",
+    "wauSub": "7 ימים אחרונים",
+    "mau": "חודשי",
+    "mauSub": "30 ימים אחרונים",
+    "total": "סה״כ",
+    "totalSub": "כל המשתמשים"
+  },
+  "users": {
+    "sectionTitle": "משתמשים",
+    "today": "היום",
+    "todaySub": "חדשים היום",
+    "thisWeek": "השבוע",
+    "thisWeekSub": "7 ימים אחרונים",
+    "thisMonth": "החודש",
+    "thisMonthSub": "30 ימים אחרונים",
+    "activated": "הופעלו",
+    "badge": "+{{count}} מאתמול"
+  },
+  "funnel": {
+    "title": "משפך הפעלה",
+    "signedUp": "נרשמו",
+    "onboarded": "השלימו הכרות",
+    "firstTx": "תנועה ראשונה",
+    "recurringSet": "הוראת קבע"
+  },
+  "adoption": {
+    "title": "אימוץ פיצ׳רים",
+    "transactions": "תנועות",
+    "recurring": "הוראות קבע",
+    "csvImport": "ייבוא CSV",
+    "customCategories": "קטגוריות מותאמות"
+  },
+  "recent": {
+    "title": "פעילות אחרונה",
+    "empty": "אין פעילות אחרונה",
+    "event": {
+      "transaction_created": "תנועה",
+      "recurring_created": "הוראת קבע",
+      "csv_imported": "ייבוא CSV",
+      "category_customized": "קטגוריה",
+      "onboarding_completed": "משתמש חדש"
+    }
   }
 }

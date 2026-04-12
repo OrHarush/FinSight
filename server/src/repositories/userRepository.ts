@@ -25,11 +25,34 @@ export const deleteUserById = (id: string, session?: ClientSession) =>
 
 export const countAll = async (): Promise<number> => User.countDocuments();
 
+export const countCreatedSince = async (since: Date): Promise<number> =>
+  User.countDocuments({ createdAt: { $gte: since } });
+
+export const countActiveSince = async (since: Date): Promise<number> =>
+  User.countDocuments({ lastActiveAt: { $gte: since } });
+
+export const countActivated = async (): Promise<number> =>
+  User.countDocuments({ activatedAt: { $exists: true, $ne: null } });
+
+export const countWithTransactions = async (): Promise<number> =>
+  User.countDocuments({ totalTransactions: { $gt: 0 } });
+
 export const updatePreferences = async (userId: string, displayCurrency: string) =>
   User.findByIdAndUpdate(userId, { displayCurrency }, { new: true });
 
 export const updateOnboarding = async (userId: string) =>
-  User.findByIdAndUpdate(userId, { hasCompletedOnboarding: true }, { new: true });
+  User.findByIdAndUpdate(
+    userId,
+    [
+      {
+        $set: {
+          hasCompletedOnboarding: true,
+          activatedAt: { $ifNull: ['$activatedAt', new Date()] },
+        },
+      },
+    ],
+    { new: true }
+  );
 
 interface AcceptTermsRepoInput {
   userId: string | Types.ObjectId;

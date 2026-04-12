@@ -11,6 +11,12 @@ export const getKpiOverview = asyncHandler(async (_req: Request, res: Response) 
   return ApiResponse.ok(res, overview);
 });
 
+export const getAnalytics = asyncHandler(async (_req: Request, res: Response) => {
+  const analytics = await adminService.getAnalytics();
+
+  return ApiResponse.ok(res, analytics);
+});
+
 export const getLoginEvents = asyncHandler(async (req: Request, res: Response) => {
   const days = Number(req.query.days ?? 7);
 

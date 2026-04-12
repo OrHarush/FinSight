@@ -1,78 +1,319 @@
-import CalendarMonth from '@mui/icons-material/CalendarMonth';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PeopleIcon from '@mui/icons-material/People';
-import { Grid, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Collapse, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
-import { queryKeys } from '@/constants/queryKeys';
-import { API_ROUTES } from '@/constants/Routes';
-import { useFetch } from '@/hooks/common/useFetch';
-import KpiCard from '@/pages/Admin/KpiCard';
-import KpiSkeleton from '@/pages/Admin/KpiSkeleton';
-import UserActivityList from '@/pages/Admin/UserActivityList';
-import { KpiOverviewDto } from '@/types/Admin';
+import Row from '@/components/shared/layout/containers/Row';
+import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 
-export const AdminKpiDashboard = () => {
+import ActivityFeed from './ActivityFeed';
+import AdminDashboardSkeleton from './AdminDashboardSkeleton';
+import AdminStatCard from './AdminStatCard';
+import FunnelBar from './FunnelBar';
+import { useAdminAnalytics } from './useAdminAnalytics';
+
+export const AdminDashboard = () => {
   const { t } = useTranslation('admin');
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { data: kpiOverview, isLoading: isLoadingKpis } = useFetch<KpiOverviewDto>({
-    url: `${API_ROUTES.ADMIN}/overview`,
-    queryKey: queryKeys.kpis(),
-  });
+  usePageHeader(t('title'));
+
+  const { data, isLoading, isError, funnel, funnelMax, adoption, adoptionMax, recentActivity } =
+    useAdminAnalytics();
+
+  const [funnelOpen, setFunnelOpen] = useState(isDesktop);
+  const [adoptionOpen, setAdoptionOpen] = useState(isDesktop);
+  const [activityOpen, setActivityOpen] = useState(true);
+
+  if (isLoading || !data) {
+    return (
+      <Column sx={{ p: 3, maxWidth: 1200, width: '100%', alignSelf: 'center' }}>
+        <AdminDashboardSkeleton />
+      </Column>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Column sx={{ p: 3, alignItems: 'center', justifyContent: 'center', minHeight: 300 }}>
+        <Typography color="error">Failed to load analytics</Typography>
+      </Column>
+    );
+  }
+
+  const newTodayBadge =
+    data.newUsersToday > 0
+      ? { text: t('users.badge', { count: data.newUsersToday }), color: 'success' }
+      : undefined;
+
+  const activatedPct =
+    data.totalUsers > 0 ? `${Math.round((data.activatedUsers / data.totalUsers) * 100)}%` : '0%';
 
   return (
-    <Column sx={{ p: 3 }}>
-      <Column sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-          {t('title')}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {t('subtitle')}
-        </Typography>
-      </Column>
-      <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          {isLoadingKpis || !kpiOverview ? (
-            <KpiSkeleton />
-          ) : (
-            <KpiCard
-              label={t('kpi.dau')}
-              value={kpiOverview.dau}
-              hint={t('kpi.dauHint')}
-              icon={PeopleIcon}
-              color="primary"
+    <Column sx={{ p: 3, maxWidth: 1200, width: '100%', alignSelf: 'center' }} spacing={3}>
+      {isDesktop ? (
+        <Column spacing={1}>
+          <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
+            {t('activity.title').toUpperCase()}
+          </Typography>
+          <Row spacing={2}>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard label={t('activity.title')} value={data.dau} sub={t('activity.sub')} />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('activity.wau')}
+                value={data.wau}
+                sub={t('activity.wauSub')}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('activity.mau')}
+                value={data.mau}
+                sub={t('activity.mauSub')}
+              />
+            </Box>
+          </Row>
+        </Column>
+      ) : (
+        <Column spacing={1}>
+          <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
+            {t('activity.title').toUpperCase()}
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5 }}>
+            <AdminStatCard label={t('activity.title')} value={data.dau} sub={t('activity.sub')} />
+            <AdminStatCard label={t('activity.wau')} value={data.wau} sub={t('activity.wauSub')} />
+            <AdminStatCard label={t('activity.mau')} value={data.mau} sub={t('activity.mauSub')} />
+            <AdminStatCard
+              label={t('activity.total')}
+              value={data.totalUsers}
+              sub={t('activity.totalSub')}
             />
-          )}
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          {isLoadingKpis || !kpiOverview ? (
-            <KpiSkeleton />
-          ) : (
-            <KpiCard
-              label={t('kpi.totalUsers')}
-              value={kpiOverview.totalUsers}
-              hint={t('kpi.totalUsersHint')}
-              icon={GroupsIcon}
-              color="success"
+          </Box>
+        </Column>
+      )}
+
+      {/* New users row */}
+      {isDesktop ? (
+        <Column spacing={1}>
+          <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
+            {t('users.sectionTitle').toUpperCase()}
+          </Typography>
+          <Row spacing={2}>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('users.today')}
+                value={data.newUsersToday}
+                sub={t('users.todaySub')}
+                badge={newTodayBadge}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('users.thisWeek')}
+                value={data.newUsersThisWeek}
+                sub={t('users.thisWeekSub')}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('users.thisMonth')}
+                value={data.newUsersThisMonth}
+                sub={t('users.thisMonthSub')}
+              />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('users.activated')}
+                value={data.activatedUsers}
+                badge={{ text: activatedPct, color: 'success' }}
+              />
+            </Box>
+          </Row>
+        </Column>
+      ) : (
+        <Column spacing={1}>
+          <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
+            {t('users.sectionTitle').toUpperCase()}
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5 }}>
+            <AdminStatCard
+              label={t('users.today')}
+              value={data.newUsersToday}
+              badge={newTodayBadge}
             />
-          )}
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          {isLoadingKpis || !kpiOverview ? (
-            <KpiSkeleton />
-          ) : (
-            <KpiCard
-              label={t('kpi.activeLast7d')}
-              value={kpiOverview.activeLast7d}
-              hint={t('kpi.activeLast7dHint')}
-              icon={CalendarMonth}
-              color="info"
+            <AdminStatCard
+              label={t('users.thisWeek')}
+              value={data.newUsersThisWeek}
+              sub={t('users.thisWeekSub')}
             />
-          )}
-        </Grid>
-      </Grid>
-      <UserActivityList />
+            <AdminStatCard
+              label={t('users.thisMonth')}
+              value={data.newUsersThisMonth}
+              sub={t('users.thisMonthSub')}
+            />
+            <AdminStatCard
+              label={t('users.activated')}
+              value={data.activatedUsers}
+              badge={{ text: activatedPct, color: 'success' }}
+            />
+          </Box>
+        </Column>
+      )}
+
+      {/* Funnel + Adoption */}
+      {isDesktop ? (
+        <Row spacing={2} sx={{ '& > *': { flex: 1 } }}>
+          <SectionCard title={t('funnel.title')}>
+            <Column spacing={1.5}>
+              {funnel.map(row => (
+                <FunnelBar
+                  key={row.labelKey}
+                  label={t(row.labelKey)}
+                  value={row.value}
+                  max={funnelMax}
+                  color={row.color}
+                />
+              ))}
+            </Column>
+          </SectionCard>
+
+          <SectionCard title={t('adoption.title')}>
+            <Column spacing={1.5}>
+              {adoption.map(row => (
+                <FunnelBar
+                  key={row.labelKey}
+                  label={t(row.labelKey)}
+                  value={row.value}
+                  max={adoptionMax}
+                  color={row.color}
+                />
+              ))}
+            </Column>
+          </SectionCard>
+        </Row>
+      ) : (
+        <Column spacing={2}>
+          <CollapsibleSection
+            title={t('funnel.title')}
+            open={funnelOpen}
+            onToggle={() => setFunnelOpen(v => !v)}
+          >
+            <Column spacing={1.5}>
+              {funnel.map(row => (
+                <FunnelBar
+                  key={row.labelKey}
+                  label={t(row.labelKey)}
+                  value={row.value}
+                  max={funnelMax}
+                  color={row.color}
+                />
+              ))}
+            </Column>
+          </CollapsibleSection>
+
+          <CollapsibleSection
+            title={t('adoption.title')}
+            open={adoptionOpen}
+            onToggle={() => setAdoptionOpen(v => !v)}
+          >
+            <Column spacing={1.5}>
+              {adoption.map(row => (
+                <FunnelBar
+                  key={row.labelKey}
+                  label={t(row.labelKey)}
+                  value={row.value}
+                  max={adoptionMax}
+                  color={row.color}
+                />
+              ))}
+            </Column>
+          </CollapsibleSection>
+        </Column>
+      )}
+
+      {/* Divider */}
+      <Box sx={{ borderTop: 1, borderColor: 'divider' }} />
+
+      {/* Recent Activity */}
+      {isDesktop ? (
+        <SectionCard title={t('recent.title')}>
+          <ActivityFeed items={recentActivity} />
+        </SectionCard>
+      ) : (
+        <CollapsibleSection
+          title={t('recent.title')}
+          open={activityOpen}
+          onToggle={() => setActivityOpen(v => !v)}
+        >
+          <ActivityFeed items={recentActivity} />
+        </CollapsibleSection>
+      )}
     </Column>
   );
 };
+
+const SectionCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <Box
+    sx={{
+      bgcolor: 'background.paper',
+      borderRadius: 2,
+      border: 1,
+      borderColor: 'divider',
+      overflow: 'hidden',
+    }}
+  >
+    <Typography
+      variant="caption"
+      sx={{ fontWeight: 700, letterSpacing: 1.5, px: 2, pt: 2, display: 'block' }}
+    >
+      {title.toUpperCase()}
+    </Typography>
+    <Box sx={{ p: 2 }}>{children}</Box>
+  </Box>
+);
+
+const CollapsibleSection = ({
+  title,
+  open,
+  onToggle,
+  children,
+}: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) => (
+  <Box
+    sx={{
+      bgcolor: 'background.paper',
+      borderRadius: 2,
+      border: 1,
+      borderColor: 'divider',
+      overflow: 'hidden',
+    }}
+  >
+    <Row
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ px: 2, py: 1.5, cursor: 'pointer' }}
+      onClick={onToggle}
+    >
+      <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1.5 }}>
+        {title.toUpperCase()}
+      </Typography>
+      <IconButton
+        size="small"
+        sx={{ transform: open ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' }}
+      >
+        <ExpandMoreIcon fontSize="small" />
+      </IconButton>
+    </Row>
+    <Collapse in={open} timeout="auto" unmountOnExit>
+      <Box sx={{ px: 2, pb: 2 }}>{children}</Box>
+    </Collapse>
+  </Box>
+);

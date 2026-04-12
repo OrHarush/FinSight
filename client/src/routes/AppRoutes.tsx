@@ -8,7 +8,7 @@ import PublicLayout from '@/components/shared/layout/PublicLayout';
 import { ROUTES } from '@/constants/Routes';
 import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
-import { AdminKpiDashboard } from '@/pages/Admin';
+import { AdminDashboard } from '@/pages/Admin';
 import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
 import Chat from '@/pages/Chat';
@@ -77,7 +77,7 @@ const AppRoutes = () => {
               path={ROUTES.ADMIN_KPIS_URL}
               element={
                 <RequireAdmin>
-                  <AdminKpiDashboard />
+                  <AdminDashboard />
                 </RequireAdmin>
               }
             />
