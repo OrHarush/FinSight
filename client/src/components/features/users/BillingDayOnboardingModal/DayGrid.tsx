@@ -23,7 +23,7 @@ const DayGrid = ({ selectedDay, onSelectDay }: DayGridProps) => {
       sx={{
         display: 'grid',
         gridTemplateColumns: 'repeat(7, 1fr)',
-        gap: 1.25,
+        gap: 1,
         direction: i18n.dir(),
         overflow: 'visible',
         paddingY: 2,
@@ -38,7 +38,7 @@ const DayGrid = ({ selectedDay, onSelectDay }: DayGridProps) => {
             border: '1px solid',
             borderColor: 'divider',
             fontSize: '0.95rem',
-            minWidth: '48px',
+            minWidth: '40px',
             padding: '10px 0',
             '&.Mui-selected': {
               backgroundColor: 'primary.main',
