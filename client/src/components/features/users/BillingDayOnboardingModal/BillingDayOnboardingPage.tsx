@@ -21,6 +21,7 @@ const BillingDayOnboardingPage = () => {
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
+        textAlign: 'center',
       }}
     >
       <Typography variant="h5" fontWeight={700}>
