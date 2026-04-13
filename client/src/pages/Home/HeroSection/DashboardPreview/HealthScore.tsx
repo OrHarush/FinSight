@@ -2,12 +2,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { alpha, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
 const HealthScore = () => {
   const theme = useTheme();
+  const { t } = useTranslation('home');
 
   return (
     <motion.div
@@ -43,7 +45,7 @@ const HealthScore = () => {
           <FavoriteIcon sx={{ fontSize: 13, color: theme.palette.primary.main }} />
         </Column>
         <Column spacing={0}>
-          <Row alignItems="baseline" spacing={0.4}>
+          <Row alignItems="baseline" spacing={0.4} dir="ltr" sx={{ direction: 'auto' }}>
             <Typography
               variant="caption"
               sx={{
@@ -60,7 +62,7 @@ const HealthScore = () => {
             </Typography>
           </Row>
           <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.63rem' }}>
-            Health Score
+            {t('dashboardPreview.healthScore')}
           </Typography>
         </Column>
       </Row>

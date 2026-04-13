@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { QUICK_ADD_CONFIG, QUICK_ADD_KEYS } from '@/pages/Overview/SetupPanel/contants';
-import QuickAddButton from '@/pages/Overview/SetupPanel/QuickAddButton';
-import { QuickAddPreset } from '@/pages/Overview/SetupPanel/types';
+import { QUICK_ADD_CONFIG, QUICK_ADD_KEYS } from '@/pages/OnBoarding/contants';
+import QuickAddButton from '@/pages/OnBoarding/QuickAddButton';
+import { QuickAddPreset } from '@/pages/OnBoarding/types';
 
 interface QuickAddPanelProps {
   openWithKey: (key: string, base: Omit<QuickAddPreset, 'category'>) => void;

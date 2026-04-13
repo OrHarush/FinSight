@@ -3,7 +3,8 @@
   "buttons": {
     "create": "Create",
     "update": "Update",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "undo": "Undo"
   },
   "actions": {
     "search": "Search...",

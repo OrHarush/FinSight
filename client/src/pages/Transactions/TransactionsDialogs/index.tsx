@@ -1,18 +1,18 @@
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import api from '@/api/axios';
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
-import { queryKeys } from '@/constants/queryKeys';
+import UndoSnackbar from '@/components/shared/ui/UndoSnackbar';
 import { API_ROUTES } from '@/constants/Routes';
+import { usePendingDelete } from '@/hooks/common/usePendingDelete';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { useCategories } from '@/hooks/entities/useCategories';
-import { useApiMutation } from '@/hooks/useApiMutation';
 import EditTransactionDialog from '@/pages/Transactions/components/EditTransactionDialog';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import DeleteRecurringTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteRecurringTransactionDialog';
-import DeleteTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteTransactionDialog';
 import RequireSetupDialog from '@/pages/Transactions/TransactionsDialogs/RequireSetupDialog';
 import TransactionOverviewDialog from '@/pages/Transactions/TransactionsDialogs/TransactionOverviewDialog';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -25,7 +25,7 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
     useTransactionPageData();
   const { accounts } = useAccounts();
   const { categories } = useCategories();
-  const { alertSuccess, alertError } = useSnackbar();
+  const { pendingDelete, triggerDelete, undoDelete, onExpire } = usePendingDelete();
 
   const hasSelectedTransaction = !!selectedTransaction;
   const isEditOpen = hasSelectedTransaction && transactionAction === 'edit';
@@ -41,34 +41,28 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
     setTransactionAction(undefined);
   };
 
-  const deleteTransaction = useApiMutation<void, { id: string }>({
-    method: 'delete',
-    buildUrl: ({ id }) => `${API_ROUTES.TRANSACTIONS}/${id}`,
-    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
-    options: {
-      onSuccess: () => {
-        alertSuccess(t('messages.deleteSuccess'));
-      },
-      onError: () => {
-        alertError(t('messages.deleteError'));
-      },
-    },
-  });
+  const singleDeleteTriggered = useRef(false);
 
-  const deactivateFrom = useApiMutation<void, { fromDate: string }>({
-    method: 'post',
-    buildUrl: () =>
-      API_ROUTES.RECURRING_TEMPLATES_DEACTIVATE_FROM(selectedTransaction?.templateId ?? ''),
-    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
-    options: {
-      onSuccess: () => {
-        alertSuccess(t('messages.deleteSuccess'));
-      },
-      onError: () => {
-        alertError(t('messages.deleteError'));
-      },
-    },
-  });
+  useEffect(() => {
+    if (!isSingleDeleteOpen || !selectedTransaction || singleDeleteTriggered.current) {
+      return;
+    }
+
+    singleDeleteTriggered.current = true;
+    const id = selectedTransaction.originalId ?? selectedTransaction._id;
+
+    triggerDelete(selectedTransaction, async () => {
+      await api.delete(`${API_ROUTES.TRANSACTIONS}/${id}`);
+    });
+
+    resetSelectedTransaction();
+  }, [isSingleDeleteOpen, selectedTransaction]);
+
+  useEffect(() => {
+    if (!isSingleDeleteOpen) {
+      singleDeleteTriggered.current = false;
+    }
+  }, [isSingleDeleteOpen]);
 
   if (needsSetup) {
     return (
@@ -91,29 +85,27 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
           transaction={selectedTransaction}
         />
       )}
-      {isSingleDeleteOpen && selectedTransaction && (
-        <DeleteTransactionDialog
-          isOpen={!!selectedTransaction}
-          closeDialog={resetSelectedTransaction}
-          confirmDeletion={() => {
-            deleteTransaction.mutate({
-              id: selectedTransaction.originalId ?? selectedTransaction._id,
-            });
-          }}
-        />
-      )}
       {isRecurringDeleteOpen && selectedTransaction && (
         <DeleteRecurringTransactionDialog
           isOpen={!!selectedTransaction}
           closeDialog={resetSelectedTransaction}
           deleteSingleOccurrence={() => {
-            deleteTransaction.mutate({
-              id: selectedTransaction.originalId ?? selectedTransaction._id,
+            const tx = selectedTransaction;
+            const id = tx.originalId ?? tx._id;
+
+            triggerDelete(tx, async () => {
+              await api.delete(`${API_ROUTES.TRANSACTIONS}/${id}`);
             });
           }}
           deleteThisAndFutureOccurrences={() => {
-            if (selectedTransaction.date) {
-              deactivateFrom.mutate({ fromDate: selectedTransaction.date });
+            const tx = selectedTransaction;
+
+            if (tx.date && tx.templateId) {
+              triggerDelete(tx, async () => {
+                await api.post(API_ROUTES.RECURRING_TEMPLATES_DEACTIVATE_FROM(tx.templateId!), {
+                  fromDate: tx.date,
+                });
+              });
             }
           }}
         />
@@ -125,6 +117,13 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
           transaction={selectedTransaction}
         />
       )}
+      <UndoSnackbar
+        open={!!pendingDelete}
+        message={t('messages.transactionDeleted')}
+        undoLabel={t('common:buttons.undo')}
+        onUndo={undoDelete}
+        onExpire={onExpire}
+      />
     </>
   );
 };

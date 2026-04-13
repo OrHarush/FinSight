@@ -4,7 +4,8 @@
   "buttons": {
     "create": "צור",
     "update": "עדכן",
-    "cancel": "בטל"
+    "cancel": "בטל",
+    "undo": "בטל"
   },
   "actions": {
     "search": "חפש...",

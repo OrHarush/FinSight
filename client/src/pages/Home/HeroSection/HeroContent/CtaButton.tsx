@@ -48,7 +48,6 @@ const CtaButton = ({ labelKey = 'cta' }: CtaButtonProps) => {
           background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
           boxShadow: 'none',
           transition: 'all 0.3s ease',
-
           '&:hover': {
             background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
             transform: 'translateY(-3px)',

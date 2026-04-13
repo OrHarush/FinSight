@@ -175,6 +175,7 @@
     "updateError": "Failed to update transaction",
     "deleteSuccess": "Transaction deleted successfully",
     "deleteError": "Failed to delete transaction",
+    "transactionDeleted": "Transaction deleted",
     "cannotEditVirtual": "This transaction hasn't occurred yet and cannot be edited"
   },
   "deleteRecurring": {

@@ -28,7 +28,6 @@ interface CompleteOnboardingPayload {
 const BillingDayOnboardingModal = () => {
   const { t } = useTranslation('user');
   const { user, updateUser } = useAuth();
-
   const [showPicker, setShowPicker] = useState(false);
   const [selectedDay, setSelectedDay] = useState(1);
   const [dismissed, setDismissed] = useState(false);
@@ -38,7 +37,9 @@ const BillingDayOnboardingModal = () => {
     url: API_ROUTES.USERS_ME,
   });
 
-  const hasCompletedOnBoarding = !!user && user.hasCompletedOnboarding === false;
+  const hasCompletedOnBoarding = !!user && user.hasCompletedOnboarding === true;
+
+  const showModal = !dismissed && !hasCompletedOnBoarding;
 
   const confirmOnboarding = () => {
     const payload: CompleteOnboardingPayload = { hasCompletedOnboarding: true };
@@ -64,75 +65,77 @@ const BillingDayOnboardingModal = () => {
       ? t('onboardingModal.confirmDefault')
       : t('onboardingModal.confirmWithDay', { day: selectedDay });
 
-  if (dismissed || hasCompletedOnBoarding) {
+  if (!showModal) {
     return null;
   }
 
   return (
-    <Dialog
-      open={!dismissed && !hasCompletedOnBoarding}
-      maxWidth="xs"
-      fullWidth
-      disableEscapeKeyDown
-      onClose={() => {}}
-      slotProps={{
-        paper: {
-          sx: {
-            borderRadius: '12px',
-            paddingY: 1,
-            paddingX: 1,
+    showModal && (
+      <Dialog
+        open={showModal}
+        maxWidth="xs"
+        fullWidth
+        disableEscapeKeyDown
+        onClose={() => {}}
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: '12px',
+              paddingY: 1,
+              paddingX: 1,
+            },
           },
-        },
-      }}
-    >
-      <DialogTitle sx={{ p: 1 }}>
-        <Row spacing={1} alignItems="center">
-          {showPicker && (
-            <IconButton size="small" onClick={() => setShowPicker(false)}>
-              <ArrowBackIcon fontSize="small" />
-            </IconButton>
-          )}
-          <Typography variant="h6" fontWeight={600} fontSize="1.1rem">
-            {t('onboardingModal.title')}
-          </Typography>
-        </Row>
-      </DialogTitle>
+        }}
+      >
+        <DialogTitle sx={{ p: 1 }}>
+          <Row spacing={1} alignItems="center">
+            {showPicker && (
+              <IconButton size="small" onClick={() => setShowPicker(false)}>
+                <ArrowBackIcon fontSize="small" />
+              </IconButton>
+            )}
+            <Typography variant="h6" fontWeight={600} fontSize="1.1rem">
+              {t('onboardingModal.title')}
+            </Typography>
+          </Row>
+        </DialogTitle>
 
-      <DialogContent>
-        <Column spacing={2} pt={1}>
-          <Typography variant="body2" color="text.secondary">
-            {t('onboardingModal.description')}
-          </Typography>
+        <DialogContent>
+          <Column spacing={2} pt={1}>
+            <Typography variant="body2" color="text.secondary">
+              {t('onboardingModal.description')}
+            </Typography>
 
-          {showPicker && (
-            <Column spacing={1}>
-              <Typography variant="body2" fontWeight={600}>
-                {t('onboardingModal.pickDayTitle')}
-              </Typography>
-              <DayGrid selectedDay={selectedDay} onSelectDay={setSelectedDay} />
-            </Column>
-          )}
-        </Column>
-      </DialogContent>
+            {showPicker && (
+              <Column spacing={1}>
+                <Typography variant="body2" fontWeight={600}>
+                  {t('onboardingModal.pickDayTitle')}
+                </Typography>
+                <DayGrid selectedDay={selectedDay} onSelectDay={setSelectedDay} />
+              </Column>
+            )}
+          </Column>
+        </DialogContent>
 
-      <DialogActions sx={{ flexDirection: 'row', gap: 1, px: 2, pb: 2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={confirmOnboarding}
-          disabled={mutation.isPending}
-        >
-          {confirmLabel}
-        </Button>
-
-        {!showPicker && (
-          <Button variant="outlined" fullWidth onClick={() => setShowPicker(true)}>
-            {t('onboardingModal.changeButton')}
+        <DialogActions sx={{ flexDirection: 'row', gap: 1, px: 2, pb: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={confirmOnboarding}
+            disabled={mutation.isPending}
+          >
+            {confirmLabel}
           </Button>
-        )}
-      </DialogActions>
-    </Dialog>
+
+          {!showPicker && (
+            <Button variant="outlined" fullWidth onClick={() => setShowPicker(true)}>
+              {t('onboardingModal.changeButton')}
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+    )
   );
 };
 

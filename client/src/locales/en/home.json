@@ -9,9 +9,11 @@
   "cta": "Start Free",
   "ctaBottom": "Create Free Account",
   "trustBadges": {
-    "free": "Free forever",
+    "free": "Completely free",
     "noCard": "No credit card",
-    "setup": "2 min setup"
+    "setup": "2 min setup",
+    "privacy": "Your data is protected",
+    "privacyTooltip": "Your data is encrypted. We never connect to your bank, and we never share your information with third parties."
   },
   "principles": {
     "clearInsights": "Clarity",
@@ -73,6 +75,17 @@
     "feature1": "Works in web and mobile, no install needed",
     "feature2": "No payment or credit card required",
     "feature3": "Your data is safe and secure"
+  },
+  "dashboardPreview": {
+    "monthLabel": "March Overview",
+    "income": "Income",
+    "expenses": "Expenses",
+    "balance": "Balance",
+    "groceries": "Groceries",
+    "transport": "Transport",
+    "coffeeShop": "Coffee Shop",
+    "food": "Food",
+    "healthScore": "Health Score"
   },
   "processAnimation": {
     "stage0Title": "Setup ready",

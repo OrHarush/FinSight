@@ -72,12 +72,16 @@ const HeroContent = () => {
       <motion.div {...fadeUp(0.2)}>
         <CtaButton />
       </motion.div>
-      <motion.div {...fadeUp(0.25)}>
+      <motion.div {...fadeUp(0.35)}>
+        <TrustBadges />
+      </motion.div>
+      <motion.div {...fadeUp(0.45)}>
         <Box
           sx={{
             display: { xs: 'flex', sm: 'none' },
             gap: 0.5,
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Typography variant="body2" color="text.secondary">
@@ -93,9 +97,6 @@ const HeroContent = () => {
             {t('signIn')}
           </Link>
         </Box>
-      </motion.div>
-      <motion.div {...fadeUp(0.35)}>
-        <TrustBadges />
       </motion.div>
     </Column>
   );

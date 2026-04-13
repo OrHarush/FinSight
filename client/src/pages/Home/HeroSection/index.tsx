@@ -19,7 +19,6 @@ const HeroSection = () => {
         justifyContent: 'center',
       }}
     >
-      {/* Background image */}
       <Box
         sx={{
           position: 'absolute',
@@ -31,7 +30,6 @@ const HeroSection = () => {
           pointerEvents: 'none',
         }}
       />
-      {/* Ambient glow blobs */}
       <Box
         sx={{
           position: 'absolute',

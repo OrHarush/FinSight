@@ -1,12 +1,10 @@
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { ClickAwayListener, Tooltip, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import InfoTooltip from '@/components/shared/ui/InfoTooltip';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
-import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 export interface BalanceHeadlineProps {
   balance: number;
@@ -17,56 +15,10 @@ export interface BalanceHeadlineProps {
 
 const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineProps) => {
   const { i18n, t } = useTranslation('overview');
-  const isSmallScreen = useIsSmallScreen();
-  const [open, setOpen] = useState(false);
 
   const formattedDate = asOfDate
     ? new Date(asOfDate).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' })
     : null;
-
-  const iconSx = {
-    fontSize: 18,
-    color: 'primary.main',
-    cursor: isSmallScreen ? 'pointer' : 'help',
-    flexShrink: 0,
-    opacity: 0.8,
-  };
-
-  const renderTooltip = () => {
-    if (!tooltip) {
-      return null;
-    }
-
-    if (!isSmallScreen) {
-      return (
-        <Tooltip title={tooltip} placement="top" arrow>
-          <InfoOutlinedIcon sx={iconSx} />
-        </Tooltip>
-      );
-    }
-
-    return (
-      <ClickAwayListener onClickAway={() => setOpen(false)}>
-        <Tooltip
-          title={tooltip}
-          open={open}
-          placement="top"
-          arrow
-          disableFocusListener
-          disableHoverListener
-          disableTouchListener
-        >
-          <InfoOutlinedIcon
-            sx={iconSx}
-            onClick={e => {
-              e.stopPropagation();
-              setOpen(prev => !prev);
-            }}
-          />
-        </Tooltip>
-      </ClickAwayListener>
-    );
-  };
 
   return (
     <Column alignItems="center" minWidth={'120px'}>
@@ -80,7 +32,7 @@ const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineP
             </Typography>
           )}
         </Typography>
-        {renderTooltip()}
+        {tooltip && <InfoTooltip content={tooltip} />}
       </Row>
     </Column>
   );

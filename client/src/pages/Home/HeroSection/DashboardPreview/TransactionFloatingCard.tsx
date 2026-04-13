@@ -2,12 +2,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { alpha, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 
 const TransactionFloatingCard = () => {
   const theme = useTheme();
+  const { t } = useTranslation('home');
 
   return (
     <motion.div
@@ -40,10 +42,10 @@ const TransactionFloatingCard = () => {
               lineHeight: 1.3,
             }}
           >
-            Coffee Shop
+            {t('dashboardPreview.coffeeShop')}
           </Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.63rem' }}>
-            ₪28 · Food
+            ₪28 · {t('dashboardPreview.food')}
           </Typography>
         </Column>
       </Row>

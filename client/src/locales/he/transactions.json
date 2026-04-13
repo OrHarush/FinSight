@@ -181,6 +181,7 @@
     "updateError": "עדכון העסקה נכשל",
     "deleteSuccess": "העסקה נמחקה בהצלחה",
     "deleteError": "מחיקת העסקה נכשלה",
+    "transactionDeleted": "העסקה נמחקה",
     "cannotEditVirtual": "עסקה זו טרם התרחשה ולא ניתן לערוך אותה"
   },
   "deleteRecurring": {

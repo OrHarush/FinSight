@@ -4,6 +4,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { alpha, LinearProgress, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -11,9 +12,10 @@ import MetricCard from '@/pages/Home/HeroSection/DashboardPreview/MetricCard';
 
 const DashboardSummary = () => {
   const theme = useTheme();
+  const { t } = useTranslation('home');
   const budgets = [
-    { label: 'Groceries', value: 68 },
-    { label: 'Transport', value: 42 },
+    { label: t('dashboardPreview.groceries'), value: 68 },
+    { label: t('dashboardPreview.transport'), value: 42 },
   ];
 
   return (
@@ -50,7 +52,7 @@ const DashboardSummary = () => {
                 fontSize: '0.65rem',
               }}
             >
-              March Overview
+              {t('dashboardPreview.monthLabel')}
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.65rem' }}>
               2026
@@ -59,19 +61,19 @@ const DashboardSummary = () => {
           <Row spacing={1.25} justifyContent="stretch">
             <MetricCard
               icon={<TrendingUpIcon sx={{ fontSize: 13 }} />}
-              label="Income"
+              label={t('dashboardPreview.income')}
               value="₪11,600"
               color={theme.palette.success.main}
             />
             <MetricCard
               icon={<TrendingDownIcon sx={{ fontSize: 13 }} />}
-              label="Expenses"
+              label={t('dashboardPreview.expenses')}
               value="₪7,882"
               color={theme.palette.error.main}
             />
             <MetricCard
               icon={<AccountBalanceWalletIcon sx={{ fontSize: 13 }} />}
-              label="Balance"
+              label={t('dashboardPreview.balance')}
               value="+₪3,718"
               color={theme.palette.primary.main}
             />

@@ -2,6 +2,7 @@ import { Grid } from '@mui/material';
 import { useState } from 'react';
 
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
+import BillingDayOnboardingModal from '@/components/features/users/BillingDayOnboardingModal';
 import LyraPulseIcon from '@/components/shared/feedback/LyraPulseIcon';
 import Column from '@/components/shared/layout/containers/Column';
 import { useOpen } from '@/hooks/common/useOpen';
@@ -13,7 +14,7 @@ import QuickAddPanel from './QuickAddPanel';
 import SetupPanelHeader from './SetupPanelHeader';
 import { QuickAddPreset } from './types';
 
-const SetupPanel = () => {
+const OnBoardingPage = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
   const [activePreset, setActivePreset] = useState<QuickAddPreset | undefined>();
   const { categories } = useCategories();
@@ -64,6 +65,7 @@ const SetupPanel = () => {
           </Grid>
         </Grid>
       </Column>
+      <BillingDayOnboardingModal />
 
       {isDialogOpen && (
         <CreateTransactionDialog
@@ -82,4 +84,4 @@ const SetupPanel = () => {
   );
 };
 
-export default SetupPanel;
+export default OnBoardingPage;
