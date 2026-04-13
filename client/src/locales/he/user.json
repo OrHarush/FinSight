@@ -21,12 +21,11 @@
     "updateError": "שמירת ההעדפות נכשלה."
   },
   "onboardingModal": {
-    "title": "יום החיוב שלך",
-    "description": "יצרנו עבורך כרטיס אשראי, עם חיוב ב-1 לחודש.",
-    "changeButton": "לא ה-1?",
-    "pickDayTitle": "בחר יום חיוב",
-    "confirmDefault": "מעולה",
-    "confirmWithDay": "קבע ליום {{day}}"
+    "beforeWeStart": "לפני שמתחילים",
+    "subtitle": "באיזה יום בחודש יורד החיוב מחשבון הבנק שלך?",
+    "ofTheMonth": "לחודש",
+    "otherDay": "יום אחר",
+    "confirm": "בוא נמשיך"
   },
   "helpModal": {
     "title": "עזרה",

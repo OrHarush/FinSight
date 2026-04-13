@@ -21,12 +21,11 @@
     "updateError": "Failed to save preferences."
   },
   "onboardingModal": {
-    "title": "Your billing day",
-    "description": "We created a Credit Card payment method for you, with billing on the 1st.",
-    "changeButton": "Not the 1st?",
-    "pickDayTitle": "Pick a billing day",
-    "confirmDefault": "Got it",
-    "confirmWithDay": "Set to the {{day}}"
+    "beforeWeStart": "Before we start",
+    "subtitle": "What day of the month does the charge leave your bank account?",
+    "ofTheMonth": "of the month",
+    "otherDay": "Other day",
+    "confirm": "Let's Continue"
   },
   "helpModal": {
     "title": "Help",
