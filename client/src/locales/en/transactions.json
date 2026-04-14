@@ -25,7 +25,8 @@
     "startDate": "Start Date",
     "endDate": "End Date",
     "countTowardPreviousMonth": "Count toward previous month?",
-    "advancedSettings": "Advanced Settings"
+    "advancedSettings": "Advanced Settings",
+    "addNote": "Add note"
   },
   "types": {
     "income": "Income",
@@ -170,6 +171,7 @@
   },
   "messages": {
     "createSuccess": "Transaction created successfully",
+    "createSuccessBillingCycle": "Transaction saved to {{month}}'s billing cycle",
     "createError": "Failed to create transaction",
     "updateSuccess": "Transaction updated successfully",
     "updateError": "Failed to update transaction",
@@ -188,5 +190,7 @@
     "title": "Edit Recurring Transaction",
     "thisOnly": "This transaction only",
     "thisAndFuture": "This and future transactions"
-  }
+  },
+  "billingCycleHint": "Billed in {{month}}'s cycle",
+  "billingCycleHintTooltip": "Billing day: {{billingDay}}"
 }

@@ -1,19 +1,21 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import {
+  Box,
   Dialog,
   DialogProps,
   DialogTitle,
+  Drawer,
   Fade,
   IconButton,
-  Slide,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { forwardRef, ReactNode } from 'react';
 
 import Row from '@/components/shared/layout/containers/Row';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 export interface BaseDialogProps {
   isOpen: boolean;
@@ -25,13 +27,6 @@ interface LyraDialogProps extends BaseDialogProps, Omit<DialogProps, 'open' | 'o
   titleIcon?: SvgIconComponent;
   children: ReactNode;
 }
-
-// eslint-disable-next-line react/display-name
-const SlideUp = forwardRef(
-  (props: TransitionProps & { children: React.ReactElement }, ref: React.Ref<unknown>) => (
-    <Slide direction="up" ref={ref} {...props} />
-  )
-);
 
 // eslint-disable-next-line react/display-name
 const FadeTransition = forwardRef(
@@ -48,13 +43,51 @@ const LyraDialog = ({
   children,
   ...props
 }: LyraDialogProps) => {
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
+  const theme = useTheme();
+
+  if (isSmallScreen) {
+    return (
+      <Drawer
+        anchor="bottom"
+        open={isOpen}
+        onClose={closeDialog}
+        slotProps={{
+          paper: {
+            sx: {
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              pb: 3,
+              px: 2,
+              maxHeight: '92vh',
+              overflowY: 'auto',
+            },
+          },
+        }}
+        sx={{ zIndex: theme.zIndex.modal }}
+        onClick={e => e.stopPropagation()}
+      >
+        <Box
+          sx={{
+            width: 36,
+            height: 4,
+            bgcolor: 'divider',
+            borderRadius: 2,
+            mx: 'auto',
+            mt: 1.5,
+            mb: 2,
+          }}
+        />
+        {children}
+      </Drawer>
+    );
+  }
 
   return (
     <Dialog
       fullWidth
       maxWidth={'xs'}
-      slots={{ transition: isMobile ? SlideUp : FadeTransition }}
+      slots={{ transition: FadeTransition }}
       slotProps={{
         transition: { timeout: 250 },
         backdrop: {

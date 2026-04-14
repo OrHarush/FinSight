@@ -16,6 +16,7 @@ const TransactionSearchInput = () => {
 
   return (
     <TextInput
+      variant={'outlined'}
       name="searchValue"
       placeholder={t('actions.search')}
       value={searchValue}

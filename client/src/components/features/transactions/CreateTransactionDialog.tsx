@@ -5,15 +5,15 @@ import {
   TransactionFormSchema,
   TransactionFormValues,
 } from '@lyra/shared';
+import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-
-import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 import FormDialog from '@/components/dialogs/FormDialog';
 import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -55,10 +55,10 @@ const CreateTransactionDialog = ({
   initialAccountId,
   initialValues,
 }: CreateTransactionDialogProps) => {
-  const { t } = useTranslation('transactions');
+  const { t, i18n } = useTranslation('transactions');
   const { alertSuccess, alertError } = useSnackbar();
   const { primaryAccount } = useAccounts();
-  const { primaryPaymentMethod } = usePaymentMethods();
+  const { paymentMethods, primaryPaymentMethod } = usePaymentMethods();
   const isSmallScreen = useIsSmallScreen();
 
   const methods = useForm<TransactionFormValues>({
@@ -94,7 +94,18 @@ const CreateTransactionDialog = ({
         await createTransaction.mutateAsync(mapToCreatePayload(data));
       }
 
-      alertSuccess(t('messages.createSuccess'));
+      const selectedPm = paymentMethods.find(pm => pm._id === data.paymentMethod);
+
+      const billingDay = selectedPm?.type === 'Credit Card' ? selectedPm.billingDay : undefined;
+      const parsedDate = data.date && dayjs(data.date).isValid() ? dayjs(data.date) : null;
+      const isPreviousCycle = !!billingDay && !!parsedDate && parsedDate.date() < billingDay;
+
+      if (isPreviousCycle) {
+        const prevMonth = parsedDate!.subtract(1, 'month').locale(i18n.language).format('MMMM');
+        alertSuccess(t('messages.createSuccessBillingCycle', { month: prevMonth }));
+      } else {
+        alertSuccess(t('messages.createSuccess'));
+      }
       closeDialog();
     } catch (err) {
       alertError(t('messages.createError'));

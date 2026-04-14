@@ -25,7 +25,8 @@
     "startDate": "תאריך התחלה",
     "endDate": "תאריך סיום",
     "countTowardPreviousMonth": "לשייך לחודש הקודם?",
-    "advancedSettings": "הגדרות נוספות"
+    "advancedSettings": "הגדרות נוספות",
+    "addNote": "הוסף הערה"
   },
   "types": {
     "income": "הכנסה",
@@ -176,6 +177,7 @@
   },
   "messages": {
     "createSuccess": "העסקה נוצרה בהצלחה",
+    "createSuccessBillingCycle": "העסקה נשמרה לחיוב של {{month}}",
     "createError": "יצירת העסקה נכשלה",
     "updateSuccess": "העסקה עודכנה בהצלחה",
     "updateError": "עדכון העסקה נכשל",
@@ -194,5 +196,7 @@
     "title": "עריכת עסקה חוזרת",
     "thisOnly": "עסקה זו בלבד",
     "thisAndFuture": "עסקה זו וכל העסקאות הבאות"
-  }
+  },
+  "billingCycleHint": "עסקה זו תשויך לחיוב של {{month}}",
+  "billingCycleHintTooltip": "יום חיוב: {{billingDay}}"
 }

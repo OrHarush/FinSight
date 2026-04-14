@@ -1,4 +1,4 @@
-import { InputLabel, TextField, TextFieldProps } from '@mui/material';
+import { TextField, TextFieldProps } from '@mui/material';
 import { RegisterOptions, useController, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -98,8 +98,9 @@ const TextInput = ({
 
   return (
     <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>
-      {label && <InputLabel>{label}</InputLabel>}
       <TextField
+        variant={'filled'}
+        label={label}
         {...field}
         value={field.value ?? ''}
         onChange={handleChange}

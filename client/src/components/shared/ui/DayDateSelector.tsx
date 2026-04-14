@@ -1,6 +1,6 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import EditIcon from '@mui/icons-material/Edit';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { IconButton, Typography } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Dayjs } from 'dayjs';
@@ -32,14 +32,26 @@ const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
   }, [open]);
 
   return (
-    <Row width="200px" alignItems="center" justifyContent="space-between" dir="ltr" spacing={1}>
+    <Row
+      alignItems="center"
+      dir="ltr"
+      spacing={0.5}
+      sx={{
+        border: '1px solid',
+        borderColor: 'divider',
+        borderRadius: '20px',
+        px: 1,
+        py: 0.25,
+        width: 'fit-content',
+      }}
+    >
       <IconButton onClick={handlePrevDay} size="small" color="primary">
         <ArrowBackIosNewIcon fontSize="small" />
       </IconButton>
 
       <Row
         alignItems="center"
-        spacing={1}
+        spacing={0.5}
         sx={{
           borderRadius: '12px',
           cursor: 'pointer',
@@ -49,7 +61,7 @@ const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
         ref={anchorRef}
       >
         <IconButton size="small">
-          <EditIcon sx={{ fontSize: '13px' }} />
+          <CalendarTodayIcon sx={{ fontSize: '13px' }} />
         </IconButton>
 
         <Typography variant="body1" fontWeight={600}>

@@ -1,4 +1,6 @@
 import { Grid } from '@mui/material';
+import { useEffect, useRef } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { buildPaymentMethodGroups } from '@/components/features/paymentMethods/buildPaymentMethodGroups';
@@ -12,6 +14,19 @@ interface PaymentSectionProps {
 const PaymentSection = ({ smSize = 6 }: PaymentSectionProps) => {
   const { t } = useTranslation(['transactions', 'paymentMethods']);
   const { paymentMethods } = usePaymentMethods();
+  const { control, setValue } = useFormContext();
+  const paymentMethod = useWatch({ control, name: 'paymentMethod' });
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    setValue('belongToPreviousMonth', false, { shouldDirty: true });
+  }, [paymentMethod]);
 
   const groups = buildPaymentMethodGroups(paymentMethods, t);
 

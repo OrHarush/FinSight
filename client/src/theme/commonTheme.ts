@@ -36,9 +36,30 @@ export const commonTheme: ThemeOptions = {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
-          height: '40px',
+          height: '56px',
           backdropFilter: 'blur(20px)',
+        },
+        sizeSmall: {
+          height: '36px',
+        },
+      },
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          background: 'rgba(255, 255, 255, 0.04)',
+          border: '1px solid rgba(255, 255, 255, 0.06)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          '&:hover': {
+            background: 'rgba(255, 255, 255, 0.07)',
+          },
+          '&.Mui-focused': {
+            background: 'rgba(255, 255, 255, 0.06)',
+          },
+          '&:before': { display: 'none' },
+          '&:after': { display: 'none' },
         },
       },
     },

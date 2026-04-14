@@ -1,6 +1,6 @@
 import { TransactionFormValues } from '@lyra/shared';
 import { Grid, InputLabel, Skeleton } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +23,17 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
   const [createCategoryOpen, setCreateCategoryOpen] = useState(false);
 
   const transactionType = useWatch({ control, name: 'type' });
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    setValue('category', null as unknown as string, { shouldDirty: true });
+  }, [transactionType]);
 
   const filteredCategories = categories.filter(
     c => c.type.toLowerCase() === transactionType?.toLowerCase()

@@ -1,5 +1,5 @@
 import { TransactionFormValues } from '@lyra/shared';
-import { Box, Divider, Grid, InputAdornment } from '@mui/material';
+import { Divider, Grid, InputAdornment } from '@mui/material';
 import dayjs from 'dayjs';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,34 +10,47 @@ import Row from '@/components/shared/layout/containers/Row';
 import DayDateSelector from '@/components/shared/ui/DayDateSelector';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import AccountSection from '@/pages/Transactions/components/TransactionForm/AccountSection';
-import AdvancedSettingsSection from '@/pages/Transactions/components/TransactionForm/AdvancedSettingsSection';
+import AddNoteSection from '@/pages/Transactions/components/TransactionForm/AddNoteSection';
+import BillingCycleHint from '@/pages/Transactions/components/TransactionForm/BillingCycleHint';
 import ClassificationSection from '@/pages/Transactions/components/TransactionForm/ClassificationSection';
+import FrequencyToggle from '@/pages/Transactions/components/TransactionForm/FrequencyToggle';
 import PaymentSection from '@/pages/Transactions/components/TransactionForm/PaymentSection';
 import PreviousMonthCheckboxRow from '@/pages/Transactions/components/TransactionForm/PreviousMonthCheckboxRow';
+import PreviousMonthCollapse from '@/pages/Transactions/components/TransactionForm/PreviousMonthCollapse';
 import RecurrenceSelect from '@/pages/Transactions/components/TransactionForm/RecurrenceSelect';
+import RecurringDatePills from '@/pages/Transactions/components/TransactionForm/RecurringDatePills';
 import ScheduleSection from '@/pages/Transactions/components/TransactionForm/ScheduleSection';
 import TransactionBaseDetails from '@/pages/Transactions/components/TransactionForm/TransactionBaseDetails';
 import TransactionTypeSelector from '@/pages/Transactions/components/TransactionForm/TransactionTypeSelector';
 
-const amountBoxSx = {
-  p: { xs: 1.5, sm: 2 },
-  borderRadius: 2,
-  border: '1px solid',
-  borderColor: 'divider',
-  bgcolor: 'background.paper',
-};
-
 const amountInputSx = {
-  '& .MuiOutlinedInput-root': { height: '48px' },
-  '& .MuiOutlinedInput-input': {
+  '& .MuiFilledInput-root': { height: '72px' },
+  '& .MuiFilledInput-input': {
     py: 1,
     textAlign: 'center',
     fontWeight: 700,
-    fontSize: { xs: '2rem' },
+    fontSize: '2.5rem',
+    lineHeight: 1.2,
   },
   '& .MuiInputAdornment-root': {
     color: 'text.secondary',
-    fontSize: { xs: '1.2rem', sm: '1.5rem' },
+  },
+};
+
+const mobileAmountSx = {
+  '& .MuiFilledInput-root': {
+    backgroundColor: 'transparent',
+    '&:hover': { backgroundColor: 'transparent' },
+    '&.Mui-focused': { backgroundColor: 'transparent' },
+    '&::before': { borderBottom: 'none' },
+    '&::after': { borderBottom: 'none' },
+  },
+  '& .MuiFilledInput-input': {
+    textAlign: 'center',
+    fontWeight: 700,
+    fontSize: '2.5rem',
+    lineHeight: 1.2,
+    py: 1,
   },
 };
 
@@ -68,49 +81,66 @@ const TransactionForm = ({
     });
 
   const amountField = (
-    <Box sx={amountBoxSx}>
-      <TextInput
-        name="amount"
-        label={t('fields.amount')}
-        type="number"
-        placeholder={'0'}
-        slotProps={{
-          input: {
-            startAdornment: <InputAdornment position="start">₪</InputAdornment>,
-          },
-          htmlInput: {
-            dir: 'ltr',
-          },
-        }}
-        sx={amountInputSx}
-      />
-    </Box>
+    <TextInput
+      name="amount"
+      label={t('fields.amount')}
+      type="number"
+      placeholder={'0'}
+      slotProps={{
+        input: {
+          startAdornment: <InputAdornment position="start">₪</InputAdornment>,
+        },
+        htmlInput: {
+          dir: 'ltr',
+        },
+      }}
+      sx={amountInputSx}
+    />
   );
 
   if (isSmallScreen) {
     return (
       <Column spacing={2} height="auto">
-        <Row justifyContent={'center'}>
-          {!isRecurring && <DayDateSelector value={selectedDate} onChange={handleDateChange} />}
-        </Row>
         <TransactionTypeSelector disabled={disableTypeSelector} />
-        {amountField}
-        <Grid container spacing={1}>
+        <TextInput
+          name="amount"
+          type="number"
+          placeholder="0"
+          hiddenLabel
+          slotProps={{
+            input: {
+              startAdornment: <InputAdornment position="start">₪</InputAdornment>,
+            },
+            htmlInput: { dir: 'ltr' },
+          }}
+          sx={mobileAmountSx}
+        />
+        {!isRecurring && (
+          <Row justifyContent="center">
+            <DayDateSelector value={selectedDate} onChange={handleDateChange} />
+          </Row>
+        )}
+        {isRecurring && <RecurringDatePills />}
+        <BillingCycleHint />
+        <Grid container spacing={1.5}>
           {!isTransfer && (
             <>
               <TransactionBaseDetails />
-              <ClassificationSection />
-              <AdvancedSettingsSection hideRecurrence={hideRecurrence} />
+              <ClassificationSection isFullWidth />
+              <AccountSection />
+              <PaymentSection />
             </>
           )}
           {isTransfer && (
             <>
               <AccountSection />
-              <AdvancedSettingsSection hideRecurrence={hideRecurrence} isTransfer={isTransfer} />
+              <PaymentSection />
             </>
           )}
         </Grid>
-        <PreviousMonthCheckboxRow />
+        <PreviousMonthCollapse />
+        {!hideRecurrence && <FrequencyToggle />}
+        <AddNoteSection />
       </Column>
     );
   }
@@ -120,6 +150,7 @@ const TransactionForm = ({
       <Row justifyContent={'center'}>
         {!isRecurring && <DayDateSelector value={selectedDate} onChange={handleDateChange} />}
       </Row>
+      <BillingCycleHint />
       <TransactionTypeSelector disabled={disableTypeSelector} />
       {amountField}
       <Grid container spacing={2}>

@@ -8,6 +8,7 @@ import {
   IconButton,
   Pagination,
   TextField,
+  useTheme,
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 
@@ -30,6 +31,7 @@ const IconPickerDialog = ({
   icons,
   iconMap,
 }: IconPickerDialogProps) => {
+  const theme = useTheme();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
@@ -43,7 +45,7 @@ const IconPickerDialog = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={closeDialog} maxWidth="sm" fullWidth>
+    <Dialog open={isOpen} onClose={closeDialog} maxWidth="sm" fullWidth sx={{ zIndex: theme.zIndex.modal + 2 }}>
       <DialogTitle>Select an Icon</DialogTitle>
       <IconButton
         onClick={closeDialog}
