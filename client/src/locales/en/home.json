@@ -116,5 +116,6 @@
     "incomeLabel": "Income",
     "expensesLabel": "Expenses",
     "balanceLabel": "Balance"
-  }
+  },
+  "footerContact": "Contact: support@lyra-il.com"
 }
