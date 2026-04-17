@@ -59,7 +59,7 @@ const HeroSection = () => {
           zIndex: 1,
           px: { xs: 3, md: 8 },
           py: { xs: 8, md: 0 },
-          gap: { xs: 6, md: 10 },
+          gap: { xs: 6, md: 16 },
           flexDirection: { xs: 'column', md: 'row' },
           alignItems: { xs: 'center', md: 'center' },
           justifyContent: { xs: 'center', md: 'space-between' },

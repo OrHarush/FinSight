@@ -1,30 +1,54 @@
 {
-  "headline": {
-    "line1": "Start tracking.",
-    "line2": "This time it",
-    "highlight": "sticks"
+  "landing": {
+    "hero": {
+      "headline": "Get your money in order. No bank in the middle.",
+      "subheadline": "Each card with its own billing cycle, import from Cal and Max in seconds, everything in one place.",
+      "ctaPrimary": "Start Free",
+      "ctaSecondary": "See how it works",
+      "trustBadges": {
+        "free": "Completely free",
+        "noBank": "No bank connection",
+        "setup": "2 min setup"
+      },
+      "privacy": "Your data is protected",
+      "privacyTooltip": "Your data is encrypted. We never connect to your bank — you import your own CSV files — and we never share your information with third parties.",
+      "frames": {
+        "billingCycle": {
+          "title": "Per-card billing cycle",
+          "caption": "Every card, with its own day",
+          "perMonth": "per month",
+          "card1Name": "Main card",
+          "card1Subtitle": "Visa primary",
+          "card2Name": "Secondary card",
+          "card2Subtitle": "Mastercard",
+          "bankName": "Bank account",
+          "bankSubtitle": "Checking"
+        },
+        "csvImport": {
+          "title": "Excel import",
+          "filename": "visa_cal_dec.xlsx",
+          "summary": "Found 88 transactions",
+          "caption": "Auto-categorized",
+          "tx1Name": "Shufersal",
+          "tx1Category": "Food",
+          "tx2Name": "Paz Gas",
+          "tx2Category": "Transport",
+          "tx3Name": "Netflix",
+          "tx3Category": "Entertainment"
+        },
+        "privacy": {
+          "title": "No bank password",
+          "bank": "Bank",
+          "file": "Excel file",
+          "caption": "Your password stays with you"
+        }
+      }
+    }
   },
-  "subtitle": "Finally understand what’s actually happening with your money.",
-  "subtitle2": "Where it goes, how fast it disappears, and whether you’re really in control, without spreadsheets or guesswork.",
-  "cta": "Start Free",
   "ctaBottom": "Create Free Account",
-  "trustBadges": {
-    "free": "Completely free",
-    "noCard": "No credit card",
-    "setup": "2 min setup",
-    "privacy": "Your data is protected",
-    "privacyTooltip": "Your data is encrypted. We never connect to your bank, and we never share your information with third parties."
-  },
-  "principles": {
-    "clearInsights": "Clarity",
-    "smartDecisions": "Better decisions",
-    "peaceOfMind": "Less stress"
-  },
   "alreadyHaveAccount": "Already have an account?",
   "signIn": "Sign in",
   "navLogin": "Log in",
-  "footer": "No credit card, takes under 2 minutes",
-  "footerContact": "Contact: support@lyra-il.com",
   "howItWorks": {
     "sectionTitle": "Like Excel, just easier to keep up with",
     "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. Lyra gives you the same control, in a way that’s simpler to stick with.",
@@ -75,17 +99,6 @@
     "feature1": "Works in web and mobile, no install needed",
     "feature2": "No payment or credit card required",
     "feature3": "Your data is safe and secure"
-  },
-  "dashboardPreview": {
-    "monthLabel": "March Overview",
-    "income": "Income",
-    "expenses": "Expenses",
-    "balance": "Balance",
-    "groceries": "Groceries",
-    "transport": "Transport",
-    "coffeeShop": "Coffee Shop",
-    "food": "Food",
-    "healthScore": "Health Score"
   },
   "processAnimation": {
     "stage0Title": "Setup ready",

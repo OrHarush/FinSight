@@ -28,7 +28,11 @@ const TrustBadges = () => {
   const { t } = useTranslation('home');
   const isSmallScreen = useIsSmallScreen();
 
-  const badges = [t('trustBadges.free'), t('trustBadges.noCard'), t('trustBadges.setup')];
+  const badges = [
+    t('landing.hero.trustBadges.free'),
+    t('landing.hero.trustBadges.noBank'),
+    t('landing.hero.trustBadges.setup'),
+  ];
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible">
@@ -79,9 +83,9 @@ const TrustBadges = () => {
                 fontSize: '0.85rem',
               }}
             >
-              {t('trustBadges.privacy')}
+              {t('landing.hero.privacy')}
             </Typography>
-            <InfoTooltip content={t('trustBadges.privacyTooltip')} />
+            <InfoTooltip content={t('landing.hero.privacyTooltip')} />
           </Row>
         </motion.div>
       </Column>

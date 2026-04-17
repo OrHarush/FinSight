@@ -1,12 +1,16 @@
-import { Box, Link, useTheme } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, Link, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { ROUTES } from '@/constants/Routes';
 import CtaButton from '@/pages/Home/HeroSection/HeroContent/CtaButton';
+import SecondaryCtaButton from '@/pages/Home/HeroSection/HeroContent/SecondaryCtaButton';
 import TrustBadges from '@/pages/Home/HeroSection/HeroContent/TrustBadges';
+
+const HIGHLIGHT_COLOR = '#a78bfa';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -14,9 +18,25 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.65, ease: 'easeOut' as const, delay },
 });
 
+const renderHeadlineWithHighlight = (headline: string, word: string) => {
+  const pattern = new RegExp(`(${word})`, 'i');
+  const parts = headline.split(pattern);
+
+  return parts.map((part, index) =>
+    part.toLowerCase() === word.toLowerCase() ? (
+      <Box key={index} component="span" sx={{ color: HIGHLIGHT_COLOR }}>
+        {part}
+      </Box>
+    ) : (
+      <Fragment key={index}>{part}</Fragment>
+    ),
+  );
+};
+
 const HeroContent = () => {
-  const { t } = useTranslation('home');
-  const theme = useTheme();
+  const { t, i18n } = useTranslation('home');
+  const isRtl = i18n.language === 'he';
+  const highlightWord = isRtl ? 'הבנק' : 'bank';
 
   return (
     <Column
@@ -24,7 +44,7 @@ const HeroContent = () => {
       alignItems={{ xs: 'center', md: 'flex-start' }}
       sx={{
         flex: '0 0 auto',
-        maxWidth: { xs: 520, md: 630 },
+        maxWidth: { xs: 520, md: 640 },
         textAlign: { xs: 'center', md: 'start' },
       }}
     >
@@ -33,48 +53,47 @@ const HeroContent = () => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: { xs: '2.6rem', sm: '3.4rem', md: '4rem' },
+              fontSize: { xs: '2.4rem', sm: '3rem', md: '3.6rem' },
               fontWeight: 700,
-              lineHeight: 1.05,
+              lineHeight: 1.1,
               color: 'text.primary',
+              whiteSpace: 'pre-line',
             }}
           >
-            {t('headline.line1')}
-            <br />
-            {t('headline.line2')}{' '}
-            <Box
-              component="span"
-              sx={{
-                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              {t('headline.highlight')}
-            </Box>
-            .
+            {renderHeadlineWithHighlight(t('landing.hero.headline'), highlightWord)}
           </Typography>
           <Typography
             variant="h6"
             sx={{
               fontSize: { xs: '1rem', md: '1.1rem' },
               color: 'text.secondary',
-              maxWidth: 460,
-              lineHeight: 1.75,
+              maxWidth: 560,
+              lineHeight: 1.7,
               fontWeight: 400,
             }}
           >
-            {t('subtitle')}
+            {t('landing.hero.subheadline')}
           </Typography>
         </Column>
       </motion.div>
+
       <motion.div {...fadeUp(0.2)}>
-        <CtaButton />
+        <Row
+          spacing={{ xs: 1.5, sm: 2 }}
+          alignItems="center"
+          flexWrap="wrap"
+          justifyContent={{ xs: 'center', md: 'flex-start' }}
+          sx={{ rowGap: 1.5 }}
+        >
+          <CtaButton />
+          <SecondaryCtaButton />
+        </Row>
       </motion.div>
+
       <motion.div {...fadeUp(0.35)}>
         <TrustBadges />
       </motion.div>
+
       <motion.div {...fadeUp(0.45)}>
         <Box
           sx={{

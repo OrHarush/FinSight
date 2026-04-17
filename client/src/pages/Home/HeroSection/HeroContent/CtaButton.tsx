@@ -10,7 +10,7 @@ interface CtaButtonProps {
   labelKey?: string;
 }
 
-const CtaButton = ({ labelKey = 'cta' }: CtaButtonProps) => {
+const CtaButton = ({ labelKey = 'landing.hero.ctaPrimary' }: CtaButtonProps) => {
   const { i18n, t } = useTranslation('home');
   const theme = useTheme();
   const isRtl = i18n.language === 'he';

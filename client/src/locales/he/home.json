@@ -1,30 +1,54 @@
 {
-  "headline": {
-    "line1": "מתחילים לעקוב.",
-    "line2": "הפעם זה",
-    "highlight": "מחזיק"
+  "landing": {
+    "hero": {
+      "headline": "לעשות סדר בכסף.\nבלי הבנק באמצע.",
+      "subheadline": "כל כרטיס עם מחזור משלו, ייבוא מ-Cal ו-Max בלחיצה. רואים הכל במקום אחד.",
+      "ctaPrimary": "התחל בחינם",
+      "ctaSecondary": "איך זה עובד",
+      "trustBadges": {
+        "free": "חינם לגמרי",
+        "noBank": "בלי חיבור לבנק",
+        "setup": "2 דקות להגדרה"
+      },
+      "privacy": "הנתונים שלך מוגנים",
+      "privacyTooltip": "המידע שלך מוצפן. אנחנו לא מתחברים לחשבון הבנק שלך — אתה מייבא את קבצי ה-CSV בעצמך — ולא מעבירים את המידע שלך לאף גורם חיצוני.",
+      "frames": {
+        "billingCycle": {
+          "title": "מחזור חיוב שונה לכל כרטיס",
+          "caption": "כל כרטיס, עם היום שלו",
+          "perMonth": "לחודש",
+          "card1Name": "הכרטיס של רועי",
+          "card1Subtitle": "ויזה ראשי",
+          "card2Name": "כרטיס משני",
+          "card2Subtitle": "מאסטרקארד",
+          "bankName": "חשבון הבנק",
+          "bankSubtitle": "עו\"ש"
+        },
+        "csvImport": {
+          "title": "ייבוא אקסל",
+          "filename": "visa_cal_dec.xlsx",
+          "summary": "נמצאו 88 עסקאות",
+          "caption": "מסווג אוטומטית",
+          "tx1Name": "שופרסל",
+          "tx1Category": "מזון",
+          "tx2Name": "דלק פז",
+          "tx2Category": "תחבורה",
+          "tx3Name": "Netflix",
+          "tx3Category": "בילויים"
+        },
+        "privacy": {
+          "title": "בלי סיסמה לבנק",
+          "bank": "בנק",
+          "file": "קובץ אקסל",
+          "caption": "הסיסמה שלך נשארת אצלך"
+        }
+      }
+    }
   },
-  "subtitle": "סוף סוף להבין מה באמת קורה עם הכסף.",
-  "subtitle2": "לאן הוא הולך, כמה מהר הוא נעלם, והאם באמת בשליטה, בלי אקסלים ובלי כאב ראש.",
-  "cta": "מתחילים בחינם",
   "ctaBottom": "פתיחת חשבון בחינם",
-  "trustBadges": {
-    "free": "חינם לגמרי",
-    "noCard": "בלי כרטיס אשראי",
-    "setup": "מתחילים תוך 2 דקות",
-    "privacy": "הנתונים שלך מוגנים",
-    "privacyTooltip": "המידע שלך מוצפן. אנחנו לא מתחברים לחשבון הבנק שלך, ולא מעבירים את המידע שלך לאף גורם חיצוני."
-  },
-  "principles": {
-    "clearInsights": "רואים ברור",
-    "smartDecisions": "מקבלים החלטות טובות יותר",
-    "peaceOfMind": "פחות לחץ"
-  },
   "alreadyHaveAccount": "כבר יש לך חשבון?",
   "signIn": "התחבר",
   "navLogin": "התחברות",
-  "footer": "בלי כרטיס אשראי, פחות מ-2 דקות",
-  "footerContact": "צור קשר: support@lyra-il.com",
   "howItWorks": {
     "sectionTitle": "כמו אקסל, רק שבאמת נוח להתמיד איתו",
     "sectionSubtitle": "אקסל עושה את העבודה, אבל בואו נהיה כנים, אף אחד לא באמת נהנה להשתמש בו. Lyra נותנת את אותה שליטה, בצורה שפשוט יותר להישאר איתה.",
@@ -75,17 +99,6 @@
     "feature1": "עובד בדפדפן ובמובייל, בלי התקנה",
     "feature2": "בלי תשלום ובלי כרטיס אשראי",
     "feature3": "המידע נשמר בצורה מאובטחת"
-  },
-  "dashboardPreview": {
-    "monthLabel": "סקירת מרץ",
-    "income": "הכנסות",
-    "expenses": "הוצאות",
-    "balance": "יתרה",
-    "groceries": "מכולת",
-    "transport": "תחבורה",
-    "coffeeShop": "בית קפה",
-    "food": "אוכל",
-    "healthScore": "ציון בריאות"
   },
   "processAnimation": {
     "stage0Title": "הכול מוכן",

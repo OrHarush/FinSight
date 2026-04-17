@@ -52,9 +52,10 @@ const HowItWorksSection = () => {
   return (
     <Column
       component={'section'}
+      id="how-it-works"
       ref={sectionRef}
       spacing={0}
-      sx={{ px: { xs: 2, md: 8 }, py: { xs: 8, md: 12 }, position: 'relative' }}
+      sx={{ px: { xs: 2, md: 8 }, py: { xs: 8, md: 12 }, position: 'relative', scrollMarginTop: '80px' }}
     >
       <Header isInView={isInView} />
       <motion.div
