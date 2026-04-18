@@ -1,10 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
-
-const ACCENT_PURPLE = '#a78bfa';
 
 interface HeaderProps {
   isInView: boolean;
@@ -28,13 +26,7 @@ const Header = ({ isInView }: HeaderProps) => {
             color: 'text.primary',
           }}
         >
-          <Trans
-            i18nKey="landing.how.headline"
-            ns="home"
-            components={{
-              accent: <Box component="span" sx={{ color: ACCENT_PURPLE }} />,
-            }}
-          />
+          {t('landing.comparison.title')}
         </Typography>
       </motion.div>
       <motion.div
@@ -51,7 +43,7 @@ const Header = ({ isInView }: HeaderProps) => {
             fontSize: { xs: '0.95rem', md: '1.05rem' },
           }}
         >
-          {t('landing.how.subheadline')}
+          {t('landing.comparison.subtitle')}
         </Typography>
       </motion.div>
     </Column>

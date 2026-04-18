@@ -43,79 +43,111 @@
           "caption": "Your password stays with you"
         }
       }
+    },
+    "how": {
+      "headline": "This is how it works. Just <accent>2 minutes</accent>.",
+      "subheadline": "No bank connection. No 30-minute setup.",
+      "step01": {
+        "number": "01",
+        "title": "Pick a billing day",
+        "description": "Your card bills on the 15th? The 20th? Just pick the day. Each card keeps its own cycle.",
+        "question": "Which day does your card bill?",
+        "subtitle": "We'll set up the card billing cycle",
+        "ofTheMonth": "of the month"
+      },
+      "step02": {
+        "number": "02",
+        "title": "Add a transaction in seconds.",
+        "description": "Pick a category, enter an amount, and you're done.\nNeed more details? You can expand. No unnecessary forms.",
+        "quickAddLabel": "Quick add",
+        "pillCoffee": "Coffee",
+        "pillFood": "Food",
+        "pillFuel": "Fuel",
+        "pillGrocery": "Grocery",
+        "amountLabel": "Amount",
+        "categoryLabel": "Category",
+        "dateLabel": "Date",
+        "dateValue": "Today",
+        "categoryValue": "Coffee",
+        "addButton": "Add"
+      },
+      "step03": {
+        "number": "03",
+        "title": "See where your money goes",
+        "description": "Current balance, month-end projection, and % spent. The full picture in one place.",
+        "account": "Hapoalim",
+        "balanceLabel": "Balance · 13 Apr",
+        "projectedLabel": "Projected",
+        "incomeLabel": "Income",
+        "expensesLabel": "Expenses",
+        "netLabel": "Net",
+        "progressLabel": "57% of income spent"
+      }
+    },
+    "comparison": {
+      "title": "Why Lyra, not the others",
+      "subtitle": "Built for Israeli users who actually want to understand their money.",
+      "columns": {
+        "feature": "Feature",
+        "riseup": "RiseUp",
+        "excel": "Excel"
+      },
+      "rows": {
+        "price": {
+          "label": "Price",
+          "lyra": "Free",
+          "riseup": "₪55/mo",
+          "excel": "Free"
+        },
+        "billingCycles": {
+          "label": "Per-card billing cycles",
+          "lyra": "All dates",
+          "riseup": "1st & 10th only",
+          "excel": "—"
+        },
+        "noBank": {
+          "label": "No bank connection",
+          "lyra": "✓",
+          "riseup": "Required",
+          "excel": "✓"
+        },
+        "dashboard": {
+          "label": "Real-time dashboard",
+          "lyra": "✓",
+          "riseup": "✓",
+          "excel": "End of month"
+        },
+        "rtl": {
+          "label": "Hebrew + RTL native",
+          "lyra": "✓",
+          "riseup": "✓",
+          "excel": "Manual"
+        }
+      }
     }
   },
   "ctaBottom": "Create Free Account",
   "alreadyHaveAccount": "Already have an account?",
   "signIn": "Sign in",
   "navLogin": "Log in",
-  "howItWorks": {
-    "sectionTitle": "Like Excel, just easier to keep up with",
-    "sectionSubtitle": "Excel works, but let’s be honest, no one really enjoys using it. Lyra gives you the same control, in a way that’s simpler to stick with.",
-    "step1": {
-      "title": "Add a transaction in seconds",
-      "description": "Enter an amount and category, and you're done. Everything else is already set up."
-    },
-    "step2": {
-      "title": "Everything is ready to go",
-      "description": "Accounts, categories, and payment methods are already there. Change anything whenever you want."
-    },
-    "step3": {
-      "title": "See the full picture instantly",
-      "description": "Your dashboard updates right away, what came in, what went out, and where your money is going."
-    }
-  },
-  "features": {
-    "sectionTitle": "Everything you need. Nothing extra.",
-    "sectionSubtitle": "For people who want to understand their money, not manage another system.",
-    "dashboard": {
-      "title": "Clear dashboard",
-      "description": "See your month at a glance, income, expenses, and where your money is going."
-    },
-    "transactions": {
-      "title": "Transaction tracking",
-      "description": "Quickly add income and expenses. Filter by date, category, or account."
-    },
-    "categories": {
-      "title": "Categories",
-      "description": "Organize your money in a way that matches how you actually think about it."
-    },
-    "accounts": {
-      "title": "Accounts",
-      "description": "Track multiple accounts, bank, cash, or anything else."
-    },
-    "payments": {
-      "title": "Payment methods",
-      "description": "Not just how much you paid, but how you paid."
-    },
-    "budgets": {
-      "title": "Budgets",
-      "description": "Set a budget for each category and see in real time if you’re staying on track."
-    }
-  },
   "bottomCta": {
-    "title": "Still using Excel?",
-    "subtitle": "There’s a much easier way to understand where your money goes.",
-    "feature1": "Works in web and mobile, no install needed",
-    "feature2": "No payment or credit card required",
-    "feature3": "Your data is safe and secure"
-  },
-  "processAnimation": {
-    "stage0Title": "Setup ready",
-    "stage1Title": "New transaction",
-    "stage2Title": "Dashboard",
-    "accountLabel": "Account",
-    "paymentLabel": "Payment",
-    "categoriesLabel": "Categories",
-    "accountValue": "Cal Bank",
-    "paymentValue": "Credit Card",
-    "categoriesValue": "8 types",
-    "transactionName": "Coffee Shop",
-    "transactionCategory": "🍔 Food",
-    "transactionAdded": "Added",
-    "incomeLabel": "Income",
-    "expensesLabel": "Expenses",
-    "balanceLabel": "Balance"
+    "title": "Want to start tracking,\nwithout committing to anything?",
+    "subtitle": "A few minutes to set up. No bank, no payment, no Excel.",
+    "cards": {
+      "feedback": {
+        "title": "Feedback → Feature",
+        "description": "A personal reply from the developer"
+      },
+      "israeli": {
+        "title": "Built for Israelis",
+        "description": "Billing cycles, installments, CSV"
+      },
+      "fast": {
+        "title": "3 seconds",
+        "description": "to add an expense"
+      }
+    },
+    "helper": "Manual entry. Your data stays yours. You can delete it anytime."
   },
   "footerContact": "Contact: support@lyra-il.com"
 }

@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
-export interface HowItWorksStepProps {
-  icon: ReactElement;
+export interface HowItWorksStep {
+  number: string;
   title: string;
   description: string;
-  accentColor: string;
+  mockup: ReactNode;
 }

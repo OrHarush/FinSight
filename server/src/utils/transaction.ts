@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Types } from 'mongoose';
 
+import { IRecurringTemplatePopulated } from '../types/RecurringTemplate';
 import { ITransactionPopulated } from '../types/Transaction';
 
 dayjs.extend(utc);
@@ -101,6 +102,46 @@ export const buildTransactionQuery = (
 
   return query;
 };
+
+export const filterTemplatesByQueryFilters = (
+  templates: IRecurringTemplatePopulated[],
+  categoryIds?: string[],
+  paymentMethodIds?: string[],
+  accountIds?: string[]
+) =>
+  templates.filter(template => {
+    if (categoryIds?.length) {
+      const categoryId = template.category?._id?.toString();
+
+      if (!categoryId || !categoryIds.includes(categoryId)) {
+        return false;
+      }
+    }
+
+    if (paymentMethodIds?.length) {
+      const paymentMethodId = template.paymentMethod?._id?.toString();
+
+      if (!paymentMethodId || !paymentMethodIds.includes(paymentMethodId)) {
+        return false;
+      }
+    }
+
+    if (accountIds?.length) {
+      const matchesAccount = [
+        template.account?._id,
+        template.fromAccount?._id,
+        template.toAccount?._id,
+      ]
+        .filter(Boolean)
+        .some(id => accountIds.includes(id!.toString()));
+
+      if (!matchesAccount) {
+        return false;
+      }
+    }
+
+    return true;
+  });
 
 export const filterTransactionsByDateRange = (
   transactions: ITransactionPopulated[],

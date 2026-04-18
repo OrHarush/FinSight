@@ -18,6 +18,7 @@ import {
 import { ITransactionPopulated } from '../../types/Transaction';
 import {
   expandTransactions,
+  filterTemplatesByQueryFilters,
   filterTransactionsByDateRange,
   getEffectiveMonth,
   sortAndPaginate,
@@ -47,7 +48,21 @@ type TxWithEffective = ITransactionPopulated & {
 // options is GetTransactionsQuery when called from HTTP controller (fully validated)
 // and GetTransactionsOptions when called from internal callers (partial)
 export const findAll = async (userId: string, options: GetTransactionsOptions = {}) => {
-  const { page, limit, from, to, targetYear, targetMonth, sort, search } = options;
+  const {
+    page,
+    limit,
+    from,
+    to,
+    targetYear,
+    targetMonth,
+    sort,
+    search,
+    categoryIds,
+    paymentMethodIds,
+    accountIds,
+    accountId,
+  } = options;
+  const resolvedAccountIds = accountIds ?? (accountId ? [accountId] : undefined);
 
   const transactions = await transactionRepository.findMany(userId, options);
 
@@ -57,7 +72,18 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
       from,
       to
     );
-    const virtualTransactions = buildVirtualTransactions(templates, transactions, from, to);
+    const matchingTemplates = filterTemplatesByQueryFilters(
+      templates,
+      categoryIds,
+      paymentMethodIds,
+      resolvedAccountIds
+    );
+    const virtualTransactions = buildVirtualTransactions(
+      matchingTemplates,
+      transactions,
+      from,
+      to
+    );
 
     transactions.push(...virtualTransactions);
   }

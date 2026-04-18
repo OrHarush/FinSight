@@ -43,79 +43,111 @@
           "caption": "הסיסמה שלך נשארת אצלך"
         }
       }
+    },
+    "how": {
+      "headline": "ככה זה עובד. תוך <accent>2 דקות</accent>.",
+      "subheadline": "בלי חיבור לבנק. בלי חצי שעה של הגדרות.",
+      "step01": {
+        "number": "01",
+        "title": "בוחרים יום חיוב",
+        "description": "הכרטיס שלך יורד ב-15? ב-20? פשוט בוחרים את היום. כל כרטיס עם המחזור שלו.",
+        "question": "באיזה יום יורד החיוב מהחשבון שלך?",
+        "subtitle": "נגדיר את מחזור החיוב של הכרטיס",
+        "ofTheMonth": "לחודש"
+      },
+      "step02": {
+        "number": "02",
+        "title": "מוסיפים עסקה בשניות.",
+        "description": "בוחרים קטגוריה, מזינים סכום, וזהו.\nצריך יותר פרטים? אפשר להרחיב. בלי טפסים מיותרים.",
+        "quickAddLabel": "הוספה מהירה",
+        "pillCoffee": "קפה",
+        "pillFood": "מזון",
+        "pillFuel": "דלק",
+        "pillGrocery": "סופר",
+        "amountLabel": "סכום",
+        "categoryLabel": "קטגוריה",
+        "dateLabel": "תאריך",
+        "dateValue": "היום",
+        "categoryValue": "קפה",
+        "addButton": "הוסף"
+      },
+      "step03": {
+        "number": "03",
+        "title": "רואים איפה הכסף הולך",
+        "description": "יתרה נוכחית, צפי לסוף החודש, ואחוז ניצול. כל התמונה הפיננסית במקום אחד.",
+        "account": "הבינלאומי",
+        "balanceLabel": "יתרה · 13 באפר",
+        "projectedLabel": "יתרה צפויה",
+        "incomeLabel": "הכנסות",
+        "expensesLabel": "הוצאות",
+        "netLabel": "נטו",
+        "progressLabel": "57% מההכנסה נוצלה"
+      }
+    },
+    "comparison": {
+      "title": "למה Lyra, ולא האחרים",
+      "subtitle": "בנויה לישראלים שרוצים להבין את הכסף שלהם.",
+      "columns": {
+        "feature": "יכולת",
+        "riseup": "RiseUp",
+        "excel": "אקסל"
+      },
+      "rows": {
+        "price": {
+          "label": "מחיר",
+          "lyra": "חינם",
+          "riseup": "₪55 לחודש",
+          "excel": "חינם"
+        },
+        "billingCycles": {
+          "label": "מחזור חיוב לכל כרטיס",
+          "lyra": "כל התאריכים",
+          "riseup": "רק 1 ו-10",
+          "excel": "—"
+        },
+        "noBank": {
+          "label": "בלי חיבור לבנק",
+          "lyra": "✓",
+          "riseup": "חובה",
+          "excel": "✓"
+        },
+        "dashboard": {
+          "label": "דשבורד בזמן אמת",
+          "lyra": "✓",
+          "riseup": "✓",
+          "excel": "סוף החודש"
+        },
+        "rtl": {
+          "label": "עברית ו-RTL מלא",
+          "lyra": "✓",
+          "riseup": "✓",
+          "excel": "ידני"
+        }
+      }
     }
   },
   "ctaBottom": "פתיחת חשבון בחינם",
   "alreadyHaveAccount": "כבר יש לך חשבון?",
   "signIn": "התחבר",
   "navLogin": "התחברות",
-  "howItWorks": {
-    "sectionTitle": "כמו אקסל, רק שבאמת נוח להתמיד איתו",
-    "sectionSubtitle": "אקסל עושה את העבודה, אבל בואו נהיה כנים, אף אחד לא באמת נהנה להשתמש בו. Lyra נותנת את אותה שליטה, בצורה שפשוט יותר להישאר איתה.",
-    "step1": {
-      "title": "מוסיפים עסקה בשניות",
-      "description": "מכניסים סכום וקטגוריה, וזהו. כל השאר כבר מוגדר."
-    },
-    "step2": {
-      "title": "הכול כבר מוכן",
-      "description": "חשבונות, קטגוריות ואמצעי תשלום כבר בפנים. אפשר לשנות הכול מתי שרוצים."
-    },
-    "step3": {
-      "title": "רואים את התמונה מיד",
-      "description": "הדשבורד מתעדכן ישר, כמה נכנס, כמה יצא ולאן הכסף הולך."
-    }
-  },
-  "features": {
-    "sectionTitle": "כל מה שצריך. בלי תוספות מיותרות.",
-    "sectionSubtitle": "למי שרוצים להבין את הכסף, לא להסתבך עם עוד מערכת.",
-    "dashboard": {
-      "title": "דשבורד ברור",
-      "description": "במבט אחד רואים איך נראה החודש, הכנסות, הוצאות ולאן הכסף הולך."
-    },
-    "transactions": {
-      "title": "מעקב עסקאות",
-      "description": "מוסיפים הוצאות והכנסות מהר. אפשר לסנן לפי תאריך, קטגוריה או חשבון."
-    },
-    "categories": {
-      "title": "קטגוריות",
-      "description": "מסדרים את הכסף בצורה שמתאימה לאיך שחושבים עליו."
-    },
-    "accounts": {
-      "title": "חשבונות",
-      "description": "מעקב אחרי כמה חשבונות, בנק, מזומן או כל דבר אחר."
-    },
-    "payments": {
-      "title": "אמצעי תשלום",
-      "description": "לא רק כמה שילמת, גם איך שילמת."
-    },
-    "budgets": {
-      "title": "תקציבים",
-      "description": "מגדירים תקציב לכל קטגוריה ורואים בזמן אמת אם עומדים בו."
-    }
-  },
   "bottomCta": {
-    "title": "עדיין עם אקסל?",
-    "subtitle": "יש דרך הרבה יותר נוחה להבין לאן הכסף הולך.",
-    "feature1": "עובד בדפדפן ובמובייל, בלי התקנה",
-    "feature2": "בלי תשלום ובלי כרטיס אשראי",
-    "feature3": "המידע נשמר בצורה מאובטחת"
-  },
-  "processAnimation": {
-    "stage0Title": "הכול מוכן",
-    "stage1Title": "עסקה חדשה",
-    "stage2Title": "דשבורד",
-    "accountLabel": "חשבון",
-    "paymentLabel": "אמצעי תשלום",
-    "categoriesLabel": "קטגוריות",
-    "accountValue": "בנק",
-    "paymentValue": "כרטיס אשראי",
-    "categoriesValue": "8 סוגים",
-    "transactionName": "בית קפה",
-    "transactionCategory": "🍔 אוכל",
-    "transactionAdded": "נוסף",
-    "incomeLabel": "הכנסות",
-    "expensesLabel": "הוצאות",
-    "balanceLabel": "יתרה"
+    "title": "רוצה להתחיל לעקוב,\nבלי להתחייב לשום דבר?",
+    "subtitle": "כמה דקות הקמה. בלי בנק, בלי תשלום, בלי אקסל.",
+    "cards": {
+      "feedback": {
+        "title": "פידבק ← פיצ'ר",
+        "description": "תשובה אישית מהמפתח"
+      },
+      "israeli": {
+        "title": "בנוי לישראלים",
+        "description": "מחזורי חיוב, תשלומים, CSV"
+      },
+      "fast": {
+        "title": "3 שניות",
+        "description": "להוסיף הוצאה"
+      }
+    },
+    "helper": "הזנה ידנית. הנתונים שלך, אצלך. אפשר למחוק בכל רגע."
   },
   "footerContact": "צור קשר: support@lyra-il.com"
 }
