@@ -1,7 +1,7 @@
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
-import { createContext, ReactNode, useContext, useEffect,useMemo, useState } from 'react'; // Added useEffect
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'; // Added useEffect
 import { useTranslation } from 'react-i18next';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
@@ -56,8 +56,9 @@ export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [mode, isRtl]);
 
   useEffect(() => {
-    document.dir = isRtl ? 'rtl' : 'ltr';
-  }, [isRtl]);
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+  }, [i18n.language, isRtl]);
 
   return (
     <AppThemeContext.Provider value={colorMode}>

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
-import { acceptTermsService, devLoginService, googleLoginService } from '../services/authService';
+import { acceptTermsService, loginAsDevUser, loginWithGoogle } from '../services/authService';
 import { getCurrentUserById } from '../services/userService';
 
 export const me = asyncHandler(async (req: Request, res: Response) => {
@@ -17,13 +17,13 @@ export const me = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const googleLogin = asyncHandler(async (req: Request, res: Response) => {
-  const result = await googleLoginService(req.body.token);
+  const result = await loginWithGoogle(req.body.token);
 
   return res.json(result);
 });
 
 export const devLogin = asyncHandler(async (_req: Request, res: Response) => {
-  const result = await devLoginService();
+  const result = await loginAsDevUser();
 
   return res.json(result);
 });

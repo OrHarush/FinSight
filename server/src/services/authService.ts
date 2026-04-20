@@ -59,9 +59,9 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
   if (isNewUser) {
     await createDefaultEntitiesForNewUser(user._id.toString());
 
-    void analyticsService.track(user._id.toString(), 'user_created').catch(err =>
-      console.error('Failed to track user_created:', err)
-    );
+    void analyticsService
+      .track(user._id.toString(), 'user_created')
+      .catch(err => console.error('Failed to track user_created:', err));
   }
 
   await recordLoginEvent({
@@ -99,7 +99,7 @@ export const acceptTermsService = async ({ userId, locale, ip, userAgent }: Acce
     version: CURRENT_TERMS_VERSION,
   });
 
-export const devLoginService = async () => {
+export const loginAsDevUser = async () => {
   const email = process.env.DEV_AUTH_BYPASS_EMAIL;
 
   if (!email) {
@@ -122,7 +122,7 @@ export const devLoginService = async () => {
 
   const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {
     algorithm: 'HS256',
-    expiresIn: '7d',
+    expiresIn: '90d',
     issuer: JWT_ISSUER,
     audience: JWT_AUDIENCE,
     subject: user._id.toString(),
@@ -133,7 +133,7 @@ export const devLoginService = async () => {
   return { token, user, showTerms };
 };
 
-export const googleLoginService = async (googleToken: string) => {
+export const loginWithGoogle = async (googleToken: string) => {
   if (!googleToken) {
     throw ApiError.badRequest('Google token is required');
   }
@@ -171,7 +171,7 @@ export const googleLoginService = async (googleToken: string) => {
 
   const token = jwt.sign({ userId: user._id.toString(), role: user.role }, JWT_SECRET, {
     algorithm: 'HS256',
-    expiresIn: '7d',
+    expiresIn: '90d',
     issuer: JWT_ISSUER,
     audience: JWT_AUDIENCE,
     subject: user._id.toString(),
