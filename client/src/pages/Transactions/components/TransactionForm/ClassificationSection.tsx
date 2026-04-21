@@ -1,8 +1,7 @@
 import { TransactionFormValues } from '@lyra/shared';
-import { Grid, InputLabel, Skeleton } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 
 import CategoriesSelect from '@/components/features/categories/CategoriesSelect';
 import CreateCategoryBottomSheet from '@/components/features/categories/CreateCategoryBottomSheet';
@@ -16,7 +15,6 @@ interface ClassificationSectionProps {
 }
 
 const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionProps) => {
-  const { t } = useTranslation('transactions');
   const { control, setValue } = useFormContext<TransactionFormValues>();
   const { categories, isLoading } = useCategories();
   const isSmallScreen = useIsSmallScreen();
@@ -62,11 +60,9 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
         </Grid>
       ) : (
         <Grid size={gridSize}>
-          <InputLabel>{t('fields.category')}</InputLabel>
-          <Skeleton variant="rectangular" height={40} sx={{ borderRadius: 1 }} />
+          <Skeleton variant="rectangular" height={52} sx={{ borderRadius: 1 }} />
         </Grid>
       )}
-
       {isSmallScreen ? (
         <CreateCategoryBottomSheet
           open={createCategoryOpen}
