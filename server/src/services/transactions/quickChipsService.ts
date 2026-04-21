@@ -1,9 +1,9 @@
 import {
+  fromCents,
   QUICK_CHIP_SEEDS,
   QuickChipDto,
   QuickChipSeedDefinition,
-} from '@lyra/shared/types/quickChips';
-import { fromCents } from '@lyra/shared/utils/money';
+} from '@lyra/shared';
 import { Types } from 'mongoose';
 
 import Category, { ICategory } from '../../models/Category';
