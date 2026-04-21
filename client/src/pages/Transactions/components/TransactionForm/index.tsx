@@ -135,8 +135,12 @@ const TransactionForm = ({
             <>
               <TransactionBaseDetails />
               <ClassificationSection isFullWidth />
-              <AccountSection />
-              <PaymentSection />
+              <Grid size={{ xs: 12 }}>
+                <Grid container spacing={1}>
+                  <AccountSection xsSize={6} />
+                  <PaymentSection xsSize={6} />
+                </Grid>
+              </Grid>
             </>
           )}
           {isTransfer && (
@@ -154,7 +158,7 @@ const TransactionForm = ({
   }
 
   return (
-    <Column spacing={2} height="auto">
+    <Column spacing={2} height="auto" minHeight={'500px'}>
       <Row justifyContent={'center'}>
         {!isRecurring && <DayDateSelector value={selectedDate} onChange={handleDateChange} />}
       </Row>

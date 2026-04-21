@@ -10,9 +10,10 @@ import { useIsMobile } from '@/hooks/common/useIsMobile';
 
 interface AccountsSectionProps {
   smSize?: number;
+  xsSize?: number;
 }
 
-const AccountsSection = ({ smSize = 6 }: AccountsSectionProps) => {
+const AccountsSection = ({ smSize = 6, xsSize = 12 }: AccountsSectionProps) => {
   const { t } = useTranslation('transactions');
   const isMobile = useIsMobile();
 
@@ -21,7 +22,7 @@ const AccountsSection = ({ smSize = 6 }: AccountsSectionProps) => {
 
   if (transactionType !== 'Transfer') {
     return (
-      <Grid size={{ xs: 12, sm: smSize }}>
+      <Grid size={{ xs: xsSize, sm: smSize }}>
         <AccountSelect label={t('fields.account')} />
       </Grid>
     );
@@ -35,7 +36,7 @@ const AccountsSection = ({ smSize = 6 }: AccountsSectionProps) => {
         </Box>
         {!isMobile && (
           <Box>
-            <SwapHorizIcon sx={{ color: 'text.secondary', marginTop: '32px' }} />
+            <SwapHorizIcon sx={{ color: 'text.secondary', marginTop: '4px' }} />
           </Box>
         )}
         <Box sx={{ flex: 1, width: '100%' }}>

@@ -37,8 +37,8 @@ const CategoriesSelect = ({ filteredCategories, onCreateNew }: CategoriesSelectP
           label: category.name,
           value: category._id,
           design: (
-            <Row spacing={1} sx={{ minWidth: 0, overflow: 'hidden' }}>
-              <IconComponent sx={{ color: category.color, flexShrink: 0 }} />
+            <Row spacing={1} alignItems={'center'} sx={{ minWidth: 0, overflow: 'hidden' }}>
+              <IconComponent sx={{ fontSize: '1.3rem', color: category.color, flexShrink: 0 }} />
               <Typography
                 sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               >

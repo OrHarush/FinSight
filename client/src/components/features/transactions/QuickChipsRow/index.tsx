@@ -1,16 +1,14 @@
 import type { QuickChipDto } from '@lyra/shared';
 import { TransactionFormValues } from '@lyra/shared';
-import { Typography } from '@mui/material';
 import { useCallback } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import QuickChip from '@/components/shared/ui/QuickChip';
 
 import QuickChipsSkeleton from './QuickChipsSkeleton';
-import { getLabelStyle, getScrollRowStyle } from './styles';
+import { getScrollRowStyle } from './styles';
 import { useActiveChipTracker } from './useActiveChipTracker';
 import { useEdgeFadeMask } from './useEdgeFadeMask';
 import { useResolvedChips } from './useResolvedChips';
@@ -52,24 +50,19 @@ const QuickChipsRow = ({ activeChipId, setActiveChipId }: QuickChipsRowProps) =>
   }
 
   return (
-    <Column spacing={0.75}>
-      <Typography variant="caption" color="text.secondary" sx={getLabelStyle()}>
-        {t('quickChips.label')}
-      </Typography>
-      <Row ref={ref} spacing={1} sx={getScrollRowStyle({ ...mask, isRtl })}>
-        {isLoading && <QuickChipsSkeleton count={skeletonCount} />}
-        {!isLoading &&
-          chips.map(chip => (
-            <QuickChip
-              key={chip.id}
-              label={resolveLabel(chip)}
-              amount={chip.amount}
-              isActive={activeChipId === chip.id}
-              onClick={() => applyChip(chip.id)}
-            />
-          ))}
-      </Row>
-    </Column>
+    <Row ref={ref} spacing={1} sx={getScrollRowStyle({ ...mask, isRtl })}>
+      {isLoading && <QuickChipsSkeleton count={skeletonCount} />}
+      {!isLoading &&
+        chips.map(chip => (
+          <QuickChip
+            key={chip.id}
+            label={resolveLabel(chip)}
+            amount={chip.amount}
+            isActive={activeChipId === chip.id}
+            onClick={() => applyChip(chip.id)}
+          />
+        ))}
+    </Row>
   );
 };
 

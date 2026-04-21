@@ -5,14 +5,17 @@ import { useTranslation } from 'react-i18next';
 
 import { buildPaymentMethodGroups } from '@/components/features/paymentMethods/buildPaymentMethodGroups';
 import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 
 interface PaymentSectionProps {
   smSize?: number;
+  xsSize?: number;
 }
 
-const PaymentSection = ({ smSize = 6 }: PaymentSectionProps) => {
+const PaymentSection = ({ smSize = 6, xsSize = 12 }: PaymentSectionProps) => {
   const { t } = useTranslation(['transactions', 'paymentMethods']);
+  const isSmallScreen = useIsSmallScreen();
   const { paymentMethods } = usePaymentMethods();
   const { control, setValue } = useFormContext();
   const paymentMethod = useWatch({ control, name: 'paymentMethod' });
@@ -31,12 +34,17 @@ const PaymentSection = ({ smSize = 6 }: PaymentSectionProps) => {
   const groups = buildPaymentMethodGroups(paymentMethods, t);
 
   return (
-    <Grid size={{ xs: 12, sm: smSize }}>
+    <Grid size={{ xs: xsSize, sm: smSize }}>
       <RHFGroupedSelect
         name={'paymentMethod'}
         label={t('transactions:fields.paymentMethod')}
         required
         groups={groups}
+        sx={{
+          '& .MuiSelect-select, & .MuiSelect-select .MuiTypography-root': {
+            fontSize: isSmallScreen ? '0.875rem' : 'none',
+          },
+        }}
       />
     </Grid>
   );

@@ -35,10 +35,6 @@ export const getScrollRowStyle = (mask: MaskArgs): SxProps<Theme> => {
   };
 };
 
-export const getLabelStyle = (): SxProps<Theme> => ({
-  fontWeight: 500,
-});
-
 export const getSkeletonStyle = (): SxProps<Theme> => ({
   borderRadius: 999,
   flexShrink: 0,
