@@ -198,5 +198,15 @@
     "thisAndFuture": "עסקה זו וכל העסקאות הבאות"
   },
   "billingCycleHint": "עסקה זו תשויך לחיוב של {{month}}",
-  "billingCycleHintTooltip": "יום חיוב: {{billingDay}}"
+  "billingCycleHintTooltip": "יום חיוב: {{billingDay}}",
+  "quickChips": {
+    "label": "הוספה מהירה",
+    "seed": {
+      "coffee": "קפה",
+      "groceries": "סופר",
+      "fuel": "דלק",
+      "bit_transfer": "ביט",
+      "pharmacy": "בית מרקחת"
+    }
+  }
 }

@@ -50,7 +50,7 @@ const ConfirmStep = () => {
   const { mutate: runImport, isPending } = useApiMutation<ImportResult, ImportBody>({
     method: 'post',
     url: API_ROUTES.IMPORT_TRANSACTIONS,
-    queryKeysToInvalidate: [queryKeys.allTransactions()],
+    queryKeysToInvalidate: [queryKeys.allTransactions(), queryKeys.quickChips()],
     options: {
       onSuccess: data => setResult(data),
     },

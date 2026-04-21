@@ -17,7 +17,8 @@
     "noUnusedLocals": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@lyra/shared": ["../shared/index.ts"]
     }
   },
   "include": ["src"],

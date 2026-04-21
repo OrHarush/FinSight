@@ -10,5 +10,6 @@ export * from './types/defaultAccounts';
 export * from './types/defaultCategories';
 export * from './types/defaultPaymentMethods';
 export * from './types/FeedbackCommands';
+export * from './types/quickChips';
 export * from './types/Role';
 export * from './utils/money';

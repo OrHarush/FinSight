@@ -19,6 +19,7 @@ export const queryKeys = {
     from,
   ],
   transactionsCount: () => ['transactions', 'count'],
+  quickChips: () => ['transactions', 'quickChips'],
   recurringTemplates: () => ['recurringTemplates'],
 
   accounts: () => ['accounts'],

@@ -20,6 +20,7 @@ import * as recurringTemplateRepository from '../repositories/recurringTemplateR
 import * as transactionRepository from '../repositories/transactionRepository';
 import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
+import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
 dayjs.extend(utc);
 
@@ -369,6 +370,7 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
       const tx = await transactionRepository.insert(txData);
 
       created.push(tx);
+      invalidateQuickChipsCache(userId);
       lastMonth = current;
       current = current.add(1, 'month');
     }

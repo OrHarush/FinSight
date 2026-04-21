@@ -1,9 +1,11 @@
 import { TransactionFormValues } from '@lyra/shared';
 import { Divider, Grid, InputAdornment } from '@mui/material';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import QuickChipsRow from '@/components/features/transactions/QuickChipsRow';
 import TextInput from '@/components/shared/inputs/TextInput';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
@@ -57,9 +59,11 @@ const mobileAmountSx = {
 const TransactionForm = ({
   disableTypeSelector = false,
   hideRecurrence = false,
+  showQuickChips = false,
 }: {
   disableTypeSelector?: boolean;
   hideRecurrence?: boolean;
+  showQuickChips?: boolean;
 }) => {
   const { t } = useTranslation('transactions');
   const { control, setValue } = useFormContext<TransactionFormValues>();
@@ -67,6 +71,7 @@ const TransactionForm = ({
   const transactionType = useWatch({ control, name: 'type' });
   const date = useWatch({ control, name: 'date' });
   const isSmallScreen = useIsSmallScreen();
+  const [activeChipId, setActiveChipId] = useState<string | null>(null);
 
   const isRecurring = !hideRecurrence && recurrence !== 'None';
   const isTransfer = transactionType === 'Transfer';
@@ -102,6 +107,9 @@ const TransactionForm = ({
     return (
       <Column spacing={2} height="auto">
         <TransactionTypeSelector disabled={disableTypeSelector} />
+        {showQuickChips && (
+          <QuickChipsRow activeChipId={activeChipId} setActiveChipId={setActiveChipId} />
+        )}
         <TextInput
           name="amount"
           type="number"
@@ -152,6 +160,9 @@ const TransactionForm = ({
       </Row>
       <BillingCycleHint />
       <TransactionTypeSelector disabled={disableTypeSelector} />
+      {showQuickChips && (
+        <QuickChipsRow activeChipId={activeChipId} setActiveChipId={setActiveChipId} />
+      )}
       {amountField}
       <Grid container spacing={2}>
         {!isTransfer && (

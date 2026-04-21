@@ -57,13 +57,21 @@ const EditTransactionDialog = ({
   const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionDTO>({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction?.originalId ?? transaction._id}`,
-    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
+    queryKeysToInvalidate: [
+      queryKeys.allTransactions(),
+      ['transactionSummary'],
+      queryKeys.quickChips(),
+    ],
   });
 
   const splitTemplate = useApiMutation<unknown, SplitRecurringTemplateDTO>({
     method: 'put',
     url: API_ROUTES.RECURRING_TEMPLATES_SPLIT(transaction.templateId ?? ''),
-    queryKeysToInvalidate: [queryKeys.allTransactions(), ['transactionSummary']],
+    queryKeysToInvalidate: [
+      queryKeys.allTransactions(),
+      ['transactionSummary'],
+      queryKeys.quickChips(),
+    ],
   });
 
   const submitEdit = async (data: TransactionFormValues) => {

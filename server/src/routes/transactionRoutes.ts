@@ -4,6 +4,7 @@ import { Router } from 'express';
 import {
   createTransaction,
   deleteTransaction,
+  getQuickChips,
   getTransactionById,
   getTransactionCount,
   getTransactions,
@@ -16,6 +17,7 @@ import { GetTransactionsSchema, GetTransactionSummarySchema } from '../schemas/t
 const router = Router();
 
 router.get('/count', getTransactionCount);
+router.get('/quick-chips', getQuickChips);
 router.get('/summary', validateQuery(GetTransactionSummarySchema), getTransactionSummary);
 router.get('/', validateQuery(GetTransactionsSchema), getTransactions);
 router.get('/:id', getTransactionById);

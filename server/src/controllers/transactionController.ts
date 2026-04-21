@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
+import * as quickChipsService from '../services/transactions/quickChipsService';
 import * as transactionService from '../services/transactions/transactionService';
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
@@ -40,6 +41,12 @@ export const getTransactionCount = asyncHandler(async (req: Request, res: Respon
   const total = await transactionService.countAll(req.userId);
 
   return ApiResponse.ok(res, { total });
+});
+
+export const getQuickChips = asyncHandler(async (req: Request, res: Response) => {
+  const chips = await quickChipsService.getQuickChips(req.userId);
+
+  return ApiResponse.ok(res, chips);
 });
 
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {

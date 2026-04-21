@@ -27,6 +27,7 @@ import {
 } from '../../utils/transaction';
 import { syncAccountBalance } from '../balanceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
+import { invalidateQuickChipsCache } from './quickChipsService';
 
 dayjs.extend(utc);
 
@@ -210,6 +211,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
 
   const created = await transactionRepository.insert(mapped);
 
+  invalidateQuickChipsCache(userId);
   syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
 
   void (async () => {
@@ -270,6 +272,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     throw ApiError.internal('Unexpected error updating transaction');
   }
 
+  invalidateQuickChipsCache(userId);
   syncBalanceFor(userId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),
@@ -299,6 +302,7 @@ export const deleteTransaction = async (id: string, userId: string) => {
     throw ApiError.internal('Unexpected error deleting transaction');
   }
 
+  invalidateQuickChipsCache(userId);
   syncBalanceFor(userId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),

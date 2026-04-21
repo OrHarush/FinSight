@@ -108,3 +108,86 @@ export const reassignAccount = async (userId: string, oldId: string, newId: stri
     { userId: new Types.ObjectId(userId), account: new Types.ObjectId(oldId) },
     { $set: { account: new Types.ObjectId(newId) } }
   );
+
+export interface QuickChipAggregation {
+  name: string;
+  categoryId: Types.ObjectId;
+  paymentMethodId: Types.ObjectId;
+  latestAmount: number;
+  latestDate: Date;
+  occurrences: number;
+  recencyFrequencyScore: number;
+}
+
+export const aggregateFrequentExpensePatterns = async (
+  userId: string,
+  since: Date,
+  now: Date,
+  minOccurrences: number,
+  limit: number
+): Promise<QuickChipAggregation[]> => {
+  const windowDays = Math.max(1, (now.getTime() - since.getTime()) / (1000 * 60 * 60 * 24));
+
+  return Transaction.aggregate<QuickChipAggregation>([
+    {
+      $match: {
+        userId: new Types.ObjectId(userId),
+        type: 'Expense',
+        date: { $gte: since, $lte: now },
+        name: { $exists: true, $nin: [null, ''] },
+        category: { $exists: true, $ne: null },
+        paymentMethod: { $exists: true, $ne: null },
+        templateId: { $in: [null, undefined] },
+        frequency: { $in: [null, undefined] },
+      },
+    },
+    { $sort: { date: -1 } },
+    {
+      $group: {
+        _id: {
+          name: '$name',
+          categoryId: '$category',
+          paymentMethodId: '$paymentMethod',
+        },
+        latestAmount: { $first: '$amount' },
+        latestDate: { $first: '$date' },
+        occurrences: { $sum: 1 },
+        daysAgoList: {
+          $push: {
+            $divide: [{ $subtract: [now, '$date'] }, 1000 * 60 * 60 * 24],
+          },
+        },
+      },
+    },
+    { $match: { occurrences: { $gte: minOccurrences } } },
+    {
+      $addFields: {
+        recencyFrequencyScore: {
+          $sum: {
+            $map: {
+              input: '$daysAgoList',
+              as: 'daysAgo',
+              in: {
+                $divide: [1, { $add: [{ $divide: ['$$daysAgo', windowDays] }, 0.1] }],
+              },
+            },
+          },
+        },
+      },
+    },
+    { $sort: { recencyFrequencyScore: -1 } },
+    { $limit: limit },
+    {
+      $project: {
+        _id: 0,
+        name: '$_id.name',
+        categoryId: '$_id.categoryId',
+        paymentMethodId: '$_id.paymentMethodId',
+        latestAmount: 1,
+        latestDate: 1,
+        occurrences: 1,
+        recencyFrequencyScore: 1,
+      },
+    },
+  ]);
+};

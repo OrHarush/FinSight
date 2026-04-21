@@ -8,6 +8,7 @@ import * as paymentMethodRepository from '../repositories/paymentMethodRepositor
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ImportTransactionsDTO } from '../schemas/importSchemas';
 import { parseFile } from '../utils/fileParser';
+import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
 export interface ImportPreview {
   rowCount: number;
@@ -100,6 +101,9 @@ export const importTransactions = async (
 
   try {
     const result = await transactionRepository.insertMany(transactions);
+
+    invalidateQuickChipsCache(userId);
+
     return { inserted: result.length, skipped, failed: 0 };
   } catch (err: unknown) {
     // Mongoose/MongoDB BulkWriteError with ordered:false: some docs may have been inserted.
@@ -111,6 +115,11 @@ export const importTransactions = async (
       Array.isArray((err as { insertedDocs: unknown[] }).insertedDocs)
     ) {
       const inserted = (err as { insertedDocs: unknown[] }).insertedDocs.length;
+
+      if (inserted > 0) {
+        invalidateQuickChipsCache(userId);
+      }
+
       return { inserted, skipped, failed: filteredRows.length - inserted };
     }
 

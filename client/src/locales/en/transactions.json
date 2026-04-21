@@ -192,5 +192,15 @@
     "thisAndFuture": "This and future transactions"
   },
   "billingCycleHint": "Billed in {{month}}'s cycle",
-  "billingCycleHintTooltip": "Billing day: {{billingDay}}"
+  "billingCycleHintTooltip": "Billing day: {{billingDay}}",
+  "quickChips": {
+    "label": "Quick add",
+    "seed": {
+      "coffee": "Coffee",
+      "groceries": "Groceries",
+      "fuel": "Fuel",
+      "bit_transfer": "Bit",
+      "pharmacy": "Pharmacy"
+    }
+  }
 }

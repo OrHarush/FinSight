@@ -32,7 +32,7 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
       return;
     }
 
-    setValue('category', null as unknown as string, { shouldDirty: true });
+    setValue('category', '', { shouldDirty: true });
   }, [transactionType]);
 
   const filteredCategories = categories.filter(

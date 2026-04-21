@@ -36,6 +36,7 @@ export const usePendingDelete = () => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: queryKeys.allTransactions() }),
       queryClient.invalidateQueries({ queryKey: ['transactionSummary'] }),
+      queryClient.invalidateQueries({ queryKey: queryKeys.quickChips() }),
     ]);
   };
 
