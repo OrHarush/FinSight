@@ -61,6 +61,7 @@ const EditTransactionDialog = ({
       queryKeys.allTransactions(),
       ['transactionSummary'],
       queryKeys.quickChips(),
+      queryKeys.categories(),
     ],
   });
 
@@ -71,6 +72,7 @@ const EditTransactionDialog = ({
       queryKeys.allTransactions(),
       ['transactionSummary'],
       queryKeys.quickChips(),
+      queryKeys.categories(),
     ],
   });
 

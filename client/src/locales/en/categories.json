@@ -48,6 +48,10 @@
     "overBy": "over by",
     "left": "left"
   },
+  "groups": {
+    "frequent": "Most used",
+    "all": "All categories"
+  },
   "actions": {
     "create": "Create Category",
     "createNew": "New Category",

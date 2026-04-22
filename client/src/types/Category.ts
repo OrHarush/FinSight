@@ -7,4 +7,6 @@ export interface CategoryDto {
   type: CategoryType;
   color: PresetColor;
   icon: string;
+  usageCount?: number;
+  isFrequent?: boolean;
 }

@@ -79,6 +79,7 @@ const CreateTransactionDialog = ({
       queryKeys.allTransactions(),
       ['transactionSummary'],
       queryKeys.quickChips(),
+      queryKeys.categories(),
     ],
   });
 
@@ -89,6 +90,7 @@ const CreateTransactionDialog = ({
       queryKeys.allTransactions(),
       ['transactionSummary'],
       queryKeys.quickChips(),
+      queryKeys.categories(),
     ],
   });
 

@@ -37,6 +37,7 @@ export const usePendingDelete = () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.allTransactions() }),
       queryClient.invalidateQueries({ queryKey: ['transactionSummary'] }),
       queryClient.invalidateQueries({ queryKey: queryKeys.quickChips() }),
+      queryClient.invalidateQueries({ queryKey: queryKeys.categories() }),
     ]);
   };
 

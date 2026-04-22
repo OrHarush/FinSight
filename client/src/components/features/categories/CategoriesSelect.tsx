@@ -4,6 +4,7 @@ import { Divider, MenuItem, Typography } from '@mui/material';
 import { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import RHFGroupedSelect from '@/components/shared/inputs/RHFGroupedSelect';
 import RHFSelect from '@/components/shared/inputs/RHFSelect';
 import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
@@ -11,18 +12,52 @@ import { useCategories } from '@/hooks/entities/useCategories';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import { CategoryDto } from '@/types/Category';
 
+import { buildCategoryGroups } from './buildCategoryGroups';
+
 interface CategoriesSelectProps {
   filteredCategories?: CategoryDto[];
-  onCreateNew?: () => void;
+  openCreateNewCategory?: () => void;
+  grouped?: boolean;
 }
 
-const CategoriesSelect = ({ filteredCategories, onCreateNew }: CategoriesSelectProps) => {
+const CategoriesSelect = ({
+  filteredCategories,
+  openCreateNewCategory,
+  grouped = false,
+}: CategoriesSelectProps) => {
   const { t } = useTranslation('transactions');
   const { t: tCategories } = useTranslation('categories');
   const { categories } = useCategories();
   const getCategoryName = useCategoryName();
 
-  const categoriesToDisplay = [...(filteredCategories || categories)].reverse();
+  const source = filteredCategories ?? categories;
+
+  if (grouped) {
+    const groups = buildCategoryGroups(source, tCategories);
+    const extraItems = openCreateNewCategory
+      ? [
+          <Divider key="create-divider" />,
+          <MenuItem key="create-new" onClick={openCreateNewCategory} sx={{ color: 'primary.main' }}>
+            <Row spacing={1} alignItems="center">
+              <AddCircleOutlineIcon fontSize="small" />
+              <Typography fontWeight={600}>{tCategories('actions.createNew')}</Typography>
+            </Row>
+          </MenuItem>,
+        ]
+      : undefined;
+
+    return (
+      <RHFGroupedSelect
+        name="category"
+        label={t('fields.category')}
+        required
+        groups={groups}
+        extraItems={extraItems}
+      />
+    );
+  }
+
+  const categoriesToDisplay = [...source].reverse();
 
   return (
     <RHFSelect
@@ -49,9 +84,9 @@ const CategoriesSelect = ({ filteredCategories, onCreateNew }: CategoriesSelectP
         };
       })}
       extraItems={
-        onCreateNew && [
+        openCreateNewCategory && [
           <Divider key="create-divider" />,
-          <MenuItem key="create-new" onClick={onCreateNew} sx={{ color: 'primary.main' }}>
+          <MenuItem key="create-new" onClick={openCreateNewCategory} sx={{ color: 'primary.main' }}>
             <Row spacing={1} alignItems="center">
               <AddCircleOutlineIcon fontSize="small" />
               <Typography fontWeight={600}>{tCategories('actions.createNew')}</Typography>

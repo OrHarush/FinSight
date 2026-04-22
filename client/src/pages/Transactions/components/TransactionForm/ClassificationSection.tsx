@@ -1,11 +1,12 @@
 import { TransactionFormValues } from '@lyra/shared';
 import { Grid, Skeleton } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import CategoriesSelect from '@/components/features/categories/CategoriesSelect';
 import CreateCategoryBottomSheet from '@/components/features/categories/CreateCategoryBottomSheet';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
+import { useOpen } from '@/hooks/common/useOpen';
 import { useCategories } from '@/hooks/entities/useCategories';
 import CreateCategoryDialog from '@/pages/Categories/components/dialogs/CreateCategoryDialog';
 import { CategoryDto } from '@/types/Category';
@@ -18,11 +19,24 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
   const { control, setValue } = useFormContext<TransactionFormValues>();
   const { categories, isLoading } = useCategories();
   const isSmallScreen = useIsSmallScreen();
-  const [createCategoryOpen, setCreateCategoryOpen] = useState(false);
+  const [isCreateNewCategoryOpen, openCreateNewCategory, closeCreateNewCategory] = useOpen();
 
   const transactionType = useWatch({ control, name: 'type' });
 
   const isFirstRender = useRef(true);
+
+  const filteredCategories = categories.filter(
+    c => c.type.toLowerCase() === transactionType?.toLowerCase()
+  );
+
+  const gridSize = { xs: 12, sm: isFullWidth ? 12 : 6 };
+
+  const selectCreatedCategory = (category: CategoryDto) => {
+    setValue('category', category._id, { shouldValidate: true });
+    closeCreateNewCategory();
+  };
+
+  const categoryType = transactionType === 'Transfer' ? 'Expense' : transactionType;
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -33,29 +47,14 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
     setValue('category', '', { shouldDirty: true });
   }, [transactionType]);
 
-  const filteredCategories = categories.filter(
-    c => c.type.toLowerCase() === transactionType?.toLowerCase()
-  );
-
-  const gridSize = { xs: 12, sm: isFullWidth ? 12 : 6 };
-
-  const openCreateCategory = () => setCreateCategoryOpen(true);
-  const closeCreateCategory = () => setCreateCategoryOpen(false);
-
-  const selectCreatedCategory = (category: CategoryDto) => {
-    setValue('category', category._id, { shouldValidate: true });
-    setCreateCategoryOpen(false);
-  };
-
-  const categoryType = transactionType === 'Transfer' ? 'Expense' : transactionType;
-
   return (
     <>
       {!isLoading ? (
         <Grid size={gridSize}>
           <CategoriesSelect
             filteredCategories={filteredCategories}
-            onCreateNew={openCreateCategory}
+            openCreateNewCategory={openCreateNewCategory}
+            grouped
           />
         </Grid>
       ) : (
@@ -63,21 +62,23 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
           <Skeleton variant="rectangular" height={52} sx={{ borderRadius: 1 }} />
         </Grid>
       )}
-      {isSmallScreen ? (
-        <CreateCategoryBottomSheet
-          open={createCategoryOpen}
-          transactionType={categoryType}
-          onClose={closeCreateCategory}
-          onCreated={selectCreatedCategory}
-        />
-      ) : (
-        <CreateCategoryDialog
-          isOpen={createCategoryOpen}
-          closeDialog={closeCreateCategory}
-          onCreated={selectCreatedCategory}
-          categoryType={categoryType}
-        />
-      )}
+      {isSmallScreen
+        ? isCreateNewCategoryOpen && (
+            <CreateCategoryBottomSheet
+              open={isCreateNewCategoryOpen}
+              transactionType={categoryType}
+              onClose={closeCreateNewCategory}
+              onCreated={selectCreatedCategory}
+            />
+          )
+        : isCreateNewCategoryOpen && (
+            <CreateCategoryDialog
+              isOpen={isCreateNewCategoryOpen}
+              closeDialog={closeCreateNewCategory}
+              onCreated={selectCreatedCategory}
+              categoryType={categoryType}
+            />
+          )}
     </>
   );
 };

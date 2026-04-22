@@ -1,6 +1,7 @@
 import { ClientSession, Types } from 'mongoose';
 
 import Category, { ICategory } from '../models/Category';
+import Transaction from '../models/Transaction';
 
 export const findMany = async (userId: string) =>
   Category.find({ userId: new Types.ObjectId(userId) })
@@ -31,3 +32,21 @@ export const remove = async (id: string, userId: string) =>
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Category.deleteMany(filter).session(session ?? null);
+
+export const findUsageCountsSince = async (
+  userId: string,
+  sinceDate: Date
+): Promise<Map<string, number>> => {
+  const rows = await Transaction.aggregate<{ _id: Types.ObjectId; count: number }>([
+    {
+      $match: {
+        userId: new Types.ObjectId(userId),
+        date: { $gte: sinceDate },
+        category: { $exists: true, $ne: null },
+      },
+    },
+    { $group: { _id: '$category', count: { $sum: 1 } } },
+  ]);
+
+  return new Map(rows.map(r => [r._id.toString(), r.count]));
+};

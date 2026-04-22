@@ -21,9 +21,17 @@ interface RHFGroupedSelectProps extends Omit<TextFieldProps, 'name' | 'required'
   label?: string;
   groups: SelectOptionGroup[];
   required?: boolean | string;
+  extraItems?: ReactNode[];
 }
 
-const RHFGroupedSelect = ({ name, label, groups, required, ...props }: RHFGroupedSelectProps) => {
+const RHFGroupedSelect = ({
+  name,
+  label,
+  groups,
+  required,
+  extraItems,
+  ...props
+}: RHFGroupedSelectProps) => {
   const { control } = useFormContext();
   const { t } = useTranslation('common');
 
@@ -34,15 +42,17 @@ const RHFGroupedSelect = ({ name, label, groups, required, ...props }: RHFGroupe
       items.push(<Divider key={`divider-${groupIndex}`} component="li" />);
     }
 
-    items.push(
-      <ListSubheader
-        key={`header-${groupIndex}`}
-        disableSticky
-        sx={{ fontSize: '0.7rem', color: 'text.secondary', lineHeight: '1.5rem' }}
-      >
-        {group.groupLabel}
-      </ListSubheader>
-    );
+    if (group.groupLabel) {
+      items.push(
+        <ListSubheader
+          key={`header-${groupIndex}`}
+          disableSticky
+          sx={{ fontSize: '0.7rem', color: 'text.secondary', lineHeight: '1.5rem' }}
+        >
+          {group.groupLabel}
+        </ListSubheader>
+      );
+    }
 
     group.options.forEach(option => {
       items.push(
@@ -52,6 +62,10 @@ const RHFGroupedSelect = ({ name, label, groups, required, ...props }: RHFGroupe
       );
     });
   });
+
+  if (extraItems) {
+    items.push(...extraItems);
+  }
 
   return (
     <Controller
