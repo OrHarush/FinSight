@@ -62,7 +62,8 @@ export const calculateCategorySpent = (transactions: TransactionDto[]): Map<stri
 export const transformAndSortCategoriesWithBudgets = (
   categories: CategoryDto[],
   spentMap: Map<string, number>,
-  budgets: BudgetDto[]
+  budgets: BudgetDto[],
+  getName: (c: CategoryDto) => string = c => c.name
 ): BudgetCategoryItem[] => {
   const budgetMap = new Map(budgets.map(b => [b.categoryId, b.limit]));
 
@@ -75,7 +76,7 @@ export const transformAndSortCategoriesWithBudgets = (
 
       return {
         id: c._id,
-        name: c.name,
+        name: getName(c),
         icon: c.icon,
         color: c.color,
         spent,
