@@ -32,6 +32,7 @@ const StepCard = ({ step, align = 'start' }: StepCardProps) => (
 
     <Column spacing={1} alignItems={align === 'center' ? 'center' : 'flex-start'}>
       <Typography
+        component="h3"
         variant="h5"
         sx={{ fontWeight: 700, color: 'text.primary', fontSize: '1.15rem' }}
       >

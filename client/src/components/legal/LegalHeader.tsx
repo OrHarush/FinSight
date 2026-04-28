@@ -25,7 +25,7 @@ const LegalHeader = ({ title, date }: LegalHeaderProps) => {
             />
           </IconButton>
         </Box>
-        <Typography variant="h4" fontWeight={700}>
+        <Typography component="h1" variant="h4" fontWeight={700}>
           {title}
         </Typography>
       </Row>

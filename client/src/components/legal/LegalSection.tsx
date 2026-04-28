@@ -10,7 +10,7 @@ interface LegalSectionProps {
 
 const LegalSection = ({ title, children }: LegalSectionProps) => (
   <Column spacing={1.5}>
-    <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+    <Typography component="h2" variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
       {title}
     </Typography>
 

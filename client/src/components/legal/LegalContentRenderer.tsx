@@ -51,7 +51,7 @@ const PrivacyPolicyContent = () => {
         <LegalSection title={t('sections.dataCollected.title')}>
           <Column spacing={2} sx={{ paddingLeft: 2, mt: 2 }}>
             <Column spacing={1}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
                 {t('sections.dataCollected.account.title')}
               </Typography>
               <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
@@ -59,7 +59,7 @@ const PrivacyPolicyContent = () => {
               </Typography>
             </Column>
             <Column spacing={1}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
                 {t('sections.dataCollected.financial.title')}
               </Typography>
               <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
@@ -67,7 +67,7 @@ const PrivacyPolicyContent = () => {
               </Typography>
             </Column>
             <Column spacing={1}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
                 {t('sections.dataCollected.technical.title')}
               </Typography>
               <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
