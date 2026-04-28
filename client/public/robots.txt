@@ -1,3 +1,5 @@
+Sitemap: https://lyra-il.com/sitemap.xml
+
 User-agent: *
 Allow: /
 

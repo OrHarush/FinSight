@@ -7,6 +7,9 @@
       ]
     }
   ],
+  "redirects": [
+    { "source": "/", "destination": "/home", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
