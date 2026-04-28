@@ -30,13 +30,13 @@ const DashboardMockup = () => {
           border: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
         }}
       >
-        <Typography sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>▾</Typography>
+        <Typography aria-hidden="true" sx={{ fontSize: '0.68rem', color: 'text.secondary' }}>▾</Typography>
         <Row alignItems="center" spacing={0.5}>
           <Typography sx={{ fontSize: '0.8rem', color: 'text.primary', fontWeight: 600 }}>
             {t('landing.how.step03.account')}
           </Typography>
-          <Typography sx={{ fontSize: '0.75rem' }}>🏦</Typography>
-          <Typography sx={{ fontSize: '0.72rem', color: ACCENT_PURPLE }}>★</Typography>
+          <Typography aria-hidden="true" sx={{ fontSize: '0.75rem' }}>🏦</Typography>
+          <Typography aria-hidden="true" sx={{ fontSize: '0.72rem', color: ACCENT_PURPLE }}>★</Typography>
         </Row>
       </Row>
 

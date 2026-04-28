@@ -58,7 +58,7 @@ const CsvImportFrame = (_: CsvImportFrameProps = {}) => {
           border: `1px solid ${alpha(theme.palette.divider, 0.18)}`,
         }}
       >
-        <InsertDriveFileIcon sx={{ fontSize: 20, color: theme.palette.success.main }} />
+        <InsertDriveFileIcon aria-hidden="true" sx={{ fontSize: 20, color: theme.palette.success.main }} />
         <Typography
           sx={{
             fontSize: '0.8rem',
@@ -70,7 +70,7 @@ const CsvImportFrame = (_: CsvImportFrameProps = {}) => {
         >
           {t('landing.hero.frames.csvImport.filename')}
         </Typography>
-        <CheckCircleIcon sx={{ fontSize: 18, color: theme.palette.success.main }} />
+        <CheckCircleIcon aria-hidden="true" sx={{ fontSize: 18, color: theme.palette.success.main }} />
       </Row>
 
       <Typography
@@ -124,7 +124,7 @@ const CsvImportFrame = (_: CsvImportFrameProps = {}) => {
               {tx.amount}
             </Typography>
             <Row alignItems="center" spacing={0.4} sx={{ width: 90, justifyContent: 'flex-end' }}>
-              <Typography sx={{ fontSize: '0.85rem' }}>{tx.emoji}</Typography>
+              <Typography aria-hidden="true" sx={{ fontSize: '0.85rem' }}>{tx.emoji}</Typography>
               <Typography
                 sx={{ fontSize: '0.75rem', color: 'text.secondary', fontWeight: 500 }}
               >

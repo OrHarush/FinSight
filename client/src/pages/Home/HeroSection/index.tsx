@@ -20,6 +20,7 @@ const HeroSection = () => {
       }}
     >
       <Box
+        aria-hidden="true"
         sx={{
           position: 'absolute',
           inset: 0,
@@ -31,6 +32,7 @@ const HeroSection = () => {
         }}
       />
       <Box
+        aria-hidden="true"
         sx={{
           position: 'absolute',
           top: '10%',
@@ -43,6 +45,7 @@ const HeroSection = () => {
         }}
       />
       <Box
+        aria-hidden="true"
         sx={{
           position: 'absolute',
           bottom: '5%',

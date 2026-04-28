@@ -84,6 +84,10 @@
         "progressLabel": "57% of income spent"
       }
     },
+    "a11y": {
+      "logoAlt": "Lyra logo — expense management app",
+      "privacyDiagramLogoAlt": "Lyra logo in the data privacy diagram"
+    },
     "comparison": {
       "title": "Why Lyra, not the others",
       "subtitle": "Built for Israeli users who actually want to understand their money.",

@@ -49,7 +49,7 @@ const QuickAddMockup = () => {
               <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'inherit' }} noWrap>
                 {t(`landing.how.step02.${key}`)}
               </Typography>
-              <Typography sx={{ fontSize: '0.7rem', lineHeight: 1 }}>{PILL_EMOJIS[key]}</Typography>
+              <Typography aria-hidden="true" sx={{ fontSize: '0.7rem', lineHeight: 1 }}>{PILL_EMOJIS[key]}</Typography>
             </Row>
           );
         })}
@@ -79,7 +79,7 @@ const QuickAddMockup = () => {
             <Typography sx={{ fontSize: '0.72rem', color: 'text.primary', fontWeight: 600 }}>
               {t('landing.how.step02.categoryValue')}
             </Typography>
-            <Typography sx={{ fontSize: '0.72rem', lineHeight: 1 }}>☕</Typography>
+            <Typography aria-hidden="true" sx={{ fontSize: '0.72rem', lineHeight: 1 }}>☕</Typography>
           </Row>
         </Row>
         <Row justifyContent="space-between" alignItems="center">

@@ -27,21 +27,21 @@ const BillingCycleFrame = (_: BillingCycleFrameProps = {}) => {
     {
       nameKey: 'landing.hero.frames.billingCycle.card1Name',
       subtitleKey: 'landing.hero.frames.billingCycle.card1Subtitle',
-      icon: <CreditCardIcon sx={{ fontSize: 18 }} />,
+      icon: <CreditCardIcon aria-hidden="true" sx={{ fontSize: 18 }} />,
       day: 15,
       highlight: true,
     },
     {
       nameKey: 'landing.hero.frames.billingCycle.card2Name',
       subtitleKey: 'landing.hero.frames.billingCycle.card2Subtitle',
-      icon: <CreditCardIcon sx={{ fontSize: 18 }} />,
+      icon: <CreditCardIcon aria-hidden="true" sx={{ fontSize: 18 }} />,
       day: 2,
       highlight: false,
     },
     {
       nameKey: 'landing.hero.frames.billingCycle.bankName',
       subtitleKey: 'landing.hero.frames.billingCycle.bankSubtitle',
-      icon: <AccountBalanceIcon sx={{ fontSize: 18 }} />,
+      icon: <AccountBalanceIcon aria-hidden="true" sx={{ fontSize: 18 }} />,
       day: null,
       highlight: false,
     },
@@ -108,6 +108,7 @@ const BillingCycleFrame = (_: BillingCycleFrameProps = {}) => {
             <Row alignItems="center" spacing={1} sx={{ flexShrink: 0 }}>
               {row.day === null ? (
                 <Typography
+                  aria-hidden="true"
                   sx={{
                     fontSize: '1rem',
                     color: 'text.disabled',

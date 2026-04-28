@@ -18,7 +18,7 @@ const LandingNavbar = () => {
       <Row alignItems="center" spacing={1}>
         <img
           src={lyraIcon}
-          alt="Lyra Icon"
+          alt={t('landing.a11y.logoAlt')}
           style={{ width: 32, height: 32, objectFit: 'contain' }}
         />
         {!isMobile && (

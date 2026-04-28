@@ -42,6 +42,7 @@ const TrustBadges = () => {
             <motion.div key={badge} variants={badgeVariants}>
               <Row alignItems="center" spacing={0.75}>
                 <CheckCircleOutlineIcon
+                  aria-hidden="true"
                   sx={{
                     fontSize: 16,
                     color: theme.palette.secondary.main,
@@ -74,7 +75,7 @@ const TrustBadges = () => {
               py: 0.5,
             }}
           >
-            <Typography sx={{ fontSize: 13, lineHeight: 1 }}>🔒</Typography>
+            <Typography aria-hidden="true" sx={{ fontSize: 13, lineHeight: 1 }}>🔒</Typography>
             <Typography
               variant="body2"
               sx={{

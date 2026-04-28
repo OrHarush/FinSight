@@ -221,7 +221,7 @@ const PrivacyFrame = (_: PrivacyFrameProps = {}) => {
           background={alpha(theme.palette.background.default, 0.7)}
           border={`1px solid ${alpha(theme.palette.divider, 0.3)}`}
         >
-          <AccountBalanceIcon sx={{ fontSize: 22, color: 'text.secondary' }} />
+          <AccountBalanceIcon aria-hidden="true" sx={{ fontSize: 22, color: 'text.secondary' }} />
         </NodeShell>
 
         <NodeShell
@@ -230,7 +230,7 @@ const PrivacyFrame = (_: PrivacyFrameProps = {}) => {
           background={alpha(theme.palette.background.default, 0.85)}
           border={`1px solid ${alpha(theme.palette.primary.main, 0.3)}`}
         >
-          <DescriptionIcon sx={{ fontSize: 24, color: theme.palette.primary.main }} />
+          <DescriptionIcon aria-hidden="true" sx={{ fontSize: 24, color: theme.palette.primary.main }} />
           <Box
             sx={{
               position: 'absolute',
@@ -247,7 +247,7 @@ const PrivacyFrame = (_: PrivacyFrameProps = {}) => {
               boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.6)}`,
             }}
           >
-            <LockOutlinedIcon sx={{ fontSize: 16, color: '#fff' }} />
+            <LockOutlinedIcon aria-hidden="true" sx={{ fontSize: 16, color: '#fff' }} />
           </Box>
         </NodeShell>
 
@@ -261,7 +261,7 @@ const PrivacyFrame = (_: PrivacyFrameProps = {}) => {
           <Box
             component="img"
             src={lyraIcon}
-            alt="Lyra"
+            alt={t('landing.a11y.privacyDiagramLogoAlt')}
             sx={{
               width: '70%',
               height: '70%',
@@ -310,7 +310,7 @@ const PrivacyFrame = (_: PrivacyFrameProps = {}) => {
           border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
         }}
       >
-        <LockOutlinedIcon sx={{ fontSize: 16, color: theme.palette.primary.main }} />
+        <LockOutlinedIcon aria-hidden="true" sx={{ fontSize: 16, color: theme.palette.primary.main }} />
         <Typography
           sx={{
             fontSize: '0.8rem',

@@ -84,6 +84,10 @@
         "progressLabel": "57% מההכנסה נוצלה"
       }
     },
+    "a11y": {
+      "logoAlt": "לוגו Lyra — אפליקציה לניהול הוצאות בעברית",
+      "privacyDiagramLogoAlt": "לוגו Lyra בתרשים פרטיות הנתונים"
+    },
     "comparison": {
       "title": "למה Lyra, ולא האחרים",
       "subtitle": "בנויה לישראלים שרוצים להבין את הכסף שלהם.",

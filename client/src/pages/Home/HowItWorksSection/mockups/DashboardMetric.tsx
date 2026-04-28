@@ -18,6 +18,7 @@ const DashboardMetric = ({ icon, iconColor, value, label, valueColor }: Dashboar
   return (
     <Row alignItems="center" spacing={0.75} sx={{ minWidth: 0 }}>
       <Column
+        aria-hidden="true"
         alignItems="center"
         justifyContent="center"
         sx={{

@@ -28,6 +28,7 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
       }}
     >
       <Column
+        aria-hidden="true"
         alignItems="center"
         justifyContent="center"
         sx={{
