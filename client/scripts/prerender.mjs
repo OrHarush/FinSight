@@ -91,27 +91,29 @@ const stripMotionStyles = html => {
   });
 };
 
-const prerenderRoute = async (browser, baseUrl, route) => {
-  const context = await browser.newContext({
-    viewport: { width: 1280, height: 900 },
-    locale: 'he-IL',
-    reducedMotion: 'reduce',
-  });
-  const page = await context.newPage();
-
-  await page.addInitScript(() => {
-    const realSetInterval = window.setInterval;
-    const realSetTimeout = window.setTimeout;
-    window.setInterval = () => 0;
-    window.setTimeout = (fn, delay, ...args) => {
-      if (typeof delay === 'number' && delay > 250) return 0;
-      return realSetTimeout.call(window, fn, delay, ...args);
-    };
-    window.__realSetInterval = realSetInterval;
-    window.__realSetTimeout = realSetTimeout;
-  });
+const prerenderRoute = async (launchOptions, baseUrl, route) => {
+  const browser = await chromium.launch(launchOptions);
 
   try {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 900 },
+      locale: 'he-IL',
+      reducedMotion: 'reduce',
+    });
+    const page = await context.newPage();
+
+    await page.addInitScript(() => {
+      const realSetInterval = window.setInterval;
+      const realSetTimeout = window.setTimeout;
+      window.setInterval = () => 0;
+      window.setTimeout = (fn, delay, ...args) => {
+        if (typeof delay === 'number' && delay > 250) return 0;
+        return realSetTimeout.call(window, fn, delay, ...args);
+      };
+      window.__realSetInterval = realSetInterval;
+      window.__realSetTimeout = realSetTimeout;
+    });
+
     const url = `${baseUrl}${route}`;
     await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
     await waitForRouteContent(page);
@@ -125,21 +127,21 @@ const prerenderRoute = async (browser, baseUrl, route) => {
     const sizeKb = (Buffer.byteLength(html) / 1024).toFixed(1);
     console.log(`  ✓ ${route} -> ${path.relative(distDir, outPath)} (${sizeKb} KB)`);
   } finally {
-    await context.close();
+    await browser.close();
   }
 };
 
-const launchBrowser = async () => {
+const resolveLaunchOptions = async () => {
   if (process.env.VERCEL) {
     const sparticuz = (await import('@sparticuz/chromium')).default;
-    return chromium.launch({
+    return {
       args: sparticuz.args,
       executablePath: await sparticuz.executablePath(),
       headless: true,
-    });
+    };
   }
 
-  return chromium.launch({ headless: true });
+  return { headless: true };
 };
 
 const main = async () => {
@@ -150,15 +152,26 @@ const main = async () => {
   console.log('[prerender] starting static server + chromium');
   const { server, port } = await startServer();
   const baseUrl = `http://127.0.0.1:${port}`;
-  const browser = await launchBrowser();
+  const launchOptions = await resolveLaunchOptions();
+
+  const failures = [];
 
   try {
     for (const route of ROUTES) {
-      await prerenderRoute(browser, baseUrl, route);
+      try {
+        await prerenderRoute(launchOptions, baseUrl, route);
+      } catch (err) {
+        failures.push({ route, err });
+        console.error(`  ✗ ${route} failed: ${err?.message || err}`);
+      }
     }
   } finally {
-    await browser.close();
     await new Promise(resolve => server.close(resolve));
+  }
+
+  if (failures.length > 0) {
+    console.error(`[prerender] ${failures.length}/${ROUTES.length} route(s) failed`);
+    process.exit(1);
   }
 
   console.log('[prerender] done');
