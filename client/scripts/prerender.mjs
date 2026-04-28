@@ -2,7 +2,7 @@ import { promises as fs, createReadStream, existsSync, statSync } from 'node:fs'
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
@@ -129,6 +129,19 @@ const prerenderRoute = async (browser, baseUrl, route) => {
   }
 };
 
+const launchBrowser = async () => {
+  if (process.env.VERCEL) {
+    const sparticuz = (await import('@sparticuz/chromium')).default;
+    return chromium.launch({
+      args: sparticuz.args,
+      executablePath: await sparticuz.executablePath(),
+      headless: true,
+    });
+  }
+
+  return chromium.launch({ headless: true });
+};
+
 const main = async () => {
   if (!existsSync(distDir)) {
     throw new Error(`dist directory not found at ${distDir}. Run "vite build" first.`);
@@ -137,7 +150,7 @@ const main = async () => {
   console.log('[prerender] starting static server + chromium');
   const { server, port } = await startServer();
   const baseUrl = `http://127.0.0.1:${port}`;
-  const browser = await chromium.launch({ headless: true });
+  const browser = await launchBrowser();
 
   try {
     for (const route of ROUTES) {
