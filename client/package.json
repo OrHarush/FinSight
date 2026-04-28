@@ -4,17 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run prerender",
+    "build:no-prerender": "vite build",
+    "prerender": "playwright install --with-deps chromium && node scripts/prerender.mjs",
+    "prerender:local": "node scripts/prerender.mjs",
     "preview": "vite preview",
+    "serve:dist": "node scripts/serve-dist.mjs",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/styled": "^11.14.1",
-    "@lyra/shared": "*",
     "@hookform/resolvers": "^5.2.2",
-    "zod": "3.25.76",
+    "@lyra/shared": "*",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.2.0",
     "@mui/styled-engine": "^7.2.0",
@@ -40,7 +43,8 @@
     "remark-gfm": "^4.0.1",
     "stylis": "^4.3.6",
     "stylis-plugin-rtl": "^2.1.1",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.89.0",
@@ -58,6 +62,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "playwright": "1.59.1",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
     "vite": "^7.0.6",

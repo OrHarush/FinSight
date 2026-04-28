@@ -22,7 +22,10 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserDto | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
+  const [isLoadingUser, setIsLoadingUser] = useState(
+    () =>
+      !!localStorage.getItem('token') || import.meta.env.VITE_DEV_AUTH_BYPASS === 'true',
+  );
   const queryClient = useQueryClient();
 
   const prefetchOverviewQueries = () =>
