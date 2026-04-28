@@ -75,6 +75,33 @@ const sanitizeRendered = async page => {
   });
 };
 
+const inlineRuntimeStyles = async page =>
+  page.evaluate(() => {
+    let sheetsInlined = 0;
+    let rulesWritten = 0;
+
+    for (const sheet of Array.from(document.styleSheets)) {
+      const node = sheet.ownerNode;
+      if (!node || node.tagName !== 'STYLE') continue;
+      if (node.textContent && node.textContent.trim().length > 0) continue;
+
+      let rules;
+      try {
+        rules = Array.from(sheet.cssRules || []);
+      } catch (_e) {
+        continue;
+      }
+
+      if (rules.length === 0) continue;
+
+      node.textContent = rules.map(r => r.cssText).join('\n');
+      sheetsInlined += 1;
+      rulesWritten += rules.length;
+    }
+
+    return { sheetsInlined, rulesWritten };
+  });
+
 const MOTION_STYLE_RE = /(transform|will-change|opacity|transform-origin|perspective)\b/i;
 
 const stripMotionStyles = html => {
@@ -118,6 +145,7 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
     await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
     await waitForRouteContent(page);
     await sanitizeRendered(page);
+    const { sheetsInlined, rulesWritten } = await inlineRuntimeStyles(page);
 
     const html = stripMotionStyles(await page.content());
     const outPath = path.join(distDir, route.replace(/^\//, ''), 'index.html');
@@ -125,7 +153,9 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
     await fs.writeFile(outPath, html, 'utf-8');
 
     const sizeKb = (Buffer.byteLength(html) / 1024).toFixed(1);
-    console.log(`  ✓ ${route} -> ${path.relative(distDir, outPath)} (${sizeKb} KB)`);
+    console.log(
+      `  ✓ ${route} -> ${path.relative(distDir, outPath)} (${sizeKb} KB, inlined ${rulesWritten} rules into ${sheetsInlined} sheet(s))`,
+    );
   } finally {
     await browser.close();
   }
