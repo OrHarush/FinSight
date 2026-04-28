@@ -2,6 +2,7 @@ import ScrollableColumn from '@/components/shared/layout/containers/ScrollableCo
 import Footer from '@/components/shared/layout/Footer';
 import BottomCtaSection from '@/pages/Home/BottomCtaSection';
 import ComparisonSection from '@/pages/Home/ComparisonSection';
+import FaqSection from '@/pages/Home/FaqSection';
 import HeroSection from '@/pages/Home/HeroSection';
 import HowItWorksSection from '@/pages/Home/HowItWorksSection';
 import LandingNavbar from '@/pages/Home/LandingNavbar';
@@ -13,6 +14,7 @@ const HomePage = () => (
       <HeroSection />
       <HowItWorksSection />
       <ComparisonSection />
+      <FaqSection />
       <BottomCtaSection />
       <Footer />
     </ScrollableColumn>

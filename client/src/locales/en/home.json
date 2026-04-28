@@ -11,7 +11,7 @@
         "setup": "2 min setup"
       },
       "privacy": "Your data is protected",
-      "privacyTooltip": "Your data is encrypted. We never connect to your bank — you import your own CSV files — and we never share your information with third parties.",
+      "privacyTooltip": "Your data is encrypted. We never connect to your bank. You import your own CSV files and we never share your information with third parties.",
       "frames": {
         "billingCycle": {
           "title": "Per-card billing cycle",
@@ -126,6 +126,40 @@
           "lyra": "✓",
           "riseup": "✓",
           "excel": "Manual"
+        }
+      }
+    },
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Everything worth knowing before you start.",
+      "items": {
+        "free": {
+          "q": "Is Lyra really free?",
+          "a": "Yes, Lyra is completely free. No subscription, no premium tier, no surprises. Development is still early and it matters to me to build a product people love before thinking about a business model. If advanced capabilities are added in the future, the core will stay free."
+        },
+        "security": {
+          "q": "Is my data secure?",
+          "a": "Data is stored on MongoDB Atlas servers in Europe (Frankfurt), encrypted in transit and at rest. Unlike other services, Lyra never asks for or holds your bank credentials so there's nothing to breach. You can wipe all your data from settings at any time, no support ticket required."
+        },
+        "noBank": {
+          "q": "Why isn't there an automatic bank connection?",
+          "a": "It's a deliberate choice. Connecting to a bank means handing a third-party service access to your account. Convenient, but also the biggest risk. In Lyra you enter expenses yourself (or import a CSV from Cal/Max), and your data never leaves your control. We'll add an automatic-connection option in the future as an option, not a requirement."
+        },
+        "vsRiseUp": {
+          "q": "What's the difference between Lyra and RiseUp?",
+          "a": "RiseUp costs ₪55/month, requires a bank connection, and only supports billing cycles on the 1st and 10th. Lyra is free, doesn't require a bank connection, and supports any day of the month, especially useful if you use multiple credit cards with different billing dates."
+        },
+        "billingCycle": {
+          "q": "How does the per-card billing cycle work?",
+          "a": "Every Israeli credit card bills on a different day: some on the 2nd, some on the 15th, some on the 22nd. Lyra lets you set the billing day for each card separately, so every expense lands in the correct cycle. That means the dashboard shows a real month-end projection, not a mash-up of different months."
+        },
+        "import": {
+          "q": "Can I import data from Excel or Cal/Max?",
+          "a": "Yes. Lyra supports CSV imports directly from Cal and Max, and from Excel files if you've been tracking on your own. Categories and dates are auto-detected, and you can edit before saving."
+        },
+        "mobile": {
+          "q": "Does Lyra work on mobile?",
+          "a": "Yes. Lyra is built as a PWA, a web app that runs in any browser, mobile included. You can add it to your home screen on iOS or Android and get an app-like experience without installing from the app store."
         }
       }
     }
