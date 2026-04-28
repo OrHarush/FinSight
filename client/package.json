@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build && npm run prerender",
     "build:no-prerender": "vite build",
-    "prerender": "playwright install --with-deps chromium && node scripts/prerender.mjs",
+    "prerender": "playwright install chromium && node scripts/prerender.mjs",
     "prerender:local": "node scripts/prerender.mjs",
     "preview": "vite preview",
     "serve:dist": "node scripts/serve-dist.mjs",
