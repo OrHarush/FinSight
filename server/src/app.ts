@@ -9,6 +9,7 @@ import { mcpMiddleware } from './mcp/mcpServer';
 import { authMiddleware } from './middlewares/authMiddleware';
 import { errorHandlerMiddleware } from './middlewares/errorHandlerMiddleware';
 import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
+import { requestIdMiddleware } from './middlewares/requestIdMiddleware';
 import accountRoutes from './routes/accountRoutes';
 import adminRoutes from './routes/adminRoutes';
 import authRoutes from './routes/authRoutes';
@@ -34,6 +35,8 @@ app.use(
 app.use(corsConfig);
 
 app.use(express.json({ limit: '200kb' }));
+
+app.use(requestIdMiddleware);
 
 app.get('/health', (_req, res) => {
   res.status(200).json({ ok: true });
