@@ -27,7 +27,8 @@ const PRESET_CATEGORY_CONFIG: Record<string, PresetCategoryRules> = {
   },
   bit: {
     type: 'Expense',
-    nameTerms: ['other', 'אחר'],
+    categoryKey: 'entertainment',
+    nameTerms: ['entertainment', 'going out', 'בילוי', 'בילויים'],
   },
 };
 

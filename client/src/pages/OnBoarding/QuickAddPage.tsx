@@ -5,8 +5,6 @@ import CreateTransactionDialog from '@/components/features/transactions/CreateTr
 import LyraPulseIcon from '@/components/shared/feedback/LyraPulseIcon';
 import Column from '@/components/shared/layout/containers/Column';
 import { useOpen } from '@/hooks/common/useOpen';
-import { useCategories } from '@/hooks/entities/useCategories';
-import { resolvePresetCategory } from '@/utils/entities/category';
 
 import AddTransactionButtons from './AddTransactionButtons';
 import QuickAddPanel from './QuickAddPanel';
@@ -16,13 +14,6 @@ import { QuickAddPreset } from './types';
 const QuickAddPage = () => {
   const [isDialogOpen, openDialog, closeDialog] = useOpen();
   const [activePreset, setActivePreset] = useState<QuickAddPreset | undefined>();
-  const { categories } = useCategories();
-
-  const openWithKey = (presetKey: string, base: Omit<QuickAddPreset, 'category'>) => {
-    const categoryId = resolvePresetCategory(presetKey, categories);
-    setActivePreset({ ...base, ...(categoryId && { category: categoryId }) });
-    openDialog();
-  };
 
   const openWithPreset = (preset: QuickAddPreset) => {
     setActivePreset(preset);
@@ -58,7 +49,7 @@ const QuickAddPage = () => {
           <Grid size={{ xs: 12, sm: 6 }} order={{ xs: 2, sm: 1 }}>
             <Column spacing={3} alignItems={{ xs: 'center', sm: 'flex-start' }}>
               <SetupPanelHeader />
-              <QuickAddPanel openWithKey={openWithKey} />
+              <QuickAddPanel openWithPreset={openWithPreset} />
               <AddTransactionButtons openWithPreset={openWithPreset} />
             </Column>
           </Grid>

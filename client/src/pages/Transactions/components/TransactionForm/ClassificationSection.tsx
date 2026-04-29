@@ -23,7 +23,7 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
 
   const transactionType = useWatch({ control, name: 'type' });
 
-  const isFirstRender = useRef(true);
+  const previousTransactionType = useRef(transactionType);
 
   const filteredCategories = categories.filter(
     c => c.type.toLowerCase() === transactionType?.toLowerCase()
@@ -39,13 +39,13 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
   const categoryType = transactionType === 'Transfer' ? 'Expense' : transactionType;
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
+    if (previousTransactionType.current === transactionType) {
       return;
     }
 
+    previousTransactionType.current = transactionType;
     setValue('category', '', { shouldDirty: true });
-  }, [transactionType]);
+  }, [transactionType, setValue]);
 
   return (
     <>
