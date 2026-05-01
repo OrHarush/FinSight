@@ -14,7 +14,6 @@ import {
 import { recordLoginEvent } from './adminService';
 import * as analyticsService from './analyticsService';
 import { syncAllAccountsForUser } from './balanceService';
-import { generatePendingTransactions } from './recurringTemplateService';
 import { createDefaultEntitiesForNewUser } from './userService';
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -112,10 +111,6 @@ export const loginAsDevUser = async () => {
     throw ApiError.notFound(`Dev bypass user not found: ${email}`);
   }
 
-  generatePendingTransactions(user._id.toString()).catch(err =>
-    console.error('Failed to generate pending transactions on login:', err)
-  );
-
   syncAllAccountsForUser(user._id.toString()).catch(err =>
     console.error('Failed to sync account balances on login:', err)
   );
@@ -160,10 +155,6 @@ export const loginWithGoogle = async (googleToken: string) => {
   });
 
   await updateLastUserLogin(user._id);
-
-  generatePendingTransactions(user._id.toString()).catch(err =>
-    console.error('Failed to generate pending transactions on login:', err)
-  );
 
   syncAllAccountsForUser(user._id.toString()).catch(err =>
     console.error('Failed to sync account balances on login:', err)

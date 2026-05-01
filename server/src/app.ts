@@ -16,6 +16,7 @@ import authRoutes from './routes/authRoutes';
 import budgetRoutes from './routes/budgetRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import chatRoutes from './routes/chatRoutes';
+import cronRoutes from './routes/cronRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import importRoutes from './routes/importRoutes';
 import paymentMethodRoutes from './routes/paymentMethodsRoutes';
@@ -44,6 +45,7 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
+app.use('/api/cron', cronRoutes);
 app.use('/api', authMiddleware);
 app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);

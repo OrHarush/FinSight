@@ -20,6 +20,12 @@ export const findActiveByUser = async (userId: string) =>
     .lean<IRecurringTemplate[]>()
     .exec();
 
+export const findUserIdsWithActiveTemplates = async (): Promise<string[]> => {
+  const userIds = await RecurringTemplate.distinct('userId', { isActive: true });
+
+  return userIds.map((id: Types.ObjectId) => id.toString());
+};
+
 export const findActiveForDateRange = async (userId: string, from: Date, to: Date) =>
   RecurringTemplate.find({
     userId: new Types.ObjectId(userId),
