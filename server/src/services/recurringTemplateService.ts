@@ -350,12 +350,18 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
         continue;
       }
 
+      const txDate = clampedDate(current.year(), current.month(), template.dayOfMonth);
+
+      if (dayjs.utc(txDate).startOf('day').isAfter(dayjs.utc(upToDate).startOf('day'))) {
+        break;
+      }
+
       const txData: Omit<ITransaction, '_id'> = {
         name: template.name ?? '',
         note: template.note,
         type: template.type,
         amount: template.amount,
-        date: clampedDate(current.year(), current.month(), template.dayOfMonth),
+        date: txDate,
         frequency: template.frequency,
         belongToPreviousMonth: template.belongToPreviousMonth ?? false,
         category: template.category,
