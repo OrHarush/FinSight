@@ -268,7 +268,11 @@ export const splitTemplate = async (
   const splitPoint = dayjs.utc(fromDate).startOf('month');
   const endOfPrevMonth = splitPoint.subtract(1, 'day').toDate();
 
-  await recurringTemplateRepository.updateById(templateId, { endDate: endOfPrevMonth }, userId);
+  await recurringTemplateRepository.updateById(
+    templateId,
+    { endDate: endOfPrevMonth, isActive: false },
+    userId
+  );
 
   const effectiveType = (changes.type ?? existing.type) as 'Income' | 'Expense' | 'Transfer';
 
