@@ -1,6 +1,7 @@
 import { ClientSession, Types } from 'mongoose';
 
 import User, { IUser } from '../models/User';
+import { isExcludedEmail } from '../utils/excludedEmails';
 
 export const findById = async (userId: string | Types.ObjectId) => User.findById(userId);
 
@@ -24,6 +25,14 @@ export const deleteUserById = (id: string, session?: ClientSession) =>
   User.findByIdAndDelete(id).session(session ?? null);
 
 export const countAll = async (): Promise<number> => User.countDocuments();
+
+export const findAllActiveUserIds = async (): Promise<string[]> => {
+  const users = await User.find({}, { _id: 1, email: 1 }).lean<
+    { _id: Types.ObjectId; email: string }[]
+  >();
+
+  return users.filter(u => !isExcludedEmail(u.email)).map(u => u._id.toString());
+};
 
 export const countCreatedSince = async (since: Date): Promise<number> =>
   User.countDocuments({ createdAt: { $gte: since } });
