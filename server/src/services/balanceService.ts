@@ -85,7 +85,16 @@ export const setBalanceCheckpoint = async (
 export const syncAllAccountsForUser = async (userId: string) => {
   const accounts = await accountRepository.findMany(userId);
 
-  await Promise.all(accounts.map(a => syncAccountBalance(userId, a._id.toString())));
+  const results = await Promise.allSettled(
+    accounts.map(a => syncAccountBalance(userId, a._id.toString()))
+  );
+
+  results.forEach((result, index) => {
+    if (result.status === 'rejected') {
+      const accountId = accounts[index]._id.toString();
+      console.error(`Balance sync failed for account ${accountId}:`, result.reason);
+    }
+  });
 };
 
 export const calculateAccountBalanceCurve = async (

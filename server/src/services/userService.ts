@@ -1,3 +1,4 @@
+import { toCents } from '@lyra/shared';
 import mongoose, { Types } from 'mongoose';
 
 import {
@@ -52,10 +53,12 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
     })
   );
 
+  const defaultBalanceCents = toCents(DEFAULT_ACCOUNT.balance ?? 0);
+
   const defaultAccount: Omit<IAccount, '_id'> = {
     name: DEFAULT_ACCOUNT.name,
-    balance: DEFAULT_ACCOUNT.balance ?? 0,
-    checkpointBalance: DEFAULT_ACCOUNT.balance ?? 0,
+    balance: defaultBalanceCents,
+    checkpointBalance: defaultBalanceCents,
     checkpointDate: new Date(),
     institution: DEFAULT_ACCOUNT.institution,
     accountNumber: DEFAULT_ACCOUNT.accountNumber,

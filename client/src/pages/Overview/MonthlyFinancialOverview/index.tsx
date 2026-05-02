@@ -31,7 +31,7 @@ import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
 
 const MonthlyFinancialOverview = () => {
-  const { t, i18n } = useTranslation('overview');
+  const { t } = useTranslation('overview');
   const theme = useTheme();
   const { year, month, account, date, setDate, setAccount } = useOverviewFilters();
 
@@ -83,19 +83,11 @@ const MonthlyFinancialOverview = () => {
   const futureExpenses = futureData?.monthlyExpenses ?? 0;
   const projected = account.balance + (futureIncome - futureExpenses);
 
-  const checkpointDate = account.checkpointDate;
-  const formattedCheckpointDate = checkpointDate
-    ? new Date(checkpointDate).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' })
-    : null;
-
-  const projectedTooltip = checkpointDate
-    ? t('general.projectedTooltip', {
-        balance: account.balance,
-        futureIncome,
-        futureExpenses,
-        date: formattedCheckpointDate,
-      })
-    : undefined;
+  const projectedTooltip = t('general.projectedTooltip', {
+    balance: account.balance,
+    futureIncome,
+    futureExpenses,
+  });
 
   return (
     <Grid size={{ xs: 12, md: 6, xl: 5 }}>
@@ -139,11 +131,7 @@ const MonthlyFinancialOverview = () => {
             ))}
           </TextField>
           <Row spacing={1} alignItems="center" justifyContent="space-evenly">
-            <BalanceHeadline
-              balance={account.balance}
-              label={t('general.balance')}
-              asOfDate={checkpointDate}
-            />
+            <BalanceHeadline balance={account.balance} label={t('general.balance')} />
             <Divider orientation="vertical" flexItem sx={{ mx: 2, borderColor: 'divider' }} />
             <BalanceHeadline
               balance={projected}
