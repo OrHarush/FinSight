@@ -120,9 +120,11 @@ export const computeAccountBalance = async (
   const checkpointDate = account.checkpointDate ?? new Date(0);
   const now = new Date();
 
+  const queryFrom = dayjs.utc(checkpointDate).subtract(1, 'month').startOf('month').toDate();
+
   const rawTransactions = await transactionRepository.findMany(userId, {
     accountId,
-    from: checkpointDate,
+    from: queryFrom,
   });
 
   const expanded = expandTransactions(rawTransactions);
