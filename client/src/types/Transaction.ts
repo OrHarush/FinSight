@@ -33,6 +33,8 @@ export interface TransactionDto {
 export interface TransactionSummaryDto {
   monthlyIncome: number;
   monthlyExpenses: number;
+  pendingPriorIncome: number;
+  pendingPriorExpenses: number;
 }
 
 export interface ExpandedTransactionDto extends TransactionDto {

@@ -241,55 +241,93 @@ export function getEffectiveBalanceDate(tx: ITransactionPopulated): Date {
   return date.toDate();
 }
 
+type SignedDelta = { income: number; expense: number };
+
+const accountSignedDelta = (tx: ITransactionPopulated, accountId?: string): SignedDelta => {
+  if (tx.type !== 'Transfer') {
+    if (accountId && tx.account?._id.toString() !== accountId) {
+      return { income: 0, expense: 0 };
+    }
+
+    if (tx.category?.type === 'Income') {
+      return { income: tx.amount, expense: 0 };
+    }
+
+    if (tx.category?.type === 'Expense') {
+      return { income: 0, expense: tx.amount };
+    }
+
+    return { income: 0, expense: 0 };
+  }
+
+  if (!accountId) {
+    return { income: 0, expense: 0 };
+  }
+
+  let income = 0;
+  let expense = 0;
+
+  if (tx.fromAccount?._id.toString() === accountId) {
+    expense += tx.amount;
+  }
+
+  if (tx.toAccount?._id.toString() === accountId) {
+    income += tx.amount;
+  }
+
+  return { income, expense };
+};
+
+const isBeforeMonth = (year: number, month: number, targetYear: number, targetMonth: number) =>
+  year < targetYear || (year === targetYear && month < targetMonth);
+
 export const summarizeSingleMonth = (
   txs: ITransactionPopulated[],
   targetYear: number,
   targetMonth: number,
   accountId?: string,
-  from?: Date
+  from?: Date,
+  now?: Date
 ) => {
+  const endOfTargetMonth = dayjs
+    .utc(new Date(Date.UTC(targetYear, targetMonth, 1)))
+    .endOf('month')
+    .toDate();
+
   let monthlyIncome = 0;
   let monthlyExpenses = 0;
+  let pendingPriorIncome = 0;
+  let pendingPriorExpenses = 0;
 
   for (const tx of txs) {
     const { year, month } = getEffectiveMonth(tx);
+    const effectiveDate = tx.date ? getEffectiveBalanceDate(tx) : undefined;
 
-    if (year !== targetYear || month !== targetMonth) {
+    if (year === targetYear && month === targetMonth) {
+      if (from && effectiveDate && effectiveDate <= from) {
+        continue;
+      }
+
+      const { income, expense } = accountSignedDelta(tx, accountId);
+      monthlyIncome += income;
+      monthlyExpenses += expense;
       continue;
     }
 
-    if (from && tx.date) {
-      const effectiveDate = getEffectiveBalanceDate(tx);
-
-      if (effectiveDate <= from) {
-        continue;
-      }
-    }
-
-    if (tx.type !== 'Transfer') {
-      if (!accountId || tx.account?._id.toString() === accountId) {
-        if (tx.category?.type === 'Income') {
-          monthlyIncome += tx.amount;
-        }
-
-        if (tx.category?.type === 'Expense') {
-          monthlyExpenses += tx.amount;
-        }
-      }
-    }
-
-    if (tx.type === 'Transfer' && accountId) {
-      if (tx.fromAccount?._id.toString() === accountId) {
-        monthlyExpenses += tx.amount;
-      }
-
-      if (tx.toAccount?._id.toString() === accountId) {
-        monthlyIncome += tx.amount;
-      }
+    if (
+      now &&
+      effectiveDate &&
+      isBeforeMonth(year, month, targetYear, targetMonth) &&
+      effectiveDate > now &&
+      effectiveDate <= endOfTargetMonth
+    ) {
+      const { income, expense } = accountSignedDelta(tx, accountId);
+      pendingPriorIncome += income;
+      pendingPriorExpenses += expense;
     }
   }
 
-  return { monthlyIncome, monthlyExpenses };
+  return { monthlyIncome, monthlyExpenses, pendingPriorIncome, pendingPriorExpenses };
 };
 
 export const summarizeWholeYear = (

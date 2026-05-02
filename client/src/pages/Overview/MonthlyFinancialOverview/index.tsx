@@ -81,12 +81,18 @@ const MonthlyFinancialOverview = () => {
 
   const futureIncome = futureData?.monthlyIncome ?? 0;
   const futureExpenses = futureData?.monthlyExpenses ?? 0;
-  const projected = account.balance + (futureIncome - futureExpenses);
+  const pendingPriorIncome = futureData?.pendingPriorIncome ?? 0;
+  const pendingPriorExpenses = futureData?.pendingPriorExpenses ?? 0;
+  const projected =
+    account.balance +
+    (futureIncome - futureExpenses) +
+    (pendingPriorIncome - pendingPriorExpenses);
 
   const projectedTooltip = t('general.projectedTooltip', {
     balance: account.balance,
     futureIncome,
     futureExpenses,
+    pendingPriorExpenses,
   });
 
   return (

@@ -138,8 +138,9 @@ export const getTransactionById = async (id: string, userId: string) => {
 export const getTransactionSummary = async (userId: string, query: GetTransactionSummaryQuery) => {
   const { year, month, accountId, from } = query;
 
-  const fromDate =
+  const targetMonthStart =
     month !== undefined ? new Date(Date.UTC(year, month, 1)) : new Date(Date.UTC(year, 0, 1));
+  const fromDate = dayjs.utc(targetMonthStart).subtract(1, 'month').startOf('month').toDate();
   const endDate =
     month !== undefined
       ? new Date(Date.UTC(year, month + 2, 1))
@@ -164,11 +165,20 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
   const expandedTransactions = expandTransactions(transactions);
 
   if (month !== undefined) {
-    const result = summarizeSingleMonth(expandedTransactions, year, month, accountId, from);
+    const result = summarizeSingleMonth(
+      expandedTransactions,
+      year,
+      month,
+      accountId,
+      from,
+      new Date()
+    );
 
     return {
       monthlyIncome: fromCents(result.monthlyIncome),
       monthlyExpenses: fromCents(result.monthlyExpenses),
+      pendingPriorIncome: fromCents(result.pendingPriorIncome),
+      pendingPriorExpenses: fromCents(result.pendingPriorExpenses),
     };
   }
 
