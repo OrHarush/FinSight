@@ -5,7 +5,8 @@ import {
   TransactionFormValues,
   UpdateTransactionDTO,
 } from '@lyra/shared';
-import { Button, DialogActions, DialogContent } from '@mui/material';
+import { Button, CircularProgress, DialogActions, DialogContent } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -13,13 +14,14 @@ import { useTranslation } from 'react-i18next';
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
+import { ApiResponse } from '@/hooks/common/useFetch';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import EditRecurringTransactionDialog from '@/pages/Transactions/components/EditRecurringTransactionDialog';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { ExpandedTransactionDto, TransactionDto } from '@/types/Transaction';
+import { ExpandedTransactionDto, TransactionMutationResult } from '@/types/Transaction';
 import { mapToTemplateChangesPayload, mapToUpdatePayload } from '@/utils/entities/transaction';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
@@ -36,6 +38,7 @@ const EditTransactionDialog = ({
   const { alertSuccess, alertError } = useSnackbar();
   const [pendingData, setPendingData] = useState<TransactionFormValues | null>(null);
   const isSmallScreen = useIsSmallScreen();
+  const queryClient = useQueryClient();
 
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
@@ -54,7 +57,10 @@ const EditTransactionDialog = ({
     mode: 'all',
   });
 
-  const updateTransaction = useApiMutation<TransactionDto, UpdateTransactionDTO>({
+  const updateTransaction = useApiMutation<
+    ApiResponse<TransactionMutationResult>,
+    UpdateTransactionDTO
+  >({
     method: 'put',
     url: `${API_ROUTES.TRANSACTIONS}/${transaction?.originalId ?? transaction._id}`,
     queryKeysToInvalidate: [
@@ -63,6 +69,14 @@ const EditTransactionDialog = ({
       queryKeys.quickChips(),
       queryKeys.categories(),
     ],
+    options: {
+      onSuccess: response => {
+        queryClient.setQueryData(queryKeys.accounts(), {
+          success: true,
+          data: response.data.accounts,
+        });
+      },
+    },
   });
 
   const splitTemplate = useApiMutation<unknown, SplitRecurringTemplateDTO>({
@@ -73,6 +87,7 @@ const EditTransactionDialog = ({
       ['transactionSummary'],
       queryKeys.quickChips(),
       queryKeys.categories(),
+      queryKeys.accounts(),
     ],
   });
 
@@ -133,8 +148,16 @@ const EditTransactionDialog = ({
               <Button onClick={closeDialog} variant="outlined">
                 {tCommon('buttons.cancel')}
               </Button>
-              <Button type="submit" variant="contained">
-                {tCommon('buttons.update')}
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={updateTransaction.isPending || splitTemplate.isPending}
+              >
+                {updateTransaction.isPending || splitTemplate.isPending ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  tCommon('buttons.update')
+                )}
               </Button>
             </DialogActions>
           </form>

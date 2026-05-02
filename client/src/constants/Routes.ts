@@ -13,6 +13,7 @@ export const ROUTES = {
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
   ADMIN_KPIS_URL: '/admin/kpis',
+  ADMIN_DEBUG_URL: '/admin/debug',
   CHAT_URL: '/chat',
   IMPORT_URL: '/transactions/import',
 } as const;
@@ -65,6 +66,15 @@ export const API_ROUTES = {
   USERS_PREFERENCES: '/api/users/me/preferences',
 
   ADMIN: '/api/admin',
+  ADMIN_DEBUG: {
+    RUN_FOR_ME: '/api/admin/debug/run-for-me',
+    RESTORE_FOR_ME: '/api/admin/debug/restore-for-me',
+    SNAPSHOTS: '/api/admin/debug/snapshots',
+    BALANCE_BREAKDOWN: (accountId?: string) =>
+      accountId
+        ? `/api/admin/debug/balance-breakdown?accountId=${encodeURIComponent(accountId)}`
+        : '/api/admin/debug/balance-breakdown',
+  },
 
   CHAT: '/api/chat',
 

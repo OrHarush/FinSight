@@ -1,0 +1,37 @@
+import { Typography } from '@mui/material';
+
+import Column from '@/components/shared/layout/containers/Column';
+import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
+
+import BalanceBreakdownCard from './BalanceBreakdownCard';
+import RestoreCard from './RestoreCard';
+import RunCard from './RunCard';
+import SnapshotHistoryCard from './SnapshotHistoryCard';
+import { useDebugSnapshots } from './useDebugSnapshots';
+
+export const AdminDebugPage = () => {
+  usePageHeader('דיבוג');
+
+  const { data: snapshots, isLoading } = useDebugSnapshots();
+  const list = snapshots ?? [];
+
+  return (
+    <Column sx={{ p: 3, maxWidth: 900, width: '100%', alignSelf: 'center' }} spacing={3}>
+      <Column spacing={0.5}>
+        <Typography variant="h5" sx={{ fontWeight: 700 }}>
+          דיבוג
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          הרצה ושחזור של עבודות סנכרון יתרה לחשבון שלך בלבד
+        </Typography>
+      </Column>
+
+      <RunCard />
+      <RestoreCard snapshots={list} />
+      <BalanceBreakdownCard />
+      <SnapshotHistoryCard snapshots={list} isLoading={isLoading} />
+    </Column>
+  );
+};
+
+export default AdminDebugPage;

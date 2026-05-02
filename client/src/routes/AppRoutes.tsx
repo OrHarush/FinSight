@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
@@ -8,10 +8,8 @@ import PublicLayout from '@/components/shared/layout/PublicLayout';
 import { ROUTES } from '@/constants/Routes';
 import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
-import { AdminDashboard } from '@/pages/Admin';
 import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
-import Chat from '@/pages/Chat';
 import HomePage from '@/pages/Home';
 import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import LegalPage from '@/pages/LegalPage/LegalPage';
@@ -22,6 +20,12 @@ import PaymentMethods from '@/pages/PaymentMethods';
 import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
+
+const AdminDashboard = lazy(() =>
+  import('@/pages/Admin').then(m => ({ default: m.AdminDashboard }))
+);
+const AdminDebugPage = lazy(() => import('@/pages/Admin/Debug'));
+const Chat = lazy(() => import('@/pages/Chat'));
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
@@ -81,8 +85,23 @@ const AppRoutes = () => {
                 </RequireAdmin>
               }
             />
+            <Route
+              path={ROUTES.ADMIN_DEBUG_URL}
+              element={
+                <RequireAdmin>
+                  <AdminDebugPage />
+                </RequireAdmin>
+              }
+            />
             <Route path={ROUTES.BUDGETS_URL} element={<Budgets />} />
-            <Route path={ROUTES.CHAT_URL} element={<Chat />} />
+            <Route
+              path={ROUTES.CHAT_URL}
+              element={
+                <RequireAdmin>
+                  <Chat />
+                </RequireAdmin>
+              }
+            />
             {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
             {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>

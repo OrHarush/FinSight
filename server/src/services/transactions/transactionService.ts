@@ -25,20 +25,23 @@ import {
   summarizeSingleMonth,
   summarizeWholeYear,
 } from '../../utils/transaction';
+import * as accountService from '../accountService';
 import { syncAccountBalance } from '../balanceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './quickChipsService';
 
 dayjs.extend(utc);
 
-const syncBalanceFor = (userId: string, accountIds: (string | undefined)[]) => {
+const syncBalanceFor = async (userId: string, accountIds: (string | undefined)[]) => {
   const unique = [...new Set(accountIds.filter(Boolean))] as string[];
 
-  unique.forEach(id =>
-    syncAccountBalance(userId, id).catch(err =>
-      console.error(`Balance sync failed for account ${id}:`, err)
-    )
-  );
+  const results = await Promise.allSettled(unique.map(id => syncAccountBalance(userId, id)));
+
+  results.forEach((result, index) => {
+    if (result.status === 'rejected') {
+      console.error(`Balance sync failed for account ${unique[index]}:`, result.reason);
+    }
+  });
 };
 
 type TxWithEffective = ITransactionPopulated & {
@@ -212,7 +215,8 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   const created = await transactionRepository.insert(mapped);
 
   invalidateQuickChipsCache(userId);
-  syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
+  await syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
+  const accounts = await accountService.findAll(userId);
 
   void (async () => {
     const user = await User.findById(userId).select('email name picture').lean();
@@ -236,7 +240,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
 
   created.amount = fromCents(created.amount);
 
-  return created;
+  return { transaction: created, accounts };
 };
 
 export const update = async (id: string, data: UpdateTransactionDTO, userId: string) => {
@@ -273,7 +277,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   }
 
   invalidateQuickChipsCache(userId);
-  syncBalanceFor(userId, [
+  await syncBalanceFor(userId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),
     existing.toAccount?._id.toString(),
@@ -281,8 +285,9 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     data.fromAccountId,
     data.toAccountId,
   ]);
+  const accounts = await accountService.findAll(userId);
 
-  return { ...updated, amount: fromCents(updated.amount) };
+  return { transaction: { ...updated, amount: fromCents(updated.amount) }, accounts };
 };
 
 export const deleteTransaction = async (id: string, userId: string) => {
@@ -303,7 +308,7 @@ export const deleteTransaction = async (id: string, userId: string) => {
   }
 
   invalidateQuickChipsCache(userId);
-  syncBalanceFor(userId, [
+  await syncBalanceFor(userId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),
     existing.toAccount?._id.toString(),

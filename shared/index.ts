@@ -5,6 +5,7 @@ export * from './schemas/common';
 export * from './schemas/paymentMethod';
 export * from './schemas/recurringTemplate';
 export * from './schemas/transaction';
+export * from './types/BalanceBreakdown';
 export * from './types/colors';
 export * from './types/defaultAccounts';
 export * from './types/defaultCategories';

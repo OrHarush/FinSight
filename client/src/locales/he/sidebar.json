@@ -10,6 +10,7 @@
   "planner": "מתכנן",
   "reports": "דוחות",
   "admin": "אדמין",
+  "adminDebug": "דיבוג",
   "theme": {
     "light": "בהיר",
     "dark": "כהה"

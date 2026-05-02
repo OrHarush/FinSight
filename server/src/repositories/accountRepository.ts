@@ -12,6 +12,11 @@ export const findById = async (id: string, userId: string) =>
     .lean<IAccount>()
     .exec();
 
+export const findPrimary = async (userId: string) =>
+  Account.findOne({ userId: new Types.ObjectId(userId), isPrimary: true })
+    .lean<IAccount>()
+    .exec();
+
 export const insert = async (data: Omit<IAccount, '_id'>) => {
   const account = new Account(data);
   return account.save();

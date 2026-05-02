@@ -56,4 +56,6 @@ export const queryKeys = {
   user: () => ['user'],
 
   adminAnalytics: () => ['admin-analytics'],
+  adminDebugSnapshots: () => ['admin', 'debug-snapshots'],
+  adminBalanceBreakdown: (accountId?: string) => ['admin', 'balance-breakdown', accountId ?? null],
 };

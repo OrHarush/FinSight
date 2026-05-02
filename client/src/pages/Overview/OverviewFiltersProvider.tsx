@@ -18,7 +18,11 @@ const OverviewFiltersContext = createContext<OverviewFiltersContextValue | undef
 export const OverviewFiltersProvider = ({ children }: { children: ReactNode }) => {
   const { accounts } = useAccounts();
   const [date, setDate] = useState(dayjs());
-  const [account, setAccount] = useState<AccountDto | undefined>();
+  const [accountId, setAccountId] = useState<string | undefined>();
+
+  const account = accountId ? accounts.find(a => a._id === accountId) : undefined;
+
+  const setAccount = (next: AccountDto) => setAccountId(next._id);
 
   const value: OverviewFiltersContextValue = {
     date,
@@ -30,11 +34,14 @@ export const OverviewFiltersProvider = ({ children }: { children: ReactNode }) =
   };
 
   useEffect(() => {
-    if (accounts.length && !account) {
+    if (accounts.length && !accountId) {
       const primary = accounts.find(x => x.isPrimary);
-      setAccount(primary);
+
+      if (primary) {
+        setAccountId(primary._id);
+      }
     }
-  }, [account, accounts]);
+  }, [accountId, accounts]);
 
   return (
     <OverviewFiltersContext.Provider value={value}>{children}</OverviewFiltersContext.Provider>

@@ -39,6 +39,11 @@ export interface ExpandedTransactionDto extends TransactionDto {
   originalId?: string;
 }
 
+export interface TransactionMutationResult {
+  transaction: TransactionDto;
+  accounts: AccountDto[];
+}
+
 export type SortOrder = 'asc' | 'desc';
 
 export type SortableColumn = 'name' | 'amount' | 'category' | 'account' | 'paymentMethod' | 'date';

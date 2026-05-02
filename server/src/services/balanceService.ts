@@ -1,4 +1,9 @@
-import { toCents } from '@lyra/shared';
+import {
+  BalanceBreakdownEntry,
+  BalanceBreakdownResult,
+  BalanceBreakdownTransactionType,
+  toCents,
+} from '@lyra/shared';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import mongoose from 'mongoose';
@@ -7,11 +12,105 @@ import { ApiError } from '../errors/ApiError';
 import Account from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import { ITransactionPopulated } from '../types/Transaction';
 import { expandTransactions, getEffectiveBalanceDate } from '../utils/transaction';
 
 dayjs.extend(utc);
 
-export const syncAccountBalance = async (userId: string, accountId: string) => {
+const buildBreakdownEntry = (
+  tx: ITransactionPopulated,
+  accountId: string,
+  checkpointDate: Date,
+  now: Date
+): BalanceBreakdownEntry => {
+  const effectiveDate = getEffectiveBalanceDate(tx);
+  const pm = tx.paymentMethod;
+  const type = tx.type as BalanceBreakdownTransactionType;
+
+  const base: Omit<BalanceBreakdownEntry, 'included' | 'contributesToSum' | 'reason'> = {
+    _id: String(tx._id),
+    name: tx.name ?? '',
+    date: new Date(tx.date).toISOString(),
+    amount: tx.amount,
+    type,
+    paymentMethodType: pm?.type ?? null,
+    billingDay: pm?.billingDay ?? null,
+    effectiveBalanceDate: effectiveDate.toISOString(),
+  };
+
+  if (effectiveDate <= checkpointDate) {
+    return {
+      ...base,
+      included: false,
+      contributesToSum: 0,
+      reason: 'effectiveBalanceDate <= checkpointDate',
+    };
+  }
+
+  if (effectiveDate > now) {
+    return {
+      ...base,
+      included: false,
+      contributesToSum: 0,
+      reason: 'effectiveBalanceDate > now (future)',
+    };
+  }
+
+  if (type === 'Income') {
+    return {
+      ...base,
+      included: true,
+      contributesToSum: tx.amount,
+      reason: 'Income → +amount',
+    };
+  }
+
+  if (type === 'Expense') {
+    return {
+      ...base,
+      included: true,
+      contributesToSum: -tx.amount,
+      reason: 'Expense → -amount',
+    };
+  }
+
+  const fromIsThis = tx.fromAccount?._id.toString() === accountId;
+  const toIsThis = tx.toAccount?._id.toString() === accountId;
+
+  let transferDelta = 0;
+  const reasonParts: string[] = [];
+
+  if (fromIsThis) {
+    transferDelta -= tx.amount;
+    reasonParts.push('fromAccount matches → -amount');
+  }
+
+  if (toIsThis) {
+    transferDelta += tx.amount;
+    reasonParts.push('toAccount matches → +amount');
+  }
+
+  if (!fromIsThis && !toIsThis) {
+    return {
+      ...base,
+      included: false,
+      contributesToSum: 0,
+      reason: 'Transfer leg does not reference this account',
+    };
+  }
+
+  return {
+    ...base,
+    included: true,
+    contributesToSum: transferDelta,
+    reason: `Transfer: ${reasonParts.join(' & ')}`,
+  };
+};
+
+export const computeAccountBalance = async (
+  userId: string,
+  accountId: string
+): Promise<BalanceBreakdownResult> => {
   const account = await Account.findOne({ _id: accountId, userId });
 
   if (!account) {
@@ -28,39 +127,54 @@ export const syncAccountBalance = async (userId: string, accountId: string) => {
 
   const expanded = expandTransactions(rawTransactions);
 
-  let sum = 0;
+  let totalIncluded = 0;
+  let totalSkippedPreCheckpoint = 0;
+  let totalSkippedFuture = 0;
+  const breakdown: BalanceBreakdownEntry[] = [];
 
   for (const tx of expanded) {
-    const effectiveDate = getEffectiveBalanceDate(tx);
+    const entry = buildBreakdownEntry(tx, accountId, checkpointDate, now);
+    breakdown.push(entry);
 
-    if (effectiveDate <= checkpointDate || effectiveDate > now) {
+    if (entry.included) {
+      totalIncluded += entry.contributesToSum;
       continue;
     }
 
-    if (tx.type === 'Income') {
-      sum += tx.amount;
-    }
-
-    if (tx.type === 'Expense') {
-      sum -= tx.amount;
-    }
-
-    if (tx.type === 'Transfer') {
-      if (tx.fromAccount?._id.toString() === account._id.toString()) {
-        sum -= tx.amount;
-      }
-
-      if (tx.toAccount?._id.toString() === account._id.toString()) {
-        sum += tx.amount;
-      }
+    if (entry.reason.startsWith('effectiveBalanceDate <= checkpointDate')) {
+      totalSkippedPreCheckpoint++;
+    } else if (entry.reason.startsWith('effectiveBalanceDate > now')) {
+      totalSkippedFuture++;
     }
   }
 
-  account.balance = account.checkpointBalance + sum;
+  return {
+    accountId,
+    accountName: account.name,
+    checkpointBalance: account.checkpointBalance,
+    checkpointDate: checkpointDate.toISOString(),
+    now: now.toISOString(),
+    totalIncluded,
+    totalSkippedPreCheckpoint,
+    totalSkippedFuture,
+    finalBalance: account.checkpointBalance + totalIncluded,
+    breakdown,
+  };
+};
 
+export const syncAccountBalance = async (userId: string, accountId: string) => {
+  const result = await computeAccountBalance(userId, accountId);
+
+  const account = await Account.findOne({ _id: accountId, userId });
+
+  if (!account) {
+    throw ApiError.notFound('Account not found');
+  }
+
+  account.balance = result.finalBalance;
   await account.save();
 
-  return { balance: account.balance, syncedAt: now };
+  return { balance: account.balance, syncedAt: new Date(result.now) };
 };
 
 export const setBalanceCheckpoint = async (

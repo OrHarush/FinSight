@@ -11,6 +11,7 @@
   "planner": "Planner",
   "reports": "Reports",
   "admin": "Admin",
+  "adminDebug": "Debug",
   "theme": {
     "light": "Light",
     "dark": "Dark"

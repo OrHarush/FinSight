@@ -1,5 +1,6 @@
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import BugReportIcon from '@mui/icons-material/BugReport';
 import CategoryIcon from '@mui/icons-material/Category';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -43,6 +44,11 @@ export const buildAdminNavigationButtons = (isAdminUser: boolean): SidebarButton
       titleKey: 'admin',
       icon: AdminPanelSettingsIcon,
       route: ROUTES.ADMIN_KPIS_URL,
+    },
+    {
+      titleKey: 'adminDebug',
+      icon: BugReportIcon,
+      route: ROUTES.ADMIN_DEBUG_URL,
     },
   ];
 };
