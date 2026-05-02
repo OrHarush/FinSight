@@ -28,6 +28,7 @@ export const API_ROUTES = {
   FEEDBACK: '/api/feedback',
 
   TRANSACTIONS: '/api/transactions',
+  TRANSACTIONS_EXPORT: (month: string) => `/api/transactions/export?month=${month}`,
   TRANSACTION_QUICK_CHIPS: '/api/transactions/quick-chips',
   RECURRING_TEMPLATES_WITH_TRANSACTIONS: '/api/recurring-templates/with-transactions',
   RECURRING_TEMPLATES_SPLIT: (id: string) => `/api/recurring-templates/${id}/split`,

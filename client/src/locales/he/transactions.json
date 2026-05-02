@@ -63,7 +63,13 @@
     "create": "צור עסקה",
     "edit": "ערוך עסקה",
     "delete": "מחק עסקה",
-    "import": "ייבוא"
+    "import": "ייבוא",
+    "export": "ייצוא"
+  },
+  "dataTransfer": {
+    "title": "העברת נתונים",
+    "import": "ייבוא מ-Excel",
+    "export": "ייצוא ל-Excel"
   },
   "importWizard": {
     "pageTitle": "ייבוא עסקאות",

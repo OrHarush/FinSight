@@ -11,11 +11,7 @@ import { useCategories } from '@/hooks/entities/useCategories';
 import CreateCategoryDialog from '@/pages/Categories/components/dialogs/CreateCategoryDialog';
 import { CategoryDto } from '@/types/Category';
 
-interface ClassificationSectionProps {
-  isFullWidth?: boolean;
-}
-
-const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionProps) => {
+const ClassificationSection = () => {
   const { control, setValue } = useFormContext<TransactionFormValues>();
   const { categories, isLoading } = useCategories();
   const isSmallScreen = useIsSmallScreen();
@@ -29,7 +25,7 @@ const ClassificationSection = ({ isFullWidth = false }: ClassificationSectionPro
     c => c.type.toLowerCase() === transactionType?.toLowerCase()
   );
 
-  const gridSize = { xs: 12, sm: isFullWidth ? 12 : 6 };
+  const gridSize = { xs: 12, sm: 6 };
 
   const selectCreatedCategory = (category: CategoryDto) => {
     setValue('category', category._id, { shouldValidate: true });

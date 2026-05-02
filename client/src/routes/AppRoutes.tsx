@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
@@ -7,26 +7,21 @@ import Column from '@/components/shared/layout/containers/Column';
 import PublicLayout from '@/components/shared/layout/PublicLayout';
 import { ROUTES } from '@/constants/Routes';
 import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
+import Accounts from '@/pages/Accounts';
+import { AdminDashboard } from '@/pages/Admin';
+import Budgets from '@/pages/Budgets';
+import Categories from '@/pages/Categories';
+import Chat from '@/pages/Chat';
 import HomePage from '@/pages/Home';
+import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import LegalPage from '@/pages/LegalPage/LegalPage';
 import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
+import Overview from '@/pages/Overview';
+import PaymentMethods from '@/pages/PaymentMethods';
+import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
-
-const Accounts = lazy(() => import('@/pages/Accounts'));
-const AdminDashboard = lazy(() =>
-  import('@/pages/Admin').then(m => ({ default: m.AdminDashboard })),
-);
-const Budgets = lazy(() => import('@/pages/Budgets'));
-const Categories = lazy(() => import('@/pages/Categories'));
-const Chat = lazy(() => import('@/pages/Chat'));
-const ImportWizardPage = lazy(() => import('@/pages/Import/ImportWizardPage'));
-const Overview = lazy(() => import('@/pages/Overview'));
-const PaymentMethods = lazy(() => import('@/pages/PaymentMethods'));
-const Transactions = lazy(() =>
-  import('@/pages/Transactions').then(m => ({ default: m.Transactions })),
-);
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();

@@ -3,7 +3,9 @@ import { Request, Response } from 'express';
 
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
+import { ExportTransactionsQuery } from '../schemas/transactionExportSchemas';
 import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
+import * as exportTransactionsService from '../services/transactions/exportTransactionsService';
 import * as quickChipsService from '../services/transactions/quickChipsService';
 import * as transactionService from '../services/transactions/transactionService';
 
@@ -72,4 +74,21 @@ export const deleteTransaction = asyncHandler(async (req: Request, res: Response
   await transactionService.deleteTransaction(req.params.id as string, req.userId);
 
   return ApiResponse.deleted(res, 'Transaction deleted successfully');
+});
+
+export const exportTransactions = asyncHandler(async (req: Request, res: Response) => {
+  const query = req.validatedQuery as ExportTransactionsQuery;
+  const buffer = await exportTransactionsService.exportByMonth(req.userId, query);
+
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+  res.setHeader(
+    'Content-Disposition',
+    `attachment; filename="lyra-transactions-${query.monthLabel}.xlsx"`
+  );
+  res.setHeader('Content-Length', buffer.length);
+
+  return res.status(200).send(buffer);
 });

@@ -1,9 +1,8 @@
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
 import Controls from '@/components/shared/layout/NavBar/Controls';
@@ -12,7 +11,6 @@ import ThemeToggleButton from '@/components/shared/layout/NavBar/ThemeToggleButt
 import { usePageHeaderContext } from '@/components/shared/layout/PageHeaderContext';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import MonthDateSelector from '@/components/shared/ui/MonthDateSelector';
-import { ROUTES } from '@/constants/Routes';
 
 interface NavBarProps {
   onMobileOpen: () => void;
@@ -23,8 +21,8 @@ interface NavBarProps {
 const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps) => {
   const theme = useTheme();
   const isHandDevice = useMediaQuery(theme.breakpoints.down('md'));
-  const navigate = useNavigate();
-  const { title, showDateSelector, showImportButton, dateConfig } = usePageHeaderContext();
+  const { title, showDateSelector, showDataTransferButton, dataTransferOnClick, dateConfig } =
+    usePageHeaderContext();
   const isRtl = theme.direction === 'rtl';
 
   const CollapseIcon = isRtl ? KeyboardDoubleArrowRightIcon : KeyboardDoubleArrowLeftIcon;
@@ -42,9 +40,9 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
           >
             <MenuIcon />
           </IconButton>
-          {showImportButton && (
-            <IconButton size="medium" onClick={() => navigate(ROUTES.IMPORT_URL)}>
-              <FileUploadIcon fontSize="small" />
+          {showDataTransferButton && (
+            <IconButton size="medium" onClick={() => dataTransferOnClick?.()}>
+              <ImportExportIcon fontSize="small" />
             </IconButton>
           )}
         </Row>

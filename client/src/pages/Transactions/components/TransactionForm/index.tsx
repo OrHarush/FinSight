@@ -108,7 +108,9 @@ const TransactionForm = ({
       <Column spacing={2} height="auto">
         <TransactionTypeSelector disabled={disableTypeSelector} />
         {showQuickChips && (
-          <QuickChipsRow activeChipId={activeChipId} setActiveChipId={setActiveChipId} />
+          <Row justifyContent="center">
+            <QuickChipsRow activeChipId={activeChipId} setActiveChipId={setActiveChipId} />
+          </Row>
         )}
         <TextInput
           name="amount"
@@ -134,7 +136,7 @@ const TransactionForm = ({
           {!isTransfer && (
             <>
               <TransactionBaseDetails />
-              <ClassificationSection isFullWidth />
+              <ClassificationSection />
               <Grid size={{ xs: 12 }}>
                 <Grid container spacing={1}>
                   <AccountSection xsSize={6} />
