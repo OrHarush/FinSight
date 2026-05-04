@@ -71,6 +71,7 @@ const HeroContent = () => {
               maxWidth: 560,
               lineHeight: 1.7,
               fontWeight: 400,
+              whiteSpace: { xs: 'pre-line', md: 'normal' },
             }}
           >
             {t('landing.hero.subheadline')}
