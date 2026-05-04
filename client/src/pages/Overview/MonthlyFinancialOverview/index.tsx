@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import dayjs from 'dayjs';
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -27,6 +28,7 @@ import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHe
 import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
 import OverviewMetric from '@/pages/Overview/MonthlyFinancialOverview/OverviewMetric';
+import RetrospectiveOverview from '@/pages/Overview/MonthlyFinancialOverview/RetrospectiveOverview';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
 
@@ -48,10 +50,12 @@ const MonthlyFinancialOverview = () => {
     ? new Date(account.checkpointDate).toISOString()
     : undefined;
 
+  const isPastMonth = date.isBefore(dayjs().startOf('month'));
+
   const { data: futureData, isLoading: isFutureLoading } = useFetch<TransactionSummaryDto>({
     url: API_ROUTES.TRANSACTION_SUMMARY(year, month + 1, account?._id, checkpointFrom),
     queryKey: queryKeys.transactionSummary(year, month + 1, account?._id || '', checkpointFrom),
-    enabled: !!year && month >= 0 && !!account?._id && !!checkpointFrom,
+    enabled: !isPastMonth && !!year && month >= 0 && !!account?._id && !!checkpointFrom,
   });
 
   const { accounts } = useAccounts();
@@ -136,42 +140,48 @@ const MonthlyFinancialOverview = () => {
               </MenuItem>
             ))}
           </TextField>
-          <Row spacing={1} alignItems="center" justifyContent="space-evenly">
-            <BalanceHeadline balance={account.balance} label={t('general.balance')} />
-            <Divider orientation="vertical" flexItem sx={{ mx: 2, borderColor: 'divider' }} />
-            <BalanceHeadline
-              balance={projected}
-              label={t('general.projectedBalance')}
-              tooltip={projectedTooltip}
-            />
-          </Row>
-          <Column spacing={1}>
-            <Row spacing={2} justifyContent="space-evenly">
-              <OverviewMetric
-                icon={TrendingUpIcon}
-                value={Math.abs(income)}
-                label={t('general.income')}
-                color="success"
-              />
-              <OverviewMetric
-                icon={TrendingDownIcon}
-                value={Math.abs(expenses)}
-                label={t('general.expenses')}
-                color="error"
-              />
-              {!isNotPC && (
-                <OverviewMetric
-                  icon={SavingsIcon}
-                  value={net}
-                  label={t('general.net')}
-                  color={net >= 0 ? 'success' : 'error'}
-                  hasColor
-                  hasSign
+          {isPastMonth ? (
+            <RetrospectiveOverview income={income} expenses={expenses} />
+          ) : (
+            <>
+              <Row spacing={1} alignItems="center" justifyContent="space-evenly">
+                <BalanceHeadline balance={account.balance} label={t('general.balance')} />
+                <Divider orientation="vertical" flexItem sx={{ mx: 2, borderColor: 'divider' }} />
+                <BalanceHeadline
+                  balance={projected}
+                  label={t('general.projectedBalance')}
+                  tooltip={projectedTooltip}
                 />
-              )}
-            </Row>
-            <IncomeUsageMeter income={income} expenses={expenses} />
-          </Column>
+              </Row>
+              <Column spacing={1}>
+                <Row spacing={2} justifyContent="space-evenly">
+                  <OverviewMetric
+                    icon={TrendingUpIcon}
+                    value={Math.abs(income)}
+                    label={t('general.income')}
+                    color="success"
+                  />
+                  <OverviewMetric
+                    icon={TrendingDownIcon}
+                    value={Math.abs(expenses)}
+                    label={t('general.expenses')}
+                    color="error"
+                  />
+                  {!isNotPC && (
+                    <OverviewMetric
+                      icon={SavingsIcon}
+                      value={net}
+                      label={t('general.net')}
+                      color={net >= 0 ? 'success' : 'error'}
+                      hasColor
+                      hasSign
+                    />
+                  )}
+                </Row>
+                <IncomeUsageMeter income={income} expenses={expenses} />
+              </Column>
+            </>
+          )}
         </Column>
       </Card>
     </Grid>

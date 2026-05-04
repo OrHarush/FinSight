@@ -14,11 +14,19 @@ export interface HealthTile {
   danger?: boolean;
 }
 
+export interface RetrospectiveSummary {
+  dailyAverage: number;
+  mostExpensiveDay: { day: number; amount: number } | null;
+  spendFreeDays: number;
+  daysInMonth: number;
+}
+
 export type HealthCardVariant =
   | { type: 'noData' }
   | { type: 'noIncome' }
   | { type: 'building'; uniqueSpendingDays: number; daysUntilReady: number }
-  | { type: 'full'; insightKey: InsightKey; healthStatus: HealthStatus; tiles: HealthTile[] };
+  | { type: 'full'; insightKey: InsightKey; healthStatus: HealthStatus; tiles: HealthTile[] }
+  | { type: 'retrospective'; summary: RetrospectiveSummary };
 
 interface UseFinancialHealthIndicatorsParams {
   income: number;
@@ -26,6 +34,10 @@ interface UseFinancialHealthIndicatorsParams {
   variableExpenses: number;
   hasMonthData: boolean;
   uniqueSpendingDays: number;
+  isPastMonth: boolean;
+  daysInMonth: number;
+  mostExpensiveDay: { day: number; amount: number } | null;
+  spendFreeDays: number;
 }
 
 export const useFinancialHealthIndicators = ({
@@ -34,12 +46,26 @@ export const useFinancialHealthIndicators = ({
   variableExpenses,
   hasMonthData,
   uniqueSpendingDays,
+  isPastMonth,
+  daysInMonth,
+  mostExpensiveDay,
+  spendFreeDays,
 }: UseFinancialHealthIndicatorsParams): HealthCardVariant => {
   const { t } = useTranslation('overview');
   const today = new Date();
 
   if (!hasMonthData) {
     return { type: 'noData' };
+  }
+
+  if (isPastMonth) {
+    const totalExpenses = fixedExpenses + variableExpenses;
+    const dailyAverage = daysInMonth > 0 ? totalExpenses / daysInMonth : 0;
+
+    return {
+      type: 'retrospective',
+      summary: { dailyAverage, mostExpensiveDay, spendFreeDays, daysInMonth },
+    };
   }
 
   const daysUntilReady = 7 - uniqueSpendingDays;

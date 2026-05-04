@@ -133,6 +133,32 @@
     "description": "בקצב ההוצאות הנוכחי"
   },
 
+  "retrospectiveCard": {
+    "title": "קצב ההוצאה החודשי",
+    "perDayOnAverage": "ליום בממוצע",
+    "dailyAverageDescription_one": "סך כל ההוצאות מחולק ביום אחד",
+    "dailyAverageDescription_two": "סך כל ההוצאות מחולק ב־{{count}} ימים",
+    "dailyAverageDescription_many": "סך כל ההוצאות מחולק ב־{{count}} ימים",
+    "dailyAverageDescription_other": "סך כל ההוצאות מחולק ב־{{count}} ימים",
+    "mostExpensiveDayLabel": "היום היקר ביותר",
+    "mostExpensiveDayValue": "{{day}} · {{amount}} ₪",
+    "mostExpensiveDayEmpty": "ללא הוצאות",
+    "spendFreeDaysLabel": "ימים ללא הוצאה",
+    "spendFreeDaysValue_one": "יום אחד",
+    "spendFreeDaysValue_two": "יומיים",
+    "spendFreeDaysValue_many": "{{count}} ימים",
+    "spendFreeDaysValue_other": "{{count}} ימים"
+  },
+
+  "retrospectiveOverview": {
+    "title": "תוצאת החודש",
+    "netSuffix": "נטו",
+    "savedPercent": "חסכת {{percent}}% מההכנסה החודשית",
+    "overspentPercent": "חרגת ב־{{percent}}% מההכנסה החודשית",
+    "brokeEven": "נשארת באיזון החודש",
+    "noIncome": "לא נרשמו הכנסות החודש"
+  },
+
   "monthSummary": {
     "monthlyOutcome": "תוצאת החודש",
     "onBudget": "בתוך התקציב",

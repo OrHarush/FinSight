@@ -129,6 +129,28 @@
     "description": "At your current spending pace"
   },
 
+  "retrospectiveCard": {
+    "title": "Monthly spending pace",
+    "perDayOnAverage": "per day on average",
+    "dailyAverageDescription_one": "Total expenses divided by 1 day",
+    "dailyAverageDescription_other": "Total expenses divided by {{count}} days",
+    "mostExpensiveDayLabel": "Most expensive day",
+    "mostExpensiveDayValue": "{{day}} · {{amount}} ₪",
+    "mostExpensiveDayEmpty": "No expenses",
+    "spendFreeDaysLabel": "Spend-free days",
+    "spendFreeDaysValue_one": "1 day",
+    "spendFreeDaysValue_other": "{{count}} days"
+  },
+
+  "retrospectiveOverview": {
+    "title": "Monthly result",
+    "netSuffix": "net",
+    "savedPercent": "You saved {{percent}}% of monthly income",
+    "overspentPercent": "You overspent {{percent}}% of monthly income",
+    "brokeEven": "You broke even this month",
+    "noIncome": "No income recorded this month"
+  },
+
   "monthSummary": {
     "monthlyOutcome": "Monthly Outcome",
     "onBudget": "On budget",
