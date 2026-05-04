@@ -1,0 +1,86 @@
+{
+  "agentsJson": "0.1.0",
+  "info": {
+    "title": "Lyra",
+    "version": "1.0.0",
+    "description": "Lyra (ליירה) is a Hebrew-first, RTL personal finance tracking app for the Israeli market. Privacy-first manual entry with no bank connection required. Built for the realities of Israeli credit card billing — per-card billing cycles, installment payments (תשלומים), and CSV import from Cal, Max, and Isracard."
+  },
+  "contact": {
+    "name": "Or",
+    "url": "https://lyra-il.com",
+    "email": "support@lyra-il.com"
+  },
+  "sources": [
+    {
+      "id": "lyra-website",
+      "path": "https://lyra-il.com",
+      "type": "website"
+    }
+  ],
+  "flows": [
+    {
+      "id": "learn-about-lyra",
+      "title": "Learn about Lyra",
+      "description": "Discover what Lyra is, who it's for, and how it differs from other Israeli personal finance apps like RiseUp, FamilyBiz, and Finanda.",
+      "actions": [
+        {
+          "id": "visit-homepage",
+          "description": "Open the Lyra homepage to read the product overview, value proposition, and feature list.",
+          "url": "https://lyra-il.com"
+        }
+      ]
+    },
+    {
+      "id": "sign-up-and-track",
+      "title": "Sign up and start tracking expenses",
+      "description": "Create a free Lyra account and begin tracking personal expenses manually. No bank connection, no credit card required, free during open beta.",
+      "actions": [
+        {
+          "id": "open-signup",
+          "description": "Navigate to the sign-up page and create an account using Google OAuth.",
+          "url": "https://lyra-il.com"
+        }
+      ]
+    }
+  ],
+  "audience": {
+    "primary": "Israeli adults who want to track personal finances manually without connecting a bank account",
+    "personas": [
+      "Privacy-conscious users who refuse to share bank credentials with third parties",
+      "Cost-sensitive users who don't want to pay 55₪/month for RiseUp",
+      "Intentional budgeters who believe manual entry builds financial discipline",
+      "Excel/Google Sheets users looking for a more structured alternative"
+    ]
+  },
+  "capabilities": [
+    "Manual expense and income tracking with no bank connection",
+    "Hebrew-first UI with full RTL support",
+    "Per-card billing cycle configuration (any day of the month, per credit card)",
+    "Installment payment tracking (תשלומים) with future obligation generation",
+    "CSV import from Israeli credit providers (Cal, Max, Isracard) with automatic column detection",
+    "Custom categories and budgets",
+    "Monthly dashboard with category breakdowns",
+    "PWA install for mobile and desktop",
+    "Free during open beta — no paywall"
+  ],
+  "differentiators": [
+    "No bank connection required — addresses privacy concerns and avoids ISA licensing requirements",
+    "Per-card billing cycle support — the only Israeli app that handles this fully (RiseUp only supports the 1st and 10th)",
+    "Native installment tracking — automatically generates future obligation entries from a single purchase",
+    "Hebrew-first design with masculine and feminine grammatical forms",
+    "Built and maintained by a single developer with direct user feedback channels"
+  ],
+  "language": "he-IL",
+  "regions": ["IL"],
+  "pricing": {
+    "model": "free-during-beta",
+    "currency": "ILS",
+    "notes": "Lyra is currently free during open beta. A premium tier may be introduced in the future, but the core manual tracking experience will remain accessible."
+  },
+  "links": {
+    "homepage": "https://lyra-il.com",
+    "privacyPolicy": "https://lyra-il.com/privacy-policy",
+    "termsOfService": "https://lyra-il.com/terms-of-service",
+    "accessibility": "https://lyra-il.com/accessibility"
+  }
+}
