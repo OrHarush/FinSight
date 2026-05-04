@@ -26,7 +26,7 @@ const FaqAccordion = ({ question, answer }: FaqAccordionProps) => {
       slotProps={{ transition: { timeout: 300 } }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography sx={{ fontSize: '1rem', fontWeight: 600, color: 'text.primary' }}>{question}</Typography>
+        <Typography component="h3" sx={{ fontSize: '1rem', fontWeight: 600, color: 'text.primary' }}>{question}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Typography

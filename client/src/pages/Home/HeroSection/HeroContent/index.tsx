@@ -64,6 +64,7 @@ const HeroContent = () => {
           </Typography>
           <Typography
             variant="h6"
+            component="p"
             sx={{
               fontSize: { xs: '1rem', md: '1.1rem' },
               color: 'text.secondary',

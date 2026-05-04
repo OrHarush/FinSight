@@ -24,6 +24,7 @@ const LandingNavbar = () => {
         {!isMobile && (
           <Typography
             variant="h6"
+            component="span"
             sx={{
               fontWeight: 700,
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
