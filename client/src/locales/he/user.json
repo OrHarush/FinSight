@@ -8,7 +8,20 @@
     "cancel": "ביטול",
     "confirm": "מחיקת חשבון",
     "success": "החשבון נמחק בהצלחה.",
-    "error": "מחיקת החשבון נכשלה."
+    "error": "מחיקת החשבון נכשלה.",
+    "feedback": {
+      "label": "עוזר לנו להשתפר — מה הסיבה? (אופציונלי)",
+      "reasons": {
+        "too_complex": "מורכב מדי",
+        "missing_feature": "חסרה לי תכונה",
+        "found_alternative": "מצאתי חלופה",
+        "not_useful": "לא היה שימושי",
+        "privacy_concern": "חשש לפרטיות",
+        "just_testing": "רק בדקתי",
+        "other": "אחר"
+      },
+      "commentPlaceholder": "ספר לנו עוד (אופציונלי)"
+    }
   },
   "settingsModal": {
     "title": "הגדרות",

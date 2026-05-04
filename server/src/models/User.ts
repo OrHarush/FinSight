@@ -25,6 +25,8 @@ export interface IUser {
   lastActiveAt?: Date;
   activatedAt?: Date;
   totalTransactions: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const ProviderSchema = new Schema<Provider>(

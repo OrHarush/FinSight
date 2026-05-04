@@ -3,7 +3,11 @@ import { Request, Response } from 'express';
 import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
-import { CompleteOnboardingBody, UpdatePreferencesBody } from '../schemas/userSchemas';
+import {
+  CompleteOnboardingBody,
+  DeleteUserBody,
+  UpdatePreferencesBody,
+} from '../schemas/userSchemas';
 import {
   completeOnboarding,
   deleteUserCompletely,
@@ -31,7 +35,8 @@ export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
     throw ApiError.forbidden('Not authorized to delete this user.');
   }
 
-  const result = await deleteUserCompletely(userId);
+  const { feedback } = (req.validatedBody ?? {}) as DeleteUserBody;
+  const result = await deleteUserCompletely(userId, feedback);
 
   return ApiResponse.ok(res, {
     message: 'User and all related data deleted successfully.',

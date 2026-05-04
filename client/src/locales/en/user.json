@@ -8,7 +8,20 @@
     "cancel": "Cancel",
     "confirm": "Delete Account",
     "success": "Your account has been deleted successfully.",
-    "error": "Failed to delete account."
+    "error": "Failed to delete account.",
+    "feedback": {
+      "label": "Help us improve — what's the reason? (optional)",
+      "reasons": {
+        "too_complex": "Too complex",
+        "missing_feature": "Missing a feature",
+        "found_alternative": "Found an alternative",
+        "not_useful": "Not useful",
+        "privacy_concern": "Privacy concern",
+        "just_testing": "Just testing",
+        "other": "Other"
+      },
+      "commentPlaceholder": "Tell us more (optional)"
+    }
   },
   "settingsModal": {
     "title": "Settings",

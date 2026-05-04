@@ -15,7 +15,9 @@ import { useTranslation } from 'react-i18next';
 
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import DangerZone from '@/components/features/users/SettingsModal/DangerZone';
-import UserDeletionDialog from '@/components/features/users/UserDeletionDialog';
+import UserDeletionDialog, {
+  DeletionFeedbackPayload,
+} from '@/components/features/users/UserDeletionDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { CURRENCIES } from '@/constants/currencies';
@@ -69,7 +71,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
     },
   });
 
-  const deleteUser = useApiMutation<void, void>({
+  const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
     method: 'delete',
     url: `${API_ROUTES.USERS}/${user?._id}`,
     queryKeysToInvalidate: [queryKeys.user()],
@@ -89,8 +91,8 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
     updatePreferences.mutate({ displayCurrency: currency });
   };
 
-  const confirmDeletion = () => {
-    deleteUser.mutate();
+  const confirmDeletion = (feedback: DeletionFeedbackPayload) => {
+    deleteUser.mutate({ feedback });
   };
 
   return (

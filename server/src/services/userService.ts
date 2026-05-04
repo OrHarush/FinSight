@@ -8,7 +8,9 @@ import {
 } from '../constants/defaultEntities';
 import { IAccount } from '../models/Account';
 import { ICategory } from '../models/Category';
+import { DeletionReason, IDeletionFeedback } from '../models/DeletionFeedback';
 import { IPaymentMethod } from '../models/PaymentMethod';
+import { IUser } from '../models/User';
 import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
 import * as accountRepository from '../repositories/accountRepository';
 import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
@@ -16,6 +18,7 @@ import {
   deleteMany as deleteCategories,
   insertMany as createCategories,
 } from '../repositories/categoryRepository';
+import * as deletionFeedbackRepository from '../repositories/deletionFeedbackRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
 import {
@@ -25,6 +28,12 @@ import {
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
 import * as analyticsService from './analyticsService';
+
+export interface DeletionFeedbackInput {
+  reason?: DeletionReason | null;
+  comment?: string | null;
+  locale: 'he' | 'en';
+}
 
 export const getCurrentUserById = async (userId: string) => findById(userId);
 
@@ -94,7 +103,44 @@ export const completeOnboarding = async (userId: string, billingDay?: number) =>
   return result;
 };
 
-export const deleteUserCompletely = async (userId: string) => {
+const MS_PER_DAY = 86_400_000;
+
+const buildDeletionSnapshot = (
+  user: IUser,
+  feedback?: DeletionFeedbackInput
+): Partial<IDeletionFeedback> => {
+  const createdAt = user.createdAt ?? new Date();
+  const daysSinceSignup = Math.max(0, Math.floor((Date.now() - createdAt.getTime()) / MS_PER_DAY));
+  const trimmedComment = feedback?.comment?.trim();
+
+  return {
+    reason: feedback?.reason ?? null,
+    comment: trimmedComment ? trimmedComment : null,
+    transactionCount: user.totalTransactions ?? 0,
+    daysSinceSignup,
+    hadCompletedOnboarding: !!user.hasCompletedOnboarding,
+    locale: feedback?.locale ?? 'he',
+  };
+};
+
+const recordDeletionFeedback = async (userId: string, feedback?: DeletionFeedbackInput) => {
+  try {
+    const user = await findById(userId);
+
+    if (!user) {
+      return;
+    }
+
+    const snapshot = buildDeletionSnapshot(user, feedback);
+    await deletionFeedbackRepository.insert(snapshot);
+  } catch (err) {
+    console.error('Failed to record deletion feedback:', err);
+  }
+};
+
+export const deleteUserCompletely = async (userId: string, feedback?: DeletionFeedbackInput) => {
+  await recordDeletionFeedback(userId, feedback);
+
   void analyticsService.track(userId, 'user_deleted').catch(err =>
     console.error('Failed to track user_deleted:', err)
   );
