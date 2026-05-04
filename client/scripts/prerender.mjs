@@ -7,7 +7,7 @@ import { chromium } from 'playwright-core';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
 
-const ROUTES = ['/home', '/privacy-policy', '/terms-of-service', '/accessibility'];
+const ROUTES = ['/', '/home', '/privacy-policy', '/terms-of-service', '/accessibility'];
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
