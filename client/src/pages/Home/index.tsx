@@ -10,7 +10,7 @@ import LandingNavbar from '@/pages/Home/LandingNavbar';
 const HomePage = () => (
   <>
     <LandingNavbar />
-    <ScrollableColumn component={'main'} sx={{ pb: 4 }}>
+    <ScrollableColumn component={'main'} sx={{ pb: 4, pr: 0 }}>
       <HeroSection />
       <HowItWorksSection />
       <ComparisonSection />

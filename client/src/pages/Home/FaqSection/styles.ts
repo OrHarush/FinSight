@@ -1,15 +1,19 @@
 import { SxProps, Theme } from '@mui/material';
 
 export const getFaqAccordionStyle = (): SxProps<Theme> => ({
-  bgcolor: 'rgba(21, 27, 36, 0.7)',
-  border: '1px solid rgba(148, 163, 184, 0.08)',
+  bgcolor: 'background.paper',
+  border: '1px solid',
+  borderColor: 'divider',
   borderRadius: '16px !important',
   backdropFilter: 'blur(20px)',
   boxShadow: 'none',
   transition: 'box-shadow 0.2s ease',
   '&::before': { display: 'none' },
   '&.Mui-expanded': {
-    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+    boxShadow: (theme: Theme) =>
+      theme.palette.mode === 'dark'
+        ? '0 4px 16px rgba(0, 0, 0, 0.2)'
+        : '0 4px 16px rgba(15, 23, 42, 0.08)',
   },
   '& .MuiAccordionSummary-root': {
     minHeight: 64,

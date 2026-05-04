@@ -58,7 +58,10 @@ const QuickAddMockup = () => {
       <Column
         spacing={0.85}
         sx={{
-          backgroundColor: '#0f1521',
+          backgroundColor:
+            theme.palette.mode === 'dark'
+              ? '#0f1521'
+              : alpha(theme.palette.text.primary, 0.05),
           borderRadius: 2,
           p: 1.25,
         }}

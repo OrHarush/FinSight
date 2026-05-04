@@ -28,13 +28,29 @@ const cacheLtr = createCache({
   key: 'muiltr',
 });
 
+const THEME_STORAGE_KEY = 'lyra:colorMode';
+
+const readStoredMode = (): 'light' | 'dark' => {
+  if (typeof window === 'undefined') return 'dark';
+
+  const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+
+  return stored === 'light' || stored === 'dark' ? stored : 'dark';
+};
+
 export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('dark');
+  const [mode, setMode] = useState<'light' | 'dark'>(readStoredMode);
   const { i18n } = useTranslation();
 
   const colorMode = useMemo(
     () => ({
-      toggleColorMode: () => setMode(prev => (prev === 'light' ? 'dark' : 'light')),
+      toggleColorMode: () =>
+        setMode(prev => {
+          const next = prev === 'light' ? 'dark' : 'light';
+          window.localStorage.setItem(THEME_STORAGE_KEY, next);
+
+          return next;
+        }),
     }),
     []
   );

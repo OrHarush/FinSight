@@ -96,7 +96,7 @@ const DashboardMockup = () => {
             sx={{
               height: 8,
               borderRadius: 999,
-              backgroundColor: alpha(theme.palette.common.white, 0.08),
+              backgroundColor: alpha(theme.palette.text.primary, 0.08),
               '& .MuiLinearProgress-bar': {
                 borderRadius: 999,
                 backgroundColor: theme.palette.warning.main,

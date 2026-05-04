@@ -46,21 +46,31 @@ export const commonTheme: ThemeOptions = {
     },
     MuiFilledInput: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: '8px',
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid rgba(255, 255, 255, 0.06)',
+          background:
+            theme.palette.mode === 'dark'
+              ? 'rgba(255, 255, 255, 0.04)'
+              : 'rgba(15, 23, 42, 0.04)',
+          border: `1px solid ${theme.palette.divider}`,
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           '&:hover': {
-            background: 'rgba(255, 255, 255, 0.07)',
+            background:
+              theme.palette.mode === 'dark'
+                ? 'rgba(255, 255, 255, 0.07)'
+                : 'rgba(15, 23, 42, 0.06)',
           },
           '&.Mui-focused': {
-            background: 'rgba(255, 255, 255, 0.06)',
+            background:
+              theme.palette.mode === 'dark'
+                ? 'rgba(255, 255, 255, 0.06)'
+                : 'rgba(15, 23, 42, 0.05)',
+            borderColor: theme.palette.primary.main,
           },
           '&:before': { display: 'none' },
           '&:after': { display: 'none' },
-        },
+        }),
       },
     },
     MuiCard: {

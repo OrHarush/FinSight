@@ -22,8 +22,11 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
         height: '100%',
         p: { xs: 2.5, md: 3 },
         borderRadius: 3,
-        backgroundColor: alpha(theme.palette.common.white, 0.03),
-        border: `1px solid ${alpha(theme.palette.common.white, 0.06)}`,
+        backgroundColor:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.common.white, 0.03)
+            : theme.palette.background.paper,
+        border: `1px solid ${theme.palette.divider}`,
         textAlign: 'center',
       }}
     >

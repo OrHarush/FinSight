@@ -53,7 +53,7 @@ const ComparisonTable = () => {
   const theme = useTheme();
   const rows = buildRows(t);
 
-  const hairline = `1px solid ${alpha(theme.palette.common.white, 0.06)}`;
+  const hairline = `1px solid ${theme.palette.divider}`;
 
   const headerCellSx = {
     fontWeight: 700,
@@ -83,8 +83,11 @@ const ComparisonTable = () => {
         mx: 'auto',
         borderRadius: 3,
         overflow: 'hidden',
-        border: `1px solid ${alpha(theme.palette.common.white, 0.08)}`,
-        backgroundColor: alpha('#ffffff', 0.02),
+        border: `1px solid ${theme.palette.divider}`,
+        backgroundColor:
+          theme.palette.mode === 'dark'
+            ? alpha(theme.palette.common.white, 0.02)
+            : theme.palette.background.paper,
         '& tr:last-of-type td': { borderBottom: 'none' },
       }}
     >
