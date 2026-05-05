@@ -1,4 +1,10 @@
-import { promises as fs, createReadStream, existsSync, statSync } from 'node:fs';
+import {
+  promises as fs,
+  createReadStream,
+  existsSync,
+  readFileSync,
+  statSync,
+} from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,30 +34,31 @@ const MIME = {
 
 const startServer = () =>
   new Promise(resolve => {
+    const pristineIndexHtml = readFileSync(path.join(distDir, 'index.html'), 'utf-8');
+
+    const serveHtmlShell = res => {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(pristineIndexHtml);
+    };
+
     const server = http.createServer((req, res) => {
       const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+
+      if (urlPath === '/' || !path.extname(urlPath)) {
+        serveHtmlShell(res);
+        return;
+      }
+
       const candidate = path.join(distDir, urlPath);
-      const tryServe = filePath => {
-        if (!existsSync(filePath) || !statSync(filePath).isFile()) {
-          return false;
-        }
 
-        const ext = path.extname(filePath).toLowerCase();
+      if (existsSync(candidate) && statSync(candidate).isFile()) {
+        const ext = path.extname(candidate).toLowerCase();
         res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });
-        createReadStream(filePath).pipe(res);
-
-        return true;
-      };
-
-      if (tryServe(candidate)) {
+        createReadStream(candidate).pipe(res);
         return;
       }
 
-      if (tryServe(path.join(candidate, 'index.html'))) {
-        return;
-      }
-
-      tryServe(path.join(distDir, 'index.html'));
+      serveHtmlShell(res);
     });
     server.listen(0, '127.0.0.1', () => {
       const { port } = server.address();
