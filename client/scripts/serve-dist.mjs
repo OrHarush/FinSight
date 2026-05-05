@@ -39,8 +39,8 @@ const tryServe = (filePath, res) => {
 const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
 
-  if (urlPath === '/') {
-    res.writeHead(308, { Location: '/home' });
+  if (urlPath === '/home') {
+    res.writeHead(301, { Location: '/' });
     res.end();
     return;
   }

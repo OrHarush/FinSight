@@ -59,7 +59,6 @@ const AppRoutes = () => {
             />
             <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
             <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
-            <Route path="/" element={<HomePage />} />
             <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
             <Route path="*" element={<NotFoundPage isAuthenticated={!!user} />} />

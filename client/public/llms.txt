@@ -22,7 +22,7 @@ Lyra היא אפליקציית ניהול הוצאות אישיות חינמית
 
 ## דפים ציבוריים
 
-- [דף הבית](https://lyra-il.com/home)
+- [דף הבית](https://lyra-il.com/)
 - [מדיניות פרטיות](https://lyra-il.com/privacy-policy)
 - [תנאי שימוש](https://lyra-il.com/terms-of-service)
 - [הצהרת נגישות](https://lyra-il.com/accessibility)

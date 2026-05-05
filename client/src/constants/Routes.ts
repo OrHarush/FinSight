@@ -1,5 +1,5 @@
 export const ROUTES = {
-  HOME_URL: '/home',
+  HOME_URL: '/',
   LOGIN_URL: '/login',
   TERMS_OF_SERVICE_URL: '/terms-of-service',
   PRIVACY_POLICY_URL: '/privacy-policy',
