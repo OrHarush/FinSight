@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: process.env.ENV_FILE || '.env' });
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 

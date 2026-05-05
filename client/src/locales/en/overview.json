@@ -8,7 +8,8 @@
     "net": "Net",
     "projectedBalance": "Projected Balance",
     "asOf": "as of",
-    "projectedTooltip": "Balance ({{balance}}) + remaining income ({{futureIncome}}) − remaining expenses ({{futureExpenses}}) − pending prior commitments ({{pendingPriorExpenses}})"
+    "projectedTooltip": "Balance ({{balance}}) + remaining income ({{futureIncome}}) − remaining expenses ({{futureExpenses}})",
+    "projectedTooltip_withPrior": "Balance ({{balance}}) + remaining income ({{futureIncome}}) − remaining expenses ({{futureExpenses}}) − pending prior commitments ({{pendingPriorExpenses}})"
   },
 
   "dateSelector": {

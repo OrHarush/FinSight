@@ -92,7 +92,10 @@ const MonthlyFinancialOverview = () => {
     (futureIncome - futureExpenses) +
     (pendingPriorIncome - pendingPriorExpenses);
 
-  const projectedTooltip = t('general.projectedTooltip', {
+  const projectedTooltipKey =
+    pendingPriorExpenses > 0 ? 'general.projectedTooltip_withPrior' : 'general.projectedTooltip';
+
+  const projectedTooltip = t(projectedTooltipKey, {
     balance: account.balance,
     futureIncome,
     futureExpenses,
