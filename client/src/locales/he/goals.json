@@ -1,0 +1,140 @@
+{
+  "page": {
+    "title": "יעדים פיננסיים",
+    "createCta": "הוסף יעד"
+  },
+  "filters": {
+    "active": "פעילים",
+    "achieved": "הושגו",
+    "archived": "ארכיון"
+  },
+  "importance": {
+    "low": "נמוכה",
+    "medium": "בינונית",
+    "high": "גבוהה"
+  },
+  "cards": {
+    "statusActive": "בעוד {{months}} חודשים — צריך {{monthly}} ₪/חודש",
+    "achieved": "הושג! 🎉",
+    "dueToday": "התאריך היעד עבר — חסר {{remaining}} ₪",
+    "targetDate": "תאריך יעד: {{date}}"
+  },
+  "empty": {
+    "headline": "אין עדיין יעדים",
+    "body": "יעדים מאפשרים לעקוב אחרי חיסכון למשהו ספציפי. תרומות הן עסקאות רגילות בקטגוריית חיסכון ייעודית שנוצרת אוטומטית עבורך.",
+    "cta": "צור את היעד הראשון שלך"
+  },
+  "emptyFilter": {
+    "achieved": {
+      "headline": "אין יעדים שהושגו",
+      "body": "יעדים שתסמן כהושגו יופיעו כאן."
+    },
+    "archived": {
+      "headline": "אין יעדים בארכיון",
+      "body": "יעדים שתעביר לארכיון יופיעו כאן."
+    },
+    "backToActive": "חזרה ליעדים פעילים"
+  },
+  "detail": {
+    "back": "חזרה ליעדים",
+    "notFound": "היעד לא נמצא",
+    "menu": {
+      "edit": "ערוך יעד",
+      "delete": "מחק יעד"
+    }
+  },
+  "narrative": {
+    "onTrack": "בקצב הזה תגיע ל-{{projected}} ₪ ב{{date}}. חסר {{shortfall}} ₪.",
+    "offTrack": "בקצב הנוכחי תגיע ל-{{projected}} ₪ ב{{date}} — תחסר עדיין {{shortfall}} ₪.",
+    "achieved": "הגעת ליעד! שמרת {{amount}} ₪ — האם לסמן כהושג?",
+    "markAchievedCta": "סמן כהושג"
+  },
+  "numbers": {
+    "current": "נוכחי",
+    "target": "יעד",
+    "monthly": "נדרש לחודש"
+  },
+  "chart": {
+    "title": "תחזית התקדמות",
+    "actual": "בפועל",
+    "projected": "תחזית",
+    "target": "יעד",
+    "noData": "אין עדיין נתונים להצגה"
+  },
+  "contributions": {
+    "title": "תרומות",
+    "empty": "עדיין לא הוספת תרומות. צור עסקה בקטגוריה {{name}} כדי להתחיל."
+  },
+  "dialog": {
+    "createTitle": "יעד חדש",
+    "createSubmit": "צור יעד",
+    "editTitle": "עריכת יעד",
+    "fields": {
+      "name": "שם היעד",
+      "namePlaceholder": "לדוגמה: חתונה, דירה ראשונה",
+      "icon": "סמל",
+      "iconPreview": "תצוגה מקדימה",
+      "color": "צבע",
+      "targetAmount": "סכום היעד",
+      "initialAmount": "כבר חסכת",
+      "targetDate": "תאריך יעד",
+      "duration": "טווח זמן",
+      "importance": "חשיבות",
+      "description": "תיאור (לא חובה)",
+      "descriptionPlaceholder": "מה מיוחד ביעד הזה?"
+    },
+    "advanced": {
+      "label": "מתקדם",
+      "investedTitle": "הכסף מושקע",
+      "investedSubtitle": "תיק מסחר עצמאי, השתלמות, וכו׳",
+      "returnLabel": "תשואה שנתית צפויה",
+      "presets": {
+        "0": "0% מזומן",
+        "4": "4% חיסכון",
+        "6": "6% כללי",
+        "8": "8% מנייתי"
+      }
+    },
+    "preview": {
+      "required": "תצטרך לחסוך {{amount}} ₪ בחודש כדי להגיע ליעד",
+      "requiredFull": "תצטרך לחסוך {{monthly}} ₪ בחודש כדי להגיע ל-{{target}} ₪ ב{{date}}",
+      "warningTooHigh": "התשלום החודשי גבוה ביחס להכנסה הממוצעת שלך — שקול להאריך את התאריך או להוריד את היעד."
+    }
+  },
+  "delete": {
+    "step1Title": "מחיקת היעד {{name}}",
+    "step1Keep": "שמור על הקטגוריה (מומלץ)",
+    "step1NoteKeep": "תרומות עבר יישמרו כעסקאות הוצאה רגילות בקטגוריה. הקטגוריה תהפוך לקטגוריית הוצאה.",
+    "step1Drop": "מחק גם את הקטגוריה",
+    "step1NoteDrop": "ימחק את הקטגוריה לצמיתות. אפשרי רק אם אין תרומות עבר.",
+    "step2Title": "פעולה זו אינה הפיכה. למחוק?",
+    "errorHasTransactions": "הקטגוריה מכילה תרומות. בחר 'שמור על הקטגוריה' או מחק קודם את התרומות."
+  },
+  "toast": {
+    "created": "היעד נוצר בהצלחה",
+    "updated": "היעד עודכן",
+    "deleted": "היעד נמחק",
+    "statusAchieved": "סומן כהושג"
+  },
+  "errors": {
+    "nameTaken": "כבר קיים יעד בשם הזה",
+    "createFailed": "יצירת היעד נכשלה",
+    "updateFailed": "עדכון היעד נכשל",
+    "deleteFailed": "מחיקת היעד נכשלה"
+  },
+  "ghosts": {
+    "label": "מתוכנן — חיסכון ל{{name}}",
+    "satisfied": "הושלם החודש ✓",
+    "partial": "תרמת {{actual}} ₪ — חסר {{remaining}} ₪",
+    "planned": "מתוכנן {{planned}} ₪"
+  },
+  "duration": {
+    "singularMonth": "חודש",
+    "dualMonths": "חודשיים",
+    "countMonths": "{{count}} חודשים",
+    "singularYear": "שנה",
+    "dualYears": "שנתיים",
+    "countYears": "{{count}} שנים",
+    "connector": "ו-"
+  }
+}

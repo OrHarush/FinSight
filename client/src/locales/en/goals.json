@@ -1,0 +1,140 @@
+{
+  "page": {
+    "title": "Financial Goals",
+    "createCta": "New goal"
+  },
+  "filters": {
+    "active": "Active",
+    "achieved": "Achieved",
+    "archived": "Archived"
+  },
+  "importance": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "cards": {
+    "statusActive": "{{months}} months left — need {{monthly}} ₪/mo",
+    "achieved": "Achieved! 🎉",
+    "dueToday": "Target date passed — {{remaining}} ₪ short",
+    "targetDate": "Target date: {{date}}"
+  },
+  "empty": {
+    "headline": "No goals yet",
+    "body": "Goals let you track savings toward something specific. Contributions are regular transactions in a dedicated savings category that's auto-created for you.",
+    "cta": "Create your first goal"
+  },
+  "emptyFilter": {
+    "achieved": {
+      "headline": "No achieved goals",
+      "body": "Goals you mark as achieved will appear here."
+    },
+    "archived": {
+      "headline": "No archived goals",
+      "body": "Goals you archive will appear here."
+    },
+    "backToActive": "Back to active goals"
+  },
+  "detail": {
+    "back": "Back to goals",
+    "notFound": "Goal not found",
+    "menu": {
+      "edit": "Edit goal",
+      "delete": "Delete goal"
+    }
+  },
+  "narrative": {
+    "onTrack": "At this pace you'll reach {{projected}} ₪ by {{date}}. {{shortfall}} ₪ to go.",
+    "offTrack": "At your current pace you'll reach {{projected}} ₪ by {{date}} — still {{shortfall}} ₪ short.",
+    "achieved": "You hit your goal! You saved {{amount}} ₪ — mark as achieved?",
+    "markAchievedCta": "Mark as achieved"
+  },
+  "numbers": {
+    "current": "Current",
+    "target": "Target",
+    "monthly": "Required monthly"
+  },
+  "chart": {
+    "title": "Progress projection",
+    "actual": "Actual",
+    "projected": "Projected",
+    "target": "Target",
+    "noData": "No data to display yet"
+  },
+  "contributions": {
+    "title": "Contributions",
+    "empty": "No contributions yet. Create a transaction in the {{name}} category to start."
+  },
+  "dialog": {
+    "createTitle": "New goal",
+    "createSubmit": "Create goal",
+    "editTitle": "Edit goal",
+    "fields": {
+      "name": "Goal name",
+      "namePlaceholder": "e.g., wedding, first home",
+      "icon": "Icon",
+      "iconPreview": "Preview",
+      "color": "Color",
+      "targetAmount": "Target amount",
+      "initialAmount": "Already saved",
+      "targetDate": "Target date",
+      "duration": "Time range",
+      "importance": "Importance",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "What makes this goal special?"
+    },
+    "advanced": {
+      "label": "Advanced",
+      "investedTitle": "Money is invested",
+      "investedSubtitle": "Brokerage, retirement plan, etc.",
+      "returnLabel": "Expected annual return",
+      "presets": {
+        "0": "0% Cash",
+        "4": "4% Savings",
+        "6": "6% Balanced",
+        "8": "8% Equities"
+      }
+    },
+    "preview": {
+      "required": "You'll need to save {{amount}} ₪ per month to hit this goal",
+      "requiredFull": "You'll need to save {{monthly}} ₪/mo to reach {{target}} ₪ by {{date}}",
+      "warningTooHigh": "Monthly contribution is high relative to your average income — consider extending the date or lowering the target."
+    }
+  },
+  "delete": {
+    "step1Title": "Delete goal {{name}}",
+    "step1Keep": "Keep the category (recommended)",
+    "step1NoteKeep": "Past contributions stay as regular expense transactions in the category. The category becomes a regular expense category.",
+    "step1Drop": "Delete the category too",
+    "step1NoteDrop": "Permanently delete the category. Only possible if there are no past contributions.",
+    "step2Title": "This action can't be undone. Delete?",
+    "errorHasTransactions": "The category has contributions. Choose 'Keep the category' or delete the transactions first."
+  },
+  "toast": {
+    "created": "Goal created",
+    "updated": "Goal updated",
+    "deleted": "Goal deleted",
+    "statusAchieved": "Marked as achieved"
+  },
+  "errors": {
+    "nameTaken": "A goal with this name already exists",
+    "createFailed": "Failed to create the goal",
+    "updateFailed": "Failed to update the goal",
+    "deleteFailed": "Failed to delete the goal"
+  },
+  "ghosts": {
+    "label": "Planned — save for {{name}}",
+    "satisfied": "Done this month ✓",
+    "partial": "Contributed {{actual}} ₪ — {{remaining}} ₪ to go",
+    "planned": "Planned {{planned}} ₪"
+  },
+  "duration": {
+    "singularMonth": "1 month",
+    "dualMonths": "2 months",
+    "countMonths": "{{count}} months",
+    "singularYear": "1 year",
+    "dualYears": "2 years",
+    "countYears": "{{count}} years",
+    "connector": "and"
+  }
+}
