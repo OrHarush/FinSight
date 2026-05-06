@@ -33,3 +33,16 @@ export const findRecent = async (limit: number): Promise<RecentActivityRow[]> =>
     .limit(limit)
     .select('userName userAvatar event createdAt -_id')
     .lean();
+
+export const findRecentBefore = async (
+  cursor: Date | undefined,
+  limit: number,
+): Promise<RecentActivityRow[]> => {
+  const filter = cursor ? { createdAt: { $lt: cursor } } : {};
+
+  return AnalyticsEvent.find(filter)
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .select('userName userAvatar event createdAt -_id')
+    .lean();
+};

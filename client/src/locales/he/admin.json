@@ -47,5 +47,16 @@
       "user_created": "משתמש חדש",
       "user_deleted": "נמחק"
     }
+  },
+  "allUsers": {
+    "title": "כל המשתמשים",
+    "user": "משתמש",
+    "email": "אימייל",
+    "registered": "תאריך הרשמה",
+    "transactions": "תנועות",
+    "lastActive": "פעילות אחרונה",
+    "searchPlaceholder": "חיפוש לפי שם או אימייל",
+    "count": "מציג {{count}} מתוך {{total}}",
+    "empty": "אין משתמשים שמתאימים לחיפוש"
   }
 }

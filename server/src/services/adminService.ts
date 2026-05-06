@@ -66,8 +66,51 @@ export interface AnalyticsOverview {
   activationRate: number;
   usersWithTransactions: number;
   eventCounts: Record<AnalyticsEventType, number>;
-  recentActivity: RecentActivityRow[];
 }
+
+export interface RecentActivityPage {
+  items: RecentActivityRow[];
+  nextCursor: string | null;
+}
+
+export interface AdminUserDto {
+  id: string;
+  name: string;
+  email: string;
+  picture?: string;
+  createdAt: Date;
+  totalTransactions: number;
+  lastActiveAt?: Date;
+  hasCompletedOnboarding: boolean;
+}
+
+export const getAllUsers = async (): Promise<AdminUserDto[]> => {
+  const users = await userRepository.findAllForAdmin();
+
+  return users.map(u => ({
+    id: u._id.toString(),
+    name: u.name,
+    email: u.email,
+    picture: u.picture,
+    createdAt: u.createdAt,
+    totalTransactions: u.totalTransactions,
+    lastActiveAt: u.lastActiveAt,
+    hasCompletedOnboarding: u.hasCompletedOnboarding,
+  }));
+};
+
+export const getRecentActivity = async (
+  cursor: string | undefined,
+  limit: number,
+): Promise<RecentActivityPage> => {
+  const cursorDate = cursor ? new Date(cursor) : undefined;
+  const items = await analyticsEventRepository.findRecentBefore(cursorDate, limit);
+
+  const nextCursor =
+    items.length === limit ? items[items.length - 1].createdAt.toISOString() : null;
+
+  return { items, nextCursor };
+};
 
 export const getAnalytics = async (): Promise<AnalyticsOverview> => {
   const now = Date.now();
@@ -89,7 +132,6 @@ export const getAnalytics = async (): Promise<AnalyticsOverview> => {
     mau,
     activatedUsers,
     usersWithTransactions,
-    recentActivity,
     ...eventCountValues
   ] = await Promise.all([
     userRepository.countAll(),
@@ -101,7 +143,6 @@ export const getAnalytics = async (): Promise<AnalyticsOverview> => {
     userRepository.countActiveSince(since30d),
     userRepository.countActivated(),
     userRepository.countWithTransactions(),
-    analyticsEventRepository.findRecent(20),
     ...ANALYTICS_EVENT_TYPES.map(event => analyticsEventRepository.countByEvent(event)),
   ]);
 
@@ -125,7 +166,6 @@ export const getAnalytics = async (): Promise<AnalyticsOverview> => {
     activationRate,
     usersWithTransactions,
     eventCounts,
-    recentActivity,
   };
 };
 

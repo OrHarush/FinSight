@@ -11,6 +11,7 @@ import ActivityFeed from './ActivityFeed';
 import AdminDashboardSkeleton from './AdminDashboardSkeleton';
 import AdminStatCard from './AdminStatCard';
 import FunnelBar from './FunnelBar';
+import UsersTable from './UsersTable';
 import { useAdminAnalytics } from './useAdminAnalytics';
 
 export const AdminDashboard = () => {
@@ -20,12 +21,13 @@ export const AdminDashboard = () => {
 
   usePageHeader(t('title'));
 
-  const { data, isLoading, isError, funnel, funnelMax, adoption, adoptionMax, recentActivity } =
+  const { data, isLoading, isError, funnel, funnelMax, adoption, adoptionMax } =
     useAdminAnalytics();
 
   const [funnelOpen, setFunnelOpen] = useState(isDesktop);
   const [adoptionOpen, setAdoptionOpen] = useState(isDesktop);
   const [activityOpen, setActivityOpen] = useState(true);
+  const [usersOpen, setUsersOpen] = useState(isDesktop);
 
   if (isLoading || !data) {
     return (
@@ -238,10 +240,25 @@ export const AdminDashboard = () => {
       {/* Divider */}
       <Box sx={{ borderTop: 1, borderColor: 'divider' }} />
 
+      {/* All Users */}
+      {isDesktop ? (
+        <SectionCard title={t('allUsers.title')}>
+          <UsersTable />
+        </SectionCard>
+      ) : (
+        <CollapsibleSection
+          title={t('allUsers.title')}
+          open={usersOpen}
+          onToggle={() => setUsersOpen(v => !v)}
+        >
+          <UsersTable />
+        </CollapsibleSection>
+      )}
+
       {/* Recent Activity */}
       {isDesktop ? (
         <SectionCard title={t('recent.title')}>
-          <ActivityFeed items={recentActivity} />
+          <ActivityFeed />
         </SectionCard>
       ) : (
         <CollapsibleSection
@@ -249,7 +266,7 @@ export const AdminDashboard = () => {
           open={activityOpen}
           onToggle={() => setActivityOpen(v => !v)}
         >
-          <ActivityFeed items={recentActivity} />
+          <ActivityFeed />
         </CollapsibleSection>
       )}
     </Column>

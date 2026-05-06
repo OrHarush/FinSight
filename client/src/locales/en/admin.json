@@ -47,5 +47,16 @@
       "user_created": "new user",
       "user_deleted": "deleted"
     }
+  },
+  "allUsers": {
+    "title": "All users",
+    "user": "User",
+    "email": "Email",
+    "registered": "Registered",
+    "transactions": "TX",
+    "lastActive": "Last active",
+    "searchPlaceholder": "Search by name or email",
+    "count": "Showing {{count}} of {{total}}",
+    "empty": "No users match your search"
   }
 }

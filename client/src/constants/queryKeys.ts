@@ -50,12 +50,21 @@ export const queryKeys = {
   },
   budget: (id: string) => ['budgets', id],
 
+  goals: (filter?: { status?: string }) => ['goals', filter ?? {}],
+  allGoals: () => ['goals'],
+  goal: (id: string) => ['goals', id],
+  goalProjection: (id: string) => ['goals', 'projection', id],
+  goalGhosts: (month: string) => ['goals', 'ghosts', month],
+  allGoalGhosts: () => ['goals', 'ghosts'],
+
   paymentMethods: () => ['paymentMethods'],
   yearlyChart: (year: number) => ['yearlyChart', year],
 
   user: () => ['user'],
 
   adminAnalytics: () => ['admin-analytics'],
+  adminRecentActivity: () => ['admin-recent-activity'],
+  adminUsers: () => ['admin-users'],
   adminDebugSnapshots: () => ['admin', 'debug-snapshots'],
   adminBalanceBreakdown: (accountId?: string) => ['admin', 'balance-breakdown', accountId ?? null],
 };

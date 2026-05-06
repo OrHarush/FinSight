@@ -9,6 +9,8 @@ export const ROUTES = {
   CATEGORIES_URL: '/categories',
   PAYMENT_METHODS_URL: '/payment-methods',
   BUDGETS_URL: '/budget',
+  GOALS_URL: '/goals',
+  GOAL_DETAIL_URL: '/goals/:id',
   PLANNER_URL: '/planner',
   REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
@@ -61,11 +63,34 @@ export const API_ROUTES = {
 
   BUDGETS: '/api/budgets',
 
+  GOALS: '/api/goals',
+  GOAL_BY_ID: (id: string) => `/api/goals/${id}`,
+  GOAL_PROJECTION: (id: string) => `/api/goals/${id}/projection`,
+  GOAL_DELETE: (id: string, keepCategory: boolean) =>
+    `/api/goals/${id}?keepCategory=${keepCategory}`,
+  GOAL_GHOSTS: (month: string) => `/api/goals/ghosts?month=${month}`,
+
   USERS: '/api/users',
   USERS_ME: '/api/users/me',
   USERS_PREFERENCES: '/api/users/me/preferences',
 
   ADMIN: '/api/admin',
+  ADMIN_USERS: '/api/admin/users',
+  ADMIN_RECENT_ACTIVITY: (cursor?: string, limit?: number) => {
+    const params = new URLSearchParams();
+
+    if (cursor) {
+      params.append('cursor', cursor);
+    }
+
+    if (limit !== undefined) {
+      params.append('limit', String(limit));
+    }
+
+    const qs = params.toString();
+
+    return qs ? `/api/admin/analytics/activity?${qs}` : '/api/admin/analytics/activity';
+  },
   ADMIN_DEBUG: {
     RUN_FOR_ME: '/api/admin/debug/run-for-me',
     RESTORE_FOR_ME: '/api/admin/debug/restore-for-me',

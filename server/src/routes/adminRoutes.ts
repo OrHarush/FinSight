@@ -1,11 +1,13 @@
 import { Router } from 'express';
 
 import {
+  getAllUsers,
   getAnalytics,
   getBalanceBreakdown,
   getDebugSnapshots,
   getKpiOverview,
   getLoginEvents,
+  getRecentActivity,
   restoreDebugForMe,
   runDebugForMe,
 } from '../controllers/adminController';
@@ -16,6 +18,8 @@ const router = Router();
 router.get('/overview', requireAdmin, getKpiOverview);
 router.get('/activity', requireAdmin, getLoginEvents);
 router.get('/analytics', requireAdmin, getAnalytics);
+router.get('/analytics/activity', requireAdmin, getRecentActivity);
+router.get('/users', requireAdmin, getAllUsers);
 
 router.post('/debug/run-for-me', requireAdmin, runDebugForMe);
 router.post('/debug/restore-for-me', requireAdmin, restoreDebugForMe);

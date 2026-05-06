@@ -46,6 +46,23 @@ export const countActivated = async (): Promise<number> =>
 export const countWithTransactions = async (): Promise<number> =>
   User.countDocuments({ totalTransactions: { $gt: 0 } });
 
+export interface AdminUserRow {
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+  picture?: string;
+  createdAt: Date;
+  totalTransactions: number;
+  lastActiveAt?: Date;
+  hasCompletedOnboarding: boolean;
+}
+
+export const findAllForAdmin = async (): Promise<AdminUserRow[]> =>
+  User.find()
+    .sort({ createdAt: -1 })
+    .select('name email picture createdAt totalTransactions lastActiveAt hasCompletedOnboarding')
+    .lean<AdminUserRow[]>();
+
 export const updatePreferences = async (userId: string, displayCurrency: string) =>
   User.findByIdAndUpdate(userId, { displayCurrency }, { new: true });
 

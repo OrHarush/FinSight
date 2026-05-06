@@ -14,6 +14,22 @@ export interface RecentActivityDto {
   createdAt: string;
 }
 
+export interface RecentActivityPageDto {
+  items: RecentActivityDto[];
+  nextCursor: string | null;
+}
+
+export interface AdminUserDto {
+  id: string;
+  name: string;
+  email: string;
+  picture?: string;
+  createdAt: string;
+  totalTransactions: number;
+  lastActiveAt?: string;
+  hasCompletedOnboarding: boolean;
+}
+
 export interface AnalyticsOverviewDto {
   totalUsers: number;
   newUsersToday: number;
@@ -26,5 +42,4 @@ export interface AnalyticsOverviewDto {
   activationRate: number;
   usersWithTransactions: number;
   eventCounts: Record<AnalyticsEventType, number>;
-  recentActivity: RecentActivityDto[];
 }

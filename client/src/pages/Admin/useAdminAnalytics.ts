@@ -1,13 +1,9 @@
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { useMemo } from 'react';
 
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFetch } from '@/hooks/common/useFetch';
-import { AnalyticsEventType, AnalyticsOverviewDto, RecentActivityDto } from '@/types/Admin';
-
-dayjs.extend(relativeTime);
+import { AnalyticsOverviewDto } from '@/types/Admin';
 
 export interface FunnelRow {
   labelKey: string;
@@ -20,40 +16,6 @@ export interface AdoptionRow {
   value: number;
   color: string;
 }
-
-export interface FormattedActivity extends RecentActivityDto {
-  formattedTime: string;
-  initials: string;
-}
-
-const EVENT_BADGE_COLOR: Record<AnalyticsEventType, string> = {
-  transaction_created: 'success',
-  recurring_created: 'info',
-  csv_imported: 'warning',
-  category_customized: 'secondary',
-  onboarding_completed: 'primary',
-};
-
-const getInitials = (name: string): string => {
-  const parts = name.trim().split(/\s+/);
-
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-  }
-
-  return (name[0] ?? '').toUpperCase();
-};
-
-const formatActivityTime = (dateStr: string): string => {
-  const date = dayjs(dateStr);
-  const now = dayjs();
-
-  if (now.diff(date, 'hour') < 24) {
-    return date.fromNow();
-  }
-
-  return date.format('DD MMM · HH:mm');
-};
 
 export const useAdminAnalytics = () => {
   const { data, isLoading, isError } = useFetch<AnalyticsOverviewDto>({
@@ -88,18 +50,6 @@ export const useAdminAnalytics = () => {
     ];
   }, [data]);
 
-  const recentActivity = useMemo((): FormattedActivity[] => {
-    if (!data) {
-      return [];
-    }
-
-    return data.recentActivity.map(item => ({
-      ...item,
-      formattedTime: formatActivityTime(item.createdAt),
-      initials: getInitials(item.userName),
-    }));
-  }, [data]);
-
   const adoptionMax = useMemo(() => {
     if (!adoption.length) {
       return 1;
@@ -124,6 +74,5 @@ export const useAdminAnalytics = () => {
     funnelMax,
     adoption,
     adoptionMax,
-    recentActivity,
   };
 };

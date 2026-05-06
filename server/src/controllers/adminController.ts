@@ -21,6 +21,32 @@ export const getAnalytics = asyncHandler(async (_req: Request, res: Response) =>
   return ApiResponse.ok(res, analytics);
 });
 
+const DEFAULT_ACTIVITY_LIMIT = 20;
+const MAX_ACTIVITY_LIMIT = 100;
+
+export const getRecentActivity = asyncHandler(async (req: Request, res: Response) => {
+  const cursor = typeof req.query.cursor === 'string' ? req.query.cursor : undefined;
+
+  const requestedLimit = Number(req.query.limit ?? DEFAULT_ACTIVITY_LIMIT);
+  const limit = Number.isFinite(requestedLimit) && requestedLimit > 0
+    ? Math.min(Math.floor(requestedLimit), MAX_ACTIVITY_LIMIT)
+    : DEFAULT_ACTIVITY_LIMIT;
+
+  if (cursor && Number.isNaN(new Date(cursor).getTime())) {
+    throw ApiError.badRequest('Invalid cursor');
+  }
+
+  const page = await adminService.getRecentActivity(cursor, limit);
+
+  return ApiResponse.ok(res, page);
+});
+
+export const getAllUsers = asyncHandler(async (_req: Request, res: Response) => {
+  const users = await adminService.getAllUsers();
+
+  return ApiResponse.ok(res, users);
+});
+
 export const getLoginEvents = asyncHandler(async (req: Request, res: Response) => {
   const days = Number(req.query.days ?? 7);
 

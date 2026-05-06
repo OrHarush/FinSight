@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import 'dayjs/locale/he';
+import 'dayjs/locale/en';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
@@ -10,6 +12,7 @@ import enBudgets from '@/locales/en/budgets.json';
 import enCategories from '@/locales/en/categories.json';
 import enChat from '@/locales/en/chat.json';
 import enCommon from '@/locales/en/common.json';
+import enGoals from '@/locales/en/goals.json';
 import enHome from '@/locales/en/home.json';
 import enLogin from '@/locales/en/login.json';
 import enOverview from '@/locales/en/overview.json';
@@ -26,6 +29,7 @@ import heBudgets from '@/locales/he/budgets.json';
 import heCategories from '@/locales/he/categories.json';
 import heChat from '@/locales/he/chat.json';
 import heCommon from '@/locales/he/common.json';
+import heGoals from '@/locales/he/goals.json';
 import heHome from '@/locales/he/home.json';
 import heLogin from '@/locales/he/login.json';
 import heOverview from '@/locales/he/overview.json';
@@ -58,6 +62,7 @@ i18n
         paymentMethods: enPaymentMethods,
         budgets: enBudgets,
         chat: enChat,
+        goals: enGoals,
       },
       he: {
         admin: heAdmin,
@@ -76,6 +81,7 @@ i18n
         paymentMethods: hePaymentMethods,
         budgets: heBudgets,
         chat: heChat,
+        goals: heGoals,
       },
     },
     fallbackLng: 'he',
