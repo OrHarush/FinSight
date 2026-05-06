@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -44,6 +45,7 @@ const AppRoutes = () => {
 
   return (
     <BrowserRouter>
+      <Analytics />
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route
@@ -93,6 +95,8 @@ const AppRoutes = () => {
               }
             />
             <Route path={ROUTES.BUDGETS_URL} element={<Budgets />} />
+            {/*<Route path={ROUTES.GOALS_URL} element={<Goals />} />*/}
+            {/*<Route path={ROUTES.GOAL_DETAIL_URL} element={<GoalDetail />} />*/}
             <Route
               path={ROUTES.CHAT_URL}
               element={
