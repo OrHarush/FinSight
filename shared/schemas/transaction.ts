@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { amountSchema, nameSchema, objectIdSchema } from './common';
 
+const optionalObjectIdField = z.union([objectIdSchema, z.literal('')]).optional();
+
 const BaseTransactionSchema = z.object({
   name: nameSchema(50).optional(),
   note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
@@ -95,11 +97,11 @@ const BaseTransactionFormSchema = z.object({
   recurrence: z.enum(['None', 'Monthly', 'Yearly']),
   belongToPreviousMonth: z.boolean().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
-  category: objectIdSchema.optional(),
-  paymentMethod: objectIdSchema.optional(),
-  account: objectIdSchema.optional(),
-  fromAccount: objectIdSchema.optional(),
-  toAccount: objectIdSchema.optional(),
+  category: optionalObjectIdField,
+  paymentMethod: optionalObjectIdField,
+  account: optionalObjectIdField,
+  fromAccount: optionalObjectIdField,
+  toAccount: optionalObjectIdField,
   note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
 });
 

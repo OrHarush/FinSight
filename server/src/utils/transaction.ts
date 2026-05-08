@@ -190,22 +190,20 @@ export const sortAndPaginate = (
 export function getEffectiveMonth(tx: ITransactionPopulated) {
   const date = dayjs(tx.date);
 
-  if (tx.type === 'Transfer') {
-    return { year: date.year(), month: date.month() };
-  }
+  if (tx.type !== 'Transfer') {
+    const pm = tx.paymentMethod;
 
-  const pm = tx.paymentMethod;
+    if (pm && pm.type === 'Credit Card' && typeof pm.billingDay === 'number') {
+      const billingDay = pm.billingDay;
 
-  if (pm && pm.type === 'Credit Card' && typeof pm.billingDay === 'number') {
-    const billingDay = pm.billingDay;
+      if (date.date() < billingDay) {
+        const prev = date.subtract(1, 'month');
 
-    if (date.date() < billingDay) {
-      const prev = date.subtract(1, 'month');
+        return { year: prev.year(), month: prev.month() };
+      }
 
-      return { year: prev.year(), month: prev.month() };
+      return { year: date.year(), month: date.month() };
     }
-
-    return { year: date.year(), month: date.month() };
   }
 
   if (tx.belongToPreviousMonth) {

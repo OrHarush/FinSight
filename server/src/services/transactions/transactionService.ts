@@ -8,7 +8,6 @@ import Category from '../../models/Category';
 import { ITransaction } from '../../models/Transaction';
 import User from '../../models/User';
 import * as analyticsEventRepository from '../../repositories/analyticsEventRepository';
-import { isExcludedEmail } from '../../utils/excludedEmails';
 import * as recurringTemplateRepository from '../../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../../repositories/transactionRepository';
 import {
@@ -16,6 +15,7 @@ import {
   GetTransactionSummaryQuery,
 } from '../../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../../types/Transaction';
+import { isExcludedEmail } from '../../utils/excludedEmails';
 import {
   expandTransactions,
   filterTemplatesByQueryFilters,
@@ -162,11 +162,9 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
 
   transactions.push(...virtualTransactions);
 
-  const expandedTransactions = expandTransactions(transactions);
-
   if (month !== undefined) {
     const result = summarizeSingleMonth(
-      expandedTransactions,
+      transactions,
       year,
       month,
       accountId,
@@ -182,7 +180,7 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
     };
   }
 
-  return summarizeWholeYear(expandedTransactions, year, accountId).map(bucket => ({
+  return summarizeWholeYear(transactions, year, accountId).map(bucket => ({
     ...bucket,
     monthlyIncome: fromCents(bucket.monthlyIncome),
     monthlyExpenses: fromCents(bucket.monthlyExpenses),

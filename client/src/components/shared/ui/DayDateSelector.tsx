@@ -2,6 +2,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { IconButton, Typography } from '@mui/material';
+import type { Theme } from '@mui/material/styles';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Dayjs } from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
@@ -12,6 +13,9 @@ interface DaySelectorMobileProps {
   value: Dayjs;
   onChange: (newDate: Dayjs) => void;
 }
+
+const flipIconForRtl = (theme: Theme) =>
+  theme.direction === 'rtl' ? 'scaleX(-1)' : 'none';
 
 const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
   const [open, setOpen] = useState(false);
@@ -34,7 +38,6 @@ const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
   return (
     <Row
       alignItems="center"
-      dir="ltr"
       spacing={0.5}
       sx={{
         border: '1px solid',
@@ -46,7 +49,7 @@ const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
       }}
     >
       <IconButton onClick={handlePrevDay} size="small" color="primary">
-        <ArrowBackIosNewIcon fontSize="small" />
+        <ArrowBackIosNewIcon fontSize="small" sx={{ transform: flipIconForRtl }} />
       </IconButton>
 
       <Row
@@ -87,7 +90,7 @@ const DaySelectorMobile = ({ value, onChange }: DaySelectorMobileProps) => {
       </Row>
 
       <IconButton onClick={handleNextDay} size="small" color="primary">
-        <ArrowForwardIosIcon fontSize="small" />
+        <ArrowForwardIosIcon fontSize="small" sx={{ transform: flipIconForRtl }} />
       </IconButton>
     </Row>
   );

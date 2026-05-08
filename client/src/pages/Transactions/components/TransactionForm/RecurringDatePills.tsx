@@ -1,11 +1,9 @@
 import { TransactionFormValues } from '@lyra/shared';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { Typography } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import i18n from 'i18next';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +27,6 @@ const RecurringDatePills = () => {
   const [endOpen, setEndOpen] = useState(false);
   const startRef = useRef<HTMLDivElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
-  const isRtl = i18n.language === 'he';
 
   useEffect(() => {
     if (!getValues('startDate')) {
@@ -85,11 +82,13 @@ const RecurringDatePills = () => {
         }}
       />
 
-      {isRtl ? (
-        <ArrowBackIcon sx={{ color: 'text.disabled', fontSize: 16 }} />
-      ) : (
-        <ArrowForwardIcon sx={{ color: 'text.disabled', fontSize: 16 }} />
-      )}
+      <ArrowForwardIcon
+        sx={{
+          color: 'text.disabled',
+          fontSize: 16,
+          transform: theme => (theme.direction === 'rtl' ? 'scaleX(-1)' : 'none'),
+        }}
+      />
 
       <Controller
         name="endDate"

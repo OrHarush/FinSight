@@ -1,10 +1,8 @@
 import { TransactionFormValues } from '@lyra/shared';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Box, Grid } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import i18n from 'i18next';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +15,6 @@ const ScheduleSection = () => {
 
   const translateError = (message?: string) =>
     message ? tCommon(message as Parameters<typeof tCommon>[0]) : undefined;
-  const isRtl = i18n.language === 'he';
   const isMobile = useIsMobile();
   const { control } = useFormContext<TransactionFormValues>();
 
@@ -55,11 +52,12 @@ const ScheduleSection = () => {
         </Box>
         {!isMobile && (
           <Box sx={{ pt: '10px' }}>
-            {isRtl ? (
-              <ArrowBackIcon sx={{ color: 'text.secondary' }} />
-            ) : (
-              <ArrowForwardIcon sx={{ color: 'text.secondary' }} />
-            )}
+            <ArrowForwardIcon
+              sx={{
+                color: 'text.secondary',
+                transform: theme => (theme.direction === 'rtl' ? 'scaleX(-1)' : 'none'),
+              }}
+            />
           </Box>
         )}
         <Box sx={{ flex: 1, minWidth: 0 }}>

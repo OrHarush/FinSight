@@ -127,14 +127,12 @@ export const computeAccountBalance = async (
     from: queryFrom,
   });
 
-  const expanded = expandTransactions(rawTransactions);
-
   let totalIncluded = 0;
   let totalSkippedPreCheckpoint = 0;
   let totalSkippedFuture = 0;
   const breakdown: BalanceBreakdownEntry[] = [];
 
-  for (const tx of expanded) {
+  for (const tx of rawTransactions) {
     const entry = buildBreakdownEntry(tx, accountId, checkpointDate, now);
     breakdown.push(entry);
 
@@ -258,6 +256,11 @@ export const calculateAccountBalanceCurve = async (
   for (let current = start.clone(); !current.isAfter(end, 'day'); current = current.add(1, 'day')) {
     while (txIndex < sortedTx.length && dayjs(sortedTx[txIndex].date).isSame(current, 'day')) {
       const tx = sortedTx[txIndex];
+
+      if (tx.account?._id.toString() !== accountId) {
+        txIndex++;
+        continue;
+      }
 
       if (tx.category?.type === 'Income') {
         runningBalance += tx.amount;

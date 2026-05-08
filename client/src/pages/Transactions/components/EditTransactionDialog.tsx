@@ -12,11 +12,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
-import Column from '@/components/shared/layout/containers/Column';
 import { queryKeys } from '@/constants/queryKeys';
+import { API_ROUTES } from '@/constants/Routes';
 import { ApiResponse } from '@/hooks/common/useFetch';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
-import { API_ROUTES } from '@/constants/Routes';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import EditRecurringTransactionDialog from '@/pages/Transactions/components/EditRecurringTransactionDialog';
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
@@ -43,19 +42,23 @@ const EditTransactionDialog = ({
   const methods = useForm<TransactionFormValues>({
     resolver: zodResolver(TransactionFormSchema),
     defaultValues: {
-      name: transaction.name,
+      name: transaction.name || undefined,
       amount: transaction.amount,
       date: transaction.date ? transaction.date.split('T')[0] : undefined,
       recurrence: 'None',
       belongToPreviousMonth: transaction.belongToPreviousMonth,
       type: transaction.type,
       paymentMethod: transaction?.paymentMethod?._id,
-      category: transaction?.category?._id ?? '',
+      category: transaction.type === 'Transfer' ? '' : (transaction?.category?._id ?? ''),
       account: transaction?.account?._id,
+      fromAccount: transaction?.fromAccount?._id,
+      toAccount: transaction?.toAccount?._id,
       note: transaction.note,
     },
     mode: 'all',
   });
+
+  console.log(transaction);
 
   const updateTransaction = useApiMutation<
     ApiResponse<TransactionMutationResult>,
@@ -140,9 +143,7 @@ const EditTransactionDialog = ({
         >
           <form onSubmit={methods.handleSubmit(submitEdit)} noValidate>
             <DialogContent sx={{ pt: 1 }}>
-              <Column spacing={2}>
-                <TransactionForm disableTypeSelector hideRecurrence />
-              </Column>
+              <TransactionForm disableTypeSelector hideRecurrence />
             </DialogContent>
             <DialogActions>
               <Button onClick={closeDialog} variant="outlined">

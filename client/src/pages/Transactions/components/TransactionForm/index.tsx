@@ -66,7 +66,11 @@ const TransactionForm = ({
   showQuickChips?: boolean;
 }) => {
   const { t } = useTranslation('transactions');
-  const { control, setValue } = useFormContext<TransactionFormValues>();
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext<TransactionFormValues>();
   const recurrence = useWatch({ control, name: 'recurrence' });
   const transactionType = useWatch({ control, name: 'type' });
   const date = useWatch({ control, name: 'date' });

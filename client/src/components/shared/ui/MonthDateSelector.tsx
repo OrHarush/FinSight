@@ -1,6 +1,7 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import type { Theme } from '@mui/material/styles';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -12,6 +13,9 @@ interface DateSelectorProps {
   value: Dayjs;
   onChange: (newDate: Dayjs) => void;
 }
+
+const flipIconForRtl = (theme: Theme) =>
+  theme.direction === 'rtl' ? 'scaleX(-1)' : 'none';
 
 const MonthDateSelector = ({ value, onChange }: DateSelectorProps) => {
   const theme = useTheme();
@@ -32,15 +36,15 @@ const MonthDateSelector = ({ value, onChange }: DateSelectorProps) => {
 
   if (isMobile) {
     return (
-      <Row width="160px" alignItems="center" justifyContent="space-between" dir={'ltr'}>
+      <Row width="160px" alignItems="center" justifyContent="space-between">
         <IconButton onClick={handlePrevMonth} size="small" color="primary">
-          <ArrowBackIosNewIcon fontSize="small" />
+          <ArrowBackIosNewIcon fontSize="small" sx={{ transform: flipIconForRtl }} />
         </IconButton>
         <Typography variant="body1" fontWeight={600}>
           {formattedMonth}
         </Typography>
         <IconButton onClick={handleNextMonth} size="small" color="primary">
-          <ArrowForwardIosIcon fontSize="small" />
+          <ArrowForwardIosIcon fontSize="small" sx={{ transform: flipIconForRtl }} />
         </IconButton>
       </Row>
     );
