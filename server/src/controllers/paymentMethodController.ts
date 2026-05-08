@@ -12,7 +12,7 @@ export const getPaymentMethods = asyncHandler(async (req: Request, res: Response
 });
 
 export const getPaymentMethodById = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.getById(req.params.id, req.userId);
+  const method = await paymentMethodService.getById(req.params.id as string, req.userId);
 
   return ApiResponse.ok(res, method);
 });
@@ -28,7 +28,7 @@ export const createPaymentMethod = asyncHandler(async (req: Request, res: Respon
 
 export const updatePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   const updated = await paymentMethodService.update(
-    req.params.id,
+    req.params.id as string,
     req.validatedBody as UpdatePaymentMethodDTO,
     req.userId
   );
@@ -37,14 +37,14 @@ export const updatePaymentMethod = asyncHandler(async (req: Request, res: Respon
 });
 
 export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.setPrimary(req.params.id, req.userId);
+  const method = await paymentMethodService.setPrimary(req.params.id as string, req.userId);
 
   return ApiResponse.ok(res, method);
 });
 
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   await paymentMethodService.deleteById(
-    req.params.id,
+    req.params.id as string,
     req.userId,
     req.body.replacementId as string | undefined
   );

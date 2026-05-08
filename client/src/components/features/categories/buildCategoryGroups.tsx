@@ -1,4 +1,5 @@
 import CategoryIcon from '@mui/icons-material/Category';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { Typography } from '@mui/material';
 import { TFunction } from 'i18next';
 import { ElementType } from 'react';
@@ -12,6 +13,7 @@ import { getCategoryDisplayName } from '@/utils/entities/category';
 const buildOption = (category: CategoryDto, displayName: string) => {
   const IconComponent: ElementType =
     (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
+  const isSavings = category.type === 'Savings';
 
   return {
     label: displayName,
@@ -19,9 +21,12 @@ const buildOption = (category: CategoryDto, displayName: string) => {
     design: (
       <Row spacing={1} alignItems="center" sx={{ minWidth: 0, overflow: 'hidden' }}>
         <IconComponent sx={{ fontSize: '1.3rem', color: category.color, flexShrink: 0 }} />
-        <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
           {displayName}
         </Typography>
+        {isSavings && (
+          <TrackChangesIcon sx={{ fontSize: '1rem', color: 'text.secondary', flexShrink: 0 }} />
+        )}
       </Row>
     ),
   };
@@ -36,7 +41,13 @@ export const buildCategoryGroups = (
     displayName: getCategoryDisplayName(c, tCategories),
   }));
 
-  const frequent = withDisplay
+  const savings = withDisplay
+    .filter(x => x.category.type === 'Savings')
+    .sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+  const nonSavings = withDisplay.filter(x => x.category.type !== 'Savings');
+
+  const frequent = nonSavings
     .filter(x => x.category.isFrequent)
     .sort(
       (a, b) =>
@@ -44,11 +55,18 @@ export const buildCategoryGroups = (
         a.displayName.localeCompare(b.displayName)
     );
 
-  const rest = withDisplay
+  const rest = nonSavings
     .filter(x => !x.category.isFrequent)
     .sort((a, b) => a.displayName.localeCompare(b.displayName));
 
   const groups: SelectOptionGroup[] = [];
+
+  if (savings.length > 0) {
+    groups.push({
+      groupLabel: tCategories('groups.savings'),
+      options: savings.map(x => buildOption(x.category, x.displayName)),
+    });
+  }
 
   if (frequent.length > 0) {
     groups.push({
@@ -58,7 +76,7 @@ export const buildCategoryGroups = (
   }
 
   groups.push({
-    groupLabel: frequent.length > 0 ? tCategories('groups.all') : '',
+    groupLabel: savings.length > 0 || frequent.length > 0 ? tCategories('groups.all') : '',
     options: rest.map(x => buildOption(x.category, x.displayName)),
   });
 

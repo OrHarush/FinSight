@@ -5,7 +5,9 @@
     "create": "צור",
     "update": "עדכן",
     "cancel": "בטל",
-    "undo": "בטל"
+    "undo": "בטל",
+    "continue": "המשך",
+    "delete": "מחק"
   },
   "actions": {
     "search": "חפש...",

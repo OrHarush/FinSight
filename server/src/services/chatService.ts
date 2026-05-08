@@ -236,8 +236,8 @@ const executeTool = async (
           targetYear: args.targetYear as number | undefined,
           targetMonth: args.targetMonth as number | undefined,
           sort: 'desc',
-          categoryId: args.categoryId as string | undefined,
-          paymentMethodId: args.paymentMethodId as string | undefined,
+          categoryIds: args.categoryId ? [args.categoryId as string] : undefined,
+          paymentMethodIds: args.paymentMethodId ? [args.paymentMethodId as string] : undefined,
           accountId: args.accountId as string | undefined,
           search: args.search as string | undefined,
         };
@@ -261,6 +261,7 @@ const executeTool = async (
           year: args.year as number,
           month: args.month as number | undefined,
           accountId: args.accountId as string | undefined,
+          from: args.from ? new Date(args.from as string) : undefined,
         };
         result = await transactionService.getTransactionSummary(userId, query);
         break;

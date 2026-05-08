@@ -78,7 +78,6 @@
       "targetAmount": "Target amount",
       "initialAmount": "Already saved",
       "targetDate": "Target date",
-      "duration": "Time range",
       "importance": "Importance",
       "description": "Description (optional)",
       "descriptionPlaceholder": "What makes this goal special?"
@@ -99,7 +98,15 @@
       "required": "You'll need to save {{amount}} ₪ per month to hit this goal",
       "requiredFull": "You'll need to save {{monthly}} ₪/mo to reach {{target}} ₪ by {{date}}",
       "warningTooHigh": "Monthly contribution is high relative to your average income — consider extending the date or lowering the target."
-    }
+    },
+    "quickPick": {
+      "6": "6 months",
+      "12": "1 year",
+      "24": "2 years",
+      "60": "5 years",
+      "120": "10 years"
+    },
+    "deadlineHint": "in {{months}} months — {{date}}"
   },
   "delete": {
     "step1Title": "Delete goal {{name}}",
@@ -127,14 +134,5 @@
     "satisfied": "Done this month ✓",
     "partial": "Contributed {{actual}} ₪ — {{remaining}} ₪ to go",
     "planned": "Planned {{planned}} ₪"
-  },
-  "duration": {
-    "singularMonth": "1 month",
-    "dualMonths": "2 months",
-    "countMonths": "{{count}} months",
-    "singularYear": "1 year",
-    "dualYears": "2 years",
-    "countYears": "{{count}} years",
-    "connector": "and"
   }
 }

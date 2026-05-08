@@ -78,7 +78,6 @@
       "targetAmount": "סכום היעד",
       "initialAmount": "כבר חסכת",
       "targetDate": "תאריך יעד",
-      "duration": "טווח זמן",
       "importance": "חשיבות",
       "description": "תיאור (לא חובה)",
       "descriptionPlaceholder": "מה מיוחד ביעד הזה?"
@@ -99,7 +98,15 @@
       "required": "תצטרך לחסוך {{amount}} ₪ בחודש כדי להגיע ליעד",
       "requiredFull": "תצטרך לחסוך {{monthly}} ₪ בחודש כדי להגיע ל-{{target}} ₪ ב{{date}}",
       "warningTooHigh": "התשלום החודשי גבוה ביחס להכנסה הממוצעת שלך — שקול להאריך את התאריך או להוריד את היעד."
-    }
+    },
+    "quickPick": {
+      "6": "חצי שנה",
+      "12": "שנה",
+      "24": "שנתיים",
+      "60": "5 שנים",
+      "120": "10 שנים"
+    },
+    "deadlineHint": "בעוד {{months}} חודשים — {{date}}"
   },
   "delete": {
     "step1Title": "מחיקת היעד {{name}}",
@@ -127,14 +134,5 @@
     "satisfied": "הושלם החודש ✓",
     "partial": "תרמת {{actual}} ₪ — חסר {{remaining}} ₪",
     "planned": "מתוכנן {{planned}} ₪"
-  },
-  "duration": {
-    "singularMonth": "חודש",
-    "dualMonths": "חודשיים",
-    "countMonths": "{{count}} חודשים",
-    "singularYear": "שנה",
-    "dualYears": "שנתיים",
-    "countYears": "{{count}} שנים",
-    "connector": "ו-"
   }
 }

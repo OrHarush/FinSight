@@ -2,6 +2,7 @@ export * from './schemas/account';
 export * from './schemas/budget';
 export * from './schemas/category';
 export * from './schemas/common';
+export * from './schemas/goal';
 export * from './schemas/paymentMethod';
 export * from './schemas/recurringTemplate';
 export * from './schemas/transaction';

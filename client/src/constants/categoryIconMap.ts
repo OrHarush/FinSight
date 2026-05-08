@@ -110,6 +110,7 @@ import {
   TakeoutDining,
   Theaters,
   Train,
+  TrackChanges,
   TrendingDown,
   TrendingUp,
   TwoWheeler,
@@ -249,4 +250,5 @@ export const categoryIconMap: Record<string, ElementType> = {
   EmojiObjects,
   WbSunny,
   Nightlight,
+  TrackChanges,
 };

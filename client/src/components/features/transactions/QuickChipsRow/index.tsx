@@ -1,11 +1,13 @@
 import type { QuickChipDto } from '@lyra/shared';
 import { TransactionFormValues } from '@lyra/shared';
-import { useCallback } from 'react';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import { useCallback, useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import QuickChip from '@/components/shared/ui/QuickChip';
+import { useCategories } from '@/hooks/entities/useCategories';
 
 import QuickChipsSkeleton from './QuickChipsSkeleton';
 import { getScrollRowStyle } from './styles';
@@ -27,6 +29,12 @@ const QuickChipsRow = ({ activeChipId, setActiveChipId }: QuickChipsRowProps) =>
 
   const { chips, isLoading, isError, skeletonCount } = useResolvedChips(isExpense);
   const { ref, mask } = useEdgeFadeMask(chips.length + (isLoading ? 1 : 0));
+  const { categories } = useCategories();
+
+  const savingsCategoryIds = useMemo(
+    () => new Set(categories.filter(c => c.type === 'Savings').map(c => c._id)),
+    [categories]
+  );
 
   const resolveLabel = useCallback(
     (chip: QuickChipDto) =>
@@ -53,15 +61,24 @@ const QuickChipsRow = ({ activeChipId, setActiveChipId }: QuickChipsRowProps) =>
     <Row ref={ref} spacing={1} sx={getScrollRowStyle({ ...mask, isRtl })}>
       {isLoading && <QuickChipsSkeleton count={skeletonCount} />}
       {!isLoading &&
-        chips.map(chip => (
-          <QuickChip
-            key={chip.id}
-            label={resolveLabel(chip)}
-            amount={chip.amount}
-            isActive={activeChipId === chip.id}
-            onClick={() => applyChip(chip.id)}
-          />
-        ))}
+        chips.map(chip => {
+          const isSavings = savingsCategoryIds.has(chip.categoryId);
+
+          return (
+            <QuickChip
+              key={chip.id}
+              label={resolveLabel(chip)}
+              amount={chip.amount}
+              isActive={activeChipId === chip.id}
+              onClick={() => applyChip(chip.id)}
+              startAdornment={
+                isSavings ? (
+                  <TrackChangesIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+                ) : undefined
+              }
+            />
+          );
+        })}
     </Row>
   );
 };

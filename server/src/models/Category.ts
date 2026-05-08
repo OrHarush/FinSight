@@ -5,7 +5,7 @@ export interface ICategory {
   _id: string;
   name: string;
   key?: DefaultCategoryKey;
-  type: 'Income' | 'Expense';
+  type: 'Income' | 'Expense' | 'Savings';
   color: string;
   icon: string;
   userId: Types.ObjectId;
@@ -19,7 +19,7 @@ const CategorySchema: Schema = new Schema(
       required: false,
     },
     name: { type: String, required: true, trim: true, maxlength: 30 },
-    type: { type: String, enum: ['Income', 'Expense'], required: true },
+    type: { type: String, enum: ['Income', 'Expense', 'Savings'], required: true },
     color: { type: String },
     icon: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -28,5 +28,6 @@ const CategorySchema: Schema = new Schema(
 );
 
 CategorySchema.index({ name: 1, userId: 1, type: 1 }, { unique: true });
+CategorySchema.index({ userId: 1, type: 1 });
 
 export default mongoose.model<ICategory>('Category', CategorySchema, 'categories');

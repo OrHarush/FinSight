@@ -11,8 +11,8 @@ import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
 import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
-// import Goals from '@/pages/Goals';
-// import GoalDetail from '@/pages/Goals/GoalDetail';
+import Goals from '@/pages/Goals';
+import GoalDetail from '@/pages/Goals/GoalDetail';
 import HomePage from '@/pages/Home';
 import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import LegalPage from '@/pages/LegalPage/LegalPage';
@@ -106,8 +106,8 @@ const AppRoutes = () => {
               }
             />
             <Route path={ROUTES.BUDGETS_URL} element={<Budgets />} />
-            {/*<Route path={ROUTES.GOALS_URL} element={<Goals />} />*/}
-            {/*<Route path={ROUTES.GOAL_DETAIL_URL} element={<GoalDetail />} />*/}
+            <Route path={ROUTES.GOALS_URL} element={<Goals />} />
+            <Route path={ROUTES.GOAL_DETAIL_URL} element={<GoalDetail />} />
             <Route
               path={ROUTES.CHAT_URL}
               element={

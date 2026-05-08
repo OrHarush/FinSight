@@ -1,13 +1,21 @@
 import { ButtonBase, Typography } from '@mui/material';
+import { ReactNode } from 'react';
 
 interface QuickChipProps {
   label: string;
   amount: number;
   isActive?: boolean;
   onClick: () => void;
+  startAdornment?: ReactNode;
 }
 
-const QuickChip = ({ label, amount, isActive = false, onClick }: QuickChipProps) => {
+const QuickChip = ({
+  label,
+  amount,
+  isActive = false,
+  onClick,
+  startAdornment,
+}: QuickChipProps) => {
   return (
     <ButtonBase
       onClick={onClick}
@@ -31,6 +39,7 @@ const QuickChip = ({ label, amount, isActive = false, onClick }: QuickChipProps)
         },
       }}
     >
+      {startAdornment}
       <Typography component="span" variant="body2" fontWeight={500}>
         {label}
       </Typography>

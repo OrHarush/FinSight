@@ -4,7 +4,9 @@
     "create": "Create",
     "update": "Update",
     "cancel": "Cancel",
-    "undo": "Undo"
+    "undo": "Undo",
+    "continue": "Continue",
+    "delete": "Delete"
   },
   "actions": {
     "search": "Search...",

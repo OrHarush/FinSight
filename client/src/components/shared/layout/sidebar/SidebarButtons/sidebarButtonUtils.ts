@@ -7,6 +7,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import SavingsIcon from '@mui/icons-material/Savings';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 
 import { SidebarButtonConfig } from '@/components/shared/layout/sidebar/SidebarButtons/SidebarNavigationButton';
 import { ROUTES } from '@/constants/Routes';
@@ -20,6 +21,12 @@ export const budgetButton: SidebarButtonConfig = {
   titleKey: 'budgets',
   icon: SavingsIcon,
   route: ROUTES.BUDGETS_URL,
+};
+
+export const goalsButton: SidebarButtonConfig = {
+  titleKey: 'goals',
+  icon: TrackChangesIcon,
+  route: ROUTES.GOALS_URL,
 };
 
 export const manageNavigation: SidebarButtonConfig[] = [

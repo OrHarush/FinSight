@@ -52,6 +52,28 @@ export const expandTransactions = (
   transactions: ITransactionPopulated[]
 ): ITransactionPopulated[] => transactions.flatMap(tx => expandTransfer(tx));
 
+export const signedDeltaForAccount = (
+  tx: ITransactionPopulated,
+  accountId: string
+): number => {
+  if (tx.type === 'Income') {
+    return tx.amount;
+  }
+
+  if (tx.type === 'Expense') {
+    return -tx.amount;
+  }
+
+  if (tx.type !== 'Transfer') {
+    return 0;
+  }
+
+  const fromMatches = tx.fromAccount?._id.toString() === accountId;
+  const toMatches = tx.toAccount?._id.toString() === accountId;
+
+  return (fromMatches ? -tx.amount : 0) + (toMatches ? tx.amount : 0);
+};
+
 export const buildTransactionQuery = (
   userId: string,
   from?: Date,

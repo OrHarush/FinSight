@@ -151,4 +151,7 @@ export const categoryIcons = [
   'EmojiObjects',
   'WbSunny',
   'Nightlight',
+
+  // 🎯 Goals
+  'TrackChanges',
 ];

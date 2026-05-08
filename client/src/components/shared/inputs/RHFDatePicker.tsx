@@ -11,6 +11,8 @@ interface RHFDatePickerProps<T extends FieldValues> {
   name: Path<T>;
   label?: string;
   textFieldProps?: TextFieldProps;
+  minDate?: dayjs.Dayjs;
+  maxDate?: dayjs.Dayjs;
 }
 
 const sharedPickerProps = (
@@ -39,6 +41,8 @@ export function RHFDatePicker<T extends FieldValues>({
   name,
   label,
   textFieldProps,
+  minDate,
+  maxDate,
 }: RHFDatePickerProps<T>) {
   const { control } = useFormContext();
   const isMobile = useIsMobile();
@@ -68,6 +72,8 @@ export function RHFDatePicker<T extends FieldValues>({
                 {...shared}
                 value={value}
                 onChange={onChange}
+                minDate={minDate}
+                maxDate={maxDate}
                 slotProps={{
                   ...shared.slotProps,
                   dialog: {
@@ -83,6 +89,8 @@ export function RHFDatePicker<T extends FieldValues>({
                 {...shared}
                 value={value}
                 onChange={onChange}
+                minDate={minDate}
+                maxDate={maxDate}
                 slotProps={{
                   ...shared.slotProps,
                   desktopPaper: {

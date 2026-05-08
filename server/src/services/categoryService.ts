@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 import { ICategory } from '../models/Category';
 import * as categoryRepository from '../repositories/categoryRepository';
+import * as goalRepository from '../repositories/goalRepository';
 
 const FREQUENT_WINDOW_DAYS = 60;
 const FREQUENT_MIN_USES = 3;
@@ -56,6 +57,10 @@ export const getCategoryById = async (id: string, userId: string) => {
 };
 
 export const create = async (categoryDetails: CreateCategoryDTO, userId: string) => {
+  if (categoryDetails.type === 'Savings') {
+    throw ApiError.badRequest('SAVINGS_CATEGORY_REQUIRES_GOAL');
+  }
+
   const mapped: Omit<ICategory, '_id'> = {
     key: categoryDetails.key,
     name: categoryDetails.name,
@@ -73,6 +78,10 @@ export const update = async (
   updatedCategoryDetails: UpdateCategoryDTO,
   userId: string
 ) => {
+  if (updatedCategoryDetails.type === 'Savings') {
+    throw ApiError.badRequest('SAVINGS_CATEGORY_REQUIRES_GOAL');
+  }
+
   const mapped: Partial<ICategory> = {};
 
   if (updatedCategoryDetails.name !== undefined) mapped.name = updatedCategoryDetails.name;
@@ -90,6 +99,14 @@ export const update = async (
 };
 
 export const deleteCategory = async (id: string, userId: string) => {
+  const linkedGoal = await goalRepository.findByCategoryId(id);
+
+  if (linkedGoal && linkedGoal.userId.toString() === userId) {
+    throw ApiError.badRequest(
+      `CATEGORY_LINKED_TO_GOAL:${linkedGoal._id.toString()}:${linkedGoal.name}`
+    );
+  }
+
   const deleted = await categoryRepository.remove(id, userId);
 
   if (!deleted) {

@@ -8,6 +8,7 @@ import ManagementButtonsNavigation from '@/components/shared/layout/sidebar/Side
 import {
   budgetButton,
   buildAdminNavigationButtons,
+  goalsButton,
   manageNavigation,
   primaryNavigation,
 } from '@/components/shared/layout/sidebar/SidebarButtons/sidebarButtonUtils';
@@ -31,12 +32,13 @@ const SidebarButtons = () => {
   const routeRows = [
     ...primaryNavigation,
     budgetButton,
+    goalsButton,
     ...(showManageItems ? manageNavigation : []),
     ...adminNavigation,
   ];
 
   const activeRouteIndex = routeRows.findIndex(button => location.pathname === button.route);
-  const activeIndex = expanded && activeRouteIndex >= 3 ? activeRouteIndex + 1 : activeRouteIndex;
+  const activeIndex = expanded && activeRouteIndex >= 4 ? activeRouteIndex + 1 : activeRouteIndex;
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -54,6 +56,11 @@ const SidebarButtons = () => {
           button={budgetButton}
           isActive={location.pathname === budgetButton.route}
           title={t(budgetButton.titleKey)}
+        />
+        <SidebarNavigationButton
+          button={goalsButton}
+          isActive={location.pathname === goalsButton.route}
+          title={t(goalsButton.titleKey)}
         />
         <ManagementButtonsNavigation
           manageNavigation={manageNavigation}

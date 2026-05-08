@@ -10,6 +10,7 @@ import ScrollableColumn from '@/components/shared/layout/containers/ScrollableCo
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import GhostContributionsBanner from '@/pages/Transactions/TransactionsPreview/GhostContributionsBanner';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
 import { TransactionPageFormValues } from '@/types/Transaction';
@@ -60,13 +61,19 @@ const TransactionsCardsView = () => {
   }
 
   if (!transactions.length) {
-    return <EntityEmpty entityName="transactions" icon={ReceiptLongIcon} />;
+    return (
+      <Column spacing={1} overflow="hidden">
+        <GhostContributionsBanner month={selectedMonth} />
+        <EntityEmpty entityName="transactions" icon={ReceiptLongIcon} />
+      </Column>
+    );
   }
 
   return (
     <Column spacing={1} overflow={'hidden'}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
       <ScrollableColumn flex={1} sx={{ pr: 0.5 }}>
+        <GhostContributionsBanner month={selectedMonth} />
         {transactions.map(tx => (
           <TransactionCard key={tx._id} transaction={tx} />
         ))}

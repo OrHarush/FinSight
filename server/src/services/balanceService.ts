@@ -13,7 +13,7 @@ import Account from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ITransactionPopulated } from '../types/Transaction';
-import { expandTransactions, getEffectiveBalanceDate } from '../utils/transaction';
+import { expandTransactions, getEffectiveBalanceDate, signedDeltaForAccount } from '../utils/transaction';
 
 dayjs.extend(utc);
 
@@ -30,7 +30,7 @@ const buildBreakdownEntry = (
   const base: Omit<BalanceBreakdownEntry, 'included' | 'contributesToSum' | 'reason'> = {
     _id: String(tx._id),
     name: tx.name ?? '',
-    date: new Date(tx.date).toISOString(),
+    date: tx.date ? new Date(tx.date).toISOString() : new Date(0).toISOString(),
     amount: tx.amount,
     type,
     paymentMethodType: pm?.type ?? null,
@@ -60,7 +60,7 @@ const buildBreakdownEntry = (
     return {
       ...base,
       included: true,
-      contributesToSum: tx.amount,
+      contributesToSum: signedDeltaForAccount(tx, accountId),
       reason: 'Income → +amount',
     };
   }
@@ -69,26 +69,13 @@ const buildBreakdownEntry = (
     return {
       ...base,
       included: true,
-      contributesToSum: -tx.amount,
+      contributesToSum: signedDeltaForAccount(tx, accountId),
       reason: 'Expense → -amount',
     };
   }
 
   const fromIsThis = tx.fromAccount?._id.toString() === accountId;
   const toIsThis = tx.toAccount?._id.toString() === accountId;
-
-  let transferDelta = 0;
-  const reasonParts: string[] = [];
-
-  if (fromIsThis) {
-    transferDelta -= tx.amount;
-    reasonParts.push('fromAccount matches → -amount');
-  }
-
-  if (toIsThis) {
-    transferDelta += tx.amount;
-    reasonParts.push('toAccount matches → +amount');
-  }
 
   if (!fromIsThis && !toIsThis) {
     return {
@@ -99,10 +86,15 @@ const buildBreakdownEntry = (
     };
   }
 
+  const reasonParts: string[] = [];
+
+  if (fromIsThis) reasonParts.push('fromAccount matches → -amount');
+  if (toIsThis) reasonParts.push('toAccount matches → +amount');
+
   return {
     ...base,
     included: true,
-    contributesToSum: transferDelta,
+    contributesToSum: signedDeltaForAccount(tx, accountId),
     reason: `Transfer: ${reasonParts.join(' & ')}`,
   };
 };
@@ -262,11 +254,7 @@ export const calculateAccountBalanceCurve = async (
         continue;
       }
 
-      if (tx.category?.type === 'Income') {
-        runningBalance += tx.amount;
-      } else if (tx.category?.type === 'Expense') {
-        runningBalance -= tx.amount;
-      }
+      runningBalance += signedDeltaForAccount(tx, accountId);
 
       txIndex++;
     }

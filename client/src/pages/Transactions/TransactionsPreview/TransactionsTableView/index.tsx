@@ -8,6 +8,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import GhostContributionsBanner from '@/pages/Transactions/TransactionsPreview/GhostContributionsBanner';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
@@ -88,6 +89,7 @@ const TransactionsTableView = () => {
   return (
     <Column spacing={2} flex={1} minHeight={0}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
+      <GhostContributionsBanner month={selectedMonth} />
       <Paper
         sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}
       >

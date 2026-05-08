@@ -1,6 +1,8 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Card, CardContent, Grid, IconButton, Typography } from '@mui/material';
+import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import { Box, Card, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import axios from 'axios';
 import { ElementType } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -35,7 +37,23 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
       onSuccess: () => {
         alertSuccess(t('messages.deleteSuccess'));
       },
-      onError: err => {
+      onError: (err: unknown) => {
+        const message = axios.isAxiosError(err) ? err.response?.data?.error ?? '' : '';
+
+        if (message.startsWith('CATEGORY_LINKED_TO_GOAL:')) {
+          const parts = message.split(':');
+          const goalName = parts[2] ?? '';
+
+          alertError(
+            t('errors.linkedToGoal', {
+              categoryName: getCategoryName(category),
+              goalName,
+            })
+          );
+
+          return;
+        }
+
         alertError(t('messages.deleteError'));
         console.error('❌ Failed to delete category', err);
       },
@@ -95,6 +113,13 @@ const CategoryCard = ({ category, selectCategory }: CategoryCardProps) => {
                 >
                   {getCategoryName(category)}
                 </Typography>
+                {category.type === 'Savings' && (
+                  <Tooltip title={t('badges.savings')}>
+                    <TrackChangesIcon
+                      sx={{ fontSize: 16, color: 'text.secondary', flexShrink: 0 }}
+                    />
+                  </Tooltip>
+                )}
               </Row>
               <IconButton onClick={deleteCategory} size="medium" color="error">
                 <DeleteIcon fontSize="small" />

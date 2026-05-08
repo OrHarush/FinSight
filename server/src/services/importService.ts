@@ -23,7 +23,7 @@ export const getImportPreview = async (file: Express.Multer.File): Promise<Impor
 
   if (rows.length === 0) {
     warnings.push('No valid rows found after parsing.');
-    return { rowCount: 0, dateRange: null, sample: [], warnings };
+    return { rowCount: 0, dateRange: null, rows: [], sample: [], warnings };
   }
 
   // ISO date strings (YYYY-MM-DD) sort lexicographically = chronologically

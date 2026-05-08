@@ -5,7 +5,7 @@ import { nameSchema } from './common';
 
 export const CreateCategorySchema = z.object({
   name: nameSchema(30),
-  type: z.enum(['Income', 'Expense']),
+  type: z.enum(['Income', 'Expense', 'Savings']),
   icon: z.string().optional(),
   color: z.string().optional(),
   key: z.enum(DEFAULT_CATEGORY_KEYS).optional(),

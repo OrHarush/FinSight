@@ -12,10 +12,10 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   Category.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
-export const insert = async (data: Omit<ICategory, '_id'>) => {
+export const insert = async (data: Omit<ICategory, '_id'>, session?: ClientSession) => {
   const category = new Category(data);
 
-  return category.save();
+  return category.save({ session });
 };
 
 export const insertMany = (categories: Omit<ICategory, '_id'>[]) =>
@@ -27,8 +27,8 @@ export const updateById = async (id: string, data: Partial<ICategory>, userId: s
     runValidators: true,
   });
 
-export const remove = async (id: string, userId: string) =>
-  Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
+export const remove = async (id: string, userId: string, session?: ClientSession) =>
+  Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) }).session(session ?? null);
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Category.deleteMany(filter).session(session ?? null);
