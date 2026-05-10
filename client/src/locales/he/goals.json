@@ -44,7 +44,7 @@
     }
   },
   "narrative": {
-    "onTrack": "בקצב הזה תגיע ל-{{projected}} ₪ ב{{date}}. חסר {{shortfall}} ₪.",
+    "onTrack": "בקצב הזה תגיע ל-{{projected}} ₪ ב{{date}}.",
     "offTrack": "בקצב הנוכחי תגיע ל-{{projected}} ₪ ב{{date}} — תחסר עדיין {{shortfall}} ₪.",
     "achieved": "הגעת ליעד! שמרת {{amount}} ₪ — האם לסמן כהושג?",
     "markAchievedCta": "סמן כהושג"
@@ -130,9 +130,21 @@
     "deleteFailed": "מחיקת היעד נכשלה"
   },
   "ghosts": {
-    "label": "מתוכנן — חיסכון ל{{name}}",
-    "satisfied": "הושלם החודש ✓",
-    "partial": "תרמת {{actual}} ₪ — חסר {{remaining}} ₪",
-    "planned": "מתוכנן {{planned}} ₪"
+    "plannedLabel": "מתוכנן",
+    "shortBy": "חסר {{amount}} ₪",
+    "paidMark": "✓ שולם",
+    "dueEndOfMonth": "עד סוף החודש",
+    "satisfiedDate": "הושלם החודש",
+    "actions": {
+      "logContribution": "סמן כשולם",
+      "openGoal": "פתח את היעד"
+    },
+    "toast": {
+      "contributed": "תרמת {{amount}} ₪ ל{{name}}"
+    },
+    "errors": {
+      "missingAccount": "צריך לפחות חשבון אחד ואמצעי תשלום אחד כדי לרשום תרומה"
+    },
+    "txName": "חיסכון ל{{name}}"
   }
 }

@@ -3,29 +3,38 @@ import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import EntityError from '@/components/entities/EntityError';
 import Column from '@/components/shared/layout/containers/Column';
+import UndoSnackbar from '@/components/shared/ui/UndoSnackbar';
+import { useGhosts } from '@/hooks/entities/useGoals';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
-import GhostContributionsBanner from '@/pages/Transactions/TransactionsPreview/GhostContributionsBanner';
 import TransactionTableBody from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableBody/TransactionTableBody';
 import TransactionsTableSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionsTableSkeleton';
 import TransactionTableHeaders from '@/pages/Transactions/TransactionsPreview/TransactionsTableView/TransactionTableHeaders';
+import { useGhostQuickContribute } from '@/pages/Transactions/TransactionsPreview/useGhostQuickContribute';
 import { SortableColumn, SortOrder, TransactionPageFormValues } from '@/types/Transaction';
+import type { GhostContributionDto } from '@/types/Goal';
 import { compareTransactions } from '@/utils/entities/transaction';
+import { formatGoalAmount } from '@/pages/Goals/utils/goalFormatters';
 
 const TransactionsTableView = () => {
   const { t } = useTranslation('transactions');
+  const { t: tGoals } = useTranslation('goals');
+  const { t: tCommon } = useTranslation('common');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [order, setOrder] = useState<SortOrder>('desc');
   const [orderBy, setOrderBy] = useState<SortableColumn>('date');
+  const [dialogGhost, setDialogGhost] = useState<GhostContributionDto | null>(null);
   const { selectedMonth, selectedCategoryIds, selectedAccountIds, selectedPaymentMethodIds } =
     useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
 
   const searchValue = useWatch({ control, name: 'searchValue' });
+  const selectedYearMonth = useMemo(() => selectedMonth.format('YYYY-MM'), [selectedMonth]);
 
   const { transactions, pagination, isLoading, error, refetch } = useTransactions(
     selectedMonth.year(),
@@ -37,6 +46,16 @@ const TransactionsTableView = () => {
     page + 1,
     rowsPerPage
   );
+
+  const { ghosts } = useGhosts(selectedYearMonth);
+  const {
+    contribute,
+    undo,
+    dismiss,
+    pending,
+    defaultAccountId,
+    defaultPaymentMethodId,
+  } = useGhostQuickContribute();
 
   const { totalIncome, totalExpenses } = transactions.reduce(
     (acc, tx) => {
@@ -68,6 +87,9 @@ const TransactionsTableView = () => {
     setPage(0);
   };
 
+  const openGhostDialog = (ghost: GhostContributionDto) => setDialogGhost(ghost);
+  const closeGhostDialog = () => setDialogGhost(null);
+
   useEffect(() => {
     setPage(0);
   }, [
@@ -89,7 +111,6 @@ const TransactionsTableView = () => {
   return (
     <Column spacing={2} flex={1} minHeight={0}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
-      <GhostContributionsBanner month={selectedMonth} />
       <Paper
         sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}
       >
@@ -115,7 +136,12 @@ const TransactionsTableView = () => {
             }}
           >
             <TransactionTableHeaders order={order} orderBy={orderBy} onSort={handleSort} />
-            <TransactionTableBody transactions={sortedTransactions} />
+            <TransactionTableBody
+              transactions={sortedTransactions}
+              ghosts={ghosts}
+              onLogContribution={contribute}
+              onOpenGhostDialog={openGhostDialog}
+            />
           </Table>
         </TableContainer>
         <TablePagination
@@ -132,6 +158,35 @@ const TransactionsTableView = () => {
           }
         />
       </Paper>
+      {dialogGhost && (
+        <CreateTransactionDialog
+          isOpen
+          closeDialog={closeGhostDialog}
+          initialValues={{
+            type: 'Expense',
+            category: dialogGhost.categoryId,
+            amount: dialogGhost.remainingAmount,
+            name: tGoals('ghosts.txName', { name: dialogGhost.goalName }),
+            account: defaultAccountId,
+            paymentMethod: defaultPaymentMethodId,
+            date: new Date().toISOString().split('T')[0],
+          }}
+        />
+      )}
+      <UndoSnackbar
+        open={!!pending}
+        message={
+          pending
+            ? tGoals('ghosts.toast.contributed', {
+                amount: formatGoalAmount(pending.amount),
+                name: pending.goalName,
+              })
+            : ''
+        }
+        undoLabel={tCommon('buttons.undo')}
+        onUndo={undo}
+        onExpire={dismiss}
+      />
     </Column>
   );
 };

@@ -38,12 +38,6 @@
     "monthly": "Monthly",
     "yearly": "Yearly"
   },
-  "details": {
-    "title": "Transaction Details",
-    "uncategorized": "Uncategorized",
-    "created": "Created",
-    "updated": "Updated"
-  },
   "table": {
     "name": "Name",
     "amount": "Amount",

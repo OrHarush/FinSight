@@ -6,7 +6,9 @@ export interface ProjectionPoint {
 
 const monthlyRate = (annualReturnPct: number) => annualReturnPct / 100 / 12;
 
-export const requiredMonthlyContribution = (
+const ceilCentsToWholeUnit = (cents: number) => Math.ceil(cents / 100) * 100;
+
+const computeRawRequiredMonthlyContribution = (
   currentValue: number,
   targetAmount: number,
   monthsRemaining: number,
@@ -34,6 +36,21 @@ export const requiredMonthlyContribution = (
 
   return Math.max(pmt, 0);
 };
+
+export const requiredMonthlyContribution = (
+  currentValue: number,
+  targetAmount: number,
+  monthsRemaining: number,
+  annualReturnPct: number
+): number =>
+  ceilCentsToWholeUnit(
+    computeRawRequiredMonthlyContribution(
+      currentValue,
+      targetAmount,
+      monthsRemaining,
+      annualReturnPct
+    )
+  );
 
 export const projectFinalValue = (
   currentValue: number,

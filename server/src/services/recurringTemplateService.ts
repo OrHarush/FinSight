@@ -18,6 +18,7 @@ import { IRecurringTemplate } from '../models/RecurringTemplate';
 import { ITransaction } from '../models/Transaction';
 import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import { isCategoryCompatibleWithTransactionType } from '../utils/categoryCompatibility';
 import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
@@ -45,7 +46,7 @@ const validateRefs = async (
         throw ApiError.badRequest('Invalid category for this user');
       }
 
-      if (category.type !== type) {
+      if (!isCategoryCompatibleWithTransactionType(category.type, type)) {
         throw ApiError.badRequest(
           `Category type mismatch: category is ${category.type} but template is ${type}`
         );

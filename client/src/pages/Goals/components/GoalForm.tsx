@@ -115,6 +115,7 @@ const GoalForm = ({ isEditing = false, currentValue, avgMonthlyIncome = 0 }: Goa
             type="number"
             required
             min={1}
+            thousandSeparators
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
@@ -123,6 +124,7 @@ const GoalForm = ({ isEditing = false, currentValue, avgMonthlyIncome = 0 }: Goa
             label={t('dialog.fields.initialAmount')}
             type="number"
             min={0}
+            thousandSeparators
           />
         </Grid>
       </Grid>

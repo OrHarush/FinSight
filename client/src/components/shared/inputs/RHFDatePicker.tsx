@@ -1,4 +1,5 @@
 import { InputLabel, TextFieldProps } from '@mui/material';
+import { DateView } from '@mui/x-date-pickers';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import dayjs from 'dayjs';
@@ -13,17 +14,40 @@ interface RHFDatePickerProps<T extends FieldValues> {
   textFieldProps?: TextFieldProps;
   minDate?: dayjs.Dayjs;
   maxDate?: dayjs.Dayjs;
+  monthYearOnly?: boolean;
+  open?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
-const sharedPickerProps = (
+interface PickerMode {
+  views: readonly DateView[];
+  openTo: DateView;
+  format: string;
+}
+
+const DAY_PICKER_MODE: PickerMode = {
+  views: ['year', 'month', 'day'],
+  openTo: 'day',
+  format: 'DD/MM/YYYY',
+};
+
+const MONTH_PICKER_MODE: PickerMode = {
+  views: ['year', 'month'],
+  openTo: 'month',
+  format: 'MM/YYYY',
+};
+
+const buildSharedPickerProps = (
+  mode: PickerMode,
   textFieldProps: TextFieldProps | undefined,
   error: boolean,
   helperText: string | undefined,
   ref: React.Ref<unknown>
 ) => ({
-  views: ['year', 'month', 'day'] as const,
-  openTo: 'day' as const,
-  format: 'DD/MM/YYYY',
+  views: mode.views,
+  openTo: mode.openTo,
+  format: mode.format,
   slotProps: {
     textField: {
       ...textFieldProps,
@@ -37,15 +61,23 @@ const sharedPickerProps = (
   },
 });
 
+const normalizeToMonthStart = (date: dayjs.Dayjs | null): dayjs.Dayjs | null =>
+  date ? date.startOf('month') : null;
+
 export function RHFDatePicker<T extends FieldValues>({
   name,
   label,
   textFieldProps,
   minDate,
   maxDate,
+  monthYearOnly = false,
+  open,
+  onOpen,
+  onClose,
 }: RHFDatePickerProps<T>) {
   const { control } = useFormContext();
   const isMobile = useIsMobile();
+  const mode = monthYearOnly ? MONTH_PICKER_MODE : DAY_PICKER_MODE;
 
   return (
     <Controller
@@ -54,10 +86,14 @@ export function RHFDatePicker<T extends FieldValues>({
       render={({ field, fieldState }) => {
         const value = field.value ? dayjs(field.value) : null;
 
-        const onChange = (date: dayjs.Dayjs | null) =>
-          field.onChange(date ? date.format('YYYY-MM-DD') : '');
+        const onChange = (date: dayjs.Dayjs | null) => {
+          const normalized = monthYearOnly ? normalizeToMonthStart(date) : date;
 
-        const shared = sharedPickerProps(
+          field.onChange(normalized ? normalized.format('YYYY-MM-DD') : '');
+        };
+
+        const shared = buildSharedPickerProps(
+          mode,
           textFieldProps,
           !!fieldState.error,
           fieldState.error?.message,
@@ -74,6 +110,9 @@ export function RHFDatePicker<T extends FieldValues>({
                 onChange={onChange}
                 minDate={minDate}
                 maxDate={maxDate}
+                open={open}
+                onOpen={onOpen}
+                onClose={onClose}
                 slotProps={{
                   ...shared.slotProps,
                   dialog: {
@@ -91,6 +130,9 @@ export function RHFDatePicker<T extends FieldValues>({
                 onChange={onChange}
                 minDate={minDate}
                 maxDate={maxDate}
+                open={open}
+                onOpen={onOpen}
+                onClose={onClose}
                 slotProps={{
                   ...shared.slotProps,
                   desktopPaper: {

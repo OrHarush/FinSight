@@ -21,9 +21,17 @@ const ClassificationSection = () => {
 
   const previousTransactionType = useRef(transactionType);
 
-  const filteredCategories = categories.filter(
-    c => c.type.toLowerCase() === transactionType?.toLowerCase()
-  );
+  const isExpenseOrIncomeTx = transactionType === 'Expense' || transactionType === 'Income';
+
+  const matchesTransactionType = (category: CategoryDto) => {
+    if (category.type === 'Savings') {
+      return isExpenseOrIncomeTx;
+    }
+
+    return category.type.toLowerCase() === transactionType?.toLowerCase();
+  };
+
+  const filteredCategories = categories.filter(matchesTransactionType);
 
   const gridSize = { xs: 12, sm: 6 };
 

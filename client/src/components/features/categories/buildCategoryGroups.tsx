@@ -1,5 +1,4 @@
 import CategoryIcon from '@mui/icons-material/Category';
-import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { Typography } from '@mui/material';
 import { TFunction } from 'i18next';
 import { ElementType } from 'react';
@@ -13,7 +12,6 @@ import { getCategoryDisplayName } from '@/utils/entities/category';
 const buildOption = (category: CategoryDto, displayName: string) => {
   const IconComponent: ElementType =
     (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
-  const isSavings = category.type === 'Savings';
 
   return {
     label: displayName,
@@ -24,9 +22,6 @@ const buildOption = (category: CategoryDto, displayName: string) => {
         <Typography sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
           {displayName}
         </Typography>
-        {isSavings && (
-          <TrackChangesIcon sx={{ fontSize: '1rem', color: 'text.secondary', flexShrink: 0 }} />
-        )}
       </Row>
     ),
   };
@@ -61,13 +56,6 @@ export const buildCategoryGroups = (
 
   const groups: SelectOptionGroup[] = [];
 
-  if (savings.length > 0) {
-    groups.push({
-      groupLabel: tCategories('groups.savings'),
-      options: savings.map(x => buildOption(x.category, x.displayName)),
-    });
-  }
-
   if (frequent.length > 0) {
     groups.push({
       groupLabel: tCategories('groups.frequent'),
@@ -76,9 +64,16 @@ export const buildCategoryGroups = (
   }
 
   groups.push({
-    groupLabel: savings.length > 0 || frequent.length > 0 ? tCategories('groups.all') : '',
+    groupLabel: frequent.length > 0 ? tCategories('groups.all') : '',
     options: rest.map(x => buildOption(x.category, x.displayName)),
   });
+
+  if (savings.length > 0) {
+    groups.push({
+      groupLabel: tCategories('groups.savings'),
+      options: savings.map(x => buildOption(x.category, x.displayName)),
+    });
+  }
 
   return groups.filter(g => g.options.length > 0);
 };

@@ -38,12 +38,6 @@
     "monthly": "חודשי",
     "yearly": "שנתי"
   },
-  "details": {
-    "title": "פרטי עסקה",
-    "uncategorized": "ללא קטגוריה",
-    "created": "נוצר",
-    "updated": "עודכן"
-  },
   "table": {
     "name": "שם",
     "amount": "סכום",

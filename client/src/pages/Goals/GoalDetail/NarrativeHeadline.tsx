@@ -49,7 +49,6 @@ const NarrativeHeadline = ({
         {t('narrative.onTrack', {
           projected: formatGoalAmount(projection.projectedFinalValue),
           date: targetDateLabel,
-          shortfall: formatGoalAmount(goal.targetAmount - projection.projectedFinalValue),
         })}
       </Typography>
     );

@@ -44,7 +44,7 @@
     }
   },
   "narrative": {
-    "onTrack": "At this pace you'll reach {{projected}} ₪ by {{date}}. {{shortfall}} ₪ to go.",
+    "onTrack": "At this pace you'll reach {{projected}} ₪ by {{date}}.",
     "offTrack": "At your current pace you'll reach {{projected}} ₪ by {{date}} — still {{shortfall}} ₪ short.",
     "achieved": "You hit your goal! You saved {{amount}} ₪ — mark as achieved?",
     "markAchievedCta": "Mark as achieved"
@@ -130,9 +130,21 @@
     "deleteFailed": "Failed to delete the goal"
   },
   "ghosts": {
-    "label": "Planned — save for {{name}}",
-    "satisfied": "Done this month ✓",
-    "partial": "Contributed {{actual}} ₪ — {{remaining}} ₪ to go",
-    "planned": "Planned {{planned}} ₪"
+    "plannedLabel": "Planned",
+    "shortBy": "{{amount}} ₪ to go",
+    "paidMark": "✓ Paid",
+    "dueEndOfMonth": "By end of month",
+    "satisfiedDate": "Done this month",
+    "actions": {
+      "logContribution": "Mark as paid",
+      "openGoal": "Open goal"
+    },
+    "toast": {
+      "contributed": "Contributed {{amount}} ₪ to {{name}}"
+    },
+    "errors": {
+      "missingAccount": "You need at least one account and one payment method to log a contribution"
+    },
+    "txName": "Saving for {{name}}"
   }
 }

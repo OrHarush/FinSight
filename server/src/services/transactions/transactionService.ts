@@ -15,6 +15,7 @@ import {
   GetTransactionSummaryQuery,
 } from '../../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../../types/Transaction';
+import { isCategoryCompatibleWithTransactionType } from '../../utils/categoryCompatibility';
 import { isExcludedEmail } from '../../utils/excludedEmails';
 import {
   expandTransactions,
@@ -198,7 +199,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
       throw ApiError.badRequest('Invalid category for this user');
     }
 
-    if (category.type !== data.type) {
+    if (!isCategoryCompatibleWithTransactionType(category.type, data.type)) {
       throw ApiError.badRequest(
         `Category type mismatch: category is ${category.type} but transaction is ${data.type}`
       );

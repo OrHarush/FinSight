@@ -13,7 +13,36 @@ interface TextInputProps extends Omit<TextFieldProps, 'name' | 'required'> {
   minLength?: number;
   maxLength?: number;
   rules?: RegisterOptions;
+  thousandSeparators?: boolean;
 }
+
+const thousandsFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+
+const formatWithCommas = (value: unknown): string => {
+  if (value === null || value === undefined || value === '') {
+    return '';
+  }
+
+  const num = typeof value === 'number' ? value : Number(value);
+
+  if (!Number.isFinite(num)) {
+    return String(value);
+  }
+
+  return thousandsFormatter.format(num);
+};
+
+const parseCommaNumber = (raw: string): number | null => {
+  const digitsOnly = raw.replace(/[^\d-]/g, '');
+
+  if (digitsOnly === '' || digitsOnly === '-') {
+    return null;
+  }
+
+  const num = Number(digitsOnly);
+
+  return Number.isFinite(num) ? num : null;
+};
 
 const TextInput = ({
   name,
@@ -26,6 +55,7 @@ const TextInput = ({
   fullWidth = true,
   type,
   rules,
+  thousandSeparators = false,
   ...rest
 }: TextInputProps) => {
   const { t } = useTranslation('common');
@@ -81,6 +111,11 @@ const TextInput = ({
     : undefined;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === 'number' && thousandSeparators) {
+      field.onChange(parseCommaNumber(event.target.value));
+      return;
+    }
+
     if (type === 'number') {
       const raw = event.target.value;
 
@@ -96,19 +131,24 @@ const TextInput = ({
     field.onChange(event);
   };
 
+  const useTextDisplay = type === 'number' && thousandSeparators;
+  const displayValue = useTextDisplay ? formatWithCommas(field.value) : field.value ?? '';
+  const inputType = useTextDisplay ? 'text' : type;
+
   return (
     <Column spacing={0.5} sx={{ minWidth: fullWidth ? 0.5 : undefined }}>
       <TextField
         variant={'filled'}
         label={label}
         {...field}
-        value={field.value ?? ''}
+        value={displayValue}
         onChange={handleChange}
         fullWidth={fullWidth}
         helperText={fieldError}
-        type={type}
+        type={inputType}
         slotProps={{
           htmlInput: {
+            ...(useTextDisplay ? { inputMode: 'numeric' as const } : {}),
             ...(min !== undefined ? { min: String(min) } : {}),
             ...(max !== undefined ? { max: String(max) } : {}),
           },

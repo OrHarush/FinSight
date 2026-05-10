@@ -1,7 +1,8 @@
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { IconButton, TableCell, TableRow, Typography } from '@mui/material';
+import LaunchIcon from '@mui/icons-material/Launch';
+import { IconButton, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
 import { useSnackbar } from '@/providers/SnackbarProvider';
@@ -9,6 +10,7 @@ import CurrencyText from '@/components/shared/ui/CurrencyText';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
+import { useGoals } from '@/hooks/entities/useGoals';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
 import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
@@ -27,9 +29,25 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   const { t } = useTranslation('paymentMethods');
   const { t: tTx } = useTranslation('transactions');
   const { t: tAccounts } = useTranslation('accounts');
+  const { t: tGoals } = useTranslation('goals');
+  const navigate = useNavigate();
   const { setSelectedTransaction, setTransactionAction } = useTransactionPageData();
   const getCategoryName = useCategoryName();
   const { alertError } = useSnackbar();
+  const { goals } = useGoals();
+
+  const linkedGoal =
+    transaction.category?.type === 'Savings'
+      ? goals.find(g => g.categoryId === transaction.category?._id)
+      : undefined;
+
+  const openLinkedGoal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (linkedGoal) {
+      navigate(`/goals/${linkedGoal._id}`);
+    }
+  };
 
   const handleTransactionDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -51,11 +69,6 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
 
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
-  };
-
-  const handleViewTransaction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setSelectedTransaction(transaction);
   };
 
   const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
@@ -125,14 +138,21 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
         {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString('en-GB')}
       </TableCell>
       <TableCell align="center">
-        <Row>
-          <IconButton
-            onClick={handleViewTransaction}
-            size="medium"
-            aria-label={`View ${transaction.name}`}
-          >
-            <RemoveRedEyeIcon fontSize="small" />
-          </IconButton>
+        <Row justifyContent="center">
+          {linkedGoal && (
+            <Tooltip title={tGoals('ghosts.actions.openGoal')}>
+              <IconButton
+                onClick={openLinkedGoal}
+                size="medium"
+                aria-label={tGoals('ghosts.actions.openGoal')}
+              >
+                <LaunchIcon
+                  fontSize="small"
+                  sx={{ color: linkedGoal.color ?? 'primary.main' }}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
           <EditAndDeleteButtons
             onDelete={e => handleTransactionDelete(e)}
             onEdit={handleTransactionSelect}

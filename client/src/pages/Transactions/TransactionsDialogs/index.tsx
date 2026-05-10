@@ -12,7 +12,6 @@ import EditTransactionDialog from '@/pages/Transactions/components/EditTransacti
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import DeleteRecurringTransactionDialog from '@/pages/Transactions/TransactionsDialogs/DeleteRecurringTransactionDialog';
 import RequireSetupDialog from '@/pages/Transactions/TransactionsDialogs/RequireSetupDialog';
-import TransactionOverviewDialog from '@/pages/Transactions/TransactionsDialogs/TransactionOverviewDialog';
 
 interface TransactionDialogsProps {
   isCreateDialogOpen: boolean;
@@ -33,7 +32,6 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
   const isRecurringTransaction = !!selectedTransaction?.templateId;
   const isSingleDeleteOpen = isDeleteOpen && !isRecurringTransaction;
   const isRecurringDeleteOpen = isDeleteOpen && isRecurringTransaction;
-  const isOverviewOpen = hasSelectedTransaction && !transactionAction;
   const needsSetup = !accounts?.length || !categories?.length;
 
   const resetSelectedTransaction = () => {
@@ -108,13 +106,6 @@ const TransactionDialogs = ({ isCreateDialogOpen, closeCreateDialog }: Transacti
               });
             }
           }}
-        />
-      )}
-      {isOverviewOpen && selectedTransaction && (
-        <TransactionOverviewDialog
-          open={!!selectedTransaction}
-          onClose={() => setSelectedTransaction(undefined)}
-          transaction={selectedTransaction}
         />
       )}
       <UndoSnackbar

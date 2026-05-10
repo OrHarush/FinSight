@@ -16,7 +16,7 @@ export const startOfTodayUtc = () => {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 };
 
-export const requiredMonthlyContribution = (
+const computeRawRequiredMonthlyContribution = (
   currentValue: number,
   targetAmount: number,
   monthsRemaining: number,
@@ -44,3 +44,18 @@ export const requiredMonthlyContribution = (
 
   return Math.max(pmt, 0);
 };
+
+export const requiredMonthlyContribution = (
+  currentValue: number,
+  targetAmount: number,
+  monthsRemaining: number,
+  annualReturnPct: number
+): number =>
+  Math.ceil(
+    computeRawRequiredMonthlyContribution(
+      currentValue,
+      targetAmount,
+      monthsRemaining,
+      annualReturnPct
+    )
+  );

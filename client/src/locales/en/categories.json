@@ -53,12 +53,6 @@
     "all": "All categories",
     "savings": "Savings for goals"
   },
-  "badges": {
-    "savings": "Savings category linked to a goal"
-  },
-  "errors": {
-    "linkedToGoal": "Can't delete the {{categoryName}} category because it's linked to the {{goalName}} goal. To delete it, first delete the goal from the Goals page."
-  },
   "actions": {
     "create": "Create Category",
     "createNew": "New Category",
