@@ -29,8 +29,8 @@ const Header = ({ isInView }: HeaderProps) => {
           }}
         >
           <Trans
+            t={t}
             i18nKey="landing.how.headline"
-            ns="home"
             components={{
               accent: <Box component="span" sx={{ color: ACCENT_PURPLE }} />,
             }}

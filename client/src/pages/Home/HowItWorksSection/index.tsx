@@ -11,7 +11,7 @@ import StepsMobile from '@/pages/Home/HowItWorksSection/StepsMobile';
 import StepsPC from '@/pages/Home/HowItWorksSection/StepsPC';
 import { HowItWorksStep } from '@/pages/Home/HowItWorksSection/types';
 
-const STAGE_INTERVAL_MS = 2800;
+const STAGE_INTERVAL_MS = 5000;
 const STAGE_COUNT = 3;
 
 const HowItWorksSection = () => {
@@ -21,12 +21,17 @@ const HowItWorksSection = () => {
   const [activeStage, setActiveStage] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setActiveStage(s => (s + 1) % STAGE_COUNT);
     }, STAGE_INTERVAL_MS);
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearTimeout(timer);
+  }, [activeStage]);
+
+  const goToStage = (index: number) => {
+    const wrapped = ((index % STAGE_COUNT) + STAGE_COUNT) % STAGE_COUNT;
+    setActiveStage(wrapped);
+  };
 
   const steps: HowItWorksStep[] = [
     {
@@ -64,7 +69,7 @@ const HowItWorksSection = () => {
     >
       <Header isInView={isInView} />
       <StepsPC steps={steps} isInView={isInView} />
-      <StepsMobile steps={steps} activeStage={activeStage} />
+      <StepsMobile steps={steps} activeStage={activeStage} onSelectStage={goToStage} />
     </Column>
   );
 };
