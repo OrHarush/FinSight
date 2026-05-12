@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
+const FEEDBACK_RECIPIENT_EMAIL = process.env.FEEDBACK_RECIPIENT_EMAIL!;
 
 interface FeedbackEmailPayload {
   message: string;
@@ -28,7 +29,7 @@ Route: ${payload.metadata.route}
 
   await resend.emails.send({
     from: 'Lyra <onboarding@resend.dev>',
-    to: 'finsight.dev@gmail.com',
+    to: FEEDBACK_RECIPIENT_EMAIL,
     subject: '[Lyra] New feedback',
     text,
   });

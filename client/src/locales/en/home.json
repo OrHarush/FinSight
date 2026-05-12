@@ -8,7 +8,7 @@
       "trustBadges": {
         "free": "Completely free",
         "noBank": "No bank connection",
-        "setup": "2 min setup"
+        "setup": "Ready in 1 minute"
       },
       "privacy": "Your data is protected",
       "privacyTooltip": "Your data is encrypted. We never connect to your bank. You import your own CSV files and we never share your information with third parties.",
@@ -45,7 +45,7 @@
       }
     },
     "how": {
-      "headline": "This is how it works. Just <accent>2 minutes</accent>.",
+      "headline": "This is how it works. In <accent>one minute</accent>.",
       "subheadline": "No bank connection. No 30-minute setup.",
       "step01": {
         "number": "01",
@@ -181,7 +181,7 @@
         "description": "Billing cycles, installments, CSV"
       },
       "fast": {
-        "title": "3 seconds",
+        "title": "Seconds",
         "description": "to add an expense"
       }
     },
