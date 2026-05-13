@@ -1,4 +1,5 @@
 import { CssBaseline } from '@mui/material';
+import { Analytics } from '@vercel/analytics/react';
 
 import AndroidInstallDialog from '@/components/dialogs/AndroidInstallDialog';
 import IosInstallGuideDialog from '@/components/dialogs/IosInstallGuideDialog';
@@ -18,6 +19,7 @@ const App = () => {
     return (
       <AppProviders>
         <MaintenancePage />
+        <Analytics />
       </AppProviders>
     );
   }
@@ -26,6 +28,7 @@ const App = () => {
     return (
       <AppProviders>
         <OfflinePage />
+        <Analytics />
       </AppProviders>
     );
   }
@@ -38,6 +41,7 @@ const App = () => {
         <IosInstallGuideDialog />
         {/*<MobileConsole />*/}
         <AppRoutes />
+        <Analytics />
       </AppProviders>
     </ErrorBoundary>
   );
