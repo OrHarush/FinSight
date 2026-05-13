@@ -1,4 +1,5 @@
 import { CssBaseline } from '@mui/material';
+import { useLayoutEffect } from 'react';
 
 import AndroidInstallDialog from '@/components/dialogs/AndroidInstallDialog';
 import IosInstallGuideDialog from '@/components/dialogs/IosInstallGuideDialog';
@@ -13,6 +14,12 @@ const isMaintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === 'true';
 
 const App = () => {
   const isOnline = useOnlineStatus();
+
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('lyra-hide-prerender');
+    root.classList.remove('lyra-splash-light');
+  }, []);
 
   if (isMaintenanceMode) {
     return (

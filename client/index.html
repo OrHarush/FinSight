@@ -71,6 +71,28 @@
       "inLanguage": "he"
     }
     </script>
+
+    <style>
+      html.lyra-hide-prerender #root { visibility: hidden; }
+      html.lyra-hide-prerender body { background: #0a0f16; }
+      html.lyra-hide-prerender.lyra-splash-light body { background: #f1f3f7; }
+    </style>
+    <script>
+      (function () {
+        try {
+          var standalone =
+            (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+            window.navigator.standalone === true;
+          var hasToken = !!localStorage.getItem('token');
+          if (!standalone && !hasToken) return;
+          var root = document.documentElement;
+          root.classList.add('lyra-hide-prerender');
+          if (localStorage.getItem('lyra:colorMode') === 'light') {
+            root.classList.add('lyra-splash-light');
+          }
+        } catch (_) {}
+      })();
+    </script>
 </head>
 <body>
     <div id="root"></div>
