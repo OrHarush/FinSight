@@ -5,6 +5,7 @@ import { ApiError } from '../errors/ApiError';
 import { ICategory } from '../models/Category';
 import * as categoryRepository from '../repositories/categoryRepository';
 import * as goalRepository from '../repositories/goalRepository';
+import * as analyticsService from './analyticsService';
 
 const FREQUENT_WINDOW_DAYS = 60;
 const FREQUENT_MIN_USES = 3;
@@ -70,7 +71,13 @@ export const create = async (categoryDetails: CreateCategoryDTO, userId: string)
     userId: new Types.ObjectId(userId),
   };
 
-  return categoryRepository.insert(mapped);
+  const created = await categoryRepository.insert(mapped);
+
+  void analyticsService
+    .track(userId, 'category_created')
+    .catch(err => console.error('Failed to track category_created:', err));
+
+  return created;
 };
 
 export const update = async (

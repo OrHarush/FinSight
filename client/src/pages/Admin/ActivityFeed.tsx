@@ -20,10 +20,17 @@ import { useRecentActivity } from './useRecentActivity';
 
 const EVENT_BADGE_COLOR: Record<AnalyticsEventType, 'success' | 'info' | 'warning' | 'secondary' | 'primary' | 'error'> = {
   transaction_created: 'success',
+  transaction_updated: 'primary',
+  transaction_deleted: 'error',
   recurring_created: 'info',
   csv_imported: 'warning',
-  category_customized: 'secondary',
+  category_created: 'secondary',
   onboarding_completed: 'primary',
+  accepted_terms: 'info',
+  goal_created: 'success',
+  budget_created: 'success',
+  account_created: 'success',
+  payment_method_created: 'success',
   user_created: 'info',
   user_deleted: 'error',
 };

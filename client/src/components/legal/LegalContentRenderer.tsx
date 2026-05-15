@@ -87,7 +87,40 @@ const PrivacyPolicyContent = () => {
         </LegalSection>
         <LegalSection title={t('sections.rights.title')}>{t('sections.rights.body')}</LegalSection>
         <LegalSection title={t('sections.cookies.title')}>
-          {t('sections.cookies.body')}
+          <Column spacing={2} sx={{ paddingLeft: 2, mt: 2 }}>
+            <Column spacing={1}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
+                {t('sections.cookies.essentialTitle')}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                {t('sections.cookies.essentialBody')}
+              </Typography>
+            </Column>
+            <Column spacing={1}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
+                {t('sections.cookies.analyticsTitle')}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                {t('sections.cookies.analyticsBody')}
+              </Typography>
+            </Column>
+            <Column spacing={1}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
+                {t('sections.cookies.vercelTitle')}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                {t('sections.cookies.vercelBody')}
+              </Typography>
+            </Column>
+            <Column spacing={1}>
+              <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600 }}>
+                {t('sections.cookies.loginTitle')}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                {t('sections.cookies.loginBody')}
+              </Typography>
+            </Column>
+          </Column>
         </LegalSection>
         <LegalSection title={t('sections.thirdParties.title')}>
           {t('sections.thirdParties.body')}

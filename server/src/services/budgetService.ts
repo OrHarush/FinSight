@@ -11,6 +11,7 @@ import mongoose, { Types } from 'mongoose';
 import { ApiError } from '../errors/ApiError';
 import { IBudget } from '../models/Budget';
 import * as budgetRepository from '../repositories/budgetRepository';
+import * as analyticsService from './analyticsService';
 
 export const findAll = async (userId: string, options: GetBudgetsQuery) => {
   const budgets = await budgetRepository.findMany(userId, options);
@@ -61,6 +62,10 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
 
   created.limit = fromCents(created.limit);
 
+  void analyticsService
+    .track(userId, 'budget_created')
+    .catch(err => console.error('Failed to track budget_created:', err));
+
   return created;
 };
 
@@ -94,6 +99,10 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
   }
 
   const created = await budgetRepository.insertMany(budgets);
+
+  void analyticsService
+    .track(userId, 'budget_created')
+    .catch(err => console.error('Failed to track budget_created:', err));
 
   return created.map(b => {
     b.limit = fromCents(b.limit);

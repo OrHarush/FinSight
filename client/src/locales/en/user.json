@@ -28,10 +28,23 @@
     "general": "General",
     "currency": "Display Currency",
     "currencyHelper": "Default currency when creating new accounts",
+    "privacy": "Privacy & Data",
+    "analyticsLabel": "Usage analytics",
+    "analyticsHelper": "Help us understand how Lyra is used so we can improve it.",
+    "essentialLabel": "Essential",
+    "essentialHelper": "Required for login, security and core functionality. Always on.",
     "dangerZone": "Danger Zone",
     "deleteAccount": "Delete Account",
     "updateSuccess": "Preferences saved.",
     "updateError": "Failed to save preferences."
+  },
+  "consent": {
+    "banner": {
+      "title": "We respect your privacy",
+      "body": "Help us understand how Lyra is used so we can improve it. You can change your choice at any time in Settings. <policy>Privacy Policy</policy>.",
+      "accept": "Accept",
+      "reject": "Reject"
+    }
   },
   "onboardingModal": {
     "beforeWeStart": "Before we start",

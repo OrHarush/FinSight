@@ -5,6 +5,7 @@ import { ApiError } from '../errors/ApiError';
 import { IPaymentMethod } from '../models/PaymentMethod';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import * as analyticsService from './analyticsService';
 
 export const findAll = async (userId: string) => paymentMethodRepository.findMany(userId);
 
@@ -32,7 +33,13 @@ export const create = async (details: CreatePaymentMethodDTO, userId: string) =>
     userId: new Types.ObjectId(userId),
   };
 
-  return paymentMethodRepository.insert(mapped);
+  const created = await paymentMethodRepository.insert(mapped);
+
+  void analyticsService
+    .track(userId, 'payment_method_created')
+    .catch(err => console.error('Failed to track payment_method_created:', err));
+
+  return created;
 };
 
 export const update = async (

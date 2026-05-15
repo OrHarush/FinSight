@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import ConsentBanner from '@/components/features/consent/ConsentBanner';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import NavBar from '@/components/shared/layout/NavBar';
@@ -36,6 +37,7 @@ const AuthenticatedLayout = () => {
           </Column>
         </Column>
       </Row>
+      <ConsentBanner />
     </PageHeaderProvider>
   );
 };

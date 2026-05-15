@@ -8,6 +8,7 @@ import * as paymentMethodRepository from '../repositories/paymentMethodRepositor
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ImportTransactionsDTO } from '../schemas/importSchemas';
 import { parseFile } from '../utils/fileParser';
+import * as analyticsService from './analyticsService';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
 export interface ImportPreview {
@@ -104,6 +105,10 @@ export const importTransactions = async (
 
     invalidateQuickChipsCache(userId);
 
+    void analyticsService
+      .track(userId, 'csv_imported')
+      .catch(err => console.error('Failed to track csv_imported:', err));
+
     return { inserted: result.length, skipped, failed: 0 };
   } catch (err: unknown) {
     // Mongoose/MongoDB BulkWriteError with ordered:false: some docs may have been inserted.
@@ -118,6 +123,10 @@ export const importTransactions = async (
 
       if (inserted > 0) {
         invalidateQuickChipsCache(userId);
+
+        void analyticsService
+          .track(userId, 'csv_imported')
+          .catch(trackErr => console.error('Failed to track csv_imported:', trackErr));
       }
 
       return { inserted, skipped, failed: filteredRows.length - inserted };

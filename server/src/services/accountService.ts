@@ -5,6 +5,7 @@ import { ApiError } from '../errors/ApiError';
 import { IAccount } from '../models/Account';
 import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
+import * as analyticsService from './analyticsService';
 import { setBalanceCheckpoint } from './balanceService';
 
 export const findAll = async (userId: string) => {
@@ -50,6 +51,10 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
   const created = await accountRepository.insert(mapped);
 
   created.balance = fromCents(created.balance);
+
+  void analyticsService
+    .track(userId, 'account_created')
+    .catch(err => console.error('Failed to track account_created:', err));
 
   return created;
 };

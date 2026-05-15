@@ -19,6 +19,7 @@ import {
   ProjectionPoint,
   requiredMonthlyContribution,
 } from '../utils/goalProjection';
+import * as analyticsService from './analyticsService';
 
 const DEFAULT_SAVINGS_COLOR = '#9ca3af';
 const PACE_LOOKBACK_MONTHS = 3;
@@ -206,15 +207,23 @@ export const createGoal = async (userId: string, dto: CreateGoalDTO) => {
     throw ApiError.badRequest('GOAL_NAME_TAKEN');
   }
 
-  try {
-    return await insertGoalAtomically(dto, userId);
-  } catch (err) {
-    if (!isReplicaSetTransactionError(err)) {
-      throw err;
-    }
+  const result = await (async () => {
+    try {
+      return await insertGoalAtomically(dto, userId);
+    } catch (err) {
+      if (!isReplicaSetTransactionError(err)) {
+        throw err;
+      }
 
-    return insertGoalWithCompensation(dto, userId);
-  }
+      return insertGoalWithCompensation(dto, userId);
+    }
+  })();
+
+  void analyticsService
+    .track(userId, 'goal_created')
+    .catch(err => console.error('Failed to track goal_created:', err));
+
+  return result;
 };
 
 const assertNameAvailable = async (userId: string, name: string, currentId: string) => {

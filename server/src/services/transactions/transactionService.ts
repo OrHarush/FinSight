@@ -7,7 +7,6 @@ import { ApiError } from '../../errors/ApiError';
 import Category from '../../models/Category';
 import { ITransaction } from '../../models/Transaction';
 import User from '../../models/User';
-import * as analyticsEventRepository from '../../repositories/analyticsEventRepository';
 import * as recurringTemplateRepository from '../../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../../repositories/transactionRepository';
 import {
@@ -16,7 +15,6 @@ import {
 } from '../../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../../types/Transaction';
 import { isCategoryCompatibleWithTransactionType } from '../../utils/categoryCompatibility';
-import { isExcludedEmail } from '../../utils/excludedEmails';
 import {
   expandTransactions,
   filterTemplatesByQueryFilters,
@@ -27,6 +25,7 @@ import {
   summarizeWholeYear,
 } from '../../utils/transaction';
 import * as accountService from '../accountService';
+import * as analyticsService from '../analyticsService';
 import { syncAccountBalance } from '../balanceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './quickChipsService';
@@ -227,25 +226,13 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   await syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
   const accounts = await accountService.findAll(userId);
 
-  void (async () => {
-    const user = await User.findById(userId).select('email name picture').lean();
-
-    if (user && isExcludedEmail(user.email)) {
-      return;
-    }
-
-    await Promise.all([
-      User.findByIdAndUpdate(userId, {
-        $set: { lastActiveAt: new Date() },
-        $inc: { totalTransactions: 1 },
-      }),
-      analyticsEventRepository.insertEvent(
-        'transaction_created',
-        user?.name ?? '',
-        user?.picture ?? '',
-      ),
-    ]);
-  })().catch(err => console.error('Failed to track transaction activity:', err));
+  void Promise.all([
+    User.findByIdAndUpdate(userId, {
+      $set: { lastActiveAt: new Date() },
+      $inc: { totalTransactions: 1 },
+    }),
+    analyticsService.track(userId, 'transaction_created'),
+  ]).catch(err => console.error('Failed to track transaction activity:', err));
 
   created.amount = fromCents(created.amount);
 
@@ -296,6 +283,10 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   ]);
   const accounts = await accountService.findAll(userId);
 
+  void analyticsService
+    .track(userId, 'transaction_updated')
+    .catch(err => console.error('Failed to track transaction_updated:', err));
+
   return { transaction: { ...updated, amount: fromCents(updated.amount) }, accounts };
 };
 
@@ -322,6 +313,10 @@ export const deleteTransaction = async (id: string, userId: string) => {
     existing.fromAccount?._id.toString(),
     existing.toAccount?._id.toString(),
   ]);
+
+  void analyticsService
+    .track(userId, 'transaction_deleted')
+    .catch(err => console.error('Failed to track transaction_deleted:', err));
 
   return { ...deleted, amount: fromCents(deleted.amount) };
 };

@@ -57,7 +57,14 @@
 
     "cookies": {
       "title": "8. Cookies and Tracking",
-      "body": "Lyra does not currently use analytics or advertising tracking cookies. Essential cookies may be used only for authentication and basic application functionality."
+      "essentialTitle": "Essential",
+      "essentialBody": "Required for authentication, session management, and core app functionality. These cannot be disabled.",
+      "analyticsTitle": "Product usage analytics",
+      "analyticsBody": "Usage events that help us improve Lyra. Each event is stored with your display name and avatar so we can see how real users interact with the app — these events are not anonymous. Opt-in via the consent banner shown after sign-in. You can change your choice at any time from Settings → Privacy & Data.",
+      "vercelTitle": "Vercel Analytics (page views)",
+      "vercelBody": "Aggregate page-view metrics collected via Vercel Analytics. Only loaded when you have opted in to product usage analytics.",
+      "loginTitle": "Login records",
+      "loginBody": "Sign-in events are recorded for security and audit purposes under our legitimate interest. These are kept independent of analytics consent."
     },
 
     "thirdParties": {

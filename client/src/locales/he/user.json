@@ -28,10 +28,23 @@
     "general": "כללי",
     "currency": "מטבע תצוגה",
     "currencyHelper": "מטבע ברירת מחדל בעת יצירת חשבונות חדשים",
+    "privacy": "פרטיות ונתונים",
+    "analyticsLabel": "נתוני שימוש",
+    "analyticsHelper": "עזרו לנו להבין כיצד משתמשים ב-Lyra כדי לשפר אותה.",
+    "essentialLabel": "חיוני",
+    "essentialHelper": "נדרש להתחברות, אבטחה ופעולה תקינה. תמיד מופעל.",
     "dangerZone": "אזור מסוכן",
     "deleteAccount": "מחיקת חשבון",
     "updateSuccess": "ההעדפות נשמרו.",
     "updateError": "שמירת ההעדפות נכשלה."
+  },
+  "consent": {
+    "banner": {
+      "title": "אנחנו מכבדים את הפרטיות שלך",
+      "body": "עזרו לנו להבין כיצד משתמשים ב-Lyra כדי לשפר אותה. תוכלו לשנות את הבחירה בכל עת בהגדרות. <policy>מדיניות הפרטיות</policy>.",
+      "accept": "אישור",
+      "reject": "דחייה"
+    }
   },
   "onboardingModal": {
     "beforeWeStart": "לפני שמתחילים",

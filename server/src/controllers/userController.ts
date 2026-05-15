@@ -6,11 +6,13 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import {
   CompleteOnboardingBody,
   DeleteUserBody,
+  UpdateAnalyticsConsentBody,
   UpdatePreferencesBody,
 } from '../schemas/userSchemas';
 import {
   completeOnboarding,
   deleteUserCompletely,
+  updateAnalyticsConsent,
   updatePreferences,
 } from '../services/userService';
 
@@ -27,6 +29,15 @@ export const updatePreferencesController = asyncHandler(async (req: Request, res
 
   return ApiResponse.ok(res, user);
 });
+
+export const updateAnalyticsConsentController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { analyticsConsent } = req.validatedBody as UpdateAnalyticsConsentBody;
+    const user = await updateAnalyticsConsent(req.userId!, analyticsConsent);
+
+    return ApiResponse.ok(res, user);
+  }
+);
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;

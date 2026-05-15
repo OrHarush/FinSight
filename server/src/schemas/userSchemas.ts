@@ -17,6 +17,12 @@ export const CompleteOnboardingSchema = z.object({
 
 export type CompleteOnboardingBody = z.infer<typeof CompleteOnboardingSchema>;
 
+export const UpdateAnalyticsConsentSchema = z.object({
+  analyticsConsent: z.enum(['accepted', 'rejected']),
+});
+
+export type UpdateAnalyticsConsentBody = z.infer<typeof UpdateAnalyticsConsentSchema>;
+
 export const DeleteUserSchema = z.object({
   feedback: z
     .object({

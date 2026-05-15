@@ -66,6 +66,16 @@ export const findAllForAdmin = async (): Promise<AdminUserRow[]> =>
 export const updatePreferences = async (userId: string, displayCurrency: string) =>
   User.findByIdAndUpdate(userId, { displayCurrency }, { new: true });
 
+export const updateAnalyticsConsent = async (
+  userId: string,
+  analyticsConsent: 'accepted' | 'rejected'
+) =>
+  User.findByIdAndUpdate(
+    userId,
+    { analyticsConsent, analyticsConsentUpdatedAt: new Date() },
+    { new: true }
+  );
+
 export const updateOnboarding = async (userId: string) =>
   User.findByIdAndUpdate(
     userId,

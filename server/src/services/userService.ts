@@ -24,6 +24,7 @@ import { deleteMany as deleteTransactions } from '../repositories/transactionRep
 import {
   deleteUserById,
   findById,
+  updateAnalyticsConsent as updateAnalyticsConsentRepo,
   updateOnboarding,
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
@@ -39,6 +40,11 @@ export const getCurrentUserById = async (userId: string) => findById(userId);
 
 export const updatePreferences = async (userId: string, displayCurrency: string) =>
   updatePreferencesRepo(userId, displayCurrency);
+
+export const updateAnalyticsConsent = async (
+  userId: string,
+  analyticsConsent: 'accepted' | 'rejected'
+) => updateAnalyticsConsentRepo(userId, analyticsConsent);
 
 export const createDefaultEntitiesForNewUser = async (userId: string) => {
   const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map(dto => ({
@@ -141,9 +147,7 @@ const recordDeletionFeedback = async (userId: string, feedback?: DeletionFeedbac
 export const deleteUserCompletely = async (userId: string, feedback?: DeletionFeedbackInput) => {
   await recordDeletionFeedback(userId, feedback);
 
-  void analyticsService.track(userId, 'user_deleted').catch(err =>
-    console.error('Failed to track user_deleted:', err)
-  );
+  const analyticsSnapshot = await analyticsService.captureUserSnapshot(userId);
 
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -158,6 +162,12 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
 
     await session.commitTransaction();
     await session.endSession();
+
+    if (analyticsSnapshot) {
+      void analyticsService
+        .trackWithSnapshot('user_deleted', analyticsSnapshot)
+        .catch(err => console.error('Failed to track user_deleted:', err));
+    }
 
     return { success: true };
   } catch (err) {

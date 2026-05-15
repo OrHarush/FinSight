@@ -3,19 +3,61 @@ import User from '../models/User';
 import * as analyticsEventRepository from '../repositories/analyticsEventRepository';
 import { isExcludedEmail } from '../utils/excludedEmails';
 
-export const track = async (userId: string, event: AnalyticsEventType) => {
-  const user = await User.findById(userId).select('email name picture').lean();
+export interface UserAnalyticsSnapshot {
+  email: string;
+  name: string;
+  picture: string;
+  analyticsConsent: string;
+}
 
-  if (user && isExcludedEmail(user.email)) {
+export const captureUserSnapshot = async (
+  userId: string,
+): Promise<UserAnalyticsSnapshot | null> => {
+  const user = await User.findById(userId)
+    .select('email name picture analyticsConsent')
+    .lean();
+
+  if (!user) {
+    return null;
+  }
+
+  return {
+    email: user.email ?? '',
+    name: user.name ?? '',
+    picture: user.picture ?? '',
+    analyticsConsent: user.analyticsConsent ?? '',
+  };
+};
+
+const insertIfConsented = async (
+  event: AnalyticsEventType,
+  snapshot: UserAnalyticsSnapshot,
+) => {
+  if (isExcludedEmail(snapshot.email)) {
     return;
   }
 
-  return analyticsEventRepository.insertEvent(
-    event,
-    user?.name ?? '',
-    user?.picture ?? '',
-  );
+  if (snapshot.analyticsConsent !== 'accepted') {
+    return;
+  }
+
+  return analyticsEventRepository.insertEvent(event, snapshot.name, snapshot.picture);
 };
+
+export const track = async (userId: string, event: AnalyticsEventType) => {
+  const snapshot = await captureUserSnapshot(userId);
+
+  if (!snapshot) {
+    return;
+  }
+
+  return insertIfConsented(event, snapshot);
+};
+
+export const trackWithSnapshot = async (
+  event: AnalyticsEventType,
+  snapshot: UserAnalyticsSnapshot,
+) => insertIfConsented(event, snapshot);
 
 export const countByEvent = async (event: AnalyticsEventType, since?: Date) =>
   analyticsEventRepository.countByEvent(event, since);

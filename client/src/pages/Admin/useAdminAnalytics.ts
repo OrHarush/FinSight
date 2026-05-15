@@ -46,7 +46,7 @@ export const useAdminAnalytics = () => {
       { labelKey: 'adoption.transactions', value: data.eventCounts.transaction_created, color: 'text.secondary' },
       { labelKey: 'adoption.recurring', value: data.eventCounts.recurring_created, color: 'info.main' },
       { labelKey: 'adoption.csvImport', value: data.eventCounts.csv_imported, color: 'warning.main' },
-      { labelKey: 'adoption.customCategories', value: data.eventCounts.category_customized, color: 'success.main' },
+      { labelKey: 'adoption.customCategories', value: data.eventCounts.category_created, color: 'success.main' },
     ];
   }, [data]);
 

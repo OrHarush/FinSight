@@ -44,7 +44,9 @@ const AppRoutes = () => {
     !!localStorage.getItem('token') || import.meta.env.VITE_DEV_AUTH_BYPASS === 'true';
   const showLoading = useMinLoadingDuration(isLoadingUser, 1500, hasStoredToken);
 
-  const trackAnalytics = !user?.email || !ANALYTICS_EXCLUDED_EMAILS.has(user.email);
+  const trackAnalytics =
+    user?.analyticsConsent === 'accepted' &&
+    !ANALYTICS_EXCLUDED_EMAILS.has(user.email);
 
   if (showLoading) {
     return (
@@ -59,6 +61,14 @@ const AppRoutes = () => {
       {trackAnalytics && <Analytics />}
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
+          <Route element={<PublicLayout />}>
+            <Route
+              path={ROUTES.TERMS_OF_SERVICE_URL}
+              element={<LegalPage type="termsOfService" />}
+            />
+            <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
+            <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
+          </Route>
           <Route
             element={
               <RequireGuest>
@@ -66,12 +76,6 @@ const AppRoutes = () => {
               </RequireGuest>
             }
           >
-            <Route
-              path={ROUTES.TERMS_OF_SERVICE_URL}
-              element={<LegalPage type="termsOfService" />}
-            />
-            <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
-            <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
             <Route path={ROUTES.HOME_URL} element={<HomePage />} />
             <Route path={ROUTES.LOGIN_URL} element={<LoginPage />} />
             <Route path="*" element={<NotFoundPage isAuthenticated={!!user} />} />

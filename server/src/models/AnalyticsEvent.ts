@@ -2,10 +2,17 @@ import mongoose, { Schema, Types } from 'mongoose';
 
 export const ANALYTICS_EVENT_TYPES = [
   'transaction_created',
+  'transaction_updated',
+  'transaction_deleted',
   'recurring_created',
-  'category_customized',
+  'category_created',
   'csv_imported',
   'onboarding_completed',
+  'accepted_terms',
+  'goal_created',
+  'budget_created',
+  'account_created',
+  'payment_method_created',
   'user_created',
   'user_deleted',
 ] as const;

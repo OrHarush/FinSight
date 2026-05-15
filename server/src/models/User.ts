@@ -25,6 +25,8 @@ export interface IUser {
   lastActiveAt?: Date;
   activatedAt?: Date;
   totalTransactions: number;
+  analyticsConsent: 'pending' | 'accepted' | 'rejected';
+  analyticsConsentUpdatedAt: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -61,6 +63,13 @@ const UserSchema = new Schema<IUser>(
     lastActiveAt: { type: Date },
     activatedAt: { type: Date },
     totalTransactions: { type: Number, default: 0 },
+    analyticsConsent: {
+      type: String,
+      enum: ['pending', 'accepted', 'rejected'],
+      default: 'pending',
+      required: true,
+    },
+    analyticsConsentUpdatedAt: { type: Date, default: null },
   },
   { timestamps: true }
 );

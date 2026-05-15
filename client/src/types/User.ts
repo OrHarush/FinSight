@@ -10,4 +10,6 @@ export interface UserDto {
   consentVersion?: string;
   displayCurrency?: string;
   hasCompletedOnboarding?: boolean;
+  analyticsConsent?: 'pending' | 'accepted' | 'rejected';
+  analyticsConsentUpdatedAt?: string | null;
 }

@@ -5,9 +5,11 @@ import {
   DialogContent,
   Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   MenuItem,
   Select,
+  Switch,
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
@@ -31,6 +33,10 @@ import { UserDto } from '@/types/User';
 
 interface UpdatePreferencesDto {
   displayCurrency: string;
+}
+
+interface UpdateConsentDto {
+  analyticsConsent: 'accepted' | 'rejected';
 }
 
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
@@ -70,6 +76,36 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
       },
     },
   });
+
+  const updateConsent = useApiMutation<UserDto, UpdateConsentDto>({
+    method: 'patch',
+    url: API_ROUTES.USERS_CONSENT,
+    queryKeysToInvalidate: [queryKeys.user()],
+    options: {
+      onMutate: ({ analyticsConsent }) => {
+        const previousUser = user;
+
+        if (user) {
+          updateUser({ ...user, analyticsConsent });
+        }
+
+        return { previousUser };
+      },
+      onError: (_, __, context) => {
+        const ctx = context as { previousUser: UserDto | null };
+
+        if (ctx?.previousUser) {
+          updateUser(ctx.previousUser);
+        }
+
+        alertError(t('settingsModal.updateError'));
+      },
+    },
+  });
+
+  const toggleAnalyticsConsent = (accepted: boolean) => {
+    updateConsent.mutate({ analyticsConsent: accepted ? 'accepted' : 'rejected' });
+  };
 
   const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
     method: 'delete',
@@ -132,6 +168,49 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                 </Select>
                 <FormHelperText>{t('settingsModal.currencyHelper')}</FormHelperText>
               </FormControl>
+            </Column>
+            <Divider />
+            <Column spacing={1.5}>
+              <Typography
+                variant="subtitle2"
+                fontWeight={600}
+                color="text.secondary"
+                textTransform="uppercase"
+                fontSize="0.7rem"
+                letterSpacing={0.8}
+              >
+                {t('settingsModal.privacy')}
+              </Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={user?.analyticsConsent === 'accepted'}
+                    onChange={(_, checked) => toggleAnalyticsConsent(checked)}
+                    disabled={updateConsent.isPending}
+                  />
+                }
+                label={
+                  <Column>
+                    <Typography variant="body2">{t('settingsModal.analyticsLabel')}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {t('settingsModal.analyticsHelper')}
+                    </Typography>
+                  </Column>
+                }
+                sx={{ alignItems: 'flex-start', m: 0 }}
+              />
+              <FormControlLabel
+                control={<Switch checked disabled />}
+                label={
+                  <Column>
+                    <Typography variant="body2">{t('settingsModal.essentialLabel')}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {t('settingsModal.essentialHelper')}
+                    </Typography>
+                  </Column>
+                }
+                sx={{ alignItems: 'flex-start', m: 0 }}
+              />
             </Column>
             <Divider />
             <DangerZone openDeletionDialog={openDeletionDialog} />

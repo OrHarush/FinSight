@@ -40,10 +40,17 @@
     "empty": "אין פעילות אחרונה",
     "event": {
       "transaction_created": "תנועה",
+      "transaction_updated": "עריכת תנועה",
+      "transaction_deleted": "מחיקת תנועה",
       "recurring_created": "הוראת קבע",
       "csv_imported": "ייבוא CSV",
-      "category_customized": "קטגוריה",
+      "category_created": "קטגוריה",
       "onboarding_completed": "השלמת הכרות",
+      "accepted_terms": "אישור תנאים",
+      "goal_created": "יעד",
+      "budget_created": "תקציב",
+      "account_created": "חשבון",
+      "payment_method_created": "אמצעי תשלום",
       "user_created": "משתמש חדש",
       "user_deleted": "נמחק"
     }

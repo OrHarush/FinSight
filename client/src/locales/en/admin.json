@@ -40,10 +40,17 @@
     "empty": "No recent activity",
     "event": {
       "transaction_created": "transaction",
+      "transaction_updated": "tx edited",
+      "transaction_deleted": "tx deleted",
       "recurring_created": "recurring",
       "csv_imported": "csv import",
-      "category_customized": "category",
+      "category_created": "category",
       "onboarding_completed": "onboarded",
+      "accepted_terms": "terms accepted",
+      "goal_created": "goal",
+      "budget_created": "budget",
+      "account_created": "account",
+      "payment_method_created": "payment method",
       "user_created": "new user",
       "user_deleted": "deleted"
     }

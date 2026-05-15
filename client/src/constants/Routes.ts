@@ -73,6 +73,7 @@ export const API_ROUTES = {
   USERS: '/api/users',
   USERS_ME: '/api/users/me',
   USERS_PREFERENCES: '/api/users/me/preferences',
+  USERS_CONSENT: '/api/users/me/consent',
 
   ADMIN: '/api/admin',
   ADMIN_USERS: '/api/admin/users',

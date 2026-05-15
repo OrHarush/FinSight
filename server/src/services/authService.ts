@@ -89,14 +89,21 @@ interface AcceptTermsParams {
   userAgent: string;
 }
 
-export const acceptTermsService = async ({ userId, locale, ip, userAgent }: AcceptTermsParams) =>
-  acceptTerms({
+export const acceptTermsService = async ({ userId, locale, ip, userAgent }: AcceptTermsParams) => {
+  const result = await acceptTerms({
     userId,
     locale,
     ip,
     userAgent,
     version: CURRENT_TERMS_VERSION,
   });
+
+  void analyticsService
+    .track(userId, 'accepted_terms')
+    .catch(err => console.error('Failed to track accepted_terms:', err));
+
+  return result;
+};
 
 export const loginAsDevUser = async () => {
   const email = process.env.DEV_AUTH_BYPASS_EMAIL;
