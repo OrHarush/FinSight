@@ -50,7 +50,7 @@ const Settings = () => {
             </ListItemButton>
           </ListItem>
         </Column>
-        <Divider sx={{ mt: 2.5 }} />
+        <Divider sx={{ mt: '4px' }} />
         <Column padding={2} spacing={2}>
           <UserAvatar />
           <LegalLinks />

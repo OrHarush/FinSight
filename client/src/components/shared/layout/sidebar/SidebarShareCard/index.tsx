@@ -78,7 +78,7 @@ const SidebarShareCard = () => {
     <Box
       sx={{
         margin: '8px 12px 0',
-        padding: '12px',
+        padding: '10px',
         borderRadius: '12px',
         backgroundColor: 'action.selected',
       }}
@@ -88,7 +88,7 @@ const SidebarShareCard = () => {
         sx={{
           fontWeight: 600,
           display: 'block',
-          marginBottom: '10px',
+          marginBottom: '8px',
           color: 'text.primary',
         }}
       >

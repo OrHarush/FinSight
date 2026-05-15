@@ -2,6 +2,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
+  Box,
   Collapse,
   List,
   ListItem,
@@ -9,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -31,11 +33,24 @@ const ManagementButtonsNavigation = ({
   const { t } = useTranslation('sidebar');
   const location = useLocation();
   const { expanded } = useSidebar();
+  const lastItemRef = useRef<HTMLDivElement | null>(null);
 
   const currentPath = location.pathname;
 
   const isManageRouteActive = manageNavigation.some(button => currentPath === button.route);
   const showManageItems = isManageExpanded || !expanded;
+
+  useEffect(() => {
+    if (!isManageExpanded) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      lastItemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 320);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isManageExpanded]);
 
   return (
     <>
@@ -73,6 +88,7 @@ const ManagementButtonsNavigation = ({
               nested
             />
           ))}
+          <Box ref={lastItemRef} sx={{ height: 0 }} aria-hidden />
         </List>
       </Collapse>
     </>
