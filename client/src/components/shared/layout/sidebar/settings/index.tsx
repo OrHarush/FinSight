@@ -33,9 +33,9 @@ const Settings = () => {
 
   return (
     <>
-      <Column paddingTop={2} justifyContent={'flex-end'}>
+      <Column paddingTop={1} justifyContent={'flex-end'}>
         <Column>
-          <ListItem sx={{ pt: 0 }}>
+          <ListItem sx={{ pt: 0, pb: 0 }}>
             <ListItemButton
               onClick={openFeedbackDialog}
               sx={{
@@ -50,7 +50,7 @@ const Settings = () => {
             </ListItemButton>
           </ListItem>
         </Column>
-        <Divider />
+        <Divider sx={{ mt: 2.5 }} />
         <Column padding={2} spacing={2}>
           <UserAvatar />
           <LegalLinks />
