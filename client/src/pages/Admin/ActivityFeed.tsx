@@ -31,6 +31,7 @@ const EVENT_BADGE_COLOR: Record<AnalyticsEventType, 'success' | 'info' | 'warnin
   budget_created: 'success',
   account_created: 'success',
   payment_method_created: 'success',
+  share_clicked: 'primary',
   user_created: 'info',
   user_deleted: 'error',
 };

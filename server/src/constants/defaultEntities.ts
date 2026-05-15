@@ -100,7 +100,7 @@ export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodDTO[] = [
   },
   {
     key: 'immediate_debit',
-    name: 'Immediate Debit',
+    name: 'Immediate Transfer',
     type: 'Bank Transfer',
     isPrimary: false,
   },

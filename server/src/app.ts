@@ -12,6 +12,7 @@ import { notFoundMiddleware } from './middlewares/notFoundMiddleware';
 import { requestIdMiddleware } from './middlewares/requestIdMiddleware';
 import accountRoutes from './routes/accountRoutes';
 import adminRoutes from './routes/adminRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
 import authRoutes from './routes/authRoutes';
 import budgetRoutes from './routes/budgetRoutes';
 import categoryRoutes from './routes/categoryRoutes';
@@ -58,6 +59,7 @@ app.use('/api/recurring-templates', recurringTemplateRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/import', importRoutes);
 

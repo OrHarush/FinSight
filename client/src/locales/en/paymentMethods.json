@@ -27,7 +27,7 @@
   },
   "defaults": {
     "credit_card": "Credit Card",
-    "immediate_debit": "Immediate Debit"
+    "immediate_debit": "Immediate Transfer"
   },
   "typeGroups": {
     "cards": "Cards",

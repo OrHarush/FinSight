@@ -61,3 +61,9 @@ export const trackWithSnapshot = async (
 
 export const countByEvent = async (event: AnalyticsEventType, since?: Date) =>
   analyticsEventRepository.countByEvent(event, since);
+
+export const recordShareClick = async (userId: string) => {
+  void track(userId, 'share_clicked').catch(err =>
+    console.error('Failed to track share_clicked:', err)
+  );
+};

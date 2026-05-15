@@ -27,7 +27,7 @@
   },
   "defaults": {
     "credit_card": "כרטיס אשראי",
-    "immediate_debit": "חיוב מיידי"
+    "immediate_debit": "העברה מיידית"
   },
   "typeGroups": {
     "cards": "כרטיסים",

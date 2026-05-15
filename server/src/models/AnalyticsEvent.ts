@@ -13,6 +13,7 @@ export const ANALYTICS_EVENT_TYPES = [
   'budget_created',
   'account_created',
   'payment_method_created',
+  'share_clicked',
   'user_created',
   'user_deleted',
 ] as const;

@@ -26,5 +26,13 @@
     "help": "Help",
     "signedInAs": "Signed in as",
     "deleteConfirm": "Are you sure you want to permanently delete your account? This action cannot be undone."
+  },
+  "share": {
+    "title": "Help us grow",
+    "shareText": "Found a free expense tracker built for Israelis — no bank connection needed. Worth a look:",
+    "linkCopied": "Link copied",
+    "ariaWhatsApp": "Share on WhatsApp",
+    "ariaTelegram": "Share on Telegram",
+    "ariaCopyLink": "Copy link"
   }
 }

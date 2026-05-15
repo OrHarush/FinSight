@@ -5,6 +5,7 @@ import MobileSidebar from '@/components/shared/layout/sidebar/MobileSidebar';
 import Settings from '@/components/shared/layout/sidebar/settings';
 import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
+import SidebarShareCard from '@/components/shared/layout/sidebar/SidebarShareCard';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 interface SidebarProps {
@@ -30,6 +31,7 @@ const Sidebar = ({
       <ScrollableColumn spacing={2} flex={1} minHeight={0}>
         <SidebarButtons />
       </ScrollableColumn>
+      <SidebarShareCard />
       <Settings />
     </Column>
   );

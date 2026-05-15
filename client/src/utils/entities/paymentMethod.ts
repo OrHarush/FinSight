@@ -21,6 +21,18 @@ export interface PaymentTypeGroup {
   types: PaymentMethodType[];
 }
 
+const LEGACY_DEFAULT_NAMES: Record<string, readonly string[]> = {
+  immediate_debit: ['Immediate Debit'],
+};
+
+const isDefaultName = (key: string, name: string, currentDefaultName: string): boolean => {
+  if (name === currentDefaultName) {
+    return true;
+  }
+
+  return LEGACY_DEFAULT_NAMES[key]?.includes(name) ?? false;
+};
+
 export const getPaymentMethodDisplayName = (
   pm: Pick<PaymentMethodDto, 'name' | 'key' | 'type'> | null | undefined,
   t: TFunction<'paymentMethods'>
@@ -32,7 +44,7 @@ export const getPaymentMethodDisplayName = (
   if (pm.key) {
     const defaultName = i18n.getFixedT('en', 'paymentMethods')(`defaults.${pm.key}`);
 
-    if (!pm.name || pm.name === defaultName) {
+    if (!pm.name || isDefaultName(pm.key, pm.name, defaultName)) {
       return t(`defaults.${pm.key}`);
     }
 

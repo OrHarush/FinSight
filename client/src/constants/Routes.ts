@@ -106,4 +106,6 @@ export const API_ROUTES = {
 
   IMPORT_PREVIEW: '/api/import/preview',
   IMPORT_TRANSACTIONS: '/api/import/transactions',
+
+  ANALYTICS_SHARE_CLICK: '/api/analytics/share-click',
 };

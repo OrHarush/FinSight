@@ -51,6 +51,7 @@
       "budget_created": "budget",
       "account_created": "account",
       "payment_method_created": "payment method",
+      "share_clicked": "shared",
       "user_created": "new user",
       "user_deleted": "deleted"
     }
