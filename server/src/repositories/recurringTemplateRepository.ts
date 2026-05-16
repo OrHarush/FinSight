@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import RecurringTemplate, { IRecurringTemplate } from '../models/RecurringTemplate';
 import { IRecurringTemplatePopulated } from '../types/RecurringTemplate';
@@ -69,3 +69,6 @@ export const remove = async (id: string, userId: string) =>
   RecurringTemplate.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
     .lean<IRecurringTemplate>()
     .exec();
+
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  RecurringTemplate.deleteMany(filter).session(session ?? null);

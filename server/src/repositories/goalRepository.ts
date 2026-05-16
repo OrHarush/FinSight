@@ -57,4 +57,7 @@ export const remove = async (id: string, userId: string, session?: ClientSession
     .lean<IGoal>()
     .exec();
 
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  Goal.deleteMany(filter).session(session ?? null);
+
 const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

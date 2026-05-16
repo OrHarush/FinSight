@@ -13,14 +13,19 @@ import { IPaymentMethod } from '../models/PaymentMethod';
 import { IUser } from '../models/User';
 import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
 import * as accountRepository from '../repositories/accountRepository';
+import * as analyticsEventRepository from '../repositories/analyticsEventRepository';
 import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
 import {
   deleteMany as deleteCategories,
   insertMany as createCategories,
 } from '../repositories/categoryRepository';
+import { deleteMany as deleteDebugSnapshots } from '../repositories/debugSnapshotRepository';
 import * as deletionFeedbackRepository from '../repositories/deletionFeedbackRepository';
+import { deleteMany as deleteGoals } from '../repositories/goalRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
+import { deleteMany as deleteRecurringTemplates } from '../repositories/recurringTemplateRepository';
 import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
+import * as userActivityRepository from '../repositories/userActivityRepository';
 import {
   deleteUserById,
   findById,
@@ -129,14 +134,8 @@ const buildDeletionSnapshot = (
   };
 };
 
-const recordDeletionFeedback = async (userId: string, feedback?: DeletionFeedbackInput) => {
+const recordDeletionFeedback = async (user: IUser, feedback?: DeletionFeedbackInput) => {
   try {
-    const user = await findById(userId);
-
-    if (!user) {
-      return;
-    }
-
     const snapshot = buildDeletionSnapshot(user, feedback);
     await deletionFeedbackRepository.insert(snapshot);
   } catch (err) {
@@ -145,7 +144,13 @@ const recordDeletionFeedback = async (userId: string, feedback?: DeletionFeedbac
 };
 
 export const deleteUserCompletely = async (userId: string, feedback?: DeletionFeedbackInput) => {
-  await recordDeletionFeedback(userId, feedback);
+  const user = await findById(userId);
+
+  if (!user) {
+    return { success: true };
+  }
+
+  await recordDeletionFeedback(user, feedback);
 
   const analyticsSnapshot = await analyticsService.captureUserSnapshot(userId);
 
@@ -153,11 +158,16 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
   session.startTransaction();
 
   try {
-    await deleteTransactions({ userId: userId }, session);
-    await deleteAccounts({ userId: userId }, session);
-    await deleteCategories({ userId: userId }, session);
-    await paymentMethodRepository.deleteMany({ userId: userId }, session);
-    await deleteBudgets({ userId: userId }, session);
+    await deleteTransactions({ userId }, session);
+    await deleteRecurringTemplates({ userId }, session);
+    await deleteBudgets({ userId }, session);
+    await deleteGoals({ userId }, session);
+    await deleteAccounts({ userId }, session);
+    await deleteCategories({ userId }, session);
+    await paymentMethodRepository.deleteMany({ userId }, session);
+    await deleteDebugSnapshots({ userId }, session);
+    await userActivityRepository.anonymizeByUser(userId, session);
+    await analyticsEventRepository.anonymizeByUserName(user.name, session);
     await deleteUserById(userId, session);
 
     await session.commitTransaction();

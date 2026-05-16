@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import DebugSnapshot, {
   IDebugSnapshot,
@@ -55,3 +55,6 @@ export const markRestored = async (id: string) =>
 
 export const appendCreatedTxIds = async (id: string, ids: Types.ObjectId[]) =>
   DebugSnapshot.updateOne({ _id: id }, { $push: { createdTxIds: { $each: ids } } }).exec();
+
+export const deleteMany = (filter: object, session?: ClientSession) =>
+  DebugSnapshot.deleteMany(filter).session(session ?? null);

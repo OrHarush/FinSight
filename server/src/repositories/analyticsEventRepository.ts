@@ -1,3 +1,5 @@
+import { ClientSession } from 'mongoose';
+
 import AnalyticsEvent, { AnalyticsEventType } from '../models/AnalyticsEvent';
 
 export const insertEvent = async (
@@ -46,3 +48,9 @@ export const findRecentBefore = async (
     .select('userName userAvatar event createdAt -_id')
     .lean();
 };
+
+export const anonymizeByUserName = (userName: string, session?: ClientSession) =>
+  AnalyticsEvent.updateMany(
+    { userName },
+    { $set: { userName: '', userAvatar: '' } },
+  ).session(session ?? null);

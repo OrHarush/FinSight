@@ -4,8 +4,8 @@ export type UserActivityType = 'LOGIN';
 
 export interface IUserActivityEvent {
   _id: string;
-  userId: Types.ObjectId;
-  userName: string; // denormalized, for readability only
+  userId: Types.ObjectId | null;
+  userName: string; // denormalized, for readability only; cleared on user deletion
   type: UserActivityType;
   occurredAt: Date;
 }
@@ -15,12 +15,12 @@ const UserActivityEventSchema = new Schema<IUserActivityEvent>(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      default: null,
       index: true,
     },
     userName: {
       type: String,
-      required: true,
+      default: '',
       trim: true,
     },
     type: {
@@ -41,5 +41,9 @@ const UserActivityEventSchema = new Schema<IUserActivityEvent>(
 );
 
 UserActivityEventSchema.index({ userId: 1, occurredAt: -1 });
+UserActivityEventSchema.index(
+  { occurredAt: 1 },
+  { expireAfterSeconds: 60 * 60 * 24 * 365 * 7 } // 7 years — Amendment 13 civil statute window
+);
 
 export default mongoose.model<IUserActivityEvent>('UserActivityEvent', UserActivityEventSchema);
