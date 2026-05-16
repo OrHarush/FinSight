@@ -51,5 +51,9 @@ const AnalyticsEventSchema = new Schema<IAnalyticsEvent>(
 );
 
 AnalyticsEventSchema.index({ event: 1, createdAt: -1 });
+AnalyticsEventSchema.index(
+  { createdAt: 1 },
+  { expireAfterSeconds: 60 * 60 * 24 * 365 } // 365 days — matches privacy policy §6
+);
 
 export default mongoose.model<IAnalyticsEvent>('AnalyticsEvent', AnalyticsEventSchema);
