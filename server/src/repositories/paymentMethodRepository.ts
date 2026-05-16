@@ -11,6 +11,14 @@ export const findMany = async (userId: string) =>
 export const findById = async (id: string, userId: string) =>
   PaymentMethod.findOne({ _id: id, userId: new Types.ObjectId(userId) });
 
+export const findByIds = async (ids: string[], userId: string) =>
+  PaymentMethod.find({
+    _id: { $in: ids.map(id => new Types.ObjectId(id)) },
+    userId: new Types.ObjectId(userId),
+  })
+    .lean<IPaymentMethod[]>()
+    .exec();
+
 export const insert = async (data: Omit<IPaymentMethod, '_id'>) => {
   const method = new PaymentMethod(data);
 

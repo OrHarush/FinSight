@@ -11,7 +11,12 @@ import { useImportWizard } from '@/pages/Import/ImportWizardContext';
 import UploadDropzone from '@/pages/Import/steps/upload/UploadDropzone';
 import UploadPreview from '@/pages/Import/steps/upload/UploadPreview';
 import UploadPreviewSkeleton from '@/pages/Import/steps/upload/UploadPreviewSkeleton';
-import { ImportPreview, WizardRow } from '@/pages/Import/types/importWizard';
+import {
+  ImportPreview,
+  SINGLE_CARD_KEY,
+  UNKNOWN_CARD_KEY,
+  WizardRow,
+} from '@/pages/Import/types/importWizard';
 import { resolveErrorKey } from '@/pages/Import/utils/import';
 
 const UploadStep = () => {
@@ -63,7 +68,21 @@ const UploadStep = () => {
       }
 
       setPreview(result);
-      setRows(result.rows.map((row): WizardRow => ({ ...row, selected: false, categoryId: null })));
+
+      const hasCardColumn = result.cards.length > 0;
+
+      setRows(
+        result.rows.map(
+          (row): WizardRow => ({
+            date: row.date,
+            name: row.name,
+            amount: row.amount,
+            card: hasCardColumn ? row.card ?? UNKNOWN_CARD_KEY : SINGLE_CARD_KEY,
+            selected: false,
+            categoryId: null,
+          })
+        )
+      );
       setCanProceed(true);
     } catch (err: unknown) {
       const msg =

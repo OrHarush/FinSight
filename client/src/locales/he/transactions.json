@@ -75,6 +75,7 @@
     },
     "navigation": {
       "next": "הבא",
+      "nextCard": "הכרטיס הבא",
       "back": "חזור",
       "confirm": "ייבא"
     },
@@ -104,6 +105,9 @@
     "settings": {
       "account": "חשבון",
       "paymentMethod": "אמצעי תשלום",
+      "paymentMethodPerCard": "אמצעי תשלום לכרטיס •••• {{last4}}",
+      "paymentMethodPerCardCount": "{{count}} עסקאות",
+      "paymentMethodUnassigned": "אמצעי תשלום לכרטיס לא משויך",
       "dateFilterLabel": "סנן לפי טווח תאריכים (אופציונלי)",
       "from": "מ",
       "to": "עד"
@@ -130,13 +134,18 @@
       "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת.",
       "deleteSelected": "מחק נבחרים",
       "deleteSelectedCount": "מחק {{count}} שורות",
-      "selectedCount": "{{count}} נבחרו"
+      "selectedCount": "{{count}} נבחרו",
+      "cardProgress": "כרטיס {{current}} מתוך {{total}}",
+      "cardLabel": "•••• {{last4}}",
+      "cardUnassigned": "כרטיס לא משויך",
+      "cardRowCount": "{{count}} עסקאות"
     },
     "confirm": {
       "summary": "סיכום ייבוא",
       "total": "סך עסקאות",
       "categorized": "מקוטלגות",
       "uncategorized": "ללא קטגוריה",
+      "perCardTitle": "לפי כרטיס",
       "importing": "מייבא…",
       "uncategorizedWarning": "{{count}} עסקאות ללא קטגוריה",
       "dialog": {

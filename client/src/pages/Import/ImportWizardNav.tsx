@@ -11,7 +11,7 @@ import { useImportWizard } from '@/pages/Import/ImportWizardContext';
 const ImportWizardNav = () => {
   const { t } = useTranslation('transactions');
   const navigate = useNavigate();
-  const { activeStep, goToNextStep, goToPrevStep, canProceed } = useImportWizard();
+  const { activeStep, goToNextStep, goToPrevStep, canProceed, nextLabelOverride } = useImportWizard();
 
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === TOTAL_STEPS - 1;
@@ -33,7 +33,7 @@ const ImportWizardNav = () => {
         </Button>
         {!isLastStep && (
           <Button variant="contained" onClick={goToNextStep} disabled={!canProceed}>
-            {t('importWizard.navigation.next')}
+            {nextLabelOverride ?? t('importWizard.navigation.next')}
           </Button>
         )}
       </Row>

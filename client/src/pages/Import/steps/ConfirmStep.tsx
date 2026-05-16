@@ -24,6 +24,11 @@ import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useImportWizard } from '@/pages/Import/ImportWizardContext';
+import {
+  SINGLE_CARD_KEY,
+  UNKNOWN_CARD_KEY,
+  WizardRow,
+} from '@/pages/Import/types/importWizard';
 
 interface ImportResult {
   inserted: number;
@@ -32,16 +37,83 @@ interface ImportResult {
 }
 
 interface ImportBody {
-  rows: { date: string; name: string; amount: number; categoryId?: string }[];
+  rows: {
+    date: string;
+    name: string;
+    amount: number;
+    categoryId?: string;
+    paymentMethodId?: string;
+  }[];
   accountId: string;
   paymentMethodId: string;
   dateFilter?: { from: string; to: string };
 }
 
+interface CardBreakdownProps {
+  cardKey: string;
+  rowsForCard: WizardRow[];
+  paymentMethodName: string | null;
+}
+
+const CardBreakdown = ({ cardKey, rowsForCard, paymentMethodName }: CardBreakdownProps) => {
+  const { t } = useTranslation('transactions');
+
+  const categorizedCount = rowsForCard.filter(r => r.categoryId !== null).length;
+  const uncategorizedCount = rowsForCard.length - categorizedCount;
+  const cardLabel =
+    cardKey === UNKNOWN_CARD_KEY
+      ? t('importWizard.categorize.cardUnassigned')
+      : t('importWizard.categorize.cardLabel', { last4: cardKey });
+
+  return (
+    <Paper variant="outlined" sx={{ p: 2, borderRadius: 1.5 }}>
+      <Column spacing={1}>
+        <Row justifyContent="space-between" alignItems="center">
+          <Typography fontWeight={600}>{cardLabel}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t('importWizard.categorize.cardRowCount', { count: rowsForCard.length })}
+          </Typography>
+        </Row>
+        {paymentMethodName && (
+          <Row justifyContent="space-between">
+            <Typography variant="body2" color="text.secondary">
+              {t('importWizard.settings.paymentMethod')}
+            </Typography>
+            <Typography variant="body2" fontWeight={500}>
+              {paymentMethodName}
+            </Typography>
+          </Row>
+        )}
+        <Row justifyContent="space-between">
+          <Typography variant="body2" color="text.secondary">
+            {t('importWizard.confirm.categorized')}
+          </Typography>
+          <Typography variant="body2" fontWeight={500}>
+            {categorizedCount}
+          </Typography>
+        </Row>
+        <Row justifyContent="space-between" alignItems="center">
+          <Row spacing={0.5} alignItems="center">
+            <Typography variant="body2" color="text.secondary">
+              {t('importWizard.confirm.uncategorized')}
+            </Typography>
+            {uncategorizedCount > 0 && (
+              <WarningAmberIcon sx={{ fontSize: 14, color: 'warning.main' }} />
+            )}
+          </Row>
+          <Typography variant="body2" fontWeight={500}>
+            {uncategorizedCount}
+          </Typography>
+        </Row>
+      </Column>
+    </Paper>
+  );
+};
+
 const ConfirmStep = () => {
   const { t } = useTranslation('transactions');
   const navigate = useNavigate();
-  const { rows, settings, preview } = useImportWizard();
+  const { rows, settings, preview, cards } = useImportWizard();
   const { accounts } = useAccounts();
   const { paymentMethods } = usePaymentMethods();
   const [result, setResult] = useState<ImportResult | null>(null);
@@ -60,19 +132,34 @@ const ConfirmStep = () => {
   const uncategorizedCount = rows.length - categorizedCount;
 
   const account = accounts.find(a => a._id === settings.accountId);
-  const paymentMethod = paymentMethods.find(pm => pm._id === settings.paymentMethodId);
+  const isMultiCard = cards.length >= 2;
+  const singlePaymentMethodId = settings.cardAssignments[SINGLE_CARD_KEY];
+  const singlePaymentMethod = paymentMethods.find(pm => pm._id === singlePaymentMethodId);
   const dateRange = settings.dateFilter ?? preview?.dateRange;
+
+  const paymentMethodName = (pmId: string | undefined): string | null =>
+    paymentMethods.find(pm => pm._id === pmId)?.name ?? null;
+
+  const fallbackPaymentMethodId =
+    settings.cardAssignments[SINGLE_CARD_KEY] ||
+    Object.values(settings.cardAssignments).find(v => !!v) ||
+    '';
 
   const submitImport = () => {
     runImport({
-      rows: rows.map(r => ({
-        date: r.date,
-        name: r.name,
-        amount: r.amount,
-        ...(r.categoryId && { categoryId: r.categoryId }),
-      })),
+      rows: rows.map(r => {
+        const pmId = settings.cardAssignments[r.card] || fallbackPaymentMethodId;
+
+        return {
+          date: r.date,
+          name: r.name,
+          amount: r.amount,
+          ...(pmId && { paymentMethodId: pmId }),
+          ...(r.categoryId && { categoryId: r.categoryId }),
+        };
+      }),
       accountId: settings.accountId,
-      paymentMethodId: settings.paymentMethodId,
+      paymentMethodId: fallbackPaymentMethodId,
       ...(settings.dateFilter && { dateFilter: settings.dateFilter }),
     });
   };
@@ -168,12 +255,12 @@ const ConfirmStep = () => {
                 </Row>
               </>
             )}
-            {paymentMethod && (
+            {!isMultiCard && singlePaymentMethod && (
               <Row justifyContent="space-between">
                 <Typography color="text.secondary">
                   {t('importWizard.settings.paymentMethod')}
                 </Typography>
-                <Typography fontWeight={600}>{paymentMethod.name}</Typography>
+                <Typography fontWeight={600}>{singlePaymentMethod.name}</Typography>
               </Row>
             )}
             {dateRange && (
@@ -191,6 +278,21 @@ const ConfirmStep = () => {
             )}
           </Column>
         </Paper>
+        {isMultiCard && (
+          <Column spacing={1.5}>
+            <Typography variant="subtitle2" fontWeight={600}>
+              {t('importWizard.confirm.perCardTitle')}
+            </Typography>
+            {cards.map(cardKey => (
+              <CardBreakdown
+                key={cardKey}
+                cardKey={cardKey}
+                rowsForCard={rows.filter(r => r.card === cardKey)}
+                paymentMethodName={paymentMethodName(settings.cardAssignments[cardKey])}
+              />
+            ))}
+          </Column>
+        )}
         <Button
           variant="contained"
           size="large"

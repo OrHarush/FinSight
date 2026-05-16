@@ -25,7 +25,7 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
 
   return (
     <Column spacing={2}>
-      <Row spacing={2} alignItems="center">
+      <Row spacing={2} alignItems="center" flexWrap="wrap">
         <Typography variant="subtitle1" fontWeight={600}>
           {t('importWizard.upload.previewTitle')}
         </Typography>
@@ -34,15 +34,15 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
           color="primary"
           size="small"
         />
+        {preview.dateRange && (
+          <Typography variant="caption" color="text.secondary">
+            {t('importWizard.upload.dateRange', {
+              from: preview.dateRange.from,
+              to: preview.dateRange.to,
+            })}
+          </Typography>
+        )}
       </Row>
-      {preview.dateRange && (
-        <Typography variant="caption" color="text.secondary">
-          {t('importWizard.upload.dateRange', {
-            from: preview.dateRange.from,
-            to: preview.dateRange.to,
-          })}
-        </Typography>
-      )}
       <Typography variant="caption" color="text.secondary" fontWeight={500}>
         {t('importWizard.upload.sampleRows')}
       </Typography>

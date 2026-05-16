@@ -11,27 +11,63 @@ import { parseFile } from '../utils/fileParser';
 import * as analyticsService from './analyticsService';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
+interface PreviewRow {
+  date: string;
+  name: string;
+  amount: number;
+  card: string | null;
+}
+
 export interface ImportPreview {
   rowCount: number;
   dateRange: { from: string; to: string } | null;
-  rows: Array<{ date: string; name: string; amount: number }>;
-  sample: Array<{ date: string; name: string; amount: number }>;
+  rows: PreviewRow[];
+  sample: PreviewRow[];
   warnings: string[];
+  cards: string[];
+  cardCounts: Record<string, number>;
 }
+
+const summarizeCards = (rows: PreviewRow[]): { cards: string[]; cardCounts: Record<string, number> } => {
+  const counts: Record<string, number> = {};
+  const order: string[] = [];
+
+  for (const row of rows) {
+    if (row.card === null) {
+      continue;
+    }
+
+    if (!(row.card in counts)) {
+      counts[row.card] = 0;
+      order.push(row.card);
+    }
+
+    counts[row.card]++;
+  }
+
+  return { cards: order, cardCounts: counts };
+};
 
 export const getImportPreview = async (file: Express.Multer.File): Promise<ImportPreview> => {
   const { rows, warnings } = parseFile(file.buffer, file.mimetype);
 
   if (rows.length === 0) {
     warnings.push('No valid rows found after parsing.');
-    return { rowCount: 0, dateRange: null, rows: [], sample: [], warnings };
+    return {
+      rowCount: 0,
+      dateRange: null,
+      rows: [],
+      sample: [],
+      warnings,
+      cards: [],
+      cardCounts: {},
+    };
   }
 
-  // ISO date strings (YYYY-MM-DD) sort lexicographically = chronologically
   const dates = rows.map(r => r.date).sort();
   const dateRange = { from: dates[0], to: dates[dates.length - 1] };
-
   const sample = rows.slice(0, 5);
+  const { cards, cardCounts } = summarizeCards(rows);
 
   return {
     rowCount: rows.length,
@@ -39,6 +75,8 @@ export const getImportPreview = async (file: Express.Multer.File): Promise<Impor
     rows,
     sample,
     warnings,
+    cards,
+    cardCounts,
   };
 };
 
@@ -58,10 +96,18 @@ export const importTransactions = async (
     throw ApiError.notFound('Account not found.');
   }
 
-  if (dto.paymentMethodId) {
-    const paymentMethod = await paymentMethodRepository.findById(dto.paymentMethodId, userId);
+  const distinctPaymentMethodIds = Array.from(
+    new Set(
+      [dto.paymentMethodId, ...dto.rows.map(r => r.paymentMethodId)].filter(
+        (id): id is string => typeof id === 'string' && id.length > 0
+      )
+    )
+  );
 
-    if (!paymentMethod) {
+  if (distinctPaymentMethodIds.length > 0) {
+    const found = await paymentMethodRepository.findByIds(distinctPaymentMethodIds, userId);
+
+    if (found.length !== distinctPaymentMethodIds.length) {
       throw ApiError.notFound('Payment method not found.');
     }
   }
@@ -87,6 +133,7 @@ export const importTransactions = async (
 
   const transactions: Omit<ITransaction, '_id'>[] = filteredRows.map(row => {
     const isRefund = row.amount < 0;
+    const paymentMethodId = row.paymentMethodId ?? dto.paymentMethodId;
 
     return {
       name: row.name.slice(0, 50) || '',
@@ -94,7 +141,7 @@ export const importTransactions = async (
       amount: toCents(Math.abs(row.amount)),
       date: new Date(row.date),
       account: new Types.ObjectId(dto.accountId),
-      ...(dto.paymentMethodId && { paymentMethod: new Types.ObjectId(dto.paymentMethodId) }),
+      ...(paymentMethodId && { paymentMethod: new Types.ObjectId(paymentMethodId) }),
       ...(row.categoryId && { category: new Types.ObjectId(row.categoryId) }),
       userId: new Types.ObjectId(userId),
     };

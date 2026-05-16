@@ -7,6 +7,7 @@ const ParsedRowSchema = z.object({
   name: z.string(),
   amount: z.number(),
   categoryId: z.string().optional(),
+  paymentMethodId: objectIdSchema.optional(),
 });
 
 export const ImportTransactionsSchema = z.object({

@@ -1,7 +1,15 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
 import { TOTAL_STEPS } from '@/pages/Import/constants/import';
-import { ImportPreview, WizardRow, WizardSettings } from '@/pages/Import/types/importWizard';
+import {
+  ImportPreview,
+  SINGLE_CARD_KEY,
+  UNKNOWN_CARD_KEY,
+  WizardRow,
+  WizardSettings,
+} from '@/pages/Import/types/importWizard';
+
+type StepIntercept = (() => boolean) | null;
 
 interface ImportWizardState {
   activeStep: number;
@@ -9,6 +17,9 @@ interface ImportWizardState {
   preview: ImportPreview | null;
   settings: WizardSettings;
   rows: WizardRow[];
+  cards: string[];
+  activeCardIndex: number;
+  nextLabelOverride: string | null;
 }
 
 interface ImportWizardActions {
@@ -17,6 +28,7 @@ interface ImportWizardActions {
   setFile: (file: File | null) => void;
   setPreview: (preview: ImportPreview | null) => void;
   setSettings: (settings: Partial<WizardSettings>) => void;
+  setCardAssignment: (cardKey: string, paymentMethodId: string) => void;
   setRows: (rows: WizardRow[]) => void;
   updateRowCategory: (index: number, categoryId: string | null) => void;
   updateRowName: (index: number, name: string) => void;
@@ -25,6 +37,10 @@ interface ImportWizardActions {
   deleteRows: (indices: number[]) => void;
   canProceed: boolean;
   setCanProceed: (value: boolean) => void;
+  setActiveCardIndex: (index: number) => void;
+  registerNextIntercept: (fn: StepIntercept) => void;
+  registerPrevIntercept: (fn: StepIntercept) => void;
+  setNextLabelOverride: (label: string | null) => void;
 }
 
 type ImportWizardContextValue = ImportWizardState & ImportWizardActions;
@@ -33,8 +49,25 @@ const ImportWizardContext = createContext<ImportWizardContextValue | null>(null)
 
 const defaultSettings: WizardSettings = {
   accountId: '',
-  paymentMethodId: '',
+  cardAssignments: { [SINGLE_CARD_KEY]: '' },
   dateFilter: null,
+};
+
+const toWizardCardKey = (card: string | null): string => card ?? UNKNOWN_CARD_KEY;
+
+const deriveCards = (preview: ImportPreview | null): string[] => {
+  if (!preview) {
+    return [];
+  }
+
+  const cards = [...preview.cards];
+  const hasUnknown = preview.rows.some(r => r.card === null);
+
+  if (cards.length > 0 && hasUnknown) {
+    cards.push(UNKNOWN_CARD_KEY);
+  }
+
+  return cards;
 };
 
 interface ImportWizardProviderProps {
@@ -44,23 +77,70 @@ interface ImportWizardProviderProps {
 export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<ImportPreview | null>(null);
+  const [preview, setPreviewState] = useState<ImportPreview | null>(null);
   const [settings, setSettingsState] = useState<WizardSettings>(defaultSettings);
   const [rows, setRows] = useState<WizardRow[]>([]);
   const [canProceed, setCanProceed] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [nextIntercept, setNextIntercept] = useState<StepIntercept>(null);
+  const [prevIntercept, setPrevIntercept] = useState<StepIntercept>(null);
+  const [nextLabelOverride, setNextLabelOverride] = useState<string | null>(null);
+
+  const cards = useMemo(() => deriveCards(preview), [preview]);
+
+  const setPreview = useCallback((next: ImportPreview | null) => {
+    setPreviewState(next);
+    setActiveCardIndex(0);
+
+    if (next === null) {
+      setSettingsState(defaultSettings);
+      return;
+    }
+
+    const derived = deriveCards(next);
+    const assignments: Record<string, string> =
+      derived.length > 0 ? {} : { [SINGLE_CARD_KEY]: '' };
+
+    for (const card of derived) {
+      assignments[card] = '';
+    }
+
+    setSettingsState({
+      accountId: '',
+      cardAssignments: assignments,
+      dateFilter: null,
+    });
+  }, []);
 
   const goToNextStep = () => {
+    if (nextIntercept && nextIntercept()) {
+      return;
+    }
+
     setCanProceed(false);
+    setNextLabelOverride(null);
     setActiveStep(prev => Math.min(prev + 1, TOTAL_STEPS - 1));
   };
 
   const goToPrevStep = () => {
+    if (prevIntercept && prevIntercept()) {
+      return;
+    }
+
     setCanProceed(true);
+    setNextLabelOverride(null);
     setActiveStep(prev => Math.max(prev - 1, 0));
   };
 
   const setSettings = (partial: Partial<WizardSettings>) => {
     setSettingsState(prev => ({ ...prev, ...partial }));
+  };
+
+  const setCardAssignment = (cardKey: string, paymentMethodId: string) => {
+    setSettingsState(prev => ({
+      ...prev,
+      cardAssignments: { ...prev.cardAssignments, [cardKey]: paymentMethodId },
+    }));
   };
 
   const updateRowCategory = (index: number, categoryId: string | null) => {
@@ -91,6 +171,14 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
     setRows(prev => prev.filter((_, i) => !indexSet.has(i)));
   };
 
+  const registerNextIntercept = useCallback((fn: StepIntercept) => {
+    setNextIntercept(() => fn);
+  }, []);
+
+  const registerPrevIntercept = useCallback((fn: StepIntercept) => {
+    setPrevIntercept(() => fn);
+  }, []);
+
   return (
     <ImportWizardContext.Provider
       value={{
@@ -99,12 +187,16 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         preview,
         settings,
         rows,
+        cards,
+        activeCardIndex,
+        nextLabelOverride,
         canProceed,
         goToNextStep,
         goToPrevStep,
         setFile,
         setPreview,
         setSettings,
+        setCardAssignment,
         setRows,
         updateRowCategory,
         updateRowName,
@@ -112,6 +204,10 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         toggleAllSelected,
         deleteRows,
         setCanProceed,
+        setActiveCardIndex,
+        registerNextIntercept,
+        registerPrevIntercept,
+        setNextLabelOverride,
       }}
     >
       {children}
@@ -128,3 +224,5 @@ export const useImportWizard = (): ImportWizardContextValue => {
 
   return ctx;
 };
+
+export { toWizardCardKey };

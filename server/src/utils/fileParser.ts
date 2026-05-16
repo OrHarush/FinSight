@@ -9,6 +9,7 @@ interface ColumnMap {
   dateIdx: number;
   nameIdx: number;
   amountIdx: number;
+  cardIdx: number;
 }
 
 interface DetectedHeader {
@@ -21,6 +22,7 @@ export interface ParsedRow {
   date: string;
   name: string;
   amount: number;
+  card: string | null;
 }
 
 export interface ParseResult {
@@ -28,7 +30,7 @@ export interface ParseResult {
   warnings: string[];
 }
 
-type FieldKey = 'date' | 'name' | 'amount';
+type FieldKey = 'date' | 'name' | 'amount' | 'card';
 
 interface Synonym {
   s: string;
@@ -98,18 +100,29 @@ const FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
     { s: 'amount', w: 5 },
     { s: 'total', w: 4 },
   ],
+  card: [
+    { s: "מס' כרטיס", w: 10 },
+    { s: 'מספר כרטיס', w: 10 },
+    { s: 'card number', w: 10 },
+    { s: 'last 4 digits', w: 10 },
+    { s: '4 ספרות אחרונות', w: 10 },
+    { s: 'כרטיס', w: 6 },
+    { s: 'card', w: 6 },
+  ],
 };
 
 const NORMALIZED_FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
   date: FIELD_SYNONYMS.date.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
   name: FIELD_SYNONYMS.name.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
   amount: FIELD_SYNONYMS.amount.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
+  card: FIELD_SYNONYMS.card.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
 };
 
 const FIELD_THRESHOLDS: Record<FieldKey, number> = {
   date: 8,
   amount: 8,
   name: 6,
+  card: 6,
 };
 
 const scoreCellForField = (normalized: string, field: FieldKey): number => {
@@ -152,6 +165,7 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
   const date = pickBestColumn(normalized, 'date');
   const amount = pickBestColumn(normalized, 'amount');
   const name = pickBestColumn(normalized, 'name');
+  const card = pickBestColumn(normalized, 'card');
 
   if (date.score < FIELD_THRESHOLDS.date || amount.score < FIELD_THRESHOLDS.amount) {
     return null;
@@ -162,12 +176,18 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
   }
 
   const nameResolved = name.score >= FIELD_THRESHOLDS.name && name.idx !== date.idx && name.idx !== amount.idx;
+  const cardResolved =
+    card.score >= FIELD_THRESHOLDS.card &&
+    card.idx !== date.idx &&
+    card.idx !== amount.idx &&
+    (!nameResolved || card.idx !== name.idx);
 
   return {
     cols: {
       dateIdx: date.idx,
       amountIdx: amount.idx,
       nameIdx: nameResolved ? name.idx : -1,
+      cardIdx: cardResolved ? card.idx : -1,
     },
     nameMissing: !nameResolved,
   };
@@ -281,6 +301,26 @@ const parseDate = (value: CellValue): string | null => {
   return null;
 };
 
+const normalizeCardValue = (value: CellValue): string | null => {
+  if (value == null) {
+    return null;
+  }
+
+  const raw = String(value).replace(/[‎‏‪-‮]/g, '').trim();
+
+  if (raw === '' || raw === '-') {
+    return null;
+  }
+
+  const digits = raw.replace(/\D/g, '');
+
+  if (digits.length >= 4) {
+    return digits.slice(-4);
+  }
+
+  return raw;
+};
+
 const parseAmount = (value: CellValue): number | null => {
   if (typeof value === 'number') {
     return value;
@@ -390,8 +430,9 @@ const extractRowsFromSheet = (rawRows: RawRow[], header: DetectedHeader): SheetE
 
     const rawName = cols.nameIdx === -1 ? '' : row[cols.nameIdx];
     const name = rawName == null ? '' : String(rawName).trim();
+    const card = cols.cardIdx === -1 ? null : normalizeCardValue(row[cols.cardIdx]);
 
-    rows.push({ date, name, amount });
+    rows.push({ date, name, amount, card });
   }
 
   return { rows, failCount, nameMissing };

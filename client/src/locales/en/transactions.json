@@ -75,6 +75,7 @@
     },
     "navigation": {
       "next": "Next",
+      "nextCard": "Next card",
       "back": "Back",
       "confirm": "Import"
     },
@@ -104,6 +105,9 @@
     "settings": {
       "account": "Account",
       "paymentMethod": "Payment Method",
+      "paymentMethodPerCard": "Payment method for card •••• {{last4}}",
+      "paymentMethodPerCardCount": "{{count}} transactions",
+      "paymentMethodUnassigned": "Payment method for unassigned card",
       "dateFilterLabel": "Filter by date range (optional)",
       "from": "From",
       "to": "To"
@@ -130,13 +134,18 @@
       "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together.",
       "deleteSelected": "Delete selected",
       "deleteSelectedCount": "Delete {{count}} row(s)",
-      "selectedCount": "{{count}} selected"
+      "selectedCount": "{{count}} selected",
+      "cardProgress": "Card {{current}} of {{total}}",
+      "cardLabel": "•••• {{last4}}",
+      "cardUnassigned": "Unassigned card",
+      "cardRowCount": "{{count}} transactions"
     },
     "confirm": {
       "summary": "Import Summary",
       "total": "Total transactions",
       "categorized": "Categorized",
       "uncategorized": "Uncategorized",
+      "perCardTitle": "By card",
       "importing": "Importing…",
       "uncategorizedWarning": "{{count}} transaction(s) have no category assigned",
       "dialog": {
