@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 
 /**
  * Authentication rate limiter
@@ -50,7 +50,6 @@ export const exportLimiter = rateLimit({
   limit: 5,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: req => req.userId ?? req.ip ?? 'anonymous',
+  keyGenerator: req => req.userId ?? ipKeyGenerator(req.ip ?? '') ?? 'anonymous',
   message: 'Too many export requests, please try again in an hour.',
 });
-
