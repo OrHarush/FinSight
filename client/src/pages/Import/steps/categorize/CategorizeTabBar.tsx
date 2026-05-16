@@ -1,6 +1,8 @@
 import { Tab, Tabs } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+import { useImportWizard } from '@/pages/Import/ImportWizardContext';
+
 interface Props {
   value: 'expense' | 'income';
   onChange: (value: 'expense' | 'income') => void;
@@ -10,6 +12,11 @@ interface Props {
 
 const CategorizeTabBar = ({ value, onChange, centered = false }: Props) => {
   const { t } = useTranslation('transactions');
+  const { preview } = useImportWizard();
+  const incomeKey =
+    preview?.format === 'bank-statement'
+      ? 'importWizard.categorize.tabIncomeBankStatement'
+      : 'importWizard.categorize.tabIncome';
 
   return (
     <Tabs
@@ -19,7 +26,7 @@ const CategorizeTabBar = ({ value, onChange, centered = false }: Props) => {
       sx={{ minHeight: 36, '& .MuiTab-root': { minHeight: 36, py: 0.5 } }}
     >
       <Tab label={t('importWizard.categorize.tabExpenses')} value="expense" />
-      <Tab label={t('importWizard.categorize.tabIncome')} value="income" />
+      <Tab label={t(incomeKey)} value="income" />
     </Tabs>
   );
 };

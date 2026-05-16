@@ -83,9 +83,10 @@
       "dropzone": "גרור ושחרר את ייצוא הבנק שלך כאן",
       "dropzoneMobile": "בחרו קובץ לייבוא",
       "dropzoneActive": "שחרר!",
-      "dropzoneSub": "תומך בקבצי xlsx ו-csv — עד 5 MB",
+      "dropzoneSub": "תומך בקבצי xlsx ו-csv, עד 5 MB",
       "dropzonePrivacy": "הקובץ מנותח בשרת לצורך ייבוא בלבד. רק התנועות שתאשר נשמרות.",
       "browse": "בחר קובץ",
+      "browseChange": "החלף קובץ",
       "fileReady": "קובץ מוכן",
       "fileReadySize": "{{size}} KB",
       "previewTitle": "תצוגה מקדימה",
@@ -100,7 +101,11 @@
       "error.unsupported": "סוג קובץ לא נתמך. אנא העלה קובץ xlsx או csv.",
       "error.noData": "לא נמצאו נתוני עסקאות בקובץ זה.",
       "error.parse": "לא ניתן לנתח את הקובץ. ודא שמדובר בייצוא בנק תקין.",
-      "error.generic": "משהו השתבש. אנא נסה שוב."
+      "error.unsupportedFormat": "פורמט קובץ לא נתמך. Lyra תומכת בייצוא כרטיסי אשראי (תאריך + סכום) ובייצוא עו\"ש (תאריך + עמודות חובה/זכות).",
+      "error.mixedFormats": "הקובץ מכיל גם דפי כרטיס אשראי וגם דפי עו\"ש. אנא העלה פורמט אחד בלבד.",
+      "error.generic": "משהו השתבש. אנא נסה שוב.",
+      "detectedFormatCreditCard": "זוהה כקובץ אשראי",
+      "detectedFormatBankStatement": "זוהה כעו\"ש"
     },
     "settings": {
       "account": "חשבון",
@@ -108,6 +113,10 @@
       "paymentMethodPerCard": "אמצעי תשלום לכרטיס •••• {{last4}}",
       "paymentMethodPerCardCount": "{{count}} עסקאות",
       "paymentMethodUnassigned": "אמצעי תשלום לכרטיס לא משויך",
+      "bankStatementHelper": "ייבוא עו\"ש דורש אמצעי תשלום מסוג *העברה ישירה*. Lyra תיצור עבורך כזה.",
+      "bankStatementAddPM": "הוסף עכשיו",
+      "bankStatementAddPMError": "לא ניתן ליצור את אמצעי התשלום. אנא נסה שוב.",
+      "bankStatementAutoCreated": "אמצעי תשלום נוצר אוטומטית עבורך",
       "dateFilterLabel": "סנן לפי טווח תאריכים (אופציונלי)",
       "from": "מ",
       "to": "עד"
@@ -118,6 +127,7 @@
       "empty": "אין עסקאות לסיווג",
       "uncategorized": "ללא קטגוריה",
       "categorized": "מקוטלגות",
+      "addCategory": "+ קטגוריה",
       "bulkAssign": {
         "message": "נמצאו {{count}} עסקאות נוספות של \"{{name}}\" — לשייך לאותה קטגוריה?",
         "confirm": "החל על כולן",
@@ -131,6 +141,7 @@
       "refund": "זיכוי",
       "tabExpenses": "הוצאות",
       "tabIncome": "זיכויים",
+      "tabIncomeBankStatement": "הכנסות",
       "dragInfo": "גרור עסקאות לקטגוריה כדי לשייך אותן. סמן מספר שורות לגרירה משותפת.",
       "deleteSelected": "מחק נבחרים",
       "deleteSelectedCount": "מחק {{count}} שורות",

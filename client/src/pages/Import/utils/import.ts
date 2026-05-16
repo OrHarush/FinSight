@@ -3,11 +3,15 @@ export const resolveErrorKey = (message: string): string => {
     return 'importWizard.upload.error.unsupported';
   }
 
-  if (
-    message.includes('No valid rows') ||
-    message.includes('empty') ||
-    message.includes('Could not detect')
-  ) {
+  if (message.includes('mixes formats')) {
+    return 'importWizard.upload.error.mixedFormats';
+  }
+
+  if (message.includes('Could not detect') || message.includes('Supported formats')) {
+    return 'importWizard.upload.error.unsupportedFormat';
+  }
+
+  if (message.includes('No valid rows') || message.includes('empty')) {
     return 'importWizard.upload.error.noData';
   }
 

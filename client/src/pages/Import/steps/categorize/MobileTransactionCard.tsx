@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import InlineNameEditor from '@/pages/Import/steps/categorize/InlineNameEditor';
 import useInlineRename from '@/pages/Import/steps/categorize/useInlineRename';
 import { WizardRow } from '@/pages/Import/types/importWizard';
@@ -34,6 +35,7 @@ const MobileTransactionCard = ({
 }: MobileTransactionCardProps) => {
   const theme = useTheme();
   const { t, i18n } = useTranslation('transactions');
+  const getCategoryName = useCategoryName();
   const isRefund = row.amount < 0;
   const category = categories.find(c => c._id === row.categoryId);
   const { isEditing, editedName, setEditedName, startEdit, commitEdit, handleKeyDown } =
@@ -134,7 +136,7 @@ const MobileTransactionCard = ({
           </Typography>
           {!isSelectionMode && (
             <Chip
-              label={category ? category.name : '+ קטגוריה'}
+              label={category ? getCategoryName(category) : t('importWizard.categorize.addCategory')}
               size="small"
               onClick={onChipClick}
               sx={

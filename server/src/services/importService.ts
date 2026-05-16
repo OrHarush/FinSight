@@ -7,7 +7,7 @@ import * as accountRepository from '../repositories/accountRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ImportTransactionsDTO } from '../schemas/importSchemas';
-import { parseFile } from '../utils/fileParser';
+import { FileFormat, parseFile } from '../utils/fileParser';
 import * as analyticsService from './analyticsService';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
@@ -26,6 +26,7 @@ export interface ImportPreview {
   warnings: string[];
   cards: string[];
   cardCounts: Record<string, number>;
+  format: FileFormat;
 }
 
 const summarizeCards = (rows: PreviewRow[]): { cards: string[]; cardCounts: Record<string, number> } => {
@@ -49,7 +50,7 @@ const summarizeCards = (rows: PreviewRow[]): { cards: string[]; cardCounts: Reco
 };
 
 export const getImportPreview = async (file: Express.Multer.File): Promise<ImportPreview> => {
-  const { rows, warnings } = parseFile(file.buffer, file.mimetype);
+  const { rows, warnings, format } = parseFile(file.buffer, file.mimetype);
 
   if (rows.length === 0) {
     warnings.push('No valid rows found after parsing.');
@@ -61,6 +62,7 @@ export const getImportPreview = async (file: Express.Multer.File): Promise<Impor
       warnings,
       cards: [],
       cardCounts: {},
+      format,
     };
   }
 
@@ -77,6 +79,7 @@ export const getImportPreview = async (file: Express.Multer.File): Promise<Impor
     warnings,
     cards,
     cardCounts,
+    format,
   };
 };
 

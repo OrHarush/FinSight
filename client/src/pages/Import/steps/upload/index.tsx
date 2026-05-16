@@ -110,6 +110,7 @@ const UploadStep = () => {
         file={file}
         isDragging={isDragging}
         isLoading={isLoading}
+        detectedFormat={preview?.format ?? null}
         onProcessFile={processFile}
         onDragStateChange={setIsDragging}
         onClear={clearFile}

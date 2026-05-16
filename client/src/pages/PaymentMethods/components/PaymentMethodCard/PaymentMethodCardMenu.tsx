@@ -9,6 +9,7 @@ import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
+import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
 
 interface PaymentMethodCardMenuProps {
   paymentMethod: PaymentMethodDto;
@@ -24,6 +25,7 @@ const PaymentMethodCardMenu = ({
   anchorEl,
 }: PaymentMethodCardMenuProps) => {
   const { t } = useTranslation(['paymentMethods', 'common']);
+  const { t: tPM } = useTranslation('paymentMethods');
   const { alertSuccess, alertError } = useSnackbar();
   const { paymentMethods } = usePaymentMethods();
   const [isDeleteDialogOpen, openDeleteDialog, closeDeleteDialog] = useOpen();
@@ -32,7 +34,7 @@ const PaymentMethodCardMenu = ({
 
   const replacementOptions = paymentMethods
     .filter(pm => pm._id !== paymentMethod._id)
-    .map(pm => ({ id: pm._id, label: pm.name }));
+    .map(pm => ({ id: pm._id, label: getPaymentMethodDisplayName(pm, tPM) }));
 
   const setPrimaryPaymentMethod = useApiMutation<void, { id: string }>({
     method: 'patch',
@@ -80,7 +82,7 @@ const PaymentMethodCardMenu = ({
         onConfirm={replacementId =>
           deletePaymentMethod.mutate({ id: paymentMethod._id, replacementId })
         }
-        itemName={paymentMethod.name}
+        itemName={getPaymentMethodDisplayName(paymentMethod, tPM)}
         itemType="paymentMethod"
         itemId={paymentMethod._id}
         replacementOptions={replacementOptions}

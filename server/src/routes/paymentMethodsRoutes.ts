@@ -2,6 +2,7 @@ import { CreatePaymentMethodSchema, UpdatePaymentMethodSchema } from '@lyra/shar
 import express from 'express';
 
 import {
+  createDefaultBankTransfer,
   createPaymentMethod,
   deletePaymentMethod,
   getPaymentMethodById,
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get('/', getPaymentMethods);
 router.get('/:id', getPaymentMethodById);
 router.post('/', validateBody(CreatePaymentMethodSchema), createPaymentMethod);
+router.post('/defaults/bank-transfer', createDefaultBankTransfer);
 router.put('/:id', validateBody(UpdatePaymentMethodSchema), updatePaymentMethod);
 router.patch('/:id/primary', setPrimaryPaymentMethod);
 router.delete('/:id', deletePaymentMethod);

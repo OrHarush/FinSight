@@ -60,6 +60,7 @@ export const API_ROUTES = {
   CATEGORIES: '/api/categories',
 
   PAYMENT_METHODS: '/api/payment-methods',
+  PAYMENT_METHODS_DEFAULT_BANK_TRANSFER: '/api/payment-methods/defaults/bank-transfer',
 
   BUDGETS: '/api/budgets',
 

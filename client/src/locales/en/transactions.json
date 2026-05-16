@@ -83,9 +83,10 @@
       "dropzone": "Drag & drop your bank export here",
       "dropzoneMobile": "Choose a file to import",
       "dropzoneActive": "Drop it!",
-      "dropzoneSub": "Supports xlsx and csv files — up to 5 MB",
+      "dropzoneSub": "Supports xlsx and csv files, up to 5 MB",
       "dropzonePrivacy": "The file is parsed on the server for import only. Only transactions you confirm are saved.",
       "browse": "Browse file",
+      "browseChange": "Change file",
       "fileReady": "File ready",
       "fileReadySize": "{{size}} KB",
       "previewTitle": "Preview",
@@ -100,7 +101,11 @@
       "error.unsupported": "Unsupported file type. Please upload an xlsx or csv file.",
       "error.noData": "No transaction data found in this file.",
       "error.parse": "Could not parse the file. Make sure it's a valid bank export.",
-      "error.generic": "Something went wrong. Please try again."
+      "error.unsupportedFormat": "Unsupported file format. Lyra supports credit-card statements (date + amount) and bank statements (date + debit/credit columns).",
+      "error.mixedFormats": "This file mixes credit-card and bank-statement sheets. Please upload one format at a time.",
+      "error.generic": "Something went wrong. Please try again.",
+      "detectedFormatCreditCard": "Identified as credit-card statement",
+      "detectedFormatBankStatement": "Identified as bank statement"
     },
     "settings": {
       "account": "Account",
@@ -108,6 +113,10 @@
       "paymentMethodPerCard": "Payment method for card •••• {{last4}}",
       "paymentMethodPerCardCount": "{{count}} transactions",
       "paymentMethodUnassigned": "Payment method for unassigned card",
+      "bankStatementHelper": "Bank statements need an *Immediate Transfer* payment method. Lyra can create one for you.",
+      "bankStatementAddPM": "Add now",
+      "bankStatementAddPMError": "Could not create the payment method. Please try again.",
+      "bankStatementAutoCreated": "Payment method created for you",
       "dateFilterLabel": "Filter by date range (optional)",
       "from": "From",
       "to": "To"
@@ -118,6 +127,7 @@
       "empty": "No transactions to categorize",
       "uncategorized": "Uncategorized",
       "categorized": "Categorized",
+      "addCategory": "+ Category",
       "bulkAssign": {
         "message": "{{count}} other \"{{name}}\" transaction(s) — assign to same category?",
         "confirm": "Apply to all",
@@ -131,6 +141,7 @@
       "refund": "Refund",
       "tabExpenses": "Expenses",
       "tabIncome": "Refunds",
+      "tabIncomeBankStatement": "Income",
       "dragInfo": "Drag transactions onto a category to assign them. Check multiple rows to drag them together.",
       "deleteSelected": "Delete selected",
       "deleteSelectedCount": "Delete {{count}} row(s)",

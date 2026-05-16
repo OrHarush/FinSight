@@ -29,6 +29,8 @@ import {
   UNKNOWN_CARD_KEY,
   WizardRow,
 } from '@/pages/Import/types/importWizard';
+import { getAccountDisplayName } from '@/utils/entities/account';
+import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
 
 interface ImportResult {
   inserted: number;
@@ -112,6 +114,8 @@ const CardBreakdown = ({ cardKey, rowsForCard, paymentMethodName }: CardBreakdow
 
 const ConfirmStep = () => {
   const { t } = useTranslation('transactions');
+  const { t: tPM } = useTranslation('paymentMethods');
+  const { t: tAccounts } = useTranslation('accounts');
   const navigate = useNavigate();
   const { rows, settings, preview, cards } = useImportWizard();
   const { accounts } = useAccounts();
@@ -137,8 +141,11 @@ const ConfirmStep = () => {
   const singlePaymentMethod = paymentMethods.find(pm => pm._id === singlePaymentMethodId);
   const dateRange = settings.dateFilter ?? preview?.dateRange;
 
-  const paymentMethodName = (pmId: string | undefined): string | null =>
-    paymentMethods.find(pm => pm._id === pmId)?.name ?? null;
+  const paymentMethodName = (pmId: string | undefined): string | null => {
+    const pm = paymentMethods.find(p => p._id === pmId);
+
+    return pm ? getPaymentMethodDisplayName(pm, tPM) : null;
+  };
 
   const fallbackPaymentMethodId =
     settings.cardAssignments[SINGLE_CARD_KEY] ||
@@ -251,7 +258,9 @@ const ConfirmStep = () => {
                   <Typography color="text.secondary">
                     {t('importWizard.settings.account')}
                   </Typography>
-                  <Typography fontWeight={600}>{account.name}</Typography>
+                  <Typography fontWeight={600}>
+                    {getAccountDisplayName(account, tAccounts)}
+                  </Typography>
                 </Row>
               </>
             )}
@@ -260,7 +269,9 @@ const ConfirmStep = () => {
                 <Typography color="text.secondary">
                   {t('importWizard.settings.paymentMethod')}
                 </Typography>
-                <Typography fontWeight={600}>{singlePaymentMethod.name}</Typography>
+                <Typography fontWeight={600}>
+                  {getPaymentMethodDisplayName(singlePaymentMethod, tPM)}
+                </Typography>
               </Row>
             )}
             {dateRange && (

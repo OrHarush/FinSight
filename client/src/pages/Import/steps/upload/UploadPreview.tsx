@@ -56,18 +56,28 @@ const UploadPreview = ({ preview }: UploadPreviewProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {preview.sample.map((row, i) => (
-              <TableRow key={i}>
-                <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.date}</TableCell>
-                <TableCell>{row.name || '—'}</TableCell>
-                <TableCell style={{ textAlign: 'right' }} sx={{ color: row.amount < 0 ? 'error.main' : 'inherit' }}>
-                  {row.amount.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </TableCell>
-              </TableRow>
-            ))}
+            {preview.sample.map((row, i) => {
+              const displayAmount =
+                preview.format === 'bank-statement' ? -row.amount : row.amount;
+
+              return (
+                <TableRow key={i}>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{row.date}</TableCell>
+                  <TableCell>{row.name || '—'}</TableCell>
+                  <TableCell
+                    style={{ textAlign: 'right' }}
+                    sx={{ color: displayAmount < 0 ? 'error.main' : 'inherit' }}
+                  >
+                    <span dir="ltr" style={{ unicodeBidi: 'embed' }}>
+                      {displayAmount.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </Paper>

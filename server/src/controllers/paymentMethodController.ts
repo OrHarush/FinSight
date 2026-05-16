@@ -42,6 +42,12 @@ export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Re
   return ApiResponse.ok(res, method);
 });
 
+export const createDefaultBankTransfer = asyncHandler(async (req: Request, res: Response) => {
+  const method = await paymentMethodService.createDefaultBankTransfer(req.userId);
+
+  return ApiResponse.created(res, method);
+});
+
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   await paymentMethodService.deleteById(
     req.params.id as string,

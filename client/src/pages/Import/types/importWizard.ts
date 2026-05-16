@@ -1,6 +1,8 @@
 export const UNKNOWN_CARD_KEY = '__unknown__';
 export const SINGLE_CARD_KEY = '__single__';
 
+export type FileFormat = 'credit-card' | 'bank-statement';
+
 export interface ParsedRow {
   date: string;
   name: string;
@@ -16,6 +18,7 @@ export interface ImportPreview {
   warnings: string[];
   cards: string[];
   cardCounts: Record<string, number>;
+  format: FileFormat;
 }
 
 export interface WizardRow extends Omit<ParsedRow, 'card'> {

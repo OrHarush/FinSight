@@ -4,7 +4,9 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import Row from '@/components/shared/layout/containers/Row';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
+import { FileFormat } from '@/pages/Import/types/importWizard';
 
 import UploadSuccessCompact from './UploadSuccessCompact';
 
@@ -12,6 +14,7 @@ interface UploadDropzoneProps {
   file: File | null;
   isDragging: boolean;
   isLoading: boolean;
+  detectedFormat: FileFormat | null;
   onProcessFile: (file: File) => void;
   onDragStateChange: (dragging: boolean) => void;
   onClear: () => void;
@@ -21,6 +24,7 @@ const UploadDropzone = ({
   file,
   isDragging,
   isLoading,
+  detectedFormat,
   onProcessFile,
   onDragStateChange,
   onClear,
@@ -55,7 +59,7 @@ const UploadDropzone = ({
   };
 
   if (file && !isLoading && isSmallScreen) {
-    return <UploadSuccessCompact file={file} onClear={onClear} />;
+    return <UploadSuccessCompact file={file} detectedFormat={detectedFormat} onClear={onClear} />;
   }
 
   return (
@@ -113,10 +117,34 @@ const UploadDropzone = ({
               inputRef.current?.click();
             }}
           >
-            {t('importWizard.upload.browse')}
+            {file
+              ? t('importWizard.upload.browseChange')
+              : t('importWizard.upload.browse')}
           </Button>
         )}
-        {file && !isLoading && <Chip label={file.name} size="small" onDelete={onClear} />}
+        {file && !isLoading && (
+          <Row spacing={1} alignItems="center" flexWrap="wrap" justifyContent="center">
+            <Chip label={file.name} size="small" onDelete={onClear} />
+            {detectedFormat && (
+              <Chip
+                label={t(
+                  detectedFormat === 'bank-statement'
+                    ? 'importWizard.upload.detectedFormatBankStatement'
+                    : 'importWizard.upload.detectedFormatCreditCard'
+                )}
+                size="small"
+                variant="outlined"
+                sx={{
+                  borderColor: alpha(theme.palette.success.main, 0.5),
+                  color: 'success.main',
+                  bgcolor: alpha(theme.palette.success.main, 0.08),
+                  fontWeight: 500,
+                  '& .MuiChip-label': { px: 1 },
+                }}
+              />
+            )}
+          </Row>
+        )}
       </Column>
     </Paper>
   );

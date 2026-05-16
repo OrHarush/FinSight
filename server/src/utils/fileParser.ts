@@ -5,11 +5,16 @@ import { ApiError } from '../errors/ApiError';
 type CellValue = string | number | boolean | null | undefined;
 type RawRow = CellValue[];
 
+export type FileFormat = 'credit-card' | 'bank-statement';
+
 interface ColumnMap {
   dateIdx: number;
   nameIdx: number;
   amountIdx: number;
   cardIdx: number;
+  debitIdx: number;
+  creditIdx: number;
+  format: FileFormat;
 }
 
 interface DetectedHeader {
@@ -28,9 +33,10 @@ export interface ParsedRow {
 export interface ParseResult {
   rows: ParsedRow[];
   warnings: string[];
+  format: FileFormat;
 }
 
-type FieldKey = 'date' | 'name' | 'amount' | 'card';
+type FieldKey = 'date' | 'name' | 'amount' | 'card' | 'debit' | 'credit';
 
 interface Synonym {
   s: string;
@@ -83,6 +89,7 @@ const FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
     { s: 'merchant', w: 10 },
     { s: 'description', w: 8 },
     { s: 'תיאור', w: 8 },
+    { s: 'פעולה', w: 8 },
     { s: 'payee', w: 8 },
     { s: 'vendor', w: 8 },
     { s: 'details', w: 6 },
@@ -109,6 +116,20 @@ const FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
     { s: 'כרטיס', w: 6 },
     { s: 'card', w: 6 },
   ],
+  debit: [
+    { s: 'חובה', w: 10 },
+    { s: 'תשלום', w: 6 },
+    { s: 'debit', w: 10 },
+    { s: 'withdrawal', w: 8 },
+    { s: 'יציאה', w: 6 },
+  ],
+  credit: [
+    { s: 'זכות', w: 10 },
+    { s: 'הפקדה', w: 6 },
+    { s: 'credit', w: 10 },
+    { s: 'deposit', w: 8 },
+    { s: 'כניסה', w: 6 },
+  ],
 };
 
 const NORMALIZED_FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
@@ -116,6 +137,8 @@ const NORMALIZED_FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
   name: FIELD_SYNONYMS.name.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
   amount: FIELD_SYNONYMS.amount.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
   card: FIELD_SYNONYMS.card.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
+  debit: FIELD_SYNONYMS.debit.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
+  credit: FIELD_SYNONYMS.credit.map(({ s, w }) => ({ s: normalizeHeader(s), w })),
 };
 
 const FIELD_THRESHOLDS: Record<FieldKey, number> = {
@@ -123,6 +146,8 @@ const FIELD_THRESHOLDS: Record<FieldKey, number> = {
   amount: 8,
   name: 6,
   card: 6,
+  debit: 8,
+  credit: 8,
 };
 
 const scoreCellForField = (normalized: string, field: FieldKey): number => {
@@ -166,12 +191,42 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
   const amount = pickBestColumn(normalized, 'amount');
   const name = pickBestColumn(normalized, 'name');
   const card = pickBestColumn(normalized, 'card');
+  const debit = pickBestColumn(normalized, 'debit');
+  const credit = pickBestColumn(normalized, 'credit');
 
-  if (date.score < FIELD_THRESHOLDS.date || amount.score < FIELD_THRESHOLDS.amount) {
+  if (date.score < FIELD_THRESHOLDS.date) {
     return null;
   }
 
-  if (date.idx === amount.idx) {
+  const bankStatementValid =
+    debit.score >= FIELD_THRESHOLDS.debit &&
+    credit.score >= FIELD_THRESHOLDS.credit &&
+    debit.idx !== credit.idx &&
+    debit.idx !== date.idx &&
+    credit.idx !== date.idx;
+
+  if (bankStatementValid) {
+    const nameResolved =
+      name.score >= FIELD_THRESHOLDS.name &&
+      name.idx !== date.idx &&
+      name.idx !== debit.idx &&
+      name.idx !== credit.idx;
+
+    return {
+      cols: {
+        dateIdx: date.idx,
+        amountIdx: -1,
+        nameIdx: nameResolved ? name.idx : -1,
+        cardIdx: -1,
+        debitIdx: debit.idx,
+        creditIdx: credit.idx,
+        format: 'bank-statement',
+      },
+      nameMissing: !nameResolved,
+    };
+  }
+
+  if (amount.score < FIELD_THRESHOLDS.amount || date.idx === amount.idx) {
     return null;
   }
 
@@ -188,6 +243,9 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
       amountIdx: amount.idx,
       nameIdx: nameResolved ? name.idx : -1,
       cardIdx: cardResolved ? card.idx : -1,
+      debitIdx: -1,
+      creditIdx: -1,
+      format: 'credit-card',
     },
     nameMissing: !nameResolved,
   };
@@ -413,11 +471,28 @@ const extractRowsFromSheet = (rawRows: RawRow[], header: DetectedHeader): SheetE
       continue;
     }
 
-    const rawDate = row[cols.dateIdx];
-    const rawAmount = row[cols.amountIdx];
+    const date = parseDate(row[cols.dateIdx]);
 
-    const date = parseDate(rawDate);
-    const amount = parseAmount(rawAmount);
+    let amount: number | null;
+
+    if (cols.format === 'bank-statement') {
+      const debit = parseAmount(row[cols.debitIdx]);
+      const credit = parseAmount(row[cols.creditIdx]);
+      const hasDebit = debit !== null && debit !== 0;
+      const hasCredit = credit !== null && credit !== 0;
+
+      if (hasDebit && hasCredit) {
+        amount = null;
+      } else if (hasDebit) {
+        amount = Math.abs(debit as number);
+      } else if (hasCredit) {
+        amount = -Math.abs(credit as number);
+      } else {
+        amount = null;
+      }
+    } else {
+      amount = parseAmount(row[cols.amountIdx]);
+    }
 
     if (date === null && amount === null) {
       continue;
@@ -458,8 +533,8 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
   const allRows: ParsedRow[] = [];
   const warnings: string[] = [];
   let totalFail = 0;
-  let anySheetDetected = false;
   let anyNameMissing = false;
+  const detectedFormats = new Set<FileFormat>();
 
   for (const sheetRows of nonEmptySheets) {
     const header = findHeaderRow(sheetRows);
@@ -468,7 +543,7 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
       continue;
     }
 
-    anySheetDetected = true;
+    detectedFormats.add(header.cols.format);
 
     const { rows, failCount, nameMissing } = extractRowsFromSheet(sheetRows, header);
 
@@ -480,9 +555,15 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
     }
   }
 
-  if (!anySheetDetected) {
+  if (detectedFormats.size === 0) {
     throw ApiError.badRequest(
-      'Could not detect column headers. Expected columns: date, name/merchant, amount.'
+      'Could not detect column headers. Supported formats: credit-card statements (date + amount columns) and bank statements (date + debit/credit columns).'
+    );
+  }
+
+  if (detectedFormats.size > 1) {
+    throw ApiError.badRequest(
+      'File mixes formats (credit-card and bank-statement). Each file must be a single format.'
     );
   }
 
@@ -494,5 +575,7 @@ export const parseFile = (buffer: Buffer, mimetype: string): ParseResult => {
     warnings.push(`Could not parse ${totalFail} row(s).`);
   }
 
-  return { rows: allRows, warnings };
+  const format = detectedFormats.values().next().value as FileFormat;
+
+  return { rows: allRows, warnings, format };
 };

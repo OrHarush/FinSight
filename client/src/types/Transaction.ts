@@ -22,7 +22,7 @@ export interface TransactionDto {
   isVirtual?: boolean;
   belongToPreviousMonth?: boolean;
   category: CategoryDto;
-  paymentMethod: PaymentMethodDto;
+  paymentMethod?: PaymentMethodDto;
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;

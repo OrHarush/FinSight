@@ -1,6 +1,7 @@
 import { CreatePaymentMethodDTO, UpdatePaymentMethodDTO } from '@lyra/shared';
 import mongoose, { Types } from 'mongoose';
 
+import { DEFAULT_PAYMENT_METHODS } from '../constants/defaultEntities';
 import { ApiError } from '../errors/ApiError';
 import { IPaymentMethod } from '../models/PaymentMethod';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
@@ -21,6 +22,38 @@ export const getById = async (id: string, userId: string) => {
   }
 
   return method;
+};
+
+export const createDefaultBankTransfer = async (userId: string): Promise<IPaymentMethod> => {
+  const existing = await paymentMethodRepository.findByType(userId, 'Bank Transfer');
+
+  if (existing) {
+    return existing.toObject ? existing.toObject() : existing;
+  }
+
+  const template = DEFAULT_PAYMENT_METHODS.find(pm => pm.type === 'Bank Transfer');
+
+  if (!template) {
+    throw ApiError.internal('Default Bank Transfer template is missing.');
+  }
+
+  const mapped: Omit<IPaymentMethod, '_id'> = {
+    name: template.name,
+    type: template.type,
+    billingDay: template.billingDay ?? null,
+    lastFourDigits: template.lastFourDigits,
+    isPrimary: template.isPrimary ?? false,
+    key: template.key,
+    userId: new Types.ObjectId(userId),
+  };
+
+  const created = await paymentMethodRepository.insert(mapped);
+
+  void analyticsService
+    .track(userId, 'payment_method_created')
+    .catch(err => console.error('Failed to track payment_method_created:', err));
+
+  return created;
 };
 
 export const create = async (details: CreatePaymentMethodDTO, userId: string) => {

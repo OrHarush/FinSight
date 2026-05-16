@@ -2,6 +2,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { alpha, Checkbox, Chip, TableCell, TableRow, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
+import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import InlineNameEditor from '@/pages/Import/steps/categorize/InlineNameEditor';
 import useInlineRename from '@/pages/Import/steps/categorize/useInlineRename';
 import { WizardRow } from '@/pages/Import/types/importWizard';
@@ -28,6 +29,7 @@ const TransactionRow = ({
 }: TransactionRowProps) => {
   const theme = useTheme();
   const { i18n } = useTranslation('transactions');
+  const getCategoryName = useCategoryName();
   const isRefund = row.amount < 0;
   const category = categories.find(c => c._id === row.categoryId);
   const { isEditing, editedName, setEditedName, startEdit, commitEdit, handleKeyDown } =
@@ -120,7 +122,7 @@ const TransactionRow = ({
       <TableCell sx={{ minWidth: 100 }}>
         {category && (
           <Chip
-            label={category.name}
+            label={getCategoryName(category)}
             size="small"
             sx={{
               bgcolor: 'transparent',
