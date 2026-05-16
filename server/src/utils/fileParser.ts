@@ -76,6 +76,7 @@ const FIELD_SYNONYMS: Record<FieldKey, Synonym[]> = {
   ],
   name: [
     { s: 'שם בית עסק', w: 10 },
+    { s: 'בית עסק', w: 10 },
     { s: 'merchant name', w: 10 },
     { s: 'merchant', w: 10 },
     { s: 'description', w: 8 },
