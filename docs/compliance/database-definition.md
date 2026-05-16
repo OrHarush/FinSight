@@ -165,6 +165,16 @@ Lyra does not enrich, purchase, or import user data from any other source.
 
 There are no sub-subprocessors beyond what these vendors disclose in their own terms.
 
+### Data Processing Agreements
+
+| Subprocessor | Role | DPA |
+|---|---|---|
+| MongoDB Atlas | Database (EU/Frankfurt) | https://www.mongodb.com/legal/dpa |
+| Vercel | Frontend hosting | https://vercel.com/legal/dpa |
+| Render | Backend hosting | https://render.com/dpa |
+| Resend | Email | https://resend.com/legal/dpa |
+| Google (OAuth + Gemini) | Auth + AI | https://cloud.google.com/terms/data-processing-addendum |
+
 ---
 
 ## 10. Access controls
