@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -10,7 +11,7 @@ export interface BalanceHeadlineProps {
   balance: number;
   label: string;
   asOfDate?: Date | string;
-  tooltip?: string;
+  tooltip?: string | ReactNode;
 }
 
 const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineProps) => {
@@ -19,6 +20,8 @@ const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineP
   const formattedDate = asOfDate
     ? new Date(asOfDate).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' })
     : null;
+
+  const tooltipMaxWidth = typeof tooltip === 'string' || tooltip == null ? undefined : 280;
 
   return (
     <Column alignItems="center" minWidth={'120px'}>
@@ -32,7 +35,7 @@ const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineP
             </Typography>
           )}
         </Typography>
-        {tooltip && <InfoTooltip content={tooltip} />}
+        {tooltip && <InfoTooltip content={tooltip} maxWidth={tooltipMaxWidth} />}
       </Row>
     </Column>
   );

@@ -57,6 +57,7 @@ openChipMenu, closeChipMenu, toggleSidebar, submitBudgetForm
 - Don't wrap components in unnecessary containers — apply `sx` directly.
 - Always use `TextInput` (project shared component) instead of raw MUI `TextField`.
 - All UI must support RTL and long translations — never assume English sizing.
+- Always use `CurrencyText` to display currency values — never raw numbers, `toLocaleString`, or manual `+`/`−`/`₪` wrapping. Use its `hasSign` (auto `+` on positives) and `hasColor` (success/error tint by sign) props. For values that should display as subtractions (e.g. expenses in a breakdown), pass the negated value so `CurrencyText` formats and colors them as negative.
 ---
 
 ## Backend Error Handling

@@ -1,13 +1,8 @@
-import { Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-
 import Column from '@/components/shared/layout/containers/Column';
 
-import BillingDayContent from './BillingDayContent';
+import OnboardingShell from './OnboardingShell';
 
 const BillingDayOnboardingPage = () => {
-  const { t } = useTranslation('user');
-
   return (
     <Column
       spacing={3}
@@ -24,10 +19,7 @@ const BillingDayOnboardingPage = () => {
         textAlign: 'center',
       }}
     >
-      <Typography variant="h5" fontWeight={700}>
-        {t('onboardingModal.beforeWeStart')}
-      </Typography>
-      <BillingDayContent />
+      <OnboardingShell />
     </Column>
   );
 };

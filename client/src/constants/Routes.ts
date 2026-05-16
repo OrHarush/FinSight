@@ -55,6 +55,7 @@ export const API_ROUTES = {
   },
 
   ACCOUNTS: '/api/accounts',
+  ACCOUNT_BY_ID: (id: string) => `/api/accounts/${id}`,
   ACCOUNT_BALANCE_CURVE: (accountId: string) => `/api/accounts/${accountId}/balance-curve`,
 
   CATEGORIES: '/api/categories',

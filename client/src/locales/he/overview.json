@@ -7,9 +7,15 @@
     "expenses": "הוצאות",
     "net": "נטו",
     "projectedBalance": "יתרה צפויה",
-    "asOf": "נכון ל",
-    "projectedTooltip": "יתרה ({{balance}}) + הכנסות עתידיות ({{futureIncome}}) − הוצאות עתידיות ({{futureExpenses}})",
-    "projectedTooltip_withPrior": "יתרה ({{balance}}) + הכנסות עתידיות ({{futureIncome}}) − הוצאות עתידיות ({{futureExpenses}}) − התחייבויות מחודש קודם ({{pendingPriorExpenses}})"
+    "asOf": "נכון ל"
+  },
+
+  "projectedBreakdown": {
+    "currentBalance": "יתרה נוכחית",
+    "expectedIncome": "הכנסות צפויות",
+    "expectedExpenses": "הוצאות צפויות",
+    "pendingPrior": "חיובים מתעכבים",
+    "projected": "יתרה צפויה"
   },
 
   "dateSelector": {

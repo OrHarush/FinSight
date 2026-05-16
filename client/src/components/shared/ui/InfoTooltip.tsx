@@ -1,21 +1,25 @@
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Box, ClickAwayListener, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { type ReactNode, useState } from 'react';
 
 export interface InfoTooltipProps {
   content: string | ReactNode;
   size?: 'small' | 'medium';
+  maxWidth?: number;
 }
 
-const SIZES = { small: 16, medium: 20 } as const;
+const SIZES = { small: 20, medium: 24 } as const;
 
-const TOOLTIP_SLOT_PROPS = {
+const DEFAULT_MAX_WIDTH = 240;
+
+const buildSlotProps = (maxWidth: number) => ({
   tooltip: {
     sx: {
       bgcolor: '#1e293b',
       borderRadius: '12px',
       border: '1px solid rgba(255,255,255,0.08)',
       fontSize: '0.8rem',
-      maxWidth: 240,
+      maxWidth,
       px: 1.5,
       py: 1,
     },
@@ -23,13 +27,14 @@ const TOOLTIP_SLOT_PROPS = {
   arrow: {
     sx: { color: '#1e293b' },
   },
-};
+});
 
-const InfoTooltip = ({ content, size = 'small' }: InfoTooltipProps) => {
+const InfoTooltip = ({ content, size = 'small', maxWidth = DEFAULT_MAX_WIDTH }: InfoTooltipProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [open, setOpen] = useState(false);
   const dim = SIZES[size];
+  const slotProps = buildSlotProps(maxWidth);
 
   const toggleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -48,11 +53,6 @@ const InfoTooltip = ({ content, size = 'small' }: InfoTooltipProps) => {
         justifyContent: 'center',
         width: dim,
         height: dim,
-        borderRadius: '50%',
-        border: '1.5px solid currentColor',
-        fontSize: dim * 0.62,
-        fontWeight: 700,
-        lineHeight: 1,
         cursor: isMobile ? 'pointer' : 'help',
         flexShrink: 0,
         color: 'text.secondary',
@@ -62,9 +62,7 @@ const InfoTooltip = ({ content, size = 'small' }: InfoTooltipProps) => {
         '&:active': { color: 'primary.main' },
       }}
     >
-      <Box component="span" sx={{ display: 'inline-block', transform: 'translateY(1px)' }}>
-        ?
-      </Box>
+      <HelpOutlineIcon sx={{ fontSize: dim, color: 'inherit' }} />
     </Box>
   );
 
@@ -79,7 +77,7 @@ const InfoTooltip = ({ content, size = 'small' }: InfoTooltipProps) => {
           disableFocusListener
           disableHoverListener
           disableTouchListener
-          slotProps={TOOLTIP_SLOT_PROPS}
+          slotProps={slotProps}
         >
           {button}
         </Tooltip>
@@ -88,7 +86,7 @@ const InfoTooltip = ({ content, size = 'small' }: InfoTooltipProps) => {
   }
 
   return (
-    <Tooltip title={content} placement="top" arrow slotProps={TOOLTIP_SLOT_PROPS}>
+    <Tooltip title={content} placement="top" arrow slotProps={slotProps}>
       {button}
     </Tooltip>
   );

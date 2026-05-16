@@ -28,6 +28,7 @@ import BalanceHeadline from '@/pages/Overview/MonthlyFinancialOverview/BalanceHe
 import IncomeUsageMeter from '@/pages/Overview/MonthlyFinancialOverview/IncomeUsageMeter';
 import MonthlyFinancialOverviewSkeleton from '@/pages/Overview/MonthlyFinancialOverview/MonthlyFinancialOverviewSkeleton';
 import OverviewMetric from '@/pages/Overview/MonthlyFinancialOverview/OverviewMetric';
+import ProjectedBalanceBreakdown from '@/pages/Overview/MonthlyFinancialOverview/ProjectedBalanceBreakdown';
 import RetrospectiveOverview from '@/pages/Overview/MonthlyFinancialOverview/RetrospectiveOverview';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import { TransactionSummaryDto } from '@/types/Transaction';
@@ -92,15 +93,15 @@ const MonthlyFinancialOverview = () => {
     (futureIncome - futureExpenses) +
     (pendingPriorIncome - pendingPriorExpenses);
 
-  const projectedTooltipKey =
-    pendingPriorExpenses > 0 ? 'general.projectedTooltip_withPrior' : 'general.projectedTooltip';
-
-  const projectedTooltip = t(projectedTooltipKey, {
-    balance: account.balance,
-    futureIncome,
-    futureExpenses,
-    pendingPriorExpenses,
-  });
+  const projectedTooltip = (
+    <ProjectedBalanceBreakdown
+      balance={account.balance}
+      futureIncome={futureIncome}
+      futureExpenses={futureExpenses}
+      pendingPriorExpenses={pendingPriorExpenses}
+      projected={projected}
+    />
+  );
 
   return (
     <Grid size={{ xs: 12, md: 6, xl: 5 }}>

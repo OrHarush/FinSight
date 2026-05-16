@@ -1,11 +1,20 @@
 import { z } from 'zod';
 
 import { DEFAULT_ACCOUNT_KEYS } from '../types/defaultAccounts';
-import { amountSchema, nameSchema } from './common';
+import { nameSchema } from './common';
+
+const balanceSchema = z
+  .number({
+    required_error: 'validation.required',
+    invalid_type_error: 'validation.invalidNumber',
+  })
+  .refine((v) => v >= -999_999_999 && v <= 999_999_999, {
+    message: 'validation.amountOutOfRange',
+  });
 
 export const CreateAccountSchema = z.object({
   name: nameSchema(40),
-  balance: amountSchema,
+  balance: balanceSchema,
   institution: z.string().max(50).trim().optional(),
   accountNumber: z
     .string()

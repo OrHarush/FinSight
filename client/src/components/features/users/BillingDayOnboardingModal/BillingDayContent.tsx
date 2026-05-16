@@ -1,74 +1,41 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
-import { queryKeys } from '@/constants/queryKeys';
-import { API_ROUTES } from '@/constants/Routes';
-import { useApiMutation } from '@/hooks/useApiMutation';
-import { useAuth } from '@/providers/AuthProvider';
-import { UserDto } from '@/types/User';
 
 import DayGrid from './DayGrid';
 
-interface CompleteOnboardingPayload {
-  hasCompletedOnboarding: true;
-  billingDay?: number;
-}
-
 interface BillingDayContentProps {
-  onConfirm?: () => void;
+  onNext: (billingDay: number) => void;
+  isSubmitting?: boolean;
 }
 
 const QUICK_PICK_DAYS = [2, 10, 15, 20];
 
-const BillingDayContent = ({ onConfirm = () => {} }: BillingDayContentProps) => {
+const BillingDayContent = ({ onNext, isSubmitting = false }: BillingDayContentProps) => {
   const { t } = useTranslation('user');
-  const { user, updateUser } = useAuth();
-  const queryClient = useQueryClient();
   const [selectedDay, setSelectedDay] = useState(2);
   const [showDayGrid, setShowDayGrid] = useState(false);
 
-  const mutation = useApiMutation<UserDto, CompleteOnboardingPayload>({
-    method: 'patch',
-    url: API_ROUTES.USERS_ME,
-  });
-
-  const confirmOnboarding = () => {
-    const payload: CompleteOnboardingPayload = { hasCompletedOnboarding: true };
-
-    if (selectedDay !== 1) {
-      payload.billingDay = selectedDay;
-    }
-
-    updateUser({ ...user!, hasCompletedOnboarding: true });
-    onConfirm();
-
-    mutation.mutate(payload, {
-      onSuccess: updatedUser => {
-        updateUser(updatedUser ?? { ...user!, hasCompletedOnboarding: true });
-        queryClient.invalidateQueries({ queryKey: queryKeys.user() });
-        queryClient.invalidateQueries({ queryKey: queryKeys.paymentMethods() });
-      },
-      onError: () => {
-        updateUser({ ...user!, hasCompletedOnboarding: true });
-      },
-    });
+  const advanceStep = () => {
+    onNext(selectedDay);
   };
 
   const revealDayGrid = () => {
     setShowDayGrid(true);
   };
 
-  const isQuickPickSelected = QUICK_PICK_DAYS.includes(selectedDay);
-  const dayGridValue = isQuickPickSelected ? 0 : selectedDay;
 
   return (
     <Column spacing={2}>
+      <Typography variant="h6" fontWeight={600}>
+        {t('billingStep.title')}
+      </Typography>
+
       <Typography variant="body2" color="text.secondary">
-        {t('onboardingModal.subtitle')}
+        {t('billingStep.subtitle')}
       </Typography>
 
       {!showDayGrid ? (
@@ -128,15 +95,15 @@ const BillingDayContent = ({ onConfirm = () => {} }: BillingDayContentProps) => 
           </Button>
         </>
       ) : (
-        <DayGrid selectedDay={dayGridValue} onSelectDay={setSelectedDay} />
+        <DayGrid selectedDay={selectedDay} onSelectDay={setSelectedDay} />
       )}
 
       <Button
         variant="contained"
         color="primary"
         fullWidth
-        onClick={confirmOnboarding}
-        disabled={mutation.isPending}
+        onClick={advanceStep}
+        disabled={isSubmitting}
         sx={{ mt: 1 }}
       >
         {t('onboardingModal.confirm')}

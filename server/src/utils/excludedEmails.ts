@@ -1,6 +1,10 @@
+const BASELINE_EXCLUDED_EMAILS = ['lyra.il.app@gmail.com'];
+
 const excludedEmails = new Set(
-  (process.env.EXCLUDE_EMAILS ?? '')
-    .split(',')
+  [
+    ...BASELINE_EXCLUDED_EMAILS,
+    ...(process.env.EXCLUDE_EMAILS ?? '').split(','),
+  ]
     .map(e => e.trim().toLowerCase())
     .filter(Boolean),
 );

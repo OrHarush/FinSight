@@ -51,11 +51,27 @@
     }
   },
   "onboardingModal": {
-    "beforeWeStart": "Before we start",
-    "subtitle": "What day of the month does the charge leave your bank account?",
     "ofTheMonth": "of the month",
     "otherDay": "Other day",
     "confirm": "Let's Continue"
+  },
+  "onboarding": {
+    "steps": {
+      "billingDay": "Billing day",
+      "balance": "Current balance"
+    }
+  },
+  "billingStep": {
+    "title": "When does your credit card hit your account?",
+    "subtitle": "Charges hit on a fixed day each month. We'll use this to keep your balance accurate."
+  },
+  "balanceStep": {
+    "title": "What's your current checking account balance?",
+    "subtitle": "We'll use this as your starting point. You can skip and update later.",
+    "label": "Current balance",
+    "continue": "Continue",
+    "skip": "Skip, I'll update later",
+    "invalid": "Enter a valid number"
   },
   "helpModal": {
     "title": "Help",

@@ -21,6 +21,7 @@ router.get('/:id/linked-transactions', getLinkedTransactionsCount);
 router.get('/:id/balance-curve', getAccountBalanceCurve);
 router.post('/', validateBody(CreateAccountSchema), createAccount);
 router.put('/:id', validateBody(UpdateAccountSchema), updateAccount);
+router.patch('/:id', validateBody(UpdateAccountSchema), updateAccount);
 router.patch('/:id/primary', setPrimaryAccount);
 router.delete('/:id', deleteAccount);
 
