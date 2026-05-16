@@ -83,6 +83,7 @@
       "dropzoneMobile": "Choose a file to import",
       "dropzoneActive": "Drop it!",
       "dropzoneSub": "Supports xlsx and csv files — up to 5 MB",
+      "dropzonePrivacy": "The file is parsed on the server for import only. Only transactions you confirm are saved.",
       "browse": "Browse file",
       "fileReady": "File ready",
       "fileReadySize": "{{size}} KB",

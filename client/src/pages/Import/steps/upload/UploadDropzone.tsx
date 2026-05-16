@@ -100,6 +100,9 @@ const UploadDropzone = ({
         <Typography variant="caption" color="text.secondary">
           {t('importWizard.upload.dropzoneSub')}
         </Typography>
+        <Typography variant="caption" color="text.secondary">
+          {t('importWizard.upload.dropzonePrivacy')}
+        </Typography>
         {!isDragging && (
           <Button
             variant="outlined"

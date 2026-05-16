@@ -30,7 +30,7 @@
     "currencyHelper": "Default currency when creating new accounts",
     "privacy": "Privacy & Data",
     "analyticsLabel": "Usage analytics",
-    "analyticsHelper": "Help us understand how Lyra is used so we can improve it.",
+    "analyticsHelper": "Usage events (clicks, screen views) are stored alongside your name and avatar for up to 12 months, to help us improve Lyra.",
     "essentialLabel": "Essential",
     "essentialHelper": "Required for login, security and core functionality. Always on.",
     "dangerZone": "Danger Zone",

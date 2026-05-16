@@ -83,6 +83,7 @@
       "dropzoneMobile": "בחרו קובץ לייבוא",
       "dropzoneActive": "שחרר!",
       "dropzoneSub": "תומך בקבצי xlsx ו-csv — עד 5 MB",
+      "dropzonePrivacy": "הקובץ מנותח בשרת לצורך ייבוא בלבד. רק התנועות שתאשר נשמרות.",
       "browse": "בחר קובץ",
       "fileReady": "קובץ מוכן",
       "fileReadySize": "{{size}} KB",
