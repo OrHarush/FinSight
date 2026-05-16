@@ -53,7 +53,8 @@
       "payment_method_created": "payment method",
       "share_clicked": "shared",
       "user_created": "new user",
-      "user_deleted": "deleted"
+      "user_deleted": "deleted",
+      "data_exported": "data exported"
     }
   },
   "allUsers": {

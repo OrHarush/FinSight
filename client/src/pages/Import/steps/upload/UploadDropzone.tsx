@@ -68,7 +68,7 @@ const UploadDropzone = ({
       onDragLeave={() => onDragStateChange(false)}
       onDrop={onDrop}
       sx={{
-        height: '260px',
+        height: '300px',
         border: `2px dashed ${dropzoneBorder}`,
         borderRadius: 3,
         backgroundColor: dropzoneBg,

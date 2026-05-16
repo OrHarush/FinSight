@@ -16,6 +16,7 @@ export const ANALYTICS_EVENT_TYPES = [
   'share_clicked',
   'user_created',
   'user_deleted',
+  'data_exported',
 ] as const;
 
 export type AnalyticsEventType = (typeof ANALYTICS_EVENT_TYPES)[number];

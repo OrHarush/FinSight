@@ -64,3 +64,6 @@ export const remove = async (id: string, userId: string) =>
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Budget.deleteMany(filter).session(session ?? null);
+
+export const findAllByUser = async (userId: string) =>
+  Budget.find({ userId: new Types.ObjectId(userId) }).lean<IBudget[]>().exec();

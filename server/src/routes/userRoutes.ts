@@ -1,8 +1,10 @@
 import express from 'express';
 
+import { exportLimiter } from '../config/rateLimiters';
 import {
   completeOnboardingController,
   deleteUser,
+  exportUserDataController,
   updateAnalyticsConsentController,
   updatePreferencesController,
 } from '../controllers/userController';
@@ -16,6 +18,7 @@ import {
 
 const router = express.Router();
 
+router.get('/me/export', exportLimiter, exportUserDataController);
 router.patch('/me', validateBody(CompleteOnboardingSchema), completeOnboardingController);
 router.patch('/me/preferences', validateBody(UpdatePreferencesSchema), updatePreferencesController);
 router.patch(

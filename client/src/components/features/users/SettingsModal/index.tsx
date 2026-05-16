@@ -1,3 +1,4 @@
+import DownloadIcon from '@mui/icons-material/Download';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Button,
@@ -7,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  IconButton,
   MenuItem,
   Select,
   Switch,
@@ -15,6 +17,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { downloadMyData } from '@/api/users';
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import DangerZone from '@/components/features/users/SettingsModal/DangerZone';
 import UserDeletionDialog, {
@@ -25,6 +28,7 @@ import Row from '@/components/shared/layout/containers/Row';
 import { CURRENCIES } from '@/constants/currencies';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
@@ -44,8 +48,22 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { user, updateUser, logout } = useAuth();
   const { alertSuccess, alertError } = useSnackbar();
   const [isDeletionDialogOpen, openDeletionDialog, closeDeletionDialog] = useOpen();
+  const isSmallScreen = useIsSmallScreen();
 
   const [selectedCurrency, setSelectedCurrency] = useState(user?.displayCurrency ?? 'ILS');
+  const [isDownloadingData, setIsDownloadingData] = useState(false);
+
+  const downloadData = async () => {
+    setIsDownloadingData(true);
+
+    try {
+      await downloadMyData();
+    } catch {
+      alertError(t('settingsModal.downloadDataError'));
+    } finally {
+      setIsDownloadingData(false);
+    }
+  };
 
   const updatePreferences = useApiMutation<UserDto, UpdatePreferencesDto>({
     method: 'patch',
@@ -138,6 +156,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
         closeDialog={closeDialog}
         title={t('settingsModal.title')}
         titleIcon={SettingsIcon}
+        maxWidth="sm"
       >
         <DialogContent sx={{ py: 1 }}>
           <Column spacing={3} sx={{ pt: 1 }}>
@@ -182,34 +201,92 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                 {t('settingsModal.privacy')}
               </Typography>
               <FormControlLabel
+                labelPlacement="start"
                 control={
                   <Switch
                     checked={user?.analyticsConsent === 'accepted'}
                     onChange={(_, checked) => toggleAnalyticsConsent(checked)}
                     disabled={updateConsent.isPending}
+                    sx={{ flexShrink: 0 }}
                   />
                 }
                 label={
-                  <Column>
+                  <Column sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="body2">{t('settingsModal.analyticsLabel')}</Typography>
                     <Typography variant="caption" color="text.secondary">
                       {t('settingsModal.analyticsHelper')}
                     </Typography>
                   </Column>
                 }
-                sx={{ alignItems: 'flex-start', m: 0 }}
+                sx={{
+                  alignItems: 'center',
+                  m: 0,
+                  gap: 2,
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
               />
               <FormControlLabel
-                control={<Switch checked disabled />}
+                labelPlacement="start"
+                control={<Switch checked disabled sx={{ flexShrink: 0 }} />}
                 label={
-                  <Column>
+                  <Column sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="body2">{t('settingsModal.essentialLabel')}</Typography>
                     <Typography variant="caption" color="text.secondary">
                       {t('settingsModal.essentialHelper')}
                     </Typography>
                   </Column>
                 }
-                sx={{ alignItems: 'flex-start', m: 0 }}
+                sx={{
+                  alignItems: 'center',
+                  m: 0,
+                  gap: 2,
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+              />
+              <FormControlLabel
+                labelPlacement="start"
+                control={
+                  isSmallScreen ? (
+                    <IconButton
+                      color="primary"
+                      onClick={downloadData}
+                      disabled={isDownloadingData}
+                      aria-label={t('settingsModal.downloadDataButton')}
+                      sx={{ flexShrink: 0 }}
+                    >
+                      <DownloadIcon />
+                    </IconButton>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={downloadData}
+                      disabled={isDownloadingData}
+                      startIcon={<DownloadIcon />}
+                      sx={{ flexShrink: 0, whiteSpace: 'nowrap' }}
+                    >
+                      {t('settingsModal.downloadDataButton')}
+                    </Button>
+                  )
+                }
+                label={
+                  <Column sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="body2">{t('settingsModal.yourDataLabel')}</Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {t('settingsModal.yourDataHelper')}
+                    </Typography>
+                  </Column>
+                }
+                sx={{
+                  alignItems: 'center',
+                  m: 0,
+                  gap: 2,
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
               />
             </Column>
             <Divider />

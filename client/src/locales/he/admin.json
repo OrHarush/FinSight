@@ -53,7 +53,8 @@
       "payment_method_created": "אמצעי תשלום",
       "share_clicked": "שיתוף",
       "user_created": "משתמש חדש",
-      "user_deleted": "נמחק"
+      "user_deleted": "נמחק",
+      "data_exported": "ייצוא נתונים"
     }
   },
   "allUsers": {

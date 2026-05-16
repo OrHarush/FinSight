@@ -76,6 +76,9 @@ export const insertMany = (data: Omit<ITransaction, '_id'>[]) =>
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Transaction.deleteMany(filter).session(session ?? null);
 
+export const findAllByUser = async (userId: string) =>
+  Transaction.find({ userId: new Types.ObjectId(userId) }).lean<ITransaction[]>().exec();
+
 export const deleteByTemplateIdFromDate = (templateId: string, fromDate: Date) =>
   Transaction.deleteMany({
     templateId: new Types.ObjectId(templateId),

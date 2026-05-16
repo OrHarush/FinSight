@@ -76,6 +76,7 @@ Implemented with `express-rate-limit` in `config/rateLimiters.ts`:
 | `authLimiter` | 15 min | 100 req per IP | **Yes** — `app.ts` mounts it on `/api/auth` (covers Google login + dev-bypass). |
 | `generalLimiter` | 15 min | 300 req per IP | **No** — defined but not mounted anywhere. Planned. |
 | `chatLimiter` | 1 min | 20 req per IP | **No** — defined but not mounted on `/api/chat`. Planned. |
+| `exportLimiter` | 1 hour | 5 req per authenticated user | **Yes** — mounted on `GET /api/users/me/export` (read-heavy 7-collection scan, response can be megabytes). Keyed by `req.userId`. |
 
 Express is configured with `app.set('trust proxy', 1)` so the limiter sees the true client IP from Render's edge proxy. IPs seen by the limiter are not persisted — they live only in the in-memory limiter store.
 
@@ -162,34 +163,43 @@ Vendor changes (adding, removing, or migrating a major subprocessor) are treated
 
 ## 10. Data deletion procedure
 
-User-initiated deletion runs through `userService.deleteUserCompletely(userId)` in a MongoDB session/transaction. The current cascade removes:
+User-initiated deletion runs through `userService.deleteUserCompletely(userId)` in a single MongoDB session/transaction. The cascade performs **hard deletes** for financial / personal collections and **anonymization** for audit-bearing event streams that the Privacy Policy carves out under legitimate interest (§8).
+
+### Hard deletes (executed in order inside the transaction)
 
 1. `transactions` (where `userId = X`)
-2. `accounts` (where `userId = X`)
-3. `categories` (where `userId = X`)
-4. `payment_methods` (where `userId = X`)
-5. `budgets` (where `userId = X`)
-6. The `users` document itself
+2. `recurringTemplates`
+3. `budgets`
+4. `goals`
+5. `accounts`
+6. `categories`
+7. `payment_methods`
+8. `debugSnapshots`
 
-A `DeletionFeedback` document is written first (anonymous — no `userId`); a final anonymized `user_deleted` analytics event is written post-commit using a pre-captured snapshot of name and avatar.
+### Anonymizations (executed in the same transaction, before the `users` doc is deleted)
 
-### Collections **not** currently included in the cascade (known gap)
+9. `user_activity_events` — `userId` set to `null`, `userName` cleared. Rows remain for aggregate metrics (login counts, active-user trends) and to satisfy the 7-year security-audit retention window. The schema makes both fields optional to keep the row coherent after scrubbing.
+10. `analytics_events` — `userName` and `userAvatar` cleared on all matching rows. Matched by `userName` only (no `userId` on this collection — a follow-up will add one); false positives are accepted because they lean toward more privacy. Rows continue to age out via the 12-month TTL.
 
-- `goals`
-- `recurringTemplates`
-- `user_activity_events` (sign-in history)
-- `debugSnapshots` (operational diagnostics)
+### Final step
 
-These should be added to the cascade. They are not user-facing data leaks (only the controller can query them, via admin routes that no longer return data for a deleted user since they typically join on `users`), but the regulation expects full erasure on request. Target: next sprint.
+11. The `users` document itself.
+
+If any step throws, the entire transaction aborts and no partial deletion or anonymization is persisted. The `users` doc is intentionally last so a mid-cascade failure leaves a recoverable state (the user still exists and the operation is idempotent on retry).
+
+### Side-effects outside the transaction
+
+- A `DeletionFeedback` document is written **before** the transaction starts (anonymous — no `userId`). If the user is already gone, the function bails early without writing feedback.
+- A pre-transaction `analyticsService.captureUserSnapshot(userId)` captures name + avatar so that a final `user_deleted` analytics event can be emitted post-commit using the snapshot (the user doc no longer exists at that point).
 
 ### Post-deletion timeline
 
-- **Immediate:** primary collections in the cascade are purged inside a MongoDB transaction.
+- **Immediate:** all primary collections in the cascade are purged or anonymized inside a single MongoDB transaction.
 - **Within 30 days:** any residual copy in Atlas's backup snapshots ages out of the rolling backup window (once §7 is in place). Until then, the 30-day commitment is met by virtue of there being no backups at all.
 
 ### Hard-delete vs. soft-delete
 
-All deletions are hard deletes. Lyra does not implement soft-delete or "deactivated account" states.
+All non-event collections are hard deletes. Lyra does not implement soft-delete or "deactivated account" states. The two event collections (`user_activity_events`, `analytics_events`) are anonymized rather than deleted by design — see the rationale above.
 
 ---
 

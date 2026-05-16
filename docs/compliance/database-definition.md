@@ -93,8 +93,8 @@ No banking credentials, no card PANs, no card CVVs, no full account numbers — 
 
 | Collection | Model | Contents |
 |------------|-------|----------|
-| `user_activity_events` | `UserActivityEvent` | Sign-in events — `userId`, denormalized `userName`, `type: "LOGIN"`, `occurredAt`. Used for security audit. |
-| `analytics_events` | `AnalyticsEvent` | Product-usage events (e.g., `transaction_created`, `goal_created`). Each event stores `event`, `userName`, `userAvatar`, `createdAt`. Recorded only for users with `analyticsConsent = "accepted"`. |
+| `user_activity_events` | `UserActivityEvent` | Sign-in events — `userId`, denormalized `userName`, `type: "LOGIN"`, `occurredAt`. Used for security audit. On user deletion, `userId` is set to `null` and `userName` to `""` — the row remains for aggregate metrics but is no longer linked to a person. |
+| `analytics_events` | `AnalyticsEvent` | Product-usage events (e.g., `transaction_created`, `goal_created`). Each event stores `event`, `userName`, `userAvatar`, `createdAt`. Recorded only for users with `analyticsConsent = "accepted"`. On user deletion, `userName` and `userAvatar` are scrubbed from all matching rows. |
 | `deletion_feedback` | `DeletionFeedback` | Anonymous post-deletion survey — `reason`, `comment`, `transactionCount`, `daysSinceSignup`, `hadCompletedOnboarding`, `locale`. Contains **no userId** and no identifying fields. |
 | `debugSnapshots` | `DebugSnapshot` | Diagnostic snapshots created on demand during recurring-template generation debugging — references to user account balances and template state. Operational only. |
 
@@ -134,11 +134,12 @@ Lyra does not enrich, purchase, or import user data from any other source.
 
 | Data | Retention |
 |------|-----------|
-| Active user account + all linked financial data (accounts, transactions, categories, payment methods, budgets) | Retained for as long as the user account exists. |
-| All of the above, post-deletion | Permanently removed from MongoDB within 30 days of in-app account deletion. The deletion cascade itself is synchronous; the 30-day window covers backup rotation. See `security-procedure.md` §10. |
+| Active user account + all linked financial data (accounts, transactions, categories, payment methods, budgets, goals, recurring templates) | Retained for as long as the user account exists. |
+| Financial collections post-deletion (accounts, transactions, categories, payment methods, budgets, goals, recurring templates, debug snapshots) | **Hard-deleted** from MongoDB within 30 days of in-app account deletion. The deletion cascade is synchronous; the 30-day window covers backup rotation. See `security-procedure.md` §10. |
+| `user_activity_events` and `analytics_events` post-deletion | **Anonymized, not deleted.** `user_activity_events`: `userId` set to `null` and `userName` cleared. `analytics_events`: `userName` and `userAvatar` cleared. Rows retain only event type, timestamp, and (for analytics) the event name — enough for aggregate metrics, no link to a person. |
 | `consentIp` / `consentUserAgent` | Same lifecycle as the user account — deleted with the user. |
-| `user_activity_events` (sign-in events) | Currently retained indefinitely. A 12-month TTL is a **planned** change (see §11). |
-| `analytics_events` | The Privacy Policy commits to 12-month auto-expiry via a MongoDB TTL index. The TTL index is **not yet deployed** — this is a known gap, tracked as a planned change (see §11). Events are retained until the TTL is enabled. |
+| `user_activity_events` (sign-in events) | Retained for **7 years** via TTL index on `occurredAt` (aligns with Amendment 13's extended civil statute of limitations). On user deletion, rows are anonymized rather than deleted (see row above). |
+| `analytics_events` | Retained for **12 months** via TTL index on `createdAt`, matching the Privacy Policy commitment. On user deletion, `userName` and `userAvatar` are scrubbed from matching rows (see row above). |
 | `deletion_feedback` | Retained indefinitely. Contains no identifying fields. |
 | `debugSnapshots` | Retained until manually purged. Operational only. |
 
@@ -190,11 +191,11 @@ There are no sub-subprocessors beyond what these vendors disclose in their own t
 
 | Right | Mechanism |
 |-------|-----------|
-| Right of access | The application UI itself is the access mechanism — the user sees their full dataset on every page. A formal data-export endpoint is **planned** (not yet implemented). |
+| Right of access | The application UI itself is the access mechanism — the user sees their full dataset on every page. A machine-readable JSON export is also available via `GET /api/users/me/export` (UI: Settings → Privacy & Data → Download my data). |
 | Right to rectify | In-app editing on every record (transactions, accounts, categories, budgets, goals, etc.). |
 | Right to erase | In-app account deletion (Settings → Privacy & Data → Delete Account). Triggers `deleteUserCompletely` in `userService.ts`. |
 | Right to restrict processing | Analytics consent toggle in Settings → Privacy & Data. Setting it to `rejected` immediately stops new analytics events and pauses Vercel Analytics injection. |
-| Right to portability | Not yet implemented. A JSON/CSV export endpoint is **planned**. |
+| Right to portability | Available via `GET /api/users/me/export` (JSON). UI: Settings → Privacy & Data → Download my data. Returns user profile + accounts, categories, payment methods, transactions, recurring templates, budgets, and goals; export schema versioned as `exportVersion: "1.0"`. |
 | Right to object | Same toggle as above for analytics. For all other processing, the user can delete the account. |
 | Contact channel | orharush24@gmail.com — replies handled by the controller within a reasonable time (target: 14 days). |
 
@@ -204,9 +205,13 @@ There are no sub-subprocessors beyond what these vendors disclose in their own t
 
 These items are disclosed for transparency. None affect the regulatory tier (basic security) but they should be closed in the near term:
 
-1. **AnalyticsEvent TTL index** — add `{ expireAfterSeconds: 31_536_000 }` to align actual retention with the 12-month Privacy Policy commitment.
-2. **UserActivityEvent TTL index** — add a 12-month TTL to bound retention of sign-in events.
-3. **Extend deletion cascade** — `deleteUserCompletely` currently removes transactions, accounts, categories, payment methods, budgets, and the user record. It does not currently remove the user's goals, recurring templates, sign-in event history, or debug snapshots. These should be added to the cascade.
-4. **Data-export endpoint** — implement a one-click JSON export for the right-of-portability obligation.
-5. **Atlas paid tier** — migrate from M0 (shared, no automated backups) to M2 or higher for continuous backups and audit logging.
-6. **Remove live secrets from `.env.claude`** — the local file currently in the repo working tree contains real production credentials; rotate and store only in Render's vault.
+1. **Atlas paid tier** — migrate from M0 (shared, no automated backups) to M2 or higher for continuous backups and audit logging.
+2. **Remove live secrets from `.env.claude`** — the local file currently in the repo working tree contains real production credentials; rotate and store only in Render's vault.
+
+### Shipped 2026-05-16 (kept here for historical context)
+
+- ~~**AnalyticsEvent TTL index**~~ — 365-day TTL on `createdAt` deployed; aligned with the 12-month Privacy Policy commitment.
+- ~~**UserActivityEvent TTL index**~~ — 7-year TTL on `occurredAt` deployed (Amendment 13 statute-of-limitations window).
+- ~~**Extend deletion cascade**~~ — `deleteUserCompletely` now also hard-deletes `goals`, `recurringTemplates`, and `debugSnapshots`, and anonymizes `user_activity_events` and `analytics_events`.
+- ~~**Section 11 collection notices**~~ — added at the CSV import dropzone and the analytics-consent toggle helper in Settings → Privacy & Data. Google OAuth login already carried a sufficient notice.
+- ~~**Data-export endpoint**~~ — `GET /api/users/me/export` ships a versioned JSON portability export; UI in Settings → Privacy & Data.

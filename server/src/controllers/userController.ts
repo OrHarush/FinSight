@@ -9,6 +9,8 @@ import {
   UpdateAnalyticsConsentBody,
   UpdatePreferencesBody,
 } from '../schemas/userSchemas';
+import * as analyticsService from '../services/analyticsService';
+import * as userExportService from '../services/userExportService';
 import {
   completeOnboarding,
   deleteUserCompletely,
@@ -38,6 +40,19 @@ export const updateAnalyticsConsentController = asyncHandler(
     return ApiResponse.ok(res, user);
   }
 );
+
+export const exportUserDataController = asyncHandler(async (req: Request, res: Response) => {
+  const data = await userExportService.buildExport(req.userId!);
+  const filename = `lyra-export-${new Date().toISOString().slice(0, 10)}.json`;
+
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+  res.send(JSON.stringify(data, null, 2));
+
+  void analyticsService.track(req.userId!, 'data_exported').catch(err =>
+    console.error('Failed to track data_exported:', err)
+  );
+});
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;

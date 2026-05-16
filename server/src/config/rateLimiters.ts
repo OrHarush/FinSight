@@ -39,3 +39,18 @@ export const chatLimiter = rateLimit({
   message: 'Too many requests to AI service, please wait before asking again.',
 });
 
+/**
+ * Data export rate limiter
+ * Export is read-heavy (7 collection scans) and the response can be megabytes;
+ * cap per authenticated user to prevent abuse / DB hammering
+ * 5 requests per hour per user
+ */
+export const exportLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: req => req.userId ?? req.ip ?? 'anonymous',
+  message: 'Too many export requests, please try again in an hour.',
+});
+
