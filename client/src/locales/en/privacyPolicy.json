@@ -1,6 +1,6 @@
 {
   "title": "Privacy Policy",
-  "date": "December 20, 2025",
+  "date": "May 16, 2026",
 
   "sections": {
     "intro": {
@@ -25,13 +25,13 @@
       },
       "technical": {
         "title": "Technical Data",
-        "body": "We may collect limited technical information such as IP address, browser type, operating system, and access times to ensure the security and proper functioning of the service."
+        "body": "We collect limited technical information such as browser type, operating system, and access times to ensure the security and proper functioning of the service. We record your IP address and browser user agent only at the moment you accept the Terms of Service and Privacy Policy, and store them as proof of consent (see the consentIp and consentUserAgent fields on your user record). We do not log IP addresses for general application usage."
       }
     },
 
     "legalBasis": {
       "title": "4. Legal Basis for Processing",
-      "body": "We process personal data based on one or more of the following legal grounds: providing the service you request, your consent when using the application, and our legitimate interest in operating and securing the service."
+      "body": "We process personal data based on one or more of the following legal grounds: providing the service you request, your consent when using the application, and our legitimate interest in operating and securing the service. This policy aligns with the Israeli Privacy Protection Law (5741-1981, as amended) and with GDPR principles."
     },
 
     "usage": {
@@ -47,7 +47,7 @@
 
     "deletion": {
       "title": "6. Data Deletion and Retention",
-      "body": "You can delete your account at any time from within the application. When an account is deleted, all associated personal and financial data is permanently removed without undue delay."
+      "body": "You can delete your account at any time from within the application. Active account data is retained for as long as your account exists. After you delete your account, all associated personal and financial data is permanently removed within 30 days. Product usage analytics events automatically expire after 12 months via a database TTL index."
     },
 
     "rights": {
@@ -69,7 +69,7 @@
 
     "thirdParties": {
       "title": "9. Third-Party Services",
-      "body": "Lyra uses Google OAuth for authentication and cloud infrastructure providers for hosting and data storage. These services process data only as required to provide their functionality."
+      "body": "Lyra stores your data on MongoDB Atlas in the European Union (Frankfurt, Germany region). We use Google OAuth for authentication only — Google does not receive your financial data. The frontend is hosted on Vercel and the backend is hosted on Render. These providers process data only as required to operate the service."
     },
 
     "age": {

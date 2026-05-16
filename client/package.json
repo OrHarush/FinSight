@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "dev:claude": "vite --mode claude --port 3001",
     "build": "vite build && npm run prerender",
     "build:no-prerender": "vite build",
     "prerender": "node scripts/prerender.mjs",

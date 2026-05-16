@@ -65,3 +65,11 @@ Always use `ApiResponse` static methods:
 Controllers are one-liners after the service call:
 Never wrap service calls in try/catch inside controllers — global error middleware handles it.
 ---
+
+
+## Secrets & Local Dev
+
+- **Never read `.env`** — it contains real secrets.
+- Port overrides for parallel dev are in `.env.claude` (ports only, no credentials).
+- If a value isn't in `.env.claude`, ask the user — don't try to read `.env`.
+- To run Lyra locally, always use `npm run dev:claude` in both `client/` and `server/` (ports 3001/5001). Never use `npm run dev` — it would collide with the user's session on 3000/5000. The server loads `.env.claude` first then `.env` as fallback, so secrets reach the running process without Claude ever opening `.env`.

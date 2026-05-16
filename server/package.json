@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:claude": "cross-env ENV_FILE=.env.claude ts-node-dev --respawn --transpile-only src/server.ts",
     "prebuild": "npm run build -w @lyra/shared",
     "build": "swc src --out-dir dist --strip-leading-paths",
     "typecheck": "tsc --noEmit",
@@ -18,8 +19,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lyra/shared": "*",
     "@google/generative-ai": "^0.24.1",
+    "@lyra/shared": "*",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.18",
@@ -48,6 +49,7 @@
     "@types/node": "^24.5.0",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
+    "cross-env": "7.0.3",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-simple-import-sort": "12.1.1",
