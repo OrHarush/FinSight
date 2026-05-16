@@ -68,6 +68,12 @@ Never wrap service calls in try/catch inside controllers — global error middle
 ---
 
 
+## Git Commit Messages
+
+- When the user explicitly asks for a commit message, give a single-line conventional-commit (`type(scope): summary`). No body, no bullets, no Co-Authored-By line — just one line. Don't volunteer commit messages unprompted.
+
+---
+
 ## Secrets & Local Dev
 
 - **Never read `.env`** — it contains real secrets.
