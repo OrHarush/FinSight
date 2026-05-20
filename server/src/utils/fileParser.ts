@@ -14,6 +14,7 @@ interface ColumnMap {
   cardIdx: number;
   debitIdx: number;
   creditIdx: number;
+  signedAmountIdx: number;
   format: FileFormat;
 }
 
@@ -198,14 +199,18 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
     return null;
   }
 
-  const bankStatementValid =
+  const bankCols =
     debit.score >= FIELD_THRESHOLDS.debit &&
     credit.score >= FIELD_THRESHOLDS.credit &&
-    debit.idx !== credit.idx &&
     debit.idx !== date.idx &&
     credit.idx !== date.idx;
 
-  if (bankStatementValid) {
+  if (bankCols) {
+    const isSignedColumn = debit.idx === credit.idx;
+    const debitIdx = isSignedColumn ? -1 : debit.idx;
+    const creditIdx = isSignedColumn ? -1 : credit.idx;
+    const signedAmountIdx = isSignedColumn ? debit.idx : -1;
+
     const nameResolved =
       name.score >= FIELD_THRESHOLDS.name &&
       name.idx !== date.idx &&
@@ -218,8 +223,9 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
         amountIdx: -1,
         nameIdx: nameResolved ? name.idx : -1,
         cardIdx: -1,
-        debitIdx: debit.idx,
-        creditIdx: credit.idx,
+        debitIdx,
+        creditIdx,
+        signedAmountIdx,
         format: 'bank-statement',
       },
       nameMissing: !nameResolved,
@@ -245,6 +251,7 @@ const resolveColumnsForRow = (row: RawRow): { cols: ColumnMap; nameMissing: bool
       cardIdx: cardResolved ? card.idx : -1,
       debitIdx: -1,
       creditIdx: -1,
+      signedAmountIdx: -1,
       format: 'credit-card',
     },
     nameMissing: !nameResolved,
@@ -475,7 +482,11 @@ const extractRowsFromSheet = (rawRows: RawRow[], header: DetectedHeader): SheetE
 
     let amount: number | null;
 
-    if (cols.format === 'bank-statement') {
+    if (cols.format === 'bank-statement' && cols.signedAmountIdx !== -1) {
+      const signed = parseAmount(row[cols.signedAmountIdx]);
+
+      amount = signed === null || signed === 0 ? null : -signed;
+    } else if (cols.format === 'bank-statement') {
       const debit = parseAmount(row[cols.debitIdx]);
       const credit = parseAmount(row[cols.creditIdx]);
       const hasDebit = debit !== null && debit !== 0;
