@@ -36,7 +36,7 @@ const renderHeadlineWithHighlight = (headline: string, word: string) => {
 const HeroContent = () => {
   const { t, i18n } = useTranslation('home');
   const isRtl = i18n.language === 'he';
-  const highlightWord = isRtl ? 'הבנק' : 'bank';
+  const highlightWord = isRtl ? 'משקרת' : 'whole story';
 
   return (
     <Column
@@ -53,7 +53,7 @@ const HeroContent = () => {
           <Typography
             variant="h1"
             sx={{
-              fontSize: { xs: '2.4rem', sm: '3rem', md: '3.6rem' },
+              fontSize: { xs: '2rem', sm: '3rem', md: '3.6rem' },
               fontWeight: 700,
               lineHeight: 1.1,
               color: 'text.primary',
@@ -75,6 +75,16 @@ const HeroContent = () => {
             }}
           >
             {t('landing.hero.subheadline')}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: { xs: '0.8rem', md: '0.85rem' },
+              color: 'text.disabled',
+              lineHeight: 1.6,
+            }}
+          >
+            {t('landing.hero.trustLine')}
           </Typography>
         </Column>
       </motion.div>

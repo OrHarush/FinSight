@@ -1,8 +1,9 @@
 {
   "landing": {
     "hero": {
-      "headline": "Get your money in order. No bank in the middle.",
-      "subheadline": "A budgeting app for expense tracking and cash-flow management. Every card with its own billing cycle, one-click import from Cal and Max.\nEverything in one place.",
+      "headline": "Your balance doesn’t tell the whole story.",
+      "subheadline": "Credit card charges are delayed, rent is paid on different dates, and upcoming expenses are easy to miss. Lyra shows how much money you'll really have left after everything already planned to come out.",
+      "trustLine": "No bank connection. No ads. Your data stays yours.",
       "ctaPrimary": "Start Free",
       "ctaSecondary": "See how it works",
       "trustBadges": {
