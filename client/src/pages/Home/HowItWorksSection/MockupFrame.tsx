@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import Column from '@/components/shared/layout/containers/Column';
 
-const FRAME_HEIGHT = 320;
+const FRAME_HEIGHT = 312;
 
 interface MockupFrameProps {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface MockupFrameProps {
 
 const MockupFrame = ({ children }: MockupFrameProps) => (
   <Column
-    justifyContent="center"
+    justifyContent="flex-start"
     sx={{
       width: '100%',
       height: FRAME_HEIGHT,

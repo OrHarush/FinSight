@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Header from '@/pages/Home/HowItWorksSection/Header';
-import BillingDayMockup from '@/pages/Home/HowItWorksSection/mockups/BillingDayMockup';
-import DashboardMockup from '@/pages/Home/HowItWorksSection/mockups/DashboardMockup';
+import FixedExpensesMockup from '@/pages/Home/HowItWorksSection/mockups/FixedExpensesMockup';
+import LogicalMonthMockup from '@/pages/Home/HowItWorksSection/mockups/LogicalMonthMockup';
 import QuickAddMockup from '@/pages/Home/HowItWorksSection/mockups/QuickAddMockup';
 import StepsMobile from '@/pages/Home/HowItWorksSection/StepsMobile';
 import StepsPC from '@/pages/Home/HowItWorksSection/StepsPC';
@@ -38,7 +38,7 @@ const HowItWorksSection = () => {
       number: t('landing.how.step01.number'),
       title: t('landing.how.step01.title'),
       description: t('landing.how.step01.description'),
-      mockup: <BillingDayMockup />,
+      mockup: <FixedExpensesMockup />,
     },
     {
       number: t('landing.how.step02.number'),
@@ -50,7 +50,7 @@ const HowItWorksSection = () => {
       number: t('landing.how.step03.number'),
       title: t('landing.how.step03.title'),
       description: t('landing.how.step03.description'),
-      mockup: <DashboardMockup />,
+      mockup: <LogicalMonthMockup />,
     },
   ];
 

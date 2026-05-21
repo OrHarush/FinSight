@@ -2,7 +2,7 @@
   "landing": {
     "hero": {
       "headline": "Your balance doesn’t tell the whole story.",
-      "subheadline": "Credit card charges are delayed, rent is paid on different dates, and upcoming expenses are easy to miss. Lyra shows how much money you'll really have left after everything already planned to come out.",
+      "subheadline": "Credit card charges are delayed, rent is paid on different dates, and upcoming expenses are easy to miss.\nLyra shows how much money you'll really have left after everything already planned to come out.",
       "trustLine": "No bank connection. No ads. Your data stays yours.",
       "ctaPrimary": "Start Free",
       "ctaSecondary": "See how it works",
@@ -46,20 +46,24 @@
       }
     },
     "how": {
-      "headline": "This is how it works. In <accent>one minute</accent>.",
-      "subheadline": "No bank connection. No 30-minute setup.",
+      "headline": "Here's how it works. In <accent>under a minute</accent>.",
+      "subheadline": "No bank connection. No half-hour setup.",
       "step01": {
         "number": "01",
-        "title": "Pick a billing day",
-        "description": "Your card bills on the 15th? The 20th? Just pick the day. Each card keeps its own cycle.",
-        "question": "Which day does your card bill?",
-        "subtitle": "We'll set up the card billing cycle",
-        "ofTheMonth": "of the month"
+        "title": "Enter your fixed items once",
+        "description": "Salary, rent, gym, Netflix. Everything that repeats.",
+        "fixedTitle": "Recurring cash flow",
+        "items": {
+          "salary": { "name": "Salary", "billing": "1st of the month" },
+          "rent": { "name": "Rent", "billing": "5th of the month" },
+          "gym": { "name": "Gym", "billing": "10th of the month" },
+          "netflix": { "name": "Netflix", "billing": "15th of the month" }
+        }
       },
       "step02": {
         "number": "02",
-        "title": "Add a transaction in seconds.",
-        "description": "Pick a category, enter an amount, and you're done.\nNeed more details? You can expand. No unnecessary forms.",
+        "title": "Add your daily transactions",
+        "description": "Manually in seconds, or by importing a file from Cal, Max, or Isracard.",
         "quickAddLabel": "Quick add",
         "pillCoffee": "Coffee",
         "pillFood": "Food",
@@ -74,15 +78,16 @@
       },
       "step03": {
         "number": "03",
-        "title": "See where your money goes",
-        "description": "Current balance, month-end projection, and % spent. The full picture in one place.",
-        "account": "Hapoalim",
-        "balanceLabel": "Balance · 13 Apr",
-        "projectedLabel": "Projected",
-        "incomeLabel": "Income",
-        "expensesLabel": "Expenses",
-        "netLabel": "Net",
-        "progressLabel": "57% of income spent"
+        "title": "Lyra knows which month every shekel belongs to",
+        "description": "A credit charge on Mar 2 belongs to February. You always see the real picture.",
+        "monthTitle": "February charges",
+        "chargedOn": "Charged {{date}}",
+        "belongsTo": "Belongs to February",
+        "charges": {
+          "visa": "Visa charge (Cal)",
+          "rent": "Rent",
+          "loan": "Loan"
+        }
       }
     },
     "a11y": {

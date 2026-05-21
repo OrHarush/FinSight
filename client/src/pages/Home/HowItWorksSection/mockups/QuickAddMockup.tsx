@@ -19,7 +19,7 @@ const QuickAddMockup = () => {
 
   return (
     <Column spacing={1.5} sx={{ width: '100%' }}>
-      <Typography sx={{ fontSize: '0.7rem', color: 'text.secondary', fontWeight: 600 }}>
+      <Typography sx={{ fontSize: '0.95rem', color: 'text.secondary', fontWeight: 600 }}>
         {t('landing.how.step02.quickAddLabel')}
       </Typography>
 
@@ -46,10 +46,10 @@ const QuickAddMockup = () => {
                 color: isSelected ? '#fff' : '#c4b5fd',
               }}
             >
-              <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'inherit' }} noWrap>
+              <Typography sx={{ fontSize: '0.82rem', fontWeight: 600, color: 'inherit' }} noWrap>
                 {t(`landing.how.step02.${key}`)}
               </Typography>
-              <Typography aria-hidden="true" sx={{ fontSize: '0.7rem', lineHeight: 1 }}>{PILL_EMOJIS[key]}</Typography>
+              <Typography aria-hidden="true" sx={{ fontSize: '0.8rem', lineHeight: 1 }}>{PILL_EMOJIS[key]}</Typography>
             </Row>
           );
         })}
@@ -67,29 +67,29 @@ const QuickAddMockup = () => {
         }}
       >
         <Row justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: '0.7rem', color: 'text.secondary' }}>
+          <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
             {t('landing.how.step02.amountLabel')}
           </Typography>
-          <Typography sx={{ fontSize: '0.78rem', color: 'text.primary', fontWeight: 700 }}>
+          <Typography sx={{ fontSize: '1rem', color: 'text.primary', fontWeight: 700 }}>
             ₪14
           </Typography>
         </Row>
         <Row justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: '0.7rem', color: 'text.secondary' }}>
+          <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
             {t('landing.how.step02.categoryLabel')}
           </Typography>
           <Row alignItems="center" spacing={0.4}>
-            <Typography sx={{ fontSize: '0.72rem', color: 'text.primary', fontWeight: 600 }}>
+            <Typography sx={{ fontSize: '0.92rem', color: 'text.primary', fontWeight: 600 }}>
               {t('landing.how.step02.categoryValue')}
             </Typography>
-            <Typography aria-hidden="true" sx={{ fontSize: '0.72rem', lineHeight: 1 }}>☕</Typography>
+            <Typography aria-hidden="true" sx={{ fontSize: '0.92rem', lineHeight: 1 }}>☕</Typography>
           </Row>
         </Row>
         <Row justifyContent="space-between" alignItems="center">
-          <Typography sx={{ fontSize: '0.7rem', color: 'text.secondary' }}>
+          <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
             {t('landing.how.step02.dateLabel')}
           </Typography>
-          <Typography sx={{ fontSize: '0.72rem', color: 'text.primary', fontWeight: 600 }}>
+          <Typography sx={{ fontSize: '0.92rem', color: 'text.primary', fontWeight: 600 }}>
             {t('landing.how.step02.dateValue')}
           </Typography>
         </Row>
@@ -102,10 +102,10 @@ const QuickAddMockup = () => {
           backgroundColor: theme.palette.primary.main,
           color: '#fff',
           borderRadius: 1.5,
-          py: 0.85,
+          py: 0.95,
         }}
       >
-        <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, color: 'inherit' }}>
+        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: 'inherit' }}>
           {t('landing.how.step02.addButton')}
         </Typography>
       </Row>
