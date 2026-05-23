@@ -45,6 +45,20 @@ export const findById = async (id: string, userId: string) =>
 export const countByUser = async (userId: string): Promise<number> =>
   Transaction.countDocuments({ userId });
 
+export const countGroupedByUser = async (): Promise<{ userId: string; count: number }[]> => {
+  const rows = await Transaction.aggregate<{ _id: Types.ObjectId; count: number }>([
+    { $group: { _id: '$userId', count: { $sum: 1 } } },
+  ]);
+
+  return rows.map(row => ({ userId: row._id.toString(), count: row.count }));
+};
+
+export const countDistinctUsers = async (): Promise<number> => {
+  const userIds = await Transaction.distinct('userId');
+
+  return userIds.length;
+};
+
 export const insert = async (data: Omit<ITransaction, '_id'>) => {
   const transaction = new Transaction(data);
 

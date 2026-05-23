@@ -20,6 +20,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES, ROUTES } from '@/constants/Routes';
+import { ApiResponse } from '@/hooks/common/useFetch';
 import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
@@ -56,6 +57,9 @@ interface CardBreakdownProps {
   rowsForCard: WizardRow[];
   paymentMethodName: string | null;
 }
+
+const latestRowDate = (rows: WizardRow[]): string =>
+  rows.reduce((max, r) => (r.date > max ? r.date : max), '');
 
 const CardBreakdown = ({ cardKey, rowsForCard, paymentMethodName }: CardBreakdownProps) => {
   const { t } = useTranslation('transactions');
@@ -123,12 +127,12 @@ const ConfirmStep = () => {
   const [result, setResult] = useState<ImportResult | null>(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
-  const { mutate: runImport, isPending } = useApiMutation<ImportResult, ImportBody>({
+  const { mutate: runImport, isPending } = useApiMutation<ApiResponse<ImportResult>, ImportBody>({
     method: 'post',
     url: API_ROUTES.IMPORT_TRANSACTIONS,
     queryKeysToInvalidate: [queryKeys.allTransactions(), queryKeys.quickChips(), queryKeys.categories()],
     options: {
-      onSuccess: data => setResult(data),
+      onSuccess: data => setResult(data.data),
     },
   });
 
@@ -140,6 +144,16 @@ const ConfirmStep = () => {
   const singlePaymentMethodId = settings.cardAssignments[SINGLE_CARD_KEY];
   const singlePaymentMethod = paymentMethods.find(pm => pm._id === singlePaymentMethodId);
   const dateRange = settings.dateFilter ?? preview?.dateRange;
+
+  const goToTransactions = () => {
+    const importedMonth = (dateRange?.to || latestRowDate(rows)).slice(0, 7);
+
+    navigate(
+      importedMonth
+        ? `${ROUTES.TRANSACTIONS_URL}?month=${importedMonth}`
+        : ROUTES.TRANSACTIONS_URL
+    );
+  };
 
   const paymentMethodName = (pmId: string | undefined): string | null => {
     const pm = paymentMethods.find(p => p._id === pmId);
@@ -214,7 +228,7 @@ const ConfirmStep = () => {
             )}
           </Column>
         </Paper>
-        <Button variant="contained" onClick={() => navigate(ROUTES.TRANSACTIONS_URL)}>
+        <Button variant="contained" onClick={goToTransactions}>
           {t('importWizard.confirm.success.goToTransactions')}
         </Button>
       </Column>

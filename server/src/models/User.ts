@@ -24,7 +24,6 @@ export interface IUser {
   hasCompletedOnboarding: boolean;
   lastActiveAt?: Date;
   activatedAt?: Date;
-  totalTransactions: number;
   analyticsConsent: 'pending' | 'accepted' | 'rejected';
   analyticsConsentUpdatedAt: Date | null;
   createdAt?: Date;
@@ -62,7 +61,6 @@ const UserSchema = new Schema<IUser>(
     hasCompletedOnboarding: { type: Boolean, default: false },
     lastActiveAt: { type: Date },
     activatedAt: { type: Date },
-    totalTransactions: { type: Number, default: 0 },
     analyticsConsent: {
       type: String,
       enum: ['pending', 'accepted', 'rejected'],

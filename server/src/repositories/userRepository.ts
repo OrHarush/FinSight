@@ -43,16 +43,12 @@ export const countActiveSince = async (since: Date): Promise<number> =>
 export const countActivated = async (): Promise<number> =>
   User.countDocuments({ activatedAt: { $exists: true, $ne: null } });
 
-export const countWithTransactions = async (): Promise<number> =>
-  User.countDocuments({ totalTransactions: { $gt: 0 } });
-
 export interface AdminUserRow {
   _id: Types.ObjectId;
   name: string;
   email: string;
   picture?: string;
   createdAt: Date;
-  totalTransactions: number;
   lastActiveAt?: Date;
   hasCompletedOnboarding: boolean;
 }
@@ -60,7 +56,7 @@ export interface AdminUserRow {
 export const findAllForAdmin = async (): Promise<AdminUserRow[]> =>
   User.find()
     .sort({ createdAt: -1 })
-    .select('name email picture createdAt totalTransactions lastActiveAt hasCompletedOnboarding')
+    .select('name email picture createdAt lastActiveAt hasCompletedOnboarding')
     .lean<AdminUserRow[]>();
 
 export const updatePreferences = async (userId: string, displayCurrency: string) =>

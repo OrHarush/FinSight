@@ -1,6 +1,7 @@
 import { ANALYTICS_EVENT_TYPES, AnalyticsEventType } from '../models/AnalyticsEvent';
 import * as analyticsEventRepository from '../repositories/analyticsEventRepository';
 import { RecentActivityRow } from '../repositories/analyticsEventRepository';
+import * as transactionRepository from '../repositories/transactionRepository';
 import * as userActivityRepository from '../repositories/userActivityRepository';
 import * as userRepository from '../repositories/userRepository';
 import { isExcludedEmail } from '../utils/excludedEmails';
@@ -85,7 +86,12 @@ export interface AdminUserDto {
 }
 
 export const getAllUsers = async (): Promise<AdminUserDto[]> => {
-  const users = await userRepository.findAllForAdmin();
+  const [users, countsByUser] = await Promise.all([
+    userRepository.findAllForAdmin(),
+    transactionRepository.countGroupedByUser(),
+  ]);
+
+  const countByUserId = new Map(countsByUser.map(c => [c.userId, c.count]));
 
   return users.map(u => ({
     id: u._id.toString(),
@@ -93,7 +99,7 @@ export const getAllUsers = async (): Promise<AdminUserDto[]> => {
     email: u.email,
     picture: u.picture,
     createdAt: u.createdAt,
-    totalTransactions: u.totalTransactions,
+    totalTransactions: countByUserId.get(u._id.toString()) ?? 0,
     lastActiveAt: u.lastActiveAt,
     hasCompletedOnboarding: u.hasCompletedOnboarding,
   }));
@@ -142,7 +148,7 @@ export const getAnalytics = async (): Promise<AnalyticsOverview> => {
     userRepository.countActiveSince(since7d),
     userRepository.countActiveSince(since30d),
     userRepository.countActivated(),
-    userRepository.countWithTransactions(),
+    transactionRepository.countDistinctUsers(),
     ...ANALYTICS_EVENT_TYPES.map(event => analyticsEventRepository.countByEvent(event)),
   ]);
 

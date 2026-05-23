@@ -1,7 +1,25 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { ExpandedTransactionDto } from '@/types/Transaction';
+
+const monthFromParam = (value: string | null): Dayjs | null => {
+  const match = value ? /^(\d{4})-(\d{2})$/.exec(value) : null;
+
+  if (!match) {
+    return null;
+  }
+
+  const year = Number(match[1]);
+  const monthIndex = Number(match[2]) - 1;
+
+  if (monthIndex < 0 || monthIndex > 11) {
+    return null;
+  }
+
+  return dayjs(new Date(year, monthIndex, 1));
+};
 
 type TransactionAction = undefined | 'edit' | 'delete';
 
@@ -26,7 +44,10 @@ const SelectedTransactionContext = createContext<SelectedTransactionContextValue
 );
 
 export const TransactionPageDataProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedMonth, setSelectedMonth] = useState<Dayjs>(dayjs());
+  const [searchParams] = useSearchParams();
+  const [selectedMonth, setSelectedMonth] = useState<Dayjs>(
+    () => monthFromParam(searchParams.get('month')) ?? dayjs()
+  );
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
   const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
   const [selectedPaymentMethodIds, setSelectedPaymentMethodIds] = useState<string[]>([]);

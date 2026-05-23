@@ -229,7 +229,6 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   void Promise.all([
     User.findByIdAndUpdate(userId, {
       $set: { lastActiveAt: new Date() },
-      $inc: { totalTransactions: 1 },
     }),
     analyticsService.track(userId, 'transaction_created'),
   ]).catch(err => console.error('Failed to track transaction activity:', err));

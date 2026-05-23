@@ -24,7 +24,10 @@ import * as deletionFeedbackRepository from '../repositories/deletionFeedbackRep
 import { deleteMany as deleteGoals } from '../repositories/goalRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import { deleteMany as deleteRecurringTemplates } from '../repositories/recurringTemplateRepository';
-import { deleteMany as deleteTransactions } from '../repositories/transactionRepository';
+import {
+  countByUser,
+  deleteMany as deleteTransactions,
+} from '../repositories/transactionRepository';
 import * as userActivityRepository from '../repositories/userActivityRepository';
 import {
   deleteUserById,
@@ -118,6 +121,7 @@ const MS_PER_DAY = 86_400_000;
 
 const buildDeletionSnapshot = (
   user: IUser,
+  transactionCount: number,
   feedback?: DeletionFeedbackInput
 ): Partial<IDeletionFeedback> => {
   const createdAt = user.createdAt ?? new Date();
@@ -127,7 +131,7 @@ const buildDeletionSnapshot = (
   return {
     reason: feedback?.reason ?? null,
     comment: trimmedComment ? trimmedComment : null,
-    transactionCount: user.totalTransactions ?? 0,
+    transactionCount,
     daysSinceSignup,
     hadCompletedOnboarding: !!user.hasCompletedOnboarding,
     locale: feedback?.locale ?? 'he',
@@ -136,7 +140,8 @@ const buildDeletionSnapshot = (
 
 const recordDeletionFeedback = async (user: IUser, feedback?: DeletionFeedbackInput) => {
   try {
-    const snapshot = buildDeletionSnapshot(user, feedback);
+    const transactionCount = await countByUser(user._id);
+    const snapshot = buildDeletionSnapshot(user, transactionCount, feedback);
     await deletionFeedbackRepository.insert(snapshot);
   } catch (err) {
     console.error('Failed to record deletion feedback:', err);
