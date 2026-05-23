@@ -90,6 +90,33 @@
         }
       }
     },
+    "clarity": {
+      "headline": "One number tells you where you stand",
+      "subheadline": "The projected balance already accounts for everything still expected this month",
+      "month": "May 2026",
+      "account": "My checking",
+      "cards": {
+        "projected": {
+          "title": "Projected balance",
+          "body": "How much money will really be left at the end of the month, after everything still expected."
+        },
+        "balance": {
+          "title": "Balance",
+          "body": "What's in your bank account right now. Only what's already been charged."
+        },
+        "why": {
+          "title": "Why isn't it just balance plus income minus expenses?",
+          "naive": {
+            "formula": "Balance + income − expenses",
+            "caption": "This is how most people calculate, but it includes money that already came in and went out."
+          },
+          "lyra": {
+            "formula": "Balance − only the expenses still ahead of you",
+            "caption": "Lyra adds only what's genuinely still expected this month."
+          }
+        }
+      }
+    },
     "a11y": {
       "logoAlt": "Lyra logo — expense management app",
       "privacyDiagramLogoAlt": "Lyra logo in the data privacy diagram"

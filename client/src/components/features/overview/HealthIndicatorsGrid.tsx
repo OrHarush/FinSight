@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
+import HealthIndicatorCell from '@/components/features/overview/HealthIndicatorCell';
 import { HealthTile } from '@/hooks/business/useFinancialHealthIndicators';
-import HealthIndicatorCell from '@/pages/Overview/MonthlyFinancialHealth/HealthIndicatorCell';
 
 interface HealthIndicatorsGridProps {
   tiles: HealthTile[];

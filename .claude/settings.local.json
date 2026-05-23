@@ -12,7 +12,9 @@
       "mcp__Claude_Preview__preview_start",
       "Bash(xargs grep:*)",
       "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight/client/src -name *Skeleton* -o -name *skeleton*)",
-      "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight -name *.ts -path */finsight/shared*)"
+      "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight -name *.ts -path */finsight/shared*)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Lenovo\\\\Desktop\\\\Lyra\\\\server\" -Recurse -Filter \"*.js\" -File)",
+      "Bash(Select-Object -ExpandProperty FullName)"
     ]
   }
 }

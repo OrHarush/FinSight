@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import FullVariant from '@/components/features/overview/FullVariant';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useFinancialHealthIndicators } from '@/hooks/business/useFinancialHealthIndicators';
@@ -9,7 +10,6 @@ import { useTransactions } from '@/hooks/entities/useTransactions';
 import MonthlyFinancialHealthCard from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthCard';
 import MonthlyFinancialHealthSkeleton from '@/pages/Overview/MonthlyFinancialHealth/MonthlyFinancialHealthSkeleton';
 import BuildingVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/BuildingVariant';
-import FullVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/FullVariant';
 import NoDataVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/NoDataVariant';
 import NoIncomeVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/NoIncomeVariant';
 import RetrospectiveVariant from '@/pages/Overview/MonthlyFinancialHealth/variants/RetrospectiveVariant';

@@ -1,10 +1,10 @@
 import { Divider } from '@mui/material';
 
+import HealthIndicatorsGrid from '@/components/features/overview/HealthIndicatorsGrid';
+import MonthlyInsight from '@/components/features/overview/MonthlyInsight';
 import Column from '@/components/shared/layout/containers/Column';
 import { InsightKey } from '@/hooks/business/analyzeFinancialHealth';
 import { HealthTile } from '@/hooks/business/useFinancialHealthIndicators';
-import HealthIndicatorsGrid from '@/pages/Overview/MonthlyFinancialHealth/HealthIndicatorsGrid';
-import MonthlyInsight from '@/pages/Overview/MonthlyFinancialHealth/variants/FullVariant/MonthlyInsight';
 
 interface FullVariantProps {
   insightKey: InsightKey;

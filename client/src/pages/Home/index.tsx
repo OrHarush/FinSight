@@ -5,6 +5,7 @@ import ScrollableColumn from '@/components/shared/layout/containers/ScrollableCo
 import Footer from '@/components/shared/layout/Footer';
 import BottomCtaSection from '@/pages/Home/BottomCtaSection';
 import ComparisonSection from '@/pages/Home/ComparisonSection';
+import DashboardClaritySection from '@/pages/Home/DashboardClaritySection';
 import FaqSection from '@/pages/Home/FaqSection';
 import HeroSection from '@/pages/Home/HeroSection';
 import HowItWorksSection from '@/pages/Home/HowItWorksSection';
@@ -50,6 +51,7 @@ const HomePage = () => {
       <LandingNavbar />
       <ScrollableColumn component={'main'} sx={{ pb: 4, pr: 0 }}>
         <HeroSection />
+        <DashboardClaritySection />
         <HowItWorksSection />
         <ComparisonSection />
         <FaqSection />

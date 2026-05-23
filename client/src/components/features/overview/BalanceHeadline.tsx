@@ -4,17 +4,18 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import InfoTooltip from '@/components/shared/ui/InfoTooltip';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
+import InfoTooltip from '@/components/shared/ui/InfoTooltip';
 
 export interface BalanceHeadlineProps {
   balance: number;
   label: string;
   asOfDate?: Date | string;
   tooltip?: string | ReactNode;
+  valueColor?: string;
 }
 
-const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineProps) => {
+const BalanceHeadline = ({ balance, label, asOfDate, tooltip, valueColor }: BalanceHeadlineProps) => {
   const { i18n, t } = useTranslation('overview');
 
   const formattedDate = asOfDate
@@ -25,7 +26,13 @@ const BalanceHeadline = ({ balance, label, asOfDate, tooltip }: BalanceHeadlineP
 
   return (
     <Column alignItems="center" minWidth={'120px'}>
-      <CurrencyText value={balance} variant={'h5'} fontWeight={700} isAnimated />
+      <CurrencyText
+        value={balance}
+        variant={'h5'}
+        fontWeight={700}
+        isAnimated
+        color={valueColor}
+      />
       <Row alignItems="center" spacing={0.5}>
         <Typography variant="body2" color="text.secondary">
           {label}
