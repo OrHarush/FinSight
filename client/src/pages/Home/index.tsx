@@ -10,6 +10,7 @@ import FaqSection from '@/pages/Home/FaqSection';
 import HeroSection from '@/pages/Home/HeroSection';
 import HowItWorksSection from '@/pages/Home/HowItWorksSection';
 import LandingNavbar from '@/pages/Home/LandingNavbar';
+import TestimonialsSection from '@/pages/Home/TestimonialsSection';
 
 const HomePage = () => {
   const { i18n } = useTranslation();
@@ -55,6 +56,7 @@ const HomePage = () => {
         <HowItWorksSection />
         <ComparisonSection />
         <FaqSection />
+        <TestimonialsSection />
         <BottomCtaSection />
         <Footer />
       </ScrollableColumn>

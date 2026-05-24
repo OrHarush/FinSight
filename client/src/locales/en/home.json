@@ -162,6 +162,24 @@
         }
       }
     },
+    "testimonials": {
+      "titleLead": "Don't listen to us",
+      "titleMain": "hear from our users",
+      "items": {
+        "tali": {
+          "name": "Tali",
+          "quote": "I kept slipping into overdraft without understanding where all the charges came from. Now everything is organized by category and I can see where I can cut back."
+        },
+        "ido": {
+          "name": "Ido",
+          "quote": "I used to wrestle with spreadsheets. Now, in three clicks, I can both track my expenses and see exactly where everything goes. Highly recommended."
+        },
+        "dori": {
+          "name": "Dori",
+          "quote": "A smooth experience and a dashboard that understands your money in a second. Simple, fast, and it feels like a product built for real users."
+        }
+      }
+    },
     "faq": {
       "title": "FAQ",
       "subtitle": "Everything worth knowing before you start.",
