@@ -6,8 +6,9 @@ import { ITransaction } from '../models/Transaction';
 import * as accountRepository from '../repositories/accountRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
-import { ImportTransactionsDTO } from '../schemas/importSchemas';
+import { CheckDuplicatesDTO, ImportTransactionsDTO } from '../schemas/importSchemas';
 import { FileFormat, parseFile } from '../utils/fileParser';
+import { fingerprintForImportRow } from '../utils/importFingerprint';
 import * as analyticsService from './analyticsService';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
 
@@ -134,6 +135,8 @@ export const importTransactions = async (
     return { inserted: 0, skipped, failed: 0 };
   }
 
+  const importBatchId = new Types.ObjectId();
+
   const transactions: Omit<ITransaction, '_id'>[] = filteredRows.map(row => {
     const isRefund = row.amount < 0;
     const paymentMethodId = row.paymentMethodId ?? dto.paymentMethodId;
@@ -147,6 +150,8 @@ export const importTransactions = async (
       ...(paymentMethodId && { paymentMethod: new Types.ObjectId(paymentMethodId) }),
       ...(row.categoryId && { category: new Types.ObjectId(row.categoryId) }),
       userId: new Types.ObjectId(userId),
+      importBatchId,
+      importFingerprint: fingerprintForImportRow(userId, dto.accountId, row),
     };
   });
 
@@ -184,4 +189,32 @@ export const importTransactions = async (
 
     throw ApiError.internal('Failed to insert transactions.');
   }
+};
+
+export interface DuplicateCheckResult {
+  duplicateRowIndices: number[];
+}
+
+export const findDuplicates = async (
+  dto: CheckDuplicatesDTO,
+  userId: string
+): Promise<DuplicateCheckResult> => {
+  const fingerprints = dto.rows.map(row => fingerprintForImportRow(userId, dto.accountId, row));
+  const uniqueFingerprints = [...new Set(fingerprints)];
+
+  const existingFingerprints = await transactionRepository.findExistingFingerprints(
+    userId,
+    uniqueFingerprints
+  );
+  const existing = new Set(existingFingerprints);
+
+  const duplicateRowIndices = fingerprints.reduce<number[]>((indices, fingerprint, index) => {
+    if (existing.has(fingerprint)) {
+      indices.push(index);
+    }
+
+    return indices;
+  }, []);
+
+  return { duplicateRowIndices };
 };

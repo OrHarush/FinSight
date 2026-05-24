@@ -16,6 +16,8 @@ export interface ITransaction {
   toAccount?: Types.ObjectId;
   userId: Types.ObjectId;
   templateId?: Types.ObjectId;
+  importBatchId?: Types.ObjectId;
+  importFingerprint?: string;
 }
 
 const TransactionSchema: Schema = new Schema(
@@ -39,6 +41,8 @@ const TransactionSchema: Schema = new Schema(
 
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     templateId: { type: Schema.Types.ObjectId, ref: 'RecurringTemplate' },
+    importBatchId: { type: Schema.Types.ObjectId },
+    importFingerprint: { type: String },
   },
   { timestamps: true }
 );
@@ -48,5 +52,13 @@ TransactionSchema.index({ userId: 1, category: 1, date: -1 });
 TransactionSchema.index({ userId: 1, account: 1, date: -1 });
 TransactionSchema.index({ userId: 1, type: 1, date: -1 });
 TransactionSchema.index({ templateId: 1, date: -1 });
+TransactionSchema.index(
+  { userId: 1, importFingerprint: 1 },
+  { partialFilterExpression: { importFingerprint: { $exists: true } } }
+);
+TransactionSchema.index(
+  { userId: 1, importBatchId: 1 },
+  { partialFilterExpression: { importBatchId: { $exists: true } } }
+);
 
 export default mongoose.model<ITransaction>('Transaction', TransactionSchema);

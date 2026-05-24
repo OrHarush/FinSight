@@ -1,23 +1,15 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import {
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  Paper,
-  Typography,
-} from '@mui/material';
-import { useState } from 'react';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import { Divider, Grid, Paper, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import { bankAccountIconMap } from '@/constants/BankAccountIcons';
+import { paymentMethodTypeIconMap } from '@/constants/PaymentMethodIcons';
 import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES, ROUTES } from '@/constants/Routes';
 import { ApiResponse } from '@/hooks/common/useFetch';
@@ -25,11 +17,15 @@ import { useAccounts } from '@/hooks/entities/useAccounts';
 import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useImportWizard } from '@/pages/Import/ImportWizardContext';
+import CardBreakdown from '@/pages/Import/steps/confirmSummary/CardBreakdown';
+import ImportSuccessScreen from '@/pages/Import/steps/confirmSummary/ImportSuccessScreen';
+import SkippedChip from '@/pages/Import/steps/confirmSummary/SkippedChip';
 import {
-  SINGLE_CARD_KEY,
-  UNKNOWN_CARD_KEY,
-  WizardRow,
-} from '@/pages/Import/types/importWizard';
+  getSummaryCardStyle,
+  getSummaryDividerStyle,
+} from '@/pages/Import/steps/confirmSummary/styles';
+import SummaryEntityCard from '@/pages/Import/steps/confirmSummary/SummaryEntityCard';
+import { SINGLE_CARD_KEY, WizardRow } from '@/pages/Import/types/importWizard';
 import { getAccountDisplayName } from '@/utils/entities/account';
 import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
 
@@ -52,68 +48,24 @@ interface ImportBody {
   dateFilter?: { from: string; to: string };
 }
 
-interface CardBreakdownProps {
-  cardKey: string;
-  rowsForCard: WizardRow[];
-  paymentMethodName: string | null;
-}
-
 const latestRowDate = (rows: WizardRow[]): string =>
   rows.reduce((max, r) => (r.date > max ? r.date : max), '');
 
-const CardBreakdown = ({ cardKey, rowsForCard, paymentMethodName }: CardBreakdownProps) => {
-  const { t } = useTranslation('transactions');
+const formatDmy = (ymd: string): string => {
+  const [year, month, day] = ymd.split('-');
 
-  const categorizedCount = rowsForCard.filter(r => r.categoryId !== null).length;
-  const uncategorizedCount = rowsForCard.length - categorizedCount;
-  const cardLabel =
-    cardKey === UNKNOWN_CARD_KEY
-      ? t('importWizard.categorize.cardUnassigned')
-      : t('importWizard.categorize.cardLabel', { last4: cardKey });
+  return `${day}/${month}/${year}`;
+};
 
-  return (
-    <Paper variant="outlined" sx={{ p: 2, borderRadius: 1.5 }}>
-      <Column spacing={1}>
-        <Row justifyContent="space-between" alignItems="center">
-          <Typography fontWeight={600}>{cardLabel}</Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t('importWizard.categorize.cardRowCount', { count: rowsForCard.length })}
-          </Typography>
-        </Row>
-        {paymentMethodName && (
-          <Row justifyContent="space-between">
-            <Typography variant="body2" color="text.secondary">
-              {t('importWizard.settings.paymentMethod')}
-            </Typography>
-            <Typography variant="body2" fontWeight={500}>
-              {paymentMethodName}
-            </Typography>
-          </Row>
-        )}
-        <Row justifyContent="space-between">
-          <Typography variant="body2" color="text.secondary">
-            {t('importWizard.confirm.categorized')}
-          </Typography>
-          <Typography variant="body2" fontWeight={500}>
-            {categorizedCount}
-          </Typography>
-        </Row>
-        <Row justifyContent="space-between" alignItems="center">
-          <Row spacing={0.5} alignItems="center">
-            <Typography variant="body2" color="text.secondary">
-              {t('importWizard.confirm.uncategorized')}
-            </Typography>
-            {uncategorizedCount > 0 && (
-              <WarningAmberIcon sx={{ fontSize: 14, color: 'warning.main' }} />
-            )}
-          </Row>
-          <Typography variant="body2" fontWeight={500}>
-            {uncategorizedCount}
-          </Typography>
-        </Row>
-      </Column>
-    </Paper>
-  );
+const isWithinFilter = (
+  date: string,
+  filter: { from: string; to: string } | null | undefined
+): boolean => {
+  if (!filter) {
+    return true;
+  }
+
+  return date >= filter.from && date <= filter.to;
 };
 
 const ConfirmStep = () => {
@@ -121,25 +73,39 @@ const ConfirmStep = () => {
   const { t: tPM } = useTranslation('paymentMethods');
   const { t: tAccounts } = useTranslation('accounts');
   const navigate = useNavigate();
-  const { rows, settings, preview, cards } = useImportWizard();
+  const {
+    rows,
+    settings,
+    preview,
+    cards,
+    resetWizard,
+    skippedDuplicatesCount,
+    setFooterPrimaryAction,
+    setIsImportComplete,
+  } = useImportWizard();
   const { accounts } = useAccounts();
   const { paymentMethods } = usePaymentMethods();
   const [result, setResult] = useState<ImportResult | null>(null);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
   const { mutate: runImport, isPending } = useApiMutation<ApiResponse<ImportResult>, ImportBody>({
     method: 'post',
     url: API_ROUTES.IMPORT_TRANSACTIONS,
-    queryKeysToInvalidate: [queryKeys.allTransactions(), queryKeys.quickChips(), queryKeys.categories()],
+    queryKeysToInvalidate: [
+      queryKeys.allTransactions(),
+      queryKeys.quickChips(),
+      queryKeys.categories(),
+    ],
     options: {
       onSuccess: data => setResult(data.data),
     },
   });
 
-  const categorizedCount = rows.filter(r => r.categoryId !== null).length;
-  const uncategorizedCount = rows.length - categorizedCount;
+  const importingCount = rows.filter(r => isWithinFilter(r.date, settings.dateFilter)).length;
+  const dateFilterSkipped = rows.length - importingCount;
+  const skippedCount = skippedDuplicatesCount + dateFilterSkipped;
 
   const account = accounts.find(a => a._id === settings.accountId);
+  const AccountIcon = (account?.icon && bankAccountIconMap[account.icon]) || AccountBalanceIcon;
   const isMultiCard = cards.length >= 2;
   const singlePaymentMethodId = settings.cardAssignments[SINGLE_CARD_KEY];
   const singlePaymentMethod = paymentMethods.find(pm => pm._id === singlePaymentMethodId);
@@ -149,9 +115,7 @@ const ConfirmStep = () => {
     const importedMonth = (dateRange?.to || latestRowDate(rows)).slice(0, 7);
 
     navigate(
-      importedMonth
-        ? `${ROUTES.TRANSACTIONS_URL}?month=${importedMonth}`
-        : ROUTES.TRANSACTIONS_URL
+      importedMonth ? `${ROUTES.TRANSACTIONS_URL}?month=${importedMonth}` : ROUTES.TRANSACTIONS_URL
     );
   };
 
@@ -185,176 +149,116 @@ const ConfirmStep = () => {
     });
   };
 
-  const triggerImport = () => {
-    if (uncategorizedCount > 0) {
-      setConfirmDialogOpen(true);
-    } else {
-      submitImport();
+  const submitImportRef = useRef(submitImport);
+  submitImportRef.current = submitImport;
+
+  useEffect(() => {
+    if (result) {
+      setFooterPrimaryAction(null);
+      setIsImportComplete(true);
+
+      return () => {
+        setIsImportComplete(false);
+      };
     }
-  };
+
+    setIsImportComplete(false);
+    setFooterPrimaryAction({
+      label: t('importWizard.confirm.importCount', { count: importingCount }),
+      onClick: () => submitImportRef.current(),
+      disabled: importingCount === 0 || isPending,
+      loading: isPending,
+    });
+
+    return () => {
+      setFooterPrimaryAction(null);
+    };
+  }, [result, importingCount, isPending, t, setFooterPrimaryAction, setIsImportComplete]);
 
   if (result) {
     return (
-      <Column flex={1} alignItems="center" justifyContent="center" spacing={3}>
-        <CheckCircleOutlineIcon sx={{ fontSize: 64, color: 'success.main' }} />
-        <Typography variant="h5" fontWeight={600}>
-          {t('importWizard.confirm.success.title')}
-        </Typography>
-        <Paper variant="outlined" sx={{ px: 4, py: 3, minWidth: 260 }}>
-          <Column spacing={1.5}>
-            <Row justifyContent="space-between" spacing={4}>
-              <Typography color="text.secondary">
-                {t('importWizard.confirm.success.imported')}
-              </Typography>
-              <Typography fontWeight={600}>{result.inserted}</Typography>
-            </Row>
-            {result.skipped > 0 && (
-              <Row justifyContent="space-between" spacing={4}>
-                <Typography color="text.secondary">
-                  {t('importWizard.confirm.success.skipped')}
-                </Typography>
-                <Typography fontWeight={600}>{result.skipped}</Typography>
-              </Row>
-            )}
-            {result.failed > 0 && (
-              <Row justifyContent="space-between" spacing={4}>
-                <Typography color="text.secondary">
-                  {t('importWizard.confirm.success.failed')}
-                </Typography>
-                <Typography color="error" fontWeight={600}>
-                  {result.failed}
-                </Typography>
-              </Row>
-            )}
-          </Column>
-        </Paper>
-        <Button variant="contained" onClick={goToTransactions}>
-          {t('importWizard.confirm.success.goToTransactions')}
-        </Button>
-      </Column>
+      <ImportSuccessScreen
+        result={result}
+        onGoToTransactions={goToTransactions}
+        onImportAnother={resetWizard}
+      />
     );
   }
 
   return (
-    <>
-      <Column flex={1} spacing={3}>
-        <Typography variant="h6" fontWeight={600}>
-          {t('importWizard.confirm.summary')}
-        </Typography>
-        <Paper variant="outlined" sx={{ p: 3 }}>
-          <Column spacing={2}>
-            <Row justifyContent="space-between">
-              <Typography color="text.secondary">{t('importWizard.confirm.total')}</Typography>
-              <Typography fontWeight={600}>{rows.length}</Typography>
-            </Row>
-            <Divider />
-            <Row justifyContent="space-between">
-              <Typography color="text.secondary">
-                {t('importWizard.confirm.categorized')}
+    <Column flex={1} spacing={3}>
+      <Paper variant="outlined" sx={getSummaryCardStyle}>
+        <Column spacing={2.5}>
+          <Row justifyContent="space-between" alignItems="center" spacing={1}>
+            <Row spacing={1} alignItems="baseline">
+              <Typography sx={{ fontSize: '2.75rem', fontWeight: 700, lineHeight: 1 }}>
+                {importingCount}
               </Typography>
-              <Typography fontWeight={600}>{categorizedCount}</Typography>
+              <Typography color="text.secondary">
+                {t('importWizard.confirm.readyToImport')}
+              </Typography>
             </Row>
-            <Row justifyContent="space-between" alignItems="center">
-              <Row spacing={0.5} alignItems="center">
-                <Typography color="text.secondary">
-                  {t('importWizard.confirm.uncategorized')}
-                </Typography>
-                {uncategorizedCount > 0 && (
-                  <WarningAmberIcon sx={{ fontSize: 16, color: 'warning.main' }} />
-                )}
-              </Row>
-              <Typography fontWeight={600}>{uncategorizedCount}</Typography>
-            </Row>
-            {account && (
-              <>
-                <Divider />
-                <Row justifyContent="space-between">
-                  <Typography color="text.secondary">
-                    {t('importWizard.settings.account')}
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {getAccountDisplayName(account, tAccounts)}
-                  </Typography>
-                </Row>
-              </>
-            )}
-            {!isMultiCard && singlePaymentMethod && (
-              <Row justifyContent="space-between">
-                <Typography color="text.secondary">
-                  {t('importWizard.settings.paymentMethod')}
-                </Typography>
-                <Typography fontWeight={600}>
-                  {getPaymentMethodDisplayName(singlePaymentMethod, tPM)}
-                </Typography>
-              </Row>
-            )}
-            {dateRange && (
-              <>
-                <Divider />
-                <Column spacing={0.25}>
-                  <Typography color="text.secondary">
-                    {t('importWizard.upload.dateRangeLabel')}
-                  </Typography>
-                  <Typography fontWeight={600}>
-                    {dateRange.from} – {dateRange.to}
-                  </Typography>
-                </Column>
-              </>
-            )}
-          </Column>
-        </Paper>
-        {isMultiCard && (
-          <Column spacing={1.5}>
-            <Typography variant="subtitle2" fontWeight={600}>
-              {t('importWizard.confirm.perCardTitle')}
-            </Typography>
-            {cards.map(cardKey => (
-              <CardBreakdown
-                key={cardKey}
-                cardKey={cardKey}
-                rowsForCard={rows.filter(r => r.card === cardKey)}
-                paymentMethodName={paymentMethodName(settings.cardAssignments[cardKey])}
-              />
-            ))}
-          </Column>
-        )}
-        <Button
-          variant="contained"
-          size="large"
-          disabled={rows.length === 0 || isPending}
-          onClick={triggerImport}
-          startIcon={isPending ? <CircularProgress size={16} color="inherit" /> : undefined}
-          sx={{ alignSelf: 'center', minWidth: 160 }}
-        >
-          {isPending
-            ? t('importWizard.confirm.importing')
-            : t('importWizard.navigation.confirm')}
-        </Button>
-      </Column>
+            {skippedCount > 0 && <SkippedChip count={skippedCount} />}
+          </Row>
 
-      <Dialog open={confirmDialogOpen} onClose={() => setConfirmDialogOpen(false)}>
-        <DialogTitle>{t('importWizard.confirm.dialog.title')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t('importWizard.confirm.dialog.body', { count: uncategorizedCount })}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmDialogOpen(false)}>
-            {t('importWizard.confirm.dialog.cancel')}
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setConfirmDialogOpen(false);
-              submitImport();
-            }}
-          >
-            {t('importWizard.confirm.dialog.confirm')}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+          {(account || (!isMultiCard && singlePaymentMethod)) && (
+            <>
+              <Divider sx={getSummaryDividerStyle} />
+              <Grid container spacing={2}>
+                {account && (
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <SummaryEntityCard
+                      icon={AccountIcon}
+                      label={t('importWizard.settings.account')}
+                      value={getAccountDisplayName(account, tAccounts)}
+                    />
+                  </Grid>
+                )}
+                {!isMultiCard && singlePaymentMethod && (
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <SummaryEntityCard
+                      icon={paymentMethodTypeIconMap[singlePaymentMethod.type] ?? CreditCardIcon}
+                      label={t('importWizard.settings.paymentMethod')}
+                      value={getPaymentMethodDisplayName(singlePaymentMethod, tPM)}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            </>
+          )}
+
+          {dateRange && (
+            <>
+              <Divider sx={getSummaryDividerStyle} />
+              <Row spacing={1.5} alignItems="center">
+                <CalendarTodayIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                <Typography variant="body2" color="text.secondary">
+                  {t('importWizard.upload.dateRangeLabel')}
+                </Typography>
+                <Typography variant="body2" fontWeight={600}>
+                  {formatDmy(dateRange.from)} – {formatDmy(dateRange.to)}
+                </Typography>
+              </Row>
+            </>
+          )}
+        </Column>
+      </Paper>
+      {isMultiCard && (
+        <Column spacing={1.5}>
+          <Typography variant="subtitle2" fontWeight={600}>
+            {t('importWizard.confirm.perCardTitle')}
+          </Typography>
+          {cards.map(cardKey => (
+            <CardBreakdown
+              key={cardKey}
+              cardKey={cardKey}
+              rowsForCard={rows.filter(r => r.card === cardKey)}
+              paymentMethodName={paymentMethodName(settings.cardAssignments[cardKey])}
+            />
+          ))}
+        </Column>
+      )}
+    </Column>
   );
 };
 

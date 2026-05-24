@@ -15,6 +15,7 @@ import {
 } from '../../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../../types/Transaction';
 import { isCategoryCompatibleWithTransactionType } from '../../utils/categoryCompatibility';
+import { fingerprintForTransaction } from '../../utils/importFingerprint';
 import {
   expandTransactions,
   filterTemplatesByQueryFilters,
@@ -220,6 +221,8 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     userId: new Types.ObjectId(userId),
   };
 
+  mapped.importFingerprint = fingerprintForTransaction(mapped);
+
   const created = await transactionRepository.insert(mapped);
 
   invalidateQuickChipsCache(userId);
@@ -264,6 +267,26 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   if (data.accountId !== undefined) mapped.account = new Types.ObjectId(data.accountId);
   if (data.fromAccountId !== undefined) mapped.fromAccount = new Types.ObjectId(data.fromAccountId);
   if (data.toAccountId !== undefined) mapped.toAccount = new Types.ObjectId(data.toAccountId);
+
+  const affectsFingerprint =
+    data.date !== undefined ||
+    data.amount !== undefined ||
+    data.type !== undefined ||
+    data.accountId !== undefined;
+
+  if (affectsFingerprint) {
+    const fingerprint = fingerprintForTransaction({
+      userId,
+      account: data.accountId ?? existing.account?._id?.toString(),
+      date: mapped.date ?? existing.date,
+      amount: mapped.amount ?? existing.amount,
+      type: mapped.type ?? existing.type,
+    });
+
+    if (fingerprint) {
+      mapped.importFingerprint = fingerprint;
+    }
+  }
 
   const updated = await transactionRepository.updateById(id, mapped, userId);
 

@@ -43,6 +43,7 @@ const CategorizeStep = () => {
     registerNextIntercept,
     registerPrevIntercept,
     setNextLabelOverride,
+    setNextDisabledReason,
   } = useImportWizard();
   const { categories, expenseCategories, incomeCategories } = useCategories();
   const isMobile = useIsSmallScreen();
@@ -74,12 +75,21 @@ const CategorizeStep = () => {
   const categorizedCount = visibleRows.filter(r => r.categoryId !== null).length;
   const total = visibleRows.length;
   const progress = total > 0 ? (categorizedCount / total) * 100 : 0;
+  const allCategorized = visibleRows.every(r => r.categoryId !== null);
 
   useEffect(() => {
-    setCanProceed(true);
     setBulkAssign(null);
     setBulkRename(null);
-  }, [setCanProceed, activeCardIndex]);
+  }, [activeCardIndex]);
+
+  useEffect(() => {
+    setCanProceed(allCategorized);
+    setNextDisabledReason(allCategorized ? null : t('importWizard.categorize.finishFirst'));
+
+    return () => {
+      setNextDisabledReason(null);
+    };
+  }, [allCategorized, setCanProceed, setNextDisabledReason, t]);
 
   useEffect(() => {
     if (!isMultiCard) {

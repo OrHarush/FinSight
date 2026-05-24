@@ -38,9 +38,22 @@ const SettingsStep = () => {
   const { t } = useTranslation('transactions');
   const isMobile = useIsMobile();
   const queryClient = useQueryClient();
-  const { preview, settings, setSettings, setCanProceed, cards } = useImportWizard();
+  const {
+    preview,
+    settings,
+    setSettings,
+    setCanProceed,
+    cards,
+    rows,
+    goToNextStep,
+    registerNextIntercept,
+    setNextLabelOverride,
+    setDuplicateRowIndices,
+    setIsReviewingDuplicates,
+  } = useImportWizard();
   const { primaryAccount } = useAccounts();
-  const { paymentMethods, primaryPaymentMethod } = usePaymentMethods();
+  const { paymentMethods, primaryPaymentMethod, isSuccess: paymentMethodsLoaded } =
+    usePaymentMethods();
 
   const isBankStatement = preview?.format === 'bank-statement';
   const bankTransferPMs = useMemo(
@@ -148,6 +161,70 @@ const SettingsStep = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formCardKeys.join('|')]);
 
+  const checkPassedRef = useRef(false);
+  const checkingRef = useRef(false);
+  const rowsRef = useRef(rows);
+  rowsRef.current = rows;
+  const goToNextStepRef = useRef(goToNextStep);
+  goToNextStepRef.current = goToNextStep;
+
+  useEffect(() => {
+    checkPassedRef.current = false;
+  }, [settings.accountId]);
+
+  useEffect(() => {
+    const runDuplicateCheck = async () => {
+      checkingRef.current = true;
+      setNextLabelOverride(t('importWizard.settings.checkingDuplicates'));
+
+      try {
+        const { data: res } = await api.post<{
+          success: boolean;
+          data: { duplicateRowIndices: number[] };
+        }>(API_ROUTES.IMPORT_CHECK_DUPLICATES, {
+          accountId: getValues('accountId'),
+          rows: rowsRef.current.map(r => ({ date: r.date, amount: r.amount })),
+        });
+
+        checkPassedRef.current = true;
+        setNextLabelOverride(null);
+
+        const indices = res.data.duplicateRowIndices;
+
+        if (indices.length > 0) {
+          setDuplicateRowIndices(indices);
+          setIsReviewingDuplicates(true);
+        } else {
+          goToNextStepRef.current();
+        }
+      } catch {
+        checkPassedRef.current = true;
+        setNextLabelOverride(null);
+        goToNextStepRef.current();
+      } finally {
+        checkingRef.current = false;
+      }
+    };
+
+    registerNextIntercept(() => {
+      if (checkPassedRef.current) {
+        return false;
+      }
+
+      if (!checkingRef.current) {
+        void runDuplicateCheck();
+      }
+
+      return true;
+    });
+
+    return () => {
+      registerNextIntercept(null);
+      setNextLabelOverride(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const createDefaultBankTransfer = async (opts: { auto: boolean } = { auto: false }) => {
     setIsCreatingDefault(true);
     setCreateError(false);
@@ -173,6 +250,7 @@ const SettingsStep = () => {
 
   useEffect(() => {
     if (
+      !paymentMethodsLoaded ||
       !isBankStatement ||
       isMultiCard(cards) ||
       bankTransferPMs.length > 0 ||
@@ -184,7 +262,7 @@ const SettingsStep = () => {
     autoCreateAttempted.current = true;
     void createDefaultBankTransfer({ auto: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBankStatement, cards, bankTransferPMs.length]);
+  }, [paymentMethodsLoaded, isBankStatement, cards, bankTransferPMs.length]);
 
   const showBankStatementEmptyState =
     isBankStatement && !isMultiCard(cards) && bankTransferPMs.length === 0 && createError;

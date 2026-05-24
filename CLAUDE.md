@@ -20,6 +20,7 @@ Backend: Node.js + Express + MongoDB — layered architecture: Routes → Contro
 - No business logic in controllers or React components.
 - No `any` unless isolated and commented.
 - Don't write any comments unless it's to explain "why" — never "what" or "how". If you need to explain "what", refactor the code to be self-explanatory. If you need to explain "how", extract it to a well-named function.
+- Code should read top-to-bottom like a newspaper: lead with the high-level story, push details lower (stepdown rule). Optimize for readability and easy maintenance; prefer a few cohesive files over many tiny fragmented ones.
 ---
 
 ## React Component Patterns

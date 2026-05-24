@@ -23,3 +23,17 @@ export const ImportTransactionsSchema = z.object({
 });
 
 export type ImportTransactionsDTO = z.infer<typeof ImportTransactionsSchema>;
+
+export const CheckDuplicatesSchema = z.object({
+  accountId: objectIdSchema,
+  rows: z
+    .array(
+      z.object({
+        date: z.string().min(1, 'Row date is required.'),
+        amount: z.number(),
+      })
+    )
+    .min(1, 'At least one row is required.'),
+});
+
+export type CheckDuplicatesDTO = z.infer<typeof CheckDuplicatesSchema>;

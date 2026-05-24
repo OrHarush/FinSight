@@ -8,6 +8,7 @@ import { ImportWizardProvider, useImportWizard } from '@/pages/Import/ImportWiza
 import ImportWizardNav from '@/pages/Import/ImportWizardNav';
 import CategorizeStep from '@/pages/Import/steps/categorize';
 import ConfirmStep from '@/pages/Import/steps/ConfirmStep';
+import DuplicateReviewPanel from '@/pages/Import/steps/DuplicateReviewPanel';
 import SettingsStep from '@/pages/Import/steps/SettingsStep';
 import UploadStep from '@/pages/Import/steps/upload';
 
@@ -15,7 +16,7 @@ const STEP_COMPONENTS = [UploadStep, SettingsStep, CategorizeStep, ConfirmStep];
 
 const ImportWizardContent = () => {
   const { t } = useTranslation('transactions');
-  const { activeStep } = useImportWizard();
+  const { activeStep, isReviewingDuplicates } = useImportWizard();
 
   usePageHeader(t('importWizard.pageTitle'));
 
@@ -38,7 +39,7 @@ const ImportWizardContent = () => {
         ))}
       </Stepper>
       <Column flex={1} minHeight={0} overflow="auto" sx={{ px: 2, pb: 2 }}>
-        <ActiveStep />
+        {isReviewingDuplicates ? <DuplicateReviewPanel /> : <ActiveStep />}
       </Column>
       <ImportWizardNav />
     </Column>

@@ -119,10 +119,29 @@
       "bankStatementAutoCreated": "אמצעי תשלום נוצר אוטומטית עבורך",
       "dateFilterLabel": "סנן לפי טווח תאריכים (אופציונלי)",
       "from": "מ",
-      "to": "עד"
+      "to": "עד",
+      "checkingDuplicates": "בודק כפילויות..."
+    },
+    "duplicates": {
+      "title": "מצאנו {{count}} עסקאות שכבר קיימות אצלך",
+      "subtitle": "לעסקאות האלה יש חשבון, תאריך וסכום זהים לעסקאות שכבר קיימות אצלך, כנראה כבר יובאו בעבר. בחר אילו לדלג עליהן. שאר העסקאות יובאו רגיל.",
+      "skipSelectedCount": "{{count}} מסומנות לדילוג",
+      "skipAll": "דלג על הכל",
+      "importAll": "ייבא הכל",
+      "skip": "דלג",
+      "import": "ייבא",
+      "willImportCount": "יובאו {{count}} עסקאות",
+      "continue": "המשך לקטגוריזציה",
+      "emptyBanner": "כל העסקאות מסומנות לדילוג, אין מה לייבא. סיום הייבוא יסגור את התהליך.",
+      "finishImport": "סיום הייבוא",
+      "allExist": {
+        "title": "הכל כבר אצלך",
+        "body": "כל {{count}} העסקאות בקובץ כבר קיימות בלירה, לא היה מה לייבא"
+      }
     },
     "categorize": {
       "progress": "קוטלגו {{categorized}} מתוך {{total}}",
+      "finishFirst": "יש לסווג את כל העסקאות לפני שתמשיך",
       "noCategories": "לא נמצאו קטגוריות",
       "empty": "אין עסקאות לסיווג",
       "uncategorized": "ללא קטגוריה",
@@ -152,25 +171,19 @@
       "cardRowCount": "{{count}} עסקאות"
     },
     "confirm": {
-      "summary": "סיכום ייבוא",
-      "total": "סך עסקאות",
+      "readyToImport": "עסקאות מוכנות לייבוא",
+      "skippedChip": "{{count}} דולגה",
+      "importCount": "ייבא {{count}} עסקאות",
       "categorized": "מקוטלגות",
       "uncategorized": "ללא קטגוריה",
       "perCardTitle": "לפי כרטיס",
-      "importing": "מייבא…",
-      "uncategorizedWarning": "{{count}} עסקאות ללא קטגוריה",
-      "dialog": {
-        "title": "עסקאות ללא קטגוריה",
-        "body": "{{count}} עסקאות לא שויכו לקטגוריה ויובאו ללא קטגוריה. להמשיך?",
-        "confirm": "ייבא בכל זאת",
-        "cancel": "חזור"
-      },
       "success": {
         "title": "הייבוא הושלם",
-        "imported": "יובאו",
-        "skipped": "דולגו",
-        "failed": "נכשלו",
-        "goToTransactions": "צפה בעסקאות"
+        "importedCount": "{{count}} עסקאות יובאו",
+        "skippedCount": "{{count}} דולגו",
+        "failedCount": "{{count}} נכשלו",
+        "goToTransactions": "צפה בעסקאות",
+        "importAnother": "ייבא קובץ נוסף"
       }
     }
   },

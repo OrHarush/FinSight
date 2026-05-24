@@ -11,6 +11,13 @@ import {
 
 type StepIntercept = (() => boolean) | null;
 
+export interface FooterPrimaryAction {
+  label: string;
+  onClick: () => void;
+  disabled: boolean;
+  loading: boolean;
+}
+
 interface ImportWizardState {
   activeStep: number;
   file: File | null;
@@ -20,6 +27,12 @@ interface ImportWizardState {
   cards: string[];
   activeCardIndex: number;
   nextLabelOverride: string | null;
+  nextDisabledReason: string | null;
+  duplicateRowIndices: number[];
+  isReviewingDuplicates: boolean;
+  skippedDuplicatesCount: number;
+  footerPrimaryAction: FooterPrimaryAction | null;
+  isImportComplete: boolean;
 }
 
 interface ImportWizardActions {
@@ -41,6 +54,13 @@ interface ImportWizardActions {
   registerNextIntercept: (fn: StepIntercept) => void;
   registerPrevIntercept: (fn: StepIntercept) => void;
   setNextLabelOverride: (label: string | null) => void;
+  setNextDisabledReason: (reason: string | null) => void;
+  setDuplicateRowIndices: (indices: number[]) => void;
+  setIsReviewingDuplicates: (value: boolean) => void;
+  setSkippedDuplicatesCount: (count: number) => void;
+  setFooterPrimaryAction: (action: FooterPrimaryAction | null) => void;
+  setIsImportComplete: (value: boolean) => void;
+  resetWizard: () => void;
 }
 
 type ImportWizardContextValue = ImportWizardState & ImportWizardActions;
@@ -85,6 +105,12 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
   const [nextIntercept, setNextIntercept] = useState<StepIntercept>(null);
   const [prevIntercept, setPrevIntercept] = useState<StepIntercept>(null);
   const [nextLabelOverride, setNextLabelOverride] = useState<string | null>(null);
+  const [nextDisabledReason, setNextDisabledReason] = useState<string | null>(null);
+  const [duplicateRowIndices, setDuplicateRowIndices] = useState<number[]>([]);
+  const [isReviewingDuplicates, setIsReviewingDuplicates] = useState(false);
+  const [skippedDuplicatesCount, setSkippedDuplicatesCount] = useState(0);
+  const [footerPrimaryAction, setFooterPrimaryAction] = useState<FooterPrimaryAction | null>(null);
+  const [isImportComplete, setIsImportComplete] = useState(false);
 
   const cards = useMemo(() => deriveCards(preview), [preview]);
 
@@ -119,6 +145,7 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
 
     setCanProceed(false);
     setNextLabelOverride(null);
+    setNextDisabledReason(null);
     setActiveStep(prev => Math.min(prev + 1, TOTAL_STEPS - 1));
   };
 
@@ -129,7 +156,25 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
 
     setCanProceed(true);
     setNextLabelOverride(null);
+    setNextDisabledReason(null);
     setActiveStep(prev => Math.max(prev - 1, 0));
+  };
+
+  const resetWizard = () => {
+    setActiveStep(0);
+    setFile(null);
+    setPreview(null);
+    setRows([]);
+    setCanProceed(false);
+    setNextLabelOverride(null);
+    setNextDisabledReason(null);
+    setDuplicateRowIndices([]);
+    setIsReviewingDuplicates(false);
+    setSkippedDuplicatesCount(0);
+    setFooterPrimaryAction(null);
+    setIsImportComplete(false);
+    setNextIntercept(null);
+    setPrevIntercept(null);
   };
 
   const setSettings = (partial: Partial<WizardSettings>) => {
@@ -190,6 +235,12 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         cards,
         activeCardIndex,
         nextLabelOverride,
+        nextDisabledReason,
+        duplicateRowIndices,
+        isReviewingDuplicates,
+        skippedDuplicatesCount,
+        footerPrimaryAction,
+        isImportComplete,
         canProceed,
         goToNextStep,
         goToPrevStep,
@@ -208,6 +259,13 @@ export const ImportWizardProvider = ({ children }: ImportWizardProviderProps) =>
         registerNextIntercept,
         registerPrevIntercept,
         setNextLabelOverride,
+        setNextDisabledReason,
+        setDuplicateRowIndices,
+        setIsReviewingDuplicates,
+        setSkippedDuplicatesCount,
+        setFooterPrimaryAction,
+        setIsImportComplete,
+        resetWizard,
       }}
     >
       {children}

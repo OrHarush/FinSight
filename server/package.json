@@ -13,7 +13,8 @@
     "start": "node dist/server.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "migrate:cents": "ts-node scripts/migrateToCents.ts"
+    "migrate:cents": "ts-node scripts/migrateToCents.ts",
+    "migrate:fingerprint": "ts-node scripts/backfillImportFingerprint.ts"
   },
   "keywords": [],
   "author": "",

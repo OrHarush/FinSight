@@ -14,7 +14,10 @@
       "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight/client/src -name *Skeleton* -o -name *skeleton*)",
       "Bash(find C:/Users/orhar/Desktop/WebstormProjects/FinSight -name *.ts -path */finsight/shared*)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Lenovo\\\\Desktop\\\\Lyra\\\\server\" -Recurse -Filter \"*.js\" -File)",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(npm run *)",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('src/locales/he/transactions.json','utf8'\\)\\); JSON.parse\\(require\\('fs'\\).readFileSync\\('src/locales/en/transactions.json','utf8'\\)\\); console.log\\('JSON OK'\\)\")",
+      "Bash(npx eslint *)"
     ]
   }
 }

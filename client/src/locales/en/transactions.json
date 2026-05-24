@@ -119,10 +119,29 @@
       "bankStatementAutoCreated": "Payment method created for you",
       "dateFilterLabel": "Filter by date range (optional)",
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "checkingDuplicates": "Checking for duplicates..."
+    },
+    "duplicates": {
+      "title": "We found {{count}} transactions that already exist",
+      "subtitle": "These transactions share the same account, date and amount as transactions you already have, they were probably imported before. Choose which to skip. The other transactions will import normally.",
+      "skipSelectedCount": "{{count}} marked to skip",
+      "skipAll": "Skip all",
+      "importAll": "Import all",
+      "skip": "Skip",
+      "import": "Import",
+      "willImportCount": "{{count}} transactions will import",
+      "continue": "Continue to categorization",
+      "emptyBanner": "All transactions are marked to skip, nothing to import. Finishing will close the process.",
+      "finishImport": "Finish import",
+      "allExist": {
+        "title": "You already have everything",
+        "body": "All {{count}} transactions in the file already exist in Lyra, there was nothing to import."
+      }
     },
     "categorize": {
       "progress": "{{categorized}} of {{total}} categorized",
+      "finishFirst": "Categorize all transactions before continuing",
       "noCategories": "No categories found",
       "empty": "No transactions to categorize",
       "uncategorized": "Uncategorized",
@@ -152,25 +171,19 @@
       "cardRowCount": "{{count}} transactions"
     },
     "confirm": {
-      "summary": "Import Summary",
-      "total": "Total transactions",
+      "readyToImport": "transactions ready to import",
+      "skippedChip": "{{count}} skipped",
+      "importCount": "Import {{count}} transactions",
       "categorized": "Categorized",
       "uncategorized": "Uncategorized",
       "perCardTitle": "By card",
-      "importing": "Importing…",
-      "uncategorizedWarning": "{{count}} transaction(s) have no category assigned",
-      "dialog": {
-        "title": "Uncategorized Transactions",
-        "body": "{{count}} transaction(s) are not categorized and will be imported without a category. Continue?",
-        "confirm": "Import Anyway",
-        "cancel": "Go Back"
-      },
       "success": {
         "title": "Import Complete",
-        "imported": "Imported",
-        "skipped": "Skipped",
-        "failed": "Failed",
-        "goToTransactions": "View Transactions"
+        "importedCount": "{{count}} transactions were imported",
+        "skippedCount": "{{count}} skipped",
+        "failedCount": "{{count}} failed",
+        "goToTransactions": "View Transactions",
+        "importAnother": "Import another file"
       }
     }
   },

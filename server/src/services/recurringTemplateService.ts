@@ -19,6 +19,7 @@ import { ITransaction } from '../models/Transaction';
 import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { isCategoryCompatibleWithTransactionType } from '../utils/categoryCompatibility';
+import { fingerprintForTransaction } from '../utils/importFingerprint';
 import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
@@ -377,6 +378,8 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
         userId: template.userId,
         templateId: new Types.ObjectId(template._id as string),
       };
+
+      txData.importFingerprint = fingerprintForTransaction(txData);
 
       const tx = await transactionRepository.insert(txData);
 

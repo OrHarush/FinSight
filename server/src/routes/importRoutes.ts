@@ -1,10 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import multer, { MulterError } from 'multer';
 
-import { getImportPreview, importTransactions } from '../controllers/importController';
+import {
+  checkDuplicates,
+  getImportPreview,
+  importTransactions,
+} from '../controllers/importController';
 import { ApiError } from '../errors/ApiError';
 import { validateBody } from '../middlewares/validate';
-import { ImportTransactionsSchema } from '../schemas/importSchemas';
+import { CheckDuplicatesSchema, ImportTransactionsSchema } from '../schemas/importSchemas';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -62,5 +66,6 @@ const router = Router();
 
 router.post('/preview', upload.single('file'), multerErrorHandler, getImportPreview);
 router.post('/transactions', validateBody(ImportTransactionsSchema), importTransactions);
+router.post('/check-duplicates', validateBody(CheckDuplicatesSchema), checkDuplicates);
 
 export default router;
