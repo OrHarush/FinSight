@@ -10,6 +10,7 @@ import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 import ActivityFeed from './ActivityFeed';
 import AdminDashboardSkeleton from './AdminDashboardSkeleton';
 import AdminStatCard from './AdminStatCard';
+import CopySnapshotButton from './CopySnapshotButton';
 import FunnelBar from './FunnelBar';
 import RetentionSection from './RetentionSection';
 import { useAdminAnalytics } from './useAdminAnalytics';
@@ -247,6 +248,10 @@ export const AdminDashboard = () => {
       >
         <RetentionSection />
       </CollapsibleSection>
+
+      <Row justifyContent="center">
+        <CopySnapshotButton />
+      </Row>
 
       {/* Divider */}
       <Box sx={{ borderTop: 1, borderColor: 'divider' }} />

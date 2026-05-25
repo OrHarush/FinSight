@@ -8,6 +8,7 @@ import { runForDebugUser } from '../jobs/runForDebugUserJob';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import * as debugSnapshotRepository from '../repositories/debugSnapshotRepository';
 import * as adminService from '../services/adminService';
+import * as adminSnapshotService from '../services/adminSnapshotService';
 import * as retentionService from '../services/retentionService';
 
 export const getKpiOverview = asyncHandler(async (_req: Request, res: Response) => {
@@ -26,6 +27,12 @@ export const getRetention = asyncHandler(async (_req: Request, res: Response) =>
   const retention = await retentionService.getRetentionReport();
 
   return ApiResponse.ok(res, retention);
+});
+
+export const getSnapshot = asyncHandler(async (_req: Request, res: Response) => {
+  const snapshot = await adminSnapshotService.getSnapshot();
+
+  return ApiResponse.ok(res, snapshot);
 });
 
 const DEFAULT_ACTIVITY_LIMIT = 20;

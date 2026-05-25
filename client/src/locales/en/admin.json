@@ -49,6 +49,12 @@
     "error": "Failed to load retention data",
     "retry": "Retry"
   },
+  "snapshot": {
+    "copy": "Copy data to JSON",
+    "copied": "Copied",
+    "fetchError": "Failed to load snapshot",
+    "copyError": "Failed to copy"
+  },
   "recent": {
     "title": "Recent activity",
     "empty": "No recent activity",

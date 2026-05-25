@@ -59,6 +59,7 @@ export interface RetentionCohortDto {
   d1Rate: number | null;
   d7Rate: number | null;
   activatedRate: number | null;
+  activationDepthRate: number | null;
 }
 
 export interface RetentionTotalsDto {
@@ -66,10 +67,44 @@ export interface RetentionTotalsDto {
   d1Rate: number | null;
   d7Rate: number | null;
   activatedRate: number | null;
+  activationDepthRate: number | null;
   pendingD7Count: number;
 }
 
 export interface RetentionReportDto {
   totals: RetentionTotalsDto;
   cohorts: RetentionCohortDto[];
+}
+
+export interface AdminSnapshotKpisDto {
+  totalUsers: number;
+  activeToday: number;
+  activeThisWeek: number;
+  newUsersToday: number;
+  newUsersThisWeek: number;
+  newUsersThisMonth: number;
+  activatedUsers: number;
+  activationRate: number;
+}
+
+export interface AdminSnapshotFunnelDto {
+  signedUp: number;
+  onboarded: number;
+  firstTx: number;
+  recurringSet: number;
+}
+
+export interface AdminSnapshotFeatureAdoptionDto {
+  transactions: number;
+  recurring: number;
+  csvImport: number;
+  customCategories: number;
+}
+
+export interface AdminSnapshotDto {
+  generatedAt: string;
+  kpis: AdminSnapshotKpisDto;
+  retention: RetentionReportDto;
+  funnel: AdminSnapshotFunnelDto;
+  featureAdoption: AdminSnapshotFeatureAdoptionDto;
 }

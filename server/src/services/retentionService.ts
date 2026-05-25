@@ -17,6 +17,7 @@ export interface RetentionCohort {
   d1Rate: number | null;
   d7Rate: number | null;
   activatedRate: number | null;
+  activationDepthRate: number | null;
 }
 
 export interface RetentionTotals {
@@ -24,6 +25,7 @@ export interface RetentionTotals {
   d1Rate: number | null;
   d7Rate: number | null;
   activatedRate: number | null;
+  activationDepthRate: number | null;
   pendingD7Count: number;
 }
 
@@ -50,6 +52,7 @@ const toTotals = (rows: UserRetentionRow[]): RetentionTotals => ({
   d1Rate: d1Rate(rows),
   d7Rate: d7Rate(rows),
   activatedRate: activatedRate(rows),
+  activationDepthRate: activationDepthRate(rows),
   pendingD7Count: rows.filter(row => row.ageInDays < 7).length,
 });
 
@@ -65,6 +68,7 @@ const toCohort = (weekStart: string, rows: UserRetentionRow[]): RetentionCohort 
   d1Rate: d1Rate(rows),
   d7Rate: d7Rate(rows),
   activatedRate: activatedRate(rows),
+  activationDepthRate: activationDepthRate(rows),
 });
 
 const groupByWeek = (rows: UserRetentionRow[]): Map<string, UserRetentionRow[]> => {
@@ -97,6 +101,9 @@ const d7Rate = (rows: UserRetentionRow[]): number | null => {
 
 const activatedRate = (rows: UserRetentionRow[]): number | null =>
   toRate(rows.filter(row => row.activated).length, rows.length);
+
+const activationDepthRate = (rows: UserRetentionRow[]): number | null =>
+  toRate(rows.filter(row => row.activationDepth).length, rows.length);
 
 const toRate = (numerator: number, denominator: number): number | null => {
   if (denominator === 0) {

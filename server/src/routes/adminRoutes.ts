@@ -9,6 +9,7 @@ import {
   getLoginEvents,
   getRecentActivity,
   getRetention,
+  getSnapshot,
   restoreDebugForMe,
   runDebugForMe,
 } from '../controllers/adminController';
@@ -21,6 +22,7 @@ router.get('/activity', requireAdmin, getLoginEvents);
 router.get('/analytics', requireAdmin, getAnalytics);
 router.get('/analytics/activity', requireAdmin, getRecentActivity);
 router.get('/retention', requireAdmin, getRetention);
+router.get('/snapshot', requireAdmin, getSnapshot);
 router.get('/users', requireAdmin, getAllUsers);
 
 router.post('/debug/run-for-me', requireAdmin, runDebugForMe);
