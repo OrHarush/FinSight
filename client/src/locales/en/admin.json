@@ -35,6 +35,20 @@
     "csvImport": "CSV import",
     "customCategories": "Custom categories"
   },
+  "retention": {
+    "title": "User retention",
+    "weekColumn": "Signup week",
+    "signups": "Signups",
+    "d1": "D1",
+    "d7": "D7",
+    "activated": "Activated",
+    "weekRange": "{{startDay}}–{{endDay}} {{month}}",
+    "weekRangeCrossMonth": "{{startDay}} {{startMonth}} – {{endDay}} {{endMonth}}",
+    "pendingD7": "{{count}} users signed up recently — not yet counted in D7",
+    "empty": "This section fills in as users sign up and we measure whether they return.",
+    "error": "Failed to load retention data",
+    "retry": "Retry"
+  },
   "recent": {
     "title": "Recent activity",
     "empty": "No recent activity",

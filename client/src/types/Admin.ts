@@ -51,3 +51,25 @@ export interface AnalyticsOverviewDto {
   usersWithTransactions: number;
   eventCounts: Record<AnalyticsEventType, number>;
 }
+
+export interface RetentionCohortDto {
+  weekStart: string;
+  weekEnd: string;
+  signups: number;
+  d1Rate: number | null;
+  d7Rate: number | null;
+  activatedRate: number | null;
+}
+
+export interface RetentionTotalsDto {
+  totalUsers: number;
+  d1Rate: number | null;
+  d7Rate: number | null;
+  activatedRate: number | null;
+  pendingD7Count: number;
+}
+
+export interface RetentionReportDto {
+  totals: RetentionTotalsDto;
+  cohorts: RetentionCohortDto[];
+}

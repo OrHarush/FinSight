@@ -11,8 +11,9 @@ import ActivityFeed from './ActivityFeed';
 import AdminDashboardSkeleton from './AdminDashboardSkeleton';
 import AdminStatCard from './AdminStatCard';
 import FunnelBar from './FunnelBar';
-import UsersTable from './UsersTable';
+import RetentionSection from './RetentionSection';
 import { useAdminAnalytics } from './useAdminAnalytics';
+import UsersTable from './UsersTable';
 
 export const AdminDashboard = () => {
   const { t } = useTranslation('admin');
@@ -26,6 +27,7 @@ export const AdminDashboard = () => {
 
   const [funnelOpen, setFunnelOpen] = useState(isDesktop);
   const [adoptionOpen, setAdoptionOpen] = useState(isDesktop);
+  const [retentionOpen, setRetentionOpen] = useState(false);
   const [activityOpen, setActivityOpen] = useState(true);
   const [usersOpen, setUsersOpen] = useState(isDesktop);
 
@@ -236,6 +238,15 @@ export const AdminDashboard = () => {
           </CollapsibleSection>
         </Column>
       )}
+
+      {/* Retention */}
+      <CollapsibleSection
+        title={t('retention.title')}
+        open={retentionOpen}
+        onToggle={() => setRetentionOpen(v => !v)}
+      >
+        <RetentionSection />
+      </CollapsibleSection>
 
       {/* Divider */}
       <Box sx={{ borderTop: 1, borderColor: 'divider' }} />

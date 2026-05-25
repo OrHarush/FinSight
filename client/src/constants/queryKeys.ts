@@ -63,6 +63,7 @@ export const queryKeys = {
   user: () => ['user'],
 
   adminAnalytics: () => ['admin-analytics'],
+  adminRetention: () => ['admin-retention'],
   adminRecentActivity: () => ['admin-recent-activity'],
   adminUsers: () => ['admin-users'],
   adminDebugSnapshots: () => ['admin', 'debug-snapshots'],

@@ -35,6 +35,20 @@
     "csvImport": "ייבוא CSV",
     "customCategories": "קטגוריות מותאמות"
   },
+  "retention": {
+    "title": "שימור משתמשים",
+    "weekColumn": "שבוע הרשמה",
+    "signups": "נרשמו",
+    "d1": "D1",
+    "d7": "D7",
+    "activated": "הופעלו",
+    "weekRange": "{{startDay}}–{{endDay}} ב{{month}}",
+    "weekRangeCrossMonth": "{{startDay}} ב{{startMonth}} – {{endDay}} ב{{endMonth}}",
+    "pendingD7": "{{count}} משתמשים נרשמו לאחרונה — טרם נכללים ב-D7",
+    "empty": "החלק הזה יתמלא ככל שמשתמשים נרשמים, ונמדוד אם הם חוזרים.",
+    "error": "טעינת נתוני השימור נכשלה",
+    "retry": "נסה שוב"
+  },
   "recent": {
     "title": "פעילות אחרונה",
     "empty": "אין פעילות אחרונה",
