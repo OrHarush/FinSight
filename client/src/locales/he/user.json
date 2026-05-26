@@ -29,6 +29,8 @@
     "currency": "מטבע תצוגה",
     "currencyHelper": "מטבע ברירת מחדל בעת יצירת חשבונות חדשים",
     "privacy": "פרטיות ונתונים",
+    "marketingEmailsLabel": "עדכוני מוצר במייל",
+    "marketingEmailsHelper": "עדכונים על תכונות חדשות, שיפורים וטיפים שיעזרו לך להפיק יותר מ-Lyra.",
     "analyticsLabel": "נתוני שימוש",
     "analyticsHelper": "אירועי שימוש (לחיצות, צפיות במסך) יישמרו לצד שמך והאווטאר שלך, למשך עד 12 חודשים, כדי לעזור לנו לשפר את Lyra.",
     "essentialLabel": "חיוני",
@@ -41,6 +43,16 @@
     "deleteAccount": "מחיקת חשבון",
     "updateSuccess": "ההעדפות נשמרו.",
     "updateError": "שמירת ההעדפות נכשלה."
+  },
+  "unsubscribePage": {
+    "success": "ביטלת את ההרשמה לעדכונים",
+    "successHelper": "החשבון שלך פעיל ורגיל — לא נשלח אלייך יותר עדכוני מוצר.",
+    "alreadyUnsubscribed": "כבר בוטלה ההרשמה שלך",
+    "alreadyUnsubscribedHelper": "כבר לא נשלחים אלייך עדכוני מוצר.",
+    "invalid": "הקישור אינו תקין",
+    "invalidHelper": "הקישור פג תוקף או שגוי. אפשר לבטל את ההרשמה בכל עת דרך ההגדרות.",
+    "backToApp": "לאפליקציה",
+    "reEnableNote": "ניתן להפעיל מחדש את העדכונים בכל עת דרך ההגדרות."
   },
   "consent": {
     "banner": {

@@ -101,6 +101,9 @@ interface AcceptTermsRepoInput {
   version: string;
 }
 
+export const setMarketingEmailsEnabled = async (userId: string, enabled: boolean) =>
+  User.findByIdAndUpdate(userId, { marketingEmailsEnabled: enabled }, { new: true });
+
 export const acceptTerms = async ({
   userId,
   locale,

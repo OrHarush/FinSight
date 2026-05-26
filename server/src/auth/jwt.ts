@@ -37,6 +37,34 @@ export function verifyAndExtractBearerToken(authHeader?: string): UserTokenPaylo
   }
 }
 
+const UNSUBSCRIBE_PURPOSE = 'unsubscribe' as const;
+
+export const signUnsubscribeToken = (userId: string): string =>
+  jwt.sign({ userId, purpose: UNSUBSCRIBE_PURPOSE }, JWT_SECRET, {
+    algorithm: 'HS256',
+    expiresIn: '30d',
+    issuer: JWT_ISSUER,
+    audience: JWT_AUDIENCE,
+  });
+
+export const verifyUnsubscribeToken = (token: string): string | null => {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET, {
+      algorithms: ['HS256'],
+      issuer: JWT_ISSUER,
+      audience: JWT_AUDIENCE,
+    }) as JwtPayload;
+
+    if (decoded?.purpose !== UNSUBSCRIBE_PURPOSE || typeof decoded.userId !== 'string') {
+      return null;
+    }
+
+    return decoded.userId;
+  } catch {
+    return null;
+  }
+};
+
 export function extractUserDataFromBearerToken(authHeader?: string): UserTokenPayload {
   if (!authHeader?.startsWith('Bearer ')) {
     throw new Error('Missing Bearer token');

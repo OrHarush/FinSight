@@ -21,6 +21,7 @@ import ImportWizardPage from '@/pages/Import/ImportWizardPage';
 import LegalPage from '@/pages/LegalPage/LegalPage';
 import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
+import UnsubscribePage from '@/pages/Unsubscribe';
 import Overview from '@/pages/Overview';
 import PaymentMethods from '@/pages/PaymentMethods';
 import { Transactions } from '@/pages/Transactions';
@@ -65,6 +66,7 @@ const AppRoutes = () => {
             />
             <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
             <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
+            <Route path={ROUTES.UNSUBSCRIBE_URL} element={<UnsubscribePage />} />
           </Route>
           <Route
             element={

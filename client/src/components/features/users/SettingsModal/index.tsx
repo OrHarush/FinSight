@@ -43,6 +43,10 @@ interface UpdateConsentDto {
   analyticsConsent: 'accepted' | 'rejected';
 }
 
+interface UpdateMarketingEmailsDto {
+  marketingEmailsEnabled: boolean;
+}
+
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');
   const { user, updateUser, logout } = useAuth();
@@ -123,6 +127,36 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   const toggleAnalyticsConsent = (accepted: boolean) => {
     updateConsent.mutate({ analyticsConsent: accepted ? 'accepted' : 'rejected' });
+  };
+
+  const updateMarketingEmails = useApiMutation<UserDto, UpdateMarketingEmailsDto>({
+    method: 'patch',
+    url: API_ROUTES.USERS_MARKETING_EMAILS,
+    queryKeysToInvalidate: [queryKeys.user()],
+    options: {
+      onMutate: ({ marketingEmailsEnabled }) => {
+        const previousUser = user;
+
+        if (user) {
+          updateUser({ ...user, marketingEmailsEnabled });
+        }
+
+        return { previousUser };
+      },
+      onError: (_, __, context) => {
+        const ctx = context as { previousUser: UserDto | null };
+
+        if (ctx?.previousUser) {
+          updateUser(ctx.previousUser);
+        }
+
+        alertError(t('settingsModal.updateError'));
+      },
+    },
+  });
+
+  const toggleMarketingEmails = (enabled: boolean) => {
+    updateMarketingEmails.mutate({ marketingEmailsEnabled: enabled });
   };
 
   const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
@@ -215,6 +249,34 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                     <Typography variant="body2">{t('settingsModal.analyticsLabel')}</Typography>
                     <Typography variant="caption" color="text.secondary">
                       {t('settingsModal.analyticsHelper')}
+                    </Typography>
+                  </Column>
+                }
+                sx={{
+                  alignItems: 'center',
+                  m: 0,
+                  gap: 2,
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+              />
+              <FormControlLabel
+                labelPlacement="start"
+                control={
+                  <Switch
+                    checked={user?.marketingEmailsEnabled !== false}
+                    onChange={(_, checked) => toggleMarketingEmails(checked)}
+                    disabled={updateMarketingEmails.isPending}
+                    sx={{ flexShrink: 0 }}
+                  />
+                }
+                label={
+                  <Column sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="body2">
+                      {t('settingsModal.marketingEmailsLabel')}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {t('settingsModal.marketingEmailsHelper')}
                     </Typography>
                   </Column>
                 }

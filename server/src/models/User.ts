@@ -27,6 +27,7 @@ export interface IUser {
   analyticsConsent: 'pending' | 'accepted' | 'rejected';
   analyticsConsentUpdatedAt: Date | null;
   feedbackSurveySeenAt?: Date | null;
+  marketingEmailsEnabled: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -70,6 +71,7 @@ const UserSchema = new Schema<IUser>(
     },
     analyticsConsentUpdatedAt: { type: Date, default: null },
     feedbackSurveySeenAt: { type: Date, default: null },
+    marketingEmailsEnabled: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

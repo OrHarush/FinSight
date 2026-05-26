@@ -29,6 +29,8 @@
     "currency": "Display Currency",
     "currencyHelper": "Default currency when creating new accounts",
     "privacy": "Privacy & Data",
+    "marketingEmailsLabel": "Product update emails",
+    "marketingEmailsHelper": "Updates on new features, improvements and tips to get more out of Lyra.",
     "analyticsLabel": "Usage analytics",
     "analyticsHelper": "Usage events (clicks, screen views) are stored alongside your name and avatar for up to 12 months, to help us improve Lyra.",
     "essentialLabel": "Essential",
@@ -41,6 +43,16 @@
     "deleteAccount": "Delete Account",
     "updateSuccess": "Preferences saved.",
     "updateError": "Failed to save preferences."
+  },
+  "unsubscribePage": {
+    "success": "You've been unsubscribed",
+    "successHelper": "Your account is still active — we just won't send you product updates anymore.",
+    "alreadyUnsubscribed": "Already unsubscribed",
+    "alreadyUnsubscribedHelper": "You're not receiving product update emails.",
+    "invalid": "This link is invalid",
+    "invalidHelper": "The link has expired or is malformed. To unsubscribe, you can do so from Settings.",
+    "backToApp": "Go to app",
+    "reEnableNote": "You can re-enable product updates any time in Settings."
   },
   "consent": {
     "banner": {

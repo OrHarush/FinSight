@@ -18,6 +18,7 @@ export const ROUTES = {
   ADMIN_DEBUG_URL: '/admin/debug',
   CHAT_URL: '/chat',
   IMPORT_URL: '/transactions/import',
+  UNSUBSCRIBE_URL: '/unsubscribe',
 } as const;
 
 export const API_ROUTES = {
@@ -78,7 +79,9 @@ export const API_ROUTES = {
   USERS_ME: '/api/users/me',
   USERS_PREFERENCES: '/api/users/me/preferences',
   USERS_CONSENT: '/api/users/me/consent',
+  USERS_MARKETING_EMAILS: '/api/users/me/marketing-emails',
   USERS_EXPORT: '/api/users/me/export',
+  UNSUBSCRIBE: '/api/unsubscribe',
 
   ADMIN: '/api/admin',
   ADMIN_USERS: '/api/admin/users',

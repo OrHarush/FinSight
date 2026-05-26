@@ -32,10 +32,12 @@ import * as userActivityRepository from '../repositories/userActivityRepository'
 import {
   deleteUserById,
   findById,
+  setMarketingEmailsEnabled,
   updateAnalyticsConsent as updateAnalyticsConsentRepo,
   updateOnboarding,
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
+import { verifyUnsubscribeToken } from '../auth/jwt';
 import * as analyticsService from './analyticsService';
 
 export interface DeletionFeedbackInput {
@@ -53,6 +55,32 @@ export const updateAnalyticsConsent = async (
   userId: string,
   analyticsConsent: 'accepted' | 'rejected'
 ) => updateAnalyticsConsentRepo(userId, analyticsConsent);
+
+export type UnsubscribeResult = 'unsubscribed' | 'already_unsubscribed';
+
+export const processUnsubscribe = async (token: string): Promise<UnsubscribeResult | null> => {
+  const userId = verifyUnsubscribeToken(token);
+
+  if (!userId) {
+    return null;
+  }
+
+  const user = await findById(userId);
+
+  if (!user) {
+    return null;
+  }
+
+  if (user.marketingEmailsEnabled === false) {
+    return 'already_unsubscribed';
+  }
+
+  await setMarketingEmailsEnabled(userId, false);
+  return 'unsubscribed';
+};
+
+export const updateMarketingEmailsEnabled = async (userId: string, enabled: boolean) =>
+  setMarketingEmailsEnabled(userId, enabled);
 
 export const createDefaultEntitiesForNewUser = async (userId: string) => {
   const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map(dto => ({

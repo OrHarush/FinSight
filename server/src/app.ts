@@ -23,6 +23,7 @@ import budgetRoutes from './routes/budgetRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import chatRoutes from './routes/chatRoutes';
 import cronRoutes from './routes/cronRoutes';
+import unsubscribeRoutes from './routes/unsubscribeRoutes';
 import feedbackRoutes from './routes/feedbackRoutes';
 import goalRoutes from './routes/goalRoutes';
 import importRoutes from './routes/importRoutes';
@@ -53,6 +54,7 @@ app.get('/health', (_req, res) => {
 app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/cron', cronRoutes);
+app.use('/api/unsubscribe', unsubscribeRoutes);
 app.use('/api', authMiddleware);
 app.use('/api', activityPingMiddleware);
 app.use('/api/users', userRoutes);

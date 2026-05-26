@@ -7,6 +7,7 @@ import {
   CompleteOnboardingBody,
   DeleteUserBody,
   UpdateAnalyticsConsentBody,
+  UpdateMarketingEmailsBody,
   UpdatePreferencesBody,
 } from '../schemas/userSchemas';
 import * as analyticsService from '../services/analyticsService';
@@ -14,7 +15,9 @@ import * as userExportService from '../services/userExportService';
 import {
   completeOnboarding,
   deleteUserCompletely,
+  processUnsubscribe,
   updateAnalyticsConsent,
+  updateMarketingEmailsEnabled,
   updatePreferences,
 } from '../services/userService';
 
@@ -53,6 +56,31 @@ export const exportUserDataController = asyncHandler(async (req: Request, res: R
     console.error('Failed to track data_exported:', err)
   );
 });
+
+export const unsubscribeController = asyncHandler(async (req: Request, res: Response) => {
+  const { token } = req.query;
+
+  if (typeof token !== 'string') {
+    throw ApiError.badRequest('Missing token.');
+  }
+
+  const result = await processUnsubscribe(token);
+
+  if (!result) {
+    throw ApiError.badRequest('Invalid or expired token.');
+  }
+
+  return ApiResponse.ok(res, { status: result });
+});
+
+export const updateMarketingEmailsController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { marketingEmailsEnabled } = req.validatedBody as UpdateMarketingEmailsBody;
+    const user = await updateMarketingEmailsEnabled(req.userId!, marketingEmailsEnabled);
+
+    return ApiResponse.ok(res, user);
+  }
+);
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;

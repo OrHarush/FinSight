@@ -6,6 +6,7 @@ import {
   deleteUser,
   exportUserDataController,
   updateAnalyticsConsentController,
+  updateMarketingEmailsController,
   updatePreferencesController,
 } from '../controllers/userController';
 import { validateBody } from '../middlewares/validate';
@@ -13,6 +14,7 @@ import {
   CompleteOnboardingSchema,
   DeleteUserSchema,
   UpdateAnalyticsConsentSchema,
+  UpdateMarketingEmailsSchema,
   UpdatePreferencesSchema,
 } from '../schemas/userSchemas';
 
@@ -25,6 +27,11 @@ router.patch(
   '/me/consent',
   validateBody(UpdateAnalyticsConsentSchema),
   updateAnalyticsConsentController
+);
+router.patch(
+  '/me/marketing-emails',
+  validateBody(UpdateMarketingEmailsSchema),
+  updateMarketingEmailsController
 );
 router.delete('/:userId', validateBody(DeleteUserSchema), deleteUser);
 

@@ -12,4 +12,5 @@ export interface UserDto {
   hasCompletedOnboarding?: boolean;
   analyticsConsent?: 'pending' | 'accepted' | 'rejected';
   analyticsConsentUpdatedAt?: string | null;
+  marketingEmailsEnabled?: boolean;
 }

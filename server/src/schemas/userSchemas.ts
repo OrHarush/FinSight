@@ -34,3 +34,9 @@ export const DeleteUserSchema = z.object({
 });
 
 export type DeleteUserBody = z.infer<typeof DeleteUserSchema>;
+
+export const UpdateMarketingEmailsSchema = z.object({
+  marketingEmailsEnabled: z.boolean(),
+});
+
+export type UpdateMarketingEmailsBody = z.infer<typeof UpdateMarketingEmailsSchema>;
