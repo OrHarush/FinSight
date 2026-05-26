@@ -24,7 +24,7 @@ export interface RetrospectiveSummary {
 export type HealthCardVariant =
   | { type: 'noData' }
   | { type: 'noIncome' }
-  | { type: 'building'; uniqueSpendingDays: number; daysUntilReady: number }
+  | { type: 'building'; uniqueSpendingDays: number }
   | { type: 'full'; insightKey: InsightKey; healthStatus: HealthStatus; tiles: HealthTile[] }
   | { type: 'retrospective'; summary: RetrospectiveSummary };
 
@@ -71,7 +71,7 @@ export const useFinancialHealthIndicators = ({
   const daysUntilReady = 7 - uniqueSpendingDays;
 
   if (daysUntilReady > 0) {
-    return { type: 'building', uniqueSpendingDays, daysUntilReady };
+    return { type: 'building', uniqueSpendingDays };
   }
 
   if (income <= 0) {

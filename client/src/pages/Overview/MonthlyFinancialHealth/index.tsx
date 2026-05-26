@@ -66,10 +66,7 @@ const MonthlyFinancialHealth = () => {
       {variant.type === 'noData' && <NoDataVariant />}
       {variant.type === 'noIncome' && <NoIncomeVariant />}
       {variant.type === 'building' && (
-        <BuildingVariant
-          uniqueSpendingDays={variant.uniqueSpendingDays}
-          daysUntilReady={variant.daysUntilReady}
-        />
+        <BuildingVariant uniqueSpendingDays={variant.uniqueSpendingDays} />
       )}
       {variant.type === 'full' && (
         <FullVariant insightKey={variant.insightKey} tiles={variant.tiles} />

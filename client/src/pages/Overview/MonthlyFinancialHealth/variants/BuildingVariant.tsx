@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+
 const TOTAL_PIPS = 7;
 
 interface BuildingVariantProps {
   uniqueSpendingDays: number;
-  daysUntilReady: number;
 }
 
-const BuildingVariant = ({ uniqueSpendingDays, daysUntilReady }: BuildingVariantProps) => {
+const BuildingVariant = ({ uniqueSpendingDays }: BuildingVariantProps) => {
   const { t } = useTranslation('overview');
 
   return (
@@ -41,7 +41,7 @@ const BuildingVariant = ({ uniqueSpendingDays, daysUntilReady }: BuildingVariant
           ))}
         </Row>
         <Typography variant="body2" color="text.secondary">
-          {t('buildingPattern.description', { count: daysUntilReady })}
+          {t('buildingPattern.description')}
         </Typography>
       </Column>
     </Column>

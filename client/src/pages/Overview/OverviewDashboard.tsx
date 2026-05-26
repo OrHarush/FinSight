@@ -10,6 +10,7 @@ import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
 import MonthlyFinancialOverview from '@/pages/Overview/MonthlyFinancialOverview';
 import { useOverviewFilters } from '@/pages/Overview/OverviewFiltersProvider';
 import OverviewHeader from '@/pages/Overview/OverviewHeader';
+import RecurringSetupBanner from '@/pages/Overview/RecurringSetupBanner';
 import TopSpendingCategories from '@/pages/Overview/TopSpendingCategories';
 
 const OverviewDashboard = () => {
@@ -26,6 +27,7 @@ const OverviewDashboard = () => {
     <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
       <OverviewHeader />
       <Column height={'100%'} minHeight={0} spacing={4} sx={{ flex: 1 }}>
+        <RecurringSetupBanner />
         <Grid container spacing={4} size={{ xs: 12 }}>
           <MonthlyFinancialOverview />
           <MonthlyFinancialHealth />

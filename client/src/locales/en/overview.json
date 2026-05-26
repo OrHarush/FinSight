@@ -53,8 +53,13 @@
   "buildingPattern": {
     "title": "Spending Insights",
     "value": "Analyzing your spending",
-    "description_one": "Not enough data yet. Add transactions on {{count}} more distinct day to build accurate insights.",
-    "description_other": "Not enough data yet. Add transactions on {{count}} more distinct days to build accurate insights."
+    "description": "Lyra is learning your spending patterns as you add transactions. You'll see insights about your habits here soon."
+  },
+  "recurringBanner": {
+    "title": "Your numbers reflect what you've entered",
+    "bodyLink": "Add recurring cash flow",
+    "bodyRest": " like salary and rent so Lyra can show a more accurate balance and forecast.",
+    "dismiss": "Dismiss"
   },
   "noIncome": {
     "title": "No income this month",
