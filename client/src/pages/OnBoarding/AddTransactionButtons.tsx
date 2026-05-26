@@ -46,7 +46,7 @@ const AddTransactionButtons = ({ openWithPreset }: AddTransactionButtonsProps) =
   };
 
   return (
-    <Column spacing={2} alignItems={{ xs: 'center', sm: 'flex-start' }} width="100%">
+    <Column spacing={2} alignItems={{ xs: 'center', sm: 'flex-start' }} width="100%" sx={{ pt: { xs: 1.5, sm: 2.5 } }}>
       <Row spacing={1.5} alignItems="center" width="100%">
         <Divider sx={{ flex: 1 }} />
         <Typography variant="body2" color="text.disabled" sx={{ whiteSpace: 'nowrap' }}>

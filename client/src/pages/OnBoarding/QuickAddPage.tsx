@@ -27,7 +27,7 @@ const QuickAddPage = () => {
         minHeight="70vh"
         justifyContent="center"
         alignItems="center"
-        sx={{ px: { xs: 2, sm: 4 }, py: { xs: 4, sm: 6 } }}
+        sx={{ px: { xs: 2, sm: 4 }, pt: { xs: 8, sm: 6 }, pb: { xs: 4, sm: 6 } }}
       >
         <Grid
           container

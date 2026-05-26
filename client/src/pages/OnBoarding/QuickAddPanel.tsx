@@ -17,7 +17,6 @@ interface QuickAddPanelProps {
 const getRecurringChipSx = (theme: Theme) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: 1,
   px: 1.5,
   py: 0.75,
   borderRadius: 4,
@@ -56,7 +55,6 @@ const QuickAddPanel = ({ openWithPreset }: QuickAddPanelProps) => {
         {RECURRING_CHIP_KEYS.map((key, i) => (
           <Fragment key={key}>
             <ButtonBase onClick={() => openRecurringChip(key)} sx={getRecurringChipSx}>
-              <AddIcon sx={{ fontSize: 14, color: 'primary.main', flexShrink: 0 }} />
               <Typography component="span" variant="body2" fontWeight={500} color="primary.main" lineHeight={1}>
                 {t(`setup.recurringChips.${key}`)}
               </Typography>
