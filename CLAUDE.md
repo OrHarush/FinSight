@@ -69,6 +69,19 @@ Never wrap service calls in try/catch inside controllers — global error middle
 ---
 
 
+## Event Collections (MongoDB)
+
+Every model that stores events must be classified as one of:
+
+- **Audit** — security-relevant "who did what": login, logout, account deletion, data export, consent changes, admin actions. TTL: 7 years if the collection covers *all* such events for the app; otherwise 365 days.
+- **Analytics** — product behavior: feature usage, installs, funnels, screen views. TTL: 365 days on `createdAt`, per the privacy policy.
+
+Default to **analytics** when ambiguous. Every new event collection must have:
+1. A TTL index on `createdAt`
+2. A comment on the schema stating which class it is and why
+
+---
+
 ## Git Commit Messages
 
 - When the user explicitly asks for a commit message, give a single-line conventional-commit (`type(scope): summary`). No body, no bullets, no Co-Authored-By line — just one line. Don't volunteer commit messages unprompted.

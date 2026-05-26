@@ -1,5 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoadingScreen from '@/components/shared/feedback/LoadingScreen';
@@ -9,8 +9,11 @@ import PublicLayout from '@/components/shared/layout/PublicLayout';
 import { ROUTES } from '@/constants/Routes';
 import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
+import { AdminDashboard } from '@/pages/Admin';
+import AdminDebugPage from '@/pages/Admin/Debug';
 import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
+import Chat from '@/pages/Chat';
 import Goals from '@/pages/Goals';
 import GoalDetail from '@/pages/Goals/GoalDetail';
 import HomePage from '@/pages/Home';
@@ -23,12 +26,6 @@ import PaymentMethods from '@/pages/PaymentMethods';
 import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
-
-const AdminDashboard = lazy(() =>
-  import('@/pages/Admin').then(m => ({ default: m.AdminDashboard }))
-);
-const AdminDebugPage = lazy(() => import('@/pages/Admin/Debug'));
-const Chat = lazy(() => import('@/pages/Chat'));
 
 const ANALYTICS_EXCLUDED_EMAILS = new Set([
   'orharush24@gmail.com',
