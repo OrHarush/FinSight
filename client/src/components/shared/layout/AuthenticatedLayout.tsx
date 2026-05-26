@@ -9,11 +9,13 @@ import NavBar from '@/components/shared/layout/NavBar';
 import { PageHeaderProvider } from '@/components/shared/layout/PageHeaderContext';
 import Sidebar from '@/components/shared/layout/sidebar';
 import { useFeedbackPopup } from '@/hooks/feedback/useFeedbackPopup';
+import { usePwaInstallTracking } from '@/hooks/analytics/usePwaInstallTracking';
 
 const AuthenticatedLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
   const { isOpen: isSurveyOpen, closeSurvey } = useFeedbackPopup();
+  usePwaInstallTracking();
 
   const openMobile = () => setMobileOpen(true);
   const closeMobile = () => setMobileOpen(false);

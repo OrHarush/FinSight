@@ -13,7 +13,8 @@ export type AnalyticsEventType =
   | 'payment_method_created'
   | 'share_clicked'
   | 'user_created'
-  | 'user_deleted';
+  | 'user_deleted'
+  | 'pwa_installed';
 
 export interface RecentActivityDto {
   userName: string;

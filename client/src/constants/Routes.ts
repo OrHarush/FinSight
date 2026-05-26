@@ -114,4 +114,5 @@ export const API_ROUTES = {
   IMPORT_CHECK_DUPLICATES: '/api/import/check-duplicates',
 
   ANALYTICS_SHARE_CLICK: '/api/analytics/share-click',
+  ANALYTICS_PWA_INSTALL: '/api/analytics/pwa-install',
 };

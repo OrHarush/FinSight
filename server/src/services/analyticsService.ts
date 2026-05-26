@@ -67,3 +67,9 @@ export const recordShareClick = async (userId: string) => {
     console.error('Failed to track share_clicked:', err)
   );
 };
+
+export const recordPwaInstall = async (userId: string) => {
+  void track(userId, 'pwa_installed').catch(err =>
+    console.error('Failed to track pwa_installed:', err)
+  );
+};

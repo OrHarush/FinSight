@@ -81,6 +81,13 @@ export const AdminDashboard = () => {
                 sub={t('activity.mauSub')}
               />
             </Box>
+            <Box sx={{ flex: 1 }}>
+              <AdminStatCard
+                label={t('activity.total')}
+                value={data.totalUsers}
+                sub={t('activity.totalSub')}
+              />
+            </Box>
           </Row>
         </Column>
       ) : (

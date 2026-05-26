@@ -34,6 +34,7 @@ const EVENT_BADGE_COLOR: Record<AnalyticsEventType, 'success' | 'info' | 'warnin
   share_clicked: 'primary',
   user_created: 'info',
   user_deleted: 'error',
+  pwa_installed: 'info',
 };
 
 const ActivityFeed = () => {

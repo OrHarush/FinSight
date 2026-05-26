@@ -34,6 +34,7 @@ export const useAdminAnalytics = () => {
       { labelKey: 'funnel.onboarded', value: data.activatedUsers, color: 'info.main' },
       { labelKey: 'funnel.firstTx', value: data.usersWithTransactions, color: 'success.main' },
       { labelKey: 'funnel.recurringSet', value: data.eventCounts.recurring_created, color: 'warning.main' },
+      { labelKey: 'funnel.pwaInstalled', value: data.eventCounts.pwa_installed ?? 0, color: 'secondary.main' },
     ];
   }, [data]);
 

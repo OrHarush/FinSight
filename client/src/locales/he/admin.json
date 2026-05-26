@@ -19,14 +19,17 @@
     "thisMonth": "החודש",
     "thisMonthSub": "30 ימים אחרונים",
     "activated": "הופעלו",
-    "badge": "+{{count}} מאתמול"
+    "badge": "+{{count}} מאתמול",
+    "pwaInstalls": "התקנות אפליקציה",
+    "pwaInstallsSub": "12 חודשים אחרונים"
   },
   "funnel": {
     "title": "משפך הפעלה",
     "signedUp": "נרשמו",
     "onboarded": "השלימו הכרות",
     "firstTx": "תנועה ראשונה",
-    "recurringSet": "הוראת קבע"
+    "recurringSet": "הוראת קבע",
+    "pwaInstalled": "התקנת אפליקציה"
   },
   "adoption": {
     "title": "אימוץ פיצ׳רים",
@@ -74,7 +77,8 @@
       "share_clicked": "שיתוף",
       "user_created": "משתמש חדש",
       "user_deleted": "נמחק",
-      "data_exported": "ייצוא נתונים"
+      "data_exported": "ייצוא נתונים",
+      "pwa_installed": "התקנת אפליקציה"
     }
   },
   "allUsers": {

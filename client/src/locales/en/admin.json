@@ -19,14 +19,17 @@
     "thisMonth": "This month",
     "thisMonthSub": "Last 30 days",
     "activated": "Activated",
-    "badge": "+{{count}} vs yesterday"
+    "badge": "+{{count}} vs yesterday",
+    "pwaInstalls": "App installs",
+    "pwaInstallsSub": "Rolling 12 months"
   },
   "funnel": {
     "title": "Activation funnel",
     "signedUp": "Signed up",
     "onboarded": "Onboarded",
     "firstTx": "First TX",
-    "recurringSet": "Recurring set"
+    "recurringSet": "Recurring set",
+    "pwaInstalled": "App installed"
   },
   "adoption": {
     "title": "Feature adoption",
@@ -74,7 +77,8 @@
       "share_clicked": "shared",
       "user_created": "new user",
       "user_deleted": "deleted",
-      "data_exported": "data exported"
+      "data_exported": "data exported",
+      "pwa_installed": "app installed"
     }
   },
   "allUsers": {

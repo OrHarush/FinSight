@@ -14,3 +14,13 @@ export const trackShareClickController = asyncHandler(async (req: Request, res: 
 
   return ApiResponse.ok(res, { tracked: true });
 });
+
+export const trackPwaInstallController = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized('Unauthorized');
+  }
+
+  await analyticsService.recordPwaInstall(req.userId);
+
+  return ApiResponse.ok(res, { tracked: true });
+});
