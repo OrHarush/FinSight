@@ -88,6 +88,13 @@ export const DEFAULT_CATEGORIES: CreateCategoryDTO[] = [
     type: 'Expense',
     color: '#795548',
   },
+  {
+    key: 'loan',
+    name: 'Loan',
+    icon: 'Payments',
+    type: 'Expense',
+    color: '#ff9800',
+  },
 ];
 
 export const DEFAULT_PAYMENT_METHODS: CreatePaymentMethodDTO[] = [

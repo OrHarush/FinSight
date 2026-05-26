@@ -20,10 +20,35 @@ const PRESET_CATEGORY_CONFIG: Record<string, PresetCategoryRules> = {
     categoryKey: 'housing',
     nameTerms: ['rent', 'housing', 'דיור', 'שכירות'],
   },
+  mortgage: {
+    type: 'Expense',
+    categoryKey: 'housing',
+    nameTerms: ['mortgage', 'משכנתא'],
+  },
+  loan: {
+    type: 'Expense',
+    categoryKey: 'financial',
+    nameTerms: ['loan', 'הלוואה'],
+  },
+  subscription: {
+    type: 'Expense',
+    categoryKey: 'subscriptions',
+    nameTerms: ['subscription', 'מנוי', 'מנויים'],
+  },
   coffee: {
     type: 'Expense',
     categoryKey: 'dining_out',
     nameTerms: ['dining', 'eating', 'coffee', 'קפה', 'אוכל בחוץ'],
+  },
+  supermarket: {
+    type: 'Expense',
+    categoryKey: 'groceries',
+    nameTerms: ['supermarket', 'grocery', 'groceries', 'סופר', 'מכולת'],
+  },
+  fuel: {
+    type: 'Expense',
+    categoryKey: 'transport',
+    nameTerms: ['fuel', 'gas', 'petrol', 'דלק', 'תחבורה'],
   },
   bit: {
     type: 'Expense',

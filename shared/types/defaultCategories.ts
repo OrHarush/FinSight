@@ -11,6 +11,7 @@ export const DEFAULT_CATEGORY_KEYS = [
     'health',
     'subscriptions',
     'insurance',
+    'loan',
     'other',
 ] as const;
 

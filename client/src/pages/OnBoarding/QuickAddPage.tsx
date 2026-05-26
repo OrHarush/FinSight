@@ -37,8 +37,8 @@ const QuickAddPage = () => {
           sx={{ maxWidth: 1000, width: '100%' }}
         >
           <Grid
-            size={{ xs: 12, sm: 6 }}
-            sx={{ display: 'flex', justifyContent: 'center' }}
+            size={{ xs: 12, sm: 5 }}
+            sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'center' }}
             order={{ xs: 1, sm: 2 }}
           >
             <LyraPulseIcon
@@ -46,7 +46,7 @@ const QuickAddPage = () => {
               iconSx={{ width: { xs: 68, sm: 84 }, height: { xs: 68, sm: 84 } }}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }} order={{ xs: 2, sm: 1 }}>
+          <Grid size={{ xs: 12, sm: 7 }} order={{ xs: 2, sm: 1 }}>
             <Column spacing={3} alignItems={{ xs: 'center', sm: 'flex-start' }}>
               <SetupPanelHeader />
               <QuickAddPanel openWithPreset={openWithPreset} />
@@ -66,6 +66,7 @@ const QuickAddPage = () => {
             ...(activePreset?.name && { name: activePreset.name }),
             ...(activePreset?.amount && { amount: activePreset.amount }),
             ...(activePreset?.category && { category: activePreset.category }),
+            ...(activePreset?.recurrence && { recurrence: activePreset.recurrence }),
           }}
         />
       )}

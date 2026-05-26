@@ -12,17 +12,17 @@ const SetupPanelHeader = () => {
         variant="h4"
         fontWeight={700}
         textAlign={{ xs: 'center', sm: 'start' }}
-        sx={{ lineHeight: 1.2, whiteSpace: { xs: 'pre-line', sm: 'nowrap' } }}
+        sx={{ lineHeight: 1.2, fontSize: { xs: '1.5rem', sm: '2.125rem' } }}
       >
-        {t('setup.title')}
+        {t('setup.headline')}
       </Typography>
       <Typography
         variant="body1"
         color="text.secondary"
         textAlign={{ xs: 'center', sm: 'start' }}
-        sx={{ lineHeight: 1.7, maxWidth: 380 }}
+        sx={{ lineHeight: 1.7, maxWidth: 400 }}
       >
-        {t('setup.subtitle')}
+        {t('setup.body')}
       </Typography>
     </Column>
   );

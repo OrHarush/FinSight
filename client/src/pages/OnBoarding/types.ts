@@ -3,4 +3,5 @@ export interface QuickAddPreset {
   name: string;
   amount?: number;
   category?: string;
+  recurrence?: 'None' | 'Monthly' | 'Yearly';
 }

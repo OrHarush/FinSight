@@ -26,24 +26,23 @@
     "placeholder": "בחירת חשבון"
   },
   "setup": {
-    "welcomeBadge": "ברוך הבא ללירה →",
-    "title": "מתחילים לעקוב\nאחרי הכסף",
-    "subtitle": "אפשר להוסיף עסקה ידנית, או לייבא קובץ מהבנק, לירה תטפל בשאר.",
-    "addIncome": "הכנסה",
-    "addExpense": "הוצאה",
-    "importBank": "ייבוא מהבנק",
-    "quickAddLabel": "הוספה מהירה",
-    "floatingCards": {
-      "salary": { "label": "משכורת", "amount": "8,500" },
-      "coffee": { "label": "קפה", "amount": "14" },
-      "bit": { "label": "ביט", "amount": "200" },
-      "rent": { "label": "שכירות", "amount": "3,500" }
-    },
-    "quickChips": {
+    "headline": "נתחיל מהתזרים הקבוע",
+    "body": "הדברים שחוזרים כל חודש: משכורת, שכירות או משכנתא, הלוואות, מנויים. כשהם בפנים, Lyra יכולה להראות לך תמונה הרבה יותר מדויקת כבר מהיום הראשון.",
+    "addRecurring": "הוסף תזרים קבוע",
+    "orAddRegular": "או הוסף עסקה רגילה",
+    "newTransaction": "עסקה חדשה",
+    "importFile": "ייבוא פירוט אשראי או עובר ושב",
+    "recurringChips": {
       "salary": "משכורת",
-      "coffee": "קפה",
       "rent": "שכירות",
-      "bit": "ביט"
+      "mortgage": "משכנתא",
+      "loan": "הלוואה",
+      "subscription": "מנוי"
+    },
+    "variableChips": {
+      "coffee": { "label": "קפה", "amount": "14" },
+      "supermarket": { "label": "סופר", "amount": "247" },
+      "fuel": { "label": "דלק", "amount": "280" }
     }
   },
   "noData": {

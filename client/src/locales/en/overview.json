@@ -26,24 +26,23 @@
     "placeholder": "Select account"
   },
   "setup": {
-    "welcomeBadge": "Welcome to Lyra →",
-    "title": "Start tracking\nyour money",
-    "subtitle": "Add a transaction manually, or import a file from your bank, Lyra will take care of the rest.",
-    "addIncome": "Add income",
-    "addExpense": "Add expense",
-    "importBank": "Import from bank",
-    "quickAddLabel": "Quick add",
-    "floatingCards": {
-      "salary": { "label": "Salary", "amount": "8,500" },
-      "coffee": { "label": "Coffee", "amount": "14" },
-      "bit": { "label": "Bit", "amount": "200" },
-      "rent": { "label": "Rent", "amount": "3,500" }
-    },
-    "quickChips": {
+    "headline": "Start with your recurring cash flow",
+    "body": "The things that come back every month: salary, rent or mortgage, loans, subscriptions. Once they're in, Lyra can show you a much more accurate picture from day one.",
+    "addRecurring": "Add recurring cash flow",
+    "orAddRegular": "Or add a one-off transaction",
+    "newTransaction": "New transaction",
+    "importFile": "Import credit card or bank statement",
+    "recurringChips": {
       "salary": "Salary",
-      "coffee": "Coffee",
       "rent": "Rent",
-      "bit": "Bit"
+      "mortgage": "Mortgage",
+      "loan": "Loan",
+      "subscription": "Subscription"
+    },
+    "variableChips": {
+      "coffee": { "label": "Coffee", "amount": "14" },
+      "supermarket": { "label": "Grocery", "amount": "247" },
+      "fuel": { "label": "Fuel", "amount": "280" }
     }
   },
 
