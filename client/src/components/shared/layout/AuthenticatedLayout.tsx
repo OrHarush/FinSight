@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import ConsentBanner from '@/components/features/consent/ConsentBanner';
+import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import NavBar from '@/components/shared/layout/NavBar';
 import { PageHeaderProvider } from '@/components/shared/layout/PageHeaderContext';
 import Sidebar from '@/components/shared/layout/sidebar';
+import { useFeedbackPopup } from '@/hooks/feedback/useFeedbackPopup';
 
 const AuthenticatedLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const { isOpen: isSurveyOpen, closeSurvey } = useFeedbackPopup();
 
   const openMobile = () => setMobileOpen(true);
   const closeMobile = () => setMobileOpen(false);
@@ -38,6 +41,9 @@ const AuthenticatedLayout = () => {
         </Column>
       </Row>
       <ConsentBanner />
+      {isSurveyOpen && (
+        <FeedbackDialog isOpen={isSurveyOpen} closeDialog={closeSurvey} variant="popup" />
+      )}
     </PageHeaderProvider>
   );
 };

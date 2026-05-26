@@ -1,4 +1,3 @@
-import { TransactionType } from '@lyra/shared';
 import { SvgIconComponent } from '@mui/icons-material';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
@@ -9,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 import { getIconStyles, getToggleButtonGroupStyles, getToggleButtonStyles } from './styles';
 
-interface ToggleTypeOption {
-  value: TransactionType;
+export interface ToggleTypeOption {
+  value: string;
   icon: SvgIconComponent;
   color: string;
 }
@@ -23,43 +22,28 @@ interface TypeToggleFieldProps {
   label: string;
   namespace: string;
   translationKeyPrefix: string;
+  options?: ToggleTypeOption[];
 }
 
-const TOGGLE_OPTIONS: ToggleTypeOption[] = [
-  {
-    value: 'Expense',
-    icon: TrendingDownIcon,
-    color: '#ef4444',
-  },
-  {
-    value: 'Income',
-    icon: TrendingUpIcon,
-    color: '#22c55e',
-  },
-  {
-    value: 'Transfer',
-    icon: SwapHorizIcon,
-    color: '#3b82f6',
-  },
+const TRANSACTION_TOGGLE_OPTIONS: ToggleTypeOption[] = [
+  { value: 'Expense', icon: TrendingDownIcon, color: '#ef4444' },
+  { value: 'Income', icon: TrendingUpIcon, color: '#22c55e' },
+  { value: 'Transfer', icon: SwapHorizIcon, color: '#3b82f6' },
 ];
 
-const getAvailableOptions = (showTransfer: boolean) => {
+const getTransactionOptions = (showTransfer: boolean) => {
   if (!showTransfer) {
-    return TOGGLE_OPTIONS.filter(option => option.value !== 'Transfer');
+    return TRANSACTION_TOGGLE_OPTIONS.filter(o => o.value !== 'Transfer');
   }
 
-  return TOGGLE_OPTIONS;
+  return TRANSACTION_TOGGLE_OPTIONS;
 };
 
-const getSelectedOption = (
-  options: ToggleTypeOption[],
-  value: TransactionType | null | undefined
-) => options.find(option => option.value === value) ?? options[0];
+const getSelectedOption = (options: ToggleTypeOption[], value: string | null | undefined) =>
+  options.find(o => o.value === value) ?? options[0];
 
-const getSelectedOptionIndex = (
-  options: ToggleTypeOption[],
-  value: TransactionType | null | undefined
-) => options.findIndex(option => option.value === value);
+const getSelectedOptionIndex = (options: ToggleTypeOption[], value: string | null | undefined) =>
+  options.findIndex(o => o.value === value);
 
 const TypeToggleField = ({
   name = 'type',
@@ -69,11 +53,12 @@ const TypeToggleField = ({
   label,
   namespace,
   translationKeyPrefix,
+  options,
 }: TypeToggleFieldProps) => {
   const { t } = useTranslation(namespace);
   const { t: tCommon } = useTranslation('common');
   const { control } = useFormContext();
-  const options = getAvailableOptions(showTransfer);
+  const resolvedOptions = options ?? getTransactionOptions(showTransfer);
   const requiredMessage =
     typeof required === 'string' ? required : tCommon('validation.required', { field: label });
 
@@ -85,8 +70,8 @@ const TypeToggleField = ({
         required: required ? requiredMessage : false,
       }}
       render={({ field, fieldState }) => {
-        const selectedOption = getSelectedOption(options, field.value);
-        const selectedOptionIndex = getSelectedOptionIndex(options, field.value);
+        const selectedOption = getSelectedOption(resolvedOptions, field.value);
+        const selectedOptionIndex = getSelectedOptionIndex(resolvedOptions, field.value);
 
         return (
           <FormControl component="fieldset" error={Boolean(fieldState.error)}>
@@ -104,10 +89,10 @@ const TypeToggleField = ({
               sx={getToggleButtonGroupStyles(
                 selectedOption.color,
                 selectedOptionIndex,
-                options.length
+                resolvedOptions.length
               )}
             >
-              {options.map(({ value, icon: Icon, color }) => (
+              {resolvedOptions.map(({ value, icon: Icon, color }) => (
                 <ToggleButton
                   key={value}
                   value={value}

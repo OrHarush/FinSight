@@ -6,7 +6,8 @@
     "cancel": "Cancel",
     "undo": "Undo",
     "continue": "Continue",
-    "delete": "Delete"
+    "delete": "Delete",
+    "send": "Send"
   },
   "actions": {
     "search": "Search...",
@@ -130,6 +131,16 @@
       "feedback": "General feedback",
       "bug": "Bug report",
       "idea": "Feature idea"
+    },
+    "toggle": {
+      "feedback": "Feedback",
+      "bug": "Bug",
+      "idea": "Idea"
+    },
+    "popup": {
+      "opener": "How’s Lyra working for you?",
+      "subline": "A minute of your time helps us improve",
+      "skip": "Skip"
     },
     "placeholders": {
       "message": "Tell us what’s confusing, broken, or missing…",

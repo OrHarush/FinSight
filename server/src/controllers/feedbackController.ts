@@ -14,3 +14,23 @@ export const submitFeedback = asyncHandler(async (req: Request, res: Response) =
 
   return ApiResponse.ok(res, { message: 'Feedback submitted successfully' });
 });
+
+export const getFeedbackSurveyEligibility = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized('Unauthorized');
+  }
+
+  const result = await feedbackService.getSurveyEligibility(req.userId);
+
+  return ApiResponse.ok(res, result);
+});
+
+export const markFeedbackSurveySeen = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.userId) {
+    throw ApiError.unauthorized('Unauthorized');
+  }
+
+  await feedbackService.markSurveySeen(req.userId);
+
+  return ApiResponse.ok(res, { message: 'Survey marked as seen' });
+});
