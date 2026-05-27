@@ -3,6 +3,7 @@ import mongoose, { Schema, Types } from 'mongoose';
 export interface IBudget {
   _id: string;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
   categoryId: Types.ObjectId;
   year: number;
   month: number;
@@ -12,6 +13,7 @@ export interface IBudget {
 const BudgetSchema: Schema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
     categoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     year: { type: Number, required: true },
     month: { type: Number, required: true, min: 0, max: 11 },

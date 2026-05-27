@@ -6,6 +6,7 @@ export type GoalStatus = 'active' | 'achieved' | 'archived';
 export interface IGoal {
   _id: string;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
   name: string;
   icon: string | null;
   color: string | null;
@@ -24,6 +25,7 @@ export interface IGoal {
 const GoalSchema: Schema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
     name: { type: String, required: true, trim: true, minlength: 1, maxlength: 60 },
     icon: { type: String, default: null, maxlength: 40 },
     color: { type: String, default: null },

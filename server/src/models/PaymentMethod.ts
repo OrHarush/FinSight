@@ -10,6 +10,7 @@ export interface IPaymentMethod {
   isPrimary: boolean;
   key?: DefaultPaymentMethodKey;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
 }
 
 const PaymentMethodSchema: Schema = new Schema(
@@ -43,6 +44,7 @@ const PaymentMethodSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   },
   { timestamps: true }
 );

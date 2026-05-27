@@ -3,6 +3,7 @@ import mongoose, { Schema, Types } from 'mongoose';
 export interface IRecurringTemplate {
   _id: string;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
   frequency: 'Monthly' | 'Yearly';
   dayOfMonth: number;
   startDate: Date;
@@ -24,6 +25,7 @@ export interface IRecurringTemplate {
 const RecurringTemplateSchema: Schema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
     frequency: { type: String, enum: ['Monthly', 'Yearly'], required: true },
     dayOfMonth: { type: Number, required: true, min: 1, max: 31 },
     startDate: { type: Date, required: true },

@@ -14,6 +14,7 @@ export interface IAccount {
   checkpointDate?: Date;
   key?: DefaultAccountKey;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
 }
 
 const AccountSchema: Schema = new Schema(
@@ -29,6 +30,7 @@ const AccountSchema: Schema = new Schema(
     checkpointDate: { type: Date },
     key: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   },
   { timestamps: true }
 );

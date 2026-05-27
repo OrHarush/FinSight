@@ -9,6 +9,7 @@ export interface ICategory {
   color: string;
   icon: string;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
 }
 
 const CategorySchema: Schema = new Schema(
@@ -23,6 +24,7 @@ const CategorySchema: Schema = new Schema(
     color: { type: String },
     icon: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   },
   { timestamps: true }
 );

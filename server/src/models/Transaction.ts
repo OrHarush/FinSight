@@ -15,6 +15,7 @@ export interface ITransaction {
   fromAccount?: Types.ObjectId;
   toAccount?: Types.ObjectId;
   userId: Types.ObjectId;
+  workspaceId?: Types.ObjectId;
   templateId?: Types.ObjectId;
   importBatchId?: Types.ObjectId;
   importFingerprint?: string;
@@ -40,6 +41,7 @@ const TransactionSchema: Schema = new Schema(
     toAccount: { type: Schema.Types.ObjectId, ref: 'Account' },
 
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    workspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
     templateId: { type: Schema.Types.ObjectId, ref: 'RecurringTemplate' },
     importBatchId: { type: Schema.Types.ObjectId },
     importFingerprint: { type: String },

@@ -1,5 +1,5 @@
 import { USER_ROLES, UserRole } from '@lyra/shared';
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Types } from 'mongoose';
 
 interface Provider {
   provider: string;
@@ -27,6 +27,7 @@ export interface IUser {
   analyticsConsent: 'pending' | 'accepted' | 'rejected';
   analyticsConsentUpdatedAt: Date | null;
   feedbackSurveySeenAt?: Date | null;
+  activeWorkspaceId?: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -70,6 +71,7 @@ const UserSchema = new Schema<IUser>(
     },
     analyticsConsentUpdatedAt: { type: Date, default: null },
     feedbackSurveySeenAt: { type: Date, default: null },
+    activeWorkspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   },
   { timestamps: true }
 );
