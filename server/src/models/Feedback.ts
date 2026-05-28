@@ -6,7 +6,7 @@ export type FeedbackVariant = 'manual' | 'popup';
 export interface IFeedback {
   type: FeedbackType;
   message: string;
-  userId: Types.ObjectId;
+  userId: Types.ObjectId | null;
   variant: FeedbackVariant;
   route: string;
   createdAt: Date;
@@ -16,7 +16,7 @@ const FeedbackSchema = new Schema<IFeedback>(
   {
     type: { type: String, enum: ['feedback', 'bug', 'idea'], required: true, default: 'feedback' },
     message: { type: String, required: true, maxlength: 1000, trim: true },
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', default: null },
     variant: { type: String, enum: ['manual', 'popup'], required: true, default: 'manual' },
     route: { type: String, required: true },
   },

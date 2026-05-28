@@ -19,8 +19,10 @@ import {
   deleteMany as deleteCategories,
   insertMany as createCategories,
 } from '../repositories/categoryRepository';
+import * as dailyActivityRepository from '../repositories/dailyActivityRepository';
 import { deleteMany as deleteDebugSnapshots } from '../repositories/debugSnapshotRepository';
 import * as deletionFeedbackRepository from '../repositories/deletionFeedbackRepository';
+import * as feedbackRepository from '../repositories/feedbackRepository';
 import { deleteMany as deleteGoals } from '../repositories/goalRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import { deleteMany as deleteRecurringTemplates } from '../repositories/recurringTemplateRepository';
@@ -173,6 +175,8 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
     await deleteDebugSnapshots({ userId }, session);
     await userActivityRepository.anonymizeByUser(userId, session);
     await analyticsEventRepository.anonymizeByUserName(user.name, session);
+    await dailyActivityRepository.anonymizeByUser(userId, session);
+    await feedbackRepository.anonymizeByUser(userId, session);
     await deleteUserById(userId, session);
 
     await session.commitTransaction();

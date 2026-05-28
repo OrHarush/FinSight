@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { ClientSession, Types } from 'mongoose';
 
 import DailyActivity from '../models/DailyActivity';
 
@@ -10,3 +10,9 @@ export const upsertDailyActivity = async (userId: string, date: string): Promise
 
   await DailyActivity.updateOne({ userId: uid, date }, { $setOnInsert: { userId: uid, date } }, { upsert: true });
 };
+
+export const anonymizeByUser = (userId: string, session?: ClientSession) =>
+  DailyActivity.updateMany(
+    { userId: new Types.ObjectId(userId) },
+    { $set: { userId: null } },
+  ).session(session ?? null);
