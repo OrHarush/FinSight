@@ -58,6 +58,11 @@
     "fetchError": "Failed to load snapshot",
     "copyError": "Failed to copy"
   },
+  "backup": {
+    "button": "Download DB backup",
+    "loading": "Preparing backup…",
+    "error": "Backup failed"
+  },
   "recent": {
     "title": "Recent activity",
     "empty": "No recent activity",

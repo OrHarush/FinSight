@@ -1,6 +1,6 @@
 import { ClientSession, Types } from 'mongoose';
 
-import UserActivityEvent from '../models/UserActivityEvent';
+import UserActivityEvent, { UserActivityType } from '../models/UserActivityEvent';
 
 export const countDistinctUsersSince = async (since: Date): Promise<number> => {
   const result = await UserActivityEvent.aggregate([
@@ -39,7 +39,13 @@ export const findLoginEventsWithPictureSince = async (since: Date) =>
     occurredAt: Date;
     picture?: string;
   }>([
-    { $match: { type: 'LOGIN', occurredAt: { $gte: since }, userId: { $ne: null } } },
+    {
+      $match: {
+        type: { $in: ['LOGIN', 'DB_BACKUP_EXPORTED'] },
+        occurredAt: { $gte: since },
+        userId: { $ne: null },
+      },
+    },
     { $sort: { occurredAt: -1 } },
     {
       $lookup: {
@@ -70,6 +76,14 @@ export const createLoginEvent = async (userId: string, userName: string) => {
 
   return event.save();
 };
+
+export const createEvent = async (userId: string, userName: string, type: UserActivityType) =>
+  new UserActivityEvent({
+    userId: new Types.ObjectId(userId),
+    userName,
+    type,
+    occurredAt: new Date(),
+  }).save();
 
 export const anonymizeByUser = (userId: string, session?: ClientSession) =>
   UserActivityEvent.updateMany(

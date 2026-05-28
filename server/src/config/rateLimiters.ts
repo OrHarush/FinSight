@@ -53,3 +53,17 @@ export const exportLimiter = rateLimit({
   keyGenerator: req => req.userId ?? ipKeyGenerator(req.ip ?? '') ?? 'anonymous',
   message: 'Too many export requests, please try again in an hour.',
 });
+
+/**
+ * Full DB backup rate limiter
+ * Scans every collection unscoped; admin-only but still capped tightly per user
+ * 3 requests per hour per admin
+ */
+export const backupLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: req => req.userId ?? ipKeyGenerator(req.ip ?? '') ?? 'anonymous',
+  message: 'Too many backup requests, please try again in an hour.',
+});

@@ -82,6 +82,7 @@ export const API_ROUTES = {
 
   ADMIN: '/api/admin',
   ADMIN_USERS: '/api/admin/users',
+  ADMIN_BACKUP: '/api/admin/backup',
   ADMIN_RECENT_ACTIVITY: (cursor?: string, limit?: number) => {
     const params = new URLSearchParams();
 

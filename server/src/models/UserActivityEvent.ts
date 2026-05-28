@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export type UserActivityType = 'LOGIN';
+export type UserActivityType = 'LOGIN' | 'DB_BACKUP_EXPORTED';
 
 export interface IUserActivityEvent {
   _id: string;
@@ -25,7 +25,7 @@ const UserActivityEventSchema = new Schema<IUserActivityEvent>(
     },
     type: {
       type: String,
-      enum: ['LOGIN'],
+      enum: ['LOGIN', 'DB_BACKUP_EXPORTED'],
       required: true,
     },
     occurredAt: {

@@ -11,6 +11,7 @@ import ActivityFeed from './ActivityFeed';
 import AdminDashboardSkeleton from './AdminDashboardSkeleton';
 import AdminStatCard from './AdminStatCard';
 import CopySnapshotButton from './CopySnapshotButton';
+import DownloadBackupButton from './DownloadBackupButton';
 import FunnelBar from './FunnelBar';
 import RetentionSection from './RetentionSection';
 import { useAdminAnalytics } from './useAdminAnalytics';
@@ -256,8 +257,9 @@ export const AdminDashboard = () => {
         <RetentionSection />
       </CollapsibleSection>
 
-      <Row justifyContent="center">
+      <Row justifyContent="center" spacing={1.5}>
         <CopySnapshotButton />
+        <DownloadBackupButton />
       </Row>
 
       {/* Divider */}

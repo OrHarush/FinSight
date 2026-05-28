@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import { backupLimiter } from '../config/rateLimiters';
 import {
   getAllUsers,
   getAnalytics,
@@ -13,6 +14,7 @@ import {
   restoreDebugForMe,
   runDebugForMe,
 } from '../controllers/adminController';
+import { downloadFullBackupController } from '../controllers/backupController';
 import { requireAdmin } from '../middlewares/requireAdmin';
 
 const router = Router();
@@ -29,5 +31,9 @@ router.post('/debug/run-for-me', requireAdmin, runDebugForMe);
 router.post('/debug/restore-for-me', requireAdmin, restoreDebugForMe);
 router.get('/debug/snapshots', requireAdmin, getDebugSnapshots);
 router.get('/debug/balance-breakdown', requireAdmin, getBalanceBreakdown);
+
+if (process.env.ENABLE_DB_BACKUP === 'true') {
+  router.get('/backup', requireAdmin, backupLimiter, downloadFullBackupController);
+}
 
 export default router;

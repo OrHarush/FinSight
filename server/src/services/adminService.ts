@@ -186,3 +186,11 @@ export const recordLoginEvent = async (user: { id: string; email: string; name: 
     console.error('Failed to record login admin activity:', err);
   }
 };
+
+// Audit-class event. Intentionally BLOCKING (no try/catch) and intentionally
+// NOT filtered by isExcludedEmail — admin actions on real prod data must
+// always be auditable, even for excluded accounts.
+export const recordDbBackupExport = async (userId: string) => {
+  const user = await userRepository.findById(userId);
+  await userActivityRepository.createEvent(userId, user?.name ?? '', 'DB_BACKUP_EXPORTED');
+};
