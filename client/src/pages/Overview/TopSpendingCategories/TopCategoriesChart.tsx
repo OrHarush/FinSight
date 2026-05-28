@@ -33,6 +33,11 @@ interface TopCategoriesContentProps {
     color: string | undefined;
   }[];
   isLoading?: boolean;
+  onBarClick?: (categoryId: string) => void;
+}
+
+interface BarClickPayload {
+  id: string;
 }
 
 interface TooltipPayloadEntry {
@@ -74,11 +79,19 @@ const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   );
 };
 
-const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps) => {
+const TopCategoriesChart = ({ chartData, isLoading, onBarClick }: TopCategoriesContentProps) => {
   const theme = useTheme();
   const isMobile = useIsMobile();
   const { t } = useTranslation('overview');
   const getCategoryName = useCategoryName();
+
+  const handleBarClick = (payload: BarClickPayload) => {
+    if (!onBarClick) {
+      return;
+    }
+
+    onBarClick(payload.id);
+  };
 
   const dataset = [...chartData]
     .sort((a, b) => b.amount - a.amount)
@@ -128,6 +141,7 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
               minHeight: chartHeight,
               display: 'flex',
               alignItems: 'center',
+              '& *:focus:not(:focus-visible)': { outline: 'none' },
             }}
           >
             <ResponsiveContainer width="100%" height={'100%'} style={{ direction: 'ltr' }}>
@@ -154,7 +168,13 @@ const TopCategoriesChart = ({ chartData, isLoading }: TopCategoriesContentProps)
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={false} />
-                <Bar dataKey="amount" radius={[0, 4, 4, 0]} activeBar={false}>
+                <Bar
+                  dataKey="amount"
+                  radius={[0, 4, 4, 0]}
+                  activeBar={false}
+                  onClick={onBarClick ? handleBarClick : undefined}
+                  style={onBarClick ? { cursor: 'pointer' } : undefined}
+                >
                   {dataset.map(entry => (
                     <Cell key={entry.id} fill={entry.color} />
                   ))}

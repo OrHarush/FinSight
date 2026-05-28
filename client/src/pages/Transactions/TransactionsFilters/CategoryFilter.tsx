@@ -9,11 +9,15 @@ import Row from '@/components/shared/layout/containers/Row';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import { useCategories } from '@/hooks/entities/useCategories';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
+import { CategoryDto } from '@/types/Category';
 
 interface CategoryFilterProps {
   selectedIds: string[];
   onChange: (ids: string[]) => void;
 }
+
+const resolveCategoryIcon = (category: CategoryDto): ElementType =>
+  (category.icon && categoryIconMap[category.icon]) || CategoryIcon;
 
 const CategoryFilter = ({ selectedIds, onChange }: CategoryFilterProps) => {
   const { t } = useTranslation('transactions');
@@ -21,7 +25,7 @@ const CategoryFilter = ({ selectedIds, onChange }: CategoryFilterProps) => {
   const getCategoryName = useCategoryName();
 
   const categoryOptions: MultiSelectChipItem[] = categories.map(cat => {
-    const IconComponent: ElementType = (cat.icon && categoryIconMap[cat.icon]) || CategoryIcon;
+    const IconComponent = resolveCategoryIcon(cat);
 
     return {
       id: cat._id,
@@ -34,14 +38,35 @@ const CategoryFilter = ({ selectedIds, onChange }: CategoryFilterProps) => {
     };
   });
 
+  const soleSelectedCategory =
+    selectedIds.length === 1 ? categories.find(c => c._id === selectedIds[0]) : undefined;
+
+  const chipLabel = (() => {
+    if (selectedIds.length === 0) {
+      return t('filters.allCategories');
+    }
+
+    if (soleSelectedCategory) {
+      return getCategoryName(soleSelectedCategory);
+    }
+
+    return t('filters.selectedCategories', { count: selectedIds.length });
+  })();
+
+  const chipIcon = (() => {
+    if (!soleSelectedCategory) {
+      return <CategoryIcon />;
+    }
+
+    const SoleIcon = resolveCategoryIcon(soleSelectedCategory);
+
+    return <SoleIcon sx={{ color: soleSelectedCategory.color }} />;
+  })();
+
   return (
     <MultiSelectChip
-      label={
-        selectedIds.length === 0
-          ? t('filters.allCategories')
-          : t('filters.selectedCategories', { count: selectedIds.length })
-      }
-      icon={<CategoryIcon />}
+      label={chipLabel}
+      icon={chipIcon}
       selectedIds={selectedIds}
       onChange={onChange}
       items={categoryOptions}

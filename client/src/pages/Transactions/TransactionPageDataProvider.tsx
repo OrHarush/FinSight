@@ -21,6 +21,17 @@ const monthFromParam = (value: string | null): Dayjs | null => {
   return dayjs(new Date(year, monthIndex, 1));
 };
 
+const categoryIdsFromParam = (value: string | null): string[] => {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(',')
+    .map(id => id.trim())
+    .filter(Boolean);
+};
+
 type TransactionAction = undefined | 'edit' | 'delete';
 
 interface SelectedTransactionContextValue {
@@ -48,7 +59,9 @@ export const TransactionPageDataProvider = ({ children }: { children: ReactNode 
   const [selectedMonth, setSelectedMonth] = useState<Dayjs>(
     () => monthFromParam(searchParams.get('month')) ?? dayjs()
   );
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>(() =>
+    categoryIdsFromParam(searchParams.get('categoryIds'))
+  );
   const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
   const [selectedPaymentMethodIds, setSelectedPaymentMethodIds] = useState<string[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
