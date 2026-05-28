@@ -3,6 +3,7 @@ declare namespace Express {
     id: string;
     userId: string;
     userRole: 'admin' | 'user';
+    workspaceId: string;
     validatedQuery?: unknown;
     validatedBody?: unknown;
   }

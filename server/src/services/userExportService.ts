@@ -8,6 +8,7 @@ import * as paymentMethodRepository from '../repositories/paymentMethodRepositor
 import * as recurringTemplateRepository from '../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import * as userRepository from '../repositories/userRepository';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const EXPORT_VERSION = '1.0' as const;
 
@@ -59,6 +60,10 @@ const stripOpsFields = (doc: object): Record<string, unknown> => {
 // TODO: if any single user exceeds ~50,000 transactions, switch to streaming
 // (e.g. JSONStream.stringify + res.write) instead of buffering the whole export.
 export const buildExport = async (userId: string): Promise<UserExport> => {
+  // export is the only userId-keyed entry point; resolve workspaceId once and use it for everything except budgets,
+  // which still has a userId-only `findAllByUser` helper (export is its single caller).
+  const workspaceId = (await getActiveWorkspaceIdOrThrow(userId)).toString();
+
   const [
     user,
     accounts,
@@ -70,13 +75,13 @@ export const buildExport = async (userId: string): Promise<UserExport> => {
     goals,
   ] = await Promise.all([
     userRepository.findById(userId),
-    accountRepository.findMany(userId),
-    categoryRepository.findMany(userId),
-    paymentMethodRepository.findMany(userId),
-    transactionRepository.findAllByUser(userId),
-    recurringTemplateRepository.findMany(userId),
+    accountRepository.findMany(workspaceId),
+    categoryRepository.findMany(workspaceId),
+    paymentMethodRepository.findMany(workspaceId),
+    transactionRepository.findAllByWorkspace(workspaceId),
+    recurringTemplateRepository.findMany(workspaceId),
     budgetRepository.findAllByUser(userId),
-    goalRepository.findMany(userId),
+    goalRepository.findMany(workspaceId),
   ]);
 
   if (!user) {

@@ -6,6 +6,7 @@ import * as recurringTemplateRepository from '../repositories/recurringTemplateR
 import { findByEmail } from '../repositories/userRepository';
 import { syncAllAccountsForUser } from '../services/balanceService';
 import { generatePendingTransactions } from '../services/recurringTemplateService';
+import { getActiveWorkspaceIdOrThrow } from '../services/workspaceService';
 
 const DEBUG_EMAIL = 'orharush24@gmail.com';
 
@@ -38,10 +39,12 @@ export const runForDebugUser = async (): Promise<DebugUserRunSummary> => {
   }
 
   const userId = user._id.toString();
+  // Bridge: accounts + recurring templates are workspace-scoped (Step 3).
+  const workspaceId = (await getActiveWorkspaceIdOrThrow(userId)).toString();
 
   const [accounts, templates] = await Promise.all([
-    accountRepository.findMany(userId),
-    recurringTemplateRepository.findMany(userId),
+    accountRepository.findMany(workspaceId),
+    recurringTemplateRepository.findMany(workspaceId),
   ]);
 
   const snapshot = await debugSnapshotRepository.insert({

@@ -2,19 +2,19 @@ import { ClientSession, Types } from 'mongoose';
 
 import PaymentMethod, { IPaymentMethod } from '../models/PaymentMethod';
 
-export const findMany = async (userId: string) =>
-  PaymentMethod.find({ userId: new Types.ObjectId(userId) })
+export const findMany = async (workspaceId: string) =>
+  PaymentMethod.find({ workspaceId: new Types.ObjectId(workspaceId) })
     .sort({ createdAt: -1 })
     .lean<IPaymentMethod[]>()
     .exec();
 
-export const findById = async (id: string, userId: string) =>
-  PaymentMethod.findOne({ _id: id, userId: new Types.ObjectId(userId) });
+export const findById = async (id: string, workspaceId: string) =>
+  PaymentMethod.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) });
 
-export const findByIds = async (ids: string[], userId: string) =>
+export const findByIds = async (ids: string[], workspaceId: string) =>
   PaymentMethod.find({
     _id: { $in: ids.map(id => new Types.ObjectId(id)) },
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
   })
     .lean<IPaymentMethod[]>()
     .exec();
@@ -28,30 +28,34 @@ export const insert = async (data: Omit<IPaymentMethod, '_id'>) => {
 export const insertMany = (methods: Omit<IPaymentMethod, '_id'>[]) =>
   PaymentMethod.insertMany(methods);
 
-export const updateById = async (id: string, data: Partial<IPaymentMethod>, userId: string) =>
-  PaymentMethod.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  });
+export const updateById = async (id: string, data: Partial<IPaymentMethod>, workspaceId: string) =>
+  PaymentMethod.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  );
 
-export const unsetPrimaryForUser = async (userId: string) => {
-  await PaymentMethod.updateMany({ userId, isPrimary: true }, { $set: { isPrimary: false } });
+export const unsetPrimaryForWorkspace = async (workspaceId: string) => {
+  await PaymentMethod.updateMany(
+    { workspaceId: new Types.ObjectId(workspaceId), isPrimary: true },
+    { $set: { isPrimary: false } }
+  );
 };
 
-export const countByUser = async (userId: string): Promise<number> =>
-  PaymentMethod.countDocuments({ userId: new Types.ObjectId(userId) });
+export const countByWorkspace = async (workspaceId: string): Promise<number> =>
+  PaymentMethod.countDocuments({ workspaceId: new Types.ObjectId(workspaceId) });
 
-export const findAnother = async (userId: string, excludeId: string) =>
+export const findAnother = async (workspaceId: string, excludeId: string) =>
   PaymentMethod.findOne({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     _id: { $ne: new Types.ObjectId(excludeId) },
   });
 
-export const remove = async (id: string, userId: string) =>
-  PaymentMethod.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) });
+export const remove = async (id: string, workspaceId: string) =>
+  PaymentMethod.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) });
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   PaymentMethod.deleteMany(filter).session(session ?? null);
 
-export const findByType = async (userId: string, type: string) =>
-  PaymentMethod.findOne({ userId: new Types.ObjectId(userId), type });
+export const findByType = async (workspaceId: string, type: string) =>
+  PaymentMethod.findOne({ workspaceId: new Types.ObjectId(workspaceId), type });

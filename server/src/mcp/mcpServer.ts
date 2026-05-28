@@ -8,6 +8,7 @@ import * as budgetService from '../services/budgetService';
 import * as categoryService from '../services/categoryService';
 import * as paymentMethodService from '../services/paymentMethodService';
 import * as transactionService from '../services/transactions/transactionService';
+import { getActiveWorkspaceIdOrThrow } from '../services/workspaceService';
 import { verifyAndExtractBearerToken } from '../auth/jwt';
 import {
   AccountQuerySchema,
@@ -72,7 +73,8 @@ mcpServer.registerTool(
       to: args.to ? new Date(args.to) : undefined,
     };
 
-    const result = await transactionService.findAll(userId, options);
+    const txWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    const result = await transactionService.findAll(txWorkspaceId.toString(), options);
     const allData = JSON.parse(JSON.stringify(result));
 
     const data = {
@@ -124,7 +126,8 @@ mcpServer.registerTool(
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const summary = await transactionService.getTransactionSummary(userId, query);
+    const summaryWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    const summary = await transactionService.getTransactionSummary(summaryWorkspaceId.toString(), query);
 
     const data = JSON.parse(JSON.stringify(summary));
     const structured = Array.isArray(data) ? { totalMonths: data.length, months: data } : data;
@@ -154,7 +157,9 @@ mcpServer.registerTool(
       return authErrorResponse;
     }
 
-    let accounts = await accountService.findAll(userId);
+    // Bridge: accounts is workspace-scoped (Step 3); MCP context carries userId only.
+    const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    let accounts = await accountService.findAll(workspaceId.toString());
 
     if (args.isPrimary !== undefined) {
       accounts = accounts.filter((a: any) => a.isPrimary === args.isPrimary);
@@ -195,7 +200,9 @@ mcpServer.registerTool(
       return authErrorResponse;
     }
 
-    let categories = await categoryService.findAll(userId);
+    // Bridge: categories is workspace-scoped (Step 3); MCP context carries userId only.
+    const categoriesWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    let categories = await categoryService.findAll(categoriesWorkspaceId.toString(), userId);
 
     if (args.type) {
       categories = categories.filter((c: any) => c.type === args.type);
@@ -237,7 +244,9 @@ mcpServer.registerTool(
       return authErrorResponse;
     }
 
-    let methods = await paymentMethodService.findAll(userId);
+    // Bridge: payment methods is workspace-scoped (Step 3); MCP context carries userId only.
+    const pmWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    let methods = await paymentMethodService.findAll(pmWorkspaceId.toString());
 
     if (args.type) {
       methods = methods.filter((m: any) => m.type === args.type);
@@ -294,7 +303,9 @@ mcpServer.registerTool(
       options.categoryId = args.categoryId;
     }
 
-    const budgets = await budgetService.findAll(userId, options);
+    // Bridge: budgets is workspace-scoped (Step 3); MCP context carries userId only.
+    const budgetsWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+    const budgets = await budgetService.findAll(budgetsWorkspaceId.toString(), options);
     const data = JSON.parse(JSON.stringify(budgets));
     const structured = {
       total: data.length,

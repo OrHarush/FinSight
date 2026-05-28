@@ -92,7 +92,7 @@ export const restoreDebugSnapshot = async ({
 
   for (const tpl of snapshot.templates) {
     try {
-      const updated = await recurringTemplateRepository.updateById(
+      const updated = await recurringTemplateRepository.updateByIdForUser(
         tpl._id.toString(),
         { lastGeneratedDate: tpl.lastGeneratedDate ?? null },
         userId

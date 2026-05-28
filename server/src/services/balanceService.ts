@@ -14,6 +14,7 @@ import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import { ITransactionPopulated } from '../types/Transaction';
 import { expandTransactions, getEffectiveBalanceDate, signedDeltaForAccount } from '../utils/transaction';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 dayjs.extend(utc);
 
@@ -100,10 +101,13 @@ const buildBreakdownEntry = (
 };
 
 export const computeAccountBalance = async (
-  userId: string,
+  workspaceId: string,
   accountId: string
 ): Promise<BalanceBreakdownResult> => {
-  const account = await Account.findOne({ _id: accountId, userId });
+  const account = await Account.findOne({
+    _id: accountId,
+    workspaceId: new mongoose.Types.ObjectId(workspaceId),
+  });
 
   if (!account) {
     throw ApiError.notFound('Account not found');
@@ -114,7 +118,7 @@ export const computeAccountBalance = async (
 
   const queryFrom = dayjs.utc(checkpointDate).subtract(1, 'month').startOf('month').toDate();
 
-  const rawTransactions = await transactionRepository.findMany(userId, {
+  const rawTransactions = await transactionRepository.findMany(workspaceId, {
     accountId,
     from: queryFrom,
   });
@@ -154,10 +158,13 @@ export const computeAccountBalance = async (
   };
 };
 
-export const syncAccountBalance = async (userId: string, accountId: string) => {
-  const result = await computeAccountBalance(userId, accountId);
+export const syncAccountBalance = async (workspaceId: string, accountId: string) => {
+  const result = await computeAccountBalance(workspaceId, accountId);
 
-  const account = await Account.findOne({ _id: accountId, userId });
+  const account = await Account.findOne({
+    _id: accountId,
+    workspaceId: new mongoose.Types.ObjectId(workspaceId),
+  });
 
   if (!account) {
     throw ApiError.notFound('Account not found');
@@ -170,11 +177,14 @@ export const syncAccountBalance = async (userId: string, accountId: string) => {
 };
 
 export const setBalanceCheckpoint = async (
-  userId: string,
+  workspaceId: string,
   accountId: string,
   balance: number
 ) => {
-  const account = await Account.findOne({ _id: accountId, userId });
+  const account = await Account.findOne({
+    _id: accountId,
+    workspaceId: new mongoose.Types.ObjectId(workspaceId),
+  });
 
   if (!account) {
     throw ApiError.notFound('Account not found');
@@ -185,14 +195,16 @@ export const setBalanceCheckpoint = async (
 
   await account.save();
 
-  return syncAccountBalance(userId, accountId);
+  return syncAccountBalance(workspaceId, accountId);
 };
 
+// Called from the auth flow at login (before workspaceContextMiddleware runs), so we bridge userId→workspaceId here.
 export const syncAllAccountsForUser = async (userId: string) => {
-  const accounts = await accountRepository.findMany(userId);
+  const workspaceId = (await getActiveWorkspaceIdOrThrow(userId)).toString();
+  const accounts = await accountRepository.findMany(workspaceId);
 
   const results = await Promise.allSettled(
-    accounts.map(a => syncAccountBalance(userId, a._id.toString()))
+    accounts.map(a => syncAccountBalance(workspaceId, a._id.toString()))
   );
 
   results.forEach((result, index) => {
@@ -204,7 +216,7 @@ export const syncAllAccountsForUser = async (userId: string) => {
 };
 
 export const calculateAccountBalanceCurve = async (
-  userId: string,
+  workspaceId: string,
   accountId: string,
   from?: string,
   to?: string
@@ -220,13 +232,16 @@ export const calculateAccountBalanceCurve = async (
     throw ApiError.badRequest('Invalid date range');
   }
 
-  const account = await Account.findOne({ _id: accountId, userId });
+  const account = await Account.findOne({
+    _id: accountId,
+    workspaceId: new mongoose.Types.ObjectId(workspaceId),
+  });
 
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
 
-  const rawTransactions = await transactionRepository.findMany(userId, {
+  const rawTransactions = await transactionRepository.findMany(workspaceId, {
     from: start.toDate(),
     to: end.toDate(),
     sort: 'asc',

@@ -12,20 +12,19 @@ import { ApiError } from '../errors/ApiError';
 import { IBudget } from '../models/Budget';
 import * as budgetRepository from '../repositories/budgetRepository';
 import * as analyticsService from './analyticsService';
-import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
-export const findAll = async (userId: string, options: GetBudgetsQuery) => {
-  const budgets = await budgetRepository.findMany(userId, options);
+export const findAll = async (workspaceId: string, options: GetBudgetsQuery) => {
+  const budgets = await budgetRepository.findMany(workspaceId, options);
 
   return budgets.map(b => ({ ...b, limit: fromCents(b.limit) }));
 };
 
-export const getBudgetById = async (id: string, userId: string) => {
+export const getBudgetById = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid budget ID');
   }
 
-  const budget = await budgetRepository.findById(id, userId);
+  const budget = await budgetRepository.findById(id, workspaceId);
 
   if (!budget) {
     throw ApiError.notFound('Budgets not found');
@@ -34,12 +33,12 @@ export const getBudgetById = async (id: string, userId: string) => {
   return { ...budget, limit: fromCents(budget.limit) };
 };
 
-export const create = async (data: CreateBudgetDTO, userId: string) => {
+export const create = async (data: CreateBudgetDTO, userId: string, workspaceId: string) => {
   // month from client is 1-based (1-12); DB stores 0-based (0-11)
   const dbMonth = data.month - 1;
 
   const existing = await budgetRepository.findByMonthYearCategory(
-    userId,
+    workspaceId,
     data.categoryId,
     data.year,
     dbMonth
@@ -51,11 +50,9 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
     );
   }
 
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
-
   const mapped: Omit<IBudget, '_id'> = {
     userId: new Types.ObjectId(userId),
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
     categoryId: new Types.ObjectId(data.categoryId),
     year: data.year,
     month: dbMonth,
@@ -73,8 +70,11 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
   return created;
 };
 
-export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+export const createBulk = async (
+  data: CreateBudgetBulkDTO,
+  userId: string,
+  workspaceId: string
+) => {
   const budgets: Omit<IBudget, '_id'>[] = [];
 
   // startMonth/endMonth are 1-based; convert to 0-based for DB
@@ -82,7 +82,7 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
     const dbMonth = month1based - 1;
 
     const existing = await budgetRepository.findByMonthYearCategory(
-      userId,
+      workspaceId,
       data.categoryId,
       data.year,
       dbMonth
@@ -91,7 +91,7 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
     if (!existing) {
       budgets.push({
         userId: new Types.ObjectId(userId),
-        workspaceId,
+        workspaceId: new Types.ObjectId(workspaceId),
         categoryId: new Types.ObjectId(data.categoryId),
         year: data.year,
         month: dbMonth,
@@ -117,12 +117,12 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
   });
 };
 
-export const update = async (id: string, data: UpdateBudgetDTO, userId: string) => {
+export const update = async (id: string, data: UpdateBudgetDTO, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid budget ID');
   }
 
-  const existing = await budgetRepository.findById(id, userId);
+  const existing = await budgetRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Budgets not found');
@@ -132,7 +132,7 @@ export const update = async (id: string, data: UpdateBudgetDTO, userId: string) 
 
   if (data.limit !== undefined) mapped.limit = toCents(data.limit);
 
-  const updated = await budgetRepository.updateById(id, mapped, userId);
+  const updated = await budgetRepository.updateById(id, mapped, workspaceId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating budget');
@@ -141,18 +141,18 @@ export const update = async (id: string, data: UpdateBudgetDTO, userId: string) 
   return { ...updated, limit: fromCents(updated.limit) };
 };
 
-export const deleteBudget = async (id: string, userId: string) => {
+export const deleteBudget = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid budget ID');
   }
 
-  const existing = await budgetRepository.findById(id, userId);
+  const existing = await budgetRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Budgets not found');
   }
 
-  const deleted = await budgetRepository.remove(id, userId);
+  const deleted = await budgetRepository.remove(id, workspaceId);
 
   if (!deleted) {
     throw ApiError.internal('Unexpected error deleting budget');

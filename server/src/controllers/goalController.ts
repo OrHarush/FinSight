@@ -12,26 +12,34 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import * as goalService from '../services/goalService';
 
 export const getGoals = asyncHandler(async (req: Request, res: Response) => {
-  const goals = await goalService.findAll(req.userId, req.validatedQuery as GetGoalsQuery);
+  const goals = await goalService.findAll(
+    req.userId,
+    req.workspaceId,
+    req.validatedQuery as GetGoalsQuery
+  );
 
   return ApiResponse.ok(res, goals);
 });
 
 export const getGoalById = asyncHandler(async (req: Request, res: Response) => {
-  const goal = await goalService.getGoalById(req.params.id as string, req.userId);
+  const goal = await goalService.getGoalById(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, goal);
 });
 
 export const createGoal = asyncHandler(async (req: Request, res: Response) => {
-  const goal = await goalService.createGoal(req.userId, req.validatedBody as CreateGoalDTO);
+  const goal = await goalService.createGoal(
+    req.userId,
+    req.workspaceId,
+    req.validatedBody as CreateGoalDTO
+  );
 
   return ApiResponse.created(res, goal);
 });
 
 export const updateGoal = asyncHandler(async (req: Request, res: Response) => {
   const goal = await goalService.updateGoal(
-    req.userId,
+    req.workspaceId,
     req.params.id as string,
     req.validatedBody as UpdateGoalDTO
   );
@@ -41,20 +49,29 @@ export const updateGoal = asyncHandler(async (req: Request, res: Response) => {
 
 export const deleteGoal = asyncHandler(async (req: Request, res: Response) => {
   const { keepCategory } = req.validatedQuery as DeleteGoalQuery;
-  const result = await goalService.deleteGoal(req.userId, req.params.id as string, keepCategory);
+  const result = await goalService.deleteGoal(
+    req.userId,
+    req.workspaceId,
+    req.params.id as string,
+    keepCategory
+  );
 
   return ApiResponse.ok(res, result);
 });
 
 export const getGoalProjection = asyncHandler(async (req: Request, res: Response) => {
-  const projection = await goalService.getGoalProjection(req.userId, req.params.id as string);
+  const projection = await goalService.getGoalProjection(
+    req.userId,
+    req.workspaceId,
+    req.params.id as string
+  );
 
   return ApiResponse.ok(res, projection);
 });
 
 export const getGhostContributions = asyncHandler(async (req: Request, res: Response) => {
   const { month } = req.validatedQuery as GetGhostsQuery;
-  const ghosts = await goalService.getGhostContributions(req.userId, month);
+  const ghosts = await goalService.getGhostContributions(req.userId, req.workspaceId, month);
 
   return ApiResponse.ok(res, ghosts);
 });

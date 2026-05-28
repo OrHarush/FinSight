@@ -57,5 +57,6 @@ const GoalSchema: Schema = new Schema(
 );
 
 GoalSchema.index({ userId: 1, status: 1 });
+GoalSchema.index({ workspaceId: 1, status: 1 });
 
 export default mongoose.model<IGoal>('Goal', GoalSchema, 'goals');

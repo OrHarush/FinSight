@@ -3,14 +3,14 @@ import { ClientSession, Types } from 'mongoose';
 import Category, { ICategory } from '../models/Category';
 import Transaction from '../models/Transaction';
 
-export const findMany = async (userId: string) =>
-  Category.find({ userId: new Types.ObjectId(userId) })
+export const findMany = async (workspaceId: string) =>
+  Category.find({ workspaceId: new Types.ObjectId(workspaceId) })
     .sort({ createdAt: -1 })
     .lean<ICategory[]>()
     .exec();
 
-export const findById = async (id: string, userId: string) =>
-  Category.findOne({ _id: id, userId: new Types.ObjectId(userId) });
+export const findById = async (id: string, workspaceId: string) =>
+  Category.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) });
 
 export const insert = async (data: Omit<ICategory, '_id'>, session?: ClientSession) => {
   const category = new Category(data);
@@ -21,18 +21,22 @@ export const insert = async (data: Omit<ICategory, '_id'>, session?: ClientSessi
 export const insertMany = (categories: Omit<ICategory, '_id'>[]) =>
   Category.insertMany(categories);
 
-export const updateById = async (id: string, data: Partial<ICategory>, userId: string) =>
-  Category.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  });
+export const updateById = async (id: string, data: Partial<ICategory>, workspaceId: string) =>
+  Category.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  );
 
-export const remove = async (id: string, userId: string, session?: ClientSession) =>
-  Category.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) }).session(session ?? null);
+export const remove = async (id: string, workspaceId: string, session?: ClientSession) =>
+  Category.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) }).session(
+    session ?? null
+  );
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Category.deleteMany(filter).session(session ?? null);
 
+// Transactions are still userId-scoped; this aggregation flips when the transactions domain flips.
 export const findUsageCountsSince = async (
   userId: string,
   sinceDate: Date

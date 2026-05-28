@@ -62,5 +62,13 @@ TransactionSchema.index(
   { userId: 1, importBatchId: 1 },
   { partialFilterExpression: { importBatchId: { $exists: true } } }
 );
+TransactionSchema.index({ workspaceId: 1, date: -1 });
+TransactionSchema.index({ workspaceId: 1, category: 1, date: -1 });
+TransactionSchema.index({ workspaceId: 1, account: 1, date: -1 });
+TransactionSchema.index({ workspaceId: 1, type: 1, date: -1 });
+TransactionSchema.index(
+  { workspaceId: 1, importFingerprint: 1 },
+  { partialFilterExpression: { importFingerprint: { $exists: true } } }
+);
 
 export default mongoose.model<ITransaction>('Transaction', TransactionSchema);

@@ -7,13 +7,13 @@ import * as accountService from '../services/accountService';
 import { calculateAccountBalanceCurve } from '../services/balanceService';
 
 export const getAccounts = asyncHandler(async (req: Request, res: Response) => {
-  const accounts = await accountService.findAll(req.userId);
+  const accounts = await accountService.findAll(req.workspaceId);
 
   return ApiResponse.ok(res, accounts);
 });
 
 export const getAccountById = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.getAccountById(req.params.id as string, req.userId);
+  const account = await accountService.getAccountById(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, account);
 });
@@ -23,7 +23,7 @@ export const getAccountBalanceCurve = asyncHandler(async (req: Request, res: Res
   const { from, to } = req.query;
 
   const data = await calculateAccountBalanceCurve(
-    req.userId,
+    req.workspaceId,
     accountId as string,
     from as string | undefined,
     to as string | undefined
@@ -33,7 +33,11 @@ export const getAccountBalanceCurve = asyncHandler(async (req: Request, res: Res
 });
 
 export const createAccount = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.create(req.validatedBody as CreateAccountDTO, req.userId);
+  const account = await accountService.create(
+    req.validatedBody as CreateAccountDTO,
+    req.userId,
+    req.workspaceId
+  );
 
   return ApiResponse.created(res, account);
 });
@@ -42,14 +46,14 @@ export const updateAccount = asyncHandler(async (req: Request, res: Response) =>
   const updated = await accountService.update(
     req.params.id as string,
     req.validatedBody as UpdateAccountDTO,
-    req.userId
+    req.workspaceId
   );
 
   return ApiResponse.ok(res, updated);
 });
 
 export const setPrimaryAccount = asyncHandler(async (req: Request, res: Response) => {
-  const account = await accountService.setPrimary(req.params.id as string, req.userId);
+  const account = await accountService.setPrimary(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, account);
 });
@@ -57,8 +61,8 @@ export const setPrimaryAccount = asyncHandler(async (req: Request, res: Response
 export const deleteAccount = asyncHandler(async (req: Request, res: Response) => {
   await accountService.deleteAccount(
     req.params.id as string,
-    req.userId,
-    req.body.replacementId as string | undefined
+    req.workspaceId,
+    req.body?.replacementId as string | undefined
   );
 
   return ApiResponse.deleted(res, 'Account deleted');
@@ -66,7 +70,7 @@ export const deleteAccount = asyncHandler(async (req: Request, res: Response) =>
 
 export const getLinkedTransactionsCount = asyncHandler(async (req: Request, res: Response) => {
   const count = await accountService.getLinkedTransactionsCount(
-    req.userId,
+    req.workspaceId,
     req.params.id as string
   );
 

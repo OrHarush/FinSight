@@ -48,6 +48,7 @@ const RecurringTemplateSchema: Schema = new Schema(
 
 RecurringTemplateSchema.index({ userId: 1, isActive: 1 });
 RecurringTemplateSchema.index({ userId: 1, startDate: 1, endDate: 1 });
+RecurringTemplateSchema.index({ workspaceId: 1, isActive: 1 });
 
 export default mongoose.model<IRecurringTemplate>(
   'RecurringTemplate',

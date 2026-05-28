@@ -11,7 +11,7 @@ import * as transactionService from '../services/transactions/transactionService
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
   const result = await transactionService.findAll(
-    req.userId,
+    req.workspaceId,
     req.validatedQuery as GetTransactionsQuery
   );
 
@@ -24,7 +24,7 @@ export const getTransactions = asyncHandler(async (req: Request, res: Response) 
 export const getTransactionById = asyncHandler(async (req: Request, res: Response) => {
   const transaction = await transactionService.getTransactionById(
     req.params.id as string,
-    req.userId
+    req.workspaceId
   );
 
   return ApiResponse.ok(res, transaction);
@@ -32,7 +32,7 @@ export const getTransactionById = asyncHandler(async (req: Request, res: Respons
 
 export const getTransactionSummary = asyncHandler(async (req: Request, res: Response) => {
   const summary = await transactionService.getTransactionSummary(
-    req.userId,
+    req.workspaceId,
     req.validatedQuery as GetTransactionSummaryQuery
   );
 
@@ -40,13 +40,13 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
 });
 
 export const getTransactionCount = asyncHandler(async (req: Request, res: Response) => {
-  const total = await transactionService.countAll(req.userId);
+  const total = await transactionService.countAll(req.workspaceId);
 
   return ApiResponse.ok(res, { total });
 });
 
 export const getQuickChips = asyncHandler(async (req: Request, res: Response) => {
-  const chips = await quickChipsService.getQuickChips(req.userId);
+  const chips = await quickChipsService.getQuickChips(req.workspaceId);
 
   return ApiResponse.ok(res, chips);
 });
@@ -54,7 +54,8 @@ export const getQuickChips = asyncHandler(async (req: Request, res: Response) =>
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {
   const transaction = await transactionService.create(
     req.validatedBody as CreateTransactionDTO,
-    req.userId
+    req.userId,
+    req.workspaceId
   );
 
   return ApiResponse.created(res, transaction);
@@ -64,6 +65,7 @@ export const updateTransaction = asyncHandler(async (req: Request, res: Response
   const updatedTransaction = await transactionService.update(
     req.params.id as string,
     req.validatedBody as UpdateTransactionDTO,
+    req.workspaceId,
     req.userId
   );
 
@@ -71,14 +73,18 @@ export const updateTransaction = asyncHandler(async (req: Request, res: Response
 });
 
 export const deleteTransaction = asyncHandler(async (req: Request, res: Response) => {
-  await transactionService.deleteTransaction(req.params.id as string, req.userId);
+  await transactionService.deleteTransaction(
+    req.params.id as string,
+    req.workspaceId,
+    req.userId
+  );
 
   return ApiResponse.deleted(res, 'Transaction deleted successfully');
 });
 
 export const exportTransactions = asyncHandler(async (req: Request, res: Response) => {
   const query = req.validatedQuery as ExportTransactionsQuery;
-  const buffer = await exportTransactionsService.exportByMonth(req.userId, query);
+  const buffer = await exportTransactionsService.exportByMonth(req.workspaceId, query);
 
   res.setHeader(
     'Content-Type',

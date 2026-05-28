@@ -21,7 +21,7 @@ interface CacheEntry {
   expiresAt: number;
 }
 
-const cacheByUser = new Map<string, CacheEntry>();
+const cacheByWorkspace = new Map<string, CacheEntry>();
 
 const resolveSeedCategory = (
   seed: QuickChipSeedDefinition,
@@ -94,12 +94,12 @@ const buildSeedChips = (
 const makeDedupeKey = (name: string, categoryId: string, paymentMethodId: string) =>
   `${name.toLowerCase()}::${categoryId}::${paymentMethodId}`;
 
-const fetchFrequentChips = async (userId: string): Promise<QuickChipDto[]> => {
+const fetchFrequentChips = async (workspaceId: string): Promise<QuickChipDto[]> => {
   const now = new Date();
   const since = new Date(now.getTime() - LOOKBACK_DAYS * 24 * 60 * 60 * 1000);
 
   const aggregations = await transactionRepository.aggregateFrequentExpensePatterns(
-    userId,
+    workspaceId,
     since,
     now,
     MIN_OCCURRENCES_FOR_REAL,
@@ -116,13 +116,13 @@ const fetchFrequentChips = async (userId: string): Promise<QuickChipDto[]> => {
   }));
 };
 
-const buildChipsForUser = async (userId: string): Promise<QuickChipDto[]> => {
-  const userObjectId = new Types.ObjectId(userId);
+const buildChipsForWorkspace = async (workspaceId: string): Promise<QuickChipDto[]> => {
+  const workspaceObjectId = new Types.ObjectId(workspaceId);
 
   const [realChips, categories, paymentMethods] = await Promise.all([
-    fetchFrequentChips(userId),
-    Category.find({ userId: userObjectId }).lean<ICategory[]>(),
-    PaymentMethod.find({ userId: userObjectId }).lean<IPaymentMethod[]>(),
+    fetchFrequentChips(workspaceId),
+    Category.find({ workspaceId: workspaceObjectId }).lean<ICategory[]>(),
+    PaymentMethod.find({ workspaceId: workspaceObjectId }).lean<IPaymentMethod[]>(),
   ]);
 
   const taken = new Set<string>();
@@ -142,20 +142,20 @@ const buildChipsForUser = async (userId: string): Promise<QuickChipDto[]> => {
   return [...realChips, ...seedChips];
 };
 
-export const getQuickChips = async (userId: string): Promise<QuickChipDto[]> => {
-  const cached = cacheByUser.get(userId);
+export const getQuickChips = async (workspaceId: string): Promise<QuickChipDto[]> => {
+  const cached = cacheByWorkspace.get(workspaceId);
 
   if (cached && cached.expiresAt > Date.now()) {
     return cached.chips;
   }
 
-  const chips = await buildChipsForUser(userId);
+  const chips = await buildChipsForWorkspace(workspaceId);
 
-  cacheByUser.set(userId, { chips, expiresAt: Date.now() + CACHE_TTL_MS });
+  cacheByWorkspace.set(workspaceId, { chips, expiresAt: Date.now() + CACHE_TTL_MS });
 
   return chips;
 };
 
-export const invalidateQuickChipsCache = (userId: string) => {
-  cacheByUser.delete(userId);
+export const invalidateQuickChipsCache = (workspaceId: string) => {
+  cacheByWorkspace.delete(workspaceId);
 };

@@ -6,13 +6,13 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import * as paymentMethodService from '../services/paymentMethodService';
 
 export const getPaymentMethods = asyncHandler(async (req: Request, res: Response) => {
-  const methods = await paymentMethodService.findAll(req.userId);
+  const methods = await paymentMethodService.findAll(req.workspaceId);
 
   return ApiResponse.ok(res, methods);
 });
 
 export const getPaymentMethodById = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.getById(req.params.id as string, req.userId);
+  const method = await paymentMethodService.getById(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, method);
 });
@@ -20,7 +20,8 @@ export const getPaymentMethodById = asyncHandler(async (req: Request, res: Respo
 export const createPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   const method = await paymentMethodService.create(
     req.validatedBody as CreatePaymentMethodDTO,
-    req.userId
+    req.userId,
+    req.workspaceId
   );
 
   return ApiResponse.created(res, method);
@@ -30,20 +31,20 @@ export const updatePaymentMethod = asyncHandler(async (req: Request, res: Respon
   const updated = await paymentMethodService.update(
     req.params.id as string,
     req.validatedBody as UpdatePaymentMethodDTO,
-    req.userId
+    req.workspaceId
   );
 
   return ApiResponse.ok(res, updated);
 });
 
 export const setPrimaryPaymentMethod = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.setPrimary(req.params.id as string, req.userId);
+  const method = await paymentMethodService.setPrimary(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, method);
 });
 
 export const createDefaultBankTransfer = asyncHandler(async (req: Request, res: Response) => {
-  const method = await paymentMethodService.createDefaultBankTransfer(req.userId);
+  const method = await paymentMethodService.createDefaultBankTransfer(req.userId, req.workspaceId);
 
   return ApiResponse.created(res, method);
 });
@@ -51,8 +52,8 @@ export const createDefaultBankTransfer = asyncHandler(async (req: Request, res: 
 export const deletePaymentMethod = asyncHandler(async (req: Request, res: Response) => {
   await paymentMethodService.deleteById(
     req.params.id as string,
-    req.userId,
-    req.body.replacementId as string | undefined
+    req.workspaceId,
+    req.body?.replacementId as string | undefined
   );
 
   return ApiResponse.deleted(res, 'Payment method deleted successfully');

@@ -23,7 +23,6 @@ import { fingerprintForTransaction } from '../utils/importFingerprint';
 import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
-import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 dayjs.extend(utc);
 
@@ -93,18 +92,18 @@ const validateRefs = async (
   }
 };
 
-export const getByUser = async (userId: string) => {
-  const templates = await recurringTemplateRepository.findMany(userId);
+export const getByWorkspace = async (workspaceId: string) => {
+  const templates = await recurringTemplateRepository.findMany(workspaceId);
 
   return templates.map(t => ({ ...t, amount: fromCents(t.amount) }));
 };
 
-export const getById = async (id: string, userId: string) => {
+export const getById = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid recurring template ID');
   }
 
-  const template = await recurringTemplateRepository.findById(id, userId);
+  const template = await recurringTemplateRepository.findById(id, workspaceId);
 
   if (!template) {
     throw ApiError.notFound('Recurring template not found');
@@ -113,14 +112,16 @@ export const getById = async (id: string, userId: string) => {
   return { ...template, amount: fromCents(template.amount) };
 };
 
-export const create = async (dto: CreateRecurringTemplateDTO, userId: string) => {
+export const create = async (
+  dto: CreateRecurringTemplateDTO,
+  userId: string,
+  workspaceId: string
+) => {
   await validateRefs(dto.type, dto, userId);
-
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
 
   const mapped: Omit<IRecurringTemplate, '_id'> = {
     userId: new Types.ObjectId(userId),
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
     frequency: dto.frequency,
     dayOfMonth: dto.dayOfMonth,
     startDate: new Date(dto.startDate),
@@ -148,12 +149,17 @@ export const create = async (dto: CreateRecurringTemplateDTO, userId: string) =>
   return { ...created.toObject(), amount: fromCents(created.amount) };
 };
 
-export const update = async (id: string, dto: UpdateRecurringTemplateDTO, userId: string) => {
+export const update = async (
+  id: string,
+  dto: UpdateRecurringTemplateDTO,
+  workspaceId: string,
+  userId: string
+) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid recurring template ID');
   }
 
-  const existing = await recurringTemplateRepository.findById(id, userId);
+  const existing = await recurringTemplateRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Recurring template not found');
@@ -182,7 +188,7 @@ export const update = async (id: string, dto: UpdateRecurringTemplateDTO, userId
   if (dto.fromAccountId !== undefined) mapped.fromAccount = new Types.ObjectId(dto.fromAccountId);
   if (dto.toAccountId !== undefined) mapped.toAccount = new Types.ObjectId(dto.toAccountId);
 
-  const updated = await recurringTemplateRepository.updateById(id, mapped, userId);
+  const updated = await recurringTemplateRepository.updateById(id, mapped, workspaceId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating recurring template');
@@ -191,18 +197,18 @@ export const update = async (id: string, dto: UpdateRecurringTemplateDTO, userId
   return { ...updated, amount: fromCents(updated.amount) };
 };
 
-export const deleteTemplate = async (id: string, userId: string) => {
+export const deleteTemplate = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid recurring template ID');
   }
 
-  const existing = await recurringTemplateRepository.findById(id, userId);
+  const existing = await recurringTemplateRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Recurring template not found');
   }
 
-  const deleted = await recurringTemplateRepository.remove(id, userId);
+  const deleted = await recurringTemplateRepository.remove(id, workspaceId);
 
   if (!deleted) {
     throw ApiError.internal('Unexpected error deleting recurring template');
@@ -211,8 +217,12 @@ export const deleteTemplate = async (id: string, userId: string) => {
   return { ...deleted, amount: fromCents(deleted.amount) };
 };
 
-export const createWithTransactions = async (dto: CreateRecurringTemplateDTO, userId: string) => {
-  const template = await create(dto, userId);
+export const createWithTransactions = async (
+  dto: CreateRecurringTemplateDTO,
+  userId: string,
+  workspaceId: string
+) => {
+  const template = await create(dto, userId, workspaceId);
   const rawTransactions = await generatePendingTransactions(userId);
   const transactions = rawTransactions.map(tx => ({
     ...tx.toObject(),
@@ -225,13 +235,13 @@ export const createWithTransactions = async (dto: CreateRecurringTemplateDTO, us
 export const deactivateFrom = async (
   templateId: string,
   dto: DeactivateFromDTO,
-  userId: string
+  workspaceId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(templateId)) {
     throw ApiError.badRequest('Invalid recurring template ID');
   }
 
-  const existing = await recurringTemplateRepository.findById(templateId, userId);
+  const existing = await recurringTemplateRepository.findById(templateId, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Recurring template not found');
@@ -242,15 +252,15 @@ export const deactivateFrom = async (
   const isDeletingFromStart = fromPoint.isSame(startMonth, 'month');
 
   if (isDeletingFromStart) {
-    await recurringTemplateRepository.updateById(templateId, { isActive: false }, userId);
+    await recurringTemplateRepository.updateById(templateId, { isActive: false }, workspaceId);
     await transactionRepository.deleteByTemplateIdFromDate(templateId, existing.startDate);
   } else {
     const endOfPrevMonth = fromPoint.subtract(1, 'day').toDate();
-    await recurringTemplateRepository.updateById(templateId, { endDate: endOfPrevMonth }, userId);
+    await recurringTemplateRepository.updateById(templateId, { endDate: endOfPrevMonth }, workspaceId);
     await transactionRepository.deleteByTemplateIdFromDate(templateId, fromPoint.toDate());
   }
 
-  const updated = await recurringTemplateRepository.findById(templateId, userId);
+  const updated = await recurringTemplateRepository.findById(templateId, workspaceId);
 
   return updated ? { ...updated, amount: fromCents(updated.amount) } : null;
 };
@@ -258,13 +268,14 @@ export const deactivateFrom = async (
 export const splitTemplate = async (
   templateId: string,
   dto: SplitRecurringTemplateDTO,
+  workspaceId: string,
   userId: string
 ) => {
   if (!mongoose.Types.ObjectId.isValid(templateId)) {
     throw ApiError.badRequest('Invalid recurring template ID');
   }
 
-  const existing = await recurringTemplateRepository.findById(templateId, userId);
+  const existing = await recurringTemplateRepository.findById(templateId, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Recurring template not found');
@@ -277,19 +288,16 @@ export const splitTemplate = async (
   await recurringTemplateRepository.updateById(
     templateId,
     { endDate: endOfPrevMonth, isActive: false },
-    userId
+    workspaceId
   );
 
   const effectiveType = (changes.type ?? existing.type) as 'Income' | 'Expense' | 'Transfer';
 
   await validateRefs(effectiveType, changes, userId);
 
-  const workspaceId =
-    existing.workspaceId ?? (await getActiveWorkspaceIdOrThrow(userId));
-
   const newTemplateData: Omit<IRecurringTemplate, '_id'> = {
     userId: existing.userId,
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
     frequency: changes.frequency ?? existing.frequency,
     dayOfMonth: changes.dayOfMonth ?? existing.dayOfMonth,
     startDate: splitPoint.toDate(),
@@ -326,6 +334,8 @@ export const splitTemplate = async (
   };
 };
 
+// Per-user cron-driven generator. Templates query stays userId-scoped (findActiveByUser),
+// updates use the userId-variant repo helper. Both flip when the cron path moves to workspace iteration.
 export const generatePendingTransactions = async (userId: string, upToDate: Date = new Date()) => {
   const templates = await recurringTemplateRepository.findActiveByUser(userId);
   const created: Awaited<ReturnType<typeof transactionRepository.insert>>[] = [];
@@ -393,13 +403,16 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
       const tx = await transactionRepository.insert(txData);
 
       created.push(tx);
-      invalidateQuickChipsCache(userId);
+      // template.workspaceId is set by Step 1.5 stamping + the migration backfill.
+      if (template.workspaceId) {
+        invalidateQuickChipsCache(template.workspaceId.toString());
+      }
       lastMonth = current;
       current = current.add(1, 'month');
     }
 
     if (lastMonth) {
-      await recurringTemplateRepository.updateById(
+      await recurringTemplateRepository.updateByIdForUser(
         template._id as string,
         {
           lastGeneratedDate: clampedDate(lastMonth.year(), lastMonth.month(), template.dayOfMonth),

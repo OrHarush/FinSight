@@ -75,17 +75,17 @@ export const signedDeltaForAccount = (
 };
 
 export const buildTransactionQuery = (
-  userId: string,
+  workspaceId: string,
   from?: Date,
   to?: Date,
   categoryIds?: string[],
   paymentMethodIds?: string[],
   accountIds?: string[]
 ) => {
-  const userObjId = new Types.ObjectId(userId);
+  const workspaceObjId = new Types.ObjectId(workspaceId);
 
   const query: any = {
-    userId: userObjId,
+    workspaceId: workspaceObjId,
   };
 
   if (from || to) {

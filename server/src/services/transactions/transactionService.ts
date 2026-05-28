@@ -28,16 +28,17 @@ import {
 import * as accountService from '../accountService';
 import * as analyticsService from '../analyticsService';
 import { syncAccountBalance } from '../balanceService';
-import { getActiveWorkspaceIdOrThrow } from '../workspaceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './quickChipsService';
 
 dayjs.extend(utc);
 
-const syncBalanceFor = async (userId: string, accountIds: (string | undefined)[]) => {
+const syncBalanceFor = async (workspaceId: string, accountIds: (string | undefined)[]) => {
   const unique = [...new Set(accountIds.filter(Boolean))] as string[];
 
-  const results = await Promise.allSettled(unique.map(id => syncAccountBalance(userId, id)));
+  const results = await Promise.allSettled(
+    unique.map(id => syncAccountBalance(workspaceId, id))
+  );
 
   results.forEach((result, index) => {
     if (result.status === 'rejected') {
@@ -53,7 +54,7 @@ type TxWithEffective = ITransactionPopulated & {
 
 // options is GetTransactionsQuery when called from HTTP controller (fully validated)
 // and GetTransactionsOptions when called from internal callers (partial)
-export const findAll = async (userId: string, options: GetTransactionsOptions = {}) => {
+export const findAll = async (workspaceId: string, options: GetTransactionsOptions = {}) => {
   const {
     page,
     limit,
@@ -70,11 +71,11 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
   } = options;
   const resolvedAccountIds = accountIds ?? (accountId ? [accountId] : undefined);
 
-  const transactions = await transactionRepository.findMany(userId, options);
+  const transactions = await transactionRepository.findMany(workspaceId, options);
 
   if (from && to) {
     const templates = await recurringTemplateRepository.findActiveForDateRangePopulated(
-      userId,
+      workspaceId,
       from,
       to
     );
@@ -123,12 +124,12 @@ export const findAll = async (userId: string, options: GetTransactionsOptions = 
   };
 };
 
-export const getTransactionById = async (id: string, userId: string) => {
+export const getTransactionById = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid transaction ID');
   }
 
-  const transaction = await transactionRepository.findById(id, userId);
+  const transaction = await transactionRepository.findById(id, workspaceId);
 
   if (!transaction) {
     throw ApiError.notFound('Transaction not found');
@@ -137,7 +138,10 @@ export const getTransactionById = async (id: string, userId: string) => {
   return { ...transaction, amount: fromCents(transaction.amount) };
 };
 
-export const getTransactionSummary = async (userId: string, query: GetTransactionSummaryQuery) => {
+export const getTransactionSummary = async (
+  workspaceId: string,
+  query: GetTransactionSummaryQuery
+) => {
   const { year, month, accountId, from } = query;
 
   const targetMonthStart =
@@ -148,14 +152,14 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
       ? new Date(Date.UTC(year, month + 2, 1))
       : new Date(Date.UTC(year + 1, 0, 1));
 
-  const transactions = await transactionRepository.findMany(userId, {
+  const transactions = await transactionRepository.findMany(workspaceId, {
     accountId,
     from: fromDate,
     to: endDate,
   });
 
   const templates = await recurringTemplateRepository.findActiveForDateRangePopulated(
-    userId,
+    workspaceId,
     fromDate,
     endDate
   );
@@ -189,12 +193,19 @@ export const getTransactionSummary = async (userId: string, query: GetTransactio
   }));
 };
 
-export const countAll = async (userId: string): Promise<number> =>
-  transactionRepository.countByUser(userId);
+export const countAll = async (workspaceId: string): Promise<number> =>
+  transactionRepository.countByWorkspace(workspaceId);
 
-export const create = async (data: CreateTransactionDTO, userId: string) => {
+export const create = async (
+  data: CreateTransactionDTO,
+  userId: string,
+  workspaceId: string
+) => {
   if ((data.type === 'Expense' || data.type === 'Income') && data.categoryId) {
-    const category = await Category.findOne({ _id: data.categoryId, userId });
+    const category = await Category.findOne({
+      _id: data.categoryId,
+      workspaceId: new Types.ObjectId(workspaceId),
+    });
 
     if (!category) {
       throw ApiError.badRequest('Invalid category for this user');
@@ -206,8 +217,6 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
       );
     }
   }
-
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
 
   const mapped: Omit<ITransaction, '_id'> = {
     name: data.name ?? '',
@@ -222,16 +231,16 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
     toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
     userId: new Types.ObjectId(userId),
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
   };
 
   mapped.importFingerprint = fingerprintForTransaction(mapped);
 
   const created = await transactionRepository.insert(mapped);
 
-  invalidateQuickChipsCache(userId);
-  await syncBalanceFor(userId, [data.accountId, data.fromAccountId, data.toAccountId]);
-  const accounts = await accountService.findAll(userId);
+  invalidateQuickChipsCache(workspaceId);
+  await syncBalanceFor(workspaceId, [data.accountId, data.fromAccountId, data.toAccountId]);
+  const accounts = await accountService.findAll(workspaceId);
 
   void Promise.all([
     User.findByIdAndUpdate(userId, {
@@ -245,12 +254,17 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
   return { transaction: created, accounts };
 };
 
-export const update = async (id: string, data: UpdateTransactionDTO, userId: string) => {
+export const update = async (
+  id: string,
+  data: UpdateTransactionDTO,
+  workspaceId: string,
+  userId: string
+) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid transaction ID');
   }
 
-  const existing = await transactionRepository.findById(id, userId);
+  const existing = await transactionRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Transaction not found');
@@ -292,14 +306,14 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     }
   }
 
-  const updated = await transactionRepository.updateById(id, mapped, userId);
+  const updated = await transactionRepository.updateById(id, mapped, workspaceId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating transaction');
   }
 
-  invalidateQuickChipsCache(userId);
-  await syncBalanceFor(userId, [
+  invalidateQuickChipsCache(workspaceId);
+  await syncBalanceFor(workspaceId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),
     existing.toAccount?._id.toString(),
@@ -307,7 +321,7 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
     data.fromAccountId,
     data.toAccountId,
   ]);
-  const accounts = await accountService.findAll(userId);
+  const accounts = await accountService.findAll(workspaceId);
 
   void analyticsService
     .track(userId, 'transaction_updated')
@@ -316,25 +330,25 @@ export const update = async (id: string, data: UpdateTransactionDTO, userId: str
   return { transaction: { ...updated, amount: fromCents(updated.amount) }, accounts };
 };
 
-export const deleteTransaction = async (id: string, userId: string) => {
+export const deleteTransaction = async (id: string, workspaceId: string, userId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid transaction ID');
   }
 
-  const existing = await transactionRepository.findById(id, userId);
+  const existing = await transactionRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Transaction not found');
   }
 
-  const deleted = await transactionRepository.remove(id, userId);
+  const deleted = await transactionRepository.remove(id, workspaceId);
 
   if (!deleted) {
     throw ApiError.internal('Unexpected error deleting transaction');
   }
 
-  invalidateQuickChipsCache(userId);
-  await syncBalanceFor(userId, [
+  invalidateQuickChipsCache(workspaceId);
+  await syncBalanceFor(workspaceId, [
     existing.account?._id.toString(),
     existing.fromAccount?._id.toString(),
     existing.toAccount?._id.toString(),

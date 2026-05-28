@@ -3,17 +3,18 @@ import { ClientSession, Types } from 'mongoose';
 import RecurringTemplate, { IRecurringTemplate } from '../models/RecurringTemplate';
 import { IRecurringTemplatePopulated } from '../types/RecurringTemplate';
 
-export const findMany = async (userId: string) =>
-  RecurringTemplate.find({ userId: new Types.ObjectId(userId) })
+export const findMany = async (workspaceId: string) =>
+  RecurringTemplate.find({ workspaceId: new Types.ObjectId(workspaceId) })
     .sort({ createdAt: -1 })
     .lean<IRecurringTemplate[]>()
     .exec();
 
-export const findById = async (id: string, userId: string) =>
-  RecurringTemplate.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+export const findById = async (id: string, workspaceId: string) =>
+  RecurringTemplate.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IRecurringTemplate>()
     .exec();
 
+// Still userId-scoped: cron-driven generator runs per user (flips when the cron path moves to workspace iteration).
 export const findActiveByUser = async (userId: string) =>
   RecurringTemplate.find({ userId: new Types.ObjectId(userId), isActive: true })
     .sort({ createdAt: -1 })
@@ -26,9 +27,9 @@ export const findUserIdsWithActiveTemplates = async (): Promise<string[]> => {
   return userIds.map((id: Types.ObjectId) => id.toString());
 };
 
-export const findActiveForDateRange = async (userId: string, from: Date, to: Date) =>
+export const findActiveForDateRange = async (workspaceId: string, from: Date, to: Date) =>
   RecurringTemplate.find({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     isActive: true,
     startDate: { $lte: to },
     $or: [{ endDate: { $gte: from } }, { endDate: null }],
@@ -36,9 +37,13 @@ export const findActiveForDateRange = async (userId: string, from: Date, to: Dat
     .lean<IRecurringTemplate[]>()
     .exec();
 
-export const findActiveForDateRangePopulated = async (userId: string, from: Date, to: Date) =>
+export const findActiveForDateRangePopulated = async (
+  workspaceId: string,
+  from: Date,
+  to: Date
+) =>
   RecurringTemplate.find({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     isActive: true,
     startDate: { $lte: to },
     $or: [{ endDate: { $gte: from } }, { endDate: null }],
@@ -57,16 +62,36 @@ export const insert = async (data: Omit<IRecurringTemplate, '_id'>) => {
   return template.save();
 };
 
-export const updateById = async (id: string, data: Partial<IRecurringTemplate>, userId: string) =>
-  RecurringTemplate.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
+export const updateById = async (
+  id: string,
+  data: Partial<IRecurringTemplate>,
+  workspaceId: string
+) =>
+  RecurringTemplate.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  )
     .lean<IRecurringTemplate>()
     .exec();
 
-export const remove = async (id: string, userId: string) =>
-  RecurringTemplate.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+// updateByIdForUser: still-userId-scoped variant used by the per-user cron generator + debug snapshot restore.
+// Same logical guard as updateById, just keyed on userId. Drops when the consuming paths flip.
+export const updateByIdForUser = async (
+  id: string,
+  data: Partial<IRecurringTemplate>,
+  userId: string
+) =>
+  RecurringTemplate.findOneAndUpdate(
+    { _id: id, userId: new Types.ObjectId(userId) },
+    data,
+    { new: true, runValidators: true }
+  )
+    .lean<IRecurringTemplate>()
+    .exec();
+
+export const remove = async (id: string, workspaceId: string) =>
+  RecurringTemplate.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IRecurringTemplate>()
     .exec();
 

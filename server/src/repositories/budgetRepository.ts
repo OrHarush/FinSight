@@ -7,8 +7,8 @@ interface BudgetFilter {
   month?: number;
 }
 
-export const findMany = async (userId: string, filter: BudgetFilter) => {
-  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
+export const findMany = async (workspaceId: string, filter: BudgetFilter) => {
+  const query: Record<string, unknown> = { workspaceId: new Types.ObjectId(workspaceId) };
 
   if (filter.year !== undefined) {
     query.year = filter.year;
@@ -21,19 +21,19 @@ export const findMany = async (userId: string, filter: BudgetFilter) => {
   return Budget.find(query).sort({ year: -1, month: -1, createdAt: -1 }).lean<IBudget[]>().exec();
 };
 
-export const findById = async (id: string, userId: string) =>
-  Budget.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+export const findById = async (id: string, workspaceId: string) =>
+  Budget.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IBudget>()
     .exec();
 
 export const findByMonthYearCategory = async (
-  userId: string,
+  workspaceId: string,
   categoryId: string,
   year: number,
   month: number
 ) =>
   Budget.findOne({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     categoryId: new Types.ObjectId(categoryId),
     year,
     month,
@@ -49,21 +49,23 @@ export const insert = async (data: Omit<IBudget, '_id'>) => {
 
 export const insertMany = (budgets: Omit<IBudget, '_id'>[]) => Budget.insertMany(budgets);
 
-export const updateById = async (id: string, data: Partial<IBudget>, userId: string) =>
-  Budget.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
+export const updateById = async (id: string, data: Partial<IBudget>, workspaceId: string) =>
+  Budget.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  )
     .lean<IBudget>()
     .exec();
 
-export const remove = async (id: string, userId: string) =>
-  Budget.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+export const remove = async (id: string, workspaceId: string) =>
+  Budget.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IBudget>()
     .exec();
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Budget.deleteMany(filter).session(session ?? null);
 
+// Still userId-scoped: only the export endpoint consumes this. Flips when the export refactors.
 export const findAllByUser = async (userId: string) =>
   Budget.find({ userId: new Types.ObjectId(userId) }).lean<IBudget[]>().exec();

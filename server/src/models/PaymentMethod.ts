@@ -50,6 +50,7 @@ const PaymentMethodSchema: Schema = new Schema(
 );
 
 PaymentMethodSchema.index({ name: 1, type: 1, userId: 1 }, { unique: true, sparse: true });
+PaymentMethodSchema.index({ workspaceId: 1 });
 
 export default mongoose.model<IPaymentMethod>(
   'PaymentMethod',

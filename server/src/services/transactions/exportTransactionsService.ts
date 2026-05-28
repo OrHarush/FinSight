@@ -20,10 +20,10 @@ const applyDateFormat = (ws: XLSX.WorkSheet, rowCount: number) => {
 };
 
 export const exportByMonth = async (
-  userId: string,
+  workspaceId: string,
   query: ExportTransactionsQuery
 ): Promise<Buffer> => {
-  const { data } = await transactionService.findAll(userId, {
+  const { data } = await transactionService.findAll(workspaceId, {
     targetYear: query.targetYear,
     targetMonth: query.targetMonth,
     from: query.from,

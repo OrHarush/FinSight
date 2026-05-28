@@ -6,17 +6,17 @@ import { ICategory } from '../models/Category';
 import * as categoryRepository from '../repositories/categoryRepository';
 import * as goalRepository from '../repositories/goalRepository';
 import * as analyticsService from './analyticsService';
-import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const FREQUENT_WINDOW_DAYS = 60;
 const FREQUENT_MIN_USES = 3;
 const FREQUENT_MAX = 3;
 
-export const findAll = async (userId: string) => {
+export const findAll = async (workspaceId: string, userId: string) => {
   const sinceDate = new Date(Date.now() - FREQUENT_WINDOW_DAYS * 24 * 60 * 60 * 1000);
 
   const [categories, usageCounts] = await Promise.all([
-    categoryRepository.findMany(userId),
+    categoryRepository.findMany(workspaceId),
+    // usage counts come from transactions, which are still userId-scoped (flipped in their own task)
     categoryRepository.findUsageCountsSince(userId, sinceDate),
   ]);
 
@@ -48,8 +48,8 @@ export const findAll = async (userId: string) => {
     });
 };
 
-export const getCategoryById = async (id: string, userId: string) => {
-  const category = await categoryRepository.findById(id, userId);
+export const getCategoryById = async (id: string, workspaceId: string) => {
+  const category = await categoryRepository.findById(id, workspaceId);
 
   if (!category) {
     throw ApiError.notFound('Category not found');
@@ -58,12 +58,14 @@ export const getCategoryById = async (id: string, userId: string) => {
   return category;
 };
 
-export const create = async (categoryDetails: CreateCategoryDTO, userId: string) => {
+export const create = async (
+  categoryDetails: CreateCategoryDTO,
+  userId: string,
+  workspaceId: string
+) => {
   if (categoryDetails.type === 'Savings') {
     throw ApiError.badRequest('SAVINGS_CATEGORY_REQUIRES_GOAL');
   }
-
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
 
   const mapped: Omit<ICategory, '_id'> = {
     key: categoryDetails.key,
@@ -72,7 +74,7 @@ export const create = async (categoryDetails: CreateCategoryDTO, userId: string)
     color: categoryDetails.color ?? '#9ca3af',
     icon: categoryDetails.icon ?? '',
     userId: new Types.ObjectId(userId),
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
   };
 
   const created = await categoryRepository.insert(mapped);
@@ -87,7 +89,7 @@ export const create = async (categoryDetails: CreateCategoryDTO, userId: string)
 export const update = async (
   id: string,
   updatedCategoryDetails: UpdateCategoryDTO,
-  userId: string
+  workspaceId: string
 ) => {
   if (updatedCategoryDetails.type === 'Savings') {
     throw ApiError.badRequest('SAVINGS_CATEGORY_REQUIRES_GOAL');
@@ -100,7 +102,7 @@ export const update = async (
   if (updatedCategoryDetails.color !== undefined) mapped.color = updatedCategoryDetails.color;
   if (updatedCategoryDetails.icon !== undefined) mapped.icon = updatedCategoryDetails.icon;
 
-  const updated = await categoryRepository.updateById(id, mapped, userId);
+  const updated = await categoryRepository.updateById(id, mapped, workspaceId);
 
   if (!updated) {
     throw ApiError.notFound('Category not found');
@@ -109,16 +111,17 @@ export const update = async (
   return updated;
 };
 
-export const deleteCategory = async (id: string, userId: string) => {
+export const deleteCategory = async (id: string, workspaceId: string, userId: string) => {
   const linkedGoal = await goalRepository.findByCategoryId(id);
 
+  // goals are still userId-scoped (flipped in their own task); ownership compare stays on userId
   if (linkedGoal && linkedGoal.userId.toString() === userId) {
     throw ApiError.badRequest(
       `CATEGORY_LINKED_TO_GOAL:${linkedGoal._id.toString()}:${linkedGoal.name}`
     );
   }
 
-  const deleted = await categoryRepository.remove(id, userId);
+  const deleted = await categoryRepository.remove(id, workspaceId);
 
   if (!deleted) {
     throw ApiError.notFound('Category not found');

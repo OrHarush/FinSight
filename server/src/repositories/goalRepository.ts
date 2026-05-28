@@ -6,8 +6,8 @@ interface GoalFilter {
   status?: GoalStatus;
 }
 
-export const findMany = async (userId: string, filter: GoalFilter = {}) => {
-  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
+export const findMany = async (workspaceId: string, filter: GoalFilter = {}) => {
+  const query: Record<string, unknown> = { workspaceId: new Types.ObjectId(workspaceId) };
 
   if (filter.status) {
     query.status = filter.status;
@@ -19,40 +19,45 @@ export const findMany = async (userId: string, filter: GoalFilter = {}) => {
     .exec();
 };
 
-export const findById = async (id: string, userId: string) =>
-  Goal.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+export const findById = async (id: string, workspaceId: string) =>
+  Goal.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IGoal>()
     .exec();
 
+// No userId/workspaceId arg — categoryId itself is unique across the collection (per the goal model index).
 export const findByCategoryId = async (categoryId: string) =>
   Goal.findOne({ categoryId: new Types.ObjectId(categoryId) })
     .lean<IGoal>()
     .exec();
 
-export const findByNameCaseInsensitive = async (userId: string, name: string) =>
+export const findByNameCaseInsensitive = async (workspaceId: string, name: string) =>
   Goal.findOne({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     name: { $regex: `^${escapeRegex(name.trim())}$`, $options: 'i' },
   })
     .lean<IGoal>()
     .exec();
 
-export const insert = async (data: Omit<IGoal, '_id' | 'createdAt' | 'updatedAt'>, session?: ClientSession) => {
+export const insert = async (
+  data: Omit<IGoal, '_id' | 'createdAt' | 'updatedAt'>,
+  session?: ClientSession
+) => {
   const goal = new Goal(data);
 
   return goal.save({ session });
 };
 
-export const updateById = async (id: string, data: Partial<IGoal>, userId: string) =>
-  Goal.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
+export const updateById = async (id: string, data: Partial<IGoal>, workspaceId: string) =>
+  Goal.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  )
     .lean<IGoal>()
     .exec();
 
-export const remove = async (id: string, userId: string, session?: ClientSession) =>
-  Goal.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+export const remove = async (id: string, workspaceId: string, session?: ClientSession) =>
+  Goal.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .session(session ?? null)
     .lean<IGoal>()
     .exec();

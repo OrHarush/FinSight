@@ -2,18 +2,18 @@ import { ClientSession, Types } from 'mongoose';
 
 import Account, { IAccount } from '../models/Account';
 
-export const findMany = async (userId: string) =>
-  Account.find({ userId: new Types.ObjectId(userId) })
+export const findMany = async (workspaceId: string) =>
+  Account.find({ workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IAccount[]>()
     .exec();
 
-export const findById = async (id: string, userId: string) =>
-  Account.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+export const findById = async (id: string, workspaceId: string) =>
+  Account.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IAccount>()
     .exec();
 
-export const findPrimary = async (userId: string) =>
-  Account.findOne({ userId: new Types.ObjectId(userId), isPrimary: true })
+export const findPrimary = async (workspaceId: string) =>
+  Account.findOne({ workspaceId: new Types.ObjectId(workspaceId), isPrimary: true })
     .lean<IAccount>()
     .exec();
 
@@ -22,16 +22,17 @@ export const insert = async (data: Omit<IAccount, '_id'>) => {
   return account.save();
 };
 
-export const updateById = async (id: string, data: Partial<IAccount>, userId: string) =>
-  Account.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
+export const updateById = async (id: string, data: Partial<IAccount>, workspaceId: string) =>
+  Account.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  )
     .lean<IAccount>()
     .exec();
 
-export const findAnother = async (userId: string, excludeId?: string) => {
-  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
+export const findAnother = async (workspaceId: string, excludeId?: string) => {
+  const query: Record<string, unknown> = { workspaceId: new Types.ObjectId(workspaceId) };
 
   if (excludeId) {
     query._id = { $ne: new Types.ObjectId(excludeId) };
@@ -40,19 +41,21 @@ export const findAnother = async (userId: string, excludeId?: string) => {
   return Account.findOne(query).lean<IAccount>().exec();
 };
 
-export const countByUser = async (userId: string) =>
-  Account.countDocuments({ userId: new Types.ObjectId(userId) });
+export const countByWorkspace = async (workspaceId: string) =>
+  Account.countDocuments({ workspaceId: new Types.ObjectId(workspaceId) });
 
-export const remove = async (id: string, userId: string) =>
-  Account.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+export const remove = async (id: string, workspaceId: string) =>
+  Account.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .lean<IAccount>()
     .exec();
 
-export const unsetPrimary = async (userId: string, excludeId?: string) => {
-  const query: Record<string, unknown> = { userId: new Types.ObjectId(userId) };
+export const unsetPrimary = async (workspaceId: string, excludeId?: string) => {
+  const query: Record<string, unknown> = { workspaceId: new Types.ObjectId(workspaceId) };
+
   if (excludeId) {
     query._id = { $ne: new Types.ObjectId(excludeId) };
   }
+
   return Account.updateMany(query, { $set: { isPrimary: false } });
 };
 

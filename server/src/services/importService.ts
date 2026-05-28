@@ -95,7 +95,11 @@ export const importTransactions = async (
   dto: ImportTransactionsDTO,
   userId: string
 ): Promise<ImportResult> => {
-  const account = await accountRepository.findById(dto.accountId, userId);
+  // Bridge: importService still takes userId at the controller boundary; resolves workspaceId once.
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+  const workspaceIdStr = workspaceId.toString();
+
+  const account = await accountRepository.findById(dto.accountId, workspaceIdStr);
 
   if (!account) {
     throw ApiError.notFound('Account not found.');
@@ -110,7 +114,7 @@ export const importTransactions = async (
   );
 
   if (distinctPaymentMethodIds.length > 0) {
-    const found = await paymentMethodRepository.findByIds(distinctPaymentMethodIds, userId);
+    const found = await paymentMethodRepository.findByIds(distinctPaymentMethodIds, workspaceIdStr);
 
     if (found.length !== distinctPaymentMethodIds.length) {
       throw ApiError.notFound('Payment method not found.');
@@ -137,7 +141,6 @@ export const importTransactions = async (
   }
 
   const importBatchId = new Types.ObjectId();
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
 
   const transactions: Omit<ITransaction, '_id'>[] = filteredRows.map(row => {
     const isRefund = row.amount < 0;
@@ -161,7 +164,7 @@ export const importTransactions = async (
   try {
     const result = await transactionRepository.insertMany(transactions);
 
-    invalidateQuickChipsCache(userId);
+    invalidateQuickChipsCache(workspaceIdStr);
 
     void analyticsService
       .track(userId, 'csv_imported')
@@ -180,7 +183,7 @@ export const importTransactions = async (
       const inserted = (err as { insertedDocs: unknown[] }).insertedDocs.length;
 
       if (inserted > 0) {
-        invalidateQuickChipsCache(userId);
+        invalidateQuickChipsCache(workspaceIdStr);
 
         void analyticsService
           .track(userId, 'csv_imported')
@@ -202,11 +205,12 @@ export const findDuplicates = async (
   dto: CheckDuplicatesDTO,
   userId: string
 ): Promise<DuplicateCheckResult> => {
+  const workspaceId = (await getActiveWorkspaceIdOrThrow(userId)).toString();
   const fingerprints = dto.rows.map(row => fingerprintForImportRow(userId, dto.accountId, row));
   const uniqueFingerprints = [...new Set(fingerprints)];
 
   const existingFingerprints = await transactionRepository.findExistingFingerprints(
-    userId,
+    workspaceId,
     uniqueFingerprints
   );
   const existing = new Set(existingFingerprints);

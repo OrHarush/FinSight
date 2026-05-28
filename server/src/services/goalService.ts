@@ -20,7 +20,6 @@ import {
   requiredMonthlyContribution,
 } from '../utils/goalProjection';
 import * as analyticsService from './analyticsService';
-import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const DEFAULT_SAVINGS_COLOR = '#9ca3af';
 const PACE_LOOKBACK_MONTHS = 3;
@@ -127,13 +126,14 @@ const buildLinkedCategoryPatch = (patch: UpdateGoalDTO, existing: IGoal): Partia
   return result;
 };
 
-export const findAll = async (userId: string, query: GetGoalsQuery) => {
-  const goals = await goalRepository.findMany(userId, { status: query.status });
+export const findAll = async (userId: string, workspaceId: string, query: GetGoalsQuery) => {
+  const goals = await goalRepository.findMany(workspaceId, { status: query.status });
 
   return Promise.all(
     goals.map(async (goal) => {
       const [category, currentValueCents] = await Promise.all([
-        categoryRepository.findById(goal.categoryId.toString(), userId),
+        categoryRepository.findById(goal.categoryId.toString(), workspaceId),
+        // contributions come from transactions, which are still userId-scoped
         computeCurrentValueCents(userId, goal),
       ]);
 
@@ -145,16 +145,16 @@ export const findAll = async (userId: string, query: GetGoalsQuery) => {
   );
 };
 
-export const getGoalById = async (id: string, userId: string) => {
+export const getGoalById = async (id: string, workspaceId: string) => {
   assertValidObjectId(id, 'goal');
 
-  const goal = await goalRepository.findById(id, userId);
+  const goal = await goalRepository.findById(id, workspaceId);
 
   if (!goal) {
     throw ApiError.notFound('Goal not found');
   }
 
-  const category = await categoryRepository.findById(goal.categoryId.toString(), userId);
+  const category = await categoryRepository.findById(goal.categoryId.toString(), workspaceId);
 
   return presentGoal(goal, category as ICategory | null);
 };
@@ -206,7 +206,7 @@ const insertGoalWithCompensation = async (
     return presentGoal(goal.toObject() as IGoal, categoryDoc);
   } catch (err) {
     try {
-      await categoryRepository.remove(category._id.toString(), userId);
+      await categoryRepository.remove(category._id.toString(), workspaceId.toString());
     } catch (cleanupErr) {
       console.error('[goalService] failed to roll back orphan category', {
         categoryId: category._id.toString(),
@@ -219,24 +219,24 @@ const insertGoalWithCompensation = async (
   }
 };
 
-export const createGoal = async (userId: string, dto: CreateGoalDTO) => {
-  const existingByName = await goalRepository.findByNameCaseInsensitive(userId, dto.name);
+export const createGoal = async (userId: string, workspaceId: string, dto: CreateGoalDTO) => {
+  const existingByName = await goalRepository.findByNameCaseInsensitive(workspaceId, dto.name);
 
   if (existingByName) {
     throw ApiError.badRequest('GOAL_NAME_TAKEN');
   }
 
-  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+  const workspaceObjId = new Types.ObjectId(workspaceId);
 
   const result = await (async () => {
     try {
-      return await insertGoalAtomically(dto, userId, workspaceId);
+      return await insertGoalAtomically(dto, userId, workspaceObjId);
     } catch (err) {
       if (!isReplicaSetTransactionError(err)) {
         throw err;
       }
 
-      return insertGoalWithCompensation(dto, userId, workspaceId);
+      return insertGoalWithCompensation(dto, userId, workspaceObjId);
     }
   })();
 
@@ -247,8 +247,8 @@ export const createGoal = async (userId: string, dto: CreateGoalDTO) => {
   return result;
 };
 
-const assertNameAvailable = async (userId: string, name: string, currentId: string) => {
-  const dup = await goalRepository.findByNameCaseInsensitive(userId, name);
+const assertNameAvailable = async (workspaceId: string, name: string, currentId: string) => {
+  const dup = await goalRepository.findByNameCaseInsensitive(workspaceId, name);
 
   if (dup && dup._id.toString() !== currentId) {
     throw ApiError.badRequest('GOAL_NAME_TAKEN');
@@ -263,10 +263,10 @@ const assertTargetDateNotInPast = (patch: UpdateGoalDTO, existing: IGoal) => {
   }
 };
 
-export const updateGoal = async (userId: string, id: string, patch: UpdateGoalDTO) => {
+export const updateGoal = async (workspaceId: string, id: string, patch: UpdateGoalDTO) => {
   assertValidObjectId(id, 'goal');
 
-  const existing = await goalRepository.findById(id, userId);
+  const existing = await goalRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Goal not found');
@@ -275,10 +275,10 @@ export const updateGoal = async (userId: string, id: string, patch: UpdateGoalDT
   assertTargetDateNotInPast(patch, existing);
 
   if (patch.name && patch.name !== existing.name) {
-    await assertNameAvailable(userId, patch.name, id);
+    await assertNameAvailable(workspaceId, patch.name, id);
   }
 
-  const updatedGoal = await goalRepository.updateById(id, buildGoalPatch(patch), userId);
+  const updatedGoal = await goalRepository.updateById(id, buildGoalPatch(patch), workspaceId);
 
   if (!updatedGoal) {
     throw ApiError.internal('Unexpected error updating goal');
@@ -287,35 +287,41 @@ export const updateGoal = async (userId: string, id: string, patch: UpdateGoalDT
   const categoryPatch = buildLinkedCategoryPatch(patch, existing);
 
   if (Object.keys(categoryPatch).length > 0) {
-    await categoryRepository.updateById(existing.categoryId.toString(), categoryPatch, userId);
+    await categoryRepository.updateById(existing.categoryId.toString(), categoryPatch, workspaceId);
   }
 
-  const category = await categoryRepository.findById(existing.categoryId.toString(), userId);
+  const category = await categoryRepository.findById(existing.categoryId.toString(), workspaceId);
 
   return presentGoal(updatedGoal, category as ICategory | null);
 };
 
+// transactions are still userId-scoped (flipped in their own task)
 const countTransactionsForCategory = async (userId: string, categoryId: Types.ObjectId) =>
   Transaction.countDocuments({
     userId: new Types.ObjectId(userId),
     category: categoryId,
   });
 
-const flipCategoryBackToExpense = (goal: IGoal, userId: string) =>
-  categoryRepository.updateById(goal.categoryId.toString(), { type: 'Expense' }, userId);
+const flipCategoryBackToExpense = (goal: IGoal, workspaceId: string) =>
+  categoryRepository.updateById(goal.categoryId.toString(), { type: 'Expense' }, workspaceId);
 
-export const deleteGoal = async (userId: string, id: string, keepCategory: boolean) => {
+export const deleteGoal = async (
+  userId: string,
+  workspaceId: string,
+  id: string,
+  keepCategory: boolean
+) => {
   assertValidObjectId(id, 'goal');
 
-  const goal = await goalRepository.findById(id, userId);
+  const goal = await goalRepository.findById(id, workspaceId);
 
   if (!goal) {
     throw ApiError.notFound('Goal not found');
   }
 
   if (keepCategory) {
-    await flipCategoryBackToExpense(goal, userId);
-    await goalRepository.remove(id, userId);
+    await flipCategoryBackToExpense(goal, workspaceId);
+    await goalRepository.remove(id, workspaceId);
 
     return { id, keptCategory: true };
   }
@@ -326,8 +332,8 @@ export const deleteGoal = async (userId: string, id: string, keepCategory: boole
     throw ApiError.badRequest('CATEGORY_HAS_TRANSACTIONS');
   }
 
-  await goalRepository.remove(id, userId);
-  await categoryRepository.remove(goal.categoryId.toString(), userId);
+  await goalRepository.remove(id, workspaceId);
+  await categoryRepository.remove(goal.categoryId.toString(), workspaceId);
 
   return { id, keptCategory: false };
 };
@@ -437,16 +443,20 @@ interface GoalProjection {
   projectionPoints: ProjectionPoint[];
 }
 
-export const getGoalProjection = async (userId: string, id: string): Promise<GoalProjection> => {
+export const getGoalProjection = async (
+  userId: string,
+  workspaceId: string,
+  id: string
+): Promise<GoalProjection> => {
   assertValidObjectId(id, 'goal');
 
-  const goal = await goalRepository.findById(id, userId);
+  const goal = await goalRepository.findById(id, workspaceId);
 
   if (!goal) {
     throw ApiError.notFound('Goal not found');
   }
 
-  const category = await categoryRepository.findById(goal.categoryId.toString(), userId);
+  const category = await categoryRepository.findById(goal.categoryId.toString(), workspaceId);
   const today = startOfTodayUtc();
 
   const [currentValueCents, contributionsByMonthCents] = await Promise.all([
@@ -526,8 +536,12 @@ const aggregateMonthContributionCents = async (
   return sumNetContributionCents(rows);
 };
 
-export const getGhostContributions = async (userId: string, yearMonth: string) => {
-  const goals = await goalRepository.findMany(userId, { status: 'active' });
+export const getGhostContributions = async (
+  userId: string,
+  workspaceId: string,
+  yearMonth: string
+) => {
+  const goals = await goalRepository.findMany(workspaceId, { status: 'active' });
   const today = startOfTodayUtc();
 
   return Promise.all(

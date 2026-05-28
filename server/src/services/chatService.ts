@@ -8,6 +8,7 @@ import * as budgetService from './budgetService';
 import * as categoryService from './categoryService';
 import * as paymentMethodService from './paymentMethodService';
 import * as transactionService from './transactions/transactionService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const apiKey = process.env.GEMINI_API_KEY;
 
@@ -241,7 +242,8 @@ const executeTool = async (
           accountId: args.accountId as string | undefined,
           search: args.search as string | undefined,
         };
-        const transactions = await transactionService.findAll(userId, options);
+        const txWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        const transactions = await transactionService.findAll(txWorkspaceId.toString(), options);
 
         // Extract data from paginated response (if pagination exists, get data array, otherwise use full response)
         const txData = Array.isArray(transactions)
@@ -263,11 +265,14 @@ const executeTool = async (
           accountId: args.accountId as string | undefined,
           from: args.from ? new Date(args.from as string) : undefined,
         };
-        result = await transactionService.getTransactionSummary(userId, query);
+        const summaryWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        result = await transactionService.getTransactionSummary(summaryWorkspaceId.toString(), query);
         break;
       }
       case 'getAccounts': {
-        const accounts = await accountService.findAll(userId);
+        // Bridge: accounts is workspace-scoped (Step 3); chatService still receives userId.
+        const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        const accounts = await accountService.findAll(workspaceId.toString());
         let filtered = accounts as any[];
         if (args.isPrimary) {
           filtered = filtered.filter(a => a.isPrimary === args.isPrimary);
@@ -280,7 +285,9 @@ const executeTool = async (
         break;
       }
       case 'getCategories': {
-        const categories = await categoryService.findAll(userId);
+        // Bridge: categories is workspace-scoped (Step 3); chatService still receives userId.
+        const categoriesWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        const categories = await categoryService.findAll(categoriesWorkspaceId.toString(), userId);
         let filtered = categories as any[];
         if (args.type) {
           filtered = filtered.filter(c => c.type === args.type);
@@ -293,7 +300,9 @@ const executeTool = async (
         break;
       }
       case 'getPaymentMethods': {
-        result = await paymentMethodService.findAll(userId);
+        // Bridge: payment methods is workspace-scoped (Step 3); chatService still receives userId.
+        const pmWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        result = await paymentMethodService.findAll(pmWorkspaceId.toString());
         if (args.type) {
           result = (result as any[]).filter(m => m.type === args.type);
         }
@@ -311,7 +320,9 @@ const executeTool = async (
         if (args.year !== undefined) options.year = args.year;
         if (args.month !== undefined) options.month = (args.month as number) - 1;
         if (args.categoryId !== undefined) options.categoryId = args.categoryId;
-        result = await budgetService.findAll(userId, options);
+        // Bridge: budgets is workspace-scoped (Step 3); chatService still receives userId.
+        const budgetsWorkspaceId = await getActiveWorkspaceIdOrThrow(userId);
+        result = await budgetService.findAll(budgetsWorkspaceId.toString(), options);
         break;
       }
       default:

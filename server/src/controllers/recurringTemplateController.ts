@@ -11,13 +11,13 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import * as recurringTemplateService from '../services/recurringTemplateService';
 
 export const getTemplates = asyncHandler(async (req: Request, res: Response) => {
-  const templates = await recurringTemplateService.getByUser(req.userId);
+  const templates = await recurringTemplateService.getByWorkspace(req.workspaceId);
 
   return ApiResponse.ok(res, templates);
 });
 
 export const getTemplateById = asyncHandler(async (req: Request, res: Response) => {
-  const template = await recurringTemplateService.getById(req.params.id as string, req.userId);
+  const template = await recurringTemplateService.getById(req.params.id as string, req.workspaceId);
 
   return ApiResponse.ok(res, template);
 });
@@ -25,7 +25,8 @@ export const getTemplateById = asyncHandler(async (req: Request, res: Response) 
 export const createTemplate = asyncHandler(async (req: Request, res: Response) => {
   const template = await recurringTemplateService.create(
     req.validatedBody as CreateRecurringTemplateDTO,
-    req.userId
+    req.userId,
+    req.workspaceId
   );
 
   return ApiResponse.created(res, template);
@@ -35,6 +36,7 @@ export const updateTemplate = asyncHandler(async (req: Request, res: Response) =
   const template = await recurringTemplateService.update(
     req.params.id as string,
     req.validatedBody as UpdateRecurringTemplateDTO,
+    req.workspaceId,
     req.userId
   );
 
@@ -42,7 +44,7 @@ export const updateTemplate = asyncHandler(async (req: Request, res: Response) =
 });
 
 export const deleteTemplate = asyncHandler(async (req: Request, res: Response) => {
-  await recurringTemplateService.deleteTemplate(req.params.id as string, req.userId);
+  await recurringTemplateService.deleteTemplate(req.params.id as string, req.workspaceId);
 
   return ApiResponse.deleted(res, 'Recurring template deleted successfully');
 });
@@ -50,7 +52,8 @@ export const deleteTemplate = asyncHandler(async (req: Request, res: Response) =
 export const createTemplateWithTransactions = asyncHandler(async (req: Request, res: Response) => {
   const result = await recurringTemplateService.createWithTransactions(
     req.validatedBody as CreateRecurringTemplateDTO,
-    req.userId
+    req.userId,
+    req.workspaceId
   );
 
   return ApiResponse.created(res, result);
@@ -60,7 +63,7 @@ export const deactivateFrom = asyncHandler(async (req: Request, res: Response) =
   const result = await recurringTemplateService.deactivateFrom(
     req.params.id as string,
     req.validatedBody as DeactivateFromDTO,
-    req.userId
+    req.workspaceId
   );
 
   return ApiResponse.ok(res, result);
@@ -70,6 +73,7 @@ export const splitTemplate = asyncHandler(async (req: Request, res: Response) =>
   const result = await recurringTemplateService.splitTemplate(
     req.params.id as string,
     req.validatedBody as SplitRecurringTemplateDTO,
+    req.workspaceId,
     req.userId
   );
 

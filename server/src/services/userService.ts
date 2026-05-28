@@ -39,6 +39,7 @@ import {
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
 import * as analyticsService from './analyticsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 export interface DeletionFeedbackInput {
   reason?: DeletionReason | null;
@@ -109,10 +110,16 @@ export const createDefaultEntitiesForNewUser = async (
 
 export const completeOnboarding = async (userId: string, billingDay?: number) => {
   if (billingDay !== undefined) {
-    const creditCard = await paymentMethodRepository.findByType(userId, 'Credit Card');
+    // Bridge: payment methods is workspace-scoped (Step 3).
+    const workspaceId = (await getActiveWorkspaceIdOrThrow(userId)).toString();
+    const creditCard = await paymentMethodRepository.findByType(workspaceId, 'Credit Card');
 
     if (creditCard) {
-      await paymentMethodRepository.updateById(creditCard._id.toString(), { billingDay }, userId);
+      await paymentMethodRepository.updateById(
+        creditCard._id.toString(),
+        { billingDay },
+        workspaceId
+      );
     }
   }
 

@@ -7,20 +7,19 @@ import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import * as analyticsService from './analyticsService';
 import { setBalanceCheckpoint } from './balanceService';
-import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
-export const findAll = async (userId: string) => {
-  const accounts = await accountRepository.findMany(userId);
+export const findAll = async (workspaceId: string) => {
+  const accounts = await accountRepository.findMany(workspaceId);
 
   return accounts.map(a => ({ ...a, balance: fromCents(a.balance) }));
 };
 
-export const getAccountById = async (id: string, userId: string) => {
+export const getAccountById = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
 
-  const account = await accountRepository.findById(id, userId);
+  const account = await accountRepository.findById(id, workspaceId);
 
   if (!account) {
     throw ApiError.notFound('Account not found');
@@ -29,11 +28,12 @@ export const getAccountById = async (id: string, userId: string) => {
   return { ...account, balance: fromCents(account.balance) };
 };
 
-export const create = async (data: CreateAccountDTO, userId: string) => {
-  const [numOfAccounts, workspaceId] = await Promise.all([
-    accountRepository.countByUser(userId),
-    getActiveWorkspaceIdOrThrow(userId),
-  ]);
+export const create = async (
+  data: CreateAccountDTO,
+  userId: string,
+  workspaceId: string
+) => {
+  const numOfAccounts = await accountRepository.countByWorkspace(workspaceId);
 
   const mapped: Omit<IAccount, '_id'> = {
     name: data.name,
@@ -46,11 +46,11 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
     currency: data.currency ?? 'ILS',
     isPrimary: numOfAccounts === 0 ? true : (data.isPrimary ?? false),
     userId: new Types.ObjectId(userId),
-    workspaceId,
+    workspaceId: new Types.ObjectId(workspaceId),
   };
 
   if (mapped.isPrimary && numOfAccounts > 0) {
-    await accountRepository.unsetPrimary(userId);
+    await accountRepository.unsetPrimary(workspaceId);
   }
 
   const created = await accountRepository.insert(mapped);
@@ -64,25 +64,25 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
   return created;
 };
 
-export const update = async (id: string, data: UpdateAccountDTO, userId: string) => {
+export const update = async (id: string, data: UpdateAccountDTO, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
 
-  const existing = await accountRepository.findById(id, userId);
+  const existing = await accountRepository.findById(id, workspaceId);
 
   if (!existing) {
     throw ApiError.notFound('Account not found');
   }
 
   if (typeof data.balance === 'number') {
-    await setBalanceCheckpoint(userId, id, data.balance);
+    await setBalanceCheckpoint(workspaceId, id, data.balance);
   }
 
   const { balance: _stripped, ...rest } = data as UpdateAccountDTO & { balance?: number };
   const mapped: Partial<IAccount> = { ...rest };
 
-  const updated = await accountRepository.updateById(id, mapped, userId);
+  const updated = await accountRepository.updateById(id, mapped, workspaceId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error updating account');
@@ -91,20 +91,20 @@ export const update = async (id: string, data: UpdateAccountDTO, userId: string)
   return { ...updated, balance: fromCents(updated.balance) };
 };
 
-export const setPrimary = async (id: string, userId: string) => {
+export const setPrimary = async (id: string, workspaceId: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
 
-  const account = await accountRepository.findById(id, userId);
+  const account = await accountRepository.findById(id, workspaceId);
 
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
 
-  await accountRepository.unsetPrimary(userId, id);
+  await accountRepository.unsetPrimary(workspaceId, id);
 
-  const updated = await accountRepository.updateById(id, { isPrimary: true }, userId);
+  const updated = await accountRepository.updateById(id, { isPrimary: true }, workspaceId);
 
   if (!updated) {
     throw ApiError.internal('Unexpected error setting primary account');
@@ -113,24 +113,24 @@ export const setPrimary = async (id: string, userId: string) => {
   return { ...updated, balance: fromCents(updated.balance) };
 };
 
-export const deleteAccount = async (id: string, userId: string, replacementId?: string) => {
+export const deleteAccount = async (id: string, workspaceId: string, replacementId?: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw ApiError.badRequest('Invalid account ID');
   }
 
-  const account = await accountRepository.findById(id, userId);
+  const account = await accountRepository.findById(id, workspaceId);
 
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
 
-  const totalCount = await accountRepository.countByUser(userId);
+  const totalCount = await accountRepository.countByWorkspace(workspaceId);
 
   if (totalCount <= 1) {
     throw ApiError.badRequest('Cannot delete the only account');
   }
 
-  const txCount = await transactionRepository.countByAccountId(userId, id);
+  const txCount = await transactionRepository.countByAccountId(workspaceId, id);
 
   if (txCount > 0) {
     if (replacementId) {
@@ -138,45 +138,49 @@ export const deleteAccount = async (id: string, userId: string, replacementId?: 
         throw ApiError.badRequest('Invalid replacement account ID');
       }
 
-      await transactionRepository.reassignAccount(userId, id, replacementId);
+      await transactionRepository.reassignAccount(workspaceId, id, replacementId);
     } else if (totalCount === 2) {
-      const other = await accountRepository.findAnother(userId, id);
+      const other = await accountRepository.findAnother(workspaceId, id);
 
       if (other) {
-        await transactionRepository.reassignAccount(userId, id, other._id.toString());
+        await transactionRepository.reassignAccount(workspaceId, id, other._id.toString());
       }
     } else {
       throw ApiError.badRequest('Replacement account is required when transactions exist');
     }
   }
 
-  const deletedAccount = await accountRepository.remove(id, userId);
+  const deletedAccount = await accountRepository.remove(id, workspaceId);
 
   if (!deletedAccount) {
     throw ApiError.internal('Unexpected error deleting account');
   }
 
   if (deletedAccount.isPrimary) {
-    const newPrimary = await accountRepository.findAnother(userId);
+    const newPrimary = await accountRepository.findAnother(workspaceId);
 
     if (newPrimary) {
-      await accountRepository.updateById(newPrimary._id.toString(), { isPrimary: true }, userId);
+      await accountRepository.updateById(
+        newPrimary._id.toString(),
+        { isPrimary: true },
+        workspaceId
+      );
     }
   }
 
   return deletedAccount;
 };
 
-export const getLinkedTransactionsCount = async (userId: string, accountId: string) => {
+export const getLinkedTransactionsCount = async (workspaceId: string, accountId: string) => {
   if (!mongoose.Types.ObjectId.isValid(accountId)) {
     throw ApiError.badRequest('Invalid account ID');
   }
 
-  const account = await accountRepository.findById(accountId, userId);
+  const account = await accountRepository.findById(accountId, workspaceId);
 
   if (!account) {
     throw ApiError.notFound('Account not found');
   }
 
-  return transactionRepository.countByAccountId(userId, accountId);
+  return transactionRepository.countByAccountId(workspaceId, accountId);
 };

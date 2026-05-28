@@ -9,12 +9,12 @@ import { buildTransactionQuery } from '../utils/transaction';
 
 dayjs.extend(utc);
 
-export const findMany = async (userId: string, options: GetTransactionsOptions) => {
+export const findMany = async (workspaceId: string, options: GetTransactionsOptions) => {
   const { from, to, categoryIds, paymentMethodIds, accountIds, accountId } = options;
   const resolvedAccountIds = accountIds ?? (accountId ? [accountId] : undefined);
 
   const query = buildTransactionQuery(
-    userId,
+    workspaceId,
     from,
     to,
     categoryIds,
@@ -32,8 +32,8 @@ export const findMany = async (userId: string, options: GetTransactionsOptions) 
     .exec();
 };
 
-export const findById = async (id: string, userId: string) =>
-  Transaction.findOne({ _id: id, userId: new Types.ObjectId(userId) })
+export const findById = async (id: string, workspaceId: string) =>
+  Transaction.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .populate('category')
     .populate('paymentMethod')
     .populate('account')
@@ -42,18 +42,24 @@ export const findById = async (id: string, userId: string) =>
     .lean<ITransactionPopulated>()
     .exec();
 
+export const countByWorkspace = async (workspaceId: string): Promise<number> =>
+  Transaction.countDocuments({ workspaceId: new Types.ObjectId(workspaceId) });
+
+// Still userId-scoped: feedbackService uses it as a per-user activity heuristic.
+// Flips when feedbackService refactors.
 export const countByUser = async (userId: string): Promise<number> =>
-  Transaction.countDocuments({ userId });
+  Transaction.countDocuments({ userId: new Types.ObjectId(userId) });
 
 export const findExistingFingerprints = async (
-  userId: string,
+  workspaceId: string,
   fingerprints: string[]
 ): Promise<string[]> =>
   Transaction.distinct('importFingerprint', {
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     importFingerprint: { $in: fingerprints },
   });
 
+// Admin-only aggregations stay user-scoped — they tabulate across all users for the admin dashboard.
 export const countGroupedByUser = async (): Promise<{ userId: string; count: number }[]> => {
   const rows = await Transaction.aggregate<{ _id: Types.ObjectId; count: number }>([
     { $group: { _id: '$userId', count: { $sum: 1 } } },
@@ -74,19 +80,20 @@ export const insert = async (data: Omit<ITransaction, '_id'>) => {
   return transaction.save();
 };
 
-export const updateById = async (id: string, data: Partial<ITransaction>, userId: string) =>
-  Transaction.findOneAndUpdate({ _id: id, userId: new Types.ObjectId(userId) }, data, {
-    new: true,
-    runValidators: true,
-  })
+export const updateById = async (id: string, data: Partial<ITransaction>, workspaceId: string) =>
+  Transaction.findOneAndUpdate(
+    { _id: id, workspaceId: new Types.ObjectId(workspaceId) },
+    data,
+    { new: true, runValidators: true }
+  )
     .populate('category')
     .populate('paymentMethod')
     .populate('account')
     .lean<ITransactionPopulated>()
     .exec();
 
-export const remove = async (id: string, userId: string) =>
-  Transaction.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) })
+export const remove = async (id: string, workspaceId: string) =>
+  Transaction.findOneAndDelete({ _id: id, workspaceId: new Types.ObjectId(workspaceId) })
     .populate('category')
     .populate('paymentMethod')
     .populate('account')
@@ -99,8 +106,8 @@ export const insertMany = (data: Omit<ITransaction, '_id'>[]) =>
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Transaction.deleteMany(filter).session(session ?? null);
 
-export const findAllByUser = async (userId: string) =>
-  Transaction.find({ userId: new Types.ObjectId(userId) }).lean<ITransaction[]>().exec();
+export const findAllByWorkspace = async (workspaceId: string) =>
+  Transaction.find({ workspaceId: new Types.ObjectId(workspaceId) }).lean<ITransaction[]>().exec();
 
 export const deleteByTemplateIdFromDate = (templateId: string, fromDate: Date) =>
   Transaction.deleteMany({
@@ -108,30 +115,34 @@ export const deleteByTemplateIdFromDate = (templateId: string, fromDate: Date) =
     date: { $gte: fromDate },
   });
 
-export const countByAccountId = async (userId: string, accountId: string) =>
+export const countByAccountId = async (workspaceId: string, accountId: string) =>
   Transaction.countDocuments({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     account: new Types.ObjectId(accountId),
   });
 
 export const countByPaymentMethodId = async (
-  userId: string,
+  workspaceId: string,
   paymentMethodId: string
 ): Promise<number> =>
   Transaction.countDocuments({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     paymentMethod: new Types.ObjectId(paymentMethodId),
   });
 
-export const reassignPaymentMethod = async (userId: string, oldId: string, newId: string) =>
+export const reassignPaymentMethod = async (
+  workspaceId: string,
+  oldId: string,
+  newId: string
+) =>
   Transaction.updateMany(
-    { userId: new Types.ObjectId(userId), paymentMethod: new Types.ObjectId(oldId) },
+    { workspaceId: new Types.ObjectId(workspaceId), paymentMethod: new Types.ObjectId(oldId) },
     { $set: { paymentMethod: new Types.ObjectId(newId) } }
   );
 
-export const reassignAccount = async (userId: string, oldId: string, newId: string) =>
+export const reassignAccount = async (workspaceId: string, oldId: string, newId: string) =>
   Transaction.updateMany(
-    { userId: new Types.ObjectId(userId), account: new Types.ObjectId(oldId) },
+    { workspaceId: new Types.ObjectId(workspaceId), account: new Types.ObjectId(oldId) },
     { $set: { account: new Types.ObjectId(newId) } }
   );
 
@@ -146,7 +157,7 @@ export interface QuickChipAggregation {
 }
 
 export const aggregateFrequentExpensePatterns = async (
-  userId: string,
+  workspaceId: string,
   since: Date,
   now: Date,
   minOccurrences: number,
@@ -157,7 +168,7 @@ export const aggregateFrequentExpensePatterns = async (
   return Transaction.aggregate<QuickChipAggregation>([
     {
       $match: {
-        userId: new Types.ObjectId(userId),
+        workspaceId: new Types.ObjectId(workspaceId),
         type: 'Expense',
         date: { $gte: since, $lte: now },
         name: { $exists: true, $nin: [null, ''] },
