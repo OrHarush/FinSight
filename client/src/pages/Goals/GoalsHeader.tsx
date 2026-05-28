@@ -1,6 +1,6 @@
 import type { GoalStatusValue } from '@lyra/shared';
 import AddIcon from '@mui/icons-material/Add';
-import { Button, Chip, Typography } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -19,10 +19,7 @@ const GoalsHeader = ({ status, onStatusChange, onCreate }: GoalsHeaderProps) => 
 
   return (
     <Column spacing={1.5} sx={{ mb: 2 }}>
-      <Row alignItems="center" justifyContent="space-between" spacing={1} flexWrap="wrap">
-        <Typography variant="h5" fontWeight={700}>
-          {t('page.title')}
-        </Typography>
+      <Row justifyContent="flex-end">
         <Button
           variant="contained"
           startIcon={<AddIcon />}

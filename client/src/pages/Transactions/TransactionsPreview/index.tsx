@@ -5,9 +5,9 @@ import TransactionsTableView from '@/pages/Transactions/TransactionsPreview/Tran
 
 const TransactionsPreview = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const showCards = useMediaQuery(theme.breakpoints.down('lg'));
 
-  return isMobile ? <TransactionsCardsView /> : <TransactionsTableView />;
+  return showCards ? <TransactionsCardsView /> : <TransactionsTableView />;
 };
 
 export default TransactionsPreview;

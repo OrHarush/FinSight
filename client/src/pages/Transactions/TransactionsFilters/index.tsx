@@ -1,8 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import Row from '@/components/shared/layout/containers/Row';
-import { useNavBarDate } from '@/components/shared/layout/PageHeaderContext';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import ClearFiltersChip from '@/pages/Transactions/TransactionsFilters/ClearFiltersChip ';
@@ -11,10 +10,11 @@ import TransactionSearchInput from '@/pages/Transactions/TransactionsFilters/Tra
 
 const TransactionsFilters = () => {
   const isSmallScreen = useIsSmallScreen();
+  const theme = useTheme();
+  const isMediumScreen = useMediaQuery(theme.breakpoints.only('md'));
+  const isXs = useMediaQuery(theme.breakpoints.only('xs'));
 
   const {
-    selectedMonth,
-    setSelectedMonth,
     selectedCategoryIds,
     setSelectedCategoryIds,
     selectedAccountIds,
@@ -23,8 +23,6 @@ const TransactionsFilters = () => {
     setSelectedPaymentMethodIds,
     resetFilters,
   } = useTransactionPageData();
-
-  useNavBarDate(selectedMonth, setSelectedMonth);
 
   const hasActiveFilters =
     selectedCategoryIds.length > 0 ||
@@ -59,7 +57,7 @@ const TransactionsFilters = () => {
               display: 'flex',
               gap: 1,
               flex: 1,
-              justifyContent: hasActiveFilters ? 'flex-start' : 'center',
+              justifyContent: isXs ? 'center' : 'flex-start',
               overflowX: 'auto',
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
@@ -72,7 +70,9 @@ const TransactionsFilters = () => {
       ) : (
         <Row spacing={1} alignItems="center" sx={{ flex: 1 }}>
           {filterChips}
-          {hasActiveFilters && <ClearFiltersChip onClick={resetFilters} />}
+          {hasActiveFilters && (
+            <ClearFiltersChip onClick={resetFilters} iconOnly={isMediumScreen} />
+          )}
         </Row>
       )}
     </ResponsiveRow>

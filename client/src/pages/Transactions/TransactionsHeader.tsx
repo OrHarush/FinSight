@@ -1,29 +1,47 @@
-import { useState } from 'react';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  useNavBarDataTransfer,
+  useNavBarActions,
+  useNavBarDate,
   usePageHeader,
 } from '@/components/shared/layout/PageHeaderContext';
-import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useTransactions } from '@/hooks/entities/useTransactions';
 import { useExportTransactions } from '@/hooks/useExportTransactions';
 import DataTransferBottomSheet from '@/pages/Transactions/DataTransferBottomSheet';
+import ImportExportButtons from '@/pages/Transactions/ImportExportButtons';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 
 const TransactionsHeader = () => {
   const { t } = useTranslation('transactions');
-  const isSmallScreen = useIsSmallScreen();
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.down('md'));
   const [sheetOpen, setSheetOpen] = useState(false);
-  const { selectedMonth } = useTransactionPageData();
+  const { selectedMonth, setSelectedMonth } = useTransactionPageData();
   const { mutate: exportMonth, isPending: isExporting } = useExportTransactions();
   const { transactions } = useTransactions(selectedMonth.year(), selectedMonth.month());
   const canExport = transactions.length > 0;
 
   usePageHeader(t('pageTitle'), true);
-  useNavBarDataTransfer(() => setSheetOpen(true));
+  useNavBarDate(selectedMonth, setSelectedMonth);
 
-  if (!isSmallScreen) {
+  const navBarActions = useMemo(() => {
+    if (isSm) {
+      return (
+        <IconButton size="medium" onClick={() => setSheetOpen(true)}>
+          <ImportExportIcon fontSize="small" />
+        </IconButton>
+      );
+    }
+
+    return <ImportExportButtons selectedMonth={selectedMonth} variant="text" />;
+  }, [isSm, selectedMonth]);
+
+  useNavBarActions(navBarActions);
+
+  if (!isSm) {
     return null;
   }
 

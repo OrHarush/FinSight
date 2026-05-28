@@ -9,47 +9,40 @@ interface DateConfig {
 interface PageHeaderContextValue {
   title: string;
   showDateSelector: boolean;
-  showDataTransferButton: boolean;
+  navBarActions: ReactNode | null;
   dateConfig: DateConfig | null;
-  dataTransferOnClick: (() => void) | null;
   setPageTitle: (title: string) => void;
   setShowDateSelector: (show: boolean) => void;
-  setShowDataTransferButton: (show: boolean) => void;
+  setNavBarActions: (actions: ReactNode | null) => void;
   setDateConfig: (config: DateConfig | null) => void;
-  setDataTransferOnClick: (onClick: (() => void) | null) => void;
 }
 
 const PageHeaderContext = createContext<PageHeaderContextValue>({
   title: '',
   showDateSelector: false,
-  showDataTransferButton: false,
+  navBarActions: null,
   dateConfig: null,
-  dataTransferOnClick: null,
   setPageTitle: () => {},
   setShowDateSelector: () => {},
-  setShowDataTransferButton: () => {},
+  setNavBarActions: () => {},
   setDateConfig: () => {},
-  setDataTransferOnClick: () => {},
 });
 
 export const PageHeaderProvider = ({ children }: { children: ReactNode }) => {
   const [title, setPageTitle] = useState('');
   const [showDateSelector, setShowDateSelector] = useState(false);
-  const [showDataTransferButton, setShowDataTransferButton] = useState(false);
+  const [navBarActions, setNavBarActions] = useState<ReactNode | null>(null);
   const [dateConfig, setDateConfig] = useState<DateConfig | null>(null);
-  const [dataTransferOnClick, setDataTransferOnClick] = useState<(() => void) | null>(null);
 
   const value: PageHeaderContextValue = {
     title,
     showDateSelector,
-    showDataTransferButton,
+    navBarActions,
     dateConfig,
-    dataTransferOnClick,
     setPageTitle,
     setShowDateSelector,
-    setShowDataTransferButton,
+    setNavBarActions,
     setDateConfig,
-    setDataTransferOnClick,
   };
 
   return <PageHeaderContext.Provider value={value}>{children}</PageHeaderContext.Provider>;
@@ -71,20 +64,16 @@ export const usePageHeader = (title: string, showDateSelector = false) => {
   }, [title, showDateSelector]);
 };
 
-export const useNavBarDataTransfer = (onClick: () => void) => {
-  const { setShowDataTransferButton, setDataTransferOnClick } = usePageHeaderContext();
-  const onClickRef = useRef(onClick);
-  onClickRef.current = onClick;
+export const useNavBarActions = (actions: ReactNode | null) => {
+  const { setNavBarActions } = usePageHeaderContext();
 
   useEffect(() => {
-    setShowDataTransferButton(true);
-    setDataTransferOnClick(() => () => onClickRef.current());
+    setNavBarActions(actions);
 
     return () => {
-      setShowDataTransferButton(false);
-      setDataTransferOnClick(null);
+      setNavBarActions(null);
     };
-  }, []);
+  }, [actions]);
 };
 
 export const useNavBarDate = (value: Dayjs, onChange: (date: Dayjs) => void) => {

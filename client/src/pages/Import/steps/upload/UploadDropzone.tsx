@@ -3,6 +3,7 @@ import { alpha, Button, Chip, Paper, Typography, useTheme } from '@mui/material'
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import ImportPrivacyNote from '@/components/features/transactions/ImportPrivacyNote';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
@@ -104,9 +105,7 @@ const UploadDropzone = ({
         <Typography variant="caption" color="text.secondary">
           {t('importWizard.upload.dropzoneSub')}
         </Typography>
-        <Typography variant="caption" color="text.secondary">
-          {t('importWizard.upload.dropzonePrivacy')}
-        </Typography>
+        <ImportPrivacyNote />
         {!isDragging && (
           <Button
             variant="outlined"

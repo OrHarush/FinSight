@@ -1,4 +1,3 @@
-import ImportExportIcon from '@mui/icons-material/ImportExport';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -21,8 +20,7 @@ interface NavBarProps {
 const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps) => {
   const theme = useTheme();
   const isHandDevice = useMediaQuery(theme.breakpoints.down('md'));
-  const { title, showDateSelector, showDataTransferButton, dataTransferOnClick, dateConfig } =
-    usePageHeaderContext();
+  const { title, showDateSelector, navBarActions, dateConfig } = usePageHeaderContext();
   const isRtl = theme.direction === 'rtl';
 
   const CollapseIcon = isRtl ? KeyboardDoubleArrowRightIcon : KeyboardDoubleArrowLeftIcon;
@@ -40,11 +38,7 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
           >
             <MenuIcon />
           </IconButton>
-          {showDataTransferButton && (
-            <IconButton size="medium" onClick={() => dataTransferOnClick?.()}>
-              <ImportExportIcon fontSize="small" />
-            </IconButton>
-          )}
+          {navBarActions}
         </Row>
         {showDateSelector && dateConfig && (
           <Box
@@ -75,11 +69,12 @@ const NavBar = ({ onMobileOpen, sidebarExpanded, onToggleSidebar }: NavBarProps)
         <Typography
           variant="h6"
           fontWeight={700}
-          sx={{ mx: 1.5, whiteSpace: 'nowrap', minWidth: 0 }}
+          sx={{ mx: 1.5, whiteSpace: 'nowrap', flexShrink: 0 }}
         >
           {title}
         </Typography>
       )}
+      {navBarActions}
       <Controls />
     </NavBarContainer>
   );

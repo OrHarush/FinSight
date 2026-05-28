@@ -5,10 +5,24 @@
     "subtitle": "Start by adding your first one",
     "chart": "Add some to see your income & expenses graph"
   },
+  "getStartedEmpty": {
+    "title": "Let's start tracking your money",
+    "manual": {
+      "title": "Add manually",
+      "description": "Add your first transaction in seconds.",
+      "cta": "Add transaction"
+    },
+    "import": {
+      "title": "Import from bank",
+      "description": "Upload a bank or credit card statement.",
+      "cta": "Import file"
+    }
+  },
   "totals": {
     "income": "Total income",
     "expenses": "Total expenses"
   },
+  "swipeToDeleteHint": "Swipe a transaction to delete",
   "fields": {
     "name": "Name",
     "amount": "Amount",

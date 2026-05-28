@@ -17,6 +17,7 @@ import { formatGoalAmount } from '@/pages/Goals/utils/goalFormatters';
 import TransactionsTotals from '@/pages/Transactions/components/TransactionsTotals';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import GhostTransactionCard from '@/pages/Transactions/TransactionsPreview/GhostTransactionCard';
+import SwipeToDeleteHint from '@/pages/Transactions/TransactionsPreview/SwipeToDeleteHint';
 import TransactionCard from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionCard';
 import TransactionsCardsSkeleton from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/TransactionsCardsSkeleton';
 import { useGhostQuickContribute } from '@/pages/Transactions/TransactionsPreview/useGhostQuickContribute';
@@ -156,6 +157,7 @@ const TransactionsCardsView = () => {
   return (
     <Column spacing={1} overflow={'hidden'}>
       <TransactionsTotals totalIncome={totalIncome} totalExpenses={totalExpenses} />
+      <SwipeToDeleteHint />
       <ScrollableColumn flex={1} sx={{ pr: 0.5 }}>
         {renderGhostCards(pendingGhosts)}
         {transactions.map(tx => (
