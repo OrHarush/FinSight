@@ -28,6 +28,7 @@ import {
 import * as accountService from '../accountService';
 import * as analyticsService from '../analyticsService';
 import { syncAccountBalance } from '../balanceService';
+import { getActiveWorkspaceIdOrThrow } from '../workspaceService';
 import { buildVirtualTransactions } from './buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './quickChipsService';
 
@@ -206,6 +207,8 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     }
   }
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<ITransaction, '_id'> = {
     name: data.name ?? '',
     note: data.note,
@@ -219,6 +222,7 @@ export const create = async (data: CreateTransactionDTO, userId: string) => {
     fromAccount: data.fromAccountId ? new Types.ObjectId(data.fromAccountId) : undefined,
     toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   mapped.importFingerprint = fingerprintForTransaction(mapped);

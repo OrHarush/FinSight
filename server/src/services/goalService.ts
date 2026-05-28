@@ -20,6 +20,7 @@ import {
   requiredMonthlyContribution,
 } from '../utils/goalProjection';
 import * as analyticsService from './analyticsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const DEFAULT_SAVINGS_COLOR = '#9ca3af';
 const PACE_LOOKBACK_MONTHS = 3;
@@ -65,20 +66,27 @@ const presentGoal = (goal: IGoal, category?: ICategory | null) => ({
   category: category ?? null,
 });
 
-const buildSavingsCategory = (dto: CreateGoalDTO, userId: string): Omit<ICategory, '_id'> => ({
+const buildSavingsCategory = (
+  dto: CreateGoalDTO,
+  userId: string,
+  workspaceId: Types.ObjectId
+): Omit<ICategory, '_id'> => ({
   name: dto.name,
   type: 'Savings',
   color: dto.color ?? DEFAULT_SAVINGS_COLOR,
   icon: dto.icon ?? '',
   userId: new Types.ObjectId(userId),
+  workspaceId,
 });
 
 const buildGoalDocument = (
   dto: CreateGoalDTO,
   userId: string,
-  categoryId: Types.ObjectId
+  categoryId: Types.ObjectId,
+  workspaceId: Types.ObjectId
 ): Omit<IGoal, '_id' | 'createdAt' | 'updatedAt'> => ({
   userId: new Types.ObjectId(userId),
+  workspaceId,
   name: dto.name,
   icon: dto.icon ?? null,
   color: dto.color ?? null,
@@ -151,7 +159,11 @@ export const getGoalById = async (id: string, userId: string) => {
   return presentGoal(goal, category as ICategory | null);
 };
 
-const insertGoalAtomically = async (dto: CreateGoalDTO, userId: string) => {
+const insertGoalAtomically = async (
+  dto: CreateGoalDTO,
+  userId: string,
+  workspaceId: Types.ObjectId
+) => {
   const session = await mongoose.startSession();
 
   try {
@@ -159,11 +171,14 @@ const insertGoalAtomically = async (dto: CreateGoalDTO, userId: string) => {
     let createdCategory: ICategory | null = null;
 
     await session.withTransaction(async () => {
-      const category = await categoryRepository.insert(buildSavingsCategory(dto, userId), session);
+      const category = await categoryRepository.insert(
+        buildSavingsCategory(dto, userId, workspaceId),
+        session
+      );
       createdCategory = category.toObject() as ICategory;
 
       const goal = await goalRepository.insert(
-        buildGoalDocument(dto, userId, category._id as unknown as Types.ObjectId),
+        buildGoalDocument(dto, userId, category._id as unknown as Types.ObjectId, workspaceId),
         session
       );
       createdGoal = goal.toObject() as IGoal;
@@ -175,13 +190,17 @@ const insertGoalAtomically = async (dto: CreateGoalDTO, userId: string) => {
   }
 };
 
-const insertGoalWithCompensation = async (dto: CreateGoalDTO, userId: string) => {
-  const category = await categoryRepository.insert(buildSavingsCategory(dto, userId));
+const insertGoalWithCompensation = async (
+  dto: CreateGoalDTO,
+  userId: string,
+  workspaceId: Types.ObjectId
+) => {
+  const category = await categoryRepository.insert(buildSavingsCategory(dto, userId, workspaceId));
   const categoryDoc = category.toObject() as ICategory;
 
   try {
     const goal = await goalRepository.insert(
-      buildGoalDocument(dto, userId, category._id as unknown as Types.ObjectId)
+      buildGoalDocument(dto, userId, category._id as unknown as Types.ObjectId, workspaceId)
     );
 
     return presentGoal(goal.toObject() as IGoal, categoryDoc);
@@ -207,15 +226,17 @@ export const createGoal = async (userId: string, dto: CreateGoalDTO) => {
     throw ApiError.badRequest('GOAL_NAME_TAKEN');
   }
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const result = await (async () => {
     try {
-      return await insertGoalAtomically(dto, userId);
+      return await insertGoalAtomically(dto, userId, workspaceId);
     } catch (err) {
       if (!isReplicaSetTransactionError(err)) {
         throw err;
       }
 
-      return insertGoalWithCompensation(dto, userId);
+      return insertGoalWithCompensation(dto, userId, workspaceId);
     }
   })();
 

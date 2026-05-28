@@ -11,6 +11,7 @@ import { FileFormat, parseFile } from '../utils/fileParser';
 import { fingerprintForImportRow } from '../utils/importFingerprint';
 import * as analyticsService from './analyticsService';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 interface PreviewRow {
   date: string;
@@ -136,6 +137,7 @@ export const importTransactions = async (
   }
 
   const importBatchId = new Types.ObjectId();
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
 
   const transactions: Omit<ITransaction, '_id'>[] = filteredRows.map(row => {
     const isRefund = row.amount < 0;
@@ -150,6 +152,7 @@ export const importTransactions = async (
       ...(paymentMethodId && { paymentMethod: new Types.ObjectId(paymentMethodId) }),
       ...(row.categoryId && { category: new Types.ObjectId(row.categoryId) }),
       userId: new Types.ObjectId(userId),
+      workspaceId,
       importBatchId,
       importFingerprint: fingerprintForImportRow(userId, dto.accountId, row),
     };

@@ -7,6 +7,7 @@ import * as accountRepository from '../repositories/accountRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import * as analyticsService from './analyticsService';
 import { setBalanceCheckpoint } from './balanceService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 export const findAll = async (userId: string) => {
   const accounts = await accountRepository.findMany(userId);
@@ -29,7 +30,10 @@ export const getAccountById = async (id: string, userId: string) => {
 };
 
 export const create = async (data: CreateAccountDTO, userId: string) => {
-  const numOfAccounts = await accountRepository.countByUser(userId);
+  const [numOfAccounts, workspaceId] = await Promise.all([
+    accountRepository.countByUser(userId),
+    getActiveWorkspaceIdOrThrow(userId),
+  ]);
 
   const mapped: Omit<IAccount, '_id'> = {
     name: data.name,
@@ -42,6 +46,7 @@ export const create = async (data: CreateAccountDTO, userId: string) => {
     currency: data.currency ?? 'ILS',
     isPrimary: numOfAccounts === 0 ? true : (data.isPrimary ?? false),
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   if (mapped.isPrimary && numOfAccounts > 0) {

@@ -7,6 +7,7 @@ import { IPaymentMethod } from '../models/PaymentMethod';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import * as transactionRepository from '../repositories/transactionRepository';
 import * as analyticsService from './analyticsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 export const findAll = async (userId: string) => paymentMethodRepository.findMany(userId);
 
@@ -37,6 +38,8 @@ export const createDefaultBankTransfer = async (userId: string): Promise<IPaymen
     throw ApiError.internal('Default Bank Transfer template is missing.');
   }
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<IPaymentMethod, '_id'> = {
     name: template.name,
     type: template.type,
@@ -45,6 +48,7 @@ export const createDefaultBankTransfer = async (userId: string): Promise<IPaymen
     isPrimary: template.isPrimary ?? false,
     key: template.key,
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   const created = await paymentMethodRepository.insert(mapped);
@@ -57,6 +61,8 @@ export const createDefaultBankTransfer = async (userId: string): Promise<IPaymen
 };
 
 export const create = async (details: CreatePaymentMethodDTO, userId: string) => {
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<IPaymentMethod, '_id'> = {
     name: details.name,
     type: details.type,
@@ -64,6 +70,7 @@ export const create = async (details: CreatePaymentMethodDTO, userId: string) =>
     lastFourDigits: details.lastFourDigits,
     isPrimary: details.isPrimary ?? false,
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   const created = await paymentMethodRepository.insert(mapped);

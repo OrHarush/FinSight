@@ -15,6 +15,7 @@ import { recordLoginEvent } from './adminService';
 import * as analyticsService from './analyticsService';
 import { syncAllAccountsForUser } from './balanceService';
 import { createDefaultEntitiesForNewUser } from './userService';
+import { createPersonalWorkspaceForNewUser } from './workspaceService';
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -56,7 +57,11 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
   }
 
   if (isNewUser) {
-    await createDefaultEntitiesForNewUser(user._id.toString());
+    const workspaceId = await createPersonalWorkspaceForNewUser(
+      user._id.toString(),
+      user.displayCurrency
+    );
+    await createDefaultEntitiesForNewUser(user._id.toString(), workspaceId);
 
     void analyticsService
       .track(user._id.toString(), 'user_created')

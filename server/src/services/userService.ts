@@ -56,7 +56,10 @@ export const updateAnalyticsConsent = async (
   analyticsConsent: 'accepted' | 'rejected'
 ) => updateAnalyticsConsentRepo(userId, analyticsConsent);
 
-export const createDefaultEntitiesForNewUser = async (userId: string) => {
+export const createDefaultEntitiesForNewUser = async (
+  userId: string,
+  workspaceId: Types.ObjectId
+) => {
   const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map(dto => ({
     key: dto.key,
     name: dto.name,
@@ -64,6 +67,7 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
     color: dto.color ?? '#9ca3af',
     icon: dto.icon ?? '',
     userId: new Types.ObjectId(userId),
+    workspaceId,
   }));
 
   const paymentMethodsToCreate: Omit<IPaymentMethod, '_id'>[] = DEFAULT_PAYMENT_METHODS.map(
@@ -75,6 +79,7 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
       isPrimary: dto.isPrimary ?? false,
       key: dto.key,
       userId: new Types.ObjectId(userId),
+      workspaceId,
     })
   );
 
@@ -92,6 +97,7 @@ export const createDefaultEntitiesForNewUser = async (userId: string) => {
     isPrimary: true,
     key: DEFAULT_ACCOUNT.key,
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   await Promise.all([

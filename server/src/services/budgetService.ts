@@ -12,6 +12,7 @@ import { ApiError } from '../errors/ApiError';
 import { IBudget } from '../models/Budget';
 import * as budgetRepository from '../repositories/budgetRepository';
 import * as analyticsService from './analyticsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 export const findAll = async (userId: string, options: GetBudgetsQuery) => {
   const budgets = await budgetRepository.findMany(userId, options);
@@ -50,8 +51,11 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
     );
   }
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<IBudget, '_id'> = {
     userId: new Types.ObjectId(userId),
+    workspaceId,
     categoryId: new Types.ObjectId(data.categoryId),
     year: data.year,
     month: dbMonth,
@@ -70,6 +74,7 @@ export const create = async (data: CreateBudgetDTO, userId: string) => {
 };
 
 export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
   const budgets: Omit<IBudget, '_id'>[] = [];
 
   // startMonth/endMonth are 1-based; convert to 0-based for DB
@@ -86,6 +91,7 @@ export const createBulk = async (data: CreateBudgetBulkDTO, userId: string) => {
     if (!existing) {
       budgets.push({
         userId: new Types.ObjectId(userId),
+        workspaceId,
         categoryId: new Types.ObjectId(data.categoryId),
         year: data.year,
         month: dbMonth,

@@ -6,6 +6,7 @@ import { ICategory } from '../models/Category';
 import * as categoryRepository from '../repositories/categoryRepository';
 import * as goalRepository from '../repositories/goalRepository';
 import * as analyticsService from './analyticsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 const FREQUENT_WINDOW_DAYS = 60;
 const FREQUENT_MIN_USES = 3;
@@ -62,6 +63,8 @@ export const create = async (categoryDetails: CreateCategoryDTO, userId: string)
     throw ApiError.badRequest('SAVINGS_CATEGORY_REQUIRES_GOAL');
   }
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<ICategory, '_id'> = {
     key: categoryDetails.key,
     name: categoryDetails.name,
@@ -69,6 +72,7 @@ export const create = async (categoryDetails: CreateCategoryDTO, userId: string)
     color: categoryDetails.color ?? '#9ca3af',
     icon: categoryDetails.icon ?? '',
     userId: new Types.ObjectId(userId),
+    workspaceId,
   };
 
   const created = await categoryRepository.insert(mapped);

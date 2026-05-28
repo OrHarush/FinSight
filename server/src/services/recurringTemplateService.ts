@@ -23,6 +23,7 @@ import { fingerprintForTransaction } from '../utils/importFingerprint';
 import * as analyticsService from './analyticsService';
 import { clampedDate } from './transactions/buildVirtualTransactions';
 import { invalidateQuickChipsCache } from './transactions/quickChipsService';
+import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 dayjs.extend(utc);
 
@@ -115,8 +116,11 @@ export const getById = async (id: string, userId: string) => {
 export const create = async (dto: CreateRecurringTemplateDTO, userId: string) => {
   await validateRefs(dto.type, dto, userId);
 
+  const workspaceId = await getActiveWorkspaceIdOrThrow(userId);
+
   const mapped: Omit<IRecurringTemplate, '_id'> = {
     userId: new Types.ObjectId(userId),
+    workspaceId,
     frequency: dto.frequency,
     dayOfMonth: dto.dayOfMonth,
     startDate: new Date(dto.startDate),
@@ -280,8 +284,12 @@ export const splitTemplate = async (
 
   await validateRefs(effectiveType, changes, userId);
 
+  const workspaceId =
+    existing.workspaceId ?? (await getActiveWorkspaceIdOrThrow(userId));
+
   const newTemplateData: Omit<IRecurringTemplate, '_id'> = {
     userId: existing.userId,
+    workspaceId,
     frequency: changes.frequency ?? existing.frequency,
     dayOfMonth: changes.dayOfMonth ?? existing.dayOfMonth,
     startDate: splitPoint.toDate(),
@@ -376,6 +384,7 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
         fromAccount: template.fromAccount,
         toAccount: template.toAccount,
         userId: template.userId,
+        workspaceId: template.workspaceId,
         templateId: new Types.ObjectId(template._id as string),
       };
 
