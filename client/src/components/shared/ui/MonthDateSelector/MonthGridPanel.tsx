@@ -70,9 +70,15 @@ const MonthGridPanel = ({ value, minYear, maxYear, onSelect }: MonthGridPanelPro
           return (
             <Button
               key={label}
-              variant={isSelected ? 'contained' : 'text'}
+              variant={isSelected ? 'outlined' : 'text'}
               onClick={() => onSelect(panelYear, monthIndex)}
-              sx={{ minWidth: 0, py: 1.25, fontWeight: 600 }}
+              sx={{
+                minWidth: 0,
+                py: 1.25,
+                fontWeight: 600,
+                color: 'text.primary',
+                ...(isSelected && { borderColor: 'primary.main' }),
+              }}
             >
               {label}
             </Button>
