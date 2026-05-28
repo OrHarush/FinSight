@@ -22,7 +22,7 @@
     "income": "סך הכנסות",
     "expenses": "סך הוצאות"
   },
-  "swipeToDeleteHint": "החליקו על עסקה כדי למחוק",
+  "swipeToDeleteHint": "החליקו למחיקה · הקלקה לעריכה",
   "fields": {
     "name": "שם",
     "amount": "סכום",

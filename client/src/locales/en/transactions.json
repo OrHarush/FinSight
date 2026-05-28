@@ -22,7 +22,7 @@
     "income": "Total income",
     "expenses": "Total expenses"
   },
-  "swipeToDeleteHint": "Swipe a transaction to delete",
+  "swipeToDeleteHint": "Swipe to delete · Tap to edit",
   "fields": {
     "name": "Name",
     "amount": "Amount",
