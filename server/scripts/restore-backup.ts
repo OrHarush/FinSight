@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 import AdmZip from 'adm-zip';
 import mongoose, { Types } from 'mongoose';
-import path from 'path';
-import readline from 'readline';
+import * as path from 'path';
+import * as readline from 'readline';
 
 // Strict 24-char lowercase-or-uppercase hex; matches Mongo ObjectId.toString() output.
 const OBJECT_ID_REGEX = /^[0-9a-fA-F]{24}$/;

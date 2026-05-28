@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import mongoose, { Types } from 'mongoose';
-import readline from 'readline';
+import * as readline from 'readline';
 
 const PROD_DB_NAME = 'lyra';
 const PERSONAL_WORKSPACE_NAME = 'האישי שלי';
@@ -21,6 +21,7 @@ type ScopedCollection = (typeof SCOPED_COLLECTIONS)[number];
 
 interface UserDoc {
   _id: Types.ObjectId;
+  email?: string;
   displayCurrency?: string;
   activeWorkspaceId?: Types.ObjectId;
 }
@@ -53,6 +54,18 @@ interface PerUserResult {
   updatedPerCollection: Record<ScopedCollection, number>;
 }
 
+interface OrphanIdPair {
+  _id: Types.ObjectId;
+  userId?: Types.ObjectId;
+}
+
+interface OrphanCleanupRow {
+  found: number;
+  deleted: number;
+}
+
+type OrphanCleanupByCollection = Record<ScopedCollection, OrphanCleanupRow>;
+
 const parseDbName = (uri: string): string => {
   const url = new URL(uri);
   const name = url.pathname.replace(/^\/+/, '').split('?')[0];
@@ -64,12 +77,23 @@ const parseDbName = (uri: string): string => {
   return decodeURIComponent(name);
 };
 
-const promptConfirmation = async (expected: string, isProd: boolean): Promise<boolean> => {
+const promptConfirmation = async (
+  expected: string,
+  isProd: boolean,
+  dryRun: boolean
+): Promise<boolean> => {
   console.log('');
   console.log('==============================================================');
   console.log(`  About to backfill workspaces into database: "${expected}"`);
-  console.log('  This will INSERT new Workspace + WorkspaceMember docs and');
-  console.log('  SET workspaceId on every scoped collection where missing.');
+
+  if (dryRun) {
+    console.log('');
+    console.log('  *** DRY RUN — no writes will be performed. ***');
+    console.log('  All planned inserts / updates / deletes will be logged only.');
+  } else {
+    console.log('  This will INSERT new Workspace + WorkspaceMember docs and');
+    console.log('  SET workspaceId on every scoped collection where missing.');
+  }
 
   if (isProd) {
     console.log('');
@@ -176,17 +200,19 @@ const createPersonalWorkspaceForUser = async (
 const backfillScopedCollectionsForUser = async (
   db: mongoose.mongo.Db,
   userId: Types.ObjectId,
-  workspaceId: Types.ObjectId
+  workspaceId: Types.ObjectId,
+  dryRun: boolean
 ): Promise<Record<ScopedCollection, number>> => {
   const entries = await Promise.all(
     SCOPED_COLLECTIONS.map(async name => {
-      const result = await db
-        .collection(name)
-        .updateMany(
-          { userId, workspaceId: { $exists: false } },
-          { $set: { workspaceId } }
-        );
+      const filter = { userId, workspaceId: { $exists: false } };
 
+      if (dryRun) {
+        const wouldModify = await db.collection(name).countDocuments(filter);
+        return [name, wouldModify] as const;
+      }
+
+      const result = await db.collection(name).updateMany(filter, { $set: { workspaceId } });
       return [name, result.modifiedCount] as const;
     })
   );
@@ -194,11 +220,99 @@ const backfillScopedCollectionsForUser = async (
   return Object.fromEntries(entries) as Record<ScopedCollection, number>;
 };
 
-const migrateUser = async (db: mongoose.mongo.Db, user: UserDoc): Promise<PerUserResult> => {
+const findOrphansInCollection = async (
+  db: mongoose.mongo.Db,
+  name: ScopedCollection,
+  validUserIdHexes: Set<string>
+): Promise<OrphanIdPair[]> => {
+  const docs = await db
+    .collection<OrphanIdPair>(name)
+    .find({})
+    .project<OrphanIdPair>({ _id: 1, userId: 1 })
+    .toArray();
+
+  return docs.filter(doc => {
+    if (!doc.userId) {
+      return true;
+    }
+
+    return !validUserIdHexes.has(doc.userId.toHexString());
+  });
+};
+
+const logOrphans = (name: ScopedCollection, orphans: OrphanIdPair[]): void => {
+  for (const orphan of orphans) {
+    const orphanUserId = orphan.userId ? orphan.userId.toHexString() : '<missing>';
+    console.log(`  [ORPHAN] ${name} _id=${orphan._id.toHexString()} userId=${orphanUserId}`);
+  }
+};
+
+const deleteOrphansInCollection = async (
+  db: mongoose.mongo.Db,
+  name: ScopedCollection,
+  orphans: OrphanIdPair[],
+  dryRun: boolean
+): Promise<number> => {
+  if (orphans.length === 0 || dryRun) {
+    return 0;
+  }
+
+  const ids = orphans.map(doc => doc._id);
+  const result = await db.collection(name).deleteMany({ _id: { $in: ids } });
+
+  return result.deletedCount;
+};
+
+const cleanupOrphans = async (
+  db: mongoose.mongo.Db,
+  validUserIdHexes: Set<string>,
+  dryRun: boolean
+): Promise<OrphanCleanupByCollection> => {
+  const result = {} as OrphanCleanupByCollection;
+
+  for (const name of SCOPED_COLLECTIONS) {
+    const orphans = await findOrphansInCollection(db, name, validUserIdHexes);
+    logOrphans(name, orphans);
+    const deleted = await deleteOrphansInCollection(db, name, orphans, dryRun);
+    result[name] = { found: orphans.length, deleted };
+  }
+
+  return result;
+};
+
+const printOrphanTable = (counts: OrphanCleanupByCollection, dryRun: boolean): void => {
+  const actionColumn = dryRun ? 'would delete' : 'deleted';
+
+  console.log('');
+  console.log('==============================================================');
+  console.log('  Orphan cleanup summary');
+  console.log('==============================================================');
+  console.log(`  collection                       found   ${actionColumn}`);
+  console.log('  -----------------------------  --------  ------------');
+
+  for (const name of SCOPED_COLLECTIONS) {
+    const row = counts[name];
+    const padded = name.padEnd(29);
+    const found = String(row.found).padStart(8);
+    const action = String(dryRun ? row.found : row.deleted).padStart(actionColumn.length);
+    console.log(`  ${padded}  ${found}  ${action}`);
+  }
+
+  console.log('');
+};
+
+const totalOrphansFound = (counts: OrphanCleanupByCollection): number =>
+  SCOPED_COLLECTIONS.reduce((sum, name) => sum + counts[name].found, 0);
+
+const migrateUser = async (
+  db: mongoose.mongo.Db,
+  user: UserDoc,
+  dryRun: boolean
+): Promise<PerUserResult> => {
   const existing = await findExistingPersonalWorkspaceId(db, user._id);
 
   if (existing) {
-    const backfilled = await backfillScopedCollectionsForUser(db, user._id, existing);
+    const backfilled = await backfillScopedCollectionsForUser(db, user._id, existing, dryRun);
 
     return {
       userId: user._id.toHexString(),
@@ -209,8 +323,10 @@ const migrateUser = async (db: mongoose.mongo.Db, user: UserDoc): Promise<PerUse
   }
 
   const now = new Date();
-  const workspaceId = await createPersonalWorkspaceForUser(db, user, now);
-  const backfilled = await backfillScopedCollectionsForUser(db, user._id, workspaceId);
+  const workspaceId = dryRun
+    ? new Types.ObjectId()
+    : await createPersonalWorkspaceForUser(db, user, now);
+  const backfilled = await backfillScopedCollectionsForUser(db, user._id, workspaceId, dryRun);
 
   return {
     userId: user._id.toHexString(),
@@ -262,6 +378,42 @@ const verifyPostMigration = (
   return { ok: failures.length === 0, failures };
 };
 
+const isDryRunFlag = (arg: string): boolean =>
+  arg === '--dry-run' || arg === '--dryrun' || arg.startsWith('--dry-run=');
+
+const resolveDryRun = (): { dryRun: boolean; source: string } => {
+  const argvHit = process.argv.find(isDryRunFlag);
+
+  if (argvHit) {
+    return { dryRun: true, source: `argv (${argvHit})` };
+  }
+
+  const envValue = process.env.DRY_RUN;
+
+  if (envValue === '1' || envValue === 'true') {
+    return { dryRun: true, source: `env DRY_RUN=${envValue}` };
+  }
+
+  return { dryRun: false, source: 'no --dry-run flag, no DRY_RUN env' };
+};
+
+const printModeBanner = (dryRun: boolean, source: string): void => {
+  console.log('');
+  console.log('--------------------------------------------------------------');
+  console.log(`  argv (after node + script): ${JSON.stringify(process.argv.slice(2))}`);
+  console.log(`  DRY_RUN env: ${process.env.DRY_RUN ?? '(unset)'}`);
+  console.log(`  resolved from: ${source}`);
+
+  if (dryRun) {
+    console.log('  >>> MODE: DRY RUN — no writes will be performed <<<');
+  } else {
+    console.log('  >>> MODE: LIVE — writes WILL be performed <<<');
+  }
+
+  console.log('--------------------------------------------------------------');
+  console.log('');
+};
+
 const run = async (): Promise<void> => {
   const mongoUri = process.env.MONGO_URI;
 
@@ -270,17 +422,20 @@ const run = async (): Promise<void> => {
     process.exit(1);
   }
 
+  const { dryRun, source: dryRunSource } = resolveDryRun();
+  printModeBanner(dryRun, dryRunSource);
+
   const dbName = parseDbName(mongoUri);
   const isProd = dbName === PROD_DB_NAME;
 
-  const confirmed = await promptConfirmation(dbName, isProd);
+  const confirmed = await promptConfirmation(dbName, isProd, dryRun);
 
   if (!confirmed) {
     console.error('Aborted: database name did not match. No connection opened.');
     process.exit(1);
   }
 
-  console.log(`Connecting to MongoDB (db: ${dbName})...`);
+  console.log(`Connecting to MongoDB (db: ${dbName}${dryRun ? ', DRY RUN' : ''})...`);
   await mongoose.connect(mongoUri);
   console.log('Connected.');
 
@@ -297,17 +452,40 @@ const run = async (): Promise<void> => {
     const users = await db
       .collection<UserDoc>('users')
       .find({})
-      .project<UserDoc>({ _id: 1, displayCurrency: 1, activeWorkspaceId: 1 })
+      .project<UserDoc>({ _id: 1, email: 1, displayCurrency: 1, activeWorkspaceId: 1 })
       .toArray();
 
-    console.log(`Found ${users.length} user(s). Starting backfill...`);
+    const validUserIdHexes = new Set(users.map(u => u._id.toHexString()));
+
+    console.log('');
+    console.log('==============================================================');
+    console.log('  Orphan cleanup phase');
+    console.log('  (docs whose userId does not match any existing user)');
+    console.log('==============================================================');
+
+    const orphanCounts = await cleanupOrphans(db, validUserIdHexes, dryRun);
+    const orphansFound = totalOrphansFound(orphanCounts);
+
+    if (orphansFound === 0) {
+      console.log('  0 orphans found across all scoped collections.');
+    }
+
+    printOrphanTable(orphanCounts, dryRun);
+
+    const postCleanupCounts = await captureCounts(db);
+
+    const backfillHeader = dryRun
+      ? `Found ${users.length} user(s). Previewing backfill (dry-run)...`
+      : `Found ${users.length} user(s). Starting backfill...`;
+    console.log(backfillHeader);
     console.log('');
 
     let created = 0;
     let skipped = 0;
 
-    for (const user of users) {
-      const result = await migrateUser(db, user);
+    for (let i = 0; i < users.length; i += 1) {
+      const user = users[i];
+      const result = await migrateUser(db, user, dryRun);
 
       if (result.workspaceCreated) {
         created += 1;
@@ -315,25 +493,41 @@ const run = async (): Promise<void> => {
         skipped += 1;
       }
 
-      const tag = result.workspaceCreated ? 'created' : 'existing';
-      const updatedTotals = SCOPED_COLLECTIONS.map(
-        name => `${name}=${result.updatedPerCollection[name]}`
+      const identifier = user.email ?? user._id.toHexString();
+      const createdLabel = dryRun ? 'WOULD create workspace' : 'created workspace';
+      const status = result.workspaceCreated ? createdLabel : 'skipped (already migrated)';
+      const backfillBreakdown = SCOPED_COLLECTIONS.map(
+        name => `${name}:${result.updatedPerCollection[name]}`
       ).join(' ');
 
       console.log(
-        `  user ${result.userId} → workspace ${result.workspaceId} (${tag}); updated ${updatedTotals}`
+        `[${i + 1}/${users.length}] ${identifier}: ${status} | ${backfillBreakdown}`
       );
     }
 
     console.log('');
-    console.log(`Workspaces created: ${created}`);
-    console.log(`Workspaces already present (skipped creation): ${skipped}`);
+
+    if (dryRun) {
+      console.log(`Workspaces that WOULD be created: ${created}`);
+      console.log(`Users already migrated (would skip): ${skipped}`);
+    } else {
+      console.log(`Workspaces created: ${created}`);
+      console.log(`Workspaces already present (skipped creation): ${skipped}`);
+    }
+
     console.log(`Total users processed: ${users.length}`);
 
+    const postLabel = dryRun ? 'Counts after dry-run (unchanged)' : 'Post-migration counts';
     const postCounts = await captureCounts(db);
-    printCountsTable('Post-migration counts', postCounts);
+    printCountsTable(postLabel, postCounts);
 
-    const verification = verifyPostMigration(preCounts, postCounts);
+    if (dryRun) {
+      console.log('Verification skipped (dry-run): no writes performed.');
+      console.log('Re-run without --dry-run to apply the planned changes.');
+      return;
+    }
+
+    const verification = verifyPostMigration(postCleanupCounts, postCounts);
 
     if (!verification.ok) {
       console.error('==============================================================');

@@ -82,6 +82,19 @@ Default to **analytics** when ambiguous. Every new event collection must have:
 
 ---
 
+## Database Scripts
+
+Standalone scripts that touch MongoDB (migrations, backfills, cleanups, restores) must include — by default, without asking:
+
+1. **Confirmation gate.** Parse db name from `MONGO_URI`, print it, require an exact retype before connecting. Abort on mismatch. Extra `!!! PRODUCTION DATABASE !!!` warning when db is `lyra`.
+2. **`--dry-run` flag.** Performs all reads and logs every planned change (counts, affected `_id`s, would-insert/update/delete) but writes nothing. Still passes through the confirmation gate. Also accept `DRY_RUN=1` env var — npm 7+ swallows `--dry-run` as its own reserved flag, so the env var is the bulletproof invocation. Print a loud `MODE: DRY RUN / LIVE` banner at startup right after parsing argv so the resolved mode is impossible to miss.
+3. **Per-record logging.** Log each entity (`_id` or identifier) so a mid-run failure is forensically reconstructable.
+4. **Idempotency.** Re-runs must be safe and produce no duplicate effects.
+
+Canonical patterns: `server/scripts/restore-backup.ts`, `server/scripts/migrate-workspaces.ts`.
+
+---
+
 ## Git Commit Messages
 
 - When the user explicitly asks for a commit message, give a single-line conventional-commit (`type(scope): summary`). No body, no bullets, no Co-Authored-By line — just one line. Don't volunteer commit messages unprompted.
