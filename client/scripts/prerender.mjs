@@ -154,7 +154,7 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
     await sanitizeRendered(page);
     const { sheetsInlined, rulesWritten } = await inlineRuntimeStyles(page);
 
-    const html = stripMotionStyles(await page.content());
+    let html = stripMotionStyles(await page.content());
     const outPath = path.join(distDir, route.replace(/^\//, ''), 'index.html');
     await fs.mkdir(path.dirname(outPath), { recursive: true });
 
@@ -162,6 +162,11 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
       /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i,
     );
     console.log(`  · ${route} canonical: ${canonicalMatch ? canonicalMatch[1] : '(none)'}`);
+
+    html = html.replace(
+      /<link[^>]+rel=["']canonical["'][^>]*>/i,
+      `<link rel="canonical" href="https://lyra-il.com${route}">`
+    );
 
     await fs.writeFile(outPath, html, 'utf-8');
 
