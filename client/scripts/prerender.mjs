@@ -179,7 +179,16 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
 
     if (routeTitles[route]) {
       html = html.replace(/<title>[^<]*<\/title>/, `<title>${routeTitles[route]}</title>`);
-      html = html.replace(/<meta\s+name=["']description["'][^>]*>/, '<meta name="description" content="">');
+    }
+
+    const routeDescriptions = {
+      '/privacy-policy': 'מדיניות הפרטיות של Lyra — אפליקציה לניהול הוצאות ותזרים מזומנים.',
+      '/terms-of-service': 'תנאי השימוש של Lyra — אפליקציה לניהול הוצאות ותזרים מזומנים.',
+      '/accessibility': 'הצהרת הנגישות של Lyra — אפליקציה לניהול הוצאות ותזרים מזומנים.',
+    };
+
+    if (routeDescriptions[route]) {
+      html = html.replace(/<meta\s+name=["']description["'][^>]*>/, `<meta name="description" content="${routeDescriptions[route]}">`);
     }
 
     await fs.writeFile(outPath, html, 'utf-8');
