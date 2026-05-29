@@ -157,6 +157,12 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
     const html = stripMotionStyles(await page.content());
     const outPath = path.join(distDir, route.replace(/^\//, ''), 'index.html');
     await fs.mkdir(path.dirname(outPath), { recursive: true });
+
+    const canonicalMatch = html.match(
+      /<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i,
+    );
+    console.log(`  · ${route} canonical: ${canonicalMatch ? canonicalMatch[1] : '(none)'}`);
+
     await fs.writeFile(outPath, html, 'utf-8');
 
     const sizeKb = (Buffer.byteLength(html) / 1024).toFixed(1);
