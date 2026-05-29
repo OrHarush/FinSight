@@ -168,6 +168,20 @@ const prerenderRoute = async (launchOptions, baseUrl, route) => {
       `<link rel="canonical" href="https://lyra-il.com${route}">`
     );
 
+    const afterMatch = html.match(/<link[^>]+rel=["']canonical["'][^>]*>/i);
+    console.log(`  · ${route} canonical after replace: ${afterMatch ? afterMatch[0] : '(tag not found)'}`);
+
+    const routeTitles = {
+      '/privacy-policy': 'מדיניות פרטיות | Lyra',
+      '/terms-of-service': 'תנאי שימוש | Lyra',
+      '/accessibility': 'הצהרת נגישות | Lyra',
+    };
+
+    if (routeTitles[route]) {
+      html = html.replace(/<title>[^<]*<\/title>/, `<title>${routeTitles[route]}</title>`);
+      html = html.replace(/<meta\s+name=["']description["'][^>]*>/, '<meta name="description" content="">');
+    }
+
     await fs.writeFile(outPath, html, 'utf-8');
 
     const sizeKb = (Buffer.byteLength(html) / 1024).toFixed(1);
