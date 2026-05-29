@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { amountSchema, nameSchema, objectIdSchema } from './common';
+import { nameSchema, objectIdSchema, positiveAmountSchema } from './common';
 
 const optionalObjectIdField = z.union([objectIdSchema, z.literal('')]).optional();
 
@@ -8,7 +8,7 @@ const BaseTransactionSchema = z.object({
   name: nameSchema(50).optional(),
   note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
-  amount: amountSchema,
+  amount: positiveAmountSchema,
   frequency: z.enum(['Monthly', 'Yearly']).optional(),
   belongToPreviousMonth: z.boolean().optional(),
   date: z.string().optional(),
@@ -90,7 +90,7 @@ export type UpdateTransactionDTO = z.infer<typeof UpdateTransactionSchema>;
 
 const BaseTransactionFormSchema = z.object({
   name: nameSchema(50).optional(),
-  amount: amountSchema,
+  amount: positiveAmountSchema,
   date: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),

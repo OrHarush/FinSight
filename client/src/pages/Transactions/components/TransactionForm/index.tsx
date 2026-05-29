@@ -39,6 +39,12 @@ const amountInputSx = {
   },
 };
 
+const blockNegativeAmountKeys = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  if (event.key === '-' || event.key === '+' || event.key === 'e' || event.key === 'E') {
+    event.preventDefault();
+  }
+};
+
 const mobileAmountSx = {
   '& .MuiFilledInput-root': {
     backgroundColor: 'transparent',
@@ -95,12 +101,15 @@ const TransactionForm = ({
       label={t('fields.amount')}
       type="number"
       placeholder={'0'}
+      onKeyDown={blockNegativeAmountKeys}
       slotProps={{
         input: {
           startAdornment: <InputAdornment position="start">₪</InputAdornment>,
         },
         htmlInput: {
           dir: 'ltr',
+          min: 0,
+          inputMode: 'decimal',
         },
       }}
       sx={amountInputSx}
@@ -121,11 +130,12 @@ const TransactionForm = ({
           type="number"
           placeholder="0"
           hiddenLabel
+          onKeyDown={blockNegativeAmountKeys}
           slotProps={{
             input: {
               startAdornment: <InputAdornment position="start">₪</InputAdornment>,
             },
-            htmlInput: { dir: 'ltr' },
+            htmlInput: { dir: 'ltr', min: 0, inputMode: 'decimal' },
           }}
           sx={mobileAmountSx}
         />

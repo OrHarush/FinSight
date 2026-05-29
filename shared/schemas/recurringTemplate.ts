@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { amountSchema, nameSchema, objectIdSchema } from './common';
+import { nameSchema, objectIdSchema, positiveAmountSchema } from './common';
 
 const BaseRecurringTemplateSchema = z.object({
   // Recurrence rules
@@ -13,7 +13,7 @@ const BaseRecurringTemplateSchema = z.object({
   name: nameSchema(50).optional(),
   note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
   type: z.enum(['Income', 'Expense', 'Transfer']),
-  amount: amountSchema,
+  amount: positiveAmountSchema,
   belongToPreviousMonth: z.boolean().optional(),
 
   // Conditional refs — all optional at schema level; service validates based on type
