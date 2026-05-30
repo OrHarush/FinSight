@@ -68,4 +68,7 @@ export const queryKeys = {
   adminUsers: () => ['admin-users'],
   adminDebugSnapshots: () => ['admin', 'debug-snapshots'],
   adminBalanceBreakdown: (accountId?: string) => ['admin', 'balance-breakdown', accountId ?? null],
+
+  workspaces: () => ['workspaces'],
+  invitation: (token: string) => ['invitation', token],
 };

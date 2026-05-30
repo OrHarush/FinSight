@@ -23,6 +23,12 @@ export const UpdateAnalyticsConsentSchema = z.object({
 
 export type UpdateAnalyticsConsentBody = z.infer<typeof UpdateAnalyticsConsentSchema>;
 
+export const SetActiveWorkspaceSchema = z.object({
+  workspaceId: z.string().regex(/^[a-f0-9]{24}$/i, 'Invalid workspace ID'),
+});
+
+export type SetActiveWorkspaceBody = z.infer<typeof SetActiveWorkspaceSchema>;
+
 export const DeleteUserSchema = z.object({
   feedback: z
     .object({

@@ -98,6 +98,7 @@ const UserDeletionDialog = ({ isOpen, closeDialog, onConfirm }: UserDeletionDial
       closeDialog={closeDeletionDialog}
       title={t('deleteDialog.title')}
       titleIcon={WarningAmberRoundedIcon}
+      forceDialog
     >
       <DialogContent sx={{ py: 1 }}>
         <Column spacing={2} sx={{ pt: 1 }}>

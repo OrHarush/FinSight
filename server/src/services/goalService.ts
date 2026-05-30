@@ -133,8 +133,7 @@ export const findAll = async (userId: string, workspaceId: string, query: GetGoa
     goals.map(async (goal) => {
       const [category, currentValueCents] = await Promise.all([
         categoryRepository.findById(goal.categoryId.toString(), workspaceId),
-        // contributions come from transactions, which are still userId-scoped
-        computeCurrentValueCents(userId, goal),
+        computeCurrentValueCents(workspaceId, goal),
       ]);
 
       return {
@@ -295,10 +294,9 @@ export const updateGoal = async (workspaceId: string, id: string, patch: UpdateG
   return presentGoal(updatedGoal, category as ICategory | null);
 };
 
-// transactions are still userId-scoped (flipped in their own task)
-const countTransactionsForCategory = async (userId: string, categoryId: Types.ObjectId) =>
+const countTransactionsForCategory = async (workspaceId: string, categoryId: Types.ObjectId) =>
   Transaction.countDocuments({
-    userId: new Types.ObjectId(userId),
+    workspaceId: new Types.ObjectId(workspaceId),
     category: categoryId,
   });
 
@@ -326,7 +324,7 @@ export const deleteGoal = async (
     return { id, keptCategory: true };
   }
 
-  const txCount = await countTransactionsForCategory(userId, goal.categoryId);
+  const txCount = await countTransactionsForCategory(workspaceId, goal.categoryId);
 
   if (txCount > 0) {
     throw ApiError.badRequest('CATEGORY_HAS_TRANSACTIONS');
@@ -355,11 +353,11 @@ const sumNetContributionCents = (rows: AggregateRow[]) => {
   return expenseSum - incomeSum;
 };
 
-const aggregateContributionsCents = async (userId: string, categoryId: Types.ObjectId) => {
+const aggregateContributionsCents = async (workspaceId: string, categoryId: Types.ObjectId) => {
   const rows = await Transaction.aggregate<AggregateRow>([
     {
       $match: {
-        userId: new Types.ObjectId(userId),
+        workspaceId: new Types.ObjectId(workspaceId),
         category: categoryId,
       },
     },
@@ -369,17 +367,17 @@ const aggregateContributionsCents = async (userId: string, categoryId: Types.Obj
   return sumNetContributionCents(rows);
 };
 
-const computeCurrentValueCents = async (userId: string, goal: IGoal) => {
-  const contributions = await aggregateContributionsCents(userId, goal.categoryId);
+const computeCurrentValueCents = async (workspaceId: string, goal: IGoal) => {
+  const contributions = await aggregateContributionsCents(workspaceId, goal.categoryId);
 
   return (goal.initialAmount ?? 0) + contributions;
 };
 
-const aggregateContributionsByMonth = async (userId: string, categoryId: Types.ObjectId) => {
+const aggregateContributionsByMonth = async (workspaceId: string, categoryId: Types.ObjectId) => {
   const rows = await Transaction.aggregate<MonthRow>([
     {
       $match: {
-        userId: new Types.ObjectId(userId),
+        workspaceId: new Types.ObjectId(workspaceId),
         category: categoryId,
         date: { $exists: true, $ne: null },
       },
@@ -460,8 +458,8 @@ export const getGoalProjection = async (
   const today = startOfTodayUtc();
 
   const [currentValueCents, contributionsByMonthCents] = await Promise.all([
-    computeCurrentValueCents(userId, goal),
-    aggregateContributionsByMonth(userId, goal.categoryId),
+    computeCurrentValueCents(workspaceId, goal),
+    aggregateContributionsByMonth(workspaceId, goal.categoryId),
   ]);
 
   const monthsRemaining = monthsBetween(today, goal.targetDate);
@@ -512,7 +510,7 @@ export const getGoalProjection = async (
 };
 
 const aggregateMonthContributionCents = async (
-  userId: string,
+  workspaceId: string,
   categoryId: Types.ObjectId,
   yearMonth: string
 ) => {
@@ -525,7 +523,7 @@ const aggregateMonthContributionCents = async (
   const rows = await Transaction.aggregate<AggregateRow>([
     {
       $match: {
-        userId: new Types.ObjectId(userId),
+        workspaceId: new Types.ObjectId(workspaceId),
         category: categoryId,
         date: { $gte: start, $lt: end },
       },
@@ -546,7 +544,7 @@ export const getGhostContributions = async (
 
   return Promise.all(
     goals.map(async (goal) => {
-      const currentValueCents = await computeCurrentValueCents(userId, goal);
+      const currentValueCents = await computeCurrentValueCents(workspaceId, goal);
       const monthsRemaining = monthsBetween(today, goal.targetDate);
       const plannedCents = requiredMonthlyContribution(
         currentValueCents,
@@ -554,7 +552,7 @@ export const getGhostContributions = async (
         monthsRemaining,
         goal.expectedAnnualReturn
       );
-      const actualCents = await aggregateMonthContributionCents(userId, goal.categoryId, yearMonth);
+      const actualCents = await aggregateMonthContributionCents(workspaceId, goal.categoryId, yearMonth);
       const remainingCents = Math.max(plannedCents - actualCents, 0);
 
       return {

@@ -24,6 +24,7 @@ const DeleteRecurringTransactionDialog = ({
       closeDialog={closeDialog}
       title={t('deleteRecurring.title')}
       titleIcon={WarningAmberRoundedIcon}
+      forceDialog
     >
       <DialogContent>
         <Column spacing={1.5}>

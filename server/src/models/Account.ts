@@ -35,7 +35,10 @@ const AccountSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-AccountSchema.index({ userId: 1 }, { unique: true, partialFilterExpression: { isPrimary: true } });
+AccountSchema.index(
+  { workspaceId: 1, isPrimary: 1 },
+  { unique: true, partialFilterExpression: { isPrimary: true } }
+);
 AccountSchema.index({ workspaceId: 1 });
 
 export default mongoose.model<IAccount>('Account', AccountSchema, 'accounts');

@@ -16,7 +16,10 @@
     "migrate:cents": "ts-node scripts/migrateToCents.ts",
     "migrate:fingerprint": "ts-node scripts/backfillImportFingerprint.ts",
     "migrate:workspaces": "ts-node scripts/migrate-workspaces.ts",
-    "restore:backup": "ts-node scripts/restore-backup.ts"
+    "restore:backup": "ts-node scripts/restore-backup.ts",
+    "seed:invitations": "ts-node scripts/seed-invitation-states.ts",
+    "clean:invitations": "ts-node scripts/clean-invitations.ts",
+    "backfill:personal-icon": "ts-node scripts/backfill-personal-workspace-icon.ts"
   },
   "keywords": [],
   "author": "",

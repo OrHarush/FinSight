@@ -88,6 +88,7 @@ const DeleteWithReassignDialog = ({
       closeDialog={closeDialog}
       title={t('deleteDialog.title', { name: itemName })}
       titleIcon={WarningAmberIcon}
+      forceDialog
     >
       <DialogContent>
         <Column spacing={2}>

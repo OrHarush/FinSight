@@ -17,9 +17,9 @@ export const findPrimary = async (workspaceId: string) =>
     .lean<IAccount>()
     .exec();
 
-export const insert = async (data: Omit<IAccount, '_id'>) => {
+export const insert = async (data: Omit<IAccount, '_id'>, session?: ClientSession) => {
   const account = new Account(data);
-  return account.save();
+  return account.save({ session });
 };
 
 export const updateById = async (id: string, data: Partial<IAccount>, workspaceId: string) =>

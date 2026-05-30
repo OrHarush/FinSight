@@ -1,28 +1,51 @@
-import { ClientSession, Types } from 'mongoose';
+import { ClientSession, HydratedDocument, Types } from 'mongoose';
 
 import User, { IUser } from '../models/User';
 import { isExcludedEmail } from '../utils/excludedEmails';
 
-export const findById = async (userId: string | Types.ObjectId) => User.findById(userId);
+export const findById = async (
+  userId: string | Types.ObjectId
+): Promise<HydratedDocument<IUser> | null> => User.findById(userId);
 
-export const findByProvider = async (provider: string, providerId: string): Promise<IUser | null> =>
+export const findByProvider = async (
+  provider: string,
+  providerId: string
+): Promise<HydratedDocument<IUser> | null> =>
   User.findOne({ 'providers.provider': provider, 'providers.providerId': providerId });
 
-export const findByEmail = async (email: string): Promise<IUser | null> => User.findOne({ email });
+export const findByEmail = async (
+  email: string
+): Promise<HydratedDocument<IUser> | null> => User.findOne({ email });
 
-export const createUser = async (data: Partial<IUser>): Promise<IUser> => {
+export const createUser = async (
+  data: Partial<IUser>,
+  session?: ClientSession
+): Promise<IUser> => {
   const user = new User(data);
-  return user.save();
+  return user.save({ session });
 };
 
-//TODO Fix type any
-export const saveUser = async (user: any): Promise<IUser> => user.save();
+export const saveUser = async (
+  user: HydratedDocument<IUser>,
+  session?: ClientSession
+): Promise<IUser> => user.save({ session });
 
 export const updateLastLogin = async (userId: string) =>
   User.findByIdAndUpdate(userId, { lastLoginAt: new Date() }, { new: true });
 
 export const deleteUserById = (id: string, session?: ClientSession) =>
   User.findByIdAndDelete(id).session(session ?? null);
+
+export const updateActiveWorkspace = (
+  userId: string | Types.ObjectId,
+  workspaceId: Types.ObjectId | null,
+  session?: ClientSession
+) =>
+  User.updateOne(
+    { _id: new Types.ObjectId(userId.toString()) },
+    { $set: { activeWorkspaceId: workspaceId } },
+    { session }
+  );
 
 export const countAll = async (): Promise<number> => User.countDocuments();
 

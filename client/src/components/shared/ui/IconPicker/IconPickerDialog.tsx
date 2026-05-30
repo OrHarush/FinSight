@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import Column from '@/components/shared/layout/containers/Column';
@@ -32,6 +33,7 @@ const IconPickerDialog = ({
   iconMap,
 }: IconPickerDialogProps) => {
   const theme = useTheme();
+  const { t } = useTranslation('common');
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
@@ -46,7 +48,7 @@ const IconPickerDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={closeDialog} maxWidth="sm" fullWidth sx={{ zIndex: theme.zIndex.modal + 2 }}>
-      <DialogTitle>Select an Icon</DialogTitle>
+      <DialogTitle>{t('iconPicker.title')}</DialogTitle>
       <IconButton
         onClick={closeDialog}
         sx={theme => ({
@@ -63,7 +65,7 @@ const IconPickerDialog = ({
           <Column>
             <TextField
               fullWidth
-              placeholder="Search icons..."
+              placeholder={t('iconPicker.search')}
               value={search}
               onChange={handleSearch}
               size="small"

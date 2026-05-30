@@ -11,14 +11,15 @@ export const ROUTES = {
   BUDGETS_URL: '/budget',
   GOALS_URL: '/goals',
   GOAL_DETAIL_URL: '/goals/:id',
-  PLANNER_URL: '/planner',
-  REPORTS_URL: '/reports',
   ACCOUNTS_URL: '/accounts',
   ADMIN_KPIS_URL: '/admin/kpis',
   ADMIN_DEBUG_URL: '/admin/debug',
   CHAT_URL: '/chat',
   IMPORT_URL: '/transactions/import',
+  INVITATION_URL: '/invitations/:token',
 } as const;
+
+export const buildInvitationUrl = (token: string) => `/invitations/${token}`;
 
 export const API_ROUTES = {
   AUTH: {
@@ -77,6 +78,7 @@ export const API_ROUTES = {
   USERS: '/api/users',
   USERS_ME: '/api/users/me',
   USERS_PREFERENCES: '/api/users/me/preferences',
+  USERS_ACTIVE_WORKSPACE: '/api/users/me/active-workspace',
   USERS_CONSENT: '/api/users/me/consent',
   USERS_EXPORT: '/api/users/me/export',
 
@@ -116,4 +118,18 @@ export const API_ROUTES = {
 
   ANALYTICS_SHARE_CLICK: '/api/analytics/share-click',
   ANALYTICS_PWA_INSTALL: '/api/analytics/pwa-install',
+
+  WORKSPACES: '/api/workspaces',
+  WORKSPACE_BY_ID: (workspaceId: string) => `/api/workspaces/${workspaceId}`,
+  WORKSPACE_INVITATIONS: (workspaceId: string) =>
+    `/api/workspaces/${workspaceId}/invitations`,
+  WORKSPACE_INVITATION_BY_ID: (workspaceId: string, invitationId: string) =>
+    `/api/workspaces/${workspaceId}/invitations/${invitationId}`,
+  WORKSPACE_LEAVE: (workspaceId: string) => `/api/workspaces/${workspaceId}/leave`,
+  WORKSPACE_MEMBER: (workspaceId: string, userId: string) =>
+    `/api/workspaces/${workspaceId}/members/${userId}`,
+  WORKSPACE_EXPORT: (workspaceId: string) => `/api/workspaces/${workspaceId}/export`,
+  PUBLIC_INVITATION: (token: string) => `/api/invitations/${token}`,
+  INVITATION_ACCEPT: (token: string) => `/api/invitations/${token}/accept`,
+  INVITATION_DECLINE: (token: string) => `/api/invitations/${token}/decline`,
 };

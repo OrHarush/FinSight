@@ -1,6 +1,11 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export type WorkspaceInvitationStatus = 'pending' | 'accepted' | 'expired' | 'revoked';
+export type WorkspaceInvitationStatus =
+  | 'pending'
+  | 'accepted'
+  | 'expired'
+  | 'revoked'
+  | 'declined';
 
 export interface IWorkspaceInvitation {
   _id: string;
@@ -23,7 +28,7 @@ const WorkspaceInvitationSchema: Schema = new Schema(
     token: { type: String, required: true, unique: true },
     status: {
       type: String,
-      enum: ['pending', 'accepted', 'expired', 'revoked'],
+      enum: ['pending', 'accepted', 'expired', 'revoked', 'declined'],
       required: true,
       default: 'pending',
     },

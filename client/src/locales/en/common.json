@@ -121,6 +121,10 @@
       "offline": "Works offline, access your data anytime (Coming soon)"
     }
   },
+  "iconPicker": {
+    "title": "Select an Icon",
+    "search": "Search icons..."
+  },
   "feedback": {
     "title": "Send feedback",
     "fields": {

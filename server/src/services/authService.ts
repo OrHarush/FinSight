@@ -1,5 +1,6 @@
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
 import { IUser } from '../models/User';
@@ -7,6 +8,7 @@ import {
   acceptTerms,
   createUser,
   findByEmail,
+  findById,
   findByProvider,
   saveUser,
   updateLastLogin,
@@ -31,8 +33,54 @@ interface AuthPayload {
   picture?: string;
 }
 
-export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
+const registerNewUserAtomically = async (
+  payload: AuthPayload
+): Promise<HydratedDocument<IUser>> => {
   const { provider, providerId, email, name, picture } = payload;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  let userId: string;
+
+  try {
+    const created = await createUser(
+      {
+        email,
+        name,
+        picture,
+        providers: [{ provider, providerId }],
+      },
+      session
+    );
+
+    userId = created._id.toString();
+
+    const workspaceId = await createPersonalWorkspaceForNewUser(
+      userId,
+      created.displayCurrency,
+      session
+    );
+    await createDefaultEntitiesForNewUser(userId, workspaceId, session);
+
+    await session.commitTransaction();
+  } catch (err) {
+    await session.abortTransaction();
+    throw err;
+  } finally {
+    await session.endSession();
+  }
+
+  const reloaded = await findById(userId);
+
+  if (!reloaded) {
+    throw ApiError.internal('Newly created user not found after commit');
+  }
+
+  return reloaded;
+};
+
+export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
+  const { provider, providerId, email } = payload;
 
   let user = await findByProvider(provider, providerId);
   let isNewUser = false;
@@ -42,27 +90,14 @@ export const loginOrRegister = async (payload: AuthPayload): Promise<IUser> => {
 
     if (user) {
       user.providers.push({ provider, providerId });
+      await saveUser(user);
     } else {
       isNewUser = true;
-
-      user = await createUser({
-        email,
-        name,
-        picture,
-        providers: [{ provider, providerId }],
-      });
+      user = await registerNewUserAtomically(payload);
     }
-
-    await saveUser(user);
   }
 
   if (isNewUser) {
-    const workspaceId = await createPersonalWorkspaceForNewUser(
-      user._id.toString(),
-      user.displayCurrency
-    );
-    await createDefaultEntitiesForNewUser(user._id.toString(), workspaceId);
-
     void analyticsService
       .track(user._id.toString(), 'user_created')
       .catch(err => console.error('Failed to track user_created:', err));

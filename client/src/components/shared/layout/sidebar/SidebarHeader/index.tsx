@@ -31,14 +31,14 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
   return (
     <Row
       alignItems="center"
-      height={'80px'}
+      height={'56px'}
       spacing={isMobileBreakpointMd ? 1 : 2}
       padding={2}
       justifyContent="space-between"
       sx={{ borderBottom: '1px solid', borderColor: theme.palette.divider }}
     >
       <Row alignItems="center" spacing={isMobileBreakpointMd ? 1 : 2}>
-        <SidebarLogo size={40} />
+        <SidebarLogo size={32} />
         <Typography
           variant="h5"
           fontWeight={700}

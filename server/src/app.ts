@@ -19,6 +19,7 @@ import { workspaceContextMiddleware } from './middlewares/workspaceContextMiddle
 import accountRoutes from './routes/accountRoutes';
 import adminRoutes from './routes/adminRoutes';
 import analyticsRoutes from './routes/analyticsRoutes';
+import authedInvitationRoutes from './routes/authedInvitationRoutes';
 import authRoutes from './routes/authRoutes';
 import budgetRoutes from './routes/budgetRoutes';
 import categoryRoutes from './routes/categoryRoutes';
@@ -28,7 +29,9 @@ import feedbackRoutes from './routes/feedbackRoutes';
 import goalRoutes from './routes/goalRoutes';
 import importRoutes from './routes/importRoutes';
 import paymentMethodRoutes from './routes/paymentMethodsRoutes';
+import publicInvitationRoutes from './routes/publicInvitationRoutes';
 import recurringTemplateRoutes from './routes/recurringTemplateRoutes';
+import sharedWorkspaceRoutes from './routes/sharedWorkspaceRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import userRoutes from './routes/userRoutes';
 
@@ -54,9 +57,12 @@ app.get('/health', (_req, res) => {
 app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/cron', cronRoutes);
+app.use('/api/invitations', publicInvitationRoutes);
 app.use('/api', authMiddleware);
 app.use('/api', workspaceContextMiddleware);
 app.use('/api', activityPingMiddleware);
+app.use('/api/workspaces', sharedWorkspaceRoutes);
+app.use('/api/invitations', authedInvitationRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/accounts', accountRoutes);

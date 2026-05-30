@@ -10,7 +10,7 @@
     "success": "החשבון נמחק בהצלחה.",
     "error": "מחיקת החשבון נכשלה.",
     "feedback": {
-      "label": "עוזר לנו להשתפר — מה הסיבה? (אופציונלי)",
+      "label": "עוזר לנו להשתפר, מה הסיבה? (אופציונלי)",
       "reasons": {
         "too_complex": "מורכב מדי",
         "missing_feature": "חסרה לי תכונה",
@@ -34,13 +34,162 @@
     "essentialLabel": "חיוני",
     "essentialHelper": "נדרש להתחברות, אבטחה ופעולה תקינה. תמיד מופעל.",
     "yourDataLabel": "הנתונים שלך",
-    "yourDataHelper": "מקבל קובץ JSON עם כל הנתונים שלך — חשבונות, תנועות, קטגוריות, יעדים והגדרות.",
+    "yourDataHelper": "מקבל קובץ JSON עם כל הנתונים שלך, חשבונות, תנועות, קטגוריות, יעדים והגדרות.",
     "downloadDataButton": "הורד",
     "downloadDataError": "לא הצלחנו להוריד את הנתונים. נסה שוב.",
+    "exportPicker": {
+      "title": "איזה משק בית להוריד?",
+      "subtitle": "כל משק בית יורד כקובץ JSON נפרד.",
+      "personalCaption": "האישי שלי",
+      "sharedCaption": "משק בית משותף",
+      "allOption": "הכל",
+      "allCaption": "הורד כל משק בית כקובץ נפרד",
+      "cancel": "ביטול"
+    },
     "dangerZone": "אזור מסוכן",
     "deleteAccount": "מחיקת חשבון",
     "updateSuccess": "ההעדפות נשמרו.",
-    "updateError": "שמירת ההעדפות נכשלה."
+    "updateError": "שמירת ההעדפות נכשלה.",
+    "tabs": {
+      "general": "כללי",
+      "sharedHousehold": "משק בית משותף"
+    }
+  },
+  "sharedHousehold": {
+    "empty": {
+      "title": "משק בית משותף",
+      "body": "מנהלים את הכסף ביחד? פתחו משק בית משותף ושני בני הזוג יוכלו להוסיף עסקאות, לראות יתרות ולנהל תקציבים יחד, תמונה אחת משותפת.",
+      "createButton": "פתח משק בית משותף"
+    },
+    "create": {
+      "title": "פתח משק בית משותף",
+      "nameLabel": "שם משק הבית",
+      "namePlaceholder": "למשל: הבית שלנו",
+      "nameRequired": "שדה חובה",
+      "nameTooLong": "עד 40 תווים",
+      "submit": "פתח",
+      "cancel": "ביטול",
+      "success": "משק הבית נפתח.",
+      "error": "פתיחת משק הבית נכשלה.",
+      "capReached": "הגעת למספר המקסימלי של משקי בית.",
+      "changeIcon": "החלף אייקון"
+    },
+    "edit": {
+      "title": "ערוך משק בית משותף",
+      "submit": "שמור",
+      "success": "השינויים נשמרו.",
+      "error": "שמירת השינויים נכשלה.",
+      "ariaLabel": "ערוך משק בית"
+    },
+    "list": {
+      "membersTitle": "חברי משק הבית",
+      "youSuffix": " (את/ה)",
+      "roleOwner": "בעלים",
+      "roleMember": "חבר/ה"
+    },
+    "invite": {
+      "title": "הזמן בן/בת זוג",
+      "emailLabel": "אימייל",
+      "emailPlaceholder": "name@example.com",
+      "emailRequired": "שדה חובה",
+      "emailInvalid": "אימייל לא תקין",
+      "submit": "שלח הזמנה",
+      "success": "ההזמנה נשלחה.",
+      "successNoEmail": "ההזמנה נוצרה (לא נשלח אימייל).",
+      "errorSelfInvite": "אי אפשר להזמין את עצמך.",
+      "errorAlreadyMember": "האדם כבר נמצא במשק הבית.",
+      "errorAlreadyInvited": "כבר נשלחה הזמנה לאימייל הזה.",
+      "errorMemberCap": "משק הבית מלא, אי אפשר לשלוח עוד הזמנות.",
+      "errorGeneric": "שליחת ההזמנה נכשלה.",
+      "fullMessage": "משק הבית מלא"
+    },
+    "pending": {
+      "title": "הזמנות בהמתנה",
+      "expiresAt": "פג תוקף ב-{{date}}",
+      "revoke": "ביטול הזמנה",
+      "revokeSuccess": "ההזמנה בוטלה.",
+      "revokeError": "ביטול ההזמנה נכשל."
+    },
+    "loadError": "טעינת משקי הבית נכשלה.",
+    "retry": "נסה שוב",
+    "switcher": {
+      "personalCaption": "האישי שלי",
+      "sharedCaption": "משק בית משותף · {{count}}",
+      "openCreate": "פתח משק בית משותף",
+      "switchError": "מעבר בין משקי בית נכשל. נסה שוב.",
+      "ariaOpen": "החלף משק בית",
+      "active": "פעיל"
+    },
+    "leave": {
+      "button": "עזיבת משק הבית",
+      "confirmTitle": "לעזוב את \"{{household}}\"?",
+      "confirmBody": "תאבדו גישה לכל הנתונים של משק הבית, חשבונות, קטגוריות, תקציבים ויעדים. אם תרצו לשמור עותק, הורידו את הנתונים לפני העזיבה.",
+      "exportButton": "הורדת הנתונים לפני עזיבה",
+      "exportError": "ההורדה נכשלה. נסה שוב.",
+      "confirm": "עזוב",
+      "cancel": "ביטול",
+      "success": "עזבת את משק הבית.",
+      "successDeleted": "עזבת ומשק הבית נמחק.",
+      "error": "עזיבת משק הבית נכשלה."
+    },
+    "remove": {
+      "ariaLabel": "הסר חבר",
+      "confirmTitle": "להסיר את {{name}}?",
+      "confirmBody": "החבר/ה יאבד/תאבד גישה למשק הבית. הנתונים שיצר/ה יישארו.",
+      "confirm": "הסר",
+      "cancel": "ביטול",
+      "success": "החבר הוסר ממשק הבית.",
+      "error": "הסרת החבר נכשלה."
+    },
+    "landing": {
+      "loadError": "טעינת ההזמנה נכשלה.",
+      "retry": "נסה שוב",
+      "householdSubtitle": "משק בית משותף",
+      "footer": "ההזמנה נשלחה אל {{email}} · בתוקף ל-7 ימים",
+      "inviteHeadline": "{{inviter}} מזמין/ה אותך",
+      "inviteSubtitle": "לנהל יחד את משק הבית ב-Lyra",
+      "socialProof": "תצטרפו ל-{{inviter}} במשק הבית",
+      "declineLink": "דחיית ההזמנה",
+      "guest": {
+        "loginCta": "התחבר/י כדי להצטרף"
+      },
+      "match": {
+        "accept": "הצטרפו למשק הבית",
+        "declineSuccess": "ההזמנה נדחתה.",
+        "declineError": "דחיית ההזמנה נכשלה."
+      },
+      "mismatch": {
+        "warning": "ההזמנה נשלחה אל {{invited}}, אך התחברת כ-{{current}}",
+        "switchAccount": "התנתק והתחבר עם החשבון הנכון"
+      },
+      "expired": {
+        "title": "ההזמנה כבר לא בתוקף",
+        "body": "תוקף ההזמנה ל\"{{household}}\" פג. בקשו מ-{{inviter}} לשלוח הזמנה חדשה.",
+        "backToApp": "חזרה ל-Lyra"
+      },
+      "accepted": {
+        "title": "כבר הצטרפת ל-{{household}}",
+        "enter": "היכנסו למשק הבית"
+      },
+      "dead": {
+        "title": "ההזמנה כבר לא בתוקף",
+        "backToApp": "חזרה ל-Lyra"
+      },
+      "invalid": {
+        "title": "הקישור אינו תקין",
+        "body": "קישור ההזמנה שגוי או שאינו קיים יותר.",
+        "backToApp": "חזרה ל-Lyra"
+      },
+      "acceptErrors": {
+        "expired": "ההזמנה פגה בינתיים. בקשו מ-{{inviter}} לשלוח הזמנה חדשה.",
+        "memberCap": "משק הבית התמלא בזמן הזה, לא ניתן להצטרף.",
+        "emailMismatch": "ההזמנה אינה תואמת את החשבון שלך.",
+        "workspaceCap": "הגעת למספר המקסימלי של משקי בית.",
+        "generic": "ההצטרפות נכשלה. נסו שוב."
+      },
+      "acceptSuccess": "הצטרפת בהצלחה ל-{{household}}.",
+      "switchHint": "כדי לעבור למשק הבית המשותף, פתחו את ההגדרות והחליפו אליו."
+    }
   },
   "consent": {
     "banner": {

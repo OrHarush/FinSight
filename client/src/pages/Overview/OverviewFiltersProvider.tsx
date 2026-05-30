@@ -34,13 +34,20 @@ export const OverviewFiltersProvider = ({ children }: { children: ReactNode }) =
   };
 
   useEffect(() => {
-    if (accounts.length && !accountId) {
-      const primary = accounts.find(x => x.isPrimary);
-
-      if (primary) {
-        setAccountId(primary._id);
-      }
+    if (accounts.length === 0) {
+      return;
     }
+
+    const selectedStillBelongsToWorkspace =
+      accountId && accounts.some(a => a._id === accountId);
+
+    if (selectedStillBelongsToWorkspace) {
+      return;
+    }
+
+    const primary = accounts.find(x => x.isPrimary);
+
+    setAccountId(primary?._id ?? accounts[0]._id);
   }, [accountId, accounts]);
 
   return (

@@ -11,25 +11,15 @@ import { ICategory } from '../models/Category';
 import { DeletionReason, IDeletionFeedback } from '../models/DeletionFeedback';
 import { IPaymentMethod } from '../models/PaymentMethod';
 import { IUser } from '../models/User';
-import { deleteMany as deleteAccounts } from '../repositories/accountRepository';
 import * as accountRepository from '../repositories/accountRepository';
 import * as analyticsEventRepository from '../repositories/analyticsEventRepository';
-import { deleteMany as deleteBudgets } from '../repositories/budgetRepository';
-import {
-  deleteMany as deleteCategories,
-  insertMany as createCategories,
-} from '../repositories/categoryRepository';
+import { insertMany as createCategories } from '../repositories/categoryRepository';
 import * as dailyActivityRepository from '../repositories/dailyActivityRepository';
 import { deleteMany as deleteDebugSnapshots } from '../repositories/debugSnapshotRepository';
 import * as deletionFeedbackRepository from '../repositories/deletionFeedbackRepository';
 import * as feedbackRepository from '../repositories/feedbackRepository';
-import { deleteMany as deleteGoals } from '../repositories/goalRepository';
 import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
-import { deleteMany as deleteRecurringTemplates } from '../repositories/recurringTemplateRepository';
-import {
-  countByUser,
-  deleteMany as deleteTransactions,
-} from '../repositories/transactionRepository';
+import { countByUser } from '../repositories/transactionRepository';
 import * as userActivityRepository from '../repositories/userActivityRepository';
 import {
   deleteUserById,
@@ -38,7 +28,13 @@ import {
   updateOnboarding,
   updatePreferences as updatePreferencesRepo,
 } from '../repositories/userRepository';
+import * as workspaceMemberRepository from '../repositories/workspaceMemberRepository';
+import * as workspaceRepository from '../repositories/workspaceRepository';
 import * as analyticsService from './analyticsService';
+import {
+  deleteWorkspaceCompletely,
+  leaveSharedWorkspaceTx,
+} from './workspaceLifecycleService';
 import { getActiveWorkspaceIdOrThrow } from './workspaceService';
 
 export interface DeletionFeedbackInput {
@@ -59,7 +55,8 @@ export const updateAnalyticsConsent = async (
 
 export const createDefaultEntitiesForNewUser = async (
   userId: string,
-  workspaceId: Types.ObjectId
+  workspaceId: Types.ObjectId,
+  session?: mongoose.ClientSession
 ) => {
   const categoriesToCreate: Omit<ICategory, '_id'>[] = DEFAULT_CATEGORIES.map(dto => ({
     key: dto.key,
@@ -102,9 +99,9 @@ export const createDefaultEntitiesForNewUser = async (
   };
 
   await Promise.all([
-    createCategories(categoriesToCreate),
-    paymentMethodRepository.insertMany(paymentMethodsToCreate),
-    accountRepository.insert(defaultAccount),
+    createCategories(categoriesToCreate, session),
+    paymentMethodRepository.insertMany(paymentMethodsToCreate, session),
+    accountRepository.insert(defaultAccount, session),
   ]);
 };
 
@@ -178,13 +175,22 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
   session.startTransaction();
 
   try {
-    await deleteTransactions({ userId }, session);
-    await deleteRecurringTemplates({ userId }, session);
-    await deleteBudgets({ userId }, session);
-    await deleteGoals({ userId }, session);
-    await deleteAccounts({ userId }, session);
-    await deleteCategories({ userId }, session);
-    await paymentMethodRepository.deleteMany({ userId }, session);
+    const memberships = await workspaceMemberRepository.findByUser(userId);
+
+    for (const membership of memberships) {
+      const workspace = await workspaceRepository.findById(membership.workspaceId);
+
+      if (!workspace) {
+        continue;
+      }
+
+      if (workspace.type === 'personal') {
+        await deleteWorkspaceCompletely(workspace._id, session);
+      } else {
+        await leaveSharedWorkspaceTx(userId, membership.workspaceId, session);
+      }
+    }
+
     await deleteDebugSnapshots({ userId }, session);
     await userActivityRepository.anonymizeByUser(userId, session);
     await analyticsEventRepository.anonymizeByUserName(user.name, session);

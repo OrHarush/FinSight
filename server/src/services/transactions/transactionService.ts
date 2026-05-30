@@ -208,7 +208,7 @@ export const create = async (
     });
 
     if (!category) {
-      throw ApiError.badRequest('Invalid category for this user');
+      throw ApiError.badRequest('Invalid category for this workspace');
     }
 
     if (!isCategoryCompatibleWithTransactionType(category.type, data.type)) {

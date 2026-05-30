@@ -9,13 +9,18 @@ import Column from '@/components/shared/layout/containers/Column';
 
 interface LegalContentRendererProps {
   type: 'termsOfService' | 'privacyPolicy' | 'accessibility';
+  showBackButton?: boolean;
 }
 
-const AccessibilityContent = () => {
+interface ContentProps {
+  showBackButton?: boolean;
+}
+
+const AccessibilityContent = ({ showBackButton }: ContentProps) => {
   const { t } = useTranslation(['accessibility', 'common']);
   return (
     <>
-      <LegalHeader title={t('title')} date={t('date')} />
+      <LegalHeader title={t('title')} date={t('date')} showBackButton={showBackButton} />
       <Divider />
       <Column spacing={3} sx={{ flex: 1 }}>
         <LegalSection title={t('sections.general.title')}>
@@ -35,13 +40,13 @@ const AccessibilityContent = () => {
   );
 };
 
-const PrivacyPolicyContent = () => {
+const PrivacyPolicyContent = ({ showBackButton }: ContentProps) => {
   const { t } = useTranslation(['privacyPolicy', 'common']);
   const getArray = (value: unknown): string[] => (Array.isArray(value) ? value : []);
 
   return (
     <>
-      <LegalHeader title={t('title')} date={t('date')} />
+      <LegalHeader title={t('title')} date={t('date')} showBackButton={showBackButton} />
       <Divider />
       <Column spacing={3}>
         <LegalSection title={t('sections.intro.title')}>{t('sections.intro.body')}</LegalSection>
@@ -135,12 +140,12 @@ const PrivacyPolicyContent = () => {
   );
 };
 
-const TermsOfServiceContent = () => {
+const TermsOfServiceContent = ({ showBackButton }: ContentProps) => {
   const { t } = useTranslation(['termsOfService']);
 
   return (
     <>
-      <LegalHeader title={t('title')} date={t('date')} />
+      <LegalHeader title={t('title')} date={t('date')} showBackButton={showBackButton} />
       <Divider />
       <Column spacing={3}>
         <LegalSection title={t('sections.acceptance.title')}>
@@ -178,11 +183,11 @@ const TermsOfServiceContent = () => {
   );
 };
 
-const LegalContentRenderer = ({ type }: LegalContentRendererProps) => (
+const LegalContentRenderer = ({ type, showBackButton }: LegalContentRendererProps) => (
   <Column spacing={4} sx={{ flex: 1 }} maxWidth={'900px'}>
-    {type == 'accessibility' && <AccessibilityContent />}
-    {type == 'privacyPolicy' && <PrivacyPolicyContent />}
-    {type == 'termsOfService' && <TermsOfServiceContent />}
+    {type == 'accessibility' && <AccessibilityContent showBackButton={showBackButton} />}
+    {type == 'privacyPolicy' && <PrivacyPolicyContent showBackButton={showBackButton} />}
+    {type == 'termsOfService' && <TermsOfServiceContent showBackButton={showBackButton} />}
   </Column>
 );
 

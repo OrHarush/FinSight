@@ -27,6 +27,7 @@ Backend: Node.js + Express + MongoDB — layered architecture: Routes → Contro
 - For loading states: always use skeleton components. Never mix loading logic into the actual component.
 - Never create 2 components in the same file. Each component must be in its own file, even if it's small.
 - If a component's styles grow complex, move them to a `styles.ts` file in the same folder. Export factory functions named `get[Component]Style` (e.g. `getChipStyle`, `getCardStyle`).
+- **Don't `React.lazy()` route pages in `AppRoutes.tsx`.** The cached PWA serves a stale `index.html` referencing old chunk hashes; dynamic `import()` 404s and the user hits the ErrorBoundary (see commit `44e386c`). Static imports only — until we ship a `lazyWithRetry` wrapper + NetworkFirst SW strategy for `index.html`.
 
 ## Function Declaration Style
 Always use `const` arrow functions — never `function` declarations:
@@ -59,6 +60,18 @@ openChipMenu, closeChipMenu, toggleSidebar, submitBudgetForm
 - Always use `TextInput` (project shared component) instead of raw MUI `TextField`.
 - All UI must support RTL and long translations — never assume English sizing.
 - Always use `CurrencyText` to display currency values — never raw numbers, `toLocaleString`, or manual `+`/`−`/`₪` wrapping. Use its `hasSign` (auto `+` on positives) and `hasColor` (success/error tint by sign) props. For values that should display as subtractions (e.g. expenses in a breakdown), pass the negated value so `CurrencyText` formats and colors them as negative.
+---
+
+## Modals & confirmations
+
+- **Content panels** (settings, management, multi-field forms) → centered dialog on desktop, bottom sheet on mobile. Responsive container.
+- **Confirmations** (delete, leave, remove, "are you sure" — short, focused, destructive or decisive) → centered alert dialog on BOTH desktop and mobile. Never a bottom sheet, never stacked sheet-on-sheet.
+- Destructive action button: visually distinct (red/danger). Keep the safe action (cancel) as the calm default. Position matters less than visual weight.
+- One reusable confirm-dialog component for all confirmations — vary only the copy.
+
+In `LyraDialog`, pass `forceDialog` for confirmations so they render as a centered modal on every breakpoint. Default `forceDialog={false}` keeps the responsive bottom-sheet-on-mobile behavior for content panels.
+
+- **Action button placement differs by surface.** Desktop dialogs: buttons sized-to-text, grouped, primary placed by RTL reading-flow (eye ends bottom-left). Mobile bottom sheets: buttons stretch full-width as a split row across the bottom (primary larger/filled, secondary smaller), thumb-reachable — never clustered small in one corner. Same component, responsive button layout.
 ---
 
 ## Backend Error Handling

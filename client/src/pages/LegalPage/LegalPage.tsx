@@ -41,7 +41,7 @@ const LegalPage = ({ type }: LegalPageProps) => {
           flex: 1,
         }}
       >
-        <LegalContentRenderer type={type} />
+        <LegalContentRenderer type={type} showBackButton />
         <Divider sx={{ mt: 'auto', width: '100%', maxWidth: '900px' }} />
         <Footer />
       </ScrollableColumn>

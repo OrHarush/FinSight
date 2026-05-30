@@ -10,7 +10,7 @@
     "success": "Your account has been deleted successfully.",
     "error": "Failed to delete account.",
     "feedback": {
-      "label": "Help us improve — what's the reason? (optional)",
+      "label": "Help us improve, what's the reason? (optional)",
       "reasons": {
         "too_complex": "Too complex",
         "missing_feature": "Missing a feature",
@@ -34,13 +34,162 @@
     "essentialLabel": "Essential",
     "essentialHelper": "Required for login, security and core functionality. Always on.",
     "yourDataLabel": "Your data",
-    "yourDataHelper": "Download a JSON file with all your data — accounts, transactions, categories, goals and settings.",
+    "yourDataHelper": "Download a JSON file with all your data, accounts, transactions, categories, goals and settings.",
     "downloadDataButton": "Download",
     "downloadDataError": "Couldn't download your data. Please try again.",
+    "exportPicker": {
+      "title": "Which household to download?",
+      "subtitle": "Each household downloads as a separate JSON file.",
+      "personalCaption": "Personal",
+      "sharedCaption": "Shared household",
+      "allOption": "All",
+      "allCaption": "Download each household as a separate file",
+      "cancel": "Cancel"
+    },
     "dangerZone": "Danger Zone",
     "deleteAccount": "Delete Account",
     "updateSuccess": "Preferences saved.",
-    "updateError": "Failed to save preferences."
+    "updateError": "Failed to save preferences.",
+    "tabs": {
+      "general": "General",
+      "sharedHousehold": "Shared household"
+    }
+  },
+  "sharedHousehold": {
+    "empty": {
+      "title": "Shared household",
+      "body": "Managing money together? Open a shared household and both partners can add transactions, see balances, and budget together, one shared picture.",
+      "createButton": "Open shared household"
+    },
+    "create": {
+      "title": "Open shared household",
+      "nameLabel": "Household name",
+      "namePlaceholder": "e.g. Our Home",
+      "nameRequired": "Required",
+      "nameTooLong": "Up to 40 characters",
+      "submit": "Open",
+      "cancel": "Cancel",
+      "success": "Household created.",
+      "error": "Couldn't create the household.",
+      "capReached": "You've reached the maximum number of households.",
+      "changeIcon": "Change icon"
+    },
+    "edit": {
+      "title": "Edit shared household",
+      "submit": "Save",
+      "success": "Changes saved.",
+      "error": "Couldn't save changes.",
+      "ariaLabel": "Edit household"
+    },
+    "list": {
+      "membersTitle": "Household members",
+      "youSuffix": " (you)",
+      "roleOwner": "Owner",
+      "roleMember": "Member"
+    },
+    "invite": {
+      "title": "Invite your partner",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@example.com",
+      "emailRequired": "Required",
+      "emailInvalid": "Invalid email",
+      "submit": "Send invitation",
+      "success": "Invitation sent.",
+      "successNoEmail": "Invitation created (email wasn't sent).",
+      "errorSelfInvite": "You can't invite yourself.",
+      "errorAlreadyMember": "This person is already a member.",
+      "errorAlreadyInvited": "This email already has a pending invitation.",
+      "errorMemberCap": "The household is full, no more invitations.",
+      "errorGeneric": "Couldn't send the invitation.",
+      "fullMessage": "Household is full"
+    },
+    "pending": {
+      "title": "Pending invitations",
+      "expiresAt": "Expires on {{date}}",
+      "revoke": "Revoke",
+      "revokeSuccess": "Invitation revoked.",
+      "revokeError": "Couldn't revoke the invitation."
+    },
+    "loadError": "Couldn't load your households.",
+    "retry": "Retry",
+    "switcher": {
+      "personalCaption": "Personal",
+      "sharedCaption": "Shared household · {{count}}",
+      "openCreate": "Open shared household",
+      "switchError": "Couldn't switch household. Please try again.",
+      "ariaOpen": "Switch household",
+      "active": "Active"
+    },
+    "leave": {
+      "button": "Leave household",
+      "confirmTitle": "Leave \"{{household}}\"?",
+      "confirmBody": "You'll lose access to all of this household's data: accounts, categories, budgets and goals. If you want to keep a copy, download the data before leaving.",
+      "exportButton": "Download data before leaving",
+      "exportError": "Couldn't download. Please try again.",
+      "confirm": "Leave",
+      "cancel": "Cancel",
+      "success": "You've left the household.",
+      "successDeleted": "You left and the household was deleted.",
+      "error": "Couldn't leave the household."
+    },
+    "remove": {
+      "ariaLabel": "Remove member",
+      "confirmTitle": "Remove {{name}}?",
+      "confirmBody": "They'll lose access to this household. The data they created stays.",
+      "confirm": "Remove",
+      "cancel": "Cancel",
+      "success": "Member removed.",
+      "error": "Couldn't remove the member."
+    },
+    "landing": {
+      "loadError": "Couldn't load the invitation.",
+      "retry": "Retry",
+      "householdSubtitle": "Shared household",
+      "footer": "Sent to {{email}} · valid for 7 days",
+      "inviteHeadline": "{{inviter}} invited you",
+      "inviteSubtitle": "to co-manage the household on Lyra",
+      "socialProof": "Join {{inviter}} in the household",
+      "declineLink": "Decline invitation",
+      "guest": {
+        "loginCta": "Sign in to join"
+      },
+      "match": {
+        "accept": "Join household",
+        "declineSuccess": "Invitation declined.",
+        "declineError": "Couldn't decline the invitation."
+      },
+      "mismatch": {
+        "warning": "This invitation was sent to {{invited}}, but you're signed in as {{current}}",
+        "switchAccount": "Sign out and switch accounts"
+      },
+      "expired": {
+        "title": "This invitation has expired",
+        "body": "The invitation to \"{{household}}\" has expired. Ask {{inviter}} to send a new one.",
+        "backToApp": "Back to Lyra"
+      },
+      "accepted": {
+        "title": "You've already joined {{household}}",
+        "enter": "Open household"
+      },
+      "dead": {
+        "title": "This invitation is no longer valid",
+        "backToApp": "Back to Lyra"
+      },
+      "invalid": {
+        "title": "Invalid link",
+        "body": "This invitation link is broken or no longer exists.",
+        "backToApp": "Back to Lyra"
+      },
+      "acceptErrors": {
+        "expired": "The invitation expired in the meantime. Ask {{inviter}} to send a new one.",
+        "memberCap": "The household filled up, there's no room left to join.",
+        "emailMismatch": "This invitation isn't for your account.",
+        "workspaceCap": "You've reached the maximum number of households.",
+        "generic": "Couldn't join. Please try again."
+      },
+      "acceptSuccess": "You've joined {{household}}.",
+      "switchHint": "To open the shared household, go to Settings and switch to it."
+    }
   },
   "consent": {
     "banner": {

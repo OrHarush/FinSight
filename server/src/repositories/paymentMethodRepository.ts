@@ -25,8 +25,10 @@ export const insert = async (data: Omit<IPaymentMethod, '_id'>) => {
   return method.save();
 };
 
-export const insertMany = (methods: Omit<IPaymentMethod, '_id'>[]) =>
-  PaymentMethod.insertMany(methods);
+export const insertMany = (
+  methods: Omit<IPaymentMethod, '_id'>[],
+  session?: ClientSession
+) => PaymentMethod.insertMany(methods, { session });
 
 export const updateById = async (id: string, data: Partial<IPaymentMethod>, workspaceId: string) =>
   PaymentMethod.findOneAndUpdate(

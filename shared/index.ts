@@ -6,6 +6,7 @@ export * from './schemas/goal';
 export * from './schemas/paymentMethod';
 export * from './schemas/recurringTemplate';
 export * from './schemas/transaction';
+export * from './schemas/workspace';
 export * from './types/BalanceBreakdown';
 export * from './types/colors';
 export * from './types/defaultAccounts';

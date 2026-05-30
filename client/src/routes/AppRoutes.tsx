@@ -18,6 +18,7 @@ import Goals from '@/pages/Goals';
 import GoalDetail from '@/pages/Goals/GoalDetail';
 import HomePage from '@/pages/Home';
 import ImportWizardPage from '@/pages/Import/ImportWizardPage';
+import InvitationLandingPage from '@/pages/Invitation/InvitationLandingPage';
 import LegalPage from '@/pages/LegalPage/LegalPage';
 import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -65,6 +66,7 @@ const AppRoutes = () => {
             />
             <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
             <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
+            <Route path={ROUTES.INVITATION_URL} element={<InvitationLandingPage />} />
           </Route>
           <Route
             element={
@@ -117,8 +119,6 @@ const AppRoutes = () => {
                 </RequireAdmin>
               }
             />
-            {/*<Route path={ROUTES.PLANNER_URL} element={<Planner />} />*/}
-            {/*<Route path={ROUTES.REPORTS_URL} element={<Reports />} />*/}
           </Route>
         </Routes>
       </Suspense>

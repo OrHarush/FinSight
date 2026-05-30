@@ -96,6 +96,7 @@ const DeleteGoalDialog = ({
       isOpen={isOpen}
       closeDialog={closeAndReset}
       title={t('delete.step1Title', { name: goal.name })}
+      forceDialog
     >
       <DialogContent sx={{ pt: 1 }}>
         <Column spacing={2}>

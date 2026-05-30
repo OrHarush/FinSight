@@ -1,7 +1,10 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { useAccounts } from '@/hooks/entities/useAccounts';
+import { useCategories } from '@/hooks/entities/useCategories';
+import { usePaymentMethods } from '@/hooks/entities/usePaymentMethods';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 
 const monthFromParam = (value: string | null): Dayjs | null => {
@@ -56,6 +59,9 @@ const SelectedTransactionContext = createContext<SelectedTransactionContextValue
 
 export const TransactionPageDataProvider = ({ children }: { children: ReactNode }) => {
   const [searchParams] = useSearchParams();
+  const { accounts } = useAccounts();
+  const { categories } = useCategories();
+  const { paymentMethods } = usePaymentMethods();
   const [selectedMonth, setSelectedMonth] = useState<Dayjs>(
     () => monthFromParam(searchParams.get('month')) ?? dayjs()
   );
@@ -66,6 +72,45 @@ export const TransactionPageDataProvider = ({ children }: { children: ReactNode 
   const [selectedPaymentMethodIds, setSelectedPaymentMethodIds] = useState<string[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<ExpandedTransactionDto>();
   const [transactionAction, setTransactionAction] = useState<TransactionAction>();
+
+  useEffect(() => {
+    if (categories.length === 0 || selectedCategoryIds.length === 0) {
+      return;
+    }
+
+    const validIds = new Set(categories.map(c => c._id));
+    const filtered = selectedCategoryIds.filter(id => validIds.has(id));
+
+    if (filtered.length !== selectedCategoryIds.length) {
+      setSelectedCategoryIds(filtered);
+    }
+  }, [categories, selectedCategoryIds]);
+
+  useEffect(() => {
+    if (accounts.length === 0 || selectedAccountIds.length === 0) {
+      return;
+    }
+
+    const validIds = new Set(accounts.map(a => a._id));
+    const filtered = selectedAccountIds.filter(id => validIds.has(id));
+
+    if (filtered.length !== selectedAccountIds.length) {
+      setSelectedAccountIds(filtered);
+    }
+  }, [accounts, selectedAccountIds]);
+
+  useEffect(() => {
+    if (paymentMethods.length === 0 || selectedPaymentMethodIds.length === 0) {
+      return;
+    }
+
+    const validIds = new Set(paymentMethods.map(p => p._id));
+    const filtered = selectedPaymentMethodIds.filter(id => validIds.has(id));
+
+    if (filtered.length !== selectedPaymentMethodIds.length) {
+      setSelectedPaymentMethodIds(filtered);
+    }
+  }, [paymentMethods, selectedPaymentMethodIds]);
 
   const resetFilters = useCallback(() => {
     setSelectedCategoryIds([]);

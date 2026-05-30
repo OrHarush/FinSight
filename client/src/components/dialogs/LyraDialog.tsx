@@ -26,6 +26,7 @@ interface LyraDialogProps extends BaseDialogProps, Omit<DialogProps, 'open' | 'o
   title: string;
   titleIcon?: SvgIconComponent;
   children: ReactNode;
+  forceDialog?: boolean;
 }
 
 // eslint-disable-next-line react/display-name
@@ -41,12 +42,13 @@ const LyraDialog = ({
   title,
   titleIcon: Icon,
   children,
+  forceDialog = false,
   ...props
 }: LyraDialogProps) => {
   const isSmallScreen = useIsSmallScreen();
   const theme = useTheme();
 
-  if (isSmallScreen) {
+  if (isSmallScreen && !forceDialog) {
     return (
       <Drawer
         anchor="bottom"
@@ -61,6 +63,29 @@ const LyraDialog = ({
               px: 2,
               maxHeight: '92vh',
               overflowY: 'auto',
+              '& .MuiDialogActions-root': {
+                width: '100%',
+                paddingTop: 1.5,
+                paddingBottom: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+              },
+              '& .MuiDialogActions-root > .MuiStack-root': {
+                width: '100%',
+                margin: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingBottom: 0,
+              },
+              '& .MuiDialogActions-root .MuiButton-root': {
+                flex: 1,
+                minWidth: 0,
+                paddingTop: 1.25,
+                paddingBottom: 1.25,
+              },
+              '& .MuiDialogActions-root .MuiButton-containedPrimary, & .MuiDialogActions-root .MuiButton-containedError, & .MuiDialogActions-root .MuiButton-containedSecondary': {
+                flex: 2,
+              },
             },
           },
         }}

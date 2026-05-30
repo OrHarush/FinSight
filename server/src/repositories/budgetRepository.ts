@@ -66,6 +66,5 @@ export const remove = async (id: string, workspaceId: string) =>
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Budget.deleteMany(filter).session(session ?? null);
 
-// Still userId-scoped: only the export endpoint consumes this. Flips when the export refactors.
-export const findAllByUser = async (userId: string) =>
-  Budget.find({ userId: new Types.ObjectId(userId) }).lean<IBudget[]>().exec();
+export const findAllByWorkspace = async (workspaceId: string) =>
+  Budget.find({ workspaceId: new Types.ObjectId(workspaceId) }).lean<IBudget[]>().exec();

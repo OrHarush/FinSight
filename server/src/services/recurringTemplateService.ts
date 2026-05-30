@@ -37,14 +37,16 @@ type RefFields = {
 const validateRefs = async (
   type: 'Income' | 'Expense' | 'Transfer',
   refs: RefFields,
-  userId: string
+  workspaceId: string
 ) => {
+  const workspaceFilter = { workspaceId: new Types.ObjectId(workspaceId) };
+
   if (type === 'Income' || type === 'Expense') {
     if (refs.categoryId) {
-      const category = await Category.findOne({ _id: refs.categoryId, userId });
+      const category = await Category.findOne({ _id: refs.categoryId, ...workspaceFilter });
 
       if (!category) {
-        throw ApiError.badRequest('Invalid category for this user');
+        throw ApiError.badRequest('Invalid category for this workspace');
       }
 
       if (!isCategoryCompatibleWithTransactionType(category.type, type)) {
@@ -55,28 +57,34 @@ const validateRefs = async (
     }
 
     if (refs.accountId) {
-      const account = await Account.findOne({ _id: refs.accountId, userId });
+      const account = await Account.findOne({ _id: refs.accountId, ...workspaceFilter });
 
       if (!account) {
-        throw ApiError.badRequest('Invalid account for this user');
+        throw ApiError.badRequest('Invalid account for this workspace');
       }
     }
   }
 
   if (type === 'Transfer') {
     if (refs.fromAccountId) {
-      const fromAccount = await Account.findOne({ _id: refs.fromAccountId, userId });
+      const fromAccount = await Account.findOne({
+        _id: refs.fromAccountId,
+        ...workspaceFilter,
+      });
 
       if (!fromAccount) {
-        throw ApiError.badRequest('Invalid fromAccount for this user');
+        throw ApiError.badRequest('Invalid fromAccount for this workspace');
       }
     }
 
     if (refs.toAccountId) {
-      const toAccount = await Account.findOne({ _id: refs.toAccountId, userId });
+      const toAccount = await Account.findOne({
+        _id: refs.toAccountId,
+        ...workspaceFilter,
+      });
 
       if (!toAccount) {
-        throw ApiError.badRequest('Invalid toAccount for this user');
+        throw ApiError.badRequest('Invalid toAccount for this workspace');
       }
     }
   }
@@ -85,10 +93,13 @@ const validateRefs = async (
     throw ApiError.badRequest('Payment method is required');
   }
 
-  const paymentMethod = await PaymentMethod.findOne({ _id: refs.paymentMethodId, userId });
+  const paymentMethod = await PaymentMethod.findOne({
+    _id: refs.paymentMethodId,
+    ...workspaceFilter,
+  });
 
   if (!paymentMethod) {
-    throw ApiError.badRequest('Invalid payment method for this user');
+    throw ApiError.badRequest('Invalid payment method for this workspace');
   }
 };
 
@@ -117,7 +128,7 @@ export const create = async (
   userId: string,
   workspaceId: string
 ) => {
-  await validateRefs(dto.type, dto, userId);
+  await validateRefs(dto.type, dto, workspaceId);
 
   const mapped: Omit<IRecurringTemplate, '_id'> = {
     userId: new Types.ObjectId(userId),
@@ -167,7 +178,7 @@ export const update = async (
 
   const effectiveType = (dto.type ?? existing.type) as 'Income' | 'Expense' | 'Transfer';
 
-  await validateRefs(effectiveType, dto, userId);
+  await validateRefs(effectiveType, dto, workspaceId);
 
   const mapped: Partial<IRecurringTemplate> = {};
 
@@ -293,7 +304,7 @@ export const splitTemplate = async (
 
   const effectiveType = (changes.type ?? existing.type) as 'Income' | 'Expense' | 'Transfer';
 
-  await validateRefs(effectiveType, changes, userId);
+  await validateRefs(effectiveType, changes, workspaceId);
 
   const newTemplateData: Omit<IRecurringTemplate, '_id'> = {
     userId: existing.userId,

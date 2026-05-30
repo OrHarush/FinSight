@@ -4,7 +4,7 @@ import { Box, Card, CardContent, Typography, useMediaQuery, useTheme } from '@mu
 import { Button } from '@mui/material';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { Trans, useTranslation } from 'react-i18next';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 
 import login from '@/assets/login.webp';
 import loginMobile from '@/assets/loginMobile.webp';
@@ -15,20 +15,27 @@ import LyraIcon from '@/pages/Login/LyraIcon';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
+const isSafeInternalPath = (path: string | null): path is string =>
+  !!path && path.startsWith('/') && !path.startsWith('//') && !path.includes('://');
+
 const LoginPage = () => {
   const { t, i18n } = useTranslation('login');
   const isRtl = i18n.language === 'he';
   const { user, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { alertError } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const nextParam = searchParams.get('next');
+  const postLoginTarget = isSafeInternalPath(nextParam) ? nextParam : ROUTES.OVERVIEW_URL;
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
       try {
         await loginWithGoogle(credentialResponse.credential);
-        navigate(ROUTES.OVERVIEW_URL);
+        navigate(postLoginTarget);
       } catch (err) {
         console.error('Google login failed:', err);
       }
@@ -36,7 +43,7 @@ const LoginPage = () => {
   };
 
   if (user) {
-    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
+    return <Navigate to={postLoginTarget} replace />;
   }
 
   return (

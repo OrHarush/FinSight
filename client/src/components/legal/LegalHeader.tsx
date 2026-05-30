@@ -9,22 +9,25 @@ import Row from '@/components/shared/layout/containers/Row';
 interface LegalHeaderProps {
   title: string;
   date: string;
+  showBackButton?: boolean;
 }
 
-const LegalHeader = ({ title, date }: LegalHeaderProps) => {
+const LegalHeader = ({ title, date, showBackButton = false }: LegalHeaderProps) => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
 
   return (
     <Column spacing={2}>
       <Row spacing={1}>
-        <Box sx={{ display: { xs: 'flex', sm: 'none' }, mb: 2 }}>
-          <IconButton onClick={() => navigate(-1)} aria-label="back" edge="start">
-            <ArrowBackIcon
-              sx={{ transform: theme => (theme.direction === 'rtl' ? 'rotate(180deg)' : 'none') }}
-            />
-          </IconButton>
-        </Box>
+        {showBackButton && (
+          <Box sx={{ display: { xs: 'flex', sm: 'none' }, mb: 2 }}>
+            <IconButton onClick={() => navigate(-1)} aria-label="back" edge="start">
+              <ArrowBackIcon
+                sx={{ transform: theme => (theme.direction === 'rtl' ? 'rotate(180deg)' : 'none') }}
+              />
+            </IconButton>
+          </Box>
+        )}
         <Typography component="h1" variant="h4" fontWeight={700}>
           {title}
         </Typography>

@@ -18,8 +18,10 @@ export const insert = async (data: Omit<ICategory, '_id'>, session?: ClientSessi
   return category.save({ session });
 };
 
-export const insertMany = (categories: Omit<ICategory, '_id'>[]) =>
-  Category.insertMany(categories);
+export const insertMany = (
+  categories: Omit<ICategory, '_id'>[],
+  session?: ClientSession
+) => Category.insertMany(categories, { session });
 
 export const updateById = async (id: string, data: Partial<ICategory>, workspaceId: string) =>
   Category.findOneAndUpdate(
@@ -36,15 +38,14 @@ export const remove = async (id: string, workspaceId: string, session?: ClientSe
 export const deleteMany = (filter: object, session?: ClientSession) =>
   Category.deleteMany(filter).session(session ?? null);
 
-// Transactions are still userId-scoped; this aggregation flips when the transactions domain flips.
 export const findUsageCountsSince = async (
-  userId: string,
+  workspaceId: string,
   sinceDate: Date
 ): Promise<Map<string, number>> => {
   const rows = await Transaction.aggregate<{ _id: Types.ObjectId; count: number }>([
     {
       $match: {
-        userId: new Types.ObjectId(userId),
+        workspaceId: new Types.ObjectId(workspaceId),
         date: { $gte: sinceDate },
         category: { $exists: true, $ne: null },
       },

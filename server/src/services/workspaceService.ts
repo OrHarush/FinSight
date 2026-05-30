@@ -1,52 +1,59 @@
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
 import User from '../models/User';
 import Workspace from '../models/Workspace';
 import WorkspaceMember from '../models/WorkspaceMember';
+import * as userRepository from '../repositories/userRepository';
+import * as workspaceMemberRepository from '../repositories/workspaceMemberRepository';
+import * as workspaceRepository from '../repositories/workspaceRepository';
 
 const PERSONAL_WORKSPACE_NAME = 'האישי שלי';
+const PERSONAL_WORKSPACE_ICON = 'Person';
+const PERSONAL_WORKSPACE_COLOR = '#534AB7';
 const DEFAULT_CURRENCY = 'ILS';
 
-export const getActiveWorkspaceIdOrThrow = async (userId: string): Promise<Types.ObjectId> => {
-  const user = await User.findById(userId)
-    .select('activeWorkspaceId')
-    .lean<{ activeWorkspaceId?: Types.ObjectId } | null>();
-
-  if (!user?.activeWorkspaceId) {
-    throw ApiError.internal(
-      `User ${userId} has no activeWorkspaceId — workspace migration has not run for this user`
-    );
-  }
-
-  return user.activeWorkspaceId;
-};
+// Membership-verifying resolver for non-HTTP entry points (MCP, chat, import, balance sync,
+// completeOnboarding, user export). Mirrors `resolveWorkspaceForRequest` so a stale
+// `user.activeWorkspaceId` (e.g. pointing at a workspace the user was removed from) can never
+// silently leak that workspace's data. Falls back to the user's personal workspace.
+export const getActiveWorkspaceIdOrThrow = async (userId: string): Promise<Types.ObjectId> =>
+  resolveWorkspaceForRequest(userId);
 
 export const createPersonalWorkspaceForNewUser = async (
   userId: string,
-  currency?: string
+  currency?: string,
+  session?: mongoose.ClientSession
 ): Promise<Types.ObjectId> => {
-  const workspace = await Workspace.create({
-    name: PERSONAL_WORKSPACE_NAME,
-    type: 'personal',
-    currency: currency ?? DEFAULT_CURRENCY,
-  });
+  const workspace = await workspaceRepository.insert(
+    {
+      name: PERSONAL_WORKSPACE_NAME,
+      type: 'personal',
+      currency: currency ?? DEFAULT_CURRENCY,
+      icon: PERSONAL_WORKSPACE_ICON,
+      color: PERSONAL_WORKSPACE_COLOR,
+    },
+    session
+  );
 
   const workspaceId = workspace._id as unknown as Types.ObjectId;
 
-  await WorkspaceMember.create({
-    workspaceId,
-    userId: new Types.ObjectId(userId),
-    role: 'owner',
-    joinedAt: new Date(),
-  });
+  await workspaceMemberRepository.insert(
+    {
+      workspaceId,
+      userId: new Types.ObjectId(userId),
+      role: 'owner',
+      joinedAt: new Date(),
+    },
+    session
+  );
 
-  await User.findByIdAndUpdate(userId, { activeWorkspaceId: workspaceId });
+  await userRepository.updateActiveWorkspace(userId, workspaceId, session);
 
   return workspaceId;
 };
 
-const isUserMemberOf = async (
+export const isUserMemberOf = async (
   userId: string,
   workspaceId: Types.ObjectId
 ): Promise<boolean> => {
@@ -60,7 +67,7 @@ const isUserMemberOf = async (
   return !!row;
 };
 
-const findPersonalWorkspaceIdForUser = async (
+export const findPersonalWorkspaceIdForUser = async (
   userId: string
 ): Promise<Types.ObjectId | null> => {
   const memberRows = await WorkspaceMember.find({ userId: new Types.ObjectId(userId) })
@@ -107,4 +114,24 @@ export const resolveWorkspaceForRequest = async (userId: string): Promise<Types.
   }
 
   return createPersonalWorkspaceForNewUser(userId, user.displayCurrency);
+};
+
+export const setActiveWorkspace = async (
+  userId: string,
+  workspaceId: string
+): Promise<{ activeWorkspaceId: string }> => {
+  if (!Types.ObjectId.isValid(workspaceId)) {
+    throw ApiError.badRequest('Invalid workspace ID');
+  }
+
+  const workspaceObjectId = new Types.ObjectId(workspaceId);
+  const isMember = await isUserMemberOf(userId, workspaceObjectId);
+
+  if (!isMember) {
+    throw ApiError.forbidden('NOT_MEMBER');
+  }
+
+  await User.findByIdAndUpdate(userId, { activeWorkspaceId: workspaceObjectId });
+
+  return { activeWorkspaceId: workspaceId };
 };

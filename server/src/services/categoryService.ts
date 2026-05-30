@@ -16,8 +16,7 @@ export const findAll = async (workspaceId: string, userId: string) => {
 
   const [categories, usageCounts] = await Promise.all([
     categoryRepository.findMany(workspaceId),
-    // usage counts come from transactions, which are still userId-scoped (flipped in their own task)
-    categoryRepository.findUsageCountsSince(userId, sinceDate),
+    categoryRepository.findUsageCountsSince(workspaceId, sinceDate),
   ]);
 
   const withCounts = categories.map(c => ({
@@ -111,11 +110,10 @@ export const update = async (
   return updated;
 };
 
-export const deleteCategory = async (id: string, workspaceId: string, userId: string) => {
+export const deleteCategory = async (id: string, workspaceId: string) => {
   const linkedGoal = await goalRepository.findByCategoryId(id);
 
-  // goals are still userId-scoped (flipped in their own task); ownership compare stays on userId
-  if (linkedGoal && linkedGoal.userId.toString() === userId) {
+  if (linkedGoal) {
     throw ApiError.badRequest(
       `CATEGORY_LINKED_TO_GOAL:${linkedGoal._id.toString()}:${linkedGoal.name}`
     );

@@ -6,6 +6,7 @@ import { asyncHandler } from '../middlewares/asyncHandler';
 import {
   CompleteOnboardingBody,
   DeleteUserBody,
+  SetActiveWorkspaceBody,
   UpdateAnalyticsConsentBody,
   UpdatePreferencesBody,
 } from '../schemas/userSchemas';
@@ -17,6 +18,7 @@ import {
   updateAnalyticsConsent,
   updatePreferences,
 } from '../services/userService';
+import { setActiveWorkspace } from '../services/workspaceService';
 
 export const completeOnboardingController = asyncHandler(async (req: Request, res: Response) => {
   const { billingDay } = req.validatedBody as CompleteOnboardingBody;
@@ -53,6 +55,15 @@ export const exportUserDataController = asyncHandler(async (req: Request, res: R
     console.error('Failed to track data_exported:', err)
   );
 });
+
+export const setActiveWorkspaceController = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { workspaceId } = req.validatedBody as SetActiveWorkspaceBody;
+    const result = await setActiveWorkspace(req.userId!, workspaceId);
+
+    return ApiResponse.ok(res, result);
+  }
+);
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.params;

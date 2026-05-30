@@ -6,6 +6,7 @@ import Settings from '@/components/shared/layout/sidebar/settings';
 import SidebarButtons from '@/components/shared/layout/sidebar/SidebarButtons';
 import SidebarHeader from '@/components/shared/layout/sidebar/SidebarHeader';
 import SidebarShareCard from '@/components/shared/layout/sidebar/SidebarShareCard';
+import WorkspaceSwitcher from '@/components/shared/layout/sidebar/WorkspaceSwitcher';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 interface SidebarProps {
@@ -28,6 +29,7 @@ const Sidebar = ({
   const content = (
     <Column height={'100%'}>
       <SidebarHeader onMobileClose={onMobileClose} />
+      <WorkspaceSwitcher />
       <ScrollableColumn spacing={2} flex={1} minHeight={0}>
         <SidebarButtons />
       </ScrollableColumn>
