@@ -1,13 +1,19 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
+import LyraLogo from '@/components/shared/layout/LyraLogo';
 import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
-import SidebarLogo from '@/components/shared/layout/sidebar/SidebarHeader/SidebarLogo';
 import { ROUTES } from '@/constants/Routes';
 import { useIsMobile } from '@/hooks/common/useIsMobile';
+
+const logoClickSx = {
+  cursor: 'pointer',
+  transition: 'transform 0.25s ease',
+  ':hover': { transform: 'scale(1.05)' },
+};
 
 interface SidebarHeaderProps {
   onMobileClose: () => void;
@@ -23,7 +29,9 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
   if (!isMobile && !expanded) {
     return (
       <Column alignItems="center" padding={2} spacing={1}>
-        <SidebarLogo size={40} />
+        <Row onClick={() => navigate(ROUTES.OVERVIEW_URL)} sx={logoClickSx}>
+          <LyraLogo iconSize={40} showWordmark={false} />
+        </Row>
       </Column>
     );
   }
@@ -37,22 +45,8 @@ const SidebarHeader = ({ onMobileClose }: SidebarHeaderProps) => {
       justifyContent="space-between"
       sx={{ borderBottom: '1px solid', borderColor: theme.palette.divider }}
     >
-      <Row alignItems="center" spacing={isMobileBreakpointMd ? 1 : 2}>
-        <SidebarLogo size={32} />
-        <Typography
-          variant="h5"
-          fontWeight={700}
-          onClick={() => navigate(ROUTES.OVERVIEW_URL)}
-          sx={{
-            ':hover': {
-              cursor: 'pointer',
-              transform: 'scale(1.05)',
-              transition: 'transform 0.25s ease',
-            },
-          }}
-        >
-          Lyra
-        </Typography>
+      <Row onClick={() => navigate(ROUTES.OVERVIEW_URL)} sx={logoClickSx}>
+        <LyraLogo iconSize={32} />
       </Row>
       {isMobile && (
         <IconButton onClick={onMobileClose} size="small">
