@@ -11,9 +11,11 @@ import loginMobile from '@/assets/loginMobile.webp';
 import Column from '@/components/shared/layout/containers/Column';
 import LanguageSelect from '@/components/shared/ui/LanguageSelect';
 import { ROUTES } from '@/constants/Routes';
+import InAppBrowserNotice from '@/pages/Login/InAppBrowserNotice';
 import LyraIcon from '@/pages/Login/LyraIcon';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import { isInAppBrowser } from '@/utils/device';
 
 const isSafeInternalPath = (path: string | null): path is string =>
   !!path && path.startsWith('/') && !path.startsWith('//') && !path.includes('://');
@@ -27,6 +29,7 @@ const LoginPage = () => {
   const { alertError } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const inAppBrowser = isInAppBrowser();
 
   const nextParam = searchParams.get('next');
   const postLoginTarget = isSafeInternalPath(nextParam) ? nextParam : ROUTES.OVERVIEW_URL;
@@ -135,64 +138,70 @@ const LoginPage = () => {
               </Typography>
             </Column>
             <Column spacing={2}>
-              <Box
-                display="flex"
-                justifyContent="center"
-                sx={{
-                  '& button': {
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      boxShadow: '0 8px 24px rgba(66, 133, 244, 0.3)',
+              {inAppBrowser ? (
+                <InAppBrowserNotice />
+              ) : (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  sx={{
+                    '& button': {
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                        boxShadow: '0 8px 24px rgba(66, 133, 244, 0.3)',
+                      },
                     },
-                  },
-                }}
-              >
-                <GoogleLogin
-                  onSuccess={handleSuccess}
-                  onError={() => alertError('Google login failed')}
-                  shape="pill"
-                  useOneTap={false}
-                  ux_mode="popup"
-                  width="200px"
-                />
-              </Box>
-              <Typography
-                variant="caption"
-                sx={{
-                  display: 'block',
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  fontSize: '0.75rem',
-                  mt: 0.5,
-                }}
-              >
-                <Trans
-                  i18nKey="legal_acceptance"
-                  t={t}
-                  components={{
-                    1: (
-                      <a
-                        href={ROUTES.TERMS_OF_SERVICE_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: 'inherit', textDecoration: 'underline' }}
-                      >
-                        Terms
-                      </a>
-                    ),
-                    2: (
-                      <a
-                        href={ROUTES.PRIVACY_POLICY_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: 'inherit', textDecoration: 'underline' }}
-                      >
-                        Privacy
-                      </a>
-                    ),
                   }}
-                />
-              </Typography>
+                >
+                  <GoogleLogin
+                    onSuccess={handleSuccess}
+                    onError={() => alertError('Google login failed')}
+                    shape="pill"
+                    useOneTap={false}
+                    ux_mode="popup"
+                    width="200px"
+                  />
+                </Box>
+              )}
+              {!inAppBrowser && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: 'block',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    fontSize: '0.75rem',
+                    mt: 0.5,
+                  }}
+                >
+                  <Trans
+                    i18nKey="legal_acceptance"
+                    t={t}
+                    components={{
+                      1: (
+                        <a
+                          href={ROUTES.TERMS_OF_SERVICE_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'inherit', textDecoration: 'underline' }}
+                        >
+                          Terms
+                        </a>
+                      ),
+                      2: (
+                        <a
+                          href={ROUTES.PRIVACY_POLICY_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: 'inherit', textDecoration: 'underline' }}
+                        >
+                          Privacy
+                        </a>
+                      ),
+                    }}
+                  />
+                </Typography>
+              )}
             </Column>
           </Column>
         </CardContent>

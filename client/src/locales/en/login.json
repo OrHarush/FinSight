@@ -4,5 +4,13 @@
   "button": "Sign in with Google",
   "secure_note": "Sign in securely with your Google account",
   "legal_acceptance": "By clicking the button you agree to our <1>Terms of Service</1> and <2>Privacy Policy</2>.",
-  "backToHome": "Back to home"
+  "backToHome": "Back to home",
+  "inapp_banner": "Signing in with Google doesn't work inside the Facebook browser. You can sign in easily like this:",
+  "inapp_open_chrome": "Open in Chrome",
+  "inapp_open_chrome_note": "The link will open in Chrome automatically",
+  "inapp_open_title": "Open in a browser",
+  "inapp_open_hint": "Tap \"⋮\" above and choose \"Open in browser\"",
+  "inapp_copy": "Copy link",
+  "inapp_copied": "Link copied",
+  "or": "or"
 }
