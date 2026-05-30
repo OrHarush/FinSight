@@ -83,7 +83,16 @@
       "user_created": "משתמש חדש",
       "user_deleted": "נמחק",
       "data_exported": "ייצוא נתונים",
-      "pwa_installed": "התקנת אפליקציה"
+      "pwa_installed": "התקנת אפליקציה",
+      "workspace_created": "סביבה משותפת נוצרה",
+      "invitation_sent": "הזמנה נשלחה",
+      "invitation_accepted": "הזמנה התקבלה",
+      "invitation_declined": "הזמנה נדחתה",
+      "invitation_revoked": "הזמנה בוטלה",
+      "workspace_left": "עזב סביבה",
+      "workspace_deleted": "סביבה נמחקה",
+      "member_removed": "חבר הוסר",
+      "workspace_switched": "החלפת סביבה"
     }
   },
   "allUsers": {

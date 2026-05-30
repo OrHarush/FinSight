@@ -14,7 +14,16 @@ export type AnalyticsEventType =
   | 'share_clicked'
   | 'user_created'
   | 'user_deleted'
-  | 'pwa_installed';
+  | 'pwa_installed'
+  | 'workspace_created'
+  | 'invitation_sent'
+  | 'invitation_accepted'
+  | 'invitation_declined'
+  | 'invitation_revoked'
+  | 'workspace_left'
+  | 'workspace_deleted'
+  | 'member_removed'
+  | 'workspace_switched';
 
 export interface RecentActivityDto {
   userName: string;

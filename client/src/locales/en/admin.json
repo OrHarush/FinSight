@@ -83,7 +83,16 @@
       "user_created": "new user",
       "user_deleted": "deleted",
       "data_exported": "data exported",
-      "pwa_installed": "app installed"
+      "pwa_installed": "app installed",
+      "workspace_created": "shared workspace",
+      "invitation_sent": "invite sent",
+      "invitation_accepted": "invite accepted",
+      "invitation_declined": "invite declined",
+      "invitation_revoked": "invite revoked",
+      "workspace_left": "left workspace",
+      "workspace_deleted": "workspace deleted",
+      "member_removed": "member removed",
+      "workspace_switched": "switched workspace"
     }
   },
   "allUsers": {
