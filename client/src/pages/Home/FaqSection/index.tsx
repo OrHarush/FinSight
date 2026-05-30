@@ -15,6 +15,7 @@ const FAQ_ITEM_KEYS = [
   'billingCycle',
   'import',
   'mobile',
+  'couples',
 ] as const;
 
 const FaqSection = () => {

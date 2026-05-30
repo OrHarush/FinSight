@@ -13,11 +13,12 @@ const StepsPC = ({ steps, isInView }: StepsPCProps) => (
   <Box
     sx={{
       display: { xs: 'none', md: 'grid' },
-      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridTemplateColumns: { md: 'repeat(2, 1fr)', lg: `repeat(${steps.length}, 1fr)` },
       alignItems: 'stretch',
       columnGap: '22px',
+      rowGap: { md: '32px', lg: 0 },
       width: '100%',
-      maxWidth: 1100,
+      maxWidth: { md: 760, lg: 1320 },
       mx: 'auto',
     }}
   >

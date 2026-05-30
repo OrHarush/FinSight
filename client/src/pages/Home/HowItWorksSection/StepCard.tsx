@@ -30,7 +30,11 @@ const StepCard = ({ step, align = 'start' }: StepCardProps) => (
 
     <MockupFrame>{step.mockup}</MockupFrame>
 
-    <Column spacing={1} alignItems={align === 'center' ? 'center' : 'flex-start'}>
+    <Column
+      spacing={1}
+      alignItems={align === 'center' ? 'center' : 'flex-start'}
+      sx={{ minHeight: { xs: 128, md: 112 } }}
+    >
       <Typography
         component="h3"
         variant="h5"

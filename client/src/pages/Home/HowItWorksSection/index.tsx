@@ -7,31 +7,18 @@ import Header from '@/pages/Home/HowItWorksSection/Header';
 import FixedExpensesMockup from '@/pages/Home/HowItWorksSection/mockups/FixedExpensesMockup';
 import LogicalMonthMockup from '@/pages/Home/HowItWorksSection/mockups/LogicalMonthMockup';
 import QuickAddMockup from '@/pages/Home/HowItWorksSection/mockups/QuickAddMockup';
+import SharedWorkspaceMockup from '@/pages/Home/HowItWorksSection/mockups/SharedWorkspaceMockup';
 import StepsMobile from '@/pages/Home/HowItWorksSection/StepsMobile';
 import StepsPC from '@/pages/Home/HowItWorksSection/StepsPC';
 import { HowItWorksStep } from '@/pages/Home/HowItWorksSection/types';
 
 const STAGE_INTERVAL_MS = 5000;
-const STAGE_COUNT = 3;
 
 const HowItWorksSection = () => {
   const { t } = useTranslation('home');
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px 0px' });
   const [activeStage, setActiveStage] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setActiveStage(s => (s + 1) % STAGE_COUNT);
-    }, STAGE_INTERVAL_MS);
-
-    return () => clearTimeout(timer);
-  }, [activeStage]);
-
-  const goToStage = (index: number) => {
-    const wrapped = ((index % STAGE_COUNT) + STAGE_COUNT) % STAGE_COUNT;
-    setActiveStage(wrapped);
-  };
 
   const steps: HowItWorksStep[] = [
     {
@@ -52,7 +39,28 @@ const HowItWorksSection = () => {
       description: t('landing.how.step03.description'),
       mockup: <LogicalMonthMockup />,
     },
+    {
+      number: t('landing.how.step04.number'),
+      title: t('landing.how.step04.title'),
+      description: t('landing.how.step04.description'),
+      mockup: <SharedWorkspaceMockup />,
+    },
   ];
+
+  const stageCount = steps.length;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setActiveStage(s => (s + 1) % stageCount);
+    }, STAGE_INTERVAL_MS);
+
+    return () => clearTimeout(timer);
+  }, [activeStage, stageCount]);
+
+  const goToStage = (index: number) => {
+    const wrapped = ((index % stageCount) + stageCount) % stageCount;
+    setActiveStage(wrapped);
+  };
 
   return (
     <Column
