@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 import { ROUTES } from '@/constants/Routes';
 import { useAuth } from '@/providers/AuthProvider';
@@ -8,6 +8,9 @@ import { isAdmin } from '@/utils/env';
 interface GuardProps {
   children: ReactElement;
 }
+
+const isSafeInternalPath = (path: string | null): path is string =>
+  !!path && path.startsWith('/') && !path.startsWith('//') && !path.includes('://');
 
 export const RequireAuth = ({ children }: GuardProps): ReactElement => {
   const { user } = useAuth();
@@ -31,9 +34,13 @@ export const RequireAdmin = ({ children }: GuardProps): ReactElement => {
 
 export const RequireGuest = ({ children }: GuardProps): ReactElement => {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
 
   if (user) {
-    return <Navigate to={ROUTES.OVERVIEW_URL} replace />;
+    const nextParam = searchParams.get('next');
+    const target = isSafeInternalPath(nextParam) ? nextParam : ROUTES.OVERVIEW_URL;
+
+    return <Navigate to={target} replace />;
   }
 
   return children;
