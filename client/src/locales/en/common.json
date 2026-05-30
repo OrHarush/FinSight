@@ -154,5 +154,10 @@
       "success": "Thanks for the feedback 🙌",
       "error": "Failed to send feedback"
     }
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "subtitle": "An unexpected error interrupted Lyra.\nReloading usually fixes it.",
+    "reload": "Reload page"
   }
 }

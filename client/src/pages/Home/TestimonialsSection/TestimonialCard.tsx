@@ -23,7 +23,7 @@ const TestimonialCard = ({ quote, name }: TestimonialCardProps) => {
         {quote}
       </Typography>
 
-      <Divider sx={{ borderColor: 'rgba(148, 163, 184, 0.12)' }} />
+      <Divider sx={{ borderColor: 'divider' }} />
 
       <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, color: 'text.primary' }}>
         {name}

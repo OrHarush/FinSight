@@ -11,15 +11,17 @@ interface Props {
   iconSx?: SxProps<Theme>;
   /** Play spring entry animation on the icon (used in LoadingScreen) */
   animateIcon?: boolean;
+  /** Ring color — pass an explicit value when rendered outside the ThemeProvider. Default: primary.main */
+  ringColor?: string;
 }
 
-const getRingStyle = (size: number, delay: number): SxProps<Theme> => ({
+const getRingStyle = (size: number, delay: number, ringColor: string): SxProps<Theme> => ({
   position: 'absolute',
   width: size,
   height: size,
   borderRadius: '50%',
   border: '1px solid',
-  borderColor: 'primary.main',
+  borderColor: ringColor,
   opacity: 0,
   '@keyframes sonarPulse': {
     '0%': { transform: 'scale(0.7)', opacity: 0 },
@@ -59,7 +61,7 @@ const getBaseIconStyle = (size: number, animate: boolean): SxProps<Theme> => {
   };
 };
 
-const LyraPulseIcon = ({ size = 160, iconSx, animateIcon = false }: Props) => (
+const LyraPulseIcon = ({ size = 160, iconSx, animateIcon = false, ringColor = 'primary.main' }: Props) => (
   <Box
     sx={{
       position: 'relative',
@@ -71,9 +73,9 @@ const LyraPulseIcon = ({ size = 160, iconSx, animateIcon = false }: Props) => (
       flexShrink: 0,
     }}
   >
-    <Box sx={getRingStyle(size, 0)} />
-    <Box sx={getRingStyle(size, 0.6)} />
-    <Box sx={getRingStyle(size, 1.2)} />
+    <Box sx={getRingStyle(size, 0, ringColor)} />
+    <Box sx={getRingStyle(size, 0.6, ringColor)} />
+    <Box sx={getRingStyle(size, 1.2, ringColor)} />
     <Box
       component="img"
       src={lyraIcon}

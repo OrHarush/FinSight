@@ -4,6 +4,7 @@ export const ROUTES = {
   TERMS_OF_SERVICE_URL: '/terms-of-service',
   PRIVACY_POLICY_URL: '/privacy-policy',
   ACCESSIBILITY_URL: '/accessibility',
+  BLOG_RISEUP_REVIEW_URL: '/blog/riseup-review',
   OVERVIEW_URL: '/overview',
   TRANSACTIONS_URL: '/transactions',
   CATEGORIES_URL: '/categories',

@@ -39,3 +39,61 @@ export const getSubtitleStyle = (): SxProps<Theme> => ({
     transform: 'none',
   },
 });
+
+export const getErrorContainerStyle = (): SxProps<Theme> => ({
+  position: 'fixed',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+  background: 'radial-gradient(circle at 50% 35%, #1a1430 0%, #0d0d12 60%, #08080b 100%)',
+});
+
+export const getErrorContentStyle = (): SxProps<Theme> => ({
+  position: 'relative',
+  zIndex: 1,
+  textAlign: 'center',
+  px: 3,
+  maxWidth: 440,
+});
+
+export const getErrorTitleStyle = (): SxProps<Theme> => ({
+  mt: 4,
+  fontWeight: 700,
+  fontSize: '2rem',
+  letterSpacing: '-0.02em',
+  color: 'common.white',
+  textShadow: '0 0 24px rgba(156, 136, 255, 0.35)',
+});
+
+export const getErrorSubtitleStyle = (): SxProps<Theme> => ({
+  mt: 2,
+  fontSize: '1.0625rem',
+  color: 'rgba(255, 255, 255, 0.65)',
+  lineHeight: 1.7,
+  whiteSpace: 'pre-line',
+});
+
+export const getErrorReloadButtonStyle = (): SxProps<Theme> => ({
+  mt: 4,
+  gap: 1,
+  textTransform: 'none',
+  fontWeight: 600,
+  px: 4,
+  py: 1.25,
+  borderRadius: 999,
+  color: 'common.white',
+  background: 'linear-gradient(135deg, #7c5cff 0%, #9c88ff 100%)',
+  boxShadow: '0 8px 24px rgba(124, 92, 255, 0.4)',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  '&:hover': {
+    background: 'linear-gradient(135deg, #8b6cff 0%, #ab98ff 100%)',
+    boxShadow: '0 10px 32px rgba(124, 92, 255, 0.55)',
+    transform: 'translateY(-2px)',
+  },
+  [REDUCED_MOTION]: {
+    transition: 'none',
+    '&:hover': { transform: 'none' },
+  },
+});

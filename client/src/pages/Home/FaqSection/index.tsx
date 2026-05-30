@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
+import { ROUTES } from '@/constants/Routes';
 import FaqAccordion from '@/pages/Home/FaqSection/FaqAccordion';
 import FaqJsonLd from '@/pages/Home/FaqSection/FaqJsonLd';
 import Header from '@/pages/Home/FaqSection/Header';
@@ -26,6 +27,15 @@ const FaqSection = () => {
   const items = FAQ_ITEM_KEYS.map(key => ({
     q: t(`landing.faq.items.${key}.q`),
     a: t(`landing.faq.items.${key}.a`),
+    readMore:
+      key === 'vsRiseUp'
+        ? {
+            prefix: t('landing.faq.items.vsRiseUp.readMore.prefix'),
+            linkText: t('landing.faq.items.vsRiseUp.readMore.linkText'),
+            suffix: t('landing.faq.items.vsRiseUp.readMore.suffix'),
+            href: ROUTES.BLOG_RISEUP_REVIEW_URL,
+          }
+        : undefined,
   }));
 
   return (
@@ -43,7 +53,12 @@ const FaqSection = () => {
       <Column sx={{ width: '100%', maxWidth: 720 }} spacing={1.5}>
         <Header isInView={isInView} />
         {items.map((item, index) => (
-          <FaqAccordion key={FAQ_ITEM_KEYS[index]} question={item.q} answer={item.a} />
+          <FaqAccordion
+            key={FAQ_ITEM_KEYS[index]}
+            question={item.q}
+            answer={item.a}
+            readMore={item.readMore}
+          />
         ))}
       </Column>
       <FaqJsonLd items={items} />

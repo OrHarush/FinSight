@@ -27,6 +27,11 @@
           "id": "visit-homepage",
           "description": "Open the Lyra homepage to read the product overview, value proposition, and feature list.",
           "url": "https://lyra-il.com"
+        },
+        {
+          "id": "read-riseup-comparison",
+          "description": "Read the in-depth RiseUp review — pricing, the pros and cons that recur in reviews, who it suits, and how Lyra differs as a free, no-bank-connection alternative.",
+          "url": "https://lyra-il.com/blog/riseup-review"
         }
       ]
     },
@@ -79,6 +84,7 @@
   },
   "links": {
     "homepage": "https://lyra-il.com",
+    "riseupReview": "https://lyra-il.com/blog/riseup-review",
     "privacyPolicy": "https://lyra-il.com/privacy-policy",
     "termsOfService": "https://lyra-il.com/terms-of-service",
     "accessibility": "https://lyra-il.com/accessibility"

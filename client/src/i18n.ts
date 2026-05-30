@@ -1,13 +1,14 @@
-import dayjs from 'dayjs';
 import 'dayjs/locale/he';
 import 'dayjs/locale/en';
+
+import dayjs from 'dayjs';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import enAdmin from '@/locales/en/admin.json';
-import enAccounts from '@/locales/en/accounts.json';
 import enAccessibility from '@/locales/en/accessibility.json';
+import enAccounts from '@/locales/en/accounts.json';
+import enAdmin from '@/locales/en/admin.json';
 import enBudgets from '@/locales/en/budgets.json';
 import enCategories from '@/locales/en/categories.json';
 import enChat from '@/locales/en/chat.json';
@@ -18,13 +19,14 @@ import enLogin from '@/locales/en/login.json';
 import enOverview from '@/locales/en/overview.json';
 import enPaymentMethods from '@/locales/en/paymentMethods.json';
 import enPrivacyPolicy from '@/locales/en/privacyPolicy.json';
+import enRiseupReview from '@/locales/en/riseupReview.json';
 import enSidebar from '@/locales/en/sidebar.json';
 import enTermsOfService from '@/locales/en/termsOfService.json';
 import enTransactions from '@/locales/en/transactions.json';
 import enUser from '@/locales/en/user.json';
-import heAdmin from '@/locales/he/admin.json';
-import heAccounts from '@/locales/he/accounts.json';
 import heAccessibility from '@/locales/he/accessibility.json';
+import heAccounts from '@/locales/he/accounts.json';
+import heAdmin from '@/locales/he/admin.json';
 import heBudgets from '@/locales/he/budgets.json';
 import heCategories from '@/locales/he/categories.json';
 import heChat from '@/locales/he/chat.json';
@@ -35,6 +37,7 @@ import heLogin from '@/locales/he/login.json';
 import heOverview from '@/locales/he/overview.json';
 import hePaymentMethods from '@/locales/he/paymentMethods.json';
 import hePrivacyPolicy from '@/locales/he/privacyPolicy.json';
+import heRiseupReview from '@/locales/he/riseupReview.json';
 import heSidebar from '@/locales/he/sidebar.json';
 import heTermsOfService from '@/locales/he/termsOfService.json';
 import heTransactions from '@/locales/he/transactions.json';
@@ -53,6 +56,7 @@ i18n
         login: enLogin,
         user: enUser,
         privacyPolicy: enPrivacyPolicy,
+        riseupReview: enRiseupReview,
         termsOfService: enTermsOfService,
         sidebar: enSidebar,
         overview: enOverview,
@@ -72,6 +76,7 @@ i18n
         login: heLogin,
         user: heUser,
         privacyPolicy: hePrivacyPolicy,
+        riseupReview: heRiseupReview,
         termsOfService: heTermsOfService,
         sidebar: heSidebar,
         overview: heOverview,

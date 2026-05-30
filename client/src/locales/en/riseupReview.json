@@ -1,0 +1,92 @@
+{
+  "seo": {
+    "title": "RiseUp Review 2026: Cost, Pros and Cons, and a Free Alternative | Lyra",
+    "description": "RiseUp review 2026: what it costs, the pros and cons that come up in reviews, who it suits, and whether there's a free alternative with no bank connection or subscription."
+  },
+  "title": "RiseUp Review 2026: What It Costs, the Pros and Cons, and Is There a Free Alternative?",
+  "readingTime": "{{minutes}} min read",
+  "intro": "RiseUp is one of Israel's best known money management apps, and many people weigh it up before they start tracking their cashflow. In this article we go over what RiseUp does well, what it costs, the criticisms that come up repeatedly, and who it suits less. No bashing and no advertising, just an honest picture so you can decide for yourself.",
+  "quickVerdict": {
+    "price": { "label": "Price", "value": "Around ₪45/mo" },
+    "bank": { "label": "Bank connection", "value": "Required" },
+    "alternative": { "label": "Free alternative", "value": "Yes" }
+  },
+  "sections": {
+    "what": {
+      "heading": "What RiseUp is and how it works",
+      "body": "RiseUp connects automatically to your bank accounts and credit cards, reads the transactions, and shows one combined picture of your income and spending. It builds a monthly cashflow, sends WhatsApp alerts about unusual activity, and offers guidance and human support alongside a community. The idea is that you see all your money in one place without entering anything manually."
+    },
+    "cost": {
+      "heading": "How much does RiseUp cost?",
+      "body": "RiseUp runs on a paid monthly subscription. The price varies by plan and promotions, and across different articles it appears around 45 shekels a month, sometimes with introductory offers and discounts, so it is worth checking the current price on their site. One point that recurs in reviews is confusion over what is free and what is not, with some users unsure which parts require payment. In short, RiseUp is not fully free, and it has plans and pricing that appear as a monthly payment."
+    },
+    "whoFor": {
+      "heading": "Who RiseUp suits, and who it suits less",
+      "body": "RiseUp suits people who want full automation, do not mind connecting their bank, and are willing to pay a monthly subscription for the convenience. It suits less anyone looking for a free solution, anyone protective of their privacy who does not want to grant account access, or anyone who simply wants one clear answer: how much money will I have left by the end of the month."
+    },
+    "alternative": {
+      "heading": "A free alternative, Lyra",
+      "paragraphs": [
+        "If those downsides bother you, Lyra approaches it differently. It is completely free, with no subscription. It does not connect to your bank, you enter expenses yourself or import a file from your credit card company, so the data stays with you. It handles a different billing cycle for each card, so every expense lands in the right month. This is one of Lyra's distinctive advantages, and it is why Lyra offers a different approach to RiseUp. And instead of a busy dashboard, it gives you one number, an expected balance, that shows how much will really be left after all the charges still due this month.",
+        "Both approaches are valid. If you want automation and are happy to pay and connect a bank, RiseUp does it well. If you want simplicity, privacy, and free, Lyra is worth a try."
+      ],
+      "ctaLine": "You can start for free, with no bank connection and no payment."
+    }
+  },
+  "prosCons": {
+    "prosTitle": "Pros",
+    "consTitle": "Cons",
+    "pros": [
+      "Full automation, everything connects on its own and the cashflow updates effortlessly",
+      "Insights based on your real data",
+      "A sense of order and control, especially through the WhatsApp alerts",
+      "A strong market reputation, with its own savings figures and research",
+      "Human support that gets praised as much as the technology"
+    ],
+    "cons": [
+      {
+        "lead": "The price is seen as high.",
+        "body": "In comparisons with other apps, RiseUp usually comes out the most expensive, which stands out especially against free alternatives."
+      },
+      {
+        "lead": "Full dependence on a bank connection.",
+        "body": "All the value is built on granting read access to your accounts. For anyone worried about privacy, that is a tough entry condition."
+      },
+      {
+        "lead": "Connection stability.",
+        "body": "Users report partial bank coverage and disconnections that force them to reconnect every few months. When the connection breaks, the value of the app breaks with it."
+      },
+      {
+        "lead": "Tracking versus planning.",
+        "body": "Some financial advisors argue that tracking alone does not replace long term financial planning. RiseUp is excellent for seeing what is happening now, but graphs give a feeling of control, not necessarily a plan."
+      }
+    ]
+  },
+  "vsTable": {
+    "columns": { "feature": "Feature" },
+    "rows": {
+      "price": { "feature": "Price", "lyra": "Free", "riseup": "Monthly subscription" },
+      "bank": { "feature": "Bank connection", "lyra": "Not required", "riseup": "Required" },
+      "cycle": { "feature": "Per-card billing cycle", "lyra": "✓", "riseup": "Partial" },
+      "entry": { "feature": "Entry", "lyra": "Manual or file import", "riseup": "Automatic" },
+      "privacy": { "feature": "Privacy", "lyra": "Your data stays with you", "riseup": "Read access to accounts" }
+    }
+  },
+  "faq": {
+    "heading": "FAQ",
+    "items": [
+      {
+        "q": "Is RiseUp safe?",
+        "a": "RiseUp operates through regulated open banking, but it requires read access to your accounts. Anyone who is not comfortable granting that may prefer a manual entry app."
+      },
+      {
+        "q": "Is RiseUp free?",
+        "a": "No, it runs on a paid monthly subscription. If you are looking for a free alternative, Lyra is completely free."
+      },
+      {
+        "q": "What is the main difference from Lyra?",
+        "a": "RiseUp is automatic, paid, and requires a bank connection. Lyra is free, manual or by file import, with no bank connection, and with a billing cycle per card."
+      }
+    ]
+  }
+}

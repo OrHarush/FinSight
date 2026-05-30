@@ -13,7 +13,13 @@ import { chromium } from 'playwright-core';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
 
-const ROUTES = ['/', '/privacy-policy', '/terms-of-service', '/accessibility'];
+const ROUTES = [
+  '/',
+  '/privacy-policy',
+  '/terms-of-service',
+  '/accessibility',
+  '/blog/riseup-review',
+];
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',

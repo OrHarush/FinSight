@@ -212,7 +212,12 @@
         },
         "vsRiseUp": {
           "q": "What's the difference between Lyra and RiseUp?",
-          "a": "RiseUp costs ₪55/month, requires a bank connection, and only supports billing cycles on the 1st and 10th. Lyra is free, doesn't require a bank connection, and supports any day of the month, especially useful if you use multiple credit cards with different billing dates."
+          "a": "RiseUp costs ₪55/month, requires a bank connection, and only supports billing cycles on the 1st and 10th. Lyra is free, doesn't require a bank connection, and supports any day of the month, especially useful if you use multiple credit cards with different billing dates.",
+          "readMore": {
+            "prefix": "Further reading: ",
+            "linkText": "RiseUp review 2026",
+            "suffix": " pricing and the alternatives"
+          }
         },
         "billingCycle": {
           "q": "How does the per-card billing cycle work?",
