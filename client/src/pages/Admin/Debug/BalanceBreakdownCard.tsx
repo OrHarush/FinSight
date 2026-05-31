@@ -4,7 +4,7 @@ import { Button, CircularProgress, Typography } from '@mui/material';
 import { useState } from 'react';
 
 import Column from '@/components/shared/layout/containers/Column';
-import Row from '@/components/shared/layout/containers/Row';
+import ResponsiveRow from '@/components/shared/layout/containers/ResponsiveRow';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
 import BalanceBreakdownTable from './BalanceBreakdownTable';
@@ -45,7 +45,7 @@ const BalanceBreakdownCard = () => {
       title="פירוט חישוב יתרה"
       subtitle="מציג בדיוק כיצד syncAccountBalance מחשב את היתרה לחשבון הראשי שלך"
     >
-      <Row spacing={2} alignItems="center" flexWrap="wrap">
+      <ResponsiveRow spacing={2}>
         <Button
           variant="contained"
           color="primary"
@@ -56,15 +56,16 @@ const BalanceBreakdownCard = () => {
           {isLoading ? 'טוען…' : enabled ? 'רענן פירוט' : 'הצג פירוט'}
         </Button>
 
-        <Button
-          variant="outlined"
-          startIcon={<ContentCopyIcon />}
-          onClick={copyAll}
-          disabled={!data || isLoading}
-        >
-          העתק הכל
-        </Button>
-      </Row>
+        {data && !isLoading && (
+          <Button
+            variant="outlined"
+            startIcon={<ContentCopyIcon />}
+            onClick={copyAll}
+          >
+            העתק הכל
+          </Button>
+        )}
+      </ResponsiveRow>
 
       {isLoading && (
         <Column alignItems="center" sx={{ py: 3 }}>

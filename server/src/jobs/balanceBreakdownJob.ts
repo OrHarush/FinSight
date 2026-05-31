@@ -4,6 +4,7 @@ import { ApiError } from '../errors/ApiError';
 import * as accountRepository from '../repositories/accountRepository';
 import { findByEmail } from '../repositories/userRepository';
 import { computeAccountBalance } from '../services/balanceService';
+import { resolveWorkspaceForRequest } from '../services/workspaceService';
 
 const DEBUG_EMAIL = 'orharush24@gmail.com';
 
@@ -21,15 +22,16 @@ export const runBalanceBreakdownJob = async ({
   }
 
   const userId = user._id.toString();
+  const workspaceId = (await resolveWorkspaceForRequest(userId)).toString();
 
-  const resolvedAccountId = await resolveAccountId(userId, accountId);
+  const resolvedAccountId = await resolveAccountId(workspaceId, accountId);
 
-  return computeAccountBalance(userId, resolvedAccountId);
+  return computeAccountBalance(workspaceId, resolvedAccountId);
 };
 
-const resolveAccountId = async (userId: string, requested?: string): Promise<string> => {
+const resolveAccountId = async (workspaceId: string, requested?: string): Promise<string> => {
   if (requested) {
-    const account = await accountRepository.findById(requested, userId);
+    const account = await accountRepository.findById(requested, workspaceId);
 
     if (!account) {
       throw ApiError.notFound('Account not found for debug user');
@@ -38,7 +40,7 @@ const resolveAccountId = async (userId: string, requested?: string): Promise<str
     return account._id.toString();
   }
 
-  const primary = await accountRepository.findPrimary(userId);
+  const primary = await accountRepository.findPrimary(workspaceId);
 
   if (!primary) {
     throw ApiError.notFound('No primary account for debug user');
