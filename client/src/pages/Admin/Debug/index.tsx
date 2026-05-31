@@ -4,7 +4,6 @@ import Column from '@/components/shared/layout/containers/Column';
 import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 
 import BalanceBreakdownCard from './BalanceBreakdownCard';
-import RestoreCard from './RestoreCard';
 import RunCard from './RunCard';
 import SnapshotHistoryCard from './SnapshotHistoryCard';
 import { useDebugSnapshots } from './useDebugSnapshots';
@@ -26,8 +25,7 @@ export const AdminDebugPage = () => {
         </Typography>
       </Column>
 
-      <RunCard />
-      <RestoreCard snapshots={list} />
+      <RunCard snapshots={list} />
       <BalanceBreakdownCard />
       <SnapshotHistoryCard snapshots={list} isLoading={isLoading} />
     </Column>

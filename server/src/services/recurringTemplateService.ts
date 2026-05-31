@@ -347,7 +347,7 @@ export const splitTemplate = async (
 
 // Per-user cron-driven generator. Templates query stays userId-scoped (findActiveByUser),
 // updates use the userId-variant repo helper. Both flip when the cron path moves to workspace iteration.
-export const generatePendingTransactions = async (userId: string, upToDate: Date = new Date()) => {
+export const generatePendingTransactions = async (userId: string, upToDate: Date = dayjs.utc().add(3, 'hours').toDate()) => {
   const templates = await recurringTemplateRepository.findActiveByUser(userId);
   const created: Awaited<ReturnType<typeof transactionRepository.insert>>[] = [];
   const upToMonth = dayjs.utc(upToDate).startOf('month');

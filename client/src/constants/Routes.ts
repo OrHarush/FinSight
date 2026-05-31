@@ -108,6 +108,7 @@ export const API_ROUTES = {
     RUN_FOR_ME: '/api/admin/debug/run-for-me',
     RESTORE_FOR_ME: '/api/admin/debug/restore-for-me',
     SNAPSHOTS: '/api/admin/debug/snapshots',
+    SNAPSHOT_DELETE: (id: string) => `/api/admin/debug/snapshots/${id}`,
     BALANCE_BREAKDOWN: (accountId?: string) =>
       accountId
         ? `/api/admin/debug/balance-breakdown?accountId=${encodeURIComponent(accountId)}`

@@ -94,6 +94,16 @@ export const getDebugSnapshots = asyncHandler(async (req: Request, res: Response
   return ApiResponse.ok(res, snapshots);
 });
 
+export const deleteDebugSnapshot = asyncHandler(async (req: Request, res: Response) => {
+  const deleted = await debugSnapshotRepository.removeById(req.params.id, req.userId);
+
+  if (!deleted) {
+    throw ApiError.notFound('Snapshot not found');
+  }
+
+  return ApiResponse.ok(res, { deleted: true });
+});
+
 export const getBalanceBreakdown = asyncHandler(async (req: Request, res: Response) => {
   const accountId =
     typeof req.query.accountId === 'string' ? req.query.accountId : undefined;

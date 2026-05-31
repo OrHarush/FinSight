@@ -114,7 +114,7 @@ export const computeAccountBalance = async (
   }
 
   const checkpointDate = account.checkpointDate ?? new Date(0);
-  const now = new Date();
+  const now = dayjs.utc().add(3, 'hours').toDate();
 
   const queryFrom = dayjs.utc(checkpointDate).subtract(1, 'month').startOf('month').toDate();
 

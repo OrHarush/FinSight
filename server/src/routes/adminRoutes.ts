@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { backupLimiter } from '../config/rateLimiters';
 import {
+  deleteDebugSnapshot,
   getAllUsers,
   getAnalytics,
   getBalanceBreakdown,
@@ -30,6 +31,7 @@ router.get('/users', requireAdmin, getAllUsers);
 router.post('/debug/run-for-me', requireAdmin, runDebugForMe);
 router.post('/debug/restore-for-me', requireAdmin, restoreDebugForMe);
 router.get('/debug/snapshots', requireAdmin, getDebugSnapshots);
+router.delete('/debug/snapshots/:id', requireAdmin, deleteDebugSnapshot);
 router.get('/debug/balance-breakdown', requireAdmin, getBalanceBreakdown);
 
 if (process.env.ENABLE_DB_BACKUP === 'true') {

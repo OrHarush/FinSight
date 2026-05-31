@@ -58,3 +58,6 @@ export const appendCreatedTxIds = async (id: string, ids: Types.ObjectId[]) =>
 
 export const deleteMany = (filter: object, session?: ClientSession) =>
   DebugSnapshot.deleteMany(filter).session(session ?? null);
+
+export const removeById = async (id: string, userId: string) =>
+  DebugSnapshot.findOneAndDelete({ _id: id, userId: new Types.ObjectId(userId) }).exec();

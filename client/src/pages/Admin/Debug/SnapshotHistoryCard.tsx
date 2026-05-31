@@ -15,8 +15,10 @@ import { useSnackbar } from '@/providers/SnackbarProvider';
 import { DebugSnapshotDto } from '@/types/AdminDebug';
 
 import DebugSectionCard from './DebugSectionCard';
+import DeleteSnapshotConfirmDialog from './DeleteSnapshotConfirmDialog';
 import RestoreConfirmDialog from './RestoreConfirmDialog';
 import SnapshotHistoryRow from './SnapshotHistoryRow';
+import { useDebugDeleteSnapshotMutation } from './useDebugDeleteSnapshotMutation';
 import { useDebugRestoreMutation } from './useDebugRestoreMutation';
 
 interface SnapshotHistoryCardProps {
@@ -27,31 +29,54 @@ interface SnapshotHistoryCardProps {
 const SnapshotHistoryCard = ({ snapshots, isLoading }: SnapshotHistoryCardProps) => {
   const { alertSuccess, alertError } = useSnackbar();
   const restoreMutation = useDebugRestoreMutation();
-  const [pendingId, setPendingId] = useState<string | null>(null);
+  const deleteMutation = useDebugDeleteSnapshotMutation();
+  const [pendingRestoreId, setPendingRestoreId] = useState<string | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
-  const cancelConfirm = () => setPendingId(null);
+  const cancelRestore = () => setPendingRestoreId(null);
 
-  const requestRestore = (snapshotId: string) => setPendingId(snapshotId);
+  const cancelDelete = () => setPendingDeleteId(null);
+
+  const requestRestore = (snapshotId: string) => setPendingRestoreId(snapshotId);
+
+  const requestDelete = (snapshotId: string) => setPendingDeleteId(snapshotId);
 
   const submitRestore = () => {
-    if (!pendingId) {
+    if (!pendingRestoreId) {
       return;
     }
 
     restoreMutation.mutate(
-      { snapshotId: pendingId },
+      { snapshotId: pendingRestoreId },
       {
         onSuccess: data => {
-          setPendingId(null);
+          setPendingRestoreId(null);
           const { tx, accounts, templates } = data.restoredCounts;
           alertSuccess(`שוחזר — עסקאות:${tx} · חשבונות:${accounts} · טמפלטים:${templates}`);
         },
         onError: () => {
-          setPendingId(null);
+          setPendingRestoreId(null);
           alertError('שחזור נכשל');
         },
       }
     );
+  };
+
+  const submitDelete = () => {
+    if (!pendingDeleteId) {
+      return;
+    }
+
+    deleteMutation.mutate(pendingDeleteId, {
+      onSuccess: () => {
+        setPendingDeleteId(null);
+        alertSuccess('snapshot נמחק');
+      },
+      onError: () => {
+        setPendingDeleteId(null);
+        alertError('מחיקה נכשלה');
+      },
+    });
   };
 
   return (
@@ -84,8 +109,10 @@ const SnapshotHistoryCard = ({ snapshots, isLoading }: SnapshotHistoryCardProps)
                 <SnapshotHistoryRow
                   key={snapshot._id}
                   snapshot={snapshot}
-                  isRestoring={restoreMutation.isPending && pendingId === snapshot._id}
+                  isRestoring={restoreMutation.isPending && pendingRestoreId === snapshot._id}
+                  isDeleting={deleteMutation.isPending && pendingDeleteId === snapshot._id}
                   onRestore={requestRestore}
+                  onDelete={requestDelete}
                 />
               ))}
             </TableBody>
@@ -94,10 +121,17 @@ const SnapshotHistoryCard = ({ snapshots, isLoading }: SnapshotHistoryCardProps)
       )}
 
       <RestoreConfirmDialog
-        open={pendingId !== null}
+        open={pendingRestoreId !== null}
         isPending={restoreMutation.isPending}
-        onCancel={cancelConfirm}
+        onCancel={cancelRestore}
         onConfirm={submitRestore}
+      />
+
+      <DeleteSnapshotConfirmDialog
+        open={pendingDeleteId !== null}
+        isPending={deleteMutation.isPending}
+        onCancel={cancelDelete}
+        onConfirm={submitDelete}
       />
     </DebugSectionCard>
   );

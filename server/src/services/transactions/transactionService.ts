@@ -175,7 +175,7 @@ export const getTransactionSummary = async (
       month,
       accountId,
       from,
-      new Date()
+      dayjs.utc().add(3, 'hours').toDate()
     );
 
     return {

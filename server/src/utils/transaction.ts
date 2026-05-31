@@ -324,7 +324,7 @@ export const summarizeSingleMonth = (
     const effectiveDate = tx.date ? getEffectiveBalanceDate(tx) : undefined;
 
     if (year === targetYear && month === targetMonth) {
-      if (from && effectiveDate && effectiveDate <= from) {
+      if (from && now && effectiveDate && effectiveDate <= now) {
         continue;
       }
 
