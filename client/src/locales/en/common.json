@@ -7,7 +7,8 @@
     "undo": "Undo",
     "continue": "Continue",
     "delete": "Delete",
-    "send": "Send"
+    "send": "Send",
+    "close": "Close"
   },
   "actions": {
     "search": "Search...",
@@ -154,6 +155,19 @@
       "success": "Thanks for the feedback 🙌",
       "error": "Failed to send feedback"
     }
+  },
+  "monthlyReport": {
+    "title": "{{month}} How did it go?",
+    "income": "Income",
+    "expenses": "Expenses",
+    "net": "Net",
+    "txCount": "{{count}} transactions",
+    "savingsRate": "Saved {{rate}}% of income",
+    "deficit": "Over budget",
+    "expensesByCategory": "Expenses by category",
+    "noBudget": "No budget",
+    "overBudget": "Over!",
+    "viewTransactions": "View {{month}} transactions"
   },
   "errorBoundary": {
     "title": "Something went wrong",

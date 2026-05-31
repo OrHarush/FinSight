@@ -92,6 +92,13 @@ export const markFeedbackSurveySeen = async (userId: string) =>
     { new: true }
   );
 
+export const markMonthlyReportSeen = async (userId: string, month: string) =>
+  User.findByIdAndUpdate(
+    userId,
+    { lastMonthlyReportSeenMonth: month },
+    { new: true }
+  );
+
 export const updateAnalyticsConsent = async (
   userId: string,
   analyticsConsent: 'accepted' | 'rejected'

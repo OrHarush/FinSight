@@ -8,7 +8,8 @@
     "undo": "בטל",
     "continue": "המשך",
     "delete": "מחק",
-    "send": "שלח"
+    "send": "שלח",
+    "close": "סגור"
   },
   "actions": {
     "search": "חפש...",
@@ -155,6 +156,19 @@
       "success": "תודה על המשוב 🙌",
       "error": "שליחת המשוב נכשלה"
     }
+  },
+  "monthlyReport": {
+    "title": "{{month}} איך הלך?",
+    "income": "הכנסות",
+    "expenses": "הוצאות",
+    "net": "נטו",
+    "txCount": "{{count}} עסקאות",
+    "savingsRate": "חסכת {{rate}}% מההכנסה",
+    "deficit": "חריגה מהתקציב",
+    "expensesByCategory": "הוצאה לפי קטגוריה",
+    "noBudget": "ללא תקציב",
+    "overBudget": "!חריגה",
+    "viewTransactions": "צפה בעסקאות {{month}}"
   },
   "errorBoundary": {
     "title": "משהו השתבש",

@@ -27,6 +27,7 @@ export interface IUser {
   analyticsConsent: 'pending' | 'accepted' | 'rejected';
   analyticsConsentUpdatedAt: Date | null;
   feedbackSurveySeenAt?: Date | null;
+  lastMonthlyReportSeenMonth: string | null;
   activeWorkspaceId?: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
@@ -71,6 +72,7 @@ const UserSchema = new Schema<IUser>(
     },
     analyticsConsentUpdatedAt: { type: Date, default: null },
     feedbackSurveySeenAt: { type: Date, default: null },
+    lastMonthlyReportSeenMonth: { type: String, default: null },
     activeWorkspaceId: { type: Schema.Types.ObjectId, ref: 'Workspace' },
   },
   { timestamps: true }

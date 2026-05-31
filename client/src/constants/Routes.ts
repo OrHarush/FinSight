@@ -34,6 +34,9 @@ export const API_ROUTES = {
   FEEDBACK_SURVEY_ELIGIBILITY: '/api/feedback/survey-eligibility',
   FEEDBACK_SURVEY_SEEN: '/api/feedback/survey-seen',
 
+  MONTHLY_REPORT_ELIGIBILITY: (month: string) => `/api/monthly-report/eligibility?month=${month}`,
+  MONTHLY_REPORT_SEEN: '/api/monthly-report/seen',
+
   TRANSACTIONS: '/api/transactions',
   TRANSACTIONS_EXPORT: (month: string) => `/api/transactions/export?month=${month}`,
   TRANSACTION_QUICK_CHIPS: '/api/transactions/quick-chips',
