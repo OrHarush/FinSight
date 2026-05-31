@@ -43,8 +43,7 @@ const App = () => {
         <CssBaseline />
         <AndroidInstallDialog />
         <IosInstallGuideDialog />
-        {/*<MobileConsole />*/}
-        <AppRoutes />
+<AppRoutes />
       </AppProviders>
     </ErrorBoundary>
   );
