@@ -1,5 +1,6 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TuneIcon from '@mui/icons-material/Tune';
 import { Box, DialogContent, List, Tab, Tabs } from '@mui/material';
@@ -7,6 +8,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
+import ApplePayShortcutSection from '@/components/features/users/SettingsModal/ApplePayShortcutSection';
 import GeneralSettingsTab from '@/components/features/users/SettingsModal/GeneralSettingsTab';
 import SettingsTabButton from '@/components/features/users/SettingsModal/SettingsTabButton';
 import SharedHouseholdTab from '@/components/features/users/SettingsModal/SharedHouseholdTab';
@@ -22,7 +24,7 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 
-type SettingsTabKey = 'general' | 'sharedHousehold';
+type SettingsTabKey = 'general' | 'sharedHousehold' | 'applePay';
 
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');
@@ -59,6 +61,11 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
       labelKey: 'settingsModal.tabs.sharedHousehold',
       icon: HomeWorkOutlinedIcon,
     },
+    {
+      key: 'applePay',
+      labelKey: 'settingsModal.tabs.applePay',
+      icon: PhoneIphoneIcon,
+    },
   ];
 
   return (
@@ -73,7 +80,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
       >
         <DialogContent sx={{ py: 1 }}>
           {isSmallScreen ? (
-            <Column spacing={2} sx={{ pt: 1 }}>
+            <Box>
               <Tabs
                 value={activeTab}
                 onChange={(_, value: SettingsTabKey) => setActiveTab(value)}
@@ -82,8 +89,8 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                   borderBottom: 1,
                   borderColor: 'divider',
                   position: 'sticky',
-                  top: 0,
-                  zIndex: 1,
+                  top: -8,
+                  zIndex: 10,
                   bgcolor: 'background.paper',
                 }}
               >
@@ -91,13 +98,14 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                   <Tab key={tab.key} value={tab.key} label={t(tab.labelKey)} />
                 ))}
               </Tabs>
-              <Box>
+              <Box sx={{ pt: 2 }}>
                 {activeTab === 'general' && (
                   <GeneralSettingsTab openDeletionDialog={openDeletionDialog} />
                 )}
                 {activeTab === 'sharedHousehold' && <SharedHouseholdTab />}
+                {activeTab === 'applePay' && <ApplePayShortcutSection />}
               </Box>
-            </Column>
+            </Box>
           ) : (
             <Row
               spacing={2}
@@ -126,6 +134,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                   <GeneralSettingsTab openDeletionDialog={openDeletionDialog} />
                 )}
                 {activeTab === 'sharedHousehold' && <SharedHouseholdTab />}
+                {activeTab === 'applePay' && <ApplePayShortcutSection />}
               </Box>
             </Row>
           )}

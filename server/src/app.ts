@@ -33,6 +33,7 @@ import paymentMethodRoutes from './routes/paymentMethodsRoutes';
 import publicInvitationRoutes from './routes/publicInvitationRoutes';
 import recurringTemplateRoutes from './routes/recurringTemplateRoutes';
 import sharedWorkspaceRoutes from './routes/sharedWorkspaceRoutes';
+import shortcutRoutes from './routes/shortcutRoutes';
 import transactionRoutes from './routes/transactionRoutes';
 import userRoutes from './routes/userRoutes';
 
@@ -59,6 +60,7 @@ app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/cron', cronRoutes);
 app.use('/api/invitations', publicInvitationRoutes);
+app.use('/api/shortcut', shortcutRoutes);
 app.use('/api', authMiddleware);
 app.use('/api', workspaceContextMiddleware);
 app.use('/api', activityPingMiddleware);

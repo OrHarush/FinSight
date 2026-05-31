@@ -55,6 +55,19 @@ export const exportLimiter = rateLimit({
 });
 
 /**
+ * Apple Pay Shortcut token-poll rate limiter
+ * The shortcut polls GET /api/shortcut/token unauthenticated while waiting for approval
+ * 20 requests per minute per IP
+ */
+export const shortcutPollLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many shortcut poll requests, please slow down.',
+});
+
+/**
  * Full DB backup rate limiter
  * Scans every collection unscoped; admin-only but still capped tightly per user
  * 3 requests per hour per admin

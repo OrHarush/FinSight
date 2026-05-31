@@ -64,8 +64,29 @@
     "updateError": "שמירת ההעדפות נכשלה.",
     "tabs": {
       "general": "כללי",
-      "sharedHousehold": "משק בית משותף"
+      "sharedHousehold": "משק בית משותף",
+      "applePay": "Apple Pay"
+    },
+    "applePayShortcut": {
+      "title": "קיצור דרך Apple Pay",
+      "description": "רשום כל תשלום Apple Pay אוטומטית",
+      "connect": "חיבור",
+      "waiting": "ממתין לאישור...",
+      "connected": "מחובר",
+      "connectedSince": "מחובר מתאריך {{date}}",
+      "disconnect": "ניתוק",
+      "linkExpired": "הקישור פג. אנא נסה שוב.",
+      "connectError": "התחלת החיבור נכשלה. אנא נסה שוב."
     }
+  },
+  "shortcutAuth": {
+    "title": "חיבור Apple Pay ל-Lyra",
+    "connectingAs": "אתה מחבר את החשבון הזה:",
+    "approve": "אישור החיבור",
+    "successTitle": "מחובר",
+    "successBody": "ניתן לסגור את הלשונית.",
+    "expiredTitle": "הקישור אינו זמין",
+    "expiredBody": "הקישור פג או שכבר נעשה בו שימוש. צור קישור חדש מהגדרות Lyra."
   },
   "sharedHousehold": {
     "empty": {

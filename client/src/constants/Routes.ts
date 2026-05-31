@@ -20,6 +20,7 @@ export const ROUTES = {
   CHAT_URL: '/chat',
   IMPORT_URL: '/transactions/import',
   INVITATION_URL: '/invitations/:token',
+  SHORTCUT_AUTH_URL: '/shortcut-auth',
 } as const;
 
 export const buildInvitationUrl = (token: string) => `/invitations/${token}`;
@@ -119,6 +120,14 @@ export const API_ROUTES = {
   },
 
   CHAT: '/api/chat',
+
+  SHORTCUT: {
+    INIT: '/api/shortcut/init',
+    APPROVE: '/api/shortcut/approve',
+    TOKEN: '/api/shortcut/token',
+    STATUS: '/api/shortcut/status',
+    REVOKE: '/api/shortcut/revoke',
+  },
 
   IMPORT_PREVIEW: '/api/import/preview',
   IMPORT_TRANSACTIONS: '/api/import/transactions',

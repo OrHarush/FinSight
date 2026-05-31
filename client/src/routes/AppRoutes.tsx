@@ -27,6 +27,7 @@ import LoginPage from '@/pages/Login';
 import NotFoundPage from '@/pages/NotFoundPage';
 import Overview from '@/pages/Overview';
 import PaymentMethods from '@/pages/PaymentMethods';
+import ShortcutAuthPage from '@/pages/ShortcutAuth';
 import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
@@ -79,6 +80,7 @@ const AppRoutes = () => {
             <Route path={ROUTES.BLOG_RISEUP_REVIEW_URL} element={<RiseUpReview />} />
             <Route path={ROUTES.BLOG_CASHFLOW_GUIDE_URL} element={<CashflowGuide />} />
             <Route path={ROUTES.INVITATION_URL} element={<InvitationLandingPage />} />
+            <Route path={ROUTES.SHORTCUT_AUTH_URL} element={<ShortcutAuthPage />} />
           </Route>
           <Route
             element={

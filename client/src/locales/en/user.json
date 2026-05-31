@@ -64,8 +64,29 @@
     "updateError": "Failed to save preferences.",
     "tabs": {
       "general": "General",
-      "sharedHousehold": "Shared household"
+      "sharedHousehold": "Shared household",
+      "applePay": "Apple Pay"
+    },
+    "applePayShortcut": {
+      "title": "Apple Pay Shortcut",
+      "description": "Automatically log every Apple Pay payment",
+      "connect": "Connect",
+      "waiting": "Waiting for approval...",
+      "connected": "Connected",
+      "connectedSince": "Connected on {{date}}",
+      "disconnect": "Disconnect",
+      "linkExpired": "Link expired. Try again.",
+      "connectError": "Couldn't start the connection. Please try again."
     }
+  },
+  "shortcutAuth": {
+    "title": "Connect Apple Pay to Lyra",
+    "connectingAs": "You're connecting this account:",
+    "approve": "Approve Connection",
+    "successTitle": "Connected",
+    "successBody": "You can close this tab.",
+    "expiredTitle": "Link unavailable",
+    "expiredBody": "This link has expired or has already been used. Generate a new one from Lyra settings."
   },
   "sharedHousehold": {
     "empty": {
