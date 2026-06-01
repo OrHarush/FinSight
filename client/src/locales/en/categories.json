@@ -53,6 +53,7 @@
     "all": "All categories",
     "savings": "Savings for goals"
   },
+  "tapToEdit": "Tap to edit",
   "actions": {
     "create": "Create Category",
     "createNew": "New Category",
