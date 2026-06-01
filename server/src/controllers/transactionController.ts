@@ -40,9 +40,9 @@ export const getTransactionSummary = asyncHandler(async (req: Request, res: Resp
 });
 
 export const getTransactionCount = asyncHandler(async (req: Request, res: Response) => {
-  const total = await transactionService.countAll(req.workspaceId);
+  const counts = await transactionService.countAll(req.workspaceId);
 
-  return ApiResponse.ok(res, { total });
+  return ApiResponse.ok(res, counts);
 });
 
 export const getQuickChips = asyncHandler(async (req: Request, res: Response) => {

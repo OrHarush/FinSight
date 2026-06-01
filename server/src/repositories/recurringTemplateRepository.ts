@@ -21,6 +21,12 @@ export const findActiveByUser = async (userId: string) =>
     .lean<IRecurringTemplate[]>()
     .exec();
 
+export const countActiveByWorkspace = async (workspaceId: string): Promise<number> =>
+  RecurringTemplate.countDocuments({
+    workspaceId: new Types.ObjectId(workspaceId),
+    isActive: true,
+  });
+
 export const findUserIdsWithActiveTemplates = async (): Promise<string[]> => {
   const userIds = await RecurringTemplate.distinct('userId', { isActive: true });
 

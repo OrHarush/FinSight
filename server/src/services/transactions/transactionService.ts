@@ -193,8 +193,16 @@ export const getTransactionSummary = async (
   }));
 };
 
-export const countAll = async (workspaceId: string): Promise<number> =>
-  transactionRepository.countByWorkspace(workspaceId);
+export const countAll = async (
+  workspaceId: string
+): Promise<{ total: number; recurringTemplates: number }> => {
+  const [total, recurringTemplates] = await Promise.all([
+    transactionRepository.countByWorkspace(workspaceId),
+    recurringTemplateRepository.countActiveByWorkspace(workspaceId),
+  ]);
+
+  return { total, recurringTemplates };
+};
 
 export const create = async (
   data: CreateTransactionDTO,

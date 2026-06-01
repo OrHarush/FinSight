@@ -6,14 +6,17 @@ import { useAuth } from '@/providers/AuthProvider';
 export const useHasAnyTransaction = () => {
   const { user } = useAuth();
 
-  const query = useFetch<{ total: number }>({
+  const query = useFetch<{ total: number; recurringTemplates: number }>({
     url: `${API_ROUTES.TRANSACTIONS}/count`,
     queryKey: queryKeys.transactionsCount(),
     enabled: !!user,
   });
 
+  const total = query.data?.total ?? 0;
+  const recurringTemplates = query.data?.recurringTemplates ?? 0;
+
   return {
-    hasAnyTransaction: (query.data?.total ?? 0) > 0,
+    hasAnyTransaction: total + recurringTemplates > 0,
     isLoading: query.isLoading,
   };
 };

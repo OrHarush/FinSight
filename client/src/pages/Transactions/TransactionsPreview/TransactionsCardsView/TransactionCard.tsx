@@ -1,6 +1,7 @@
 import CategoryIcon from '@mui/icons-material/Category';
 import { Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -101,7 +102,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
               {transaction.note && <TransactionNoteIcon note={transaction.note} />}
             </Row>
             <Typography variant="caption" color="text.secondary">
-              {new Date(getTransactionDisplayDate(transaction)).toLocaleDateString()}
+              {dayjs(getTransactionDisplayDate(transaction)).format('DD/MM/YYYY')}
             </Typography>
           </Column>
           <CurrencyText
