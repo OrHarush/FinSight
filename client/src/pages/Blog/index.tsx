@@ -16,6 +16,7 @@ interface Article {
   titleKey: string;
   descKey: string;
   readMinutes: number;
+  publishedDate: string;
   href: string;
   heroImage?: string;
 }
@@ -25,6 +26,7 @@ const ARTICLES: Article[] = [
     titleKey: 'articles.cashflowGuide.title',
     descKey: 'articles.cashflowGuide.description',
     readMinutes: 5,
+    publishedDate: '1 ביוני 2026',
     href: ROUTES.BLOG_CASHFLOW_GUIDE_URL,
     heroImage: '/blog-cashflow-hero.webp',
   },
@@ -32,6 +34,7 @@ const ARTICLES: Article[] = [
     titleKey: 'articles.riseupReview.title',
     descKey: 'articles.riseupReview.description',
     readMinutes: 3,
+    publishedDate: '30 במאי 2026',
     href: ROUTES.BLOG_RISEUP_REVIEW_URL,
     heroImage: '/blog-riseup-review-hero.webp',
   },
@@ -129,6 +132,10 @@ const BlogIndex = () => {
                       <AccessTimeRoundedIcon sx={{ fontSize: '0.9rem' }} />
                       <Typography sx={{ fontSize: '0.8rem', color: 'inherit' }}>
                         {t('readingTime', { minutes: article.readMinutes })}
+                      </Typography>
+                      <Typography sx={{ fontSize: '0.8rem', color: 'inherit' }}>·</Typography>
+                      <Typography sx={{ fontSize: '0.8rem', color: 'inherit' }}>
+                        {article.publishedDate}
                       </Typography>
                     </Row>
                   </Column>

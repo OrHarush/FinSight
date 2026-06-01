@@ -104,6 +104,10 @@ const CashflowGuide = () => {
               <Typography sx={{ fontSize: '0.85rem', color: 'inherit' }}>
                 {t('readingTime', { minutes: READING_MINUTES })}
               </Typography>
+              <Typography sx={{ fontSize: '0.85rem', color: 'inherit' }}>·</Typography>
+              <Typography sx={{ fontSize: '0.85rem', color: 'inherit' }}>
+                {t('publishedDate')}
+              </Typography>
             </Row>
           </Column>
 
