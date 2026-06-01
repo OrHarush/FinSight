@@ -62,6 +62,9 @@
     "nov": "נוב׳",
     "dec": "דצמ׳"
   },
+  "nav": {
+    "blog": "בלוג"
+  },
   "legal": {
     "termsOfService": "תנאי שימוש",
     "privacyPolicy": "מדיניות פרטיות",

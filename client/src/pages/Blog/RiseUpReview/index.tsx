@@ -9,6 +9,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import ScrollableColumn from '@/components/shared/layout/containers/ScrollableColumn';
 import Footer from '@/components/shared/layout/Footer';
+import IntroWithCashflowLink from '@/pages/Blog/RiseUpReview/IntroWithCashflowLink';
 import ProsConsCards from '@/pages/Blog/RiseUpReview/ProsConsCards';
 import QuickVerdict from '@/pages/Blog/RiseUpReview/QuickVerdict';
 import VsComparisonTable from '@/pages/Blog/RiseUpReview/VsComparisonTable';
@@ -93,9 +94,7 @@ const RiseUpReview = () => {
             </Row>
           </Column>
 
-          <Typography variant="body1" sx={bodyTextSx}>
-            {t('intro')}
-          </Typography>
+          <IntroWithCashflowLink intro={t('intro')} />
 
           <QuickVerdict />
 

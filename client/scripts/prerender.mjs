@@ -18,7 +18,9 @@ const ROUTES = [
   '/privacy-policy',
   '/terms-of-service',
   '/accessibility',
+  '/blog',
   '/blog/riseup-review',
+  '/blog/cashflow-guide',
 ];
 
 const MIME = {

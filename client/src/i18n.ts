@@ -19,6 +19,8 @@ import enLogin from '@/locales/en/login.json';
 import enOverview from '@/locales/en/overview.json';
 import enPaymentMethods from '@/locales/en/paymentMethods.json';
 import enPrivacyPolicy from '@/locales/en/privacyPolicy.json';
+import enBlog from '@/locales/en/blog.json';
+import enCashflowGuide from '@/locales/en/cashflowGuide.json';
 import enRiseupReview from '@/locales/en/riseupReview.json';
 import enSidebar from '@/locales/en/sidebar.json';
 import enTermsOfService from '@/locales/en/termsOfService.json';
@@ -37,6 +39,8 @@ import heLogin from '@/locales/he/login.json';
 import heOverview from '@/locales/he/overview.json';
 import hePaymentMethods from '@/locales/he/paymentMethods.json';
 import hePrivacyPolicy from '@/locales/he/privacyPolicy.json';
+import heBlog from '@/locales/he/blog.json';
+import heCashflowGuide from '@/locales/he/cashflowGuide.json';
 import heRiseupReview from '@/locales/he/riseupReview.json';
 import heSidebar from '@/locales/he/sidebar.json';
 import heTermsOfService from '@/locales/he/termsOfService.json';
@@ -56,6 +60,8 @@ i18n
         login: enLogin,
         user: enUser,
         privacyPolicy: enPrivacyPolicy,
+        blog: enBlog,
+        cashflowGuide: enCashflowGuide,
         riseupReview: enRiseupReview,
         termsOfService: enTermsOfService,
         sidebar: enSidebar,
@@ -76,6 +82,8 @@ i18n
         login: heLogin,
         user: heUser,
         privacyPolicy: hePrivacyPolicy,
+        blog: heBlog,
+        cashflowGuide: heCashflowGuide,
         riseupReview: heRiseupReview,
         termsOfService: heTermsOfService,
         sidebar: heSidebar,

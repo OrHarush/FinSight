@@ -61,6 +61,9 @@
     "nov": "Nov",
     "dec": "Dec"
   },
+  "nav": {
+    "blog": "בלוג"
+  },
   "legal": {
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",

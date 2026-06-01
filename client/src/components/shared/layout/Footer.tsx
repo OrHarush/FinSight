@@ -6,22 +6,35 @@ import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { ROUTES } from '@/constants/Routes';
 
+interface FooterLink {
+  label: string;
+  href: string;
+  newTab?: boolean;
+}
+
 const Footer = () => {
   const { t } = useTranslation(['home', 'common']);
   const theme = useTheme();
 
-  const links = [
+  const links: FooterLink[] = [
+    {
+      label: t('common:nav.blog'),
+      href: ROUTES.BLOG_URL,
+    },
     {
       label: t('common:legal.termsOfService'),
       href: ROUTES.TERMS_OF_SERVICE_URL,
+      newTab: true,
     },
     {
       label: t('common:legal.privacyPolicy'),
       href: ROUTES.PRIVACY_POLICY_URL,
+      newTab: true,
     },
     {
       label: t('common:legal.accessibility'),
       href: ROUTES.ACCESSIBILITY_URL,
+      newTab: true,
     },
   ];
 
@@ -43,8 +56,8 @@ const Footer = () => {
             <Typography
               component="a"
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={link.newTab ? '_blank' : undefined}
+              rel={link.newTab ? 'noopener noreferrer' : undefined}
               variant="caption"
               sx={{
                 color: 'text.secondary',

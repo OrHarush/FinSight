@@ -11,6 +11,8 @@ import { useMinLoadingDuration } from '@/hooks/common/useMinLoadingDuration';
 import Accounts from '@/pages/Accounts';
 import { AdminDashboard } from '@/pages/Admin';
 import AdminDebugPage from '@/pages/Admin/Debug';
+import BlogIndex from '@/pages/Blog';
+import CashflowGuide from '@/pages/Blog/CashflowGuide';
 import RiseUpReview from '@/pages/Blog/RiseUpReview';
 import Budgets from '@/pages/Budgets';
 import Categories from '@/pages/Categories';
@@ -67,7 +69,9 @@ const AppRoutes = () => {
             />
             <Route path={ROUTES.PRIVACY_POLICY_URL} element={<LegalPage type="privacyPolicy" />} />
             <Route path={ROUTES.ACCESSIBILITY_URL} element={<LegalPage type="accessibility" />} />
+            <Route path={ROUTES.BLOG_URL} element={<BlogIndex />} />
             <Route path={ROUTES.BLOG_RISEUP_REVIEW_URL} element={<RiseUpReview />} />
+            <Route path={ROUTES.BLOG_CASHFLOW_GUIDE_URL} element={<CashflowGuide />} />
             <Route path={ROUTES.INVITATION_URL} element={<InvitationLandingPage />} />
           </Route>
           <Route

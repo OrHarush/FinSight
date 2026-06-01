@@ -29,6 +29,16 @@
           "url": "https://lyra-il.com"
         },
         {
+          "id": "read-blog-index",
+          "description": "Browse the Lyra blog — a listing of all financial guides for the Israeli market.",
+          "url": "https://lyra-il.com/blog"
+        },
+        {
+          "id": "read-cashflow-guide",
+          "description": "Read the complete guide to personal cash flow management: what cash flow is, how it differs from a budget, the four common methods (envelopes, 50/30/20, pay-yourself-first, zero-based), why most tools fail in Israel due to per-card billing cycles, and how Lyra solves it.",
+          "url": "https://lyra-il.com/blog/cashflow-guide"
+        },
+        {
           "id": "read-riseup-comparison",
           "description": "Read the in-depth RiseUp review — pricing, the pros and cons that recur in reviews, who it suits, and how Lyra differs as a free, no-bank-connection alternative.",
           "url": "https://lyra-il.com/blog/riseup-review"
@@ -84,6 +94,8 @@
   },
   "links": {
     "homepage": "https://lyra-il.com",
+    "blog": "https://lyra-il.com/blog",
+    "cashflowGuide": "https://lyra-il.com/blog/cashflow-guide",
     "riseupReview": "https://lyra-il.com/blog/riseup-review",
     "privacyPolicy": "https://lyra-il.com/privacy-policy",
     "termsOfService": "https://lyra-il.com/terms-of-service",
