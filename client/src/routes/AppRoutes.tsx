@@ -31,12 +31,19 @@ import { Transactions } from '@/pages/Transactions';
 import { useAuth } from '@/providers/AuthProvider';
 import { RequireAdmin, RequireAuth, RequireGuest } from '@/routes/guards/ProtectedRoute';
 
-const ANALYTICS_EXCLUDED_EMAILS = new Set([
-  'orharush24@gmail.com',
-  'finsight.dev@gmail.com',
-  'orrh2410@gmail.com',
-  'orharush@mail.tau.ac.il',
-]);
+const BASELINE_EXCLUDED_EMAILS = ['lyra.il.app@gmail.com'];
+
+const ANALYTICS_EXCLUDED_EMAILS = new Set(
+  [
+    ...BASELINE_EXCLUDED_EMAILS,
+    ...(import.meta.env.VITE_EXCLUDE_EMAILS ?? '').split(','),
+  ]
+    .map((e: string) => e.trim().toLowerCase())
+    .filter(Boolean),
+);
+
+const isExcludedEmail = (email: string | undefined) =>
+  !!email && ANALYTICS_EXCLUDED_EMAILS.has(email.toLowerCase());
 
 const AppRoutes = () => {
   const { user, isLoadingUser } = useAuth();
@@ -46,8 +53,7 @@ const AppRoutes = () => {
   const showLoading = useMinLoadingDuration(isLoadingUser, 1500, hasStoredToken);
 
   const trackAnalytics =
-    user?.analyticsConsent === 'accepted' &&
-    !ANALYTICS_EXCLUDED_EMAILS.has(user.email);
+    !isExcludedEmail(user?.email) && user?.analyticsConsent === 'accepted';
 
   if (showLoading) {
     return (

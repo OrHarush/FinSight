@@ -30,7 +30,9 @@ import {
 } from '../repositories/userRepository';
 import * as workspaceMemberRepository from '../repositories/workspaceMemberRepository';
 import * as workspaceRepository from '../repositories/workspaceRepository';
+import { isExcludedEmail } from '../utils/excludedEmails';
 import * as analyticsService from './analyticsService';
+import * as emailService from './emailService';
 import {
   deleteWorkspaceCompletely,
   leaveSharedWorkspaceTx,
@@ -150,14 +152,38 @@ const buildDeletionSnapshot = (
   };
 };
 
-const recordDeletionFeedback = async (user: IUser, feedback?: DeletionFeedbackInput) => {
+const recordDeletionFeedback = async (
+  user: IUser,
+  feedback?: DeletionFeedbackInput
+): Promise<Partial<IDeletionFeedback> | null> => {
   try {
     const transactionCount = await countByUser(user._id);
     const snapshot = buildDeletionSnapshot(user, transactionCount, feedback);
     await deletionFeedbackRepository.insert(snapshot);
+    return snapshot;
   } catch (err) {
     console.error('Failed to record deletion feedback:', err);
+    return null;
   }
+};
+
+const notifyDeletionAlert = (user: IUser, snapshot: Partial<IDeletionFeedback> | null) => {
+  if (isExcludedEmail(user.email)) {
+    return;
+  }
+
+  void emailService
+    .sendDeletionAlert({
+      userEmail: user.email,
+      userName: user.name,
+      reason: snapshot?.reason ?? null,
+      comment: snapshot?.comment ?? null,
+      transactionCount: snapshot?.transactionCount ?? 0,
+      daysSinceSignup: snapshot?.daysSinceSignup ?? 0,
+      hadCompletedOnboarding: snapshot?.hadCompletedOnboarding ?? false,
+      locale: snapshot?.locale ?? 'he',
+    })
+    .catch(err => console.error('Failed to send deletion alert:', err));
 };
 
 export const deleteUserCompletely = async (userId: string, feedback?: DeletionFeedbackInput) => {
@@ -167,7 +193,7 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
     return { success: true };
   }
 
-  await recordDeletionFeedback(user, feedback);
+  const deletionSnapshot = await recordDeletionFeedback(user, feedback);
 
   const analyticsSnapshot = await analyticsService.captureUserSnapshot(userId);
 
@@ -206,6 +232,8 @@ export const deleteUserCompletely = async (userId: string, feedback?: DeletionFe
         .trackWithSnapshot('user_deleted', analyticsSnapshot)
         .catch(err => console.error('Failed to track user_deleted:', err));
     }
+
+    notifyDeletionAlert(user, deletionSnapshot);
 
     return { success: true };
   } catch (err) {

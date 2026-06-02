@@ -6,11 +6,13 @@
     "placeholder": "Type '{{keyword}}' to confirm",
     "confirmKeyword": "delete",
     "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
     "confirm": "Delete Account",
     "success": "Your account has been deleted successfully.",
     "error": "Failed to delete account.",
     "feedback": {
-      "label": "Help us improve, what's the reason? (optional)",
+      "label": "Help us improve, what's the reason?",
       "reasons": {
         "too_complex": "Too complex",
         "missing_feature": "Missing a feature",
@@ -21,6 +23,16 @@
         "other": "Other"
       },
       "commentPlaceholder": "Tell us more (optional)"
+    },
+    "deleting": {
+      "title": "Deleting your account...",
+      "phases": {
+        "transactions": "Deleting transactions",
+        "accounts": "Deleting accounts",
+        "categories": "Deleting categories",
+        "goals": "Deleting goals",
+        "finalizing": "Finalizing"
+      }
     }
   },
   "settingsModal": {

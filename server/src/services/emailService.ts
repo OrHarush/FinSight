@@ -16,6 +16,54 @@ interface FeedbackEmailPayload {
   };
 }
 
+interface DeletionAlertPayload {
+  userEmail: string;
+  userName: string;
+  reason: string | null;
+  comment: string | null;
+  transactionCount: number;
+  daysSinceSignup: number;
+  hadCompletedOnboarding: boolean;
+  locale: 'he' | 'en';
+}
+
+export const sendDeletionAlert = async (
+  payload: DeletionAlertPayload
+): Promise<{ delivered: boolean; reason?: string }> => {
+  if (!process.env.RESEND_API_KEY) {
+    return { delivered: false, reason: 'RESEND_API_KEY not configured' };
+  }
+
+  const text = `User account deleted.
+
+User:        ${payload.userName} <${payload.userEmail}>
+Reason:      ${payload.reason ?? 'not selected'}
+Comment:     ${payload.comment ?? 'none'}
+
+Transactions:      ${payload.transactionCount}
+Days since signup: ${payload.daysSinceSignup}
+Onboarded:         ${payload.hadCompletedOnboarding ? 'yes' : 'no'}
+Locale:            ${payload.locale}
+`;
+
+  try {
+    await resend.emails.send({
+      from: 'Lyra <hello@send.lyra-il.com>',
+      to: FEEDBACK_RECIPIENT_EMAIL,
+      subject: `[Lyra] User deleted: ${payload.userEmail}`,
+      text,
+    });
+
+    return { delivered: true };
+  } catch (err) {
+    console.error('Failed to send deletion alert email:', err);
+    return {
+      delivered: false,
+      reason: err instanceof Error ? err.message : 'unknown',
+    };
+  }
+};
+
 export const sendFeedback = async (payload: FeedbackEmailPayload) => {
   const text = `
 Message:

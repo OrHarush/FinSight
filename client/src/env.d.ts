@@ -2,6 +2,7 @@ interface ImportMetaEnv {
   readonly VITE_API_URL: string;
   readonly VITE_GOOGLE_CLIENT_ID: string;
   readonly VITE_DEV_AUTH_BYPASS?: string;
+  readonly VITE_EXCLUDE_EMAILS?: string;
   VITE_MAINTENANCE_MODE?: string;
 }
 

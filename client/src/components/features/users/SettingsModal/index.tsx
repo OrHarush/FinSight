@@ -15,7 +15,6 @@ import UserDeletionDialog, {
 } from '@/components/features/users/UserDeletionDialog';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { queryKeys } from '@/constants/queryKeys';
 import { API_ROUTES } from '@/constants/Routes';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
@@ -37,12 +36,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
     method: 'delete',
     url: `${API_ROUTES.USERS}/${user?._id}`,
-    queryKeysToInvalidate: [queryKeys.user()],
     options: {
-      onSuccess: () => {
-        alertSuccess(t('deleteDialog.success'));
-        logout();
-      },
       onError: () => {
         alertError(t('deleteDialog.error'));
       },
@@ -51,6 +45,11 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
 
   const confirmDeletion = (feedback: DeletionFeedbackPayload) => {
     deleteUser.mutate({ feedback });
+  };
+
+  const completeDeletion = () => {
+    alertSuccess(t('deleteDialog.success'));
+    logout();
   };
 
   const tabs: { key: SettingsTabKey; labelKey: string; icon: SvgIconComponent }[] = [
@@ -138,6 +137,9 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
           isOpen={isDeletionDialogOpen}
           closeDialog={closeDeletionDialog}
           onConfirm={confirmDeletion}
+          isDeletionError={deleteUser.isError}
+          isDeletionSuccess={deleteUser.isSuccess}
+          onDeletionComplete={completeDeletion}
         />
       )}
     </>

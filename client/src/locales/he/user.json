@@ -6,11 +6,13 @@
     "placeholder": "הקלד '{{keyword}}' לאישור",
     "confirmKeyword": "delete",
     "cancel": "ביטול",
+    "back": "חזרה",
+    "next": "המשך",
     "confirm": "מחיקת חשבון",
     "success": "החשבון נמחק בהצלחה.",
     "error": "מחיקת החשבון נכשלה.",
     "feedback": {
-      "label": "עוזר לנו להשתפר, מה הסיבה? (אופציונלי)",
+      "label": "עוזר לנו להשתפר, מה הסיבה?",
       "reasons": {
         "too_complex": "מורכב מדי",
         "missing_feature": "חסרה לי תכונה",
@@ -21,6 +23,16 @@
         "other": "אחר"
       },
       "commentPlaceholder": "ספר לנו עוד (אופציונלי)"
+    },
+    "deleting": {
+      "title": "מוחקים את החשבון שלך...",
+      "phases": {
+        "transactions": "מוחק עסקאות",
+        "accounts": "מוחק חשבונות",
+        "categories": "מוחק קטגוריות",
+        "goals": "מוחק יעדים",
+        "finalizing": "מסיים"
+      }
     }
   },
   "settingsModal": {
