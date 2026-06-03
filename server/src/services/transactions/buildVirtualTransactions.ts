@@ -44,7 +44,7 @@ export const buildVirtualTransactions = (
 
       const year = current.year();
       const month = current.month();
-      const templateIdStr = template._id as string;
+      const templateIdStr = (template._id as Types.ObjectId).toString();
 
       const realExists = realTransactions.some(tx => {
         if (!tx.templateId) {

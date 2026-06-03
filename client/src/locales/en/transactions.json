@@ -226,7 +226,7 @@
     "deleteSuccess": "Transaction deleted successfully",
     "deleteError": "Failed to delete transaction",
     "transactionDeleted": "Transaction deleted",
-    "cannotEditVirtual": "This transaction hasn't occurred yet and cannot be edited"
+    "cannotDeleteVirtual": "This occurrence hasn't happened yet. To stop the series, edit the recurring transaction and choose \"This and future transactions\". Otherwise, wait until it occurs."
   },
   "deleteRecurring": {
     "title": "Delete Recurring Transaction",

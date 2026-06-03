@@ -45,6 +45,7 @@ export const API_ROUTES = {
   RECURRING_TEMPLATES_WITH_TRANSACTIONS: '/api/recurring-templates/with-transactions',
   RECURRING_TEMPLATES_SPLIT: (id: string) => `/api/recurring-templates/${id}/split`,
   RECURRING_TEMPLATES_DEACTIVATE_FROM: (id: string) => `/api/recurring-templates/${id}/deactivate-from`,
+  RECURRING_TEMPLATES_MATERIALIZE: (id: string) => `/api/recurring-templates/${id}/materialize`,
   TRANSACTION_SUMMARY: (year: number, month?: number, accountId?: string, from?: string) => {
     const params = new URLSearchParams({ year: String(year) });
 

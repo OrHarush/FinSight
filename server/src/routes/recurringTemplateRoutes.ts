@@ -1,6 +1,7 @@
 import {
   CreateRecurringTemplateSchema,
   DeactivateFromSchema,
+  MaterializeRecurringOccurrenceSchema,
   SplitRecurringTemplateSchema,
   UpdateRecurringTemplateSchema,
 } from '@lyra/shared';
@@ -13,6 +14,7 @@ import {
   deleteTemplate,
   getTemplateById,
   getTemplates,
+  materializeOccurrence,
   splitTemplate,
   updateTemplate,
 } from '../controllers/recurringTemplateController';
@@ -29,6 +31,11 @@ router.post(
 );
 router.post('/', validateBody(CreateRecurringTemplateSchema), createTemplate);
 router.post('/:id/deactivate-from', validateBody(DeactivateFromSchema), deactivateFrom);
+router.post(
+  '/:id/materialize',
+  validateBody(MaterializeRecurringOccurrenceSchema),
+  materializeOccurrence
+);
 router.put('/:id/split', validateBody(SplitRecurringTemplateSchema), splitTemplate);
 router.put('/:id', validateBody(UpdateRecurringTemplateSchema), updateTemplate);
 router.delete('/:id', deleteTemplate);

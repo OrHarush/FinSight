@@ -41,18 +41,13 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
       : 'success.main';
 
   const setTransactionToEdit = () => {
-    if (transaction.isVirtual) {
-      alertError(tTx('messages.cannotEditVirtual'));
-      return;
-    }
-
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
   };
 
   const setTransactionToDelete = () => {
     if (transaction.isVirtual) {
-      alertError(tTx('messages.cannotEditVirtual'));
+      alertError(tTx('messages.cannotDeleteVirtual'));
       return;
     }
 

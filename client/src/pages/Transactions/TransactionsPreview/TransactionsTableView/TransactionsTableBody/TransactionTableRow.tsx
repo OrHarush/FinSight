@@ -53,7 +53,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
     e.stopPropagation();
 
     if (transaction.isVirtual) {
-      alertError(tTx('messages.cannotEditVirtual'));
+      alertError(tTx('messages.cannotDeleteVirtual'));
       return;
     }
 
@@ -62,11 +62,6 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   };
 
   const handleTransactionSelect = () => {
-    if (transaction.isVirtual) {
-      alertError(tTx('messages.cannotEditVirtual'));
-      return;
-    }
-
     setSelectedTransaction(transaction);
     setTransactionAction('edit');
   };

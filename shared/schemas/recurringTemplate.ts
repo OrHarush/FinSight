@@ -59,3 +59,20 @@ export const SplitRecurringTemplateSchema = BaseRecurringTemplateSchema.partial(
   });
 
 export type SplitRecurringTemplateDTO = z.infer<typeof SplitRecurringTemplateSchema>;
+
+export const MaterializeRecurringOccurrenceSchema = z.object({
+  occurrenceDate: z.string().min(1),
+  date: z.string().optional(),
+  name: nameSchema(50).optional(),
+  note: z.string().max(200, 'validation.noteTooLong').trim().optional(),
+  type: z.enum(['Income', 'Expense', 'Transfer']).optional(),
+  amount: positiveAmountSchema.optional(),
+  belongToPreviousMonth: z.boolean().optional(),
+  categoryId: objectIdSchema.optional(),
+  accountId: objectIdSchema.optional(),
+  paymentMethodId: objectIdSchema.optional(),
+  fromAccountId: objectIdSchema.optional(),
+  toAccountId: objectIdSchema.optional(),
+});
+
+export type MaterializeRecurringOccurrenceDTO = z.infer<typeof MaterializeRecurringOccurrenceSchema>;

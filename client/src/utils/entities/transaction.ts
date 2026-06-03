@@ -1,6 +1,7 @@
 import {
   CreateRecurringTemplateDTO,
   CreateTransactionDTO,
+  MaterializeRecurringOccurrenceDTO,
   SplitRecurringTemplateDTO,
   TransactionFormValues,
   UpdateTransactionDTO,
@@ -43,6 +44,27 @@ export const mapToTemplateChangesPayload = (
 ): SplitRecurringTemplateDTO => {
   const base = {
     fromDate,
+    amount: Number(data.amount),
+    type: data.type,
+    belongToPreviousMonth: data.belongToPreviousMonth,
+    paymentMethodId: data.paymentMethod,
+    note: data.note || undefined,
+  };
+
+  if (data.type === 'Expense' || data.type === 'Income') {
+    return { ...base, name: data.name, categoryId: data.category, accountId: data.account };
+  }
+
+  return { ...base, fromAccountId: data.fromAccount, toAccountId: data.toAccount };
+};
+
+export const mapToMaterializePayload = (
+  data: TransactionFormValues,
+  occurrenceDate: string
+): MaterializeRecurringOccurrenceDTO => {
+  const base = {
+    occurrenceDate,
+    date: data.date ? new Date(data.date).toISOString() : undefined,
     amount: Number(data.amount),
     type: data.type,
     belongToPreviousMonth: data.belongToPreviousMonth,

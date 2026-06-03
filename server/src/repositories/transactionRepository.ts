@@ -115,6 +115,22 @@ export const deleteByTemplateIdFromDate = (templateId: string, fromDate: Date) =
     date: { $gte: fromDate },
   });
 
+export const findOneByTemplateAndMonth = (
+  templateId: string,
+  workspaceId: string,
+  year: number,
+  month: number
+) => {
+  const monthStart = dayjs.utc().year(year).month(month).startOf('month').toDate();
+  const monthEnd = dayjs.utc().year(year).month(month).endOf('month').toDate();
+
+  return Transaction.findOne({
+    templateId: new Types.ObjectId(templateId),
+    workspaceId: new Types.ObjectId(workspaceId),
+    date: { $gte: monthStart, $lte: monthEnd },
+  });
+};
+
 export const countByAccountId = async (workspaceId: string, accountId: string) =>
   Transaction.countDocuments({
     workspaceId: new Types.ObjectId(workspaceId),

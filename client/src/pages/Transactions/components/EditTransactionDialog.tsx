@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  MaterializeRecurringOccurrenceDTO,
   SplitRecurringTemplateDTO,
   TransactionFormSchema,
   TransactionFormValues,
@@ -21,7 +22,11 @@ import EditRecurringTransactionDialog from '@/pages/Transactions/components/Edit
 import TransactionForm from '@/pages/Transactions/components/TransactionForm';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto, TransactionMutationResult } from '@/types/Transaction';
-import { mapToTemplateChangesPayload, mapToUpdatePayload } from '@/utils/entities/transaction';
+import {
+  mapToMaterializePayload,
+  mapToTemplateChangesPayload,
+  mapToUpdatePayload,
+} from '@/utils/entities/transaction';
 
 interface EditTransactionDialogProps extends BaseDialogProps {
   transaction: ExpandedTransactionDto;
@@ -58,8 +63,6 @@ const EditTransactionDialog = ({
     mode: 'all',
   });
 
-  console.log(transaction);
-
   const updateTransaction = useApiMutation<
     ApiResponse<TransactionMutationResult>,
     UpdateTransactionDTO
@@ -94,6 +97,18 @@ const EditTransactionDialog = ({
     ],
   });
 
+  const materializeOccurrence = useApiMutation<unknown, MaterializeRecurringOccurrenceDTO>({
+    method: 'post',
+    url: API_ROUTES.RECURRING_TEMPLATES_MATERIALIZE(transaction.templateId ?? ''),
+    queryKeysToInvalidate: [
+      queryKeys.allTransactions(),
+      ['transactionSummary'],
+      queryKeys.quickChips(),
+      queryKeys.categories(),
+      queryKeys.accounts(),
+    ],
+  });
+
   const submitEdit = async (data: TransactionFormValues) => {
     if (transaction.templateId) {
       setPendingData(data);
@@ -105,7 +120,12 @@ const EditTransactionDialog = ({
 
   const editSingleOccurrence = async (data: TransactionFormValues) => {
     try {
-      await updateTransaction.mutateAsync(mapToUpdatePayload(data));
+      if (transaction.isVirtual && transaction.templateId && transaction.date) {
+        await materializeOccurrence.mutateAsync(mapToMaterializePayload(data, transaction.date));
+      } else {
+        await updateTransaction.mutateAsync(mapToUpdatePayload(data));
+      }
+
       alertSuccess(t('messages.updateSuccess'));
       methods.reset();
       closeDialog();
@@ -152,9 +172,15 @@ const EditTransactionDialog = ({
               <Button
                 type="submit"
                 variant="contained"
-                disabled={updateTransaction.isPending || splitTemplate.isPending}
+                disabled={
+                  updateTransaction.isPending ||
+                  splitTemplate.isPending ||
+                  materializeOccurrence.isPending
+                }
               >
-                {updateTransaction.isPending || splitTemplate.isPending ? (
+                {updateTransaction.isPending ||
+                splitTemplate.isPending ||
+                materializeOccurrence.isPending ? (
                   <CircularProgress size={20} color="inherit" />
                 ) : (
                   tCommon('buttons.update')

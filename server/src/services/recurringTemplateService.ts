@@ -2,6 +2,7 @@ import {
   CreateRecurringTemplateDTO,
   DeactivateFromDTO,
   fromCents,
+  MaterializeRecurringOccurrenceDTO,
   SplitRecurringTemplateDTO,
   toCents,
   UpdateRecurringTemplateDTO,
@@ -298,7 +299,7 @@ export const splitTemplate = async (
 
   await recurringTemplateRepository.updateById(
     templateId,
-    { endDate: endOfPrevMonth, isActive: false },
+    { endDate: endOfPrevMonth },
     workspaceId
   );
 
@@ -335,6 +336,12 @@ export const splitTemplate = async (
 
   await transactionRepository.deleteByTemplateIdFromDate(templateId, splitPoint.toDate());
 
+  await materializeOccurrence(
+    (newTemplate._id as Types.ObjectId).toString(),
+    { occurrenceDate: fromDate },
+    workspaceId
+  );
+
   generatePendingTransactions(userId).catch(err =>
     console.error('Failed to generate pending transactions after split:', err)
   );
@@ -343,6 +350,95 @@ export const splitTemplate = async (
     oldTemplate: existing,
     newTemplate: { ...newTemplate.toObject(), amount: fromCents(newTemplate.amount) },
   };
+};
+
+export const materializeOccurrence = async (
+  templateId: string,
+  dto: MaterializeRecurringOccurrenceDTO,
+  workspaceId: string
+) => {
+  if (!mongoose.Types.ObjectId.isValid(templateId)) {
+    throw ApiError.badRequest('Invalid recurring template ID');
+  }
+
+  const template = await recurringTemplateRepository.findById(templateId, workspaceId);
+
+  if (!template) {
+    throw ApiError.notFound('Recurring template not found');
+  }
+
+  const occurrence = dayjs.utc(dto.occurrenceDate);
+
+  if (!occurrence.isValid()) {
+    throw ApiError.badRequest('Invalid occurrence date');
+  }
+
+  const effectiveType = (dto.type ?? template.type) as 'Income' | 'Expense' | 'Transfer';
+
+  await validateRefs(effectiveType, {
+    categoryId: dto.categoryId ?? template.category?.toString(),
+    accountId: dto.accountId ?? template.account?.toString(),
+    paymentMethodId: dto.paymentMethodId ?? template.paymentMethod?.toString(),
+    fromAccountId: dto.fromAccountId ?? template.fromAccount?.toString(),
+    toAccountId: dto.toAccountId ?? template.toAccount?.toString(),
+  }, workspaceId);
+
+  const txDate = dto.date ? new Date(dto.date) : clampedDate(occurrence.year(), occurrence.month(), template.dayOfMonth);
+
+  const buildTxData = (): Omit<ITransaction, '_id'> => ({
+    name: dto.name ?? template.name ?? '',
+    note: dto.note ?? template.note,
+    type: effectiveType,
+    amount: dto.amount !== undefined ? toCents(dto.amount) : template.amount,
+    date: txDate,
+    frequency: template.frequency,
+    belongToPreviousMonth: dto.belongToPreviousMonth ?? template.belongToPreviousMonth ?? false,
+    category: dto.categoryId ? new Types.ObjectId(dto.categoryId) : template.category,
+    paymentMethod: dto.paymentMethodId ? new Types.ObjectId(dto.paymentMethodId) : template.paymentMethod,
+    account: dto.accountId ? new Types.ObjectId(dto.accountId) : template.account,
+    fromAccount: dto.fromAccountId ? new Types.ObjectId(dto.fromAccountId) : template.fromAccount,
+    toAccount: dto.toAccountId ? new Types.ObjectId(dto.toAccountId) : template.toAccount,
+    userId: template.userId,
+    workspaceId: new Types.ObjectId(workspaceId),
+    templateId: new Types.ObjectId(templateId),
+  });
+
+  const existing = await transactionRepository.findOneByTemplateAndMonth(
+    templateId,
+    workspaceId,
+    occurrence.year(),
+    occurrence.month()
+  );
+
+  if (existing) {
+    const txData = buildTxData();
+    const updated = await transactionRepository.updateById(
+      existing._id.toString(),
+      txData,
+      workspaceId
+    );
+
+    if (!updated) {
+      throw ApiError.internal('Unexpected error updating materialized occurrence');
+    }
+
+    if (template.workspaceId) {
+      invalidateQuickChipsCache(template.workspaceId.toString());
+    }
+
+    return { ...updated, amount: fromCents(updated.amount) };
+  }
+
+  const txData = buildTxData();
+  txData.importFingerprint = fingerprintForTransaction(txData);
+
+  const created = await transactionRepository.insert(txData);
+
+  if (template.workspaceId) {
+    invalidateQuickChipsCache(template.workspaceId.toString());
+  }
+
+  return { ...created.toObject(), amount: fromCents(created.amount) };
 };
 
 // Per-user cron-driven generator. Templates query stays userId-scoped (findActiveByUser),
@@ -389,6 +485,21 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
 
       if (dayjs.utc(txDate).startOf('day').isAfter(dayjs.utc(upToDate).startOf('day'))) {
         break;
+      }
+
+      const alreadyMaterialized = template.workspaceId
+        ? await transactionRepository.findOneByTemplateAndMonth(
+            template._id as string,
+            template.workspaceId.toString(),
+            current.year(),
+            current.month()
+          )
+        : null;
+
+      if (alreadyMaterialized) {
+        lastMonth = current;
+        current = current.add(1, 'month');
+        continue;
       }
 
       const txData: Omit<ITransaction, '_id'> = {

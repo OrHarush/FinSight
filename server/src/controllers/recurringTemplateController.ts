@@ -1,6 +1,7 @@
 import {
   CreateRecurringTemplateDTO,
   DeactivateFromDTO,
+  MaterializeRecurringOccurrenceDTO,
   SplitRecurringTemplateDTO,
   UpdateRecurringTemplateDTO,
 } from '@lyra/shared';
@@ -75,6 +76,16 @@ export const splitTemplate = asyncHandler(async (req: Request, res: Response) =>
     req.validatedBody as SplitRecurringTemplateDTO,
     req.workspaceId,
     req.userId
+  );
+
+  return ApiResponse.ok(res, result);
+});
+
+export const materializeOccurrence = asyncHandler(async (req: Request, res: Response) => {
+  const result = await recurringTemplateService.materializeOccurrence(
+    req.params.id as string,
+    req.validatedBody as MaterializeRecurringOccurrenceDTO,
+    req.workspaceId
   );
 
   return ApiResponse.ok(res, result);
