@@ -66,14 +66,17 @@ export const getShortcutCategories = asyncHandler(async (req: Request, res: Resp
 });
 
 export const createShortcutTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const workspaceId = (await resolveWorkspaceForRequest(req.userId)).toString();
+  const { amount, merchant, date, categoryId, note } = req.validatedBody as ShortcutTransactionDTO;
+
+  const workspaceId = categoryId
+    ? await shortcutService.resolveWorkspaceForCategory(req.userId, categoryId)
+    : (await resolveWorkspaceForRequest(req.userId)).toString();
+
   const primary = await accountRepository.findPrimary(workspaceId);
 
   if (!primary) {
     throw ApiError.badRequest('No primary account found for this workspace');
   }
-
-  const { amount, merchant, date, categoryId, note } = req.validatedBody as ShortcutTransactionDTO;
 
   const result = await transactionService.create(
     {

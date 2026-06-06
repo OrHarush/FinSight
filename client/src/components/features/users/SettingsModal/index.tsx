@@ -15,7 +15,6 @@ import SharedHouseholdTab from '@/components/features/users/SettingsModal/Shared
 import UserDeletionDialog, {
   DeletionFeedbackPayload,
 } from '@/components/features/users/UserDeletionDialog';
-import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import { API_ROUTES } from '@/constants/Routes';
 import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
@@ -23,8 +22,11 @@ import { useOpen } from '@/hooks/common/useOpen';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
+import { isIosDevice } from '@/utils/device';
 
 type SettingsTabKey = 'general' | 'sharedHousehold' | 'applePay';
+
+const isIphone = isIosDevice();
 
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');
@@ -61,11 +63,15 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
       labelKey: 'settingsModal.tabs.sharedHousehold',
       icon: HomeWorkOutlinedIcon,
     },
-    {
-      key: 'applePay',
-      labelKey: 'settingsModal.tabs.applePay',
-      icon: PhoneIphoneIcon,
-    },
+    ...(isIphone
+      ? [
+          {
+            key: 'applePay' as const,
+            labelKey: 'settingsModal.tabs.applePay',
+            icon: PhoneIphoneIcon,
+          },
+        ]
+      : []),
   ];
 
   return (

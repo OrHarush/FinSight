@@ -1,61 +1,65 @@
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import { Box, Button, CircularProgress, Divider, Paper, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Paper, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  getShortcutStatus,
-  initShortcut,
-  pollShortcutToken,
-  revokeShortcut,
-} from '@/api/shortcut';
+import { getShortcutStatus, revokeShortcut } from '@/api/shortcut';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { APPLE_SHORTCUT_ICLOUD_URL, SHORTCUT_TOKEN_KEY } from '@/constants/app';
+import { SHORTCUT_TOKEN_KEY } from '@/constants/app';
+
 import AppleLogo from './AppleLogo';
+
+// TODO: re-enable once the iOS Shortcut is published.
+// import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+// import { Divider } from '@mui/material';
+// import { Fragment, useRef } from 'react';
+// import { initShortcut, pollShortcutToken } from '@/api/shortcut';
+// import { APPLE_SHORTCUT_ICLOUD_URL } from '@/constants/app';
 
 type ConnectionState = 'loading' | 'notConnected' | 'waiting' | 'connected';
 
-const POLL_INTERVAL_MS = 3000;
-const POLL_TIMEOUT_MS = 2 * 60 * 1000;
-
-const STEPS = [
-  {
-    title: 'הורד את הקיצור',
-    subtitle: 'לחץ "חיבור עכשיו". הקיצור יורד לאייפון שלך',
-  },
-  {
-    title: 'אשר את החיבור',
-    subtitle: 'הקיצור יפתח את Lyra בדפדפן. אשר בלחיצה אחת',
-  },
-  {
-    title: 'שלם ותוכל',
-    subtitle: 'כל תשלום NFC יירשם אוטומטית ב-Lyra',
-  },
-];
+// TODO: re-enable once the iOS Shortcut is published.
+// const POLL_INTERVAL_MS = 3000;
+// const POLL_TIMEOUT_MS = 2 * 60 * 1000;
+//
+// const STEPS = [
+//   {
+//     title: 'הורד את הקיצור',
+//     subtitle: 'לחץ "חיבור עכשיו". הקיצור יורד לאייפון שלך',
+//   },
+//   {
+//     title: 'אשר את החיבור',
+//     subtitle: 'הקיצור יפתח את Lyra בדפדפן. אשר בלחיצה אחת',
+//   },
+//   {
+//     title: 'שלם ותוכל',
+//     subtitle: 'כל תשלום NFC יירשם אוטומטית ב-Lyra',
+//   },
+// ];
 
 const ApplePayShortcutSection = () => {
   const { t } = useTranslation('user');
 
   const [state, setState] = useState<ConnectionState>('loading');
   const [connectedAt, setConnectedAt] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
-  const intervalRef = useRef<number | null>(null);
-  const timeoutRef = useRef<number | null>(null);
-
-  const stopPolling = () => {
-    if (intervalRef.current !== null) {
-      window.clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
-    if (timeoutRef.current !== null) {
-      window.clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
+  // TODO: re-enable once the iOS Shortcut is published.
+  // const [error, setError] = useState<string | null>(null);
+  // const intervalRef = useRef<number | null>(null);
+  // const timeoutRef = useRef<number | null>(null);
+  //
+  // const stopPolling = () => {
+  //   if (intervalRef.current !== null) {
+  //     window.clearInterval(intervalRef.current);
+  //     intervalRef.current = null;
+  //   }
+  //
+  //   if (timeoutRef.current !== null) {
+  //     window.clearTimeout(timeoutRef.current);
+  //     timeoutRef.current = null;
+  //   }
+  // };
 
   useEffect(() => {
     const token = localStorage.getItem(SHORTCUT_TOKEN_KEY);
@@ -73,51 +77,52 @@ const ApplePayShortcutSection = () => {
       .catch(() => setState('notConnected'));
   }, []);
 
-  useEffect(() => stopPolling, []);
-
-  const markConnected = (token: string) => {
-    stopPolling();
-    localStorage.setItem(SHORTCUT_TOKEN_KEY, token);
-    setConnectedAt(new Date().toISOString());
-    setState('connected');
-  };
-
-  const pollOnce = (code: string) => {
-    pollShortcutToken(code)
-      .then(res => {
-        if (res.status === 200 && 'data' in res.data) {
-          markConnected(res.data.data.token);
-        }
-      })
-      .catch(err => {
-        if (err?.response?.status === 410) {
-          stopPolling();
-          setError(t('settingsModal.applePayShortcut.linkExpired'));
-          setState('notConnected');
-        }
-      });
-  };
-
-  const connect = async () => {
-    setError(null);
-
-    try {
-      const { code } = await initShortcut();
-      window.open(APPLE_SHORTCUT_ICLOUD_URL, '_blank');
-      setState('waiting');
-
-      intervalRef.current = window.setInterval(() => pollOnce(code), POLL_INTERVAL_MS);
-
-      timeoutRef.current = window.setTimeout(() => {
-        stopPolling();
-        setError(t('settingsModal.applePayShortcut.linkExpired'));
-        setState('notConnected');
-      }, POLL_TIMEOUT_MS);
-    } catch {
-      setError(t('settingsModal.applePayShortcut.connectError'));
-      setState('notConnected');
-    }
-  };
+  // TODO: re-enable once the iOS Shortcut is published.
+  // useEffect(() => stopPolling, []);
+  //
+  // const markConnected = (token: string) => {
+  //   stopPolling();
+  //   localStorage.setItem(SHORTCUT_TOKEN_KEY, token);
+  //   setConnectedAt(new Date().toISOString());
+  //   setState('connected');
+  // };
+  //
+  // const pollOnce = (code: string) => {
+  //   pollShortcutToken(code)
+  //     .then(res => {
+  //       if (res.status === 200 && 'data' in res.data) {
+  //         markConnected(res.data.data.token);
+  //       }
+  //     })
+  //     .catch(err => {
+  //       if (err?.response?.status === 410) {
+  //         stopPolling();
+  //         setError(t('settingsModal.applePayShortcut.linkExpired'));
+  //         setState('notConnected');
+  //       }
+  //     });
+  // };
+  //
+  // const connect = async () => {
+  //   setError(null);
+  //
+  //   try {
+  //     const { code } = await initShortcut();
+  //     window.open(APPLE_SHORTCUT_ICLOUD_URL, '_blank');
+  //     setState('waiting');
+  //
+  //     intervalRef.current = window.setInterval(() => pollOnce(code), POLL_INTERVAL_MS);
+  //
+  //     timeoutRef.current = window.setTimeout(() => {
+  //       stopPolling();
+  //       setError(t('settingsModal.applePayShortcut.linkExpired'));
+  //       setState('notConnected');
+  //     }, POLL_TIMEOUT_MS);
+  //   } catch {
+  //     setError(t('settingsModal.applePayShortcut.connectError'));
+  //     setState('notConnected');
+  //   }
+  // };
 
   const disconnect = async () => {
     try {
@@ -193,7 +198,7 @@ const ApplePayShortcutSection = () => {
             flexShrink: 0,
           }}
         >
-          <AppleLogo size={24} />
+          <AppleLogo size={34} />
         </Box>
 
         <Column spacing={0.5} alignItems="center" sx={{ textAlign: 'center' }}>
@@ -205,6 +210,30 @@ const ApplePayShortcutSection = () => {
           </Typography>
         </Column>
 
+        <Box
+          sx={{
+            mt: 0.5,
+            px: 2.5,
+            py: 1,
+            borderRadius: 100,
+            display: 'inline-flex',
+            alignItems: 'center',
+            bgcolor: 'primary.main',
+          }}
+        >
+          <Typography
+            variant="body2"
+            fontWeight={700}
+            letterSpacing={0.4}
+            color="primary.contrastText"
+          >
+            בקרוב
+          </Typography>
+        </Box>
+      </Column>
+
+      {/* TODO: re-enable once the iOS Shortcut is published.
+      <Column spacing={2} alignItems="center">
         <Button
           variant="contained"
           fullWidth
@@ -300,6 +329,7 @@ const ApplePayShortcutSection = () => {
           דורש iPhone משנת 2018 ואילך. תשלומי NFC בלבד (תשלומים אונליין לא נכללים).
         </Typography>
       </Row>
+      */}
     </Column>
   );
 };

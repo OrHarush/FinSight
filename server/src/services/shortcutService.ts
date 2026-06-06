@@ -3,10 +3,10 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
 
 import { ApiError } from '../errors/ApiError';
-import Category from '../models/Category';
 import ShortcutToken from '../models/ShortcutToken';
-import Workspace from '../models/Workspace';
+import * as categoryRepository from '../repositories/categoryRepository';
 import * as workspaceMemberRepository from '../repositories/workspaceMemberRepository';
+import * as workspaceRepository from '../repositories/workspaceRepository';
 
 const SHORTCUT_JWT_SECRET = process.env.SHORTCUT_JWT_SECRET as string;
 const CODE_TTL_MS = 10 * 60 * 1000;
@@ -102,38 +102,58 @@ export const revokeAllForUser = async (userId: string): Promise<void> => {
   await ShortcutToken.deleteMany({ userId: new Types.ObjectId(userId) });
 };
 
-export const getShortcutCategories = async (userId: string): Promise<ShortcutCategory[]> => {
-  // TODO(workspace-migration step 3): query by workspaceId per workspace instead of userId
-  const categories = await Category.find({
-    userId: new Types.ObjectId(userId),
-    type: 'Expense',
-  }).lean();
+export const resolveWorkspaceForCategory = async (
+  userId: string,
+  categoryId: string
+): Promise<string> => {
+  const category = await categoryRepository.findByIdUnscoped(categoryId);
 
-  const workspaceCount = await workspaceMemberRepository.countByUser(userId);
-
-  if (workspaceCount <= 1) {
-    return categories.map(category => ({
-      id: category._id.toString(),
-      name: category.name,
-    }));
+  if (!category?.workspaceId) {
+    throw ApiError.badRequest('Category not found');
   }
 
-  const workspaces = await Workspace.find({
-    _id: { $in: categories.map(category => category.workspaceId).filter(Boolean) },
-  }).lean();
+  const membership = await workspaceMemberRepository.findOne(category.workspaceId, userId);
 
-  const workspaceById = new Map(workspaces.map(workspace => [workspace._id.toString(), workspace]));
+  if (!membership) {
+    throw ApiError.forbidden('Category does not belong to your workspaces');
+  }
 
-  return categories.map(category => {
-    const workspace = category.workspaceId
-      ? workspaceById.get(category.workspaceId.toString())
-      : undefined;
+  return category.workspaceId.toString();
+};
 
-    return {
-      id: category._id.toString(),
-      name: category.name,
-      workspaceName: workspace?.name,
-      isPersonal: workspace?.type === 'personal',
-    };
-  });
+export const getShortcutCategories = async (userId: string): Promise<ShortcutCategory[]> => {
+  const memberships = await workspaceMemberRepository.findByUser(userId);
+  const workspaceIds = memberships.map(membership => membership.workspaceId);
+
+  const workspaces = await workspaceRepository.findManyByIds(workspaceIds);
+  const workspaceById = new Map(
+    workspaces.map(workspace => [workspace._id.toString(), workspace])
+  );
+
+  const isSingleWorkspace = workspaceIds.length <= 1;
+
+  const perWorkspaceCategories = await Promise.all(
+    workspaceIds.map(workspaceId =>
+      categoryRepository.findByType(workspaceId.toString(), 'Expense')
+    )
+  );
+
+  return perWorkspaceCategories.flatMap(categories =>
+    categories.map(category => {
+      const workspace = category.workspaceId
+        ? workspaceById.get(category.workspaceId.toString())
+        : undefined;
+
+      if (isSingleWorkspace) {
+        return { id: category._id.toString(), name: category.name };
+      }
+
+      return {
+        id: category._id.toString(),
+        name: category.name,
+        workspaceName: workspace?.name,
+        isPersonal: workspace?.type === 'personal',
+      };
+    })
+  );
 };

@@ -12,6 +12,20 @@ export const findMany = async (workspaceId: string) =>
 export const findById = async (id: string, workspaceId: string) =>
   Category.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) });
 
+export const findByType = async (workspaceId: string, type: ICategory['type']) =>
+  Category.find({ workspaceId: new Types.ObjectId(workspaceId), type })
+    .sort({ name: 1 })
+    .lean<ICategory[]>()
+    .exec();
+
+export const findByIdUnscoped = async (id: string) => {
+  if (!Types.ObjectId.isValid(id)) {
+    return null;
+  }
+
+  return Category.findById(id).lean<ICategory>().exec();
+};
+
 export const insert = async (data: Omit<ICategory, '_id'>, session?: ClientSession) => {
   const category = new Category(data);
 
