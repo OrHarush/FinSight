@@ -36,9 +36,29 @@ export const approveShortcut = asyncHandler(async (req: Request, res: Response) 
 
 export const getShortcutStatus = asyncHandler(async (req: Request, res: Response) => {
   const token = (req.headers.authorization ?? '').slice('Shortcut '.length).trim();
-  const { connectedAt } = shortcutService.getShortcutConnection(token);
+  const { connectedAt } = await shortcutService.getShortcutConnection(token);
 
   return ApiResponse.ok(res, { connected: true, connectedAt });
+});
+
+export const getShortcutAndroidConnection = asyncHandler(
+  async (req: Request, res: Response) => {
+    const state = await shortcutService.getAndroidConnectionState(req.userId);
+
+    return ApiResponse.ok(res, state);
+  }
+);
+
+export const downloadShortcutMacro = asyncHandler(async (req: Request, res: Response) => {
+  const macro = await shortcutService.generateAndroidMacro(req.userId);
+
+  res.setHeader('Content-Type', 'application/octet-stream');
+  res.setHeader(
+    'Content-Disposition',
+    `attachment; filename="${shortcutService.MACRO_FILENAME}"`
+  );
+
+  return res.send(macro);
 });
 
 export const revokeShortcut = asyncHandler(async (req: Request, res: Response) => {

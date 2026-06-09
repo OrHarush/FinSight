@@ -1,16 +1,29 @@
 import crypto from 'crypto';
+import fs from 'fs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Types } from 'mongoose';
+import path from 'path';
 
 import { ApiError } from '../errors/ApiError';
-import ShortcutToken from '../models/ShortcutToken';
+import { ShortcutPlatform } from '../models/ShortcutCredential';
+import ShortcutPairingCode from '../models/ShortcutPairingCode';
 import * as categoryRepository from '../repositories/categoryRepository';
+import * as shortcutCredentialRepository from '../repositories/shortcutCredentialRepository';
 import * as workspaceMemberRepository from '../repositories/workspaceMemberRepository';
 import * as workspaceRepository from '../repositories/workspaceRepository';
 
 const SHORTCUT_JWT_SECRET = process.env.SHORTCUT_JWT_SECRET as string;
 const CODE_TTL_MS = 10 * 60 * 1000;
 const SHORTCUT_TOKEN_TTL = '365d';
+
+const MACRO_TOKEN_PLACEHOLDER = '__LYRA_SHORTCUT_TOKEN__';
+const MACRO_TEMPLATE_PATH = path.resolve(
+  process.cwd(),
+  'templates',
+  'googleWalletMacro.template.json'
+);
+
+export const MACRO_FILENAME = 'Lyra.macrodroid';
 
 export interface ShortcutCategory {
   id: string;
@@ -22,7 +35,7 @@ export interface ShortcutCategory {
 export const createCode = async (userId: string): Promise<string> => {
   const code = crypto.randomUUID();
 
-  await ShortcutToken.create({
+  await ShortcutPairingCode.create({
     userId: new Types.ObjectId(userId),
     code,
     status: 'pending',
@@ -33,7 +46,7 @@ export const createCode = async (userId: string): Promise<string> => {
 };
 
 export const approveCode = async (code: string, userId: string): Promise<void> => {
-  const record = await ShortcutToken.findOne({ code, status: 'pending' });
+  const record = await ShortcutPairingCode.findOne({ code, status: 'pending' });
 
   if (!record) {
     throw ApiError.notFound('Shortcut authorization code not found');
@@ -44,8 +57,18 @@ export const approveCode = async (code: string, userId: string): Promise<void> =
   await record.save();
 };
 
+const mintToken = async (userId: string, platform: ShortcutPlatform): Promise<string> => {
+  const tokenId = crypto.randomUUID();
+
+  await shortcutCredentialRepository.create(tokenId, userId, platform);
+
+  return jwt.sign({ userId, tokenId }, SHORTCUT_JWT_SECRET, {
+    expiresIn: SHORTCUT_TOKEN_TTL,
+  });
+};
+
 export const exchangeToken = async (code: string): Promise<string | null> => {
-  const record = await ShortcutToken.findOne({ code });
+  const record = await ShortcutPairingCode.findOne({ code });
 
   if (!record || record.status === 'used') {
     throw ApiError.gone('Shortcut authorization code is no longer valid');
@@ -55,9 +78,7 @@ export const exchangeToken = async (code: string): Promise<string | null> => {
     return null;
   }
 
-  const token = jwt.sign({ userId: record.userId.toString() }, SHORTCUT_JWT_SECRET, {
-    expiresIn: SHORTCUT_TOKEN_TTL,
-  });
+  const token = await mintToken(record.userId.toString(), 'ios');
 
   record.status = 'used';
   await record.save();
@@ -65,18 +86,36 @@ export const exchangeToken = async (code: string): Promise<string | null> => {
   return token;
 };
 
-export const validateShortcutToken = (token: string): string => {
+interface ShortcutTokenClaims {
+  userId: string;
+  tokenId: string;
+}
+
+const decodeShortcutClaims = (token: string): ShortcutTokenClaims => {
+  let decoded: JwtPayload;
+
   try {
-    const decoded = jwt.verify(token, SHORTCUT_JWT_SECRET) as JwtPayload;
-
-    if (!decoded || typeof decoded.userId !== 'string') {
-      throw ApiError.unauthorized('Invalid shortcut token');
-    }
-
-    return decoded.userId;
+    decoded = jwt.verify(token, SHORTCUT_JWT_SECRET) as JwtPayload;
   } catch {
     throw ApiError.unauthorized('Invalid shortcut token');
   }
+
+  if (!decoded || typeof decoded.userId !== 'string' || typeof decoded.tokenId !== 'string') {
+    throw ApiError.unauthorized('Invalid shortcut token');
+  }
+
+  return { userId: decoded.userId, tokenId: decoded.tokenId };
+};
+
+export const validateShortcutToken = async (token: string): Promise<string> => {
+  const claims = decodeShortcutClaims(token);
+  const credential = await shortcutCredentialRepository.findActiveByTokenId(claims.tokenId);
+
+  if (!credential) {
+    throw ApiError.unauthorized('Shortcut token has been revoked');
+  }
+
+  return claims.userId;
 };
 
 export interface ShortcutConnection {
@@ -84,22 +123,61 @@ export interface ShortcutConnection {
   connectedAt: Date;
 }
 
-export const getShortcutConnection = (token: string): ShortcutConnection => {
-  try {
-    const decoded = jwt.verify(token, SHORTCUT_JWT_SECRET) as JwtPayload;
+export const getShortcutConnection = async (token: string): Promise<ShortcutConnection> => {
+  const claims = decodeShortcutClaims(token);
+  const credential = await shortcutCredentialRepository.findActiveByTokenId(claims.tokenId);
 
-    if (!decoded || typeof decoded.userId !== 'string' || typeof decoded.iat !== 'number') {
-      throw ApiError.unauthorized('Invalid shortcut token');
-    }
-
-    return { userId: decoded.userId, connectedAt: new Date(decoded.iat * 1000) };
-  } catch {
-    throw ApiError.unauthorized('Invalid shortcut token');
+  if (!credential) {
+    throw ApiError.unauthorized('Shortcut token has been revoked');
   }
+
+  return { userId: claims.userId, connectedAt: credential.createdAt ?? new Date() };
 };
 
 export const revokeAllForUser = async (userId: string): Promise<void> => {
-  await ShortcutToken.deleteMany({ userId: new Types.ObjectId(userId) });
+  await shortcutCredentialRepository.deactivateAllForUser(userId);
+  await ShortcutPairingCode.deleteMany({ userId: new Types.ObjectId(userId) });
+};
+
+export interface ShortcutConnectionState {
+  connected: boolean;
+  connectedAt: Date | null;
+}
+
+export const getAndroidConnectionState = async (
+  userId: string
+): Promise<ShortcutConnectionState> => {
+  const credential = await shortcutCredentialRepository.findLatestActiveForUserByPlatform(
+    userId,
+    'android'
+  );
+
+  if (!credential) {
+    return { connected: false, connectedAt: null };
+  }
+
+  return { connected: true, connectedAt: credential.createdAt ?? null };
+};
+
+const readMacroTemplate = (): string => {
+  try {
+    return fs.readFileSync(MACRO_TEMPLATE_PATH, 'utf8');
+  } catch {
+    throw ApiError.internal('Google Wallet macro template is not available');
+  }
+};
+
+export const generateAndroidMacro = async (userId: string): Promise<string> => {
+  const template = readMacroTemplate();
+
+  if (!template.includes(MACRO_TOKEN_PLACEHOLDER)) {
+    throw ApiError.internal('Google Wallet macro template is missing the token placeholder');
+  }
+
+  await shortcutCredentialRepository.deactivateForUserByPlatform(userId, 'android');
+  const token = await mintToken(userId, 'android');
+
+  return template.split(MACRO_TOKEN_PLACEHOLDER).join(token);
 };
 
 const ANDROID_WALLET_AMOUNT_PATTERN = /(\d+(?:[.,]\d{2}))/;

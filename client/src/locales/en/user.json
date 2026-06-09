@@ -65,7 +65,8 @@
     "tabs": {
       "general": "General",
       "sharedHousehold": "Shared household",
-      "applePay": "Apple Pay"
+      "applePay": "Apple Pay",
+      "googlePay": "Google Wallet"
     },
     "applePayShortcut": {
       "title": "Apple Pay Shortcut",
@@ -77,6 +78,22 @@
       "disconnect": "Disconnect",
       "linkExpired": "Link expired. Try again.",
       "connectError": "Couldn't start the connection. Please try again."
+    },
+    "googlePayShortcut": {
+      "title": "Google Wallet Shortcut",
+      "description": "Automatically log every Google Wallet payment in Lyra",
+      "step1Title": "Install MacroDroid",
+      "step1Subtitle": "A free Play Store app that runs the automation",
+      "install": "Install",
+      "step2Title": "Download the automation",
+      "step2Subtitle": "The setup file downloads with your personal connection",
+      "download": "Download",
+      "step3Title": "Open the file and grant access",
+      "step3Subtitle": "Open it in MacroDroid, then grant MacroDroid Notification Access (one-time)",
+      "connected": "Connected",
+      "connectedSince": "Connected on {{date}}",
+      "disconnect": "Disconnect",
+      "downloadError": "Couldn't download the automation. Please try again."
     }
   },
   "shortcutAuth": {

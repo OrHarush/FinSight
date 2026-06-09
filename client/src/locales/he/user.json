@@ -65,7 +65,8 @@
     "tabs": {
       "general": "כללי",
       "sharedHousehold": "משק בית משותף",
-      "applePay": "Apple Pay"
+      "applePay": "Apple Pay",
+      "googlePay": "Google Wallet"
     },
     "applePayShortcut": {
       "title": "קיצור דרך Apple Pay",
@@ -77,6 +78,22 @@
       "disconnect": "ניתוק",
       "linkExpired": "הקישור פג. אנא נסה שוב.",
       "connectError": "התחלת החיבור נכשלה. אנא נסה שוב."
+    },
+    "googlePayShortcut": {
+      "title": "חיבור Google Wallet",
+      "description": "כל תשלום שתבצע ב-Google Wallet יירשם אוטומטית ב-Lyra",
+      "step1Title": "התקן את MacroDroid",
+      "step1Subtitle": "אפליקציה חינמית מחנות Play שמפעילה את האוטומציה",
+      "install": "התקנה",
+      "step2Title": "הורד את האוטומציה",
+      "step2Subtitle": "קובץ ההגדרה יורד עם החיבור האישי שלך",
+      "download": "הורדה",
+      "step3Title": "פתח את הקובץ ואשר הרשאה",
+      "step3Subtitle": "פתח את הקובץ ב-MacroDroid ואשר ל-MacroDroid גישה להתראות (פעם אחת)",
+      "connected": "מחובר",
+      "connectedSince": "מחובר מתאריך {{date}}",
+      "disconnect": "ניתוק",
+      "downloadError": "הורדת האוטומציה נכשלה. אנא נסה שוב."
     }
   },
   "shortcutAuth": {

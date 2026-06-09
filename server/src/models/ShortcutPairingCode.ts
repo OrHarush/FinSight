@@ -1,18 +1,18 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export type ShortcutTokenStatus = 'pending' | 'approved' | 'used';
+export type ShortcutPairingCodeStatus = 'pending' | 'approved' | 'used';
 
-export interface IShortcutToken {
+export interface IShortcutPairingCode {
   _id: string;
   userId: Types.ObjectId;
   code: string;
-  status: ShortcutTokenStatus;
+  status: ShortcutPairingCodeStatus;
   expiresAt: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const ShortcutTokenSchema: Schema = new Schema(
+const ShortcutPairingCodeSchema: Schema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     code: { type: String, required: true, unique: true, index: true },
@@ -27,10 +27,10 @@ const ShortcutTokenSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-ShortcutTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+ShortcutPairingCodeSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-export default mongoose.model<IShortcutToken>(
-  'ShortcutToken',
-  ShortcutTokenSchema,
-  'shortcut_tokens'
+export default mongoose.model<IShortcutPairingCode>(
+  'ShortcutPairingCode',
+  ShortcutPairingCodeSchema,
+  'shortcut_pairing_codes'
 );

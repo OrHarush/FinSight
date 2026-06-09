@@ -19,7 +19,8 @@
     "restore:backup": "ts-node scripts/restore-backup.ts",
     "seed:invitations": "ts-node scripts/seed-invitation-states.ts",
     "clean:invitations": "ts-node scripts/clean-invitations.ts",
-    "backfill:personal-icon": "ts-node scripts/backfill-personal-workspace-icon.ts"
+    "backfill:personal-icon": "ts-node scripts/backfill-personal-workspace-icon.ts",
+    "mint:shortcut-token": "ts-node scripts/mintShortcutToken.ts"
   },
   "keywords": [],
   "author": "",

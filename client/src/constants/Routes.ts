@@ -127,6 +127,8 @@ export const API_ROUTES = {
     TOKEN: '/api/shortcut/token',
     STATUS: '/api/shortcut/status',
     REVOKE: '/api/shortcut/revoke',
+    MACRO: '/api/shortcut/macro',
+    CONNECTION: '/api/shortcut/connection',
   },
 
   IMPORT_PREVIEW: '/api/import/preview',

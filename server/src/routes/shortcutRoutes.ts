@@ -5,6 +5,8 @@ import {
   approveShortcut,
   createShortcutAndroidTransaction,
   createShortcutTransaction,
+  downloadShortcutMacro,
+  getShortcutAndroidConnection,
   getShortcutCategories,
   getShortcutStatus,
   getShortcutToken,
@@ -24,6 +26,8 @@ const router = Router();
 
 router.post('/init', authMiddleware, initShortcut);
 router.post('/approve', authMiddleware, validateBody(ApproveSchema), approveShortcut);
+router.get('/macro', authMiddleware, downloadShortcutMacro);
+router.get('/connection', authMiddleware, getShortcutAndroidConnection);
 router.get('/token', shortcutPollLimiter, getShortcutToken);
 router.get('/status', shortcutAuthMiddleware, getShortcutStatus);
 router.delete('/revoke', authMiddleware, revokeShortcut);

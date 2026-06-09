@@ -1,5 +1,6 @@
 import { SvgIconComponent } from '@mui/icons-material';
 import HomeWorkOutlinedIcon from '@mui/icons-material/HomeWorkOutlined';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -10,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import LyraDialog, { BaseDialogProps } from '@/components/dialogs/LyraDialog';
 import ApplePayShortcutSection from '@/components/features/users/SettingsModal/ApplePayShortcutSection';
 import GeneralSettingsTab from '@/components/features/users/SettingsModal/GeneralSettingsTab';
+import GooglePayShortcutSection from '@/components/features/users/SettingsModal/GooglePayShortcutSection';
 import SettingsTabButton from '@/components/features/users/SettingsModal/SettingsTabButton';
 import SharedHouseholdTab from '@/components/features/users/SettingsModal/SharedHouseholdTab';
 import UserDeletionDialog, {
@@ -23,9 +25,12 @@ import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { isIosDevice } from '@/utils/device';
+import { isAdmin } from '@/utils/env';
 
-type SettingsTabKey = 'general' | 'sharedHousehold' | 'applePay';
+type SettingsTabKey = 'general' | 'sharedHousehold' | 'applePay' | 'googlePay';
 
+// UA gating is convenience-only (show the relevant tab per device), not a security
+// boundary — the shortcut token auth is the real gate on the ingest endpoints.
 const isIphone = isIosDevice();
 
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
@@ -36,6 +41,10 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const isSmallScreen = useIsSmallScreen();
 
   const [activeTab, setActiveTab] = useState<SettingsTabKey>('general');
+
+  // Google Wallet is admin-only for now while we test the Android flow on a real account.
+  // TODO: switch back to isAndroidDevice() gating once verified.
+  const isAdminUser = isAdmin(user);
 
   const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
     method: 'delete',
@@ -69,6 +78,15 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
             key: 'applePay' as const,
             labelKey: 'settingsModal.tabs.applePay',
             icon: PhoneIphoneIcon,
+          },
+        ]
+      : []),
+    ...(isAdminUser
+      ? [
+          {
+            key: 'googlePay' as const,
+            labelKey: 'settingsModal.tabs.googlePay',
+            icon: PhoneAndroidIcon,
           },
         ]
       : []),
@@ -110,6 +128,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                 )}
                 {activeTab === 'sharedHousehold' && <SharedHouseholdTab />}
                 {activeTab === 'applePay' && <ApplePayShortcutSection />}
+                {activeTab === 'googlePay' && <GooglePayShortcutSection />}
               </Box>
             </Box>
           ) : (
@@ -141,6 +160,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
                 )}
                 {activeTab === 'sharedHousehold' && <SharedHouseholdTab />}
                 {activeTab === 'applePay' && <ApplePayShortcutSection />}
+                {activeTab === 'googlePay' && <GooglePayShortcutSection />}
               </Box>
             </Row>
           )}

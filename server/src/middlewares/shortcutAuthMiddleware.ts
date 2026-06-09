@@ -5,7 +5,11 @@ import { validateShortcutToken } from '../services/shortcutService';
 
 const SHORTCUT_PREFIX = 'Shortcut ';
 
-export const shortcutAuthMiddleware = (req: Request, _res: Response, next: NextFunction) => {
+export const shortcutAuthMiddleware = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader?.startsWith(SHORTCUT_PREFIX)) {
@@ -15,7 +19,7 @@ export const shortcutAuthMiddleware = (req: Request, _res: Response, next: NextF
   const token = authHeader.slice(SHORTCUT_PREFIX.length).trim();
 
   try {
-    req.userId = validateShortcutToken(token);
+    req.userId = await validateShortcutToken(token);
 
     return next();
   } catch {

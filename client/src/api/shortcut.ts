@@ -13,6 +13,11 @@ export interface ShortcutStatus {
   connectedAt: string;
 }
 
+export interface ShortcutConnectionState {
+  connected: boolean;
+  connectedAt: string | null;
+}
+
 export interface ShortcutInit {
   code: string;
 }
@@ -60,4 +65,36 @@ export const pollShortcutToken = (
 
 export const revokeShortcut = async (): Promise<void> => {
   await api.delete(API_ROUTES.SHORTCUT.REVOKE);
+};
+
+export const getShortcutConnectionState = async (): Promise<ShortcutConnectionState> => {
+  const response = await api.get<ApiEnvelope<ShortcutConnectionState>>(
+    API_ROUTES.SHORTCUT.CONNECTION
+  );
+
+  return response.data.data;
+};
+
+const MACRO_FALLBACK_FILENAME = 'Lyra.macrodroid';
+
+const parseMacroFilename = (disposition: string): string => {
+  const asciiMatch = /filename="([^"]+)"/.exec(disposition);
+
+  return asciiMatch?.[1] ?? MACRO_FALLBACK_FILENAME;
+};
+
+const triggerDownload = (blob: Blob, filename: string): void => {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+export const downloadShortcutMacro = async (): Promise<void> => {
+  const response = await api.get(API_ROUTES.SHORTCUT.MACRO, { responseType: 'blob' });
+  const filename = parseMacroFilename(response.headers['content-disposition'] ?? '');
+
+  triggerDownload(response.data, filename);
 };
