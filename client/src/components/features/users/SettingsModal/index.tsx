@@ -24,14 +24,14 @@ import { useOpen } from '@/hooks/common/useOpen';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSnackbar } from '@/providers/SnackbarProvider';
-import { isIosDevice } from '@/utils/device';
-import { isAdmin } from '@/utils/env';
+import { isAndroidDevice, isIosDevice } from '@/utils/device';
 
 type SettingsTabKey = 'general' | 'sharedHousehold' | 'applePay' | 'googlePay';
 
 // UA gating is convenience-only (show the relevant tab per device), not a security
 // boundary — the shortcut token auth is the real gate on the ingest endpoints.
 const isIphone = isIosDevice();
+const isAndroid = isAndroidDevice();
 
 const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const { t } = useTranslation('user');
@@ -41,10 +41,6 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
   const isSmallScreen = useIsSmallScreen();
 
   const [activeTab, setActiveTab] = useState<SettingsTabKey>('general');
-
-  // Google Wallet is admin-only for now while we test the Android flow on a real account.
-  // TODO: switch back to isAndroidDevice() gating once verified.
-  const isAdminUser = isAdmin(user);
 
   const deleteUser = useApiMutation<void, { feedback: DeletionFeedbackPayload }>({
     method: 'delete',
@@ -81,7 +77,7 @@ const SettingsModal = ({ isOpen, closeDialog }: BaseDialogProps) => {
           },
         ]
       : []),
-    ...(isAdminUser
+    ...(isAndroid
       ? [
           {
             key: 'googlePay' as const,
