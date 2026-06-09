@@ -4,7 +4,11 @@ import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import * as accountRepository from '../repositories/accountRepository';
-import { ApproveDTO, ShortcutTransactionDTO } from '../schemas/shortcutSchemas';
+import {
+  ApproveDTO,
+  ShortcutAndroidTransactionDTO,
+  ShortcutTransactionDTO,
+} from '../schemas/shortcutSchemas';
 import * as shortcutService from '../services/shortcutService';
 import * as transactionService from '../services/transactions/transactionService';
 import { resolveWorkspaceForRequest } from '../services/workspaceService';
@@ -94,3 +98,33 @@ export const createShortcutTransaction = asyncHandler(async (req: Request, res: 
 
   return ApiResponse.created(res, { id: result.transaction._id });
 });
+
+export const createShortcutAndroidTransaction = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { text, title, date } = req.validatedBody as ShortcutAndroidTransactionDTO;
+
+    const amount = shortcutService.parseAndroidWalletAmount(text);
+    const merchant = title;
+
+    const workspaceId = (await resolveWorkspaceForRequest(req.userId)).toString();
+    const primary = await accountRepository.findPrimary(workspaceId);
+
+    if (!primary) {
+      throw ApiError.badRequest('No primary account found for this workspace');
+    }
+
+    const result = await transactionService.create(
+      {
+        type: 'Expense',
+        amount,
+        date: date ?? new Date().toISOString(),
+        name: merchant,
+        accountId: primary._id.toString(),
+      },
+      req.userId,
+      workspaceId
+    );
+
+    return ApiResponse.created(res, { id: result.transaction._id });
+  }
+);

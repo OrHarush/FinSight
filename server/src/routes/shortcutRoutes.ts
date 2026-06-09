@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { shortcutPollLimiter } from '../config/rateLimiters';
 import {
   approveShortcut,
+  createShortcutAndroidTransaction,
   createShortcutTransaction,
   getShortcutCategories,
   getShortcutStatus,
@@ -13,7 +14,11 @@ import {
 import { authMiddleware } from '../middlewares/authMiddleware';
 import { shortcutAuthMiddleware } from '../middlewares/shortcutAuthMiddleware';
 import { validateBody } from '../middlewares/validate';
-import { ApproveSchema, ShortcutTransactionSchema } from '../schemas/shortcutSchemas';
+import {
+  ApproveSchema,
+  ShortcutAndroidTransactionSchema,
+  ShortcutTransactionSchema,
+} from '../schemas/shortcutSchemas';
 
 const router = Router();
 
@@ -28,6 +33,12 @@ router.post(
   shortcutAuthMiddleware,
   validateBody(ShortcutTransactionSchema),
   createShortcutTransaction
+);
+router.post(
+  '/transaction/android',
+  shortcutAuthMiddleware,
+  validateBody(ShortcutAndroidTransactionSchema),
+  createShortcutAndroidTransaction
 );
 
 export default router;

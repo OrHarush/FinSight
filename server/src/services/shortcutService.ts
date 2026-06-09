@@ -102,6 +102,18 @@ export const revokeAllForUser = async (userId: string): Promise<void> => {
   await ShortcutToken.deleteMany({ userId: new Types.ObjectId(userId) });
 };
 
+const ANDROID_WALLET_AMOUNT_PATTERN = /(\d+(?:[.,]\d{2}))/;
+
+export const parseAndroidWalletAmount = (text: string): number => {
+  const match = text.match(ANDROID_WALLET_AMOUNT_PATTERN);
+
+  if (!match) {
+    throw ApiError.badRequest('Could not parse amount');
+  }
+
+  return Number(match[1].replace(',', '.'));
+};
+
 export const resolveWorkspaceForCategory = async (
   userId: string,
   categoryId: string
