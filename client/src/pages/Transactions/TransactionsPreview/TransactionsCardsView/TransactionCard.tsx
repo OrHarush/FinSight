@@ -6,14 +6,14 @@ import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import SwipeableCard from '@/components/shared/ui/SwipeableCard';
 import { categoryIconMap } from '@/constants/categoryIconMap';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
-import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
+import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { getCardStyles } from '@/pages/Transactions/TransactionsPreview/TransactionsCardsView/styles';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/date';
 import { getTransactionDisplayDate } from '@/utils/entities/transaction';
@@ -36,7 +36,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
     ? transaction.account?._id === transaction.fromAccount?._id
       ? 'error.main'
       : 'success.main'
-    : transaction?.category?.type === 'Expense'
+    : transaction.type === 'Expense'
       ? 'error.main'
       : 'success.main';
 
