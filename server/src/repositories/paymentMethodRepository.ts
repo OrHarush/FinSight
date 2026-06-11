@@ -11,6 +11,11 @@ export const findMany = async (workspaceId: string) =>
 export const findById = async (id: string, workspaceId: string) =>
   PaymentMethod.findOne({ _id: id, workspaceId: new Types.ObjectId(workspaceId) });
 
+export const findPrimary = async (workspaceId: string) =>
+  PaymentMethod.findOne({ workspaceId: new Types.ObjectId(workspaceId), isPrimary: true })
+    .lean<IPaymentMethod>()
+    .exec();
+
 export const findByIds = async (ids: string[], workspaceId: string) =>
   PaymentMethod.find({
     _id: { $in: ids.map(id => new Types.ObjectId(id)) },

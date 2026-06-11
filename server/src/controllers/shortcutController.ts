@@ -4,6 +4,7 @@ import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import * as accountRepository from '../repositories/accountRepository';
+import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import {
   ApproveDTO,
   ShortcutAndroidTransactionDTO,
@@ -133,6 +134,8 @@ export const createShortcutAndroidTransaction = asyncHandler(
       throw ApiError.badRequest('No primary account found for this workspace');
     }
 
+    const primaryPaymentMethod = await paymentMethodRepository.findPrimary(workspaceId);
+
     const result = await transactionService.create(
       {
         type: 'Expense',
@@ -140,6 +143,7 @@ export const createShortcutAndroidTransaction = asyncHandler(
         date: date ?? new Date().toISOString(),
         name: merchant,
         accountId: primary._id.toString(),
+        paymentMethodId: primaryPaymentMethod?._id.toString(),
       },
       req.userId,
       workspaceId
