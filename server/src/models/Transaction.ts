@@ -1,5 +1,9 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
+export type TransactionSource = 'manual' | 'csv' | 'google_pay' | 'apple_pay';
+
+export const AUTOMATION_SOURCES: TransactionSource[] = ['google_pay', 'apple_pay'];
+
 export interface ITransaction {
   _id: string;
   name?: string;
@@ -19,6 +23,9 @@ export interface ITransaction {
   templateId?: Types.ObjectId;
   importBatchId?: Types.ObjectId;
   importFingerprint?: string;
+  source: TransactionSource;
+  reviewedAt?: Date | null;
+  sourceMerchant?: string | null;
 }
 
 const TransactionSchema: Schema = new Schema(
@@ -45,6 +52,14 @@ const TransactionSchema: Schema = new Schema(
     templateId: { type: Schema.Types.ObjectId, ref: 'RecurringTemplate' },
     importBatchId: { type: Schema.Types.ObjectId },
     importFingerprint: { type: String },
+
+    source: {
+      type: String,
+      enum: ['manual', 'csv', 'google_pay', 'apple_pay'],
+      default: 'manual',
+    },
+    reviewedAt: { type: Date },
+    sourceMerchant: { type: String, default: null },
   },
   { timestamps: true }
 );
@@ -70,5 +85,6 @@ TransactionSchema.index(
   { workspaceId: 1, importFingerprint: 1 },
   { partialFilterExpression: { importFingerprint: { $exists: true } } }
 );
+TransactionSchema.index({ userId: 1, source: 1, reviewedAt: 1 });
 
 export default mongoose.model<ITransaction>('Transaction', TransactionSchema);

@@ -19,6 +19,7 @@ export const ROUTES = {
   ADMIN_DEBUG_URL: '/admin/debug',
   CHAT_URL: '/chat',
   IMPORT_URL: '/transactions/import',
+  TRANSACTIONS_REVIEW_URL: '/transactions/review',
   INVITATION_URL: '/invitations/:token',
   SHORTCUT_AUTH_URL: '/shortcut-auth',
 } as const;
@@ -43,6 +44,8 @@ export const API_ROUTES = {
   TRANSACTIONS: '/api/transactions',
   TRANSACTIONS_EXPORT: (month: string) => `/api/transactions/export?month=${month}`,
   TRANSACTION_QUICK_CHIPS: '/api/transactions/quick-chips',
+  TRANSACTIONS_REVIEW: '/api/transactions/review',
+  TRANSACTIONS_REVIEW_COUNT: '/api/transactions/review-count',
   RECURRING_TEMPLATES_WITH_TRANSACTIONS: '/api/recurring-templates/with-transactions',
   RECURRING_TEMPLATES_SPLIT: (id: string) => `/api/recurring-templates/${id}/split`,
   RECURRING_TEMPLATES_DEACTIVATE_FROM: (id: string) => `/api/recurring-templates/${id}/deactivate-from`,

@@ -158,6 +158,7 @@ export const importTransactions = async (
       workspaceId,
       importBatchId,
       importFingerprint: fingerprintForImportRow(userId, dto.accountId, row),
+      source: 'csv',
     };
   });
 

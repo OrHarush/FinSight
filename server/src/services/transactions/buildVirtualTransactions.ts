@@ -86,6 +86,7 @@ export const buildVirtualTransactions = (
           toAccount: template.toAccount,
           userId: template.userId,
           templateId: new Types.ObjectId(templateIdStr),
+          source: 'manual',
           isVirtual: true,
         };
 

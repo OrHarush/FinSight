@@ -80,3 +80,18 @@ export const GetTransactionSummarySchema = z
   }));
 
 export type GetTransactionSummaryQuery = z.infer<typeof GetTransactionSummarySchema>;
+
+export const ReviewTransactionsSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        name: z.string().trim().min(1).max(50),
+        categoryId: z.string().min(1),
+        applyToFuture: z.boolean(),
+      })
+    )
+    .min(1),
+});
+
+export type ReviewTransactionsDTO = z.infer<typeof ReviewTransactionsSchema>;

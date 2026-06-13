@@ -1,5 +1,30 @@
 {
   "pageTitle": "Transactions",
+  "review": {
+    "pageTitle": "Review transactions",
+    "applyToFuture": "Apply to future transactions from this merchant",
+    "save": "Save",
+    "saveAll": "Save all",
+    "columns": {
+      "name": "Name",
+      "amount": "Amount",
+      "category": "Category",
+      "applyToFuture": "Apply in future"
+    },
+    "empty": {
+      "title": "No transactions to review"
+    },
+    "messages": {
+      "saved": "Transactions reviewed",
+      "saveError": "Couldn't review the transactions. Please try again.",
+      "categoryRequired": "Pick a category to save"
+    },
+    "banner": {
+      "title": "You have {{count}} transactions to review",
+      "cta": "Review now",
+      "dismiss": "Dismiss"
+    }
+  },
   "empty": {
     "title": "No transactions yet",
     "subtitle": "Start by adding your first one",

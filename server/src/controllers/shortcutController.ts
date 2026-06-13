@@ -4,13 +4,13 @@ import { ApiError } from '../errors/ApiError';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import * as accountRepository from '../repositories/accountRepository';
-import * as paymentMethodRepository from '../repositories/paymentMethodRepository';
 import {
   ApproveDTO,
   ShortcutAndroidTransactionDTO,
   ShortcutTransactionDTO,
 } from '../schemas/shortcutSchemas';
 import * as shortcutService from '../services/shortcutService';
+import * as automationTransactionService from '../services/transactions/automationTransactionService';
 import * as transactionService from '../services/transactions/transactionService';
 import { resolveWorkspaceForRequest } from '../services/workspaceService';
 
@@ -125,29 +125,14 @@ export const createShortcutAndroidTransaction = asyncHandler(
     const { text, title, date } = req.validatedBody as ShortcutAndroidTransactionDTO;
 
     const amount = shortcutService.parseAndroidWalletAmount(text);
-    const merchant = title;
 
-    const workspaceId = (await resolveWorkspaceForRequest(req.userId)).toString();
-    const primary = await accountRepository.findPrimary(workspaceId);
-
-    if (!primary) {
-      throw ApiError.badRequest('No primary account found for this workspace');
-    }
-
-    const primaryPaymentMethod = await paymentMethodRepository.findPrimary(workspaceId);
-
-    const result = await transactionService.create(
-      {
-        type: 'Expense',
-        amount,
-        date: date ?? new Date().toISOString(),
-        name: merchant,
-        accountId: primary._id.toString(),
-        paymentMethodId: primaryPaymentMethod?._id.toString(),
-      },
-      req.userId,
-      workspaceId
-    );
+    const result = await automationTransactionService.createAutomationTransaction({
+      userId: req.userId,
+      source: 'google_pay',
+      rawTitle: title,
+      amount,
+      date,
+    });
 
     return ApiResponse.created(res, { id: result.transaction._id });
   }

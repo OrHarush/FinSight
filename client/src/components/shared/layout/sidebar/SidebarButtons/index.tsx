@@ -15,6 +15,8 @@ import {
 import SidebarNavigationButton from '@/components/shared/layout/sidebar/SidebarButtons/SidebarNavigationButton';
 import { SidebarButtonsStyles } from '@/components/shared/layout/sidebar/SidebarButtons/styles';
 import { useSidebar } from '@/components/shared/layout/sidebar/SidebarContext';
+import { ROUTES } from '@/constants/Routes';
+import { useReviewCount } from '@/hooks/entities/useTransactionReview';
 import { useAuth } from '@/providers/AuthProvider';
 import { isAdmin } from '@/utils/env';
 
@@ -24,13 +26,22 @@ const SidebarButtons = () => {
   const { user } = useAuth();
   const { expanded } = useSidebar();
   const [isManageExpanded, setIsManageExpanded] = useState(false);
+  const { data: reviewCountData } = useReviewCount(!!user);
+
+  const reviewCount = reviewCountData?.count ?? 0;
+
+  const primaryNavWithBadge = primaryNavigation.map(button =>
+    button.route === ROUTES.TRANSACTIONS_URL && reviewCount > 0
+      ? { ...button, badge: String(reviewCount) }
+      : button
+  );
 
   const adminNavigation = buildAdminNavigationButtons(isAdmin(user));
 
   const showManageItems = isManageExpanded || !expanded;
 
   const routeRows = [
-    ...primaryNavigation,
+    ...primaryNavWithBadge,
     budgetButton,
     goalsButton,
     ...(showManageItems ? manageNavigation : []),
@@ -44,7 +55,7 @@ const SidebarButtons = () => {
     <Box sx={{ position: 'relative' }}>
       <Box sx={SidebarButtonsStyles(activeIndex)} />
       <List sx={{ position: 'relative', zIndex: 1 }}>
-        {primaryNavigation.map(button => (
+        {primaryNavWithBadge.map(button => (
           <SidebarNavigationButton
             key={button.titleKey}
             button={button}

@@ -5,7 +5,7 @@ import mongoose, { Types } from 'mongoose';
 
 import { ApiError } from '../../errors/ApiError';
 import Category from '../../models/Category';
-import { ITransaction } from '../../models/Transaction';
+import { AUTOMATION_SOURCES, ITransaction, TransactionSource } from '../../models/Transaction';
 import User from '../../models/User';
 import * as recurringTemplateRepository from '../../repositories/recurringTemplateRepository';
 import * as transactionRepository from '../../repositories/transactionRepository';
@@ -207,8 +207,12 @@ export const countAll = async (
 export const create = async (
   data: CreateTransactionDTO,
   userId: string,
-  workspaceId: string
+  workspaceId: string,
+  source: TransactionSource = 'manual',
+  sourceMerchant: string | null = null
 ) => {
+  const isAutomation = AUTOMATION_SOURCES.includes(source);
+
   if ((data.type === 'Expense' || data.type === 'Income') && data.categoryId) {
     const category = await Category.findOne({
       _id: data.categoryId,
@@ -240,6 +244,9 @@ export const create = async (
     toAccount: data.toAccountId ? new Types.ObjectId(data.toAccountId) : undefined,
     userId: new Types.ObjectId(userId),
     workspaceId: new Types.ObjectId(workspaceId),
+    source,
+    sourceMerchant,
+    reviewedAt: isAutomation ? null : undefined,
   };
 
   mapped.importFingerprint = fingerprintForTransaction(mapped);
@@ -312,6 +319,15 @@ export const update = async (
     if (fingerprint) {
       mapped.importFingerprint = fingerprint;
     }
+  }
+
+  const becomesReviewed =
+    AUTOMATION_SOURCES.includes(existing.source) &&
+    existing.reviewedAt == null &&
+    data.categoryId !== undefined;
+
+  if (becomesReviewed) {
+    mapped.reviewedAt = new Date();
   }
 
   const updated = await transactionRepository.updateById(id, mapped, workspaceId);

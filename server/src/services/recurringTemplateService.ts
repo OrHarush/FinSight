@@ -401,6 +401,7 @@ export const materializeOccurrence = async (
     userId: template.userId,
     workspaceId: new Types.ObjectId(workspaceId),
     templateId: new Types.ObjectId(templateId),
+    source: 'manual',
   });
 
   const existing = await transactionRepository.findOneByTemplateAndMonth(
@@ -518,6 +519,7 @@ export const generatePendingTransactions = async (userId: string, upToDate: Date
         userId: template.userId,
         workspaceId: template.workspaceId,
         templateId: new Types.ObjectId(template._id as string),
+        source: 'manual',
       };
 
       txData.importFingerprint = fingerprintForTransaction(txData);

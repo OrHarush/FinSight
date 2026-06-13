@@ -1,5 +1,30 @@
 {
   "pageTitle": "עסקאות",
+  "review": {
+    "pageTitle": "סידור עסקאות",
+    "applyToFuture": "החל על עסקאות עתידיות מבית עסק זה",
+    "save": "שמור",
+    "saveAll": "שמור הכל",
+    "columns": {
+      "name": "שם",
+      "amount": "סכום",
+      "category": "קטגוריה",
+      "applyToFuture": "החל בעתיד"
+    },
+    "empty": {
+      "title": "אין עסקאות לסידור"
+    },
+    "messages": {
+      "saved": "העסקאות סודרו",
+      "saveError": "סידור העסקאות נכשל. נסה שוב.",
+      "categoryRequired": "בחר קטגוריה כדי לשמור"
+    },
+    "banner": {
+      "title": "יש לך {{count}} עסקאות ללא סידור",
+      "cta": "סדר עכשיו",
+      "dismiss": "סגור"
+    }
+  },
   "empty": {
     "title": "אין עדיין עסקאות",
     "subtitle": "התחל על ידי הוספת העסקה הראשונה שלך",

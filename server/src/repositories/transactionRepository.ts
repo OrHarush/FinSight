@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { ClientSession, Types } from 'mongoose';
 
-import Transaction, { ITransaction } from '../models/Transaction';
+import Transaction, { AUTOMATION_SOURCES, ITransaction } from '../models/Transaction';
 import { GetTransactionsOptions } from '../schemas/transactionSchemas';
 import { ITransactionPopulated } from '../types/Transaction';
 import { buildTransactionQuery } from '../utils/transaction';
@@ -49,6 +49,26 @@ export const countByWorkspace = async (workspaceId: string): Promise<number> =>
 // Flips when feedbackService refactors.
 export const countByUser = async (userId: string): Promise<number> =>
   Transaction.countDocuments({ userId: new Types.ObjectId(userId) });
+
+// userId-scoped on purpose: automation txs are personal-workspace-only, so the user's own
+// automation txs == their personal queue. Matches the { userId, source, reviewedAt } index.
+const needsReviewFilter = (userId: string) => ({
+  userId: new Types.ObjectId(userId),
+  source: { $in: AUTOMATION_SOURCES },
+  reviewedAt: null,
+});
+
+export const countNeedsReview = async (userId: string): Promise<number> =>
+  Transaction.countDocuments(needsReviewFilter(userId));
+
+export const findNeedsReview = async (userId: string) =>
+  Transaction.find(needsReviewFilter(userId))
+    .populate('category')
+    .populate('paymentMethod')
+    .populate('account')
+    .sort({ date: -1 })
+    .lean<ITransactionPopulated[]>()
+    .exec();
 
 export const findExistingFingerprints = async (
   workspaceId: string,

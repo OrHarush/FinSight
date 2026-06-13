@@ -4,9 +4,14 @@ import { Request, Response } from 'express';
 import { ApiResponse } from '../http/ApiResponse';
 import { asyncHandler } from '../middlewares/asyncHandler';
 import { ExportTransactionsQuery } from '../schemas/transactionExportSchemas';
-import { GetTransactionsQuery, GetTransactionSummaryQuery } from '../schemas/transactionSchemas';
+import {
+  GetTransactionsQuery,
+  GetTransactionSummaryQuery,
+  ReviewTransactionsDTO,
+} from '../schemas/transactionSchemas';
 import * as exportTransactionsService from '../services/transactions/exportTransactionsService';
 import * as quickChipsService from '../services/transactions/quickChipsService';
+import * as transactionReviewService from '../services/transactions/transactionReviewService';
 import * as transactionService from '../services/transactions/transactionService';
 
 export const getTransactions = asyncHandler(async (req: Request, res: Response) => {
@@ -49,6 +54,25 @@ export const getQuickChips = asyncHandler(async (req: Request, res: Response) =>
   const chips = await quickChipsService.getQuickChips(req.workspaceId);
 
   return ApiResponse.ok(res, chips);
+});
+
+export const getReviewCount = asyncHandler(async (req: Request, res: Response) => {
+  const count = await transactionReviewService.getReviewCount(req.userId);
+
+  return ApiResponse.ok(res, { count });
+});
+
+export const getReviewList = asyncHandler(async (req: Request, res: Response) => {
+  const data = await transactionReviewService.listNeedsReview(req.userId);
+
+  return ApiResponse.ok(res, data);
+});
+
+export const reviewTransactions = asyncHandler(async (req: Request, res: Response) => {
+  const { items } = req.validatedBody as ReviewTransactionsDTO;
+  const result = await transactionReviewService.reviewTransactions(req.userId, items);
+
+  return ApiResponse.ok(res, result);
 });
 
 export const createTransaction = asyncHandler(async (req: Request, res: Response) => {

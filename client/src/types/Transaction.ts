@@ -4,6 +4,8 @@ import { AccountDto } from '@/types/Account';
 import { CategoryDto } from '@/types/Category';
 import { PaymentMethodDto } from '@/types/PaymentMethod';
 
+export type TransactionSource = 'manual' | 'csv' | 'google_pay' | 'apple_pay';
+
 export interface TransactionPageFormValues {
   searchValue: string;
   category: string;
@@ -26,8 +28,24 @@ export interface TransactionDto {
   account?: AccountDto;
   fromAccount?: AccountDto;
   toAccount?: AccountDto;
+  source: TransactionSource;
+  reviewedAt?: string | null;
+  sourceMerchant?: string | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReviewTransactionDto {
+  _id: string;
+  name: string;
+  amount: number;
+  date?: string;
+  source: TransactionSource;
+  sourceMerchant?: string | null;
+  reviewedAt?: string | null;
+  category?: CategoryDto;
+  account?: AccountDto;
+  paymentMethod?: PaymentMethodDto;
 }
 
 export interface TransactionSummaryDto {
