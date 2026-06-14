@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
-import ActionFab from '@/components/shared/ui/ActionFab';
+import { usePageHeader, usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
 import { useOpen } from '@/hooks/common/useOpen';
 import CreateGoalDialog from '@/pages/Goals/components/dialogs/CreateGoalDialog';
 import GoalsHeader from '@/pages/Goals/GoalsHeader';
@@ -16,6 +15,7 @@ const Goals = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
 
   usePageHeader(t('page.title'));
+  usePrimaryAction(openCreateDialog);
 
   const goBackToActive = () => setStatus('active');
 
@@ -27,7 +27,6 @@ const Goals = () => {
         onCreate={openCreateDialog}
         onBackToActive={goBackToActive}
       />
-      <ActionFab onClick={openCreateDialog} showBelow="sm" />
       {isCreateDialogOpen && (
         <CreateGoalDialog isOpen={isCreateDialogOpen} closeDialog={closeCreateDialog} />
       )}

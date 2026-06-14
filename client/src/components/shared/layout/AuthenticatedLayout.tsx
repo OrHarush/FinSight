@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import ConsentBanner from '@/components/features/consent/ConsentBanner';
 import FeedbackDialog from '@/components/features/feedback/FeedbackDialog';
 import MonthlyReportDialog from '@/components/features/monthlyReport/MonthlyReportDialog';
+import BottomNav from '@/components/shared/layout/BottomNav';
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import NavBar from '@/components/shared/layout/NavBar';
@@ -34,15 +35,16 @@ const AuthenticatedLayout = () => {
           sidebarExpanded={sidebarExpanded}
           onToggleSidebar={toggleSidebar}
         />
-        <Column width={'100%'} minWidth={0} minHeight={0} overflow={'auto'}>
+        <Column width={'100%'} minWidth={0} minHeight={0} overflow={'hidden'}>
           <NavBar
             onMobileOpen={openMobile}
             sidebarExpanded={sidebarExpanded}
             onToggleSidebar={toggleSidebar}
           />
-          <Column height={'100%'} minHeight={0} overflow={'auto'} padding={'16px'}>
+          <Column flex={1} minHeight={0} overflow={'auto'} padding={'16px'}>
             <Outlet />
           </Column>
+          <BottomNav />
         </Column>
       </Row>
       <ConsentBanner />

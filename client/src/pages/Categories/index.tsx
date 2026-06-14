@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
-import ActionFab from '@/components/shared/ui/ActionFab';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { usePageHeader, usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import CategoriesDialogManager from '@/pages/Categories/CategoriesDialogManager';
 import CategoriesPageContent from '@/pages/Categories/CategoriesPageContent';
@@ -15,10 +14,11 @@ import { CategoryDto } from '@/types/Category';
 
 const Categories = () => {
   const { t } = useTranslation('categories');
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
 
   usePageHeader(t('pageTitle'));
+  usePrimaryAction(openCreateDialog);
   const [selectedCategory, setSelectedCategory] = useState<CategoryDto>();
 
   const handleSelectCategory = (category: CategoryDto) => {
@@ -31,7 +31,7 @@ const Categories = () => {
 
   return (
     <PageLayout>
-      {!isMobile && (
+      {!isSmallScreen && (
         <Row justifyContent="flex-end">
           <Button variant={'contained'} onClick={openCreateDialog} startIcon={<AddIcon />}>
             {t('actions.create')}
@@ -39,7 +39,6 @@ const Categories = () => {
         </Row>
       )}
       <CategoriesPageContent selectCategory={handleSelectCategory} />
-      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <CategoriesDialogManager
         isCreateOpen={isCreateDialogOpen}
         selectedCategory={selectedCategory}

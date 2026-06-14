@@ -1,20 +1,32 @@
 import { Dayjs } from 'dayjs';
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 interface DateConfig {
   value: Dayjs;
   onChange: (date: Dayjs) => void;
 }
 
+type PrimaryAction = (() => void) | null;
+
 interface PageHeaderContextValue {
   title: string;
   showDateSelector: boolean;
   navBarActions: ReactNode | null;
   dateConfig: DateConfig | null;
+  primaryAction: PrimaryAction;
   setPageTitle: (title: string) => void;
   setShowDateSelector: (show: boolean) => void;
   setNavBarActions: (actions: ReactNode | null) => void;
   setDateConfig: (config: DateConfig | null) => void;
+  setPrimaryAction: (action: PrimaryAction) => void;
 }
 
 const PageHeaderContext = createContext<PageHeaderContextValue>({
@@ -22,10 +34,12 @@ const PageHeaderContext = createContext<PageHeaderContextValue>({
   showDateSelector: false,
   navBarActions: null,
   dateConfig: null,
+  primaryAction: null,
   setPageTitle: () => {},
   setShowDateSelector: () => {},
   setNavBarActions: () => {},
   setDateConfig: () => {},
+  setPrimaryAction: () => {},
 });
 
 export const PageHeaderProvider = ({ children }: { children: ReactNode }) => {
@@ -33,16 +47,23 @@ export const PageHeaderProvider = ({ children }: { children: ReactNode }) => {
   const [showDateSelector, setShowDateSelector] = useState(false);
   const [navBarActions, setNavBarActions] = useState<ReactNode | null>(null);
   const [dateConfig, setDateConfig] = useState<DateConfig | null>(null);
+  const [primaryAction, setPrimaryActionState] = useState<PrimaryAction>(null);
+
+  const setPrimaryAction = useCallback((action: PrimaryAction) => {
+    setPrimaryActionState(() => action);
+  }, []);
 
   const value: PageHeaderContextValue = {
     title,
     showDateSelector,
     navBarActions,
     dateConfig,
+    primaryAction,
     setPageTitle,
     setShowDateSelector,
     setNavBarActions,
     setDateConfig,
+    setPrimaryAction,
   };
 
   return <PageHeaderContext.Provider value={value}>{children}</PageHeaderContext.Provider>;
@@ -74,6 +95,18 @@ export const useNavBarActions = (actions: ReactNode | null) => {
       setNavBarActions(null);
     };
   }, [actions]);
+};
+
+export const usePrimaryAction = (action: PrimaryAction) => {
+  const { setPrimaryAction } = usePageHeaderContext();
+
+  useEffect(() => {
+    setPrimaryAction(action);
+
+    return () => {
+      setPrimaryAction(null);
+    };
+  }, [action]);
 };
 
 export const useNavBarDate = (value: Dayjs, onChange: (date: Dayjs) => void) => {

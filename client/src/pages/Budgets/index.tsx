@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import ActionFab from '@/components/shared/ui/ActionFab';
+import { usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
 import { useOpen } from '@/hooks/common/useOpen';
 import BudgetDialogManager from '@/pages/Budgets/BudgetDialogManager';
 import BudgetHeader from '@/pages/Budgets/BudgetHeader';
@@ -32,6 +32,8 @@ const Budgets = () => {
     setSelectedBudget(null);
   };
 
+  usePrimaryAction(openCreateDialog);
+
   return (
     <PageLayout>
       <BudgetHeader
@@ -45,7 +47,6 @@ const Budgets = () => {
         onSetBudget={selectBudget}
         onCreateBudget={openCreateDialog}
       />
-      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <BudgetDialogManager
         selectedCategory={selectedCategory}
         selectedBudget={selectedBudget}

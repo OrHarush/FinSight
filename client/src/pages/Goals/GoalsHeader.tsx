@@ -24,7 +24,7 @@ const GoalsHeader = ({ status, onStatusChange, onCreate }: GoalsHeaderProps) => 
           variant="contained"
           startIcon={<AddIcon />}
           onClick={onCreate}
-          sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
+          sx={{ display: { xs: 'none', md: 'inline-flex' } }}
         >
           {t('page.createCta')}
         </Button>

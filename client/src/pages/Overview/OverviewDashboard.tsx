@@ -1,9 +1,11 @@
 import { Grid } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import CreateTransactionDialog from '@/components/features/transactions/CreateTransactionDialog';
 import Column from '@/components/shared/layout/containers/Column';
+import { usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
 import ActionFab from '@/components/shared/ui/ActionFab';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import BudgetsOverview from '@/pages/Overview/BudgetsOverview';
 import MonthlyFinancialHealth from '@/pages/Overview/MonthlyFinancialHealth';
@@ -18,11 +20,14 @@ const OverviewDashboard = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [initialAccountId, setInitialAccountId] = useState<string | undefined>();
   const { account } = useOverviewFilters();
+  const isSmallScreen = useIsSmallScreen();
 
-  const openCreateTransaction = () => {
+  const openCreateTransaction = useCallback(() => {
     setInitialAccountId(account?._id);
     openCreateDialog();
-  };
+  }, [account?._id, openCreateDialog]);
+
+  usePrimaryAction(openCreateTransaction);
 
   return (
     <Column height={'100%'} minHeight={0} spacing={2} sx={{ flex: 1 }}>
@@ -45,7 +50,7 @@ const OverviewDashboard = () => {
           <TopSpendingCategories />
         </Grid>
       </Column>
-      <ActionFab onClick={openCreateTransaction} />
+      {!isSmallScreen && <ActionFab onClick={openCreateTransaction} />}
       {isCreateDialogOpen && (
         <CreateTransactionDialog
           isOpen={isCreateDialogOpen}

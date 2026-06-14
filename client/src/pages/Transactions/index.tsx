@@ -4,7 +4,9 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import Column from '@/components/shared/layout/containers/Column';
 import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
+import { usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
 import ActionFab from '@/components/shared/ui/ActionFab';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import { useGhosts } from '@/hooks/entities/useGoals';
 import { useTransactions } from '@/hooks/entities/useTransactions';
@@ -27,6 +29,7 @@ interface TransactionsBodyProps {
 const TransactionsBody = ({ openCreateDialog }: TransactionsBodyProps) => {
   const theme = useTheme();
   const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+  const isSmallScreen = useIsSmallScreen();
   const { selectedMonth, selectedCategoryIds, selectedAccountIds, selectedPaymentMethodIds } =
     useTransactionPageData();
   const { control } = useFormContext<TransactionPageFormValues>();
@@ -67,7 +70,7 @@ const TransactionsBody = ({ openCreateDialog }: TransactionsBodyProps) => {
         </Row>
         <TransactionsPreview />
       </Column>
-      <ActionFab onClick={openCreateDialog} showBelow={'lg'} />
+      {!isSmallScreen && <ActionFab onClick={openCreateDialog} showBelow={'lg'} />}
     </>
   );
 };
@@ -75,6 +78,8 @@ const TransactionsBody = ({ openCreateDialog }: TransactionsBodyProps) => {
 export const Transactions = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const methods = useForm<TransactionPageFormValues>();
+
+  usePrimaryAction(openCreateDialog);
 
   return (
     <PageLayout>

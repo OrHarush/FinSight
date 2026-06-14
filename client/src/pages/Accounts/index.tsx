@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
-import ActionFab from '@/components/shared/ui/ActionFab';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { usePageHeader, usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import AccountsDialogManager from '@/pages/Accounts/AccountsDialogManager';
 import AccountsPageContent from '@/pages/Accounts/AccountsPageContent';
@@ -17,9 +16,10 @@ const Accounts = () => {
   const { t } = useTranslation('accounts');
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
   const [selectedAccount, setSelectedAccount] = useState<AccountDto>();
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
 
   usePageHeader(t('pageTitle'));
+  usePrimaryAction(openCreateDialog);
 
   const handleSelectAccount = (account: AccountDto) => {
     setSelectedAccount(account);
@@ -31,7 +31,7 @@ const Accounts = () => {
 
   return (
     <PageLayout>
-      {!isMobile && (
+      {!isSmallScreen && (
         <Row justifyContent="flex-end">
           <Button variant="contained" onClick={openCreateDialog} startIcon={<AddIcon />}>
             {t('actions.create')}
@@ -39,7 +39,6 @@ const Accounts = () => {
         </Row>
       )}
       <AccountsPageContent selectAccount={handleSelectAccount} />
-      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <AccountsDialogManager
         isCreateOpen={isCreateDialogOpen}
         selectedAccount={selectedAccount}

@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import PageLayout from '@/components/shared/layout/page/PageLayout';
-import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
-import ActionFab from '@/components/shared/ui/ActionFab';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { usePageHeader, usePrimaryAction } from '@/components/shared/layout/PageHeaderContext';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 import { useOpen } from '@/hooks/common/useOpen';
 import PaymentMethodsDialogManager from '@/pages/PaymentMethods/PaymentMethodsDialogManager';
 import PaymentMethodsPageContent from '@/pages/PaymentMethods/PaymentMethodsPageContent';
@@ -18,8 +17,9 @@ const PaymentMethodsPage = () => {
   const [isCreateDialogOpen, openCreateDialog, closeCreateDialog] = useOpen();
 
   usePageHeader(t('pageTitle'));
+  usePrimaryAction(openCreateDialog);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethodDto>();
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
 
   const handleSelectPaymentMethod = (paymentMethod: PaymentMethodDto) => {
     setSelectedPaymentMethod(paymentMethod);
@@ -31,7 +31,7 @@ const PaymentMethodsPage = () => {
 
   return (
     <PageLayout>
-      {!isMobile && (
+      {!isSmallScreen && (
         <Row justifyContent="flex-end">
           <Button variant="contained" startIcon={<AddIcon />} onClick={openCreateDialog}>
             {t('actions.create')}
@@ -39,7 +39,6 @@ const PaymentMethodsPage = () => {
         </Row>
       )}
       <PaymentMethodsPageContent selectPaymentMethod={handleSelectPaymentMethod} />
-      <ActionFab onClick={openCreateDialog} showBelow={'sm'} />
       <PaymentMethodsDialogManager
         isCreateOpen={isCreateDialogOpen}
         selectedPaymentMethod={selectedPaymentMethod}

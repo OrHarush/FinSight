@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import Row from '@/components/shared/layout/containers/Row';
 import { useNavBarDate, usePageHeader } from '@/components/shared/layout/PageHeaderContext';
-import { useIsMobile } from '@/hooks/common/useIsMobile';
+import { useIsSmallScreen } from '@/hooks/common/useIsSmallScreen';
 
 interface BudgetHeaderProps {
   date: Dayjs;
@@ -16,7 +16,7 @@ interface BudgetHeaderProps {
 
 const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps) => {
   const { t } = useTranslation('budgets');
-  const isMobile = useIsMobile();
+  const isSmallScreen = useIsSmallScreen();
 
   usePageHeader(t('pageTitle'), true);
 
@@ -31,7 +31,7 @@ const BudgetHeader = ({ date, onDateChange, onCreateBudget }: BudgetHeaderProps)
 
   useNavBarDate(date, changeDate);
 
-  if (isMobile) {
+  if (isSmallScreen) {
     return null;
   }
 
