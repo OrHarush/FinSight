@@ -16,7 +16,7 @@ import { getCardStyles } from '@/pages/Transactions/TransactionsPreview/Transact
 import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/date';
-import { getTransactionDisplayDate } from '@/utils/entities/transaction';
+import { getTransactionDisplayDate, isTransactionNeedsReview } from '@/utils/entities/transaction';
 
 interface TransactionCardViewProps {
   transaction: ExpandedTransactionDto;
@@ -30,6 +30,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
     (transaction.category?.icon && categoryIconMap[transaction.category?.icon]) || CategoryIcon;
 
   const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
+  const needsReview = isTransactionNeedsReview(transaction);
   const isTransfer = transaction.type === 'Transfer';
 
   const amountColor = isTransfer
@@ -60,7 +61,7 @@ const TransactionCard = ({ transaction }: TransactionCardViewProps) => {
       <Paper
         key={transaction._id}
         onClick={setTransactionToEdit}
-        sx={{ ...getCardStyles(isTodayTransaction) }}
+        sx={getCardStyles(isTodayTransaction, needsReview)}
       >
         <Column
           sx={{

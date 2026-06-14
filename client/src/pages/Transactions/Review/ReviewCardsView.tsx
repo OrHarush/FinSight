@@ -3,13 +3,7 @@ import Column from '@/components/shared/layout/containers/Column';
 import ReviewCard from './ReviewCard';
 import { ReviewViewProps } from './reviewTypes';
 
-const ReviewCardsView = ({
-  fields,
-  categories,
-  transactionById,
-  onSaveRow,
-  isSaving,
-}: ReviewViewProps) => (
+const ReviewCardsView = ({ fields, categories, transactionById }: ReviewViewProps) => (
   <Column spacing={1.5}>
     {fields.map((field, index) => {
       const transaction = transactionById.get(field.txId);
@@ -24,8 +18,6 @@ const ReviewCardsView = ({
           index={index}
           transaction={transaction}
           categories={categories}
-          onSaveRow={onSaveRow}
-          isSaving={isSaving}
         />
       );
     })}

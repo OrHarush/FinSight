@@ -1,6 +1,6 @@
-import { SxProps, Theme } from '@mui/material';
+import { alpha, SxProps, Theme } from '@mui/material';
 
-export const getCardStyles = (isToday: boolean): SxProps<Theme> => ({
+export const getCardStyles = (isToday: boolean, needsReview = false): SxProps<Theme> => theme => ({
   p: '18px 20px',
   borderRadius: 0,
   display: 'flex',
@@ -12,7 +12,11 @@ export const getCardStyles = (isToday: boolean): SxProps<Theme> => ({
   boxShadow: 'none',
   borderBottom: '1px solid',
   borderColor: 'divider',
-  backgroundColor: isToday ? 'rgba(56, 189, 248, 0.08)' : 'default',
+  backgroundColor: needsReview
+    ? alpha(theme.palette.primary.main, 0.1)
+    : isToday
+      ? 'rgba(56, 189, 248, 0.08)'
+      : 'default',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -20,15 +24,17 @@ export const getCardStyles = (isToday: boolean): SxProps<Theme> => ({
     top: 0,
     bottom: 0,
     width: '3px',
-    background: 'transparent',
+    background: needsReview ? theme.palette.primary.main : 'transparent',
     transition: 'background 0.2s ease',
   },
   '&:hover': {
-    backgroundColor: 'action.hover',
+    backgroundColor: needsReview ? alpha(theme.palette.primary.main, 0.16) : 'action.hover',
     paddingLeft: '23px',
   },
   '&:hover::before': {
-    background: 'linear-gradient(180deg, #7c6bea, #ff6b9d)',
+    background: needsReview
+      ? theme.palette.primary.main
+      : 'linear-gradient(180deg, #7c6bea, #ff6b9d)',
   },
   '.swipeable-wrapper:first-of-type &': {
     borderTopLeftRadius: '12px',

@@ -3,13 +3,14 @@
   "review": {
     "pageTitle": "Review transactions",
     "applyToFuture": "Apply to future transactions from this merchant",
-    "save": "Save",
     "saveAll": "Save all",
+    "saveCount": "Save {{count}} transactions",
     "columns": {
       "name": "Name",
+      "date": "Date",
       "amount": "Amount",
       "category": "Category",
-      "applyToFuture": "Apply in future"
+      "applyToFuture": "Apply to future"
     },
     "empty": {
       "title": "No transactions to review"
@@ -20,7 +21,7 @@
       "categoryRequired": "Pick a category to save"
     },
     "banner": {
-      "title": "You have {{count}} transactions to review",
+      "title": "You have {{count}} Google Pay transactions that aren't categorized",
       "cta": "Review now",
       "dismiss": "Dismiss"
     }

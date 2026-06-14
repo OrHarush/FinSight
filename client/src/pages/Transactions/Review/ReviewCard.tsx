@@ -1,7 +1,5 @@
-import { Button, Paper, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { useWatch } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/shared/inputs/TextInput';
 import Column from '@/components/shared/layout/containers/Column';
@@ -17,43 +15,25 @@ interface ReviewCardProps {
   index: number;
   transaction: ReviewTransactionDto;
   categories: CategoryDto[];
-  onSaveRow: (index: number) => void;
-  isSaving: boolean;
 }
 
-const ReviewCard = ({ index, transaction, categories, onSaveRow, isSaving }: ReviewCardProps) => {
-  const { t } = useTranslation('transactions');
-  const categoryId = useWatch({ name: `items.${index}.categoryId` });
+const ReviewCard = ({ index, transaction, categories }: ReviewCardProps) => (
+  <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+    <Column spacing={1.5}>
+      <Typography variant="caption" color="text.secondary">
+        {dayjs(transaction.date).format('DD/MM/YYYY')}
+      </Typography>
 
-  return (
-    <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
-      <Column spacing={1.5}>
-        <Row spacing={1.5} justifyContent="space-between" alignItems="flex-start">
-          <Column spacing={0.5} sx={{ flex: 1, minWidth: 0 }}>
-            <TextInput name={`items.${index}.name`} required />
-            <Typography variant="caption" color="text.secondary">
-              {transaction.sourceMerchant} · {dayjs(transaction.date).format('DD/MM/YYYY')}
-            </Typography>
-          </Column>
-          <CurrencyText value={-transaction.amount} hasColor fontWeight={700} />
-        </Row>
+      <Row spacing={1.5} justifyContent="space-between" alignItems="center">
+        <TextInput name={`items.${index}.name`} required hiddenLabel size="small" />
+        <CurrencyText value={-transaction.amount} hasColor fontWeight={700} />
+      </Row>
 
-        <ReviewCategorySelect name={`items.${index}.categoryId`} categories={categories} />
+      <ReviewCategorySelect name={`items.${index}.categoryId`} categories={categories} />
 
-        <Row justifyContent="space-between" alignItems="center">
-          <ReviewApplyToggle name={`items.${index}.applyToFuture`} />
-          <Button
-            variant="contained"
-            size="small"
-            onClick={() => onSaveRow(index)}
-            disabled={!categoryId || isSaving}
-          >
-            {t('review.save')}
-          </Button>
-        </Row>
-      </Column>
-    </Paper>
-  );
-};
+      <ReviewApplyToggle name={`items.${index}.applyToFuture`} />
+    </Column>
+  </Paper>
+);
 
 export default ReviewCard;

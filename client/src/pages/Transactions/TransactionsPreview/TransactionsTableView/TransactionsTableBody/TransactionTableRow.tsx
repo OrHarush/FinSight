@@ -1,25 +1,25 @@
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LaunchIcon from '@mui/icons-material/Launch';
-import { IconButton, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { alpha, IconButton, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import Row from '@/components/shared/layout/containers/Row';
-import { useSnackbar } from '@/providers/SnackbarProvider';
 import CurrencyText from '@/components/shared/ui/CurrencyText';
 import EditAndDeleteButtons from '@/components/shared/ui/EditAndDeleteButtons';
 import { bankAccountIconMap } from '@/constants/BankAccountIcons';
 import { useCategoryName } from '@/hooks/entities/useCategoryName';
 import { useGoals } from '@/hooks/entities/useGoals';
 import RecurrenceBadge from '@/pages/Transactions/components/RecurrenceBadge';
-import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
 import { useTransactionPageData } from '@/pages/Transactions/TransactionPageDataProvider';
 import CategoryChip from '@/pages/Transactions/TransactionsPreview/CategoryChip';
+import TransactionNoteIcon from '@/pages/Transactions/TransactionsPreview/TransactionNoteIcon';
+import { useSnackbar } from '@/providers/SnackbarProvider';
 import { ExpandedTransactionDto } from '@/types/Transaction';
 import { isToday } from '@/utils/date';
-import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
-import { getTransactionDisplayDate } from '@/utils/entities/transaction';
 import { getAccountDisplayName } from '@/utils/entities/account';
+import { getPaymentMethodDisplayName } from '@/utils/entities/paymentMethod';
+import { getTransactionDisplayDate, isTransactionNeedsReview } from '@/utils/entities/transaction';
 
 interface TransactionTableRowProps {
   transaction: ExpandedTransactionDto;
@@ -67,6 +67,7 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
   };
 
   const isTodayTransaction = isToday(new Date(getTransactionDisplayDate(transaction)));
+  const needsReview = isTransactionNeedsReview(transaction);
   const AccountIconComponent =
     (transaction.account?.icon && bankAccountIconMap[transaction.account.icon]) ||
     AccountBalanceIcon;
@@ -77,11 +78,19 @@ const TransactionTableRow = ({ transaction }: TransactionTableRowProps) => {
       onClick={handleTransactionSelect}
       sx={{
         cursor: 'pointer',
-        borderLeft: isTodayTransaction ? '4px solid' : 'none',
+        borderLeft: needsReview || isTodayTransaction ? '4px solid' : 'none',
         borderLeftColor: 'primary.main',
-        backgroundColor: isTodayTransaction ? 'rgba(56, 189, 248, 0.08)' : 'transparent',
+        backgroundColor: needsReview
+          ? theme => alpha(theme.palette.primary.main, 0.1)
+          : isTodayTransaction
+            ? 'rgba(56, 189, 248, 0.08)'
+            : 'transparent',
         '&:hover': {
-          backgroundColor: isTodayTransaction ? 'rgba(56, 189, 248, 0.15)' : 'action.hover',
+          backgroundColor: needsReview
+            ? theme => alpha(theme.palette.primary.main, 0.16)
+            : isTodayTransaction
+              ? 'rgba(56, 189, 248, 0.15)'
+              : 'action.hover',
         },
         transition: 'background-color 0.2s ease',
       }}

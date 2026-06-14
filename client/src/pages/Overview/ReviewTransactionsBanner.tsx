@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { alpha, Button, IconButton, Theme, Typography } from '@mui/material';
+import { alpha, IconButton, Theme, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -39,26 +39,36 @@ const ReviewTransactionsBanner = () => {
     <Row
       sx={{
         borderRadius: 2,
-        py: { xs: 2, sm: 1.25 },
+        py: { xs: 2, sm: 1.5 },
         px: { xs: 2, sm: 2.5 },
         bgcolor: (theme: Theme) => alpha(theme.palette.primary.main, 0.06),
         border: '1px solid',
         borderColor: (theme: Theme) => alpha(theme.palette.primary.main, 0.15),
-        alignItems: 'center',
-        gap: 2,
+        alignItems: 'flex-start',
+        gap: 1.5,
       }}
     >
       <Typography variant="body1" fontWeight={600} sx={{ flex: 1, minWidth: 0 }}>
-        {t('review.banner.title', { count })}
+        {t('review.banner.title', { count })}{' '}
+        <Typography
+          component="span"
+          variant="body1"
+          color="primary"
+          onClick={goToReview}
+          sx={{
+            fontWeight: 700,
+            cursor: 'pointer',
+            '&:hover': { textDecoration: 'underline' },
+          }}
+        >
+          {t('review.banner.cta')}
+        </Typography>
       </Typography>
-      <Button variant="contained" size="small" onClick={goToReview} sx={{ flexShrink: 0 }}>
-        {t('review.banner.cta')}
-      </Button>
       <IconButton
         size="small"
         onClick={dismiss}
         aria-label={t('review.banner.dismiss')}
-        sx={{ color: 'text.secondary', flexShrink: 0, '&:hover': { color: 'text.primary' } }}
+        sx={{ color: 'text.secondary', flexShrink: 0, mt: -0.5, '&:hover': { color: 'text.primary' } }}
       >
         <CloseIcon sx={{ fontSize: 18 }} />
       </IconButton>

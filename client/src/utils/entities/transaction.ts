@@ -103,6 +103,9 @@ export const mapToRecurringTemplatePayload = (
 
 export const getTransactionDisplayDate = (tx: ExpandedTransactionDto) => tx.date ?? '';
 
+export const isTransactionNeedsReview = (tx: TransactionDto): boolean =>
+  (tx.source === 'google_pay' || tx.source === 'apple_pay') && !tx.reviewedAt;
+
 const getSortValue = (tx: ExpandedTransactionDto, column: SortableColumn): string | number => {
   switch (column) {
     case 'name':

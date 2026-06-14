@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Column from '@/components/shared/layout/containers/Column';
 import { usePageHeader } from '@/components/shared/layout/PageHeaderContext';
 import { useReviewList } from '@/hooks/entities/useTransactionReview';
 
@@ -13,23 +15,29 @@ const TransactionsReview = () => {
 
   const { data, isLoading } = useReviewList();
 
-  if (isLoading) {
-    return <ReviewSkeleton />;
-  }
-
   const transactions = data?.transactions ?? [];
   const categories = data?.categories ?? [];
 
-  if (!transactions.length) {
-    return <ReviewEmptyState />;
+  let content: ReactNode;
+
+  if (isLoading) {
+    content = <ReviewSkeleton />;
+  } else if (!transactions.length) {
+    content = <ReviewEmptyState />;
+  } else {
+    content = (
+      <ReviewForm
+        key={transactions.map(transaction => transaction._id).join(',')}
+        transactions={transactions}
+        categories={categories}
+      />
+    );
   }
 
   return (
-    <ReviewForm
-      key={transactions.map(transaction => transaction._id).join(',')}
-      transactions={transactions}
-      categories={categories}
-    />
+    <Column sx={{ p: { xs: 2, sm: 3, md: 4 }, width: '100%', maxWidth: 1100, mx: 'auto' }}>
+      {content}
+    </Column>
   );
 };
 

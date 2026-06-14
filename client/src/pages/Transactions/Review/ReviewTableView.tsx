@@ -12,13 +12,7 @@ import { useTranslation } from 'react-i18next';
 import ReviewTableRow from './ReviewTableRow';
 import { ReviewViewProps } from './reviewTypes';
 
-const ReviewTableView = ({
-  fields,
-  categories,
-  transactionById,
-  onSaveRow,
-  isSaving,
-}: ReviewViewProps) => {
+const ReviewTableView = ({ fields, categories, transactionById }: ReviewViewProps) => {
   const { t } = useTranslation('transactions');
 
   return (
@@ -26,11 +20,11 @@ const ReviewTableView = ({
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>{t('review.columns.date')}</TableCell>
             <TableCell>{t('review.columns.name')}</TableCell>
-            <TableCell>{t('review.columns.amount')}</TableCell>
+            <TableCell align="center">{t('review.columns.amount')}</TableCell>
             <TableCell>{t('review.columns.category')}</TableCell>
-            <TableCell>{t('review.columns.applyToFuture')}</TableCell>
-            <TableCell />
+            <TableCell align="center">{t('review.columns.applyToFuture')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,8 +41,6 @@ const ReviewTableView = ({
                 index={index}
                 transaction={transaction}
                 categories={categories}
-                onSaveRow={onSaveRow}
-                isSaving={isSaving}
               />
             );
           })}

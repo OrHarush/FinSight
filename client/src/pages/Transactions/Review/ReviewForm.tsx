@@ -1,5 +1,5 @@
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import Column from '@/components/shared/layout/containers/Column';
@@ -58,12 +58,22 @@ const ReviewForm = ({ transactions, categories }: ReviewFormProps) => {
   });
 
   const { fields, remove } = useFieldArray({ control: methods.control, name: 'items' });
+  const watchedItems = useWatch({ control: methods.control, name: 'items' });
 
   const expenseCategories = toExpenseCategories(categories);
   const transactionById = new Map(transactions.map(transaction => [transaction._id, transaction]));
 
-  const persist = async (rows: ReviewRowValues[]) => {
-    const items = rows.filter(row => row.categoryId).map(toPayload);
+  const readyCount = (watchedItems ?? []).filter(item => item?.categoryId).length;
+  const allReady = fields.length > 0 && readyCount === fields.length;
+  const saveLabel = allReady
+    ? t('review.saveAll')
+    : t('review.saveCount', { count: readyCount });
+
+  const saveReadyRows = async () => {
+    const items = methods
+      .getValues('items')
+      .filter(row => row.categoryId)
+      .map(toPayload);
 
     if (!items.length) {
       alertError(t('review.messages.categoryRequired'));
@@ -88,9 +98,6 @@ const ReviewForm = ({ transactions, categories }: ReviewFormProps) => {
     }
   };
 
-  const saveRow = (index: number) => persist([methods.getValues(`items.${index}`)]);
-  const saveAll = () => persist(methods.getValues('items'));
-
   if (!fields.length) {
     return <ReviewEmptyState />;
   }
@@ -99,17 +106,19 @@ const ReviewForm = ({ transactions, categories }: ReviewFormProps) => {
 
   return (
     <FormProvider {...methods}>
-      <Column spacing={2} sx={{ pb: 2 }}>
+      <Column spacing={2}>
         <ViewComponent
           fields={fields}
           categories={expenseCategories}
           transactionById={transactionById}
-          onSaveRow={saveRow}
-          isSaving={saveReview.isPending}
         />
         <Row justifyContent="flex-end">
-          <Button variant="contained" onClick={saveAll} disabled={saveReview.isPending}>
-            {t('review.saveAll')}
+          <Button
+            variant="contained"
+            onClick={saveReadyRows}
+            disabled={readyCount === 0 || saveReview.isPending}
+          >
+            {saveLabel}
           </Button>
         </Row>
       </Column>

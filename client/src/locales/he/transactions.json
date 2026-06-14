@@ -3,13 +3,14 @@
   "review": {
     "pageTitle": "סידור עסקאות",
     "applyToFuture": "החל על עסקאות עתידיות מבית עסק זה",
-    "save": "שמור",
     "saveAll": "שמור הכל",
+    "saveCount": "שמור {{count}} עסקאות",
     "columns": {
       "name": "שם",
+      "date": "תאריך",
       "amount": "סכום",
       "category": "קטגוריה",
-      "applyToFuture": "החל בעתיד"
+      "applyToFuture": "החל על עסקאות עתידיות"
     },
     "empty": {
       "title": "אין עסקאות לסידור"
@@ -20,7 +21,7 @@
       "categoryRequired": "בחר קטגוריה כדי לשמור"
     },
     "banner": {
-      "title": "יש לך {{count}} עסקאות ללא סידור",
+      "title": "יש לך {{count}} עסקאות שחויבו ב-Google Pay ללא קטגוריה",
       "cta": "סדר עכשיו",
       "dismiss": "סגור"
     }

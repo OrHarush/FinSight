@@ -10,6 +10,4 @@ export interface ReviewViewProps {
   fields: ReviewFieldItem[];
   categories: CategoryDto[];
   transactionById: Map<string, ReviewTransactionDto>;
-  onSaveRow: (index: number) => void;
-  isSaving: boolean;
 }
